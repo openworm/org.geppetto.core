@@ -1,0 +1,1 @@
+Import-Bundle: com.springsource.org.junit;version="[4.5.0,4.5.0]"

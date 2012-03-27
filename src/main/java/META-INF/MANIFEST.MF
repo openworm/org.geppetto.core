@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Vendor: OpenWorm
+Bundle-SymbolicName: org.openworm.simulationengine.core
+Bundle-Name: SimulationEngine Core Bundle
+Bundle-Version: 1.0.0
+Export-Package: org.openworm.simulationengine.core,
+ org.openworm.simulationengine.core.constants,
+ org.openworm.simulationengine.core.model,
+ org.openworm.simulationengine.core.simulation,
+ org.openworm.simulationengine.core.simulator,
+ org.openworm.simulationengine.core.solver;uses:="org.openworm.simulationengine.core.model"
+
