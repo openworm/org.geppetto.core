@@ -72,7 +72,7 @@ public class HHModel extends AModel
 		return _x_h;
 	}
 
-	public void setV(Float i) 
+	public void setI(Float i) 
 	{
 		_i=i;
 	}
