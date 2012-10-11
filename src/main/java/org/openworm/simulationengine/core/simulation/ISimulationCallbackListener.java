@@ -14,4 +14,6 @@ import org.openworm.simulationengine.core.model.IModel;
 public interface ISimulationCallbackListener {
 
 	void resultReady(final List<IModel> models);
+	
+	
 }
