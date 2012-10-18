@@ -1,13 +1,19 @@
 Manifest-Version: 1.0
+Bnd-LastModified: 1350482876523
+Build-Jdk: 1.6.0_35
+Built-By: matteocantarelli
 Bundle-ManifestVersion: 2
-Bundle-Vendor: OpenWorm
-Bundle-SymbolicName: org.openworm.simulationengine.core
-Bundle-Name: SimulationEngine Core Bundle
+Bundle-Name: OpenWorm SimulationEngine Core Bundle
+Bundle-SymbolicName: simulationengine.core
 Bundle-Version: 1.0.0
-Export-Package: org.openworm.simulationengine.core,
- org.openworm.simulationengine.core.constants,
- org.openworm.simulationengine.core.model,
- org.openworm.simulationengine.core.simulation,
- org.openworm.simulationengine.core.simulator,
- org.openworm.simulationengine.core.solver;uses:="org.openworm.simulationengine.core.model"
-
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.openworm.simulationengine.core.constants;version="1.
+ 0.0",org.openworm.simulationengine.core.model;version="1.0.0",org.openw
+ orm.simulationengine.core.simulation;uses:="org.openworm.simulationengi
+ ne.core.model";version="1.0.0",org.openworm.simulationengine.core.simul
+ ator;uses:="org.openworm.simulationengine.core.simulation,org.openworm.
+ simulationengine.core.model,org.openworm.simulationengine.core.solver";
+ version="1.0.0",org.openworm.simulationengine.core.solver;uses:="org.op
+ enworm.simulationengine.core.simulation,org.openworm.simulationengine.c
+ ore.model";version="1.0.0"
+Tool: Bnd-1.50.0
