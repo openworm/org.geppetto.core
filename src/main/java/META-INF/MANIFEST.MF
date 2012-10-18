@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1350482876523
+Bnd-LastModified: 1350582258574
 Build-Jdk: 1.6.0_35
-Built-By: matteocantarelli
+Built-By: giovanniidili
 Bundle-ManifestVersion: 2
 Bundle-Name: OpenWorm SimulationEngine Core Bundle
 Bundle-SymbolicName: simulationengine.core
