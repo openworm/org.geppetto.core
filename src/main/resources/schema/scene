@@ -1,0 +1,11 @@
+{
+	"description": "Metadata",
+	"type":"object",
+	"properties": {
+		"entities": {"type": "array",
+            "items": {
+                "$ref" : "entity"
+             }
+	      }
+	}
+}

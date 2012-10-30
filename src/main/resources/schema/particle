@@ -1,0 +1,10 @@
+{
+	"description": "A particle",
+	"type":"object",
+	"properties": {
+		"type" : {  "type": "string" , "required": true, "default":"Particle"}
+	},
+	"extends": {
+          "$ref": "geometry"
+        }
+}

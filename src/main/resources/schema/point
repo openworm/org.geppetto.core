@@ -1,0 +1,11 @@
+{
+	"description": "A 3d point",
+	"type":"object",
+	"javaType" : "org.openworm.simulationengine.core.visualisation.model.Point",
+	"properties": {
+		"x": { "type": "number" },
+		"y": { "type": "number" },
+		"z": { "type": "number" }
+	}
+}
+

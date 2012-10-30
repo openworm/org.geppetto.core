@@ -1,0 +1,12 @@
+{
+	"description": "An entity",
+	"type":"object",
+	"properties": {
+		"geometries": {"type": "array",
+            "items": {
+                "$ref" : "geometry"
+             }
+	      },
+	      "metadata":{"$ref" : "metadata"}
+	}
+}
