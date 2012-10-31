@@ -2,6 +2,7 @@
 	"description": "An entity",
 	"type":"object",
 	"properties": {
+		"id": { "type": "string" , "required": true },
 		"geometries": {"type": "array",
             "items": {
                 "$ref" : "geometry"
