@@ -1,19 +1,7 @@
-/**
- * 
- */
 package org.openworm.simulationengine.core.simulation;
 
-import java.util.List;
+public interface ISimulationCallbackListener
+{
+	void updateReady(String update);
 
-import org.openworm.simulationengine.core.model.IModel;
-
-/**
- * @author matteocantarelli
- *
- */
-public interface ISimulationCallbackListener {
-
-	void resultReady(final List<IModel> models);
-	
-	
 }

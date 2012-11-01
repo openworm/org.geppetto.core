@@ -1,7 +1,7 @@
 package org.openworm.simulationengine.core.simulator;
 
 import org.openworm.simulationengine.core.model.IModel;
-import org.openworm.simulationengine.core.simulation.ISimulationCallbackListener;
+import org.openworm.simulationengine.core.simulation.ISimulatorCallbackListener;
 import org.openworm.simulationengine.core.simulation.ITimeConfiguration;
 
 /**
@@ -17,5 +17,5 @@ public interface ISimulator {
 	
 	void endSimulatorCycle();
 
-	void initialize(ISimulationCallbackListener listener);
+	void initialize(ISimulatorCallbackListener listener);
 }

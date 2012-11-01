@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openworm.simulationengine.core.model.IModel;
-import org.openworm.simulationengine.core.simulation.ISimulationCallbackListener;
+import org.openworm.simulationengine.core.simulation.ISimulatorCallbackListener;
 import org.openworm.simulationengine.core.solver.ISolver;
 
 /**
@@ -18,13 +18,13 @@ public abstract class AParallelSimulator implements ISimulator {
 
 	Map<ISolver, List<IModel>> _iModelQueue = new HashMap<ISolver, List<IModel>>();
 	
-	ISimulationCallbackListener _listener;
+	ISimulatorCallbackListener _listener;
 
 	
 	/**
 	 * @return
 	 */
-	public ISimulationCallbackListener getListener() 
+	public ISimulatorCallbackListener getListener() 
 	{
 		return _listener;
 	}
@@ -33,7 +33,7 @@ public abstract class AParallelSimulator implements ISimulator {
 	/**
 	 * @param _listener
 	 */
-	public void setListener(ISimulationCallbackListener _listener) 
+	public void setListener(ISimulatorCallbackListener _listener) 
 	{
 		this._listener = _listener;
 	}
@@ -42,7 +42,7 @@ public abstract class AParallelSimulator implements ISimulator {
 	/* (non-Javadoc)
 	 * @see org.openworm.simulationengine.core.simulator.ISimulator#initialize(org.openworm.simulationengine.core.simulation.ISimulationCallbackListener)
 	 */
-	public void initialize(ISimulationCallbackListener listener) 
+	public void initialize(ISimulatorCallbackListener listener) 
 	{
 		setListener(listener);
 	}

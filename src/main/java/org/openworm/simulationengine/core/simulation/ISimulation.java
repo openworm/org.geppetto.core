@@ -3,11 +3,27 @@
  */
 package org.openworm.simulationengine.core.simulation;
 
+import java.net.URL;
+
 /**
  * @author matteocantarelli
  *
  */
 public interface ISimulation {
 
-	void run();
+	/**
+	 * @param simConfigURL
+	 * @param simulationListener 
+	 */
+	void init(URL simConfigURL, ISimulationCallbackListener simulationListener);
+	
+	/**
+	 * 
+	 */
+	void start();
+	
+	/**
+	 * 
+	 */
+	void stop();
 }
