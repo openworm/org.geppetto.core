@@ -8,6 +8,11 @@
                 "$ref" : "geometry"
              }
 	      },
+		"subentities": {"type": "array",
+            "items": {
+                "$ref" : "entity"
+             }
+	      },
 	      "metadata":{"$ref" : "metadata"}
 	}
 }
