@@ -13,6 +13,11 @@
                 "$ref" : "entity"
              }
 	      },
-	      "metadata":{"$ref" : "metadata"}
+	    "references": {"type": "array",
+            "items": {
+                "$ref" : "reference"
+             }
+	      },
+	    "metadata":{"$ref" : "metadata"}
 	}
 }
