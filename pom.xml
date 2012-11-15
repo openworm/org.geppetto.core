@@ -113,7 +113,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
 					</instructions>
 				</configuration>
