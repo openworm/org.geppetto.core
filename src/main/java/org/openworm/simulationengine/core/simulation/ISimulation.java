@@ -26,4 +26,9 @@ public interface ISimulation {
 	 * 
 	 */
 	void stop();
+	
+	/**
+	 * 
+	 */
+	void reset();
 }
