@@ -7,8 +7,8 @@ import org.openworm.simulationengine.core.visualisation.model.Scene;
 
 public interface IModelInterpreter {
 
-	List<IModel> readModel(URL url);
+	List<IModel> readModel(URL url) throws ModelInterpreterException;
 	
-	Scene getSceneFromModel(List<IModel> model);
+	Scene getSceneFromModel(List<IModel> model) throws ModelInterpreterException;
 	
 }

@@ -1,15 +1,18 @@
 package org.openworm.simulationengine.core.model;
 
-public abstract class AModel implements IModel{
+public abstract class AModel implements IModel
+{
 
 	protected final String _id;
 
-	public AModel(String id) {
+	public AModel(String id)
+	{
 		super();
-		_id=id;
+		_id = id;
 	}
 
-	public String getId() {
+	public String getId()
+	{
 		return _id;
 	}
 
