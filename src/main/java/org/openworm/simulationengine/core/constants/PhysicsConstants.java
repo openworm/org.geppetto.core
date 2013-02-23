@@ -17,7 +17,7 @@ public class PhysicsConstants {
 	public static final float SIMULATION_SCALE = 0.004f;
 	public static final float SIMULATION_SCALE_INV = 1.0f / SIMULATION_SCALE;
 	public static final float MU = 10.0f;
-	public static final float TIME_STEP = 0.002f; 
+	public static final float TIME_STEP = 0.001f; 
 	public static final float CFLLimit = 100.0f;
 
 	public static final float DAMPING = 0.75f;
