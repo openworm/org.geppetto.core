@@ -1,12 +1,12 @@
 /**
  * 
  */
-package org.openworm.simulationengine.core.solver;
+package org.geppetto.core.solver;
 
 import java.util.List;
 
-import org.openworm.simulationengine.core.model.IModel;
-import org.openworm.simulationengine.core.simulation.ITimeConfiguration;
+import org.geppetto.core.model.IModel;
+import org.geppetto.core.simulation.ITimeConfiguration;
 
 /**
  * @author matteocantarelli

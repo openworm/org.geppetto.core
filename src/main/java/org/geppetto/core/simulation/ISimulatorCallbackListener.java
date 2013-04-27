@@ -1,11 +1,11 @@
 /**
  * 
  */
-package org.openworm.simulationengine.core.simulation;
+package org.geppetto.core.simulation;
 
 import java.util.List;
 
-import org.openworm.simulationengine.core.model.IModel;
+import org.geppetto.core.model.IModel;
 
 /**
  * @author matteocantarelli

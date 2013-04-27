@@ -1,4 +1,4 @@
-package org.openworm.simulationengine.core.simulator;
+package org.geppetto.core.simulator;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.openworm.simulationengine.core.model.IModel;
-import org.openworm.simulationengine.core.simulation.ISimulatorCallbackListener;
-import org.openworm.simulationengine.core.solver.ISolver;
+import org.geppetto.core.model.IModel;
+import org.geppetto.core.simulation.ISimulatorCallbackListener;
+import org.geppetto.core.solver.ISolver;
 
 /**
  * @author matteocantarelli
@@ -40,7 +40,7 @@ public abstract class AParallelSimulator implements ISimulator {
 
 
 	/* (non-Javadoc)
-	 * @see org.openworm.simulationengine.core.simulator.ISimulator#initialize(org.openworm.simulationengine.core.simulation.ISimulationCallbackListener)
+	 * @see org.geppetto.core.simulator.ISimulator#initialize(org.geppetto.core.simulation.ISimulationCallbackListener)
 	 */
 	public void initialize(ISimulatorCallbackListener listener) 
 	{
