@@ -1,9 +1,9 @@
-package org.openworm.simulationengine.core.model;
+package org.geppetto.core.model;
 
 import java.net.URL;
 import java.util.List;
 
-import org.openworm.simulationengine.core.visualisation.model.Scene;
+import org.geppetto.core.visualisation.model.Scene;
 
 public interface IModelInterpreter {
 
