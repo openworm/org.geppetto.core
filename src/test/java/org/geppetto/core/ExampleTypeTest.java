@@ -1,4 +1,4 @@
-package org.openworm.simulationengine.core;
+package org.geppetto.core;
 
 import static org.junit.Assert.*;
 

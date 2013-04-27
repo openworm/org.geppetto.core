@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.openworm.simulationengine.core.model;
+package org.geppetto.core.model;
 
 /**
  * @author matteocantarelli

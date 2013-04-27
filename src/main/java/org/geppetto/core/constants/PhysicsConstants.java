@@ -1,4 +1,4 @@
-package org.openworm.simulationengine.core.constants;
+package org.geppetto.core.constants;
 
 public class PhysicsConstants {
 	

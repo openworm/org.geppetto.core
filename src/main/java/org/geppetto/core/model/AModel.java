@@ -1,4 +1,4 @@
-package org.openworm.simulationengine.core.model;
+package org.geppetto.core.model;
 
 public abstract class AModel implements IModel
 {
