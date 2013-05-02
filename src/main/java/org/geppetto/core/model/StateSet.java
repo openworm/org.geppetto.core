@@ -4,10 +4,13 @@
 package org.geppetto.core.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.geppetto.core.common.ColumnComparator;
 import org.geppetto.core.model.values.AValue;
 
 /**
@@ -84,7 +87,10 @@ public class StateSet
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();
-		for(StateInstancePath state : _statesMap.keySet())
+		List<StateInstancePath> list=new ArrayList<StateInstancePath>(_statesMap.keySet());
+		Collections.sort((List<?>) list, new ColumnComparator(0)); 
+		
+		for(StateInstancePath state : list)
 		{
 			sb.append(state + " \n");
 			int step = 0;
@@ -92,6 +98,22 @@ public class StateSet
 			{
 				sb.append("\t{" + (step++) + "}=" + v + " \n");
 			}
+		}
+		return sb.toString();
+	}
+	
+
+	public String lastStateToString()
+	{
+		StringBuffer sb = new StringBuffer();
+		List<StateInstancePath> list=new ArrayList<StateInstancePath>(_statesMap.keySet());
+		Collections.sort((List<?>) list, new ColumnComparator(0)); 
+		
+		for(StateInstancePath state : list)
+		{
+			sb.append(state + " \n");
+			int step = _statesMap.get(state).size()-1;
+			sb.append("\t{" + step + "}=" + _statesMap.get(state).get(step) + " \n");
 		}
 		return sb.toString();
 	}
