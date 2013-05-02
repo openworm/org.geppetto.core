@@ -7,47 +7,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.solver.ISolver;
 
 /**
  * @author matteocantarelli
  * 
  */
-public abstract class AParallelSimulator implements ISimulator {
+public abstract class AParallelSimulator extends ASimulator {
+	
+	public abstract void startSimulatorCycle();
+	
+	public abstract void endSimulatorCycle();
 
 	Map<ISolver, List<IModel>> _iModelQueue = new HashMap<ISolver, List<IModel>>();
 	
-	ISimulatorCallbackListener _listener;
 
-	
-	/**
-	 * @return
-	 */
-	public ISimulatorCallbackListener getListener() 
-	{
-		return _listener;
-	}
-
-
-	/**
-	 * @param _listener
-	 */
-	public void setListener(ISimulatorCallbackListener _listener) 
-	{
-		this._listener = _listener;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see org.geppetto.core.simulator.ISimulator#initialize(org.geppetto.core.simulation.ISimulationCallbackListener)
-	 */
-	public void initialize(ISimulatorCallbackListener listener) 
-	{
-		setListener(listener);
-	}
-
-	
 	/**
 	 * @param model
 	 */

@@ -1,8 +1,10 @@
 package org.geppetto.core.simulator;
 
+import org.geppetto.core.common.GeppettoExecutionException;
+import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.model.IModel;
+import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
-import org.geppetto.core.simulation.ITimeConfiguration;
 
 /**
  * @author matteocantarelli
@@ -11,11 +13,12 @@ import org.geppetto.core.simulation.ITimeConfiguration;
 public interface ISimulator {
 
 
-	void startSimulatorCycle();
+	void simulate(IRunConfiguration runConfiguration) throws GeppettoExecutionException;
 	
-	void simulate(IModel model, ITimeConfiguration timeConfiguration);
-	
-	void endSimulatorCycle();
 
-	void initialize(ISimulatorCallbackListener listener);
+	void initialize(IModel model, ISimulatorCallbackListener listener) throws GeppettoInitializationException;
+
+
+	boolean isInitialized();
+	
 }

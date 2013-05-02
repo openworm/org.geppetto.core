@@ -7,7 +7,7 @@ package org.geppetto.core.simulation;
  * @author matteocantarelli
  *
  */
-public class TimeConfiguration implements ITimeConfiguration {
+public class TimeConfiguration implements IRunConfiguration {
 
 	private Float _timeStepLength;
 	

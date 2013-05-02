@@ -3,9 +3,7 @@
  */
 package org.geppetto.core.simulation;
 
-import java.util.List;
-
-import org.geppetto.core.model.IModel;
+import org.geppetto.core.model.StateSet;
 
 /**
  * @author matteocantarelli
@@ -13,7 +11,7 @@ import org.geppetto.core.model.IModel;
  */
 public interface ISimulatorCallbackListener {
 
-	void resultReady(final List<IModel> models);
+	void stateSetReady(StateSet results);
 	
 	
 }

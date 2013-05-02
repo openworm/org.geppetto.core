@@ -1,6 +1,6 @@
 package org.geppetto.core.simulation;
 
-public interface ITimeConfiguration {
+public interface IRunConfiguration {
 
 	
 	/**

@@ -3,10 +3,11 @@
  */
 package org.geppetto.core.solver;
 
-import java.util.List;
-
+import org.geppetto.core.common.GeppettoExecutionException;
+import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.simulation.ITimeConfiguration;
+import org.geppetto.core.model.StateSet;
+import org.geppetto.core.simulation.IRunConfiguration;
 
 /**
  * @author matteocantarelli
@@ -14,6 +15,9 @@ import org.geppetto.core.simulation.ITimeConfiguration;
  */
 public interface ISolver {
 		
-	public List<List<IModel>> solve(final List<IModel> models,final ITimeConfiguration timeConfiguration);
+	public StateSet solve(final IRunConfiguration timeConfiguration) throws GeppettoExecutionException;
 	
+	public void initialize(final IModel model) throws GeppettoInitializationException;
+	
+	public void dispose();
 }

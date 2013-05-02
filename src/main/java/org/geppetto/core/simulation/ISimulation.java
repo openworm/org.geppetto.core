@@ -5,6 +5,9 @@ package org.geppetto.core.simulation;
 
 import java.net.URL;
 
+import org.geppetto.core.common.GeppettoExecutionException;
+import org.geppetto.core.common.GeppettoInitializationException;
+
 /**
  * @author matteocantarelli
  *
@@ -15,20 +18,20 @@ public interface ISimulation {
 	 * @param simConfigURL
 	 * @param simulationListener 
 	 */
-	void init(URL simConfigURL, ISimulationCallbackListener simulationListener);
+	void init(URL simConfigURL, ISimulationCallbackListener simulationListener) throws GeppettoInitializationException;
 	
 	/**
 	 * 
 	 */
-	void start();
+	void start() throws GeppettoExecutionException;
 	
 	/**
 	 * 
 	 */
-	void stop();
+	void stop() throws GeppettoExecutionException;
 	
 	/**
 	 * 
 	 */
-	void reset();
+	void reset() throws GeppettoExecutionException;
 }
