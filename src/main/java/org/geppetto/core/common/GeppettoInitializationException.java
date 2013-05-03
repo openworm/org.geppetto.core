@@ -20,5 +20,10 @@ public class GeppettoInitializationException extends Exception
 	{
 		super(arg0);
 	}
-
+	
+	public GeppettoInitializationException(String message)
+	{
+		super(message);
+	}
+	
 }

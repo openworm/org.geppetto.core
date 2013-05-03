@@ -3,6 +3,9 @@
  */
 package org.geppetto.core.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author matteocantarelli
  *
@@ -10,17 +13,22 @@ package org.geppetto.core.model;
 public class ModelWrapper extends AModel
 {
 	
-	Object model;
+	Map<String, Object> _models;
 	
-	public ModelWrapper(String id, Object model)
+	public ModelWrapper(String id)
 	{
 		super(id);
-		this.model = model;
+		_models=new HashMap<String, Object>();
 	}
 
-	public Object getModel()
+	public Object getModel(String id)
 	{
-		return model;
+		return _models.get(id);
+	}
+	
+	public void wrapModel(String id,Object model)
+	{
+		_models.put(id,model);
 	}
 
 }

@@ -80,16 +80,18 @@ public class StateSet
 		_statesMap.get(state).add(value);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();
-		List<StateInstancePath> list=new ArrayList<StateInstancePath>(_statesMap.keySet());
-		Collections.sort((List<?>) list, new ColumnComparator(0)); 
-		
+		List<StateInstancePath> list = new ArrayList<StateInstancePath>(_statesMap.keySet());
+		Collections.sort((List<?>) list, new ColumnComparator(0));
+
 		for(StateInstancePath state : list)
 		{
 			sb.append(state + " \n");
@@ -101,18 +103,17 @@ public class StateSet
 		}
 		return sb.toString();
 	}
-	
 
 	public String lastStateToString()
 	{
 		StringBuffer sb = new StringBuffer();
-		List<StateInstancePath> list=new ArrayList<StateInstancePath>(_statesMap.keySet());
-		Collections.sort((List<?>) list, new ColumnComparator(0)); 
-		
+		List<StateInstancePath> list = new ArrayList<StateInstancePath>(_statesMap.keySet());
+		Collections.sort((List<?>) list, new ColumnComparator(0));
+
 		for(StateInstancePath state : list)
 		{
 			sb.append(state + " \n");
-			int step = _statesMap.get(state).size()-1;
+			int step = _statesMap.get(state).size() - 1;
 			sb.append("\t{" + step + "}=" + _statesMap.get(state).get(step) + " \n");
 		}
 		return sb.toString();
@@ -170,8 +171,8 @@ public class StateSet
 	}
 
 	/**
-	 * This method removes from this StateSet the oldest timestep for every state and returns them 
-	 * as a new StateSet
+	 * This method removes from this StateSet the oldest timestep for every state and returns them as a new StateSet
+	 * 
 	 * @return
 	 */
 	public StateSet pullOldestStateSet()
@@ -190,17 +191,34 @@ public class StateSet
 
 	/**
 	 * Returns false if there is at least a state with at least a timestep
+	 * 
 	 * @return
 	 */
 	public boolean isEmpty()
 	{
-		for(StateInstancePath state:_statesMap.keySet())
+		for(StateInstancePath state : _statesMap.keySet())
 		{
-			if(_statesMap.get(state).size()>0)
+			if(_statesMap.get(state).size() > 0)
 			{
 				return false;
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * @param state
+	 * @param geppettoValues
+	 */
+	public void addStateValues(StateInstancePath state, List<AValue> geppettoValues)
+	{
+		if(!_statesMap.containsKey(state))
+		{
+			_statesMap.put(state, geppettoValues);
+		}
+		else
+		{
+			_statesMap.get(state).addAll(geppettoValues);
+		}
 	}
 }
