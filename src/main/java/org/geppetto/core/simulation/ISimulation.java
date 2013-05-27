@@ -28,6 +28,11 @@ public interface ISimulation {
 	/**
 	 * 
 	 */
+	void pause() throws GeppettoExecutionException;
+	
+	/**
+	 * 
+	 */
 	void stop() throws GeppettoExecutionException;
 	
 	/**
