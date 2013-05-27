@@ -34,9 +34,4 @@ public interface ISimulation {
 	 * 
 	 */
 	void stop() throws GeppettoExecutionException;
-	
-	/**
-	 * 
-	 */
-	void reset() throws GeppettoExecutionException;
 }
