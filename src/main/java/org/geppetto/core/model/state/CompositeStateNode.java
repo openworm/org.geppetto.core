@@ -79,6 +79,12 @@ public class CompositeStateNode extends AStateNode
 	
 	
 	@Override
+	public String toString()
+	{
+		return _name+"["+_children+"]";
+	}
+
+	@Override
 	public boolean apply(IStateVisitor visitor)
 	{
 		if (visitor.inCompositeStateNode(this))  // enter this node?

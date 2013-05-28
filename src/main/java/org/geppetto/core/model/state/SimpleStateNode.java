@@ -52,6 +52,11 @@ public class SimpleStateNode extends AStateNode
 		super(name);
 	}
 
+	@Override
+	public String toString()
+	{
+		return _name+"["+_values+"]";
+	}
 	public void addValue(AValue value)
 	{
 		if(_values==null)
