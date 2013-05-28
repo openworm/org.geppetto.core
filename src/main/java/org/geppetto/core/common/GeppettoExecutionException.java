@@ -20,4 +20,9 @@ public class GeppettoExecutionException extends Exception
 		super(cause);
 	}
 
+	public GeppettoExecutionException(String string)
+	{
+		super(string);
+	}
+
 }

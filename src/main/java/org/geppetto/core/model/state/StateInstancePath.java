@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.geppetto.core.model;
+package org.geppetto.core.model.state;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,21 +14,16 @@ import java.util.StringTokenizer;
 public class StateInstancePath
 {
 
-	private List<String> _instancePath;
+	private String _instancePath;
 
 	public StateInstancePath(String instancePath)
 	{
 		super();
-		this._instancePath = tokenize(instancePath);
-	}
-	
-	public StateInstancePath(List<String> instancePath)
-	{
-		super();
 		this._instancePath = instancePath;
 	}
+	
 
-	public List<String> getInstancePath()
+	public String getInstancePath()
 	{
 		return _instancePath;
 	}
@@ -47,12 +42,7 @@ public class StateInstancePath
 	@Override
 	public String toString()
 	{
-		StringBuffer sb=new StringBuffer();
-		for(String s:_instancePath)
-		{
-			sb.append(s+".");
-		}
-		return sb.toString().substring(0, sb.toString().length()-1);
+		return _instancePath;
 	}
 
 	@Override

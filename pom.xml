@@ -83,7 +83,7 @@
 			<plugin>
 				<groupId>com.googlecode.jsonschema2pojo</groupId>
 				<artifactId>jsonschema2pojo-maven-plugin</artifactId>
-				<version>0.3.3</version>
+				<version>0.3.6</version>
 				<configuration>
 					<sourceDirectory>${basedir}/src/main/resources/schema</sourceDirectory>
 					<targetPackage>org.geppetto.core.visualisation.model</targetPackage>

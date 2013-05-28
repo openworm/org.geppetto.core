@@ -6,7 +6,7 @@ package org.geppetto.core.solver;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.StateSet;
+import org.geppetto.core.model.state.StateTreeRoot;
 import org.geppetto.core.simulation.IRunConfiguration;
 
 /**
@@ -15,7 +15,7 @@ import org.geppetto.core.simulation.IRunConfiguration;
  */
 public interface ISolver {
 		
-	public StateSet solve(final IRunConfiguration timeConfiguration) throws GeppettoExecutionException;
+	public StateTreeRoot solve(final IRunConfiguration timeConfiguration) throws GeppettoExecutionException;
 	
 	public void initialize(final IModel model) throws GeppettoInitializationException;
 	

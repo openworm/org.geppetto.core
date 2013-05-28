@@ -1,5 +1,6 @@
 package org.geppetto.core.model;
 
+
 public abstract class AModel implements IModel
 {
 
