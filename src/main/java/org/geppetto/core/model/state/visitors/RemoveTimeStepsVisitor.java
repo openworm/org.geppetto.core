@@ -51,7 +51,7 @@ public class RemoveTimeStepsVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitSimpleStateNode(SimpleStateNode node)
 	{
-		for(int i=1;i<_timeStepsToRemove;i++)
+		for(int i=1;i<=_timeStepsToRemove;i++)
 		{
 			node.getValues().remove(0);	
 		}
