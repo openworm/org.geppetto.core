@@ -34,10 +34,9 @@ package org.geppetto.core.model.state;
 
 import org.geppetto.core.model.state.visitors.IVisitable;
 
-
 /**
  * @author matteocantarelli
- *
+ * 
  */
 public abstract class AStateNode implements IVisitable
 {
@@ -49,17 +48,36 @@ public abstract class AStateNode implements IVisitable
 	{
 		super();
 		_name = name;
-		_parent=null;
+		_parent = null;
 	}
-	
+
 	public String getName()
 	{
 		return _name;
 	}
-	
+
 	public AStateNode getParent()
 	{
 		return _parent;
 	}
-	
+
+	public String getFullName()
+	{
+		StringBuffer fullName = new StringBuffer();
+		AStateNode iterateState = this;
+		while(iterateState != null)
+		{
+			if(iterateState._parent != null)
+			{
+				if(!fullName.toString().isEmpty())
+				{
+					fullName.insert(0, ".");
+				}
+				fullName.insert(0, iterateState._name);
+			}
+			iterateState = iterateState._parent;
+		}
+		return fullName.toString();
+	}
+
 }

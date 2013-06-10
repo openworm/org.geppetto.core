@@ -49,6 +49,7 @@ public class CompositeStateNode extends AStateNode
 	public CompositeStateNode(String name)
 	{
 		super(name);
+		_children=new ArrayList<AStateNode>();
 	}
 	
 	public void addChild(AStateNode child)
