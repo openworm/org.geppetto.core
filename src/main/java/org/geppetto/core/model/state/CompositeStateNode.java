@@ -86,7 +86,7 @@ public class CompositeStateNode extends AStateNode
 	}
 
 	@Override
-	public boolean apply(IStateVisitor visitor)
+	public synchronized boolean apply(IStateVisitor visitor)
 	{
 		if (visitor.inCompositeStateNode(this))  // enter this node?
 		{
