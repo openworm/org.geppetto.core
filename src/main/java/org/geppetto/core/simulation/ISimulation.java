@@ -65,8 +65,9 @@ public interface ISimulation {
 	 */
 	void stop() throws GeppettoExecutionException;
 	
+	
 	/**
 	 * 
 	 */
-	void observe() throws GeppettoExecutionException;
+	boolean isRunning();
 }
