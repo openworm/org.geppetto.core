@@ -64,4 +64,10 @@ public interface ISimulation {
 	 * 
 	 */
 	void stop() throws GeppettoExecutionException;
+	
+	
+	/**
+	 * 
+	 */
+	boolean isRunning();
 }
