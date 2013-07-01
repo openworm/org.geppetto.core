@@ -44,7 +44,7 @@ public class PhysicsConstants {
 	public static final float H = 3.34f;
 	public static final float R0 = 0.5f * H;
 
-	public static final float MASS = 0.003f;
+	public static final float MASS = 0.0003f;
 	public static final float HASH_GRID_CELL_SIZE = 2.0f * H;
 	public static final float HASH_GRID_CELL_SIZE_INV = 1.0f / HASH_GRID_CELL_SIZE;
 	public static final float SIMULATION_SCALE = 0.004f;
