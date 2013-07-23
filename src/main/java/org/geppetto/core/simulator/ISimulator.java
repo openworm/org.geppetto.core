@@ -49,7 +49,7 @@ public interface ISimulator {
 	void simulate(IRunConfiguration runConfiguration) throws GeppettoExecutionException;
 	
 
-	void initialize(IModel model, ISimulatorCallbackListener listener) throws GeppettoInitializationException;
+	void initialize(IModel model, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
 
 
 	boolean isInitialized();
