@@ -35,6 +35,8 @@ package org.geppetto.core.simulation;
 
 import java.net.URL;
 
+import javax.xml.transform.stream.StreamSource;
+
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 
@@ -49,6 +51,15 @@ public interface ISimulation {
 	 * @param simulationListener 
 	 */
 	void init(URL simConfigURL, ISimulationCallbackListener simulationListener) throws GeppettoInitializationException;
+	
+	/**
+	 * Different approach to initializing the simulation. 
+	 * 
+	 * @param simulationConfig - Configuration parameters of simulation
+	 * @param simulationListener
+	 * @throws GeppettoInitializationException
+	 */
+	void init(String simulationConfig, ISimulationCallbackListener simulationListener) throws GeppettoInitializationException;
 	
 	/**
 	 * 
@@ -70,4 +81,12 @@ public interface ISimulation {
 	 * 
 	 */
 	boolean isRunning();
+	
+	/**
+	 * Return the simulation's configuration.
+	 * 
+	 * @param simURL - Location of Simulation
+	 * @return
+	 */
+	String getSimulationConfig(URL simURL);
 }
