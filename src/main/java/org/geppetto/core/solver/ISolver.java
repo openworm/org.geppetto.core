@@ -47,7 +47,7 @@ public interface ISolver {
 		
 	public StateTreeRoot solve(final IRunConfiguration timeConfiguration) throws GeppettoExecutionException;
 	
-	public void initialize(final IModel model) throws GeppettoInitializationException;
+	public StateTreeRoot initialize(final IModel model) throws GeppettoInitializationException;
 	
 	public void dispose();
 }
