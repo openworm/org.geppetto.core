@@ -87,6 +87,7 @@ public interface ISimulation {
 	 * 
 	 * @param simURL - Location of Simulation
 	 * @return
+	 * @throws GeppettoInitializationException 
 	 */
-	String getSimulationConfig(URL simURL);
+	String getSimulationConfig(URL simURL) throws GeppettoInitializationException;
 }
