@@ -31,36 +31,11 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.simulator;
+package org.geppetto.core.common;
 
-import java.util.List;
+import java.lang.reflect.Type;
 
-import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.common.Variable;
-import org.geppetto.core.model.IModel;
-import org.geppetto.core.simulation.IRunConfiguration;
-import org.geppetto.core.simulation.ISimulatorCallbackListener;
-
-/**
- * @author matteocantarelli
- *
- */
-public interface ISimulator {
-
-
-	void simulate(IRunConfiguration runConfiguration) throws GeppettoExecutionException;
-	
-
-	void initialize(IModel model, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
-
-
-	boolean isInitialized();
-	
-	
-	List<Variable> getForceableVariables();
-	
-	
-	List<Variable> getWatcheableVariables();
-	
+public class Variable {
+	String name;
+	Type type;
 }
