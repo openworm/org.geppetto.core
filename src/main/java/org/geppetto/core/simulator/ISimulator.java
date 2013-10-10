@@ -61,6 +61,6 @@ public interface ISimulator {
 	List<Variable> getForceableVariables();
 	
 	
-	List<Variable> getWatcheableVariables();
+	List<Variable> getWatchableVariables();
 	
 }

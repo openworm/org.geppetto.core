@@ -86,5 +86,4 @@ public abstract class ASimulator implements ISimulator
 	{
 		this._listener = listener;
 	}
-
 }
