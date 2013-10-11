@@ -35,7 +35,15 @@ package org.geppetto.core.common;
 
 import java.lang.reflect.Type;
 
-public class ArrayVariable extends Variable {
+public class ArrayVariable extends Variable implements IVariable {
+	
+	public ArrayVariable(String name, Type type, int elements, Type arrayType) {
+		super(name, type);
+		
+		numOfElements = elements;
+		this.arrayType = arrayType;
+	}
+	
 	int numOfElements;
 	Type arrayType;
 }

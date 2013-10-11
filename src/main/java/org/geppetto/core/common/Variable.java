@@ -35,7 +35,24 @@ package org.geppetto.core.common;
 
 import java.lang.reflect.Type;
 
-public class Variable {
-	String name;
-	Type type;
+public class Variable implements IVariable {
+	
+	public Variable(String name, Type type) {
+		super();
+		this.name = name;
+		this.type = type;
+	}
+	
+	private String name;
+	private Type type;
+	
+	@Override
+	public String getName() {
+		return name;
+	}
+	
+	@Override
+	public Type getType() {
+		return type;
+	}
 }

@@ -31,30 +31,11 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.solver;
+package org.geppetto.core.common;
 
-import java.util.List;
+import java.lang.reflect.Type;
 
-import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.common.IVariable;
-import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.state.StateTreeRoot;
-import org.geppetto.core.simulation.IRunConfiguration;
-
-/**
- * @author matteocantarelli
- *
- */
-public interface ISolver {
-		
-	public StateTreeRoot solve(final IRunConfiguration timeConfiguration) throws GeppettoExecutionException;
-	
-	public StateTreeRoot initialize(final IModel model) throws GeppettoInitializationException;
-	
-	public void dispose();
-	
-	List<IVariable> getForceableVariables();
-	
-	List<IVariable> getWatchableVariables();
+public interface IVariable {
+	String getName();
+	Type getType();
 }
