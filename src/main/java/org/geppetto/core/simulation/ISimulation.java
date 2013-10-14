@@ -34,11 +34,13 @@
 package org.geppetto.core.simulation;
 
 import java.net.URL;
+import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.common.IVariable;
 
 /**
  * @author matteocantarelli
@@ -90,4 +92,14 @@ public interface ISimulation {
 	 * @throws GeppettoInitializationException 
 	 */
 	String getSimulationConfig(URL simURL) throws GeppettoInitializationException;
+	
+	/**
+	 * 
+	 * */
+	List<IVariable> listWatchableVariables();
+	
+	/**
+	 * 
+	 * */
+	List<IVariable> listForceableVariables();
 }
