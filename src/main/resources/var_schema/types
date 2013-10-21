@@ -1,0 +1,9 @@
+{
+    "type" : "object",
+    "properties" : {
+        "types" : {
+            "type" : "string",
+            "enum" : ["integer", "float", "double", "array"]
+        }
+    }
+}

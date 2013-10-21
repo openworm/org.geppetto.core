@@ -1,0 +1,11 @@
+{
+	"description": "An array variable",
+	"type":"object",
+	"properties": {
+		"arrayType" : {  "$ref": "types" , "required": true},
+		"elemCount": { "type": "integer", "required": true }
+	},
+	"extends": {
+          "$ref": "variable"
+    }
+}
