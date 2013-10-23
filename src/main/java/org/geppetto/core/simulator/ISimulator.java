@@ -37,8 +37,8 @@ import java.util.List;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.common.IVariable;
 import org.geppetto.core.model.IModel;
+import org.geppetto.core.pojo.model.VariableList;
 import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 
@@ -58,9 +58,9 @@ public interface ISimulator {
 	boolean isInitialized();
 	
 	
-	List<IVariable> getForceableVariables();
+	VariableList getForceableVariables();
 	
 	
-	List<IVariable> getWatchableVariables();
+	VariableList getWatchableVariables();
 	
 }

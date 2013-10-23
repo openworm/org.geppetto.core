@@ -1,0 +1,14 @@
+{
+	"description": "list of types to represent a structured type",
+	"type":"object",
+	"properties": {
+		"entities": {"type": "array",
+            "items": {
+                "$ref" : "variable"
+             }
+	      }
+	},
+	"extends": {
+        "$ref": "type"
+    }
+}

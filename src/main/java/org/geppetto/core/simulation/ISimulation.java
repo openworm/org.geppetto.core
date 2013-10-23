@@ -40,7 +40,7 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.common.IVariable;
+import org.geppetto.core.pojo.model.VariableList;
 
 /**
  * @author matteocantarelli
@@ -96,10 +96,10 @@ public interface ISimulation {
 	/**
 	 * 
 	 * */
-	List<IVariable> listWatchableVariables();
+	VariableList listWatchableVariables();
 	
 	/**
 	 * 
 	 * */
-	List<IVariable> listForceableVariables();
+	VariableList listForceableVariables();
 }
