@@ -1,7 +1,7 @@
 {
 	"description": "Abstract Geometry to be extended",
 	"type":"object",
-	"javaType" : "org.geppetto.core.pojo.model.AGeometry",
+	"javaType" : "org.geppetto.core.visualisation.model.AGeometry",
 	"properties": {
 		"id": { "type": "string" , "required": true },
 		"position": { "$ref" : "point", "required": true }

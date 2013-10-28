@@ -34,13 +34,10 @@
 package org.geppetto.core.simulation;
 
 import java.net.URL;
-import java.util.List;
-
-import javax.xml.transform.stream.StreamSource;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.pojo.model.VariableList;
+import org.geppetto.core.data.model.VariableList;
 
 /**
  * @author matteocantarelli

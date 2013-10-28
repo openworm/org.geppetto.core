@@ -2,7 +2,7 @@
 	"description": "list of types to represent a structured type",
 	"type":"object",
 	"properties": {
-		"entities": {"type": "array",
+		"variables": {"type": "array",
             "items": {
                 "$ref" : "variable"
              }

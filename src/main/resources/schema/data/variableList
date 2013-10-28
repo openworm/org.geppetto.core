@@ -2,7 +2,7 @@
 	"description": "list of variable objects",
 	"type":"object",
 	"properties": {
-		"entities": {"type": "array",
+		"variables": {"type": "array",
             "items": {
                 "$ref" : "variable"
              }

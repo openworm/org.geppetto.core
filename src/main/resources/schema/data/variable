@@ -1,7 +1,7 @@
 {
 	"description": "abstract variable to be extended",
 	"type":"object",
-	"javaType" : "org.geppetto.core.pojo.model.AVariable",
+	"javaType" : "org.geppetto.core.data.model.AVariable",
 	"properties": {
 		"name": { "type": "string", "required": true },
 		"type": { "$ref" : "type", "required": true }
