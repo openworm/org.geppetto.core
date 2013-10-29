@@ -18,6 +18,7 @@
                 "$ref" : "reference"
              }
 	      },
-	    "metadata":{"$ref" : "metadata"}
+	    "metadata":{"$ref" : "metadata"},
+	    "position": { "$ref" : "point", "required": false }
 	}
 }
