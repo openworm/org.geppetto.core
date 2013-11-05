@@ -1,0 +1,10 @@
+{
+	"description": "An array type",
+	"type":"object",
+	"properties" : {
+        "arrayType": { "$ref" : "type", "required": true }
+    },
+	"extends": {
+        "$ref": "type"
+    }
+}

@@ -35,6 +35,7 @@ package org.geppetto.core.simulator;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
@@ -53,5 +54,11 @@ public interface ISimulator {
 
 
 	boolean isInitialized();
+	
+	
+	VariableList getForceableVariables();
+	
+	
+	VariableList getWatchableVariables();
 	
 }
