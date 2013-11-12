@@ -91,12 +91,22 @@ public interface ISimulation {
 	String getSimulationConfig(URL simURL) throws GeppettoInitializationException;
 	
 	/**
-	 * 
+	 * Returns a list of watchable variables for the entire simulation
 	 * */
 	VariableList listWatchableVariables();
 	
 	/**
-	 * 
+	 * Returns a list of forceable variables for the entire simulation
 	 * */
 	VariableList listForceableVariables();
+	
+	/**
+	 * Sets variables to be watched
+	 * */
+	void addWatchList(/* TODO: define watchlists */);
+	
+	/**
+	 * Starts recording watched variables values and sendong them to the client 
+	 * */
+	void startWatch();
 }
