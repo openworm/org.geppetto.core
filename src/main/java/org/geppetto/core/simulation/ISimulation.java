@@ -109,4 +109,9 @@ public interface ISimulation {
 	 * Starts recording watched variables values and sendong them to the client 
 	 * */
 	void startWatch();
+	
+	/**
+	 * Number of connections allowed on simulation
+	 */
+	int simulationCapacity(); 
 }

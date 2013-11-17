@@ -61,4 +61,6 @@ public interface ISimulator {
 	
 	VariableList getWatchableVariables();
 	
+	int getCapacity();
+	
 }
