@@ -45,14 +45,14 @@ import org.geppetto.core.simulation.IRunConfiguration;
  *
  */
 public interface ISolver {
-		
+	
 	public StateTreeRoot solve(final IRunConfiguration timeConfiguration) throws GeppettoExecutionException;
 	
 	public StateTreeRoot initialize(final IModel model) throws GeppettoInitializationException;
 	
 	public void dispose();
 	
-	VariableList getForceableVariables();
+	public VariableList getForceableVariables();
 	
-	VariableList getWatchableVariables();
+	public VariableList getWatchableVariables();
 }
