@@ -63,4 +63,5 @@ public interface ISimulator {
 	
 	int getCapacity();
 	
+	String getName();
 }

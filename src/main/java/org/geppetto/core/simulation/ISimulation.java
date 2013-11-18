@@ -113,5 +113,7 @@ public interface ISimulation {
 	/**
 	 * Number of connections allowed on simulation
 	 */
-	int simulationCapacity(); 
+	int getSimulatorCapacity(); 
+	
+	String getSimulatorName();
 }
