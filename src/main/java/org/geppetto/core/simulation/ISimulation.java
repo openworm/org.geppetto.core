@@ -103,10 +103,20 @@ public interface ISimulation {
 	/**
 	 * Sets variables to be watched
 	 * */
-	void addWatchList(/* TODO: define watchlists */);
+	void addWatchLists(/* TODO: define watchlists */);
 	
 	/**
 	 * Starts recording watched variables values and sendong them to the client 
 	 * */
 	void startWatch();
+	
+	/**
+	 * Starts recording watched variables values and sendong them to the client 
+	 * */
+	void stopWatch();
+	
+	/**
+	 * Starts recording watched variables values and sendong them to the client 
+	 * */
+	void clearWatchLists();
 }
