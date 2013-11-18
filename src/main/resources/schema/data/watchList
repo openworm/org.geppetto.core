@@ -1,0 +1,12 @@
+{
+	"description": "watchlist representation",
+	"type":"object",
+	"properties": {
+		"name": { "type": "string", "required": true },
+		"variablePaths": {"type": "array",
+            "items": {
+                "type": "string"
+             }
+	      }
+	}
+}
