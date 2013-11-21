@@ -1,0 +1,10 @@
+{
+	"description": "A simple variable",
+	"type":"object",
+	"properties" : {
+        "size": { "type": "integer", "required": true }
+    },
+	"extends": {
+        "$ref": "variable"
+    }
+}

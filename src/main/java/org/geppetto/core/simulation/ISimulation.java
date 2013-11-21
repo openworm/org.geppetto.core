@@ -35,10 +35,9 @@ package org.geppetto.core.simulation;
 
 import java.net.URL;
 
-import javax.xml.transform.stream.StreamSource;
-
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.data.model.VariableList;
 
 /**
  * @author matteocantarelli
@@ -90,4 +89,24 @@ public interface ISimulation {
 	 * @throws GeppettoInitializationException 
 	 */
 	String getSimulationConfig(URL simURL) throws GeppettoInitializationException;
+	
+	/**
+	 * Returns a list of watchable variables for the entire simulation
+	 * */
+	VariableList listWatchableVariables();
+	
+	/**
+	 * Returns a list of forceable variables for the entire simulation
+	 * */
+	VariableList listForceableVariables();
+	
+	/**
+	 * Sets variables to be watched
+	 * */
+	void addWatchList(/* TODO: define watchlists */);
+	
+	/**
+	 * Starts recording watched variables values and sendong them to the client 
+	 * */
+	void startWatch();
 }

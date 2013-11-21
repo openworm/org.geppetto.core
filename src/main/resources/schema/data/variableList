@@ -1,0 +1,11 @@
+{
+	"description": "list of variable objects",
+	"type":"object",
+	"properties": {
+		"variables": {"type": "array",
+            "items": {
+                "$ref" : "variable"
+             }
+	      }
+	}
+}

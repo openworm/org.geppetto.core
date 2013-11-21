@@ -4,7 +4,7 @@
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
 	<name>Geppetto Core Bundle</name>
-	<version>0.0.6</version>
+	<version>0.0.7</version>
 	<packaging>bundle</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -84,15 +84,26 @@
 				<groupId>com.googlecode.jsonschema2pojo</groupId>
 				<artifactId>jsonschema2pojo-maven-plugin</artifactId>
 				<version>0.3.7</version>
-				<configuration>
-					<sourceDirectory>${basedir}/src/main/resources/schema</sourceDirectory>
-					<targetPackage>org.geppetto.core.visualisation.model</targetPackage>
-				</configuration>
 				<executions>
 					<execution>
+						<id>data</id>
 						<goals>
 							<goal>generate</goal>
 						</goals>
+						<configuration>
+							<sourceDirectory>${basedir}/src/main/resources/schema/data</sourceDirectory>
+							<targetPackage>org.geppetto.core.data.model</targetPackage>
+						</configuration>
+					</execution>
+					<execution>
+						<id>visualisation</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>${basedir}/src/main/resources/schema/visualisation</sourceDirectory>
+							<targetPackage>org.geppetto.core.visualisation.model</targetPackage>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
