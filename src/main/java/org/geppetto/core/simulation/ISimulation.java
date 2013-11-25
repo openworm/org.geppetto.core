@@ -104,8 +104,9 @@ public interface ISimulation {
 	
 	/**
 	 * Sets variables to be watched
+	 * @throws GeppettoExecutionException 
 	 * */
-	void addWatchLists(List<WatchList> list);
+	void addWatchLists(List<WatchList> list) throws GeppettoExecutionException;
 	
 	/**
 	 * Starts recording watched variables values 
