@@ -47,6 +47,7 @@ import org.geppetto.core.simulation.ISimulatorCallbackListener;
  * @author giovanniidili
  */
 public interface ISimulator {
+	
 	void simulate(IRunConfiguration runConfiguration) throws GeppettoExecutionException;
 	
 	void initialize(IModel model, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
@@ -57,11 +58,23 @@ public interface ISimulator {
 	
 	VariableList getWatchableVariables();
 	
+	/**
+	 * Adds variables to be watched by the simulator.
+	 * */
 	void addWatchVariables(List<String> variableNames);
 	
+	/**
+	 * Starts watching variables.
+	 * */
 	void startWatch();
 	
+	/**
+	 * Stop watching variables.
+	 * */
 	void stopWatch();
 	
+	/**
+	 * Clear lists of variables to be watched by the simulator.
+	 * */
 	void clearWatchVariables();
 }
