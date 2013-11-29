@@ -34,10 +34,12 @@
 package org.geppetto.core.simulation;
 
 import java.net.URL;
+import java.util.List;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.VariableList;
+import org.geppetto.core.data.model.WatchList;
 
 /**
  * @author matteocantarelli
@@ -102,11 +104,27 @@ public interface ISimulation {
 	
 	/**
 	 * Sets variables to be watched
+	 * @throws GeppettoExecutionException 
 	 * */
-	void addWatchList(/* TODO: define watchlists */);
+	void addWatchLists(List<WatchList> list) throws GeppettoExecutionException;
 	
 	/**
-	 * Starts recording watched variables values and sendong them to the client 
+	 * Starts recording watched variables values 
 	 * */
 	void startWatch();
+	
+	/**
+	 * Starts recording watched variables values 
+	 * */
+	void stopWatch();
+	
+	/**
+	 * Starts recording watched variables values
+	 * */
+	void clearWatchLists();
+	
+	/**
+	 * Gets existing watch lists  
+	 * */
+	List<WatchList> getWatchLists();
 }
