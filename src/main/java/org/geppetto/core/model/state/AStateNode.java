@@ -32,6 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
+import org.geppetto.core.model.state.StateTreeRoot.SUBTREE;
 import org.geppetto.core.model.state.visitors.IVisitable;
 
 /**
@@ -67,7 +68,9 @@ public abstract class AStateNode implements IVisitable
 		AStateNode iterateState = this;
 		while(iterateState != null)
 		{
-			if(iterateState._parent != null)
+			if(iterateState._parent != null && 
+				!iterateState._name.equals(SUBTREE.MODEL_TREE.toString()) && 
+				!iterateState._name.equals(SUBTREE.WATCH_TREE.toString()))
 			{
 				if(!fullName.toString().isEmpty())
 				{
