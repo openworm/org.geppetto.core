@@ -127,4 +127,8 @@ public interface ISimulation {
 	 * Gets existing watch lists  
 	 * */
 	List<WatchList> getWatchLists();
+	
+	List<URL> getScripts();
+	
+	void setScripts(List<URL> scripts);
 }
