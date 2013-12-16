@@ -34,21 +34,27 @@ package org.geppetto.core.model.state;
 
 import java.util.ArrayList;
 
-
 /**
  * @author matteocantarelli
- *
+ * 
  */
 public class StateTreeRoot extends CompositeStateNode
 {
-	
+
+	public enum SUBTREE
+	{
+		WATCH_TREE,
+		MODEL_TREE
+	}
+
+
 	private String _modelId;
-	
+
 	public StateTreeRoot(String modelId)
 	{
 		super(modelId);
-		_modelId=modelId;
-		_children=new ArrayList<AStateNode>();
+		_modelId = modelId;
+		_children = new ArrayList<AStateNode>();
 	}
 
 	/**
@@ -57,6 +63,47 @@ public class StateTreeRoot extends CompositeStateNode
 	public String getModelId()
 	{
 		return _modelId;
+	}
+
+	public void flushSubTree(SUBTREE tree)
+	{
+		for(AStateNode node : _children)
+		{
+			if(node.getName().equals(tree.toString()))
+			{
+				// re-assign to empty node
+				node = new CompositeStateNode(tree.toString());
+				break;
+			}
+		}
+	}
+
+	/**
+	 * @param modelTree
+	 * @return
+	 */
+	private CompositeStateNode addSubTree(SUBTREE modelTree)
+	{
+		CompositeStateNode subTree = new CompositeStateNode(modelTree.toString());
+		addChild(subTree);
+		return subTree;
+	}
+	
+	/**
+	 * It creates the subtree if it doesn't exist
+	 * @param modelTree
+	 * @return
+	 */
+	public CompositeStateNode getSubTree(SUBTREE modelTree)
+	{
+		for (AStateNode node:getChildren())
+		{
+			if( node.getName().equals(modelTree.toString()))
+			{
+				return (CompositeStateNode) node;
+			}
+		}
+		return addSubTree(modelTree);
 	}
 
 }

@@ -33,6 +33,8 @@
 
 package org.geppetto.core.simulator;
 
+import java.util.List;
+
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.VariableList;
@@ -42,26 +44,40 @@ import org.geppetto.core.simulation.ISimulatorCallbackListener;
 
 /**
  * @author matteocantarelli
- *
+ * @author giovanniidili
  */
 public interface ISimulator {
-
-
+	
 	void simulate(IRunConfiguration runConfiguration) throws GeppettoExecutionException;
 	
-
 	void initialize(IModel model, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
-
 
 	boolean isInitialized();
 	
-	
 	VariableList getForceableVariables();
-	
 	
 	VariableList getWatchableVariables();
 	
 	int getCapacity();
 	
 	String getName();
+	/**
+	 * Adds variables to be watched by the simulator.
+	 * */
+	void addWatchVariables(List<String> variableNames);
+	
+	/**
+	 * Starts watching variables.
+	 * */
+	void startWatch();
+	
+	/**
+	 * Stop watching variables.
+	 * */
+	void stopWatch();
+	
+	/**
+	 * Clear lists of variables to be watched by the simulator.
+	 * */
+	void clearWatchVariables();
 }

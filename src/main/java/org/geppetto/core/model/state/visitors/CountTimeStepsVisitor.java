@@ -56,6 +56,4 @@ public class CountTimeStepsVisitor extends DefaultStateVisitor
 		return _numStates;
 	}
 	
-	
-
 }
