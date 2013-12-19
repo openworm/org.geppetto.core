@@ -33,6 +33,8 @@
 
 package org.geppetto.core.solver;
 
+import java.util.List;
+
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.VariableList;
@@ -45,14 +47,34 @@ import org.geppetto.core.simulation.IRunConfiguration;
  *
  */
 public interface ISolver {
-		
+	
 	public StateTreeRoot solve(final IRunConfiguration timeConfiguration) throws GeppettoExecutionException;
 	
 	public StateTreeRoot initialize(final IModel model) throws GeppettoInitializationException;
 	
 	public void dispose();
 	
-	VariableList getForceableVariables();
+	public VariableList getForceableVariables();
 	
-	VariableList getWatchableVariables();
+	public VariableList getWatchableVariables();
+
+	/**
+	 * Adds variables to be watched by the simulator.
+	 * */
+	void addWatchVariables(List<String> variableNames);
+	
+	/**
+	 * Starts watching variables.
+	 * */
+	void startWatch();
+	
+	/**
+	 * Stop watching variables.
+	 * */
+	void stopWatch();
+	
+	/**
+	 * Clear lists of variables to be watched by the simulator.
+	 * */
+	void clearWatchVariables();
 }

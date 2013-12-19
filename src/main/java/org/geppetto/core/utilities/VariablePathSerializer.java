@@ -31,50 +31,39 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.simulator;
+package org.geppetto.core.utilities;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.data.model.VariableList;
-import org.geppetto.core.model.IModel;
-import org.geppetto.core.simulation.IRunConfiguration;
-import org.geppetto.core.simulation.ISimulatorCallbackListener;
+import org.geppetto.core.data.model.AVariable;
+import org.geppetto.core.data.model.SimpleType;
+import org.geppetto.core.data.model.StructuredType;
 
-/**
- * @author matteocantarelli
- * @author giovanniidili
- */
-public interface ISimulator {
-	
-	void simulate(IRunConfiguration runConfiguration) throws GeppettoExecutionException;
-	
-	void initialize(IModel model, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
-
-	boolean isInitialized();
-	
-	VariableList getForceableVariables();
-	
-	VariableList getWatchableVariables();
-	
-	/**
-	 * Adds variables to be watched by the simulator.
-	 * */
-	void addWatchVariables(List<String> variableNames);
-	
-	/**
-	 * Starts watching variables.
-	 * */
-	void startWatch();
-	
-	/**
-	 * Stop watching variables.
-	 * */
-	void stopWatch();
-	
-	/**
-	 * Clear lists of variables to be watched by the simulator.
-	 * */
-	void clearWatchVariables();
+public class VariablePathSerializer {
+ public static void GetFullVariablePath(AVariable var, String parentName, List<String> variablePaths)
+ {
+	 String varName = parentName.equals("")? var.getName() : (parentName + "." + var.getName());
+	 
+	 if(var.getType() instanceof StructuredType)
+	 {
+		 // NODE
+		 StructuredType strucT = (StructuredType)var.getType();
+		 List<AVariable> vars = strucT.getVariables();
+		 
+		 for(AVariable v : vars){
+			 GetFullVariablePath(v, varName, variablePaths);
+		 }
+	 }
+	 else if(var.getType() instanceof SimpleType)
+	 {
+		// LEAF
+		 if(variablePaths == null)
+		 {
+			 variablePaths = new ArrayList<String>();
+		 }
+		 
+		 variablePaths.add(varName); 
+	 }
+ }
 }

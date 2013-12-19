@@ -35,6 +35,6 @@ package org.geppetto.core.simulation;
 
 public interface ISimulationCallbackListener
 {
-	void updateReady(String update);
+	void updateReady(String sceneUpdate, String variableWatchTree);
 
 }

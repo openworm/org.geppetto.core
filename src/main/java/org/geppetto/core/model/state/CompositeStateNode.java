@@ -52,7 +52,7 @@ public class CompositeStateNode extends AStateNode
 		_children=new ArrayList<AStateNode>();
 	}
 	
-	public void addChild(AStateNode child)
+	public AStateNode addChild(AStateNode child)
 	{
 		if(_children==null)
 		{
@@ -60,6 +60,7 @@ public class CompositeStateNode extends AStateNode
 		}
 		_children.add(child);
 		child._parent=this; //double link
+		return child;
 	}
 	
 	public List<AStateNode> getChildren()
