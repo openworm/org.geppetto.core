@@ -56,6 +56,30 @@ public abstract class AStateNode implements IVisitable
 	{
 		return _name;
 	}
+	
+
+	/**
+	 * @return the next sibling of this node
+	 */
+	public AStateNode nextSibling()
+	{
+		if(!(getParent() instanceof CompositeStateNode))
+		{
+			return null;
+		}
+		else
+		{
+			int currentIndex = ((CompositeStateNode) getParent()).getChildren().indexOf(this);
+			if(((CompositeStateNode) getParent()).getChildren().size() < currentIndex + 2)
+			{
+				return null;
+			}
+			else
+			{
+				return ((CompositeStateNode) getParent()).getChildren().get(currentIndex + 1);
+			}
+		}
+	}
 
 	public AStateNode getParent()
 	{
@@ -68,9 +92,7 @@ public abstract class AStateNode implements IVisitable
 		AStateNode iterateState = this;
 		while(iterateState != null)
 		{
-			if(iterateState._parent != null && 
-				!iterateState._name.equals(SUBTREE.MODEL_TREE.toString()) && 
-				!iterateState._name.equals(SUBTREE.WATCH_TREE.toString()))
+			if(iterateState._parent != null && !iterateState._name.equals(SUBTREE.MODEL_TREE.toString()) && !iterateState._name.equals(SUBTREE.WATCH_TREE.toString()))
 			{
 				if(!fullName.toString().isEmpty())
 				{

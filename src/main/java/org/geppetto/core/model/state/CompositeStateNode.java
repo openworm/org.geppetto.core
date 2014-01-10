@@ -68,6 +68,15 @@ public class CompositeStateNode extends AStateNode
 		return _children;
 	}
 
+	public String getBaseName()
+	{
+		if(isArray())
+		{
+		return _name.substring(0, _name.indexOf("["));
+		}
+		else return getName();
+	}
+	
 	public boolean isArray()
 	{
 		return _name.contains("[");
