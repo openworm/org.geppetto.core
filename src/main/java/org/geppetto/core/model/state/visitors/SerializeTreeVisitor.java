@@ -53,7 +53,12 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			_serialized.append("{\"" + name + "\":");
 			if(node.getChildren().size() > 1)
 			{
-				_serialized.append("[");
+				if(((AStateNode)node.getChildren().get(0)).isArray()){
+					_serialized.append("[");
+				}
+				else{
+					_serialized.append("[{");
+				}
 			}
 
 		}
@@ -85,7 +90,12 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		{
 			if(node.getChildren().size() > 1)
 			{
-				_serialized.append("]");
+				if(((AStateNode)node.getChildren().get(0)).isArray()){
+					_serialized.append("]");
+				}
+				else{
+					_serialized.append("}]");
+				}				
 			}
 
 			_serialized.append("},");
@@ -97,7 +107,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitSimpleStateNode(SimpleStateNode node)
 	{
-		_serialized.append("\"" + node.getName() + "\":" + node.consumeFirstValue() + ",");
+		_serialized.append("\""  + node.getName() + "\":" + node.consumeFirstValue() + ",");
 
 		return super.visitSimpleStateNode(node);
 	}

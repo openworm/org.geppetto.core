@@ -45,7 +45,8 @@ public class TestTreeSerialization {
 
 	@Test
 	public void testTreeSerialization() {
-		CompositeStateNode rootNode = new CompositeStateNode("variable_watch");
+		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
+		
 		SimpleStateNode dummyNode = new SimpleStateNode("dummyFloat");
 		dummyNode.addValue(ValuesFactory.getDoubleValue(50d));
 		dummyNode.addValue(ValuesFactory.getDoubleValue(100d));
@@ -60,7 +61,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"variable_watch\":[\"dummyFloat\":50.0,\"dummyDouble\":20.0]}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":[{\"dummyFloat\":50.0,\"dummyDouble\":20.0}]}", serialized);
 	}
 	
 	@Test

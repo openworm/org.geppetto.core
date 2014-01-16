@@ -86,6 +86,11 @@ public abstract class AStateNode implements IVisitable
 		return _parent;
 	}
 
+	public boolean isArray()
+	{
+		return _name.contains("[");
+	}
+	
 	public String getFullName()
 	{
 		StringBuffer fullName = new StringBuffer();

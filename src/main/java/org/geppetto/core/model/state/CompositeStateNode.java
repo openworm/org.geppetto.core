@@ -77,11 +77,6 @@ public class CompositeStateNode extends AStateNode
 		else return getName();
 	}
 	
-	public boolean isArray()
-	{
-		return _name.contains("[");
-	}
-	
 	public int getIndex()
 	{
 		//ASSUMPTION only one dimension
