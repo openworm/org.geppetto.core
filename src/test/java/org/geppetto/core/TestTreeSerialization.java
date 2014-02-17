@@ -45,7 +45,8 @@ public class TestTreeSerialization {
 
 	@Test
 	public void testTreeSerialization() {
-		CompositeStateNode rootNode = new CompositeStateNode("variable_watch");
+		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
+		
 		SimpleStateNode dummyNode = new SimpleStateNode("dummyFloat");
 		dummyNode.addValue(ValuesFactory.getDoubleValue(50d));
 		dummyNode.addValue(ValuesFactory.getDoubleValue(100d));
@@ -60,27 +61,83 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"variable_watch\":[{ \"name\":\"dummyFloat\", \"value\":\"50.0\" },{ \"name\":\"dummyDouble\", \"value\":\"20.0\" }]}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":[{\"dummyFloat\":50.0,\"dummyDouble\":20.0}]}", serialized);
 	}
 	
 	@Test
-	public void testTreeNestedSerialization() {
+	public void testTreeNestedSerialization2() {
 		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
-		CompositeStateNode dummyNode = new CompositeStateNode("hhpop[0]");
+		CompositeStateNode dummyNode0 = new CompositeStateNode("hhpop[0]");
 
-		SimpleStateNode anotherDummyNode = new SimpleStateNode("v");
-		anotherDummyNode.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode.addValue(ValuesFactory.getDoubleValue(100d));
-		rootNode.addChild(dummyNode);
-		dummyNode.addChild(anotherDummyNode);
+		SimpleStateNode anotherDummyNode0 = new SimpleStateNode("v");
+		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(100d));
+		rootNode.addChild(dummyNode0);
+		dummyNode0.addChild(anotherDummyNode0);
 		
+		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("spiking");
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(55d));
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(65d));
+		dummyNode0.addChild(anotherDummyNode1);
 		
 		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop[0]\":{ \"name\":\"v\", \"value\":\"20.0\" }}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"v\":20.0,\"spiking\":55.0}]}}", serialized);
 	}
+	
+	
+	@Test
+	public void testTreeNestedSerialization() {
+		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
+		CompositeStateNode dummyNode0 = new CompositeStateNode("hhpop[0]");
+		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[1]");
+
+		SimpleStateNode anotherDummyNode0 = new SimpleStateNode("v");
+		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(100d));
+		rootNode.addChild(dummyNode0);
+		dummyNode0.addChild(anotherDummyNode0);
+		
+		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("v");
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(55d));
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(65d));
+		rootNode.addChild(dummyNode1);
+		dummyNode1.addChild(anotherDummyNode1);
+		
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		rootNode.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":[{\"hhpop\":[{\"v\":20.0},{\"v\":55.0}]}]}", serialized);
+	}
+	
+	@Test
+	public void testTreeNestedSerializationWithGaps() {
+		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
+		CompositeStateNode dummyNode0 = new CompositeStateNode("hhpop[10]");
+		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[15]");
+
+		SimpleStateNode anotherDummyNode0 = new SimpleStateNode("v");
+		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(100d));
+		rootNode.addChild(dummyNode0);
+		dummyNode0.addChild(anotherDummyNode0);
+		
+		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("v");
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(55d));
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(65d));
+		rootNode.addChild(dummyNode1);
+		dummyNode1.addChild(anotherDummyNode1);
+		
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		rootNode.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":[{\"hhpop\":[{},{},{},{},{},{},{},{},{},{},{\"v\":20.0},{},{},{},{},{\"v\":55.0}]}]}", serialized);
+	}
+	
 	
 	@Test
 	public void testTreeMultpleCompositeSerialization() {
@@ -105,7 +162,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":[{\"hhpop[0]\":{ \"name\":\"v\", \"value\":\"20.0\" }},{\"hhpop[1]\":{ \"name\":\"v\", \"value\":\"20.0\" }}]}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":[{\"hhpop\":[{\"v\":20.0},{\"v\":20.0}]}]}", serialized);
 	}
 
 }
