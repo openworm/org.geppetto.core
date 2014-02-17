@@ -57,9 +57,7 @@ public interface ISimulator {
 	VariableList getForceableVariables();
 	
 	VariableList getWatchableVariables();
-	
-	int getCapacity();
-	
+		
 	String getName();
 	/**
 	 * Adds variables to be watched by the simulator.
