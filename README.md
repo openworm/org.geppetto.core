@@ -6,4 +6,4 @@
 
 # Geppetto Core Bundle
 
-This project contains Geppetto core bundle. Inside this module Geppetto keep all the common interfaces, models, and utilities shared across every other bundle.
+This project contains the Geppetto core bundle. Inside this module Geppetto keeps all the common interfaces, models, and utilities shared across every other bundle.
