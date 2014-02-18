@@ -38,27 +38,31 @@ import java.util.Map;
 
 /**
  * @author matteocantarelli
- *
+ * 
  */
 public class ModelWrapper extends AModel
 {
-	
+
 	Map<String, Object> _models;
-	
+
 	public ModelWrapper(String id)
 	{
 		super(id);
-		_models=new HashMap<String, Object>();
+		_models = new HashMap<String, Object>();
 	}
 
 	public Object getModel(String id)
 	{
-		return _models.get(id);
+		if(_models.containsKey(id))
+		{
+			return _models.get(id);
+		}
+		return null;
 	}
-	
-	public void wrapModel(String id,Object model)
+
+	public void wrapModel(String id, Object model)
 	{
-		_models.put(id,model);
+		_models.put(id, model);
 	}
 
 }

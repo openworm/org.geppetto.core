@@ -3,9 +3,11 @@
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
 	<name>Geppetto Core Bundle</name>
-	<version>0.0.9</version>
+	<version>0.1.0</version>
 	<packaging>bundle</packaging>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.version>3.0.0.RELEASE</spring.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
@@ -21,6 +23,11 @@
 			<artifactId>com.springsource.org.apache.log4j</artifactId>
 			<version>1.2.15</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.beans</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.easymock</groupId>

@@ -101,9 +101,7 @@ public interface ISimulation {
 	 * Returns a list of forceable variables for the entire simulation
 	 * */
 	VariableList listForceableVariables();
-	
-	int getSimulatorCapacity(); 
-	
+		
 	String getSimulatorName();
 	
 	/**
@@ -136,4 +134,6 @@ public interface ISimulation {
 	List<WatchList> getWatchLists();
 	
 	List<URL> getScripts();	
+	
+	int getSimulationCapacity();
 }
