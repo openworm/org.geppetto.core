@@ -3,12 +3,12 @@
 	"type":"object",
 	"properties": {
 		"id": { "type": "string" , "required": true },
-		"geometries": {"type": "array",
+		"aspects": {"type": "array",
             "items": {
-                "$ref" : "geometry"
+                "$ref" : "aspect"
              }
 	      },
-		"subentities": {"type": "array",
+		"children": {"type": "array",
             "items": {
                 "$ref" : "entity"
              }

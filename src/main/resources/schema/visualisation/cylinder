@@ -9,6 +9,6 @@
 		"distal": { "$ref" : "point", "required": true }
 	},
 	"extends": {
-          "$ref": "geometry"
+          "$ref": "visualobject"
         }
 }

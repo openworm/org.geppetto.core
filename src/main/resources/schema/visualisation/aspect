@@ -1,0 +1,8 @@
+{
+	"description": "The aspect of a given entity",
+	"type":"object",
+	"properties": {
+		"id": { "type": "string" , "required": true },
+		"update": { "$ref" : "vm", "required": false }
+	}
+}

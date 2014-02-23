@@ -1,0 +1,17 @@
+{
+	"description": "An update for the visualization model",
+	"type":"object",
+	"properties": {
+		"id": { "type": "string" , "required": true },
+		"objects": {"type": "array",
+            "items": {
+                "$ref" : "visualobject"
+             }
+	      },
+		"children": {"type": "array",
+            "items": {
+                "$ref" : "vm"
+             }
+	      }
+	}
+}
