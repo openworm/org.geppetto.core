@@ -56,4 +56,9 @@ public class GeppettoInitializationException extends Exception
 		super(message);
 	}
 	
+	public GeppettoInitializationException(String message,Throwable arg0)
+	{
+		super(message,arg0);
+	}
+	
 }
