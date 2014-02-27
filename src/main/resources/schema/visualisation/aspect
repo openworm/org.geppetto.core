@@ -1,8 +1,9 @@
 {
 	"description": "The aspect of a given entity",
 	"type":"object",
+	"javaType" : "org.geppetto.core.visualisation.model.CAspect",
 	"properties": {
 		"id": { "type": "string" , "required": true },
-		"update": { "$ref" : "vm", "required": false }
+		"visualUpdate": { "$ref" : "vm", "required": false }
 	}
 }

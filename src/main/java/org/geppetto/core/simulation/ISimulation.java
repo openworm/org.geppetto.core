@@ -48,13 +48,15 @@ import org.geppetto.core.data.model.WatchList;
 public interface ISimulation {
 
 	/**
+	 * Initialize the simulation from a URL which points to a simulation configuration
+	 * 
 	 * @param simConfigURL
 	 * @param simulationListener 
 	 */
 	void init(URL simConfigURL, ISimulationCallbackListener simulationListener) throws GeppettoInitializationException;
 	
 	/**
-	 * Different approach to initializing the simulation. 
+	 * Initialize the simulation from a string containing the simulation configuration
 	 * 
 	 * @param simulationConfig - Configuration parameters of simulation
 	 * @param simulationListener
@@ -107,8 +109,9 @@ public interface ISimulation {
 	/**
 	 * Sets variables to be watched
 	 * @throws GeppettoExecutionException 
+	 * @throws GeppettoInitializationException 
 	 * */
-	void addWatchLists(List<WatchList> list) throws GeppettoExecutionException;
+	void addWatchLists(List<WatchList> list) throws GeppettoExecutionException, GeppettoInitializationException;
 	
 	/**
 	 * Starts recording watched variables values 

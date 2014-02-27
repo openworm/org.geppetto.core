@@ -50,7 +50,7 @@ public interface ISimulator {
 	
 	void simulate(IRunConfiguration runConfiguration) throws GeppettoExecutionException;
 	
-	void initialize(IModel model, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
+	void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
 
 	boolean isInitialized();
 	
@@ -59,6 +59,7 @@ public interface ISimulator {
 	VariableList getWatchableVariables();
 		
 	String getName();
+	
 	/**
 	 * Adds variables to be watched by the simulator.
 	 * */

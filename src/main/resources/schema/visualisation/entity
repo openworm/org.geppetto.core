@@ -1,6 +1,7 @@
 {
 	"description": "An entity",
 	"type":"object",
+	"javaType" : "org.geppetto.core.visualisation.model.CEntity",
 	"properties": {
 		"id": { "type": "string" , "required": true },
 		"aspects": {"type": "array",

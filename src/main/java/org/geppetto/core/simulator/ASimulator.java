@@ -52,7 +52,7 @@ import org.geppetto.core.simulation.ISimulatorCallbackListener;
 public abstract class ASimulator implements ISimulator
 {
 
-	protected IModel _model;
+	protected List<IModel> _models;
 
 	private ISimulatorCallbackListener _listener;
 
@@ -76,10 +76,10 @@ public abstract class ASimulator implements ISimulator
 	 * @see org.geppetto.core.simulator.ISimulator#initialize(org.geppetto.core.model.IModel, org.geppetto.core.simulation.ISimulatorCallbackListener)
 	 */
 	@Override
-	public void initialize(IModel model, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
+	public void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
 	{
 		setListener(listener);
-		_model = model;
+		_models = models;
 		_initialized = true;
 	}
 
