@@ -45,19 +45,44 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				// we fill in the gaps with empty objects so that we generate a valid JSON array
 				_serialized.append("{},");
 			}
-			_serialized.append("{");
+			
+			if(!(node.getChildren().get(0) instanceof CompositeStateNode))
+			{
+					_serialized.append("{");
+			}
 			indexMap.put(name, index);
 		}
 		else
 		{
-			_serialized.append("{\"" + name + "\":");
+			String namePath = "{\"" + name + "\":";
+			AStateNode parent = node.getParent();
+			
+			if(parent != null){
+				if(((CompositeStateNode)parent).getChildren().contains(node)){
+					if(((CompositeStateNode)parent).getChildren().indexOf(node) > 0){
+						if(_serialized.length() != 0){
+							namePath = namePath.replace("{", "");
+						}
+					}
+				}
+			}
+
+			_serialized.append(namePath);
+
 			if(node.getChildren().size() > 1)
 			{
 				if(((AStateNode)node.getChildren().get(0)).isArray()){
 					_serialized.append("[");
 				}
 				else{
-					_serialized.append("[{");
+					if(!(node.getChildren().get(0) instanceof CompositeStateNode)){
+						_serialized.append("{");
+					}
+				}
+			}
+			else{
+				if(!(node.getChildren().get(0) instanceof CompositeStateNode)){
+					_serialized.append("{");
 				}
 			}
 
@@ -78,11 +103,16 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			AStateNode sibling = node.nextSibling();
 			if(sibling == null || !(sibling instanceof CompositeStateNode) || !(((CompositeStateNode) sibling).getBaseName().equals(node.getBaseName())))
 			{
-				_serialized.append("}]},");
+				if(!(node.getChildren().get(0) instanceof CompositeStateNode)){
+					_serialized.append("}]},");
+				}
+				else{
+					_serialized.append("]},");
+				}
 				return super.outCompositeStateNode(node);
 			}
 			else
-			{
+			{		
 				_serialized.append("},");
 			}
 		}
@@ -94,11 +124,22 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 					_serialized.append("]");
 				}
 				else{
-					_serialized.append("}]");
+					_serialized.append("}");
 				}				
 			}
+		
+			String namePath = "},";
+			AStateNode parent = node.getParent();
+			
+			if(parent != null){
+				if(((CompositeStateNode)parent).getChildren().contains(node)){
+					if(((CompositeStateNode)parent).getChildren().indexOf(node) != (((CompositeStateNode)parent).getChildren().size()-1)){
+						namePath = namePath.replace("}", "");
+					}
+				}
+			}
 
-			_serialized.append("},");
+			_serialized.append(namePath);
 		}
 
 		return super.outCompositeStateNode(node);
@@ -107,8 +148,29 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitSimpleStateNode(SimpleStateNode node)
 	{
-		_serialized.append("\""  + node.getName() + "\":" + node.consumeFirstValue() + ",");
+		String nodeName = "\""  + node.getName() + "\":" + node.consumeFirstValue();
 
+		CompositeStateNode parent = (CompositeStateNode) node.getParent();
+		
+		/*
+		 * Add trailing bracket two leaf nodes, only when it's not the last one and it's parent isn't an array.
+		 */
+		if(parent != null){	
+			CompositeStateNode parentParent = (CompositeStateNode) parent.getParent();
+			if(parentParent != null){
+				if((parentParent.getChildren().size() > 1)){
+					if(parentParent.getChildren().indexOf(node.getParent()) != (parentParent.getChildren().size()-1)){
+						if(!node.getParent().isArray()){
+							nodeName = nodeName.concat("}");
+						}
+					}
+				}
+			}
+		}
+		
+		_serialized.append(nodeName + ",");
+
+		
 		return super.visitSimpleStateNode(node);
 	}
 
