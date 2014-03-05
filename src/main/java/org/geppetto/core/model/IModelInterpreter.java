@@ -35,13 +35,14 @@ package org.geppetto.core.model;
 
 import java.net.URL;
 
+import org.geppetto.core.model.simulation.Aspect;
 import org.geppetto.core.model.state.StateTreeRoot;
-import org.geppetto.core.visualisation.model.VisualModelUpdate;
+import org.geppetto.core.visualisation.model.CEntity;
 
 public interface IModelInterpreter {
 
 	IModel readModel(URL url) throws ModelInterpreterException;
 	
-	VisualModelUpdate getVisualUpdate(IModel model, StateTreeRoot stateTree) throws ModelInterpreterException;
+	CEntity getVisualEntity(IModel model, Aspect aspect, StateTreeRoot stateTree)throws ModelInterpreterException;
 	
 }

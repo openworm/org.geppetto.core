@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.openworm.org/simulationSchema"
+	xmlns:tns="http://www.openworm.org/simulationSchema"
+	elementFormDefault="qualified" xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+	jxb:version="2.0">
+
+
+	<complexType name="Model">
+		<sequence>
+			<element name="modelInterpreterId" type="string" maxOccurs="1"
+				minOccurs="1"></element>
+			<element name="modelURL" type="string" maxOccurs="1"
+				minOccurs="1"></element>
+			<element name="instancePath" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element name="parentAspect" type="tns:Aspect" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="Simulator">
+		<sequence>
+			<element name="simulatorId" type="string" maxOccurs="1"
+				minOccurs="0"></element>
+			<element name="timeStep" type="tns:TimeStep" maxOccurs="1"
+				minOccurs="0"></element>
+			<element name="recordingURL" type="string" maxOccurs="1"
+				minOccurs="1"></element>
+			<element name="instancePath" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element name="parentAspect" type="tns:Aspect" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="TimeStep">
+		<sequence>
+			<element name="type" type="tns:TimeStepType" maxOccurs="1"
+				minOccurs="1"></element>
+			<element name="value" type="float" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="Point3D">
+		<sequence>
+			<element name="x" type="float" maxOccurs="1" minOccurs="1"></element>
+			<element name="y" type="float" maxOccurs="1" minOccurs="1"></element>
+			<element name="z" type="float" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<simpleType name="TimeStepType">
+		<restriction base="string">
+			<enumeration value="FIXED" />
+			<enumeration value="VARIABLE" />
+		</restriction>
+	</simpleType>
+	
+	<complexType name="Aspect">
+		<sequence>
+			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
+			<element name="instancePath" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element name="model" type="tns:Model" maxOccurs="1"
+				minOccurs="1"></element>
+			<element name="simulator" type="tns:Simulator" maxOccurs="1"
+				minOccurs="0"></element>
+			<element name="parentEntity" type="tns:Entity" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="Entity">
+		<sequence>
+			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
+			<element name="instancePath" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element name="aspect" type="tns:Aspect" maxOccurs="unbounded"
+				minOccurs="1">
+				<annotation>
+					<appinfo>
+						<jxb:property name="aspects" />
+					</appinfo>
+				</annotation>
+			</element>
+			<element name="parentEntity" type="tns:Entity" maxOccurs="1" minOccurs="0"></element>
+			<element name="entity" type="tns:Entity" maxOccurs="unbounded"
+				minOccurs="0">
+				<annotation>
+					<appinfo>
+						<jxb:property name="entities" />
+					</appinfo>
+				</annotation>
+			</element>
+			<element name="position" type="tns:Point3D" minOccurs="0"
+				maxOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<element name="simulation">
+		<complexType>
+			<sequence>
+				<element name="entity" type="tns:Entity" maxOccurs="unbounded"
+					minOccurs="1">
+					<annotation>
+						<appinfo>
+							<jxb:property name="entities" />
+						</appinfo>
+					</annotation>
+				</element>
+				<element name="script" type="string" maxOccurs="unbounded"
+					minOccurs="0"></element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

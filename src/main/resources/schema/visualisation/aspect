@@ -4,6 +4,10 @@
 	"javaType" : "org.geppetto.core.visualisation.model.CAspect",
 	"properties": {
 		"id": { "type": "string" , "required": true },
-		"visualUpdate": { "$ref" : "vm", "required": false }
+		"visualModel":{"type": "array",
+            "items": {
+                "$ref" : "vm"
+             }
+	      }
 	}
 }

@@ -14,9 +14,9 @@
                 "$ref" : "entity"
              }
 	      },
-	    "references": {"type": "array",
+	    "connections": {"type": "array",
             "items": {
-                "$ref" : "reference"
+                "$ref" : "connection"
              }
 	      },
 	    "metadata":{"$ref" : "metadata"},
