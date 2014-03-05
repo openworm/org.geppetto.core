@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
@@ -60,6 +61,11 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.ucar</groupId>
+			<artifactId>netcdf</artifactId>
+			<version>4.2.20</version>
 		</dependency>
 	</dependencies>
 	<repositories>
@@ -193,9 +199,9 @@
 		<artifactId>oss-parent</artifactId>
 		<version>7</version>
 	</parent>
-  <scm>
-    <connection>scm:git:git@github.com:openworm/org.geppetto.core.git</connection>
-    <developerConnection>scm:git:git@github.com:openworm/org.geppetto.core.git</developerConnection>
-    <url>git@github.com:openworm/org.geppetto.core.git</url>
-  </scm>
+	<scm>
+		<connection>scm:git:git@github.com:openworm/org.geppetto.core.git</connection>
+		<developerConnection>scm:git:git@github.com:openworm/org.geppetto.core.git</developerConnection>
+		<url>git@github.com:openworm/org.geppetto.core.git</url>
+	</scm>
 </project>
