@@ -65,7 +65,9 @@
 		<dependency>
 			<groupId>edu.ucar</groupId>
 			<artifactId>netcdf</artifactId>
-			<version>4.2.20</version>
+			<version>4.3.20</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/netcdf-4.3.20.jar</systemPath>
 		</dependency>
 	</dependencies>
 	<repositories>
