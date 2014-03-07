@@ -41,6 +41,9 @@ import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.junit.Test;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+
 public class TestTreeSerialization {
 
 	@Test
@@ -265,5 +268,199 @@ public class TestTreeSerialization {
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
 		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"na\":{\"gDensity\":20.0,\"m\":{\"q\":20.0}}}}}}]}}", serialized);
+	}
+	
+	@Test
+	public void testTreeMulitpleCompositeSerialization5() {
+		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
+		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[0]");
+		CompositeStateNode dummyNode2 = new CompositeStateNode("bioPhys1");
+		CompositeStateNode dummyNode3 = new CompositeStateNode("membraneProperties");
+		CompositeStateNode dummyNode4 = new CompositeStateNode("naChans");
+		CompositeStateNode dummyNode5 = new CompositeStateNode("na");
+		CompositeStateNode dummyNode6 = new CompositeStateNode("m");
+		CompositeStateNode dummyNode7 = new CompositeStateNode("kChans");
+		CompositeStateNode dummyNode8 = new CompositeStateNode("k");
+		CompositeStateNode dummyNode9 = new CompositeStateNode("n");
+		
+		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("q");
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(100d));
+		
+		SimpleStateNode anotherDummyNode2 = new SimpleStateNode("q");
+		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(100d));
+		
+		SimpleStateNode anotherDummyNode3 = new SimpleStateNode("gDensity");
+		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(100d));
+				
+		rootNode.addChild(dummyNode1);		
+		dummyNode6.addChild(anotherDummyNode1);
+		dummyNode5.addChild(anotherDummyNode3);
+		dummyNode9.addChild(anotherDummyNode2);
+		
+		dummyNode8.addChild(dummyNode9);
+		dummyNode7.addChild(dummyNode8);
+		
+		dummyNode3.addChild(dummyNode7);
+		dummyNode5.addChild(dummyNode6);
+		
+		dummyNode4.addChild(dummyNode5);
+		dummyNode3.addChild(dummyNode4);
+		dummyNode2.addChild(dummyNode3);
+		dummyNode1.addChild(dummyNode2);
+
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		rootNode.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"kChans\":{\"k\":{\"n\":{\"q\":20.0}}},\"naChans\":{\"na\":{\"gDensity\":20.0,\"m\":{\"q\":20.0}}}}}}]}}", serialized);
+	}
+	
+	@Test
+	public void testTreeMulitpleCompositeSerialization6() {
+		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
+		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[0]");
+		CompositeStateNode dummyNode2 = new CompositeStateNode("bioPhys1");
+		CompositeStateNode dummyNode3 = new CompositeStateNode("membraneProperties");
+		CompositeStateNode dummyNode4 = new CompositeStateNode("naChans");
+		CompositeStateNode dummyNode5 = new CompositeStateNode("na");
+		CompositeStateNode dummyNode6 = new CompositeStateNode("m");
+		CompositeStateNode dummyNode7 = new CompositeStateNode("kChans");
+		CompositeStateNode dummyNode8 = new CompositeStateNode("k");
+		CompositeStateNode dummyNode9 = new CompositeStateNode("n");
+		
+		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("q");
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(100d));
+		
+		SimpleStateNode anotherDummyNode2 = new SimpleStateNode("q");
+		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(100d));
+		
+		SimpleStateNode anotherDummyNode3 = new SimpleStateNode("gDensity");
+		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(100d));
+		
+		SimpleStateNode anotherDummyNode4 = new SimpleStateNode("gDensity");
+		anotherDummyNode4.addValue(ValuesFactory.getDoubleValue(40d));
+		anotherDummyNode4.addValue(ValuesFactory.getDoubleValue(100d));
+		
+		rootNode.addChild(dummyNode1);		
+		dummyNode6.addChild(anotherDummyNode1);
+		dummyNode7.addChild(anotherDummyNode4);
+		dummyNode4.addChild(anotherDummyNode3);
+		dummyNode9.addChild(anotherDummyNode2);
+		
+		dummyNode8.addChild(dummyNode9);
+		dummyNode7.addChild(dummyNode8);
+		
+		dummyNode3.addChild(dummyNode7);
+		dummyNode5.addChild(dummyNode6);
+		
+		dummyNode4.addChild(dummyNode5);
+		dummyNode3.addChild(dummyNode4);
+		dummyNode2.addChild(dummyNode3);
+		dummyNode1.addChild(dummyNode2);
+
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		rootNode.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"kChans\":{\"gDensity\":40.0,\"k\":{\"n\":{\"q\":20.0}}},\"naChans\":{\"gDensity\":20.0,\"na\":{\"m\":{\"q\":20.0}}}}}}]}}", serialized);
+	}
+
+	@Test
+	public void testTreeMulitpleCompositeSerialization7() {
+		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
+		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[0]");
+		CompositeStateNode dummyNode2 = new CompositeStateNode("bioPhys1");
+		CompositeStateNode dummyNode3 = new CompositeStateNode("membraneProperties");
+		CompositeStateNode dummyNode4 = new CompositeStateNode("naChans");
+		CompositeStateNode dummyNode5 = new CompositeStateNode("na");
+		CompositeStateNode dummyNode6 = new CompositeStateNode("m");
+
+		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("q");
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(100d));
+
+		SimpleStateNode anotherDummyNode2 = new SimpleStateNode("v");
+		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(100d));
+
+		SimpleStateNode anotherDummyNode3 = new SimpleStateNode("spiking");
+		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(100d));
+
+		SimpleStateNode anotherDummyNode4 = new SimpleStateNode("gDensity");
+		anotherDummyNode4.addValue(ValuesFactory.getDoubleValue(40d));
+		anotherDummyNode4.addValue(ValuesFactory.getDoubleValue(100d));
+
+		rootNode.addChild(dummyNode1);		
+		dummyNode1.addChild(anotherDummyNode2);
+		dummyNode1.addChild(anotherDummyNode3);
+		dummyNode6.addChild(anotherDummyNode1);
+
+		dummyNode4.addChild(anotherDummyNode4);
+
+		dummyNode5.addChild(dummyNode6);
+		dummyNode4.addChild(dummyNode5);
+		dummyNode3.addChild(dummyNode4);
+		dummyNode2.addChild(dummyNode3);
+		dummyNode1.addChild(dummyNode2);
+
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		rootNode.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"v\":20.0,\"spiking\":20.0,\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"gDensity\":40.0,\"na\":{\"m\":{\"q\":20.0}}}}}}]}}", serialized);
+	}
+	
+	@Test
+	public void testTreeMulitpleCompositeSerialization8() {
+		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
+		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[0]");
+		CompositeStateNode dummyNode2 = new CompositeStateNode("bioPhys1");
+		CompositeStateNode dummyNode3 = new CompositeStateNode("membraneProperties");
+		CompositeStateNode dummyNode4 = new CompositeStateNode("naChans");
+		CompositeStateNode dummyNode5 = new CompositeStateNode("na");
+		CompositeStateNode dummyNode6 = new CompositeStateNode("m");
+
+		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("q");
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(100d));
+
+		SimpleStateNode anotherDummyNode2 = new SimpleStateNode("v");
+		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(100d));
+
+		SimpleStateNode anotherDummyNode3 = new SimpleStateNode("spiking");
+		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(100d));
+
+		SimpleStateNode anotherDummyNode4 = new SimpleStateNode("gDensity");
+		anotherDummyNode4.addValue(ValuesFactory.getDoubleValue(40d));
+		anotherDummyNode4.addValue(ValuesFactory.getDoubleValue(100d));
+
+		rootNode.addChild(dummyNode1);		
+		dummyNode6.addChild(anotherDummyNode1);
+
+		dummyNode4.addChild(anotherDummyNode4);
+
+		dummyNode5.addChild(dummyNode6);
+		dummyNode4.addChild(dummyNode5);
+		dummyNode3.addChild(dummyNode4);
+		dummyNode2.addChild(dummyNode3);
+		dummyNode1.addChild(dummyNode2);
+		
+		dummyNode1.addChild(anotherDummyNode2);
+		dummyNode1.addChild(anotherDummyNode3);
+
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		rootNode.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"gDensity\":40.0,\"na\":{\"m\":{\"q\":20.0}}}}},\"v\":20.0,\"spiking\":20.0}]}}", serialized);
 	}
 }

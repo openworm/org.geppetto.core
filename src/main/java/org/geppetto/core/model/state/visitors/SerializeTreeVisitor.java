@@ -6,6 +6,7 @@ import java.util.Map;
 import org.geppetto.core.model.state.AStateNode;
 import org.geppetto.core.model.state.CompositeStateNode;
 import org.geppetto.core.model.state.SimpleStateNode;
+import org.geppetto.core.model.state.StateTreeRoot;
 
 public class SerializeTreeVisitor extends DefaultStateVisitor
 {
@@ -107,7 +108,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 					_serialized.append("}]},");
 				}
 				else{
-					_serialized.append("]},");
+					_serialized.append("}]},");
 				}
 				return super.outCompositeStateNode(node);
 			}
@@ -120,26 +121,29 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		{
 			if(node.getChildren().size() > 1)
 			{
+				//close array
 				if(((AStateNode)node.getChildren().get(0)).isArray()){
 					_serialized.append("]");
 				}
+				//close object
 				else{
-					_serialized.append("}");
-				}				
-			}
-		
-			String namePath = "},";
-			AStateNode parent = node.getParent();
-			
-			if(parent != null){
-				if(((CompositeStateNode)parent).getChildren().contains(node)){
-					if(((CompositeStateNode)parent).getChildren().indexOf(node) != (((CompositeStateNode)parent).getChildren().size()-1)){
-						namePath = namePath.replace("}", "");
+					//no parent means double bracket
+					if(node.getParent() == null){
+						_serialized.append("}");
 					}
+					else{
+						//make sure we didn't go to far, if we did add extra bracket
+						if(node.getParent() instanceof StateTreeRoot){
+							_serialized.append("}");
+						}
+					}
+					_serialized.append("},");					
+					return super.outCompositeStateNode(node);
 				}
 			}
 
-			_serialized.append(namePath);
+			_serialized.append("},");
+
 		}
 
 		return super.outCompositeStateNode(node);
@@ -148,32 +152,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitSimpleStateNode(SimpleStateNode node)
 	{
-		String nodeName = "\""  + node.getName() + "\":" + node.consumeFirstValue();
-
-		CompositeStateNode parent = (CompositeStateNode) node.getParent();
-		
-		/*
-		 * Add trailing bracket two leaf nodes, only when it's not the last one and it's parent isn't an array.
-		 */
-		if(parent != null){	
-			CompositeStateNode parentParent = (CompositeStateNode) parent.getParent();
-			if(parentParent != null){
-				if((parentParent.getChildren().size() > 1)){
-					if(parentParent.getChildren().indexOf(node.getParent()) != (parentParent.getChildren().size()-1)){
-						if(!node.getParent().isArray()){
-							nodeName = nodeName.concat("}");
-						}
-					}
-				}
-			}
-		}
-		
-		_serialized.append(nodeName + ",");
-
-		
+		_serialized.append("\""  + node.getName() + "\":" + node.consumeFirstValue() + ",");
+	     
 		return super.visitSimpleStateNode(node);
 	}
-
+	
 	public String getSerializedTree()
 	{
 		if(_serialized.charAt(_serialized.length() - 1) == ',') _serialized.deleteCharAt(_serialized.lastIndexOf(","));
