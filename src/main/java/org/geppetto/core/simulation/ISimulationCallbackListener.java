@@ -35,6 +35,12 @@ package org.geppetto.core.simulation;
 
 public interface ISimulationCallbackListener
 {
-	void updateReady(String sceneUpdate, String variableWatchTree);
+	public enum SimulationEvents {
+	    LOAD_MODEL,
+	    SCENE_UPDATE,
+	    SIMULATION_OVER
+	}
+	
+	void updateReady(SimulationEvents event, String sceneUpdate, String variableWatchTree);
 
 }
