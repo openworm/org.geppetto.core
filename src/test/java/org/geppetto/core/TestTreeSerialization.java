@@ -41,9 +41,6 @@ import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.junit.Test;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-
 public class TestTreeSerialization {
 
 	@Test
