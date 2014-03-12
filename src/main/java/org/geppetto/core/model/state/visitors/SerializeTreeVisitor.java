@@ -81,6 +81,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 					}
 				}
 			}
+			
+			//puts bracket around leaf simplestatenode
 			else{
 				if(!(node.getChildren().get(0) instanceof CompositeStateNode)){
 					_serialized.append("{");
@@ -140,7 +142,12 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 					_serialized.append("},");					
 					return super.outCompositeStateNode(node);
 				}
+			}else{
+				if(!(node.getChildren().get(0) instanceof CompositeStateNode) && (node.getParent() == null)){
+					_serialized.append("}");
+				}
 			}
+			
 
 			_serialized.append("},");
 
@@ -151,9 +158,16 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 	@Override
 	public boolean visitSimpleStateNode(SimpleStateNode node)
-	{
-		_serialized.append("\""  + node.getName() + "\":" + node.consumeFirstValue() + ",");
-	     
+	{		
+		if(node.getUnit()!=null){
+			_serialized.append("\""  + node.getName() + "\":\"" + node.consumeFirstValue() + " " + node.getUnit() + "\",");
+		}
+		
+		else{
+			_serialized.append("\""  + node.getName() + "\":" + node.consumeFirstValue() + ",");
+		}
+		
+
 		return super.visitSimpleStateNode(node);
 	}
 	

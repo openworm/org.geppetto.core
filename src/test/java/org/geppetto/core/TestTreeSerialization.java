@@ -38,11 +38,30 @@ import junit.framework.Assert;
 import org.geppetto.core.model.state.CompositeStateNode;
 import org.geppetto.core.model.state.SimpleStateNode;
 import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
+import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.junit.Test;
 
 public class TestTreeSerialization {
 
+	@Test
+	public void testTime() {
+		CompositeStateNode rootNode = new CompositeStateNode("TIME");
+		
+		SimpleStateNode dummyNode = new SimpleStateNode("time");
+		dummyNode.addValue(ValuesFactory.getDoubleValue(0.04));
+		dummyNode.addValue(ValuesFactory.getDoubleValue(0.05));
+		
+		rootNode.addChild(dummyNode);		
+		
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		rootNode.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		
+		System.out.println(serialized);
+		Assert.assertEquals("{\"TIME\":{\"time\":0.04}}", serialized);
+	}
+	
 	@Test
 	public void testTreeSerialization() {
 		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
@@ -62,6 +81,41 @@ public class TestTreeSerialization {
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
 		Assert.assertEquals("{\"WATCH_TREE\":{\"dummyFloat\":50.0,\"dummyDouble\":20.0}}", serialized);
+	}
+
+	@Test
+	public void testTreeWithUnits() {
+		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
+		
+		AValue val = ValuesFactory.getDoubleValue(50d);
+		AValue val2 = ValuesFactory.getDoubleValue(100d);
+		
+		val.setUnit("V");
+		val2.setUnit("V");
+		
+		SimpleStateNode dummyNode = new SimpleStateNode("dummyFloat");
+		dummyNode.addValue(val);
+		dummyNode.addValue(val2);
+
+		SimpleStateNode anotherDummyNode = new SimpleStateNode("dummyDouble");
+		
+		AValue val3= ValuesFactory.getDoubleValue(50d);
+		AValue val4 = ValuesFactory.getDoubleValue(100d);
+		
+		val3.setUnit("V");
+		val4.setUnit("V");
+		
+		anotherDummyNode.addValue(val3);
+		anotherDummyNode.addValue(val4);
+		rootNode.addChild(dummyNode);
+		rootNode.addChild(anotherDummyNode);
+		
+		
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		rootNode.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"dummyFloat\":\"50.0 V\",\"dummyDouble\":\"50.0 V\"}}", serialized);
 	}
 	
 	@Test
@@ -459,5 +513,37 @@ public class TestTreeSerialization {
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
 		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"gDensity\":40.0,\"na\":{\"m\":{\"q\":20.0}}}}},\"v\":20.0,\"spiking\":20.0}]}}", serialized);
+	}
+	
+	@Test
+	public void testTreeMulitpleCompositeSerialization9() {
+		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
+		CompositeStateNode dummyNode1 = new CompositeStateNode("particle[1]");
+		CompositeStateNode dummyNode2 = new CompositeStateNode("particle[2]");
+		CompositeStateNode dummyNode3 = new CompositeStateNode("position");
+		CompositeStateNode dummyNode4 = new CompositeStateNode("position");
+
+		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("x");
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(100d));
+		
+		SimpleStateNode anotherDummyNode2 = new SimpleStateNode("y");
+		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(100d));
+				
+		rootNode.addChild(dummyNode1);
+		rootNode.addChild(dummyNode2);
+		
+		dummyNode3.addChild(anotherDummyNode1);
+		dummyNode4.addChild(anotherDummyNode2);
+		
+		dummyNode1.addChild(dummyNode3);
+		dummyNode2.addChild(dummyNode4);
+		
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		rootNode.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":[{\"particle\":[{},{\"position\":{\"x\":20.0}},{\"position\":{\"y\":20.0}}]}]}", serialized);
 	}
 }
