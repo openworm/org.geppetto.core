@@ -48,10 +48,14 @@ public class TestTreeSerialization {
 	public void testTime() {
 		CompositeStateNode rootNode = new CompositeStateNode("TIME");
 		
+		SimpleStateNode stepNode = new SimpleStateNode("step");
+		stepNode.addValue(ValuesFactory.getDoubleValue(0.05));
+		
 		SimpleStateNode dummyNode = new SimpleStateNode("time");
 		dummyNode.addValue(ValuesFactory.getDoubleValue(0.04));
 		dummyNode.addValue(ValuesFactory.getDoubleValue(0.05));
 		
+		rootNode.addChild(stepNode);
 		rootNode.addChild(dummyNode);		
 		
 		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
@@ -59,7 +63,7 @@ public class TestTreeSerialization {
 		String serialized = visitor.getSerializedTree();
 		
 		System.out.println(serialized);
-		Assert.assertEquals("{\"TIME\":{\"time\":0.04}}", serialized);
+		Assert.assertEquals("{\"TIME\":{\"step\":0.05,\"time\":0.04}}", serialized);
 	}
 	
 	@Test

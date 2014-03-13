@@ -143,7 +143,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 					return super.outCompositeStateNode(node);
 				}
 			}else{
-				if(!(node.getChildren().get(0) instanceof CompositeStateNode) && (node.getParent() == null)){
+				AStateNode parent = node.getParent();
+				if(!(node.getChildren().get(0) instanceof CompositeStateNode) && (parent == null || (parent instanceof StateTreeRoot)) ){
 					_serialized.append("}");
 				}
 			}
@@ -159,8 +160,9 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitSimpleStateNode(SimpleStateNode node)
 	{		
-		if(node.getUnit()!=null){
-			_serialized.append("\""  + node.getName() + "\":\"" + node.consumeFirstValue() + " " + node.getUnit() + "\",");
+		if(node.getUnit()!=null){			 
+			 
+			_serialized.append("\""  + node.getName() + "\":\"" + node.consumeFirstValue()+ " " + node.getUnit() + "\",");
 		}
 		
 		else{
