@@ -32,6 +32,8 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
+import javax.measure.unit.Unit;
+
 import org.geppetto.core.model.state.StateTreeRoot.SUBTREE;
 import org.geppetto.core.model.state.visitors.IVisitable;
 
@@ -44,7 +46,8 @@ public abstract class AStateNode implements IVisitable
 
 	protected AStateNode _parent;
 	protected String _name;
-
+	protected String _unit;
+	
 	public AStateNode(String name)
 	{
 		super();
@@ -56,7 +59,15 @@ public abstract class AStateNode implements IVisitable
 	{
 		return _name;
 	}
+
+	public void setUnit(String unit){
+		_unit = unit;
+	}
 	
+	public String getUnit()
+	{
+		return _unit;
+	}
 
 	/**
 	 * @return the next sibling of this node

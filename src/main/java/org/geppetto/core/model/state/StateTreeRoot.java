@@ -44,7 +44,8 @@ public class StateTreeRoot extends CompositeStateNode
 	public enum SUBTREE
 	{
 		WATCH_TREE,
-		MODEL_TREE
+		MODEL_TREE, 
+		TIME_STEP
 	}
 
 

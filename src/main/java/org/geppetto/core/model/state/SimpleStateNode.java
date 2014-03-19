@@ -35,6 +35,8 @@ package org.geppetto.core.model.state;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.measure.unit.Unit;
+
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 import org.geppetto.core.model.values.AValue;
 
@@ -42,6 +44,7 @@ import org.geppetto.core.model.values.AValue;
  * @author matteocantarelli
  *
  */
+@SuppressWarnings("rawtypes")
 public class SimpleStateNode extends AStateNode
 {
 	
@@ -58,12 +61,14 @@ public class SimpleStateNode extends AStateNode
 		return _name+"["+_values+"]";
 	}
 	public void addValue(AValue value)
-	{
+	{		
 		if(_values==null)
 		{
 			_values=new ArrayList<AValue>();
 		}
 		_values.add(value);
+		
+		this.setUnit(value.getUnit());
 	}
 	
 	public List<AValue> getValues()

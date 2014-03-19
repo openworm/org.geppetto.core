@@ -3,7 +3,7 @@
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
 	<name>Geppetto Core Bundle</name>
-	<version>0.1.0</version>
+	<version>0.1.1</version>
 	<packaging>bundle</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -60,6 +60,13 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jscience</groupId>
+			<artifactId>jscience</artifactId>
+			<version>4.3.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/jscience-4.3.1.jar</systemPath>
 		</dependency>
 	</dependencies>
 	<repositories>
@@ -128,6 +135,7 @@
 				<version>2.3.7</version>
 				<extensions>true</extensions>
 				<configuration>
+				    <unpackBundle>true</unpackBundle>
 					<manifestLocation>src/main/java/META-INF</manifestLocation>
 					<supportedProjectTypes>
 						<supportedProjectType>jar</supportedProjectType>
@@ -136,7 +144,8 @@
 					<instructions>
 						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+						<Bundle-ClassPath>.,{maven-dependencies},lib/jscience-4.3.1.jar</Bundle-ClassPath>
+ 						<Export-Package>org.geppetto.core.*,org.jscience.*, javolution.*, org.opengis.*, javax.measure.*, javax.realtime.*,</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>
