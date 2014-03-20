@@ -95,7 +95,9 @@ public class TestTreeSerialization {
 		AValue val2 = ValuesFactory.getDoubleValue(100d);
 		
 		val.setUnit("V");
+		val.setScalingFactor("1.E3");
 		val2.setUnit("V");
+		val2.setScalingFactor("1.E3");
 		
 		SimpleStateNode dummyNode = new SimpleStateNode("dummyFloat");
 		dummyNode.addValue(val);
@@ -107,7 +109,9 @@ public class TestTreeSerialization {
 		AValue val4 = ValuesFactory.getDoubleValue(100d);
 		
 		val3.setUnit("mV");
+		val3.setScalingFactor("1.E3");
 		val4.setUnit("mV");
+		val4.setScalingFactor("1.E3");
 		
 		anotherDummyNode.addValue(val3);
 		anotherDummyNode.addValue(val4);
@@ -119,7 +123,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"dummyFloat\":{\"value\":100.0,\"unit\":\"V\",\"scale\":\"0.E0\"},\"dummyDouble\":{\"value\":100.0,\"unit\":\"mV\",\"scale\":\"1.E3\"}}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"dummyFloat\":{\"value\":50.0,\"unit\":\"V\",\"scale\":\"1.E3\"},\"dummyDouble\":{\"value\":50.0,\"unit\":\"mV\",\"scale\":\"1.E3\"}}}", serialized);
 	}
 	
 	@Test

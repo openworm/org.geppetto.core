@@ -1,19 +1,13 @@
 package org.geppetto.core.model.state.visitors;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.measure.converter.RationalConverter;
-import javax.measure.converter.UnitConverter;
-import javax.measure.unit.Unit;
 
 import org.geppetto.core.model.state.AStateNode;
 import org.geppetto.core.model.state.CompositeStateNode;
 import org.geppetto.core.model.state.SimpleStateNode;
 import org.geppetto.core.model.state.StateTreeRoot;
 import org.geppetto.core.model.values.AValue;
-import org.jscience.physics.amount.Amount;
 
 public class SerializeTreeVisitor extends DefaultStateVisitor
 {
@@ -168,19 +162,19 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	{		
 		AValue value = node.consumeFirstValue();
 
-		if(node.getUnit()!=null ){			
+		if(value.getUnit()!=null ){			
 			if(value.getScalingFactor()!=null){
 				_serialized.append("\""  + node.getName() + "\":{\"value\":" + value
-						   + ",\"unit\":\"" + node.getUnit() + "\",\"scale\":\"" + value.getScalingFactor()+ "\"},");				
+						   + ",\"unit\":\"" + value.getUnit() + "\",\"scale\":\"" + value.getScalingFactor()+ "\"},");				
 			}
 			else{
 				_serialized.append("\""  + node.getName() + "\":{\"value\":" + value
-							+ ",\"unit\":\"" + node.getUnit() + "\"},");
+							+ ",\"unit\":\"" + value.getUnit() + "\"},");
 			}
 		}
 		
 		else{
-			_serialized.append("\""  + node.getName() + "\":" + node.consumeFirstValue() + ",");
+			_serialized.append("\""  + node.getName() + "\":" + value + ",");
 		}
 		
 

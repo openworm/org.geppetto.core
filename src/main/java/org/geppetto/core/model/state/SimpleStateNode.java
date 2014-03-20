@@ -66,9 +66,7 @@ public class SimpleStateNode extends AStateNode
 		{
 			_values=new ArrayList<AValue>();
 		}
-		_values.add(value);
-		
-		this.setUnit(value.getUnit());
+		_values.add(value);	
 	}
 	
 	public List<AValue> getValues()
