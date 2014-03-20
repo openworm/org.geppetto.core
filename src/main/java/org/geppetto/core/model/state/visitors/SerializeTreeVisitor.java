@@ -1,12 +1,19 @@
 package org.geppetto.core.model.state.visitors;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.measure.converter.RationalConverter;
+import javax.measure.converter.UnitConverter;
+import javax.measure.unit.Unit;
 
 import org.geppetto.core.model.state.AStateNode;
 import org.geppetto.core.model.state.CompositeStateNode;
 import org.geppetto.core.model.state.SimpleStateNode;
 import org.geppetto.core.model.state.StateTreeRoot;
+import org.geppetto.core.model.values.AValue;
+import org.jscience.physics.amount.Amount;
 
 /**
  * @author matteocantarelli
@@ -18,7 +25,6 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	private StringBuilder _serialized = new StringBuilder();
 
 	private Map<AStateNode, Map<String, Integer>> _arraysLastIndexMap = new HashMap<AStateNode, Map<String, Integer>>();
-
 	@Override
 	public boolean inCompositeStateNode(CompositeStateNode node)
 	{
@@ -86,6 +92,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 					}
 				}
 			}
+			
+			//puts bracket around leaf simplestatenode
 			else if(node.getChildren().size() == 1)
 			{
 				if(!(node.getChildren().get(0) instanceof CompositeStateNode))
@@ -162,7 +170,13 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 					_serialized.append("},");
 					return super.outCompositeStateNode(node);
 				}
+			}else{
+				AStateNode parent = node.getParent();
+				if(!(node.getChildren().get(0) instanceof CompositeStateNode) && (parent == null || (parent instanceof StateTreeRoot)) ){
+					_serialized.append("}");
+				}
 			}
+			
 
 			_serialized.append("},");
 
@@ -174,7 +188,23 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitSimpleStateNode(SimpleStateNode node)
 	{
-		_serialized.append("\"" + node.getName() + "\":" + node.consumeFirstValue() + ",");
+		AValue value = node.consumeFirstValue();
+
+		if(node.getUnit()!=null ){			
+			if(value.getScalingFactor()!=null){
+				_serialized.append("\""  + node.getName() + "\":{\"value\":" + value
+						   + ",\"unit\":\"" + node.getUnit() + "\",\"scale\":\"" + value.getScalingFactor()+ "\"},");				
+			}
+			else{
+				_serialized.append("\""  + node.getName() + "\":{\"value\":" + value
+							+ ",\"unit\":\"" + node.getUnit() + "\"},");
+			}
+		}
+		
+		else{
+			_serialized.append("\""  + node.getName() + "\":" + value + ",");
+		}
+		
 
 		return super.visitSimpleStateNode(node);
 	}

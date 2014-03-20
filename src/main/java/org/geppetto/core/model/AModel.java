@@ -33,11 +33,22 @@
 
 package org.geppetto.core.model;
 
-
 public abstract class AModel implements IModel
 {
-
 	protected final String _id;
+	protected String _instancePath = null;
+
+	@Override
+	public void setInstancePath(String instancePath)
+	{
+		_instancePath = instancePath;
+	}
+
+	@Override
+	public String getInstancePath()
+	{
+		return _instancePath;
+	}
 
 	public AModel(String id)
 	{

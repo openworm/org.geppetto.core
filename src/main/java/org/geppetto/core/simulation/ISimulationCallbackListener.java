@@ -41,6 +41,6 @@ public interface ISimulationCallbackListener
 	    SIMULATION_OVER
 	}
 	
-	void updateReady(SimulationEvents event, String sceneUpdate, String variableWatchTree);
+	void updateReady(SimulationEvents event, String sceneUpdate, String variableWatchTree, String time);
 
 }
