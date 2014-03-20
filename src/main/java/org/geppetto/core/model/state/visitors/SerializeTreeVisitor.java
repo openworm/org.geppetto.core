@@ -12,6 +12,7 @@ import org.geppetto.core.model.state.AStateNode;
 import org.geppetto.core.model.state.CompositeStateNode;
 import org.geppetto.core.model.state.SimpleStateNode;
 import org.geppetto.core.model.state.StateTreeRoot;
+import org.geppetto.core.model.values.AValue;
 import org.jscience.physics.amount.Amount;
 
 public class SerializeTreeVisitor extends DefaultStateVisitor
@@ -20,9 +21,6 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	private StringBuilder _serialized = new StringBuilder();
 
 	private Map<AStateNode, Map<String, Integer>> _arraysLastIndexMap = new HashMap<AStateNode, Map<String, Integer>>();
-
-	DecimalFormat df = new DecimalFormat("0.E0");
-
 	public SerializeTreeVisitor()
 	{
 		super();
@@ -168,23 +166,17 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitSimpleStateNode(SimpleStateNode node)
 	{		
-		if(node.getUnit()!=null){
-			String unit = node.consumeFirstValue()+" " + node.getUnit();
-			 Amount<?> m2 = Amount.valueOf(unit);
-			 
-			 Unit<?> sUnit = m2.getUnit().getStandardUnit();
-			 
-			 UnitConverter r = m2.getUnit().getConverterTo(sUnit);
-			 
-			 long factor = 0; 
-			 if(r instanceof RationalConverter ){
-				 factor = ((RationalConverter) r).getDivisor();
-			 }
-			 			 
-			 String scale = df.format(factor);
-			 
-			_serialized.append("\""  + node.getName() + "\":{\"value\":" + node.consumeFirstValue()
-							   + ",\"unit\":\"" + node.getUnit() + "\",\"scale\":\"" + scale + "\"},");
+		AValue value = node.consumeFirstValue();
+
+		if(node.getUnit()!=null ){			
+			if(value.getScalingFactor()!=null){
+				_serialized.append("\""  + node.getName() + "\":{\"value\":" + value
+						   + ",\"unit\":\"" + node.getUnit() + "\",\"scale\":\"" + value.getScalingFactor()+ "\"},");				
+			}
+			else{
+				_serialized.append("\""  + node.getName() + "\":{\"value\":" + value
+							+ ",\"unit\":\"" + node.getUnit() + "\"},");
+			}
 		}
 		
 		else{
