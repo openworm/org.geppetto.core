@@ -165,7 +165,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -181,7 +181,7 @@
 				<version>2.3.7</version>
 				<extensions>true</extensions>
 				<configuration>
-				    <unpackBundle>true</unpackBundle>
+					<unpackBundle>true</unpackBundle>
 					<manifestLocation>src/main/java/META-INF</manifestLocation>
 					<supportedProjectTypes>
 						<supportedProjectType>jar</supportedProjectType>
@@ -190,8 +190,7 @@
 					<instructions>
 						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<Bundle-ClassPath>.,{maven-dependencies},lib/jscience-4.3.1.jar</Bundle-ClassPath>
- 						<Export-Package>org.geppetto.core.*,org.jscience.*, javolution.*, org.opengis.*, javax.measure.*, javax.realtime.*,</Export-Package>
+						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 					</instructions>
 				</configuration>
 			</plugin>
