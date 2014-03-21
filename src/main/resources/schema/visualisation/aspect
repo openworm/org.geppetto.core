@@ -3,6 +3,7 @@
 	"type":"object",
 	"javaType" : "org.geppetto.core.visualisation.model.CAspect",
 	"properties": {
+		"time": { "$ref" : "value", "required": true },
 		"id": { "type": "string" , "required": true },
 		"visualModel":{"type": "array",
             "items": {

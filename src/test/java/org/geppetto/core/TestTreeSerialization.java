@@ -119,7 +119,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"dummyFloat\":{\"value\":100.0,\"unit\":\"V\",\"scale\":\"0.E0\"},\"dummyDouble\":{\"value\":100.0,\"unit\":\"mV\",\"scale\":\"1.E3\"}}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"dummyFloat\":{\"value\":50.0,\"unit\":\"V\",\"scale\":\"0.E0\"},\"dummyDouble\":{\"value\":50.0,\"unit\":\"mV\",\"scale\":\"1.E3\"}}}", serialized);
 	}
 	
 	@Test

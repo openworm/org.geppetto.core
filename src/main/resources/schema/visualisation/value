@@ -1,0 +1,11 @@
+{
+	"description": "A value",
+	"type":"object",
+	"javaType" : "org.geppetto.core.visualisation.model.CValue",
+	"properties": {
+		"value": { "type": "string" },
+		"unit": { "type": "string" },
+		"scale": { "type": "string" }
+	}
+}
+

@@ -15,16 +15,21 @@ import org.geppetto.core.model.state.StateTreeRoot;
 import org.geppetto.core.model.values.AValue;
 import org.jscience.physics.amount.Amount;
 
-/**
- * @author matteocantarelli
- * 
- */
 public class SerializeTreeVisitor extends DefaultStateVisitor
 {
 
 	private StringBuilder _serialized = new StringBuilder();
 
 	private Map<AStateNode, Map<String, Integer>> _arraysLastIndexMap = new HashMap<AStateNode, Map<String, Integer>>();
+
+	DecimalFormat df = new DecimalFormat("0.E0");
+
+	public SerializeTreeVisitor()
+	{
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public boolean inCompositeStateNode(CompositeStateNode node)
 	{
@@ -92,19 +97,14 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 					}
 				}
 			}
-			
-			//puts bracket around leaf simplestatenode
-			else if(node.getChildren().size() == 1)
+
+			// puts bracket around leaf simplestatenode
+			else
 			{
 				if(!(node.getChildren().get(0) instanceof CompositeStateNode))
 				{
 					_serialized.append("{");
 				}
-			}
-			else if(node.getChildren().size() == 0)
-			{
-
-				_serialized.append("{}");
 			}
 
 		}
@@ -117,11 +117,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	public boolean outCompositeStateNode(CompositeStateNode node)
 	{
 
-		if(_serialized.toString().contains(","))
-		{
-			_serialized.deleteCharAt(_serialized.lastIndexOf(","));
-		}
-		
+		_serialized.deleteCharAt(_serialized.lastIndexOf(","));
+
 		if(node.isArray())
 		{
 			AStateNode sibling = node.nextSibling();
@@ -170,13 +167,15 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 					_serialized.append("},");
 					return super.outCompositeStateNode(node);
 				}
-			}else{
+			}
+			else
+			{
 				AStateNode parent = node.getParent();
-				if(!(node.getChildren().get(0) instanceof CompositeStateNode) && (parent == null || (parent instanceof StateTreeRoot)) ){
+				if(!(node.getChildren().get(0) instanceof CompositeStateNode) && (parent == null || (parent instanceof StateTreeRoot)))
+				{
 					_serialized.append("}");
 				}
 			}
-			
 
 			_serialized.append("},");
 
@@ -189,22 +188,29 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	public boolean visitSimpleStateNode(SimpleStateNode node)
 	{
 		AValue value = node.consumeFirstValue();
+		if(node.getUnit() != null)
+		{
+			String unit = value + " " + node.getUnit();
+			Amount<?> m2 = Amount.valueOf(unit);
 
-		if(node.getUnit()!=null ){			
-			if(value.getScalingFactor()!=null){
-				_serialized.append("\""  + node.getName() + "\":{\"value\":" + value
-						   + ",\"unit\":\"" + node.getUnit() + "\",\"scale\":\"" + value.getScalingFactor()+ "\"},");				
+			Unit<?> sUnit = m2.getUnit().getStandardUnit();
+
+			UnitConverter r = m2.getUnit().getConverterTo(sUnit);
+
+			long factor = 0;
+			if(r instanceof RationalConverter)
+			{
+				factor = ((RationalConverter) r).getDivisor();
 			}
-			else{
-				_serialized.append("\""  + node.getName() + "\":{\"value\":" + value
-							+ ",\"unit\":\"" + node.getUnit() + "\"},");
-			}
+
+			String scale = df.format(factor);
+
+			_serialized.append("\"" + node.getName() + "\":{\"value\":" + value + ",\"unit\":\"" + node.getUnit() + "\",\"scale\":\"" + scale + "\"},");
 		}
-		
-		else{
-			_serialized.append("\""  + node.getName() + "\":" + value + ",");
+		else
+		{
+			_serialized.append("\"" + node.getName() + "\":" + value + ",");
 		}
-		
 
 		return super.visitSimpleStateNode(node);
 	}
