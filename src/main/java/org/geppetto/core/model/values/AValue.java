@@ -7,7 +7,7 @@ package org.geppetto.core.model.values;
  * @author matteocantarelli
  *
  */
-public abstract class AValue<Unit>
+public abstract class AValue
 {
 	private String _unit;
 	private String _scalingFactor;
