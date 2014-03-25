@@ -44,7 +44,6 @@ public abstract class AStateNode implements IVisitable
 
 	protected AStateNode _parent;
 	protected String _name;
-	protected String _scale;
 	
 	public AStateNode(String name)
 	{
@@ -56,10 +55,6 @@ public abstract class AStateNode implements IVisitable
 	public String getName()
 	{
 		return _name;
-	}
-	
-	public String getScale() {
-		return _scale;
 	}
 
 	/**

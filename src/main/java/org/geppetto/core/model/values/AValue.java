@@ -3,15 +3,16 @@
  */
 package org.geppetto.core.model.values;
 
+import org.geppetto.core.model.state.AStateNode;
+
 /**
  * @author matteocantarelli
  *
  */
 public abstract class AValue
-{
-	private String _unit;
-	private String _scalingFactor;
-	
+{	
+	private AStateNode parentNode;
+
 	public abstract String getStringValue();
 
 	@Override
@@ -20,19 +21,11 @@ public abstract class AValue
 		return getStringValue();
 	}
 	
-	public void setUnit(String unit){
-		this._unit = unit;
+	public AStateNode getParentNode(){
+		return this.parentNode;
 	}
 	
-	public String getUnit(){
-		return _unit;
-	}
-	
-	public String getScalingFactor(){
-		return _scalingFactor;
-	}
-	
-	public void setScalingFactor(String scalingFactor){
-		this._scalingFactor = scalingFactor;
+	public void setParentNode(AStateNode parentNode){
+		this.parentNode = parentNode;
 	}
 }

@@ -162,21 +162,17 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	{		
 		AValue value = node.consumeFirstValue();
 
-		if(value.getUnit()!=null ){			
-			if(value.getScalingFactor()!=null){
-				_serialized.append("\""  + node.getName() + "\":{\"value\":" + value
-						   + ",\"unit\":\"" + value.getUnit() + "\",\"scale\":\"" + value.getScalingFactor()+ "\"},");				
-			}
-			else{
-				_serialized.append("\""  + node.getName() + "\":{\"value\":" + value
-							+ ",\"unit\":\"" + value.getUnit() + "\"},");
-			}
+		String unit = null,scale = null;
+		
+		if(node.getUnit()!=null){
+			unit = "\"" + node.getUnit() + "\"";
 		}
 		
-		else{
-			_serialized.append("\""  + node.getName() + "\":" + value + ",");
+		if(node.getScalingFactor()!=null){
+			scale = "\"" + node.getScalingFactor() + "\"";
 		}
-		
+		_serialized.append("\""  + node.getName() + "\":{\"value\":" + value
+				   + ",\"unit\":" + unit + ",\"scale\":" + scale+ "},");			
 
 		return super.visitSimpleStateNode(node);
 	}
