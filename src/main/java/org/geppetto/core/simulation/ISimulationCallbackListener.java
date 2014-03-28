@@ -33,6 +33,8 @@
 
 package org.geppetto.core.simulation;
 
+import org.geppetto.core.common.GeppettoErrorCodes;
+
 public interface ISimulationCallbackListener
 {
 	public enum SimulationEvents {
@@ -43,4 +45,5 @@ public interface ISimulationCallbackListener
 	
 	void updateReady(SimulationEvents event, String sceneUpdate, String variableWatchTree);
 
+	void error(GeppettoErrorCodes error, String classSource, String errorMessage, Exception e);
 }

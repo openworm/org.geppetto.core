@@ -50,10 +50,12 @@ public class TestTreeSerialization {
 		
 		SimpleStateNode stepNode = new SimpleStateNode("step");
 		stepNode.addValue(ValuesFactory.getDoubleValue(0.05));
+		stepNode.setUnit("ms");
 		
 		SimpleStateNode dummyNode = new SimpleStateNode("time");
 		dummyNode.addValue(ValuesFactory.getDoubleValue(0.04));
 		dummyNode.addValue(ValuesFactory.getDoubleValue(0.05));
+		dummyNode.setUnit("ms");
 		
 		rootNode.addChild(stepNode);
 		rootNode.addChild(dummyNode);		
@@ -63,7 +65,7 @@ public class TestTreeSerialization {
 		String serialized = visitor.getSerializedTree();
 		
 		System.out.println(serialized);
-		Assert.assertEquals("{\"TIME\":{\"step\":0.05,\"time\":0.04}}", serialized);
+		Assert.assertEquals("{\"TIME\":{\"step\":{\"value\":0.05,\"unit\":\"ms\",\"scale\":null},\"time\":{\"value\":0.04,\"unit\":\"ms\",\"scale\":null}}}", serialized);
 	}
 	
 	@Test
@@ -84,7 +86,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"dummyFloat\":50.0,\"dummyDouble\":20.0}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"dummyFloat\":{\"value\":50.0,\"unit\":null,\"scale\":null},\"dummyDouble\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}", serialized);
 	}
 
 	@Test
@@ -94,20 +96,20 @@ public class TestTreeSerialization {
 		AValue val = ValuesFactory.getDoubleValue(50d);
 		AValue val2 = ValuesFactory.getDoubleValue(100d);
 		
-		val.setUnit("V");
-		val2.setUnit("V");
-		
 		SimpleStateNode dummyNode = new SimpleStateNode("dummyFloat");
 		dummyNode.addValue(val);
 		dummyNode.addValue(val2);
+		
+		dummyNode.setUnit("V");
+		dummyNode.setScalingFactor("1.E3");
 
 		SimpleStateNode anotherDummyNode = new SimpleStateNode("dummyDouble");
 		
 		AValue val3= ValuesFactory.getDoubleValue(50d);
 		AValue val4 = ValuesFactory.getDoubleValue(100d);
 		
-		val3.setUnit("mV");
-		val4.setUnit("mV");
+		anotherDummyNode.setUnit("mV");
+		anotherDummyNode.setScalingFactor("1.E3");
 		
 		anotherDummyNode.addValue(val3);
 		anotherDummyNode.addValue(val4);
@@ -119,7 +121,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"dummyFloat\":{\"value\":50.0,\"unit\":\"V\",\"scale\":\"0.E0\"},\"dummyDouble\":{\"value\":50.0,\"unit\":\"mV\",\"scale\":\"1.E3\"}}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"dummyFloat\":{\"value\":50.0,\"unit\":\"V\",\"scale\":\"1.E3\"},\"dummyDouble\":{\"value\":50.0,\"unit\":\"mV\",\"scale\":\"1.E3\"}}}", serialized);
 	}
 	
 	@Test
@@ -142,7 +144,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"v\":20.0,\"spiking\":55.0}]}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"spiking\":{\"value\":55.0,\"unit\":null,\"scale\":null}}]}}", serialized);
 	}
 	
 	
@@ -168,7 +170,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":[{\"hhpop\":[{\"v\":20.0},{\"v\":55.0}]}]}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":[{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}},{\"v\":{\"value\":55.0,\"unit\":null,\"scale\":null}}]}]}", serialized);
 	}
 	
 	@Test
@@ -193,7 +195,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":[{\"hhpop\":[{},{},{},{},{},{},{},{},{},{},{\"v\":20.0},{},{},{},{},{\"v\":55.0}]}]}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":[{\"hhpop\":[{},{},{},{},{},{},{},{},{},{},{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}},{},{},{},{},{\"v\":{\"value\":55.0,\"unit\":null,\"scale\":null}}]}]}", serialized);
 	}
 	
 	
@@ -220,7 +222,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":[{\"hhpop\":[{\"v\":20.0},{\"v\":20.0}]}]}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":[{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}},{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}}]}]}", serialized);
 	}
 
 	
@@ -248,7 +250,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"particle\":[{},{\"position\":{\"x\":20.0,\"y\":20.0}}]}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"particle\":[{},{\"position\":{\"x\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"y\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}]}}", serialized);
 	}
 	
 	@Test
@@ -286,7 +288,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"na\":{\"h\":{\"q\":20.0},\"m\":{\"q\":20.0}}}}}}]}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"na\":{\"h\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}},\"m\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}}}}}]}}", serialized);
 	}
 	
 	@Test
@@ -322,7 +324,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"na\":{\"gDensity\":20.0,\"m\":{\"q\":20.0}}}}}}]}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"na\":{\"gDensity\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"m\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}}}}}]}}", serialized);
 	}
 	
 	@Test
@@ -370,7 +372,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"kChans\":{\"k\":{\"n\":{\"q\":20.0}}},\"naChans\":{\"na\":{\"gDensity\":20.0,\"m\":{\"q\":20.0}}}}}}]}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"kChans\":{\"k\":{\"n\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}},\"naChans\":{\"na\":{\"gDensity\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"m\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}}}}}]}}", serialized);
 	}
 	
 	@Test
@@ -423,7 +425,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"kChans\":{\"gDensity\":40.0,\"k\":{\"n\":{\"q\":20.0}}},\"naChans\":{\"gDensity\":20.0,\"na\":{\"m\":{\"q\":20.0}}}}}}]}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"kChans\":{\"gDensity\":{\"value\":40.0,\"unit\":null,\"scale\":null},\"k\":{\"n\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}},\"naChans\":{\"gDensity\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"na\":{\"m\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}}}}}]}}", serialized);
 	}
 
 	@Test
@@ -469,7 +471,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"v\":20.0,\"spiking\":20.0,\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"gDensity\":40.0,\"na\":{\"m\":{\"q\":20.0}}}}}}]}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"spiking\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"gDensity\":{\"value\":40.0,\"unit\":null,\"scale\":null},\"na\":{\"m\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}}}}}]}}", serialized);
 	}
 	
 	@Test
@@ -516,7 +518,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"gDensity\":40.0,\"na\":{\"m\":{\"q\":20.0}}}}},\"v\":20.0,\"spiking\":20.0}]}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"gDensity\":{\"value\":40.0,\"unit\":null,\"scale\":null},\"na\":{\"m\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}}}},\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"spiking\":{\"value\":20.0,\"unit\":null,\"scale\":null}}]}}", serialized);
 	}
 	
 	@Test
@@ -548,6 +550,6 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":[{\"particle\":[{},{\"position\":{\"x\":20.0}},{\"position\":{\"y\":20.0}}]}]}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":[{\"particle\":[{},{\"position\":{\"x\":{\"value\":20.0,\"unit\":null,\"scale\":null}}},{\"position\":{\"y\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}]}]}", serialized);
 	}
 }

@@ -49,6 +49,8 @@ public class SimpleStateNode extends AStateNode
 {
 	
 	private List<AValue> _values;
+	private String _unit;
+	private String _scalingFactor;
 	
 	public SimpleStateNode(String name)
 	{
@@ -66,9 +68,9 @@ public class SimpleStateNode extends AStateNode
 		{
 			_values=new ArrayList<AValue>();
 		}
-		_values.add(value);
 		
-		this.setUnit(value.getUnit());
+		value.setParentNode(this);
+		_values.add(value);	
 	}
 	
 	public List<AValue> getValues()
@@ -91,6 +93,22 @@ public class SimpleStateNode extends AStateNode
 	public boolean apply(IStateVisitor visitor)
 	{
 		return visitor.visitSimpleStateNode(this);
+	}
+	
+	public void setUnit(String unit){
+		this._unit = unit;
+	}
+	
+	public String getUnit(){
+		return _unit;
+	}
+	
+	public String getScalingFactor(){
+		return _scalingFactor;
+	}
+	
+	public void setScalingFactor(String scalingFactor){
+		this._scalingFactor = scalingFactor;
 	}
 
 }

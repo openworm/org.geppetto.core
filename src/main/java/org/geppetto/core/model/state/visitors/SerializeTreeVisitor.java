@@ -1,19 +1,13 @@
 package org.geppetto.core.model.state.visitors;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.measure.converter.RationalConverter;
-import javax.measure.converter.UnitConverter;
-import javax.measure.unit.Unit;
 
 import org.geppetto.core.model.state.AStateNode;
 import org.geppetto.core.model.state.CompositeStateNode;
 import org.geppetto.core.model.state.SimpleStateNode;
 import org.geppetto.core.model.state.StateTreeRoot;
 import org.geppetto.core.model.values.AValue;
-import org.jscience.physics.amount.Amount;
 
 public class SerializeTreeVisitor extends DefaultStateVisitor
 {
@@ -21,9 +15,6 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	private StringBuilder _serialized = new StringBuilder();
 
 	private Map<AStateNode, Map<String, Integer>> _arraysLastIndexMap = new HashMap<AStateNode, Map<String, Integer>>();
-
-	DecimalFormat df = new DecimalFormat("0.E0");
-
 	public SerializeTreeVisitor()
 	{
 		super();
@@ -55,10 +46,10 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				// we fill in the gaps with empty objects so that we generate a valid JSON array
 				_serialized.append("{},");
 			}
-
+			
 			if(!(node.getChildren().get(0) instanceof CompositeStateNode))
 			{
-				_serialized.append("{");
+					_serialized.append("{");
 			}
 			indexMap.put(name, index);
 		}
@@ -66,15 +57,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		{
 			String namePath = "{\"" + name + "\":";
 			AStateNode parent = node.getParent();
-
-			if(parent != null)
-			{
-				if(((CompositeStateNode) parent).getChildren().contains(node))
-				{
-					if(((CompositeStateNode) parent).getChildren().indexOf(node) > 0)
-					{
-						if(_serialized.length() != 0)
-						{
+			
+			if(parent != null){
+				if(((CompositeStateNode)parent).getChildren().contains(node)){
+					if(((CompositeStateNode)parent).getChildren().indexOf(node) > 0){
+						if(_serialized.length() != 0){
 							namePath = namePath.replace("{", "");
 						}
 					}
@@ -85,24 +72,19 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 			if(node.getChildren().size() > 1)
 			{
-				if(((AStateNode) node.getChildren().get(0)).isArray())
-				{
+				if(((AStateNode)node.getChildren().get(0)).isArray()){
 					_serialized.append("[");
 				}
-				else
-				{
-					if(!(node.getChildren().get(0) instanceof CompositeStateNode))
-					{
+				else{
+					if(!(node.getChildren().get(0) instanceof CompositeStateNode)){
 						_serialized.append("{");
 					}
 				}
 			}
-
-			// puts bracket around leaf simplestatenode
-			else
-			{
-				if(!(node.getChildren().get(0) instanceof CompositeStateNode))
-				{
+			
+			//puts bracket around leaf simplestatenode
+			else{
+				if(!(node.getChildren().get(0) instanceof CompositeStateNode)){
 					_serialized.append("{");
 				}
 			}
@@ -124,18 +106,16 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			AStateNode sibling = node.nextSibling();
 			if(sibling == null || !(sibling instanceof CompositeStateNode) || !(((CompositeStateNode) sibling).getBaseName().equals(node.getBaseName())))
 			{
-				if(!(node.getChildren().get(0) instanceof CompositeStateNode))
-				{
+				if(!(node.getChildren().get(0) instanceof CompositeStateNode)){
 					_serialized.append("}]},");
 				}
-				else
-				{
+				else{
 					_serialized.append("}]},");
 				}
 				return super.outCompositeStateNode(node);
 			}
 			else
-			{
+			{		
 				_serialized.append("},");
 			}
 		}
@@ -143,39 +123,32 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		{
 			if(node.getChildren().size() > 1)
 			{
-				// close array
-				if(((AStateNode) node.getChildren().get(0)).isArray())
-				{
+				//close array
+				if(((AStateNode)node.getChildren().get(0)).isArray()){
 					_serialized.append("]");
 				}
-				// close object
-				else
-				{
-					// no parent means double bracket
-					if(node.getParent() == null)
-					{
+				//close object
+				else{
+					//no parent means double bracket
+					if(node.getParent() == null){
 						_serialized.append("}");
 					}
-					else
-					{
-						// make sure we didn't go to far, if we did add extra bracket
-						if(node.getParent() instanceof StateTreeRoot)
-						{
+					else{
+						//make sure we didn't go to far, if we did add extra bracket
+						if(node.getParent() instanceof StateTreeRoot){
 							_serialized.append("}");
 						}
 					}
-					_serialized.append("},");
+					_serialized.append("},");					
 					return super.outCompositeStateNode(node);
 				}
-			}
-			else
-			{
+			}else{
 				AStateNode parent = node.getParent();
-				if(!(node.getChildren().get(0) instanceof CompositeStateNode) && (parent == null || (parent instanceof StateTreeRoot)))
-				{
+				if(!(node.getChildren().get(0) instanceof CompositeStateNode) && (parent == null || (parent instanceof StateTreeRoot)) ){
 					_serialized.append("}");
 				}
 			}
+			
 
 			_serialized.append("},");
 
@@ -186,35 +159,24 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 	@Override
 	public boolean visitSimpleStateNode(SimpleStateNode node)
-	{
+	{		
 		AValue value = node.consumeFirstValue();
-		if(node.getUnit() != null)
-		{
-			String unit = value + " " + node.getUnit();
-			Amount<?> m2 = Amount.valueOf(unit);
 
-			Unit<?> sUnit = m2.getUnit().getStandardUnit();
-
-			UnitConverter r = m2.getUnit().getConverterTo(sUnit);
-
-			long factor = 0;
-			if(r instanceof RationalConverter)
-			{
-				factor = ((RationalConverter) r).getDivisor();
-			}
-
-			String scale = df.format(factor);
-
-			_serialized.append("\"" + node.getName() + "\":{\"value\":" + value + ",\"unit\":\"" + node.getUnit() + "\",\"scale\":\"" + scale + "\"},");
+		String unit = null,scale = null;
+		
+		if(node.getUnit()!=null){
+			unit = "\"" + node.getUnit() + "\"";
 		}
-		else
-		{
-			_serialized.append("\"" + node.getName() + "\":" + value + ",");
+		
+		if(node.getScalingFactor()!=null){
+			scale = "\"" + node.getScalingFactor() + "\"";
 		}
+		_serialized.append("\""  + node.getName() + "\":{\"value\":" + value
+				   + ",\"unit\":" + unit + ",\"scale\":" + scale+ "},");			
 
 		return super.visitSimpleStateNode(node);
 	}
-
+	
 	public String getSerializedTree()
 	{
 		if(_serialized.charAt(_serialized.length() - 1) == ',') _serialized.deleteCharAt(_serialized.lastIndexOf(","));
