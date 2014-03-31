@@ -42,7 +42,11 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
+import org.geppetto.core.model.state.CompositeStateNode;
+import org.geppetto.core.model.state.SimpleStateNode;
 import org.geppetto.core.model.state.StateTreeRoot;
+import org.geppetto.core.model.state.StateTreeRoot.SUBTREE;
+import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 
 /**
@@ -62,13 +66,17 @@ public abstract class ASimulator implements ISimulator
 
 	protected StateTreeRoot _stateTree;
 
-	private VariableList _forceableVariables=new VariableList();
+	private VariableList _forceableVariables = new VariableList();
 
-	private VariableList _watchableVariables=new VariableList();
-	
+	private VariableList _watchableVariables = new VariableList();
+
 	private Set<String> _watchList = new HashSet<String>();
 
-	private boolean _watchListModified=false;
+	private boolean _watchListModified = false;
+
+	private double _runtime=0;
+
+	private String _timeStepUnit="ms";
 
 	/*
 	 * (non-Javadoc)
@@ -80,8 +88,10 @@ public abstract class ASimulator implements ISimulator
 	{
 		setListener(listener);
 		_models = models;
+		_runtime=0;
 		_initialized = true;
 	}
+
 
 	/**
 	 * @return
@@ -109,17 +119,21 @@ public abstract class ASimulator implements ISimulator
 		this._listener = listener;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#addWatchVariables(java.util.List)
 	 */
 	@Override
 	public void addWatchVariables(List<String> variableNames)
 	{
 		_watchList.addAll(variableNames);
-		_watchListModified=true;
+		_watchListModified = true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#startWatch()
 	 */
 	@Override
@@ -128,7 +142,9 @@ public abstract class ASimulator implements ISimulator
 		_watching = true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#stopWatch()
 	 */
 	@Override
@@ -140,7 +156,9 @@ public abstract class ASimulator implements ISimulator
 		_stateTree.flushSubTree(StateTreeRoot.SUBTREE.WATCH_TREE);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#clearWatchVariables()
 	 */
 	@Override
@@ -156,8 +174,10 @@ public abstract class ASimulator implements ISimulator
 	{
 		return _watching;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#getForceableVariables()
 	 */
 	@Override
@@ -166,7 +186,9 @@ public abstract class ASimulator implements ISimulator
 		return _forceableVariables;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#getWatchableVariables()
 	 */
 	@Override
@@ -174,7 +196,7 @@ public abstract class ASimulator implements ISimulator
 	{
 		return _watchableVariables;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -182,7 +204,7 @@ public abstract class ASimulator implements ISimulator
 	{
 		return _watchList;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -190,14 +212,47 @@ public abstract class ASimulator implements ISimulator
 	{
 		return _watchListModified;
 	}
-	
+
 	/**
 	 * @param watchListModified
 	 */
 	protected void watchListModified(boolean watchListModified)
 	{
-		_watchListModified=watchListModified;
-		
+		_watchListModified = watchListModified;
+
+	}
+
+	/**
+	 * @return
+	 */
+	public String getTimeStepUnit()
+	{
+		return _timeStepUnit;
+	}
+
+	/**
+	 * @param timeStepUnit
+	 */
+	public void setTimeStepUnit(String timeStepUnit)
+	{
+		this._timeStepUnit = timeStepUnit;
+	}
+
+	/**
+	 * @param timestep
+	 */
+	protected void advanceTimeStep(double timestep)
+	{
+		_runtime+=timestep;
+		CompositeStateNode timeStepsNode = _stateTree.getSubTree(SUBTREE.TIME_STEP);
+		if(timeStepsNode.getChildren().isEmpty())
+		{
+			SimpleStateNode time=new SimpleStateNode("time");
+			timeStepsNode.addChild(time);
+			time.setUnit(_timeStepUnit);
+		}
+		SimpleStateNode leafNode = (SimpleStateNode) timeStepsNode.getChildren().get(0);
+		leafNode.addValue(ValuesFactory.getDoubleValue(_runtime));
 	}
 
 }

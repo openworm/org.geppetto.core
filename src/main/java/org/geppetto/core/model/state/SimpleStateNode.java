@@ -42,16 +42,16 @@ import org.geppetto.core.model.values.AValue;
 
 /**
  * @author matteocantarelli
- *
+ * 
  */
 @SuppressWarnings("rawtypes")
 public class SimpleStateNode extends AStateNode
 {
-	
-	private List<AValue> _values;
+
+	private List<AValue> _values = new ArrayList<AValue>();;
 	private String _unit;
 	private String _scalingFactor;
-	
+
 	public SimpleStateNode(String name)
 	{
 		super(name);
@@ -60,31 +60,27 @@ public class SimpleStateNode extends AStateNode
 	@Override
 	public String toString()
 	{
-		return _name+"["+_values+"]";
+		return _name + "[" + _values + "]";
 	}
+
 	public void addValue(AValue value)
-	{		
-		if(_values==null)
-		{
-			_values=new ArrayList<AValue>();
-		}
-		
+	{
 		value.setParentNode(this);
-		_values.add(value);	
+		_values.add(value);
 	}
-	
+
 	public List<AValue> getValues()
 	{
 		return _values;
 	}
-	
+
 	public AValue consumeFirstValue()
 	{
-		if(_values.size()==0)
+		if(_values.size() == 0)
 		{
 			return null;
 		}
-		AValue first=_values.get(0);
+		AValue first = _values.get(0);
 		_values.remove(0);
 		return first;
 	}
@@ -94,20 +90,24 @@ public class SimpleStateNode extends AStateNode
 	{
 		return visitor.visitSimpleStateNode(this);
 	}
-	
-	public void setUnit(String unit){
+
+	public void setUnit(String unit)
+	{
 		this._unit = unit;
 	}
-	
-	public String getUnit(){
+
+	public String getUnit()
+	{
 		return _unit;
 	}
-	
-	public String getScalingFactor(){
+
+	public String getScalingFactor()
+	{
 		return _scalingFactor;
 	}
-	
-	public void setScalingFactor(String scalingFactor){
+
+	public void setScalingFactor(String scalingFactor)
+	{
 		this._scalingFactor = scalingFactor;
 	}
 
