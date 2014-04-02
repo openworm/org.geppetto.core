@@ -4,6 +4,7 @@
 	"javaType" : "org.geppetto.core.visualisation.model.CEntity",
 	"properties": {
 		"id": { "type": "string" , "required": true },
+		"instancePath": { "type": "string" , "required": true },
 		"aspects": {"type": "array",
             "items": {
                 "$ref" : "aspect"
