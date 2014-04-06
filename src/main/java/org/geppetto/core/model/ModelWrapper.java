@@ -33,6 +33,7 @@
 
 package org.geppetto.core.model;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,6 +64,11 @@ public class ModelWrapper extends AModel
 	public void wrapModel(String id, Object model)
 	{
 		_models.put(id, model);
+	}
+	
+	public Collection<Object> getModels()
+	{
+		return _models.values();
 	}
 
 }

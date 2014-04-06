@@ -13,6 +13,7 @@
 				minOccurs="1"></element>
 			<element name="instancePath" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="parentAspect" type="tns:Aspect" maxOccurs="1" minOccurs="0"></element>
+			<element name="recordingURL" type="string" maxOccurs="unbounded" minOccurs="0"></element>
 		</sequence>
 	</complexType>
 
@@ -22,8 +23,6 @@
 				minOccurs="0"></element>
 			<element name="timeStep" type="tns:TimeStep" maxOccurs="1"
 				minOccurs="0"></element>
-			<element name="recordingURL" type="string" maxOccurs="1"
-				minOccurs="1"></element>
 			<element name="instancePath" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="parentAspect" type="tns:Aspect" maxOccurs="1" minOccurs="0"></element>
 		</sequence>

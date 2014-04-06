@@ -34,6 +34,7 @@
 package org.geppetto.core.model;
 
 import java.net.URL;
+import java.util.List;
 
 import org.geppetto.core.model.simulation.Aspect;
 import org.geppetto.core.model.state.StateTreeRoot;
@@ -41,7 +42,7 @@ import org.geppetto.core.visualisation.model.CEntity;
 
 public interface IModelInterpreter {
 
-	IModel readModel(URL url) throws ModelInterpreterException;
+	IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException;
 	
 	CEntity getVisualEntity(IModel model, Aspect aspect, StateTreeRoot stateTree)throws ModelInterpreterException;
 	

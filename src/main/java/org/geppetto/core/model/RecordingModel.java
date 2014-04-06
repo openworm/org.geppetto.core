@@ -30,43 +30,29 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.common;
-
-import java.io.IOException;
-import java.net.URL;
+package org.geppetto.core.model;
 
 import ucar.nc2.Group;
 import ucar.nc2.NetcdfFile;
 
 /**
  * @author matteocantarelli
- * 
+ *
  */
-public class HDF5Reader
+public class RecordingModel extends AModel
 {
+	
+	NetcdfFile _file=null;
 
-	public static NetcdfFile readHDF5File(URL url) throws GeppettoExecutionException
+	public RecordingModel(NetcdfFile file)
 	{
-		NetcdfFile ncfile = null;
-		try
-		{
-			ncfile = NetcdfFile.open(url.getPath());
-			return ncfile;
-		}
-		catch(IOException ioe)
-		{
-			throw new GeppettoExecutionException(ioe);
-		}
-//		finally
-//		{
-//			if(null != ncfile) try
-//			{
-//				ncfile.close();
-//			}
-//			catch(IOException ioe)
-//			{
-//				throw new GeppettoExecutionException(ioe);
-//			}
-//		}
+		super(null); //the id is deprecated, this will go away
+		_file=file;
 	}
+
+	public NetcdfFile getHDF5()
+	{
+		return _file;
+	}
+
 }

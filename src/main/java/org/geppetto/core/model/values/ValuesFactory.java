@@ -24,4 +24,9 @@ public class ValuesFactory
 	{
 		return new StringValue(value);
 	}
+
+	public static AValue getIntValue(int value)
+	{
+		return new IntValue(value);
+	}
 }

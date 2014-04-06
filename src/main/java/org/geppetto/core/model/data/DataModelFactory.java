@@ -37,6 +37,7 @@ import org.geppetto.core.data.model.ArrayVariable;
 import org.geppetto.core.data.model.SimpleType;
 import org.geppetto.core.data.model.SimpleVariable;
 import org.geppetto.core.data.model.StructuredType;
+import org.geppetto.core.data.model.SimpleType.Type;
 
 /**
  * Factory class for the generated data model
@@ -47,6 +48,10 @@ import org.geppetto.core.data.model.StructuredType;
 public class DataModelFactory
 {
 
+	private static final SimpleType FLOAT_TYPE = DataModelFactory.getSimpleType(Type.FLOAT);
+	private static final SimpleType DOUBLE_TYPE = DataModelFactory.getSimpleType(Type.DOUBLE);
+	private static final SimpleType INTEGER_TYPE = DataModelFactory.getSimpleType(Type.INTEGER);
+
 	/**
 	 * @param name
 	 * @param type
@@ -54,12 +59,12 @@ public class DataModelFactory
 	 */
 	public static SimpleVariable getSimpleVariable(String name, AType type)
 	{
-		SimpleVariable sv=new SimpleVariable();
+		SimpleVariable sv = new SimpleVariable();
 		sv.setName(name);
 		sv.setType(type);
 		return sv;
 	}
-	
+
 	/**
 	 * @param name
 	 * @param type
@@ -68,31 +73,50 @@ public class DataModelFactory
 	 */
 	public static ArrayVariable getArrayVariable(String name, AType type, int size)
 	{
-		ArrayVariable av=new ArrayVariable();
+		ArrayVariable av = new ArrayVariable();
 		av.setName(name);
 		av.setType(type);
 		av.setSize(size);
 		return av;
 	}
-	
+
 	/**
 	 * @param type
 	 * @return
 	 */
 	public static SimpleType getSimpleType(SimpleType.Type type)
 	{
-		SimpleType st=new SimpleType();
+		SimpleType st = new SimpleType();
 		st.setType(type);
 		return st;
 	}
-	
+
+	/**
+	 * @param type
+	 * @return
+	 */
+	public static SimpleType getCachedSimpleType(SimpleType.Type type)
+	{
+		switch(type)
+		{
+			case DOUBLE:
+				return DOUBLE_TYPE;
+			case FLOAT:
+				return FLOAT_TYPE;
+			case INTEGER:
+				return INTEGER_TYPE;
+			default:
+				return null;
+		}
+	}
+
 	/**
 	 * @param name
 	 * @return
 	 */
 	public static StructuredType getStructuredType(String name)
 	{
-		StructuredType st=new StructuredType();
+		StructuredType st = new StructuredType();
 		st.setName(name);
 		return st;
 	}
