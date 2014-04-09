@@ -230,6 +230,7 @@
 						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+						 <Export-Package>org.geppetto.core.*,org.jscience.*, javolution.*, org.opengis.*, javax.measure.*, javax.realtime.*,</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>
