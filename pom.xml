@@ -7,9 +7,9 @@
 	<version>0.1.1</version>
 	<packaging>bundle</packaging>
 	<properties>
+		<github.global.server>github</github.global.server>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.0.0.RELEASE</spring.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
 		<!-- compile and runtime dependencies -->
@@ -71,15 +71,11 @@
 			<groupId>org.jscience</groupId>
 			<artifactId>jscience</artifactId>
 			<version>4.3.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/jscience-4.3.1.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>edu.ucar</groupId>
 			<artifactId>netcdf</artifactId>
 			<version>4.3.20</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/netcdf-4.3.20.jar</systemPath>
 		</dependency>
 	</dependencies>
 	<repositories>
@@ -103,9 +99,47 @@
 			<name>SpringSource Enterprise Bundle Repository - External Library Releases</name>
 			<url>http://repository.springsource.com/maven/libraries/external</url>
 		</repository>
+		<repository>
+			<id>org.geppetto-mvn-repo</id>
+			<url>https://raw.github.com/openworm/org.geppetto.maven/mvn-repo</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
 	</repositories>
+	<distributionManagement>
+		<repository>
+			<id>internal.repo</id>
+			<name>Temporary Staging Repository</name>
+			<url>file://${project.build.directory}/mvn-repo</url>
+		</repository>
+	</distributionManagement>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.9</version>
+				<configuration>
+					<message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
+					<noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
+					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url -->
+					<branch>refs/heads/mvn-repo</branch>                       <!-- remote branch name -->
+					<includes><include>**/*</include></includes>
+					<repositoryName>org.geppetto.maven</repositoryName>      <!-- github repo name -->
+					<repositoryOwner>${my.github.username}</repositoryOwner>    <!-- github username  -->
+				</configuration>
+				<executions>
+					<!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>deploy</phase>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>com.googlecode.jsonschema2pojo</groupId>
 				<artifactId>jsonschema2pojo-maven-plugin</artifactId>
@@ -253,8 +287,8 @@
 		<version>7</version>
 	</parent>
 	<scm>
-		<connection>scm:git:git@github.com:openworm/org.geppetto.core.git</connection>
-		<developerConnection>scm:git:git@github.com:openworm/org.geppetto.core.git</developerConnection>
-		<url>git@github.com:openworm/org.geppetto.core.git</url>
+		<connection>scm:git:git@github.com:openworm/org.geppetto.maven.git</connection>
+		<developerConnection>scm:git:git@github.com:openworm/org.geppetto.maven.git</developerConnection>
+		<url>git@github.com:openworm/org.geppetto.maven.git</url>
 	</scm>
 </project>
