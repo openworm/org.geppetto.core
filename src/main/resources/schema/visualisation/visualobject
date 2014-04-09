@@ -1,0 +1,9 @@
+{
+	"description": "Abstract visual object to be extended",
+	"type":"object",
+	"javaType" : "org.geppetto.core.visualisation.model.AVisualObject",
+	"properties": {
+		"id": { "type": "string" , "required": true },
+		"position": { "$ref" : "point", "required": true }
+	}
+}

@@ -48,24 +48,28 @@ public class StateTreeRoot extends CompositeStateNode
 		TIME_STEP
 	}
 
-
-	private String _modelId;
-
+	/**
+	 * @param modelId
+	 * @deprecated
+	 */
 	public StateTreeRoot(String modelId)
 	{
 		super(modelId);
-		_modelId = modelId;
 		_children = new ArrayList<AStateNode>();
 	}
-
+	
 	/**
-	 * @return
+	 * 
 	 */
-	public String getModelId()
+	public StateTreeRoot()
 	{
-		return _modelId;
+		super(null);
+		_children = new ArrayList<AStateNode>();
 	}
-
+	
+	/**
+	 * @param tree
+	 */
 	public void flushSubTree(SUBTREE tree)
 	{
 		for(AStateNode node : _children)

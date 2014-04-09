@@ -33,17 +33,39 @@
 
 package org.geppetto.core.simulator;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
 
+import org.geppetto.core.common.ArrayUtils;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.data.model.AVariable;
+import org.geppetto.core.data.model.ArrayVariable;
+import org.geppetto.core.data.model.SimpleType;
+import org.geppetto.core.data.model.SimpleType.Type;
+import org.geppetto.core.data.model.StructuredType;
 import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
+import org.geppetto.core.model.ModelWrapper;
+import org.geppetto.core.model.RecordingModel;
+import org.geppetto.core.model.data.DataModelFactory;
+import org.geppetto.core.model.state.AStateNode;
+import org.geppetto.core.model.state.CompositeStateNode;
+import org.geppetto.core.model.state.SimpleStateNode;
 import org.geppetto.core.model.state.StateTreeRoot;
+import org.geppetto.core.model.state.StateTreeRoot.SUBTREE;
+import org.geppetto.core.model.values.AValue;
+import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
+
+import ucar.ma2.Array;
+import ucar.ma2.InvalidRangeException;
+import ucar.nc2.NetcdfFile;
 
 /**
  * @author matteocantarelli
@@ -52,7 +74,7 @@ import org.geppetto.core.simulation.ISimulatorCallbackListener;
 public abstract class ASimulator implements ISimulator
 {
 
-	protected IModel _model;
+	protected List<IModel> _models;
 
 	private ISimulatorCallbackListener _listener;
 
@@ -62,13 +84,21 @@ public abstract class ASimulator implements ISimulator
 
 	protected StateTreeRoot _stateTree;
 
-	private VariableList _forceableVariables=new VariableList();
+	private VariableList _forceableVariables = new VariableList();
 
-	private VariableList _watchableVariables=new VariableList();
-	
+	private VariableList _watchableVariables = new VariableList();
+
 	private Set<String> _watchList = new HashSet<String>();
 
-	private boolean _watchListModified=false;
+	private boolean _watchListModified = false;
+
+	private double _runtime = 0;
+
+	private String _timeStepUnit = "ms";
+
+	protected int _currentRecordingIndex = 0;
+
+	protected List<RecordingModel> _recordings = new ArrayList<RecordingModel>();
 
 	/*
 	 * (non-Javadoc)
@@ -76,10 +106,34 @@ public abstract class ASimulator implements ISimulator
 	 * @see org.geppetto.core.simulator.ISimulator#initialize(org.geppetto.core.model.IModel, org.geppetto.core.simulation.ISimulatorCallbackListener)
 	 */
 	@Override
-	public void initialize(IModel model, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
+	public void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
 	{
 		setListener(listener);
-		_model = model;
+		_models = models;
+		_stateTree = new StateTreeRoot();
+		
+		// initialize recordings
+		for(IModel model : models)
+		{
+			// for each IModel passed to this simulator which is a RecordingModel
+			// we add it to a list
+			if(model instanceof ModelWrapper)
+			{
+				for(Object wrappedModel : ((ModelWrapper) model).getModels())
+				{
+					if(wrappedModel instanceof RecordingModel)
+					{
+						_recordings.add((RecordingModel) wrappedModel);
+					}
+				}
+			}
+			else if(model instanceof RecordingModel)
+			{
+				_recordings.add((RecordingModel) model);
+			}
+		}
+
+		_runtime = 0;
 		_initialized = true;
 	}
 
@@ -109,17 +163,21 @@ public abstract class ASimulator implements ISimulator
 		this._listener = listener;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#addWatchVariables(java.util.List)
 	 */
 	@Override
 	public void addWatchVariables(List<String> variableNames)
 	{
 		_watchList.addAll(variableNames);
-		_watchListModified=true;
+		_watchListModified = true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#startWatch()
 	 */
 	@Override
@@ -128,7 +186,9 @@ public abstract class ASimulator implements ISimulator
 		_watching = true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#stopWatch()
 	 */
 	@Override
@@ -140,7 +200,9 @@ public abstract class ASimulator implements ISimulator
 		_stateTree.flushSubTree(StateTreeRoot.SUBTREE.WATCH_TREE);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#clearWatchVariables()
 	 */
 	@Override
@@ -156,8 +218,10 @@ public abstract class ASimulator implements ISimulator
 	{
 		return _watching;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#getForceableVariables()
 	 */
 	@Override
@@ -166,7 +230,9 @@ public abstract class ASimulator implements ISimulator
 		return _forceableVariables;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#getWatchableVariables()
 	 */
 	@Override
@@ -174,7 +240,7 @@ public abstract class ASimulator implements ISimulator
 	{
 		return _watchableVariables;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -182,7 +248,7 @@ public abstract class ASimulator implements ISimulator
 	{
 		return _watchList;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -190,14 +256,258 @@ public abstract class ASimulator implements ISimulator
 	{
 		return _watchListModified;
 	}
-	
+
 	/**
 	 * @param watchListModified
 	 */
 	protected void watchListModified(boolean watchListModified)
 	{
-		_watchListModified=watchListModified;
-		
+		_watchListModified = watchListModified;
+
 	}
 
+	/**
+	 * @return
+	 */
+	public String getTimeStepUnit()
+	{
+		return _timeStepUnit;
+	}
+
+	/**
+	 * @param timeStepUnit
+	 */
+	public void setTimeStepUnit(String timeStepUnit)
+	{
+		this._timeStepUnit = timeStepUnit;
+	}
+
+	/**
+	 * @param timestep
+	 */
+	protected void advanceTimeStep(double timestep)
+	{
+		_runtime += timestep;
+		CompositeStateNode timeStepsNode = _stateTree.getSubTree(SUBTREE.TIME_STEP);
+		if(timeStepsNode.getChildren().isEmpty())
+		{
+			SimpleStateNode time = new SimpleStateNode("time");
+			timeStepsNode.addChild(time);
+			time.setUnit(_timeStepUnit);
+		}
+		SimpleStateNode leafNode = (SimpleStateNode) timeStepsNode.getChildren().get(0);
+		leafNode.addValue(ValuesFactory.getDoubleValue(_runtime));
+	}
+
+	/**
+	 * @throws GeppettoExecutionException
+	 * 
+	 */
+	/**
+	 * @throws GeppettoExecutionException
+	 */
+	protected void advanceRecordings() throws GeppettoExecutionException
+	{
+		if(_recordings != null && isWatching())
+		{
+			CompositeStateNode watchTree = _stateTree.getSubTree(SUBTREE.WATCH_TREE);
+
+			if(watchTree.getChildren().isEmpty() || watchListModified())
+			{
+				for(RecordingModel recording : _recordings)
+				{
+					watchListModified(false);
+					NetcdfFile file = recording.getHDF5();
+					for(ucar.nc2.Variable hdfVariable : file.getVariables())
+					{
+
+						// for every state found in the recordings check if we are watching that variable
+						String fullPath = _models.get(0).getInstancePath() + "." + hdfVariable.getFullName().replace("/", ".");
+						if(getWatchList().contains(fullPath))
+						{
+							StringTokenizer tokenizer = new StringTokenizer(fullPath, ".");
+							CompositeStateNode node = watchTree;
+							while(tokenizer.hasMoreElements())
+							{
+								String current = tokenizer.nextToken();
+								boolean found = false;
+								for(AStateNode child : node.getChildren())
+								{
+									if(child.getName().equals(current))
+									{
+										if(child instanceof CompositeStateNode)
+										{
+											node = (CompositeStateNode) child;
+										}
+										found = true;
+										break;
+									}
+								}
+								if(found)
+								{
+									continue;
+								}
+								else
+								{
+									if(tokenizer.hasMoreElements())
+									{
+										// not a leaf, create a composite state node
+										CompositeStateNode newNode = new CompositeStateNode(current);
+										node.addChild(newNode);
+										node = newNode;
+									}
+									else
+									{
+										// it's a leaf node
+										SimpleStateNode newNode = new SimpleStateNode(current);
+										int[] start = { _currentRecordingIndex};
+										int[] lenght = {1};
+										Array value;
+										try
+										{
+											value = hdfVariable.read(start, lenght);
+											Type type = Type.fromValue(hdfVariable.getDataType().toString());
+
+											AValue readValue = null;
+											switch(type)
+											{
+												case DOUBLE:
+													readValue = ValuesFactory.getDoubleValue(value.getDouble(0));
+													break;
+												case FLOAT:
+													readValue = ValuesFactory.getFloatValue(value.getFloat(0));
+													break;
+												case INTEGER:
+													readValue = ValuesFactory.getIntValue(value.getInt(0));
+													break;
+												default:
+													break;
+											}
+											newNode.addValue(readValue);
+											node.addChild(newNode);
+										}
+										catch(IOException | InvalidRangeException e)
+										{
+											throw new GeppettoExecutionException(e);
+										}
+									}
+								}
+							}
+						}
+					}
+					_currentRecordingIndex++;
+				}
+			}
+			else
+			{
+				for(RecordingModel recording : _recordings)
+				{
+					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, _models.get(0).getInstancePath(), _currentRecordingIndex++);
+					watchTree.apply(updateStateTreeVisitor);
+					if(updateStateTreeVisitor.getError() != null)
+					{
+						throw new GeppettoExecutionException(updateStateTreeVisitor.getError());
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * 
+	 */
+	protected void setWatchableVariablesFromRecordings()
+	{
+		if(_recordings != null)
+		{
+			for(RecordingModel recording : _recordings)
+			{
+				NetcdfFile file = recording.getHDF5();
+				for(ucar.nc2.Variable hdfVariable : file.getVariables())
+				{
+					String fullPath = hdfVariable.getFullName();
+					List<AVariable> listToCheck = getWatchableVariables().getVariables();
+					StringTokenizer stok = new StringTokenizer(fullPath, "/");
+
+					while(stok.hasMoreTokens())
+					{
+						String s = stok.nextToken();
+						String searchVar = s;
+
+						if(ArrayUtils.isArray(s))
+						{
+							searchVar = ArrayUtils.getArrayName(s);
+						}
+
+						AVariable v = getVariable(searchVar, listToCheck);
+
+						if(v == null)
+						{
+							if(stok.hasMoreTokens())
+							{
+								StructuredType structuredType = new StructuredType();
+								structuredType.setName(searchVar + "T");
+
+								if(ArrayUtils.isArray(s))
+								{
+									v = DataModelFactory.getArrayVariable(searchVar, structuredType, ArrayUtils.getArrayIndex(s) + 1);
+								}
+								else
+								{
+									v = DataModelFactory.getSimpleVariable(searchVar, structuredType);
+								}
+								listToCheck.add(v);
+								listToCheck = structuredType.getVariables();
+							}
+							else
+							{
+								SimpleType type = DataModelFactory.getCachedSimpleType(Type.fromValue(hdfVariable.getDataType().toString()));
+								if(ArrayUtils.isArray(s))
+								{
+									v = DataModelFactory.getArrayVariable(searchVar, type, ArrayUtils.getArrayIndex(s) + 1);
+								}
+								else
+								{
+									v = DataModelFactory.getSimpleVariable(searchVar, type);
+								}
+								listToCheck.add(v);
+							}
+						}
+						else
+						{
+							if(stok.hasMoreTokens())
+							{
+								listToCheck = ((StructuredType) v.getType()).getVariables();
+								if(ArrayUtils.isArray(s))
+								{
+									if(ArrayUtils.getArrayIndex(s) + 1 > ((ArrayVariable) v).getSize())
+									{
+										((ArrayVariable) v).setSize(ArrayUtils.getArrayIndex(s) + 1);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	protected static AVariable getVariable(String s, List<AVariable> list)
+	{
+		String searchVar = s;
+		for(AVariable v : list)
+		{
+			if(v.getName().equals(searchVar))
+			{
+				return v;
+			}
+		}
+		return null;
+	}
+
+	protected void notifyStateTreeUpdated() throws GeppettoExecutionException
+	{
+		getListener().stateTreeUpdated(_stateTree);
+	}
 }

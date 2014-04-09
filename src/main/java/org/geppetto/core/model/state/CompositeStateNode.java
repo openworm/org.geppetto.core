@@ -33,6 +33,7 @@
 package org.geppetto.core.model.state;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
@@ -44,7 +45,7 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
 public class CompositeStateNode extends AStateNode
 {
 
-	protected List<AStateNode> _children;
+	protected List<AStateNode> _children=new ArrayList<AStateNode>();;
 	
 	public CompositeStateNode(String name)
 	{
@@ -54,10 +55,6 @@ public class CompositeStateNode extends AStateNode
 	
 	public AStateNode addChild(AStateNode child)
 	{
-		if(_children==null)
-		{
-			_children=new ArrayList<AStateNode>();
-		}
 		_children.add(child);
 		child._parent=this; //double link
 		return child;
@@ -105,5 +102,14 @@ public class CompositeStateNode extends AStateNode
 			}
 		}
 		return visitor.outCompositeStateNode( this );
+	}
+
+	/**
+	 * @param states
+	 */
+	public void addChildren(Collection<AStateNode> states)
+	{
+		_children.addAll(states);
+		
 	}
 }

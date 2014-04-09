@@ -1,0 +1,10 @@
+{
+	"description": "A collada model",
+	"type":"object",
+	"properties": {
+		"model" : {  "type": "string" , "required": true}
+	},
+	"extends": {
+          "$ref": "visualobject"
+    }
+}

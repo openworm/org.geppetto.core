@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
@@ -18,6 +19,11 @@
 			<version>1.1.1</version>
 		</dependency>
 		<!-- test dependencies -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.6</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.log4j</groupId>
 			<artifactId>com.springsource.org.apache.log4j</artifactId>
@@ -67,6 +73,13 @@
 			<version>4.3.1</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/jscience-4.3.1.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>edu.ucar</groupId>
+			<artifactId>netcdf</artifactId>
+			<version>4.3.20</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/netcdf-4.3.20.jar</systemPath>
 		</dependency>
 	</dependencies>
 	<repositories>
@@ -121,6 +134,44 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.8.2</version>
+				<executions>
+					<execution>
+						<id>Simulation</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<bindingDirectory>src/main/resources/schema/simulation/bindings/</bindingDirectory>
+							<bindingIncludes>
+								<include>simulationSchema.xjb</include>
+							</bindingIncludes>
+							<forceRegenerate>true</forceRegenerate>
+							<schemaDirectory>src/main/resources/schema/simulation</schemaDirectory>
+							<generateDirectory>${project.build.directory}/generated-sources/simulationSchema</generateDirectory>
+							<schemaIncludes>
+								<include>simulationSchema.xsd</include>
+							</schemaIncludes>
+							<args>
+								<arg>-Xvisitor</arg>
+								<arg>-Xvisitor-package:com.massfords.humantask</arg>
+							</args>
+
+							<plugins>
+								<plugin>
+									<groupId>com.massfords</groupId>
+									<artifactId>jaxb-visitor</artifactId>
+									<version>1.13</version>
+								</plugin>
+							</plugins>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
@@ -135,7 +186,7 @@
 				<version>2.3.7</version>
 				<extensions>true</extensions>
 				<configuration>
-				    <unpackBundle>true</unpackBundle>
+					<unpackBundle>true</unpackBundle>
 					<manifestLocation>src/main/java/META-INF</manifestLocation>
 					<supportedProjectTypes>
 						<supportedProjectType>jar</supportedProjectType>
@@ -144,8 +195,7 @@
 					<instructions>
 						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<Bundle-ClassPath>.,{maven-dependencies},lib/jscience-4.3.1.jar</Bundle-ClassPath>
- 						<Export-Package>org.geppetto.core.*,org.jscience.*, javolution.*, org.opengis.*, javax.measure.*, javax.realtime.*,</Export-Package>
+						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 					</instructions>
 				</configuration>
 			</plugin>
@@ -202,9 +252,9 @@
 		<artifactId>oss-parent</artifactId>
 		<version>7</version>
 	</parent>
-  <scm>
-    <connection>scm:git:git@github.com:openworm/org.geppetto.core.git</connection>
-    <developerConnection>scm:git:git@github.com:openworm/org.geppetto.core.git</developerConnection>
-    <url>git@github.com:openworm/org.geppetto.core.git</url>
-  </scm>
+	<scm>
+		<connection>scm:git:git@github.com:openworm/org.geppetto.core.git</connection>
+		<developerConnection>scm:git:git@github.com:openworm/org.geppetto.core.git</developerConnection>
+		<url>git@github.com:openworm/org.geppetto.core.git</url>
+	</scm>
 </project>

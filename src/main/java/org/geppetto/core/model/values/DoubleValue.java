@@ -23,5 +23,9 @@ public class DoubleValue extends AValue
 		return Double.toString(_value);
 	}
 	
+	public double getValue()
+	{
+		return _value;
+	}
 	
 }

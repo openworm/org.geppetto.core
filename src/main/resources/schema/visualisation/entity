@@ -1,21 +1,23 @@
 {
 	"description": "An entity",
 	"type":"object",
+	"javaType" : "org.geppetto.core.visualisation.model.CEntity",
 	"properties": {
 		"id": { "type": "string" , "required": true },
-		"geometries": {"type": "array",
+		"instancePath": { "type": "string" , "required": true },
+		"aspects": {"type": "array",
             "items": {
-                "$ref" : "geometry"
+                "$ref" : "aspect"
              }
 	      },
-		"subentities": {"type": "array",
+		"children": {"type": "array",
             "items": {
                 "$ref" : "entity"
              }
 	      },
-	    "references": {"type": "array",
+	    "connections": {"type": "array",
             "items": {
-                "$ref" : "reference"
+                "$ref" : "connection"
              }
 	      },
 	    "metadata":{"$ref" : "metadata"},

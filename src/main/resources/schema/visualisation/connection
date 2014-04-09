@@ -1,0 +1,10 @@
+{
+	"description": "A connection to another entity",
+	"type":"object",
+	"properties": {
+		"id": {"type": "string" , "required": true},
+		"type": {"type": "string" , "required": true},
+		"entityId": {"type": "string" , "required": true},
+	    "metadata":{"$ref" : "metadata"}
+	}
+}
