@@ -1,14 +1,15 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
 	<name>Geppetto Core Bundle</name>
-	<version>0.1.1</version>
+	<version>0.1.2</version>
 	<packaging>bundle</packaging>
 	<properties>
+		<github.global.server>github</github.global.server>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.0.0.RELEASE</spring.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
 		<!-- compile and runtime dependencies -->
@@ -18,6 +19,11 @@
 			<version>1.1.1</version>
 		</dependency>
 		<!-- test dependencies -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.6</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.log4j</groupId>
 			<artifactId>com.springsource.org.apache.log4j</artifactId>
@@ -65,8 +71,11 @@
 			<groupId>org.jscience</groupId>
 			<artifactId>jscience</artifactId>
 			<version>4.3.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/jscience-4.3.1.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>edu.ucar</groupId>
+			<artifactId>netcdf</artifactId>
+			<version>4.3.20</version>
 		</dependency>
 	</dependencies>
 	<repositories>
@@ -90,9 +99,47 @@
 			<name>SpringSource Enterprise Bundle Repository - External Library Releases</name>
 			<url>http://repository.springsource.com/maven/libraries/external</url>
 		</repository>
+		<repository>
+			<id>org.geppetto-mvn-repo</id>
+			<url>https://raw.github.com/openworm/org.geppetto.maven/mvn-repo</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
 	</repositories>
+	<distributionManagement>
+		<repository>
+			<id>internal.repo</id>
+			<name>Temporary Staging Repository</name>
+			<url>file://${project.build.directory}/mvn-repo</url>
+		</repository>
+	</distributionManagement>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.9</version>
+				<configuration>
+					<message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
+					<noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
+					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url -->
+					<branch>refs/heads/mvn-repo</branch>                       <!-- remote branch name -->
+					<includes><include>**/*</include></includes>
+					<repositoryName>org.geppetto.maven</repositoryName>      <!-- github repo name -->
+					<repositoryOwner>${my.github.username}</repositoryOwner>    <!-- github username  -->
+				</configuration>
+				<executions>
+					<!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>deploy</phase>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>com.googlecode.jsonschema2pojo</groupId>
 				<artifactId>jsonschema2pojo-maven-plugin</artifactId>
@@ -121,6 +168,44 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.8.2</version>
+				<executions>
+					<execution>
+						<id>Simulation</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<bindingDirectory>src/main/resources/schema/simulation/bindings/</bindingDirectory>
+							<bindingIncludes>
+								<include>simulationSchema.xjb</include>
+							</bindingIncludes>
+							<forceRegenerate>true</forceRegenerate>
+							<schemaDirectory>src/main/resources/schema/simulation</schemaDirectory>
+							<generateDirectory>${project.build.directory}/generated-sources/simulationSchema</generateDirectory>
+							<schemaIncludes>
+								<include>simulationSchema.xsd</include>
+							</schemaIncludes>
+							<args>
+								<arg>-Xvisitor</arg>
+								<arg>-Xvisitor-package:com.massfords.humantask</arg>
+							</args>
+
+							<plugins>
+								<plugin>
+									<groupId>com.massfords</groupId>
+									<artifactId>jaxb-visitor</artifactId>
+									<version>1.13</version>
+								</plugin>
+							</plugins>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
@@ -135,7 +220,7 @@
 				<version>2.3.7</version>
 				<extensions>true</extensions>
 				<configuration>
-				    <unpackBundle>true</unpackBundle>
+					<unpackBundle>true</unpackBundle>
 					<manifestLocation>src/main/java/META-INF</manifestLocation>
 					<supportedProjectTypes>
 						<supportedProjectType>jar</supportedProjectType>
@@ -144,8 +229,7 @@
 					<instructions>
 						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<Bundle-ClassPath>.,{maven-dependencies},lib/jscience-4.3.1.jar</Bundle-ClassPath>
- 						<Export-Package>org.geppetto.core.*,org.jscience.*, javolution.*, org.opengis.*, javax.measure.*, javax.realtime.*,</Export-Package>
+						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 					</instructions>
 				</configuration>
 			</plugin>
@@ -202,9 +286,9 @@
 		<artifactId>oss-parent</artifactId>
 		<version>7</version>
 	</parent>
-  <scm>
-    <connection>scm:git:git@github.com:openworm/org.geppetto.core.git</connection>
-    <developerConnection>scm:git:git@github.com:openworm/org.geppetto.core.git</developerConnection>
-    <url>git@github.com:openworm/org.geppetto.core.git</url>
-  </scm>
+	<scm>
+		<connection>scm:git:git@github.com:openworm/org.geppetto.maven.git</connection>
+		<developerConnection>scm:git:git@github.com:openworm/org.geppetto.maven.git</developerConnection>
+		<url>git@github.com:openworm/org.geppetto.maven.git</url>
+	</scm>
 </project>

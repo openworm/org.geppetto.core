@@ -6,6 +6,6 @@
 		"radius": { "type": "number", "required": true }
 	},
 	"extends": {
-          "$ref": "geometry"
+          "$ref": "visualobject"
         }
 }

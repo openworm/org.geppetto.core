@@ -2,6 +2,7 @@
 	"description": "Metadata",
 	"type":"object",
 	"properties": {
+		"time": { "$ref" : "value", "required": true },
 		"entities": {"type": "array",
             "items": {
                 "$ref" : "entity"

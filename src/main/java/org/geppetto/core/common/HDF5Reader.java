@@ -30,86 +30,43 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
+package org.geppetto.core.common;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.io.IOException;
+import java.net.URL;
 
-import org.geppetto.core.model.state.visitors.IStateVisitor;
+import ucar.nc2.Group;
+import ucar.nc2.NetcdfFile;
 
 /**
  * @author matteocantarelli
- *
+ * 
  */
-public class CompositeStateNode extends AStateNode
+public class HDF5Reader
 {
 
-	protected List<AStateNode> _children=new ArrayList<AStateNode>();;
-	
-	public CompositeStateNode(String name)
+	public static NetcdfFile readHDF5File(URL url) throws GeppettoExecutionException
 	{
-		super(name);
-		_children=new ArrayList<AStateNode>();
-	}
-	
-	public AStateNode addChild(AStateNode child)
-	{
-		_children.add(child);
-		child._parent=this; //double link
-		return child;
-	}
-	
-	public List<AStateNode> getChildren()
-	{
-		return _children;
-	}
-
-	public String getBaseName()
-	{
-		if(isArray())
+		NetcdfFile ncfile = null;
+		try
 		{
-		return _name.substring(0, _name.indexOf("["));
+			ncfile = NetcdfFile.open(url.getPath());
+			return ncfile;
 		}
-		else return getName();
-	}
-	
-	public int getIndex()
-	{
-		//ASSUMPTION only one dimension
-		return Integer.parseInt(_name.substring(_name.indexOf("[")+1, _name.indexOf("]")));
-	}
-	
-	
-	@Override
-	public String toString()
-	{
-		return _name+"["+_children+"]";
-	}
-
-	@Override
-	public synchronized boolean apply(IStateVisitor visitor)
-	{
-		if (visitor.inCompositeStateNode(this))  // enter this node?
+		catch(IOException ioe)
 		{
-			for(AStateNode stateNode:_children)
-			{
-				stateNode.apply(visitor);
-				if(visitor.stopVisiting())
-				{
-					break;
-				}
-			}
+			throw new GeppettoExecutionException(ioe);
 		}
-		return visitor.outCompositeStateNode( this );
-	}
-
-	/**
-	 * @param states
-	 */
-	public void addChildren(Collection<AStateNode> states)
-	{
-		_children.addAll(states);
-		
+//		finally
+//		{
+//			if(null != ncfile) try
+//			{
+//				ncfile.close();
+//			}
+//			catch(IOException ioe)
+//			{
+//				throw new GeppettoExecutionException(ioe);
+//			}
+//		}
 	}
 }

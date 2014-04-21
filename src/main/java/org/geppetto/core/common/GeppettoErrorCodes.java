@@ -30,86 +30,18 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.geppetto.core.model.state.visitors.IStateVisitor;
+package org.geppetto.core.common;
 
 /**
  * @author matteocantarelli
  *
  */
-public class CompositeStateNode extends AStateNode
+public enum GeppettoErrorCodes
 {
 
-	protected List<AStateNode> _children=new ArrayList<AStateNode>();;
-	
-	public CompositeStateNode(String name)
-	{
-		super(name);
-		_children=new ArrayList<AStateNode>();
-	}
-	
-	public AStateNode addChild(AStateNode child)
-	{
-		_children.add(child);
-		child._parent=this; //double link
-		return child;
-	}
-	
-	public List<AStateNode> getChildren()
-	{
-		return _children;
-	}
-
-	public String getBaseName()
-	{
-		if(isArray())
-		{
-		return _name.substring(0, _name.indexOf("["));
-		}
-		else return getName();
-	}
-	
-	public int getIndex()
-	{
-		//ASSUMPTION only one dimension
-		return Integer.parseInt(_name.substring(_name.indexOf("[")+1, _name.indexOf("]")));
-	}
-	
-	
-	@Override
-	public String toString()
-	{
-		return _name+"["+_children+"]";
-	}
-
-	@Override
-	public synchronized boolean apply(IStateVisitor visitor)
-	{
-		if (visitor.inCompositeStateNode(this))  // enter this node?
-		{
-			for(AStateNode stateNode:_children)
-			{
-				stateNode.apply(visitor);
-				if(visitor.stopVisiting())
-				{
-					break;
-				}
-			}
-		}
-		return visitor.outCompositeStateNode( this );
-	}
-
-	/**
-	 * @param states
-	 */
-	public void addChildren(Collection<AStateNode> states)
-	{
-		_children.addAll(states);
-		
-	}
+	INITIALIZATION,
+	SOLVER,
+	MODEL_INTERPRETER,
+	SIMULATOR,
+	SIMULATION
 }

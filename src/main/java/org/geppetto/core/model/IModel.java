@@ -41,6 +41,11 @@ package org.geppetto.core.model;
 public interface IModel {
 
 	
+	@Deprecated
 	String getId();
+
+	void setInstancePath(String instancePath);
+	
+	String getInstancePath();
 	
 }

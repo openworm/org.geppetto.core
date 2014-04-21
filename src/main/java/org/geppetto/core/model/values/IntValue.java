@@ -7,12 +7,12 @@ package org.geppetto.core.model.values;
  * @author matteocantarelli
  *
  */
-public class DoubleValue extends AValue
+public class IntValue extends AValue
 {
 
-	private double _value;
+	private int _value;
 
-	public DoubleValue(double value)
+	public IntValue(int value)
 	{
 		_value=value;
 	}
@@ -20,10 +20,10 @@ public class DoubleValue extends AValue
 	@Override
 	public String getStringValue()
 	{
-		return Double.toString(_value);
+		return Integer.toString(_value);
 	}
 	
-	public double getValue()
+	public int getAsInt()
 	{
 		return _value;
 	}

@@ -1,0 +1,18 @@
+{
+	"description": "An update for the visualization model",
+	"type":"object",
+	"javaType" : "org.geppetto.core.visualisation.model.VisualModel",
+	"properties": {
+		"id": { "type": "string" , "required": true },
+		"objects": {"type": "array",
+            "items": {
+                "$ref" : "visualobject"
+             }
+	      },
+		"children": {"type": "array",
+            "items": {
+                "$ref" : "vm"
+             }
+	      }
+	}
+}
