@@ -77,16 +77,9 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 			if(node.getChildren().size() > 1)
 			{
-				if(((AStateNode) node.getChildren().get(0)).isArray())
+				if(!(node.getChildren().get(0) instanceof CompositeStateNode))
 				{
-					_serialized.append("[");
-				}
-				else
-				{
-					if(!(node.getChildren().get(0) instanceof CompositeStateNode))
-					{
-						_serialized.append("{");
-					}
+					_serialized.append("{");
 				}
 			}
 
@@ -114,7 +107,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	public boolean outCompositeStateNode(CompositeStateNode node)
 	{
 
-		if(_serialized.toString().contains(","))
+		if(_serialized.toString().endsWith(","))
 		{
 			_serialized.deleteCharAt(_serialized.lastIndexOf(","));
 		}
@@ -124,14 +117,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			AStateNode sibling = node.nextSibling();
 			if(sibling == null || !(sibling instanceof CompositeStateNode) || !(((CompositeStateNode) sibling).getBaseName().equals(node.getBaseName())))
 			{
-				if(!(node.getChildren().get(0) instanceof CompositeStateNode))
-				{
-					_serialized.append("}]},");
-				}
-				else
-				{
-					_serialized.append("}]},");
-				}
+
+				_serialized.append("}],");
 				return super.outCompositeStateNode(node);
 			}
 			else
@@ -143,37 +130,30 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		{
 			if(node.getChildren().size() > 1)
 			{
-				// close array
-				if(((AStateNode) node.getChildren().get(0)).isArray())
+
+				// no parent means double bracket
+				if(node.getParent() == null)
 				{
-					_serialized.append("]");
+					_serialized.append("}");
 				}
-				// close object
 				else
 				{
-					// no parent means double bracket
-					if(node.getParent() == null)
+					// make sure we didn't go to far, if we did add extra bracket
+					if(node.getParent() instanceof StateTreeRoot)
 					{
 						_serialized.append("}");
 					}
-					else
-					{
-						// make sure we didn't go to far, if we did add extra bracket
-						if(node.getParent() instanceof StateTreeRoot)
-						{
-							_serialized.append("}");
-						}
-					}
-					_serialized.append("},");
-					return super.outCompositeStateNode(node);
 				}
+				_serialized.append("},");
+				return super.outCompositeStateNode(node);
+
 			}
 			else
 			{
 				if(!node.getChildren().isEmpty())
 				{
 					AStateNode parent = node.getParent();
-					if(!(node.getChildren().get(0) instanceof CompositeStateNode) && (parent == null || (parent instanceof StateTreeRoot)))
+					if(parent == null || (!(node.getChildren().get(0) instanceof CompositeStateNode) && (parent instanceof StateTreeRoot)))
 					{
 						_serialized.append("}");
 					}

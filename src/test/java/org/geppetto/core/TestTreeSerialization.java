@@ -147,6 +147,48 @@ public class TestTreeSerialization {
 		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"spiking\":{\"value\":55.0,\"unit\":null,\"scale\":null}}]}}", serialized);
 	}
 	
+	@Test
+	public void testTreeNestedSerialization3() {
+		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
+		CompositeStateNode c302 = new CompositeStateNode("c302");
+		
+		CompositeStateNode electrical = new CompositeStateNode("electrical");
+		
+		CompositeStateNode adal = new CompositeStateNode("ADAL");
+		
+		CompositeStateNode adal0 = new CompositeStateNode("0");
+		
+		CompositeStateNode adalgeneric_iaf_cell = new CompositeStateNode("generic_iaf_cell");
+		
+		CompositeStateNode adar = new CompositeStateNode("ADAR");
+		
+		CompositeStateNode adar0 = new CompositeStateNode("0");
+		
+		CompositeStateNode adargeneric_iaf_cell = new CompositeStateNode("generic_iaf_cell");
+
+		SimpleStateNode v = new SimpleStateNode("v");
+		v.addValue(ValuesFactory.getDoubleValue(-0.05430606873466336d));
+		rootNode.addChild(c302);
+		c302.addChild(electrical);
+		electrical.addChild(adal);
+		adal.addChild(adal0);
+		adal0.addChild(adalgeneric_iaf_cell);
+		adalgeneric_iaf_cell.addChild(v);
+		
+		SimpleStateNode adarV = new SimpleStateNode("v");
+		adarV.addValue(ValuesFactory.getDoubleValue(-0.055433782139120126d));
+		
+		electrical.addChild(adar);
+		adar.addChild(adar0);
+		adar0.addChild(adargeneric_iaf_cell);
+		adargeneric_iaf_cell.addChild(adarV);
+		
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		rootNode.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"c302\":{\"electrical\":{\"ADAL\":{\"0\":{\"generic_iaf_cell\":{\"v\":{\"value\":-0.05430606873466336,\"unit\":null,\"scale\":null}}}},\"ADAR\":{\"0\":{\"generic_iaf_cell\":{\"v\":{\"value\":-0.055433782139120126,\"unit\":null,\"scale\":null}}}}}}}}", serialized);
+	}
 	
 	@Test
 	public void testTreeNestedSerialization() {
@@ -170,7 +212,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":[{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}},{\"v\":{\"value\":55.0,\"unit\":null,\"scale\":null}}]}]}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}},{\"v\":{\"value\":55.0,\"unit\":null,\"scale\":null}}]}}", serialized);
 	}
 	
 	@Test
@@ -195,7 +237,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":[{\"hhpop\":[{},{},{},{},{},{},{},{},{},{},{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}},{},{},{},{},{\"v\":{\"value\":55.0,\"unit\":null,\"scale\":null}}]}]}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{},{},{},{},{},{},{},{},{},{},{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}},{},{},{},{},{\"v\":{\"value\":55.0,\"unit\":null,\"scale\":null}}]}}", serialized);
 	}
 	
 	
@@ -222,7 +264,7 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":[{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}},{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}}]}]}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}},{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}}]}}", serialized);
 	}
 
 	
@@ -550,6 +592,6 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":[{\"particle\":[{},{\"position\":{\"x\":{\"value\":20.0,\"unit\":null,\"scale\":null}}},{\"position\":{\"y\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}]}]}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"particle\":[{},{\"position\":{\"x\":{\"value\":20.0,\"unit\":null,\"scale\":null}}},{\"position\":{\"y\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}]}}", serialized);
 	}
 }
