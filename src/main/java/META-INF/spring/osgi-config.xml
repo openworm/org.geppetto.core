@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:osgi="http://www.springframework.org/schema/osgi"	
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+							http://www.springframework.org/schema/osgi
+							http://www.springframework.org/schema/osgi/spring-osgi-1.1.xsd
+							http://www.springframework.org/schema/aop 
+       						http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+
+	<osgi:service id="ColladaModelExporter" ref="colladaModelInterpreterService"
+		interface="org.geppetto.core.model.IModelInterpreter">
+		<osgi:service-properties>
+			<entry key="discoverableID" value="colladaModelInterpreter" />
+		</osgi:service-properties>
+	</osgi:service>
+	<bean id="colladaModelInterpreterService" scope="thread" class="org.geppetto.core.model.services.ColladaModelInterpreterService">
+	<aop:scoped-proxy proxy-target-class="false"/>
+	</bean>
+
+	
+</beans>

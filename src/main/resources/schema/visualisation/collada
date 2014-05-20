@@ -2,6 +2,7 @@
 	"description": "A collada model",
 	"type":"object",
 	"properties": {
+		"type" : {  "type": "string" , "required": true, "default":"Collada"},
 		"model" : {  "type": "string" , "required": true}
 	},
 	"extends": {
