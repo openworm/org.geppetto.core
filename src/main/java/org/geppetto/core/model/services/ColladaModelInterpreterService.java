@@ -43,7 +43,7 @@ import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.simulation.Aspect;
-import org.geppetto.core.model.state.StateTreeRoot;
+import org.geppetto.core.model.state.AspectsTreeRoot;
 import org.geppetto.core.visualisation.model.CAspect;
 import org.geppetto.core.visualisation.model.CEntity;
 import org.geppetto.core.visualisation.model.Collada;
@@ -82,7 +82,7 @@ public class ColladaModelInterpreterService implements IModelInterpreter
 	}
 
 	@Override
-	public CEntity getVisualEntity(IModel model, Aspect aspect, StateTreeRoot stateTree) throws ModelInterpreterException
+	public CEntity getVisualEntity(IModel model, Aspect aspect, AspectsTreeRoot stateTree) throws ModelInterpreterException
 	{
 		if(_visualEntity == null || _modelHash != model.hashCode())
 		{

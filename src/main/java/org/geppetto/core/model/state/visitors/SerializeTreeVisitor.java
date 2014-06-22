@@ -6,7 +6,7 @@ import java.util.Map;
 import org.geppetto.core.model.state.AStateNode;
 import org.geppetto.core.model.state.ACompositeStateNode;
 import org.geppetto.core.model.state.ASimpleStateNode;
-import org.geppetto.core.model.state.StateTreeRoot;
+import org.geppetto.core.model.state.AspectsTreeRoot;
 import org.geppetto.core.model.values.AValue;
 
 public class SerializeTreeVisitor extends DefaultStateVisitor
@@ -139,7 +139,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				else
 				{
 					// make sure we didn't go to far, if we did add extra bracket
-					if(node.getParent() instanceof StateTreeRoot)
+					if(node.getParent() instanceof AspectsTreeRoot)
 					{
 						_serialized.append("}");
 					}
@@ -153,7 +153,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				if(!node.getChildren().isEmpty())
 				{
 					AStateNode parent = node.getParent();
-					if(parent == null || (!(node.getChildren().get(0) instanceof ACompositeStateNode) && (parent instanceof StateTreeRoot)))
+					if(parent == null || (!(node.getChildren().get(0) instanceof ACompositeStateNode) && (parent instanceof AspectsTreeRoot)))
 					{
 						_serialized.append("}");
 					}

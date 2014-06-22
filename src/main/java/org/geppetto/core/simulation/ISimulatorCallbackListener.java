@@ -34,7 +34,7 @@
 package org.geppetto.core.simulation;
 
 import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.model.state.StateTreeRoot;
+import org.geppetto.core.model.state.AspectsTreeRoot;
 
 /**
  * @author matteocantarelli
@@ -43,6 +43,6 @@ import org.geppetto.core.model.state.StateTreeRoot;
 public interface ISimulatorCallbackListener
 {
 
-	void stateTreeUpdated(StateTreeRoot stateTree) throws GeppettoExecutionException;
+	void stateTreeUpdated(AspectsTreeRoot stateTree) throws GeppettoExecutionException;
 
 }

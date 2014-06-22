@@ -32,7 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
-import org.geppetto.core.model.state.StateTreeRoot.SUBTREE;
+import org.geppetto.core.model.state.AspectsTreeRoot.SUBTREE;
 import org.geppetto.core.model.state.visitors.IVisitable;
 
 /**

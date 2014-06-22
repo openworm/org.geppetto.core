@@ -38,13 +38,14 @@ import java.util.ArrayList;
  * @author matteocantarelli
  * 
  */
-public class StateTreeRoot extends ACompositeStateNode
+public class AspectsTreeRoot extends ACompositeStateNode
 {
 
 	public enum SUBTREE
 	{
+		MODEL_TREE,
+		VISUALIZATION_TREE,
 		WATCH_TREE,
-		MODEL_TREE, 
 		TIME_STEP
 	}
 
@@ -52,7 +53,7 @@ public class StateTreeRoot extends ACompositeStateNode
 	 * @param modelId
 	 * @deprecated
 	 */
-	public StateTreeRoot(String modelId)
+	public AspectsTreeRoot(String modelId)
 	{
 		super(modelId);
 		_children = new ArrayList<AStateNode>();
@@ -61,7 +62,7 @@ public class StateTreeRoot extends ACompositeStateNode
 	/**
 	 * 
 	 */
-	public StateTreeRoot()
+	public AspectsTreeRoot()
 	{
 		super(null);
 		_children = new ArrayList<AStateNode>();

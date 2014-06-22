@@ -57,8 +57,8 @@ import org.geppetto.core.model.data.DataModelFactory;
 import org.geppetto.core.model.state.AStateNode;
 import org.geppetto.core.model.state.ACompositeStateNode;
 import org.geppetto.core.model.state.ASimpleStateNode;
-import org.geppetto.core.model.state.StateTreeRoot;
-import org.geppetto.core.model.state.StateTreeRoot.SUBTREE;
+import org.geppetto.core.model.state.AspectsTreeRoot;
+import org.geppetto.core.model.state.AspectsTreeRoot.SUBTREE;
 import org.geppetto.core.model.state.StateVariableNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
@@ -83,7 +83,7 @@ public abstract class ASimulator implements ISimulator
 
 	private boolean _watching = false;
 
-	protected StateTreeRoot _stateTree;
+	protected AspectsTreeRoot _stateTree;
 
 	private VariableList _forceableVariables = new VariableList();
 
@@ -111,7 +111,7 @@ public abstract class ASimulator implements ISimulator
 	{
 		setListener(listener);
 		_models = models;
-		_stateTree = new StateTreeRoot();
+		_stateTree = new AspectsTreeRoot();
 		
 		// initialize recordings
 		for(IModel model : models)
@@ -198,7 +198,7 @@ public abstract class ASimulator implements ISimulator
 		_watching = false;
 
 		// reset variable-watch branch of the state tree
-		_stateTree.flushSubTree(StateTreeRoot.SUBTREE.WATCH_TREE);
+		_stateTree.flushSubTree(AspectsTreeRoot.SUBTREE.WATCH_TREE);
 	}
 
 	/*
