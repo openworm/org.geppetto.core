@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geppetto.core.model.state.AStateNode;
-import org.geppetto.core.model.state.CompositeStateNode;
-import org.geppetto.core.model.state.SimpleStateNode;
+import org.geppetto.core.model.state.ACompositeStateNode;
+import org.geppetto.core.model.state.ASimpleStateNode;
 import org.geppetto.core.model.state.StateTreeRoot;
 import org.geppetto.core.model.values.AValue;
 
@@ -23,7 +23,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	}
 
 	@Override
-	public boolean inCompositeStateNode(CompositeStateNode node)
+	public boolean inCompositeStateNode(ACompositeStateNode node)
 	{
 
 		String name = node.getBaseName();
@@ -48,7 +48,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				_serialized.append("{},");
 			}
 
-			if(!(node.getChildren().get(0) instanceof CompositeStateNode))
+			if(!(node.getChildren().get(0) instanceof ACompositeStateNode))
 			{
 				_serialized.append("{");
 			}
@@ -61,9 +61,9 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 			if(parent != null)
 			{
-				if(((CompositeStateNode) parent).getChildren().contains(node))
+				if(((ACompositeStateNode) parent).getChildren().contains(node))
 				{
-					if(((CompositeStateNode) parent).getChildren().indexOf(node) > 0)
+					if(((ACompositeStateNode) parent).getChildren().indexOf(node) > 0)
 					{
 						if(_serialized.length() != 0)
 						{
@@ -77,7 +77,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 			if(node.getChildren().size() > 1)
 			{
-				if(!(node.getChildren().get(0) instanceof CompositeStateNode))
+				if(!(node.getChildren().get(0) instanceof ACompositeStateNode))
 				{
 					_serialized.append("{");
 				}
@@ -86,7 +86,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			// puts bracket around leaf simplestatenode
 			else if(node.getChildren().size() == 1)
 			{
-				if(!(node.getChildren().get(0) instanceof CompositeStateNode))
+				if(!(node.getChildren().get(0) instanceof ACompositeStateNode))
 				{
 					_serialized.append("{");
 				}
@@ -104,7 +104,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	}
 
 	@Override
-	public boolean outCompositeStateNode(CompositeStateNode node)
+	public boolean outCompositeStateNode(ACompositeStateNode node)
 	{
 
 		if(_serialized.toString().endsWith(","))
@@ -115,7 +115,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		if(node.isArray())
 		{
 			AStateNode sibling = node.nextSibling();
-			if(sibling == null || !(sibling instanceof CompositeStateNode) || !(((CompositeStateNode) sibling).getBaseName().equals(node.getBaseName())))
+			if(sibling == null || !(sibling instanceof ACompositeStateNode) || !(((ACompositeStateNode) sibling).getBaseName().equals(node.getBaseName())))
 			{
 
 				_serialized.append("}],");
@@ -153,7 +153,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				if(!node.getChildren().isEmpty())
 				{
 					AStateNode parent = node.getParent();
-					if(parent == null || (!(node.getChildren().get(0) instanceof CompositeStateNode) && (parent instanceof StateTreeRoot)))
+					if(parent == null || (!(node.getChildren().get(0) instanceof ACompositeStateNode) && (parent instanceof StateTreeRoot)))
 					{
 						_serialized.append("}");
 					}
@@ -168,7 +168,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	}
 
 	@Override
-	public boolean visitSimpleStateNode(SimpleStateNode node)
+	public boolean visitSimpleStateNode(ASimpleStateNode node)
 	{
 		AValue value = node.consumeFirstValue();
 

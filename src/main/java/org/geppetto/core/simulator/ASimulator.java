@@ -55,10 +55,11 @@ import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.data.DataModelFactory;
 import org.geppetto.core.model.state.AStateNode;
-import org.geppetto.core.model.state.CompositeStateNode;
-import org.geppetto.core.model.state.SimpleStateNode;
+import org.geppetto.core.model.state.ACompositeStateNode;
+import org.geppetto.core.model.state.ASimpleStateNode;
 import org.geppetto.core.model.state.StateTreeRoot;
 import org.geppetto.core.model.state.StateTreeRoot.SUBTREE;
+import org.geppetto.core.model.state.StateVariableNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
@@ -288,14 +289,14 @@ public abstract class ASimulator implements ISimulator
 	protected void advanceTimeStep(double timestep)
 	{
 		_runtime += timestep;
-		CompositeStateNode timeStepsNode = _stateTree.getSubTree(SUBTREE.TIME_STEP);
+		ACompositeStateNode timeStepsNode = _stateTree.getSubTree(SUBTREE.TIME_STEP);
 		if(timeStepsNode.getChildren().isEmpty())
 		{
-			SimpleStateNode time = new SimpleStateNode("time");
+			StateVariableNode time = new StateVariableNode("time");
 			timeStepsNode.addChild(time);
 			time.setUnit(_timeStepUnit);
 		}
-		SimpleStateNode leafNode = (SimpleStateNode) timeStepsNode.getChildren().get(0);
+		ASimpleStateNode leafNode = (ASimpleStateNode) timeStepsNode.getChildren().get(0);
 		leafNode.addValue(ValuesFactory.getDoubleValue(_runtime));
 	}
 
@@ -310,7 +311,7 @@ public abstract class ASimulator implements ISimulator
 	{
 		if(_recordings != null && isWatching())
 		{
-			CompositeStateNode watchTree = _stateTree.getSubTree(SUBTREE.WATCH_TREE);
+			ACompositeStateNode watchTree = _stateTree.getSubTree(SUBTREE.WATCH_TREE);
 
 			if(watchTree.getChildren().isEmpty() || watchListModified())
 			{
@@ -326,7 +327,7 @@ public abstract class ASimulator implements ISimulator
 						if(getWatchList().contains(fullPath))
 						{
 							StringTokenizer tokenizer = new StringTokenizer(fullPath, ".");
-							CompositeStateNode node = watchTree;
+							ACompositeStateNode node = watchTree;
 							while(tokenizer.hasMoreElements())
 							{
 								String current = tokenizer.nextToken();
@@ -335,9 +336,9 @@ public abstract class ASimulator implements ISimulator
 								{
 									if(child.getName().equals(current))
 									{
-										if(child instanceof CompositeStateNode)
+										if(child instanceof ACompositeStateNode)
 										{
-											node = (CompositeStateNode) child;
+											node = (ACompositeStateNode) child;
 										}
 										found = true;
 										break;
@@ -352,14 +353,14 @@ public abstract class ASimulator implements ISimulator
 									if(tokenizer.hasMoreElements())
 									{
 										// not a leaf, create a composite state node
-										CompositeStateNode newNode = new CompositeStateNode(current);
+										ACompositeStateNode newNode = new ACompositeStateNode(current);
 										node.addChild(newNode);
 										node = newNode;
 									}
 									else
 									{
 										// it's a leaf node
-										SimpleStateNode newNode = new SimpleStateNode(current);
+										StateVariableNode newNode = new StateVariableNode(current);
 										int[] start = { _currentRecordingIndex};
 										int[] lenght = {1};
 										Array value;

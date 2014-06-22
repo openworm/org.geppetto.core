@@ -42,12 +42,12 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  * @author matteocantarelli
  *
  */
-public class CompositeStateNode extends AStateNode
+public class ACompositeStateNode extends AStateNode
 {
 
 	protected List<AStateNode> _children=new ArrayList<AStateNode>();;
 	
-	public CompositeStateNode(String name)
+	public ACompositeStateNode(String name)
 	{
 		super(name);
 		_children=new ArrayList<AStateNode>();

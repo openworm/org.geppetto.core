@@ -32,8 +32,8 @@
  *******************************************************************************/
 package org.geppetto.core.model.state.visitors;
 
-import org.geppetto.core.model.state.CompositeStateNode;
-import org.geppetto.core.model.state.SimpleStateNode;
+import org.geppetto.core.model.state.ACompositeStateNode;
+import org.geppetto.core.model.state.ASimpleStateNode;
 
 /**
  * @author matteocantarelli
@@ -48,7 +48,7 @@ public class DefaultStateVisitor implements IStateVisitor
 	 * @see org.geppetto.core.model.state.visitors.IStateVisitor#visitEnter(org.geppetto.core.model.state.CompositeStateNode)
 	 */
 	@Override
-	public boolean inCompositeStateNode(CompositeStateNode node)
+	public boolean inCompositeStateNode(ACompositeStateNode node)
 	{
 		return !_stopVisiting;
 	}
@@ -57,7 +57,7 @@ public class DefaultStateVisitor implements IStateVisitor
 	 * @see org.geppetto.core.model.state.visitors.IStateVisitor#visitLeave(org.geppetto.core.model.state.CompositeStateNode)
 	 */
 	@Override
-	public boolean outCompositeStateNode(CompositeStateNode node)
+	public boolean outCompositeStateNode(ACompositeStateNode node)
 	{
 		return !_stopVisiting;
 	}
@@ -66,7 +66,7 @@ public class DefaultStateVisitor implements IStateVisitor
 	 * @see org.geppetto.core.model.state.visitors.IStateVisitor#visit(org.geppetto.core.model.state.SimpleStateNode)
 	 */
 	@Override
-	public boolean visitSimpleStateNode(SimpleStateNode node)
+	public boolean visitSimpleStateNode(ASimpleStateNode node)
 	{
 		return !_stopVisiting;
 	}

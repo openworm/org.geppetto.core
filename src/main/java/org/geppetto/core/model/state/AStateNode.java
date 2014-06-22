@@ -62,20 +62,20 @@ public abstract class AStateNode implements IVisitable
 	 */
 	public AStateNode nextSibling()
 	{
-		if(!(getParent() instanceof CompositeStateNode))
+		if(!(getParent() instanceof ACompositeStateNode))
 		{
 			return null;
 		}
 		else
 		{
-			int currentIndex = ((CompositeStateNode) getParent()).getChildren().indexOf(this);
-			if(((CompositeStateNode) getParent()).getChildren().size() < currentIndex + 2)
+			int currentIndex = ((ACompositeStateNode) getParent()).getChildren().indexOf(this);
+			if(((ACompositeStateNode) getParent()).getChildren().size() < currentIndex + 2)
 			{
 				return null;
 			}
 			else
 			{
-				return ((CompositeStateNode) getParent()).getChildren().get(currentIndex + 1);
+				return ((ACompositeStateNode) getParent()).getChildren().get(currentIndex + 1);
 			}
 		}
 	}

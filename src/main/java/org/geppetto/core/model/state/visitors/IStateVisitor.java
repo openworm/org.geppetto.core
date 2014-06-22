@@ -32,8 +32,8 @@
  *******************************************************************************/
 package org.geppetto.core.model.state.visitors;
 
-import org.geppetto.core.model.state.CompositeStateNode;
-import org.geppetto.core.model.state.SimpleStateNode;
+import org.geppetto.core.model.state.ACompositeStateNode;
+import org.geppetto.core.model.state.ASimpleStateNode;
 
 /**
  * @author matteocantarelli
@@ -41,11 +41,11 @@ import org.geppetto.core.model.state.SimpleStateNode;
  */
 public interface IStateVisitor
 {
-	boolean inCompositeStateNode( CompositeStateNode node ); // going into a branch
+	boolean inCompositeStateNode( ACompositeStateNode node ); // going into a branch
 	
-	boolean outCompositeStateNode( CompositeStateNode node ); // coming out
+	boolean outCompositeStateNode( ACompositeStateNode node ); // coming out
 
-	boolean visitSimpleStateNode( SimpleStateNode node );
+	boolean visitSimpleStateNode( ASimpleStateNode node );
 	
 	boolean stopVisiting();
 	

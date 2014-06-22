@@ -38,7 +38,7 @@ import java.util.ArrayList;
  * @author matteocantarelli
  * 
  */
-public class StateTreeRoot extends CompositeStateNode
+public class StateTreeRoot extends ACompositeStateNode
 {
 
 	public enum SUBTREE
@@ -77,7 +77,7 @@ public class StateTreeRoot extends CompositeStateNode
 			if(node.getName().equals(tree.toString()))
 			{
 				// re-assign to empty node
-				node = new CompositeStateNode(tree.toString());
+				node = new ACompositeStateNode(tree.toString());
 				break;
 			}
 		}
@@ -87,9 +87,9 @@ public class StateTreeRoot extends CompositeStateNode
 	 * @param modelTree
 	 * @return
 	 */
-	private CompositeStateNode addSubTree(SUBTREE modelTree)
+	private ACompositeStateNode addSubTree(SUBTREE modelTree)
 	{
-		CompositeStateNode subTree = new CompositeStateNode(modelTree.toString());
+		ACompositeStateNode subTree = new ACompositeStateNode(modelTree.toString());
 		addChild(subTree);
 		return subTree;
 	}
@@ -99,13 +99,13 @@ public class StateTreeRoot extends CompositeStateNode
 	 * @param modelTree
 	 * @return
 	 */
-	public CompositeStateNode getSubTree(SUBTREE modelTree)
+	public ACompositeStateNode getSubTree(SUBTREE modelTree)
 	{
 		for (AStateNode node:getChildren())
 		{
 			if( node.getName().equals(modelTree.toString()))
 			{
-				return (CompositeStateNode) node;
+				return (ACompositeStateNode) node;
 			}
 		}
 		return addSubTree(modelTree);

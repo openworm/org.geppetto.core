@@ -45,14 +45,14 @@ import org.geppetto.core.model.values.AValue;
  * 
  */
 @SuppressWarnings("rawtypes")
-public class SimpleStateNode extends AStateNode
+public abstract class ASimpleStateNode extends AStateNode
 {
 
 	private List<AValue> _values = new ArrayList<AValue>();;
 	private String _unit;
 	private String _scalingFactor;
 
-	public SimpleStateNode(String name)
+	public ASimpleStateNode(String name)
 	{
 		super(name);
 	}
