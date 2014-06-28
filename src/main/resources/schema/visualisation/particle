@@ -5,6 +5,7 @@
 		"type" : {  "type": "string" , "required": true, "default":"Particle"}
 	},
 	"extends": {
-          "$ref": "visualobject"
-        }
+		  "type" : "object",
+          "javaType" : "org.geppetto.core.visualisation.model.AVisualObject"
+     }
 }

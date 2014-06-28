@@ -1,11 +1,12 @@
 {
 	"description": "A sphere",
 	"type":"object",
-	"properties": {
+	"extends": {
+		  "type" : "object",
+          "javaType" : "org.geppetto.core.visualisation.model.AVisualObject"
+     },
+     "properties": {
 		"type" : {  "type": "string" , "required": true, "default":"Sphere"},
 		"radius": { "type": "number", "required": true }
-	},
-	"extends": {
-          "$ref": "visualobject"
-        }
+	}
 }

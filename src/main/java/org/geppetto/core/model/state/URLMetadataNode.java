@@ -32,10 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
-public class AspectTreeNode extends ACompositeStateNode{
-
-	public AspectTreeNode(String name) {
-		super(name);
-	}
+public class URLMetadataNode extends AMetadataNode{
 
 }

@@ -3,7 +3,7 @@ package org.geppetto.core.model.state.visitors;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.geppetto.core.model.state.AStateNode;
+import org.geppetto.core.model.state.ANode;
 import org.geppetto.core.model.state.ACompositeStateNode;
 import org.geppetto.core.model.state.ASimpleStateNode;
 import org.geppetto.core.model.state.AspectsTreeRoot;
@@ -14,7 +14,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 	private StringBuilder _serialized = new StringBuilder();
 
-	private Map<AStateNode, Map<String, Integer>> _arraysLastIndexMap = new HashMap<AStateNode, Map<String, Integer>>();
+	private Map<ANode, Map<String, Integer>> _arraysLastIndexMap = new HashMap<ANode, Map<String, Integer>>();
 
 	public SerializeTreeVisitor()
 	{
@@ -57,7 +57,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		else
 		{
 			String namePath = "{\"" + name + "\":";
-			AStateNode parent = node.getParent();
+			ANode parent = node.getParent();
 
 			if(parent != null)
 			{
@@ -114,7 +114,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 		if(node.isArray())
 		{
-			AStateNode sibling = node.nextSibling();
+			ANode sibling = node.nextSibling();
 			if(sibling == null || !(sibling instanceof ACompositeStateNode) || !(((ACompositeStateNode) sibling).getBaseName().equals(node.getBaseName())))
 			{
 
@@ -152,7 +152,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			{
 				if(!node.getChildren().isEmpty())
 				{
-					AStateNode parent = node.getParent();
+					ANode parent = node.getParent();
 					if(parent == null || (!(node.getChildren().get(0) instanceof ACompositeStateNode) && (parent instanceof AspectsTreeRoot)))
 					{
 						_serialized.append("}");

@@ -9,6 +9,7 @@
 		"distal": { "$ref" : "point", "required": true }
 	},
 	"extends": {
-          "$ref": "visualobject"
-        }
+		  "type" : "object",
+          "javaType" : "org.geppetto.core.visualisation.model.AVisualObject"
+     }
 }

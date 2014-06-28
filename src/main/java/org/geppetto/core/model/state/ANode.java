@@ -39,17 +39,21 @@ import org.geppetto.core.model.state.visitors.IVisitable;
  * @author matteocantarelli
  * 
  */
-public abstract class AStateNode implements IVisitable
+public abstract class ANode implements IVisitable
 {
 
-	protected AStateNode _parent;
+	protected ANode _parent;
 	protected String _name;
 	
-	public AStateNode(String name)
+	public ANode(String name)
 	{
 		super();
 		_name = name;
 		_parent = null;
+	}
+	
+	public ANode(){
+		
 	}
 
 	public String getName()
@@ -60,7 +64,7 @@ public abstract class AStateNode implements IVisitable
 	/**
 	 * @return the next sibling of this node
 	 */
-	public AStateNode nextSibling()
+	public ANode nextSibling()
 	{
 		if(!(getParent() instanceof ACompositeStateNode))
 		{
@@ -80,7 +84,7 @@ public abstract class AStateNode implements IVisitable
 		}
 	}
 
-	public AStateNode getParent()
+	public ANode getParent()
 	{
 		return _parent;
 	}
@@ -93,7 +97,7 @@ public abstract class AStateNode implements IVisitable
 	public String getFullName()
 	{
 		StringBuffer fullName = new StringBuffer();
-		AStateNode iterateState = this;
+		ANode iterateState = this;
 		while(iterateState != null)
 		{
 			if(iterateState._parent != null && !iterateState._name.equals(SUBTREE.MODEL_TREE.toString()) && !iterateState._name.equals(SUBTREE.WATCH_TREE.toString()))

@@ -32,68 +32,26 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
-import java.net.URL;
-import java.util.List;
+import org.geppetto.core.model.values.AValue;
 
-import org.geppetto.core.model.IModelInterpreter;
-import org.geppetto.core.simulator.ISimulator;
-import org.geppetto.core.visualisation.model.VisualModel;
+public abstract class AMetadataNode {
 
-public class AspectNode extends ACompositeStateNode{
+	private AValue value;
 
-	private String id;
-	private TimeNode time;
-	private IModelInterpreter modelInterpreter;
-	private ISimulator simulator;
-	private List<VisualModel> visualModels;
-	private String instancePath;
-	
-	public TimeNode getTime() {
-		return time;
+	public AValue getValue() {
+		return value;
 	}
 
-	public void setTime(TimeNode time) {
-		this.time = time;
+	public void setValue(AValue value) {
+		this.value = value;
 	}
 
-	public IModelInterpreter getModelInterpreter() {
-		return modelInterpreter;
+	public void setAdditionalProperties(String string,
+			String value2) {		
 	}
 
-	public void setModelInterpreter(IModelInterpreter modelInterpreter) {
-		this.modelInterpreter = modelInterpreter;
+	public void setAdditionalProperties(String string,
+			AMetadataNode intracellularProperties) {
+		
 	}
-
-	public ISimulator getSimulator() {
-		return simulator;
-	}
-
-	public void setSimulator(ISimulator simulator) {
-		this.simulator = simulator;
-	}
-	
-	public void setId(String id){
-		this.id = id;
-	}
-	
-	public String getId() {
-		return this.id;
-	}
-
-	public ANode getParentEntity() {
-		return this.getParent();
-	}
-
-	public List<VisualModel> getVisualModel() {
-		return this.visualModels;
-	}
-
-	public void setInstancePath(String instancePath) {
-		this.instancePath = instancePath;
-	}
-
-	public String getInstancePath() {
-		return this.instancePath;
-	}
-	
 }

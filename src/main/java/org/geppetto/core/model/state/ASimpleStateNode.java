@@ -45,7 +45,7 @@ import org.geppetto.core.model.values.AValue;
  * 
  */
 @SuppressWarnings("rawtypes")
-public abstract class ASimpleStateNode extends AStateNode
+public abstract class ASimpleStateNode extends ANode
 {
 
 	private List<AValue> _values = new ArrayList<AValue>();;
@@ -57,6 +57,10 @@ public abstract class ASimpleStateNode extends AStateNode
 		super(name);
 	}
 
+	public ASimpleStateNode(){
+		
+	}
+	
 	@Override
 	public String toString()
 	{

@@ -54,11 +54,12 @@ import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.data.DataModelFactory;
-import org.geppetto.core.model.state.AStateNode;
+import org.geppetto.core.model.state.ANode;
 import org.geppetto.core.model.state.ACompositeStateNode;
 import org.geppetto.core.model.state.ASimpleStateNode;
 import org.geppetto.core.model.state.AspectsTreeRoot;
 import org.geppetto.core.model.state.AspectsTreeRoot.SUBTREE;
+import org.geppetto.core.model.state.CompositeVariableNode;
 import org.geppetto.core.model.state.StateVariableNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
@@ -332,7 +333,7 @@ public abstract class ASimulator implements ISimulator
 							{
 								String current = tokenizer.nextToken();
 								boolean found = false;
-								for(AStateNode child : node.getChildren())
+								for(ANode child : node.getChildren())
 								{
 									if(child.getName().equals(current))
 									{
@@ -353,7 +354,7 @@ public abstract class ASimulator implements ISimulator
 									if(tokenizer.hasMoreElements())
 									{
 										// not a leaf, create a composite state node
-										ACompositeStateNode newNode = new ACompositeStateNode(current);
+										ACompositeStateNode newNode = new CompositeVariableNode(current);
 										node.addChild(newNode);
 										node = newNode;
 									}

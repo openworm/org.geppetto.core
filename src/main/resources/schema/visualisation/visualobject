@@ -5,5 +5,9 @@
 	"properties": {
 		"id": { "type": "string" , "required": true },
 		"position": { "$ref" : "point", "required": true }
+	},
+	"extends": {
+		"type" : "object",
+    	"javaType" : "org.geppetto.core.model.state.ACompositeStateNode"
 	}
 }

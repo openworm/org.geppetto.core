@@ -42,25 +42,27 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  * @author matteocantarelli
  *
  */
-public class ACompositeStateNode extends AStateNode
-{
-
-	protected List<AStateNode> _children=new ArrayList<AStateNode>();;
-	
-	public ACompositeStateNode(String name)
-	{
+public abstract class ACompositeStateNode extends ANode
+{	
+	public ACompositeStateNode(String name) {
 		super(name);
-		_children=new ArrayList<AStateNode>();
 	}
 	
-	public AStateNode addChild(AStateNode child)
+	public ACompositeStateNode(){
+		
+	}
+
+	protected List<ANode> _children=new ArrayList<ANode>();;
+
+	
+	public ANode addChild(ANode child)
 	{
 		_children.add(child);
 		child._parent=this; //double link
 		return child;
 	}
 	
-	public List<AStateNode> getChildren()
+	public List<ANode> getChildren()
 	{
 		return _children;
 	}
@@ -87,12 +89,21 @@ public class ACompositeStateNode extends AStateNode
 		return _name+"["+_children+"]";
 	}
 
+	/**
+	 * @param states
+	 */
+	public void addChildren(Collection<ANode> states)
+	{
+		_children.addAll(states);
+		
+	}
+	
 	@Override
 	public synchronized boolean apply(IStateVisitor visitor)
 	{
 		if (visitor.inCompositeStateNode(this))  // enter this node?
 		{
-			for(AStateNode stateNode:_children)
+			for(ANode stateNode:_children)
 			{
 				stateNode.apply(visitor);
 				if(visitor.stopVisiting())
@@ -102,14 +113,5 @@ public class ACompositeStateNode extends AStateNode
 			}
 		}
 		return visitor.outCompositeStateNode( this );
-	}
-
-	/**
-	 * @param states
-	 */
-	public void addChildren(Collection<AStateNode> states)
-	{
-		_children.addAll(states);
-		
 	}
 }

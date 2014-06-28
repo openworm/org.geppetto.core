@@ -35,7 +35,7 @@ package org.geppetto.core;
 
 import junit.framework.Assert;
 
-import org.geppetto.core.model.state.ACompositeStateNode;
+import org.geppetto.core.model.state.CompositeVariableNode;
 import org.geppetto.core.model.state.StateVariableNode;
 import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
 import org.geppetto.core.model.values.AValue;
@@ -46,7 +46,7 @@ public class TestTreeSerialization {
 
 	@Test
 	public void testTime() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("TIME");
+		CompositeVariableNode rootNode = new CompositeVariableNode("TIME");
 		
 		StateVariableNode stepNode = new StateVariableNode("step");
 		stepNode.addValue(ValuesFactory.getDoubleValue(0.05));
@@ -70,7 +70,7 @@ public class TestTreeSerialization {
 	
 	@Test
 	public void testTreeSerialization() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
 		
 		StateVariableNode dummyNode = new StateVariableNode("dummyFloat");
 		dummyNode.addValue(ValuesFactory.getDoubleValue(50d));
@@ -91,7 +91,7 @@ public class TestTreeSerialization {
 
 	@Test
 	public void testTreeWithUnits() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
 		
 		AValue val = ValuesFactory.getDoubleValue(50d);
 		AValue val2 = ValuesFactory.getDoubleValue(100d);
@@ -126,8 +126,8 @@ public class TestTreeSerialization {
 	
 	@Test
 	public void testTreeNestedSerialization2() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
-		ACompositeStateNode dummyNode0 = new ACompositeStateNode("hhpop[0]");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
+		CompositeVariableNode dummyNode0 = new CompositeVariableNode("hhpop[0]");
 
 		StateVariableNode anotherDummyNode0 = new StateVariableNode("v");
 		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(20d));
@@ -149,22 +149,22 @@ public class TestTreeSerialization {
 	
 	@Test
 	public void testTreeNestedSerialization3() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
-		ACompositeStateNode c302 = new ACompositeStateNode("c302");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
+		CompositeVariableNode c302 = new CompositeVariableNode("c302");
 		
-		ACompositeStateNode electrical = new ACompositeStateNode("electrical");
+		CompositeVariableNode electrical = new CompositeVariableNode("electrical");
 		
-		ACompositeStateNode adal = new ACompositeStateNode("ADAL");
+		CompositeVariableNode adal = new CompositeVariableNode("ADAL");
 		
-		ACompositeStateNode adal0 = new ACompositeStateNode("0");
+		CompositeVariableNode adal0 = new CompositeVariableNode("0");
 		
-		ACompositeStateNode adalgeneric_iaf_cell = new ACompositeStateNode("generic_iaf_cell");
+		CompositeVariableNode adalgeneric_iaf_cell = new CompositeVariableNode("generic_iaf_cell");
 		
-		ACompositeStateNode adar = new ACompositeStateNode("ADAR");
+		CompositeVariableNode adar = new CompositeVariableNode("ADAR");
 		
-		ACompositeStateNode adar0 = new ACompositeStateNode("0");
+		CompositeVariableNode adar0 = new CompositeVariableNode("0");
 		
-		ACompositeStateNode adargeneric_iaf_cell = new ACompositeStateNode("generic_iaf_cell");
+		CompositeVariableNode adargeneric_iaf_cell = new CompositeVariableNode("generic_iaf_cell");
 
 		StateVariableNode v = new StateVariableNode("v");
 		v.addValue(ValuesFactory.getDoubleValue(-0.05430606873466336d));
@@ -192,9 +192,9 @@ public class TestTreeSerialization {
 	
 	@Test
 	public void testTreeNestedSerialization() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
-		ACompositeStateNode dummyNode0 = new ACompositeStateNode("hhpop[0]");
-		ACompositeStateNode dummyNode1 = new ACompositeStateNode("hhpop[1]");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
+		CompositeVariableNode dummyNode0 = new CompositeVariableNode("hhpop[0]");
+		CompositeVariableNode dummyNode1 = new CompositeVariableNode("hhpop[1]");
 
 		StateVariableNode anotherDummyNode0 = new StateVariableNode("v");
 		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(20d));
@@ -217,9 +217,9 @@ public class TestTreeSerialization {
 	
 	@Test
 	public void testTreeNestedSerializationWithGaps() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
-		ACompositeStateNode dummyNode0 = new ACompositeStateNode("hhpop[10]");
-		ACompositeStateNode dummyNode1 = new ACompositeStateNode("hhpop[15]");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
+		CompositeVariableNode dummyNode0 = new CompositeVariableNode("hhpop[10]");
+		CompositeVariableNode dummyNode1 = new CompositeVariableNode("hhpop[15]");
 
 		StateVariableNode anotherDummyNode0 = new StateVariableNode("v");
 		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(20d));
@@ -243,9 +243,9 @@ public class TestTreeSerialization {
 	
 	@Test
 	public void testTreeMultpleCompositeSerialization() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
-		ACompositeStateNode dummyNode1 = new ACompositeStateNode("hhpop[0]");
-		ACompositeStateNode dummyNode2 = new ACompositeStateNode("hhpop[1]");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
+		CompositeVariableNode dummyNode1 = new CompositeVariableNode("hhpop[0]");
+		CompositeVariableNode dummyNode2 = new CompositeVariableNode("hhpop[1]");
 
 		StateVariableNode anotherDummyNode1 = new StateVariableNode("v");
 		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
@@ -270,9 +270,9 @@ public class TestTreeSerialization {
 	
 	@Test
 	public void testTreeMulitpleCompositeSerialization2() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
-		ACompositeStateNode dummyNode1 = new ACompositeStateNode("particle[1]");
-		ACompositeStateNode dummyNode2 = new ACompositeStateNode("position");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
+		CompositeVariableNode dummyNode1 = new CompositeVariableNode("particle[1]");
+		CompositeVariableNode dummyNode2 = new CompositeVariableNode("position");
 
 		StateVariableNode anotherDummyNode1 = new StateVariableNode("x");
 		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
@@ -297,14 +297,14 @@ public class TestTreeSerialization {
 	
 	@Test
 	public void testTreeMulitpleCompositeSerialization3() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
-		ACompositeStateNode dummyNode1 = new ACompositeStateNode("hhpop[0]");
-		ACompositeStateNode dummyNode2 = new ACompositeStateNode("bioPhys1");
-		ACompositeStateNode dummyNode3 = new ACompositeStateNode("membraneProperties");
-		ACompositeStateNode dummyNode4 = new ACompositeStateNode("naChans");
-		ACompositeStateNode dummyNode5 = new ACompositeStateNode("na");
-		ACompositeStateNode dummyNode6 = new ACompositeStateNode("m");
-		ACompositeStateNode dummyNode7 = new ACompositeStateNode("h");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
+		CompositeVariableNode dummyNode1 = new CompositeVariableNode("hhpop[0]");
+		CompositeVariableNode dummyNode2 = new CompositeVariableNode("bioPhys1");
+		CompositeVariableNode dummyNode3 = new CompositeVariableNode("membraneProperties");
+		CompositeVariableNode dummyNode4 = new CompositeVariableNode("naChans");
+		CompositeVariableNode dummyNode5 = new CompositeVariableNode("na");
+		CompositeVariableNode dummyNode6 = new CompositeVariableNode("m");
+		CompositeVariableNode dummyNode7 = new CompositeVariableNode("h");
 
 		StateVariableNode anotherDummyNode1 = new StateVariableNode("q");
 		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
@@ -335,13 +335,13 @@ public class TestTreeSerialization {
 	
 	@Test
 	public void testTreeMulitpleCompositeSerialization4() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
-		ACompositeStateNode dummyNode1 = new ACompositeStateNode("hhpop[0]");
-		ACompositeStateNode dummyNode2 = new ACompositeStateNode("bioPhys1");
-		ACompositeStateNode dummyNode3 = new ACompositeStateNode("membraneProperties");
-		ACompositeStateNode dummyNode4 = new ACompositeStateNode("naChans");
-		ACompositeStateNode dummyNode5 = new ACompositeStateNode("na");
-		ACompositeStateNode dummyNode6 = new ACompositeStateNode("m");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
+		CompositeVariableNode dummyNode1 = new CompositeVariableNode("hhpop[0]");
+		CompositeVariableNode dummyNode2 = new CompositeVariableNode("bioPhys1");
+		CompositeVariableNode dummyNode3 = new CompositeVariableNode("membraneProperties");
+		CompositeVariableNode dummyNode4 = new CompositeVariableNode("naChans");
+		CompositeVariableNode dummyNode5 = new CompositeVariableNode("na");
+		CompositeVariableNode dummyNode6 = new CompositeVariableNode("m");
 
 		StateVariableNode anotherDummyNode1 = new StateVariableNode("q");
 		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
@@ -371,16 +371,16 @@ public class TestTreeSerialization {
 	
 	@Test
 	public void testTreeMulitpleCompositeSerialization5() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
-		ACompositeStateNode dummyNode1 = new ACompositeStateNode("hhpop[0]");
-		ACompositeStateNode dummyNode2 = new ACompositeStateNode("bioPhys1");
-		ACompositeStateNode dummyNode3 = new ACompositeStateNode("membraneProperties");
-		ACompositeStateNode dummyNode4 = new ACompositeStateNode("naChans");
-		ACompositeStateNode dummyNode5 = new ACompositeStateNode("na");
-		ACompositeStateNode dummyNode6 = new ACompositeStateNode("m");
-		ACompositeStateNode dummyNode7 = new ACompositeStateNode("kChans");
-		ACompositeStateNode dummyNode8 = new ACompositeStateNode("k");
-		ACompositeStateNode dummyNode9 = new ACompositeStateNode("n");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
+		CompositeVariableNode dummyNode1 = new CompositeVariableNode("hhpop[0]");
+		CompositeVariableNode dummyNode2 = new CompositeVariableNode("bioPhys1");
+		CompositeVariableNode dummyNode3 = new CompositeVariableNode("membraneProperties");
+		CompositeVariableNode dummyNode4 = new CompositeVariableNode("naChans");
+		CompositeVariableNode dummyNode5 = new CompositeVariableNode("na");
+		CompositeVariableNode dummyNode6 = new CompositeVariableNode("m");
+		CompositeVariableNode dummyNode7 = new CompositeVariableNode("kChans");
+		CompositeVariableNode dummyNode8 = new CompositeVariableNode("k");
+		CompositeVariableNode dummyNode9 = new CompositeVariableNode("n");
 		
 		StateVariableNode anotherDummyNode1 = new StateVariableNode("q");
 		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
@@ -419,16 +419,16 @@ public class TestTreeSerialization {
 	
 	@Test
 	public void testTreeMulitpleCompositeSerialization6() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
-		ACompositeStateNode dummyNode1 = new ACompositeStateNode("hhpop[0]");
-		ACompositeStateNode dummyNode2 = new ACompositeStateNode("bioPhys1");
-		ACompositeStateNode dummyNode3 = new ACompositeStateNode("membraneProperties");
-		ACompositeStateNode dummyNode4 = new ACompositeStateNode("naChans");
-		ACompositeStateNode dummyNode5 = new ACompositeStateNode("na");
-		ACompositeStateNode dummyNode6 = new ACompositeStateNode("m");
-		ACompositeStateNode dummyNode7 = new ACompositeStateNode("kChans");
-		ACompositeStateNode dummyNode8 = new ACompositeStateNode("k");
-		ACompositeStateNode dummyNode9 = new ACompositeStateNode("n");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
+		CompositeVariableNode dummyNode1 = new CompositeVariableNode("hhpop[0]");
+		CompositeVariableNode dummyNode2 = new CompositeVariableNode("bioPhys1");
+		CompositeVariableNode dummyNode3 = new CompositeVariableNode("membraneProperties");
+		CompositeVariableNode dummyNode4 = new CompositeVariableNode("naChans");
+		CompositeVariableNode dummyNode5 = new CompositeVariableNode("na");
+		CompositeVariableNode dummyNode6 = new CompositeVariableNode("m");
+		CompositeVariableNode dummyNode7 = new CompositeVariableNode("kChans");
+		CompositeVariableNode dummyNode8 = new CompositeVariableNode("k");
+		CompositeVariableNode dummyNode9 = new CompositeVariableNode("n");
 		
 		StateVariableNode anotherDummyNode1 = new StateVariableNode("q");
 		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
@@ -472,13 +472,13 @@ public class TestTreeSerialization {
 
 	@Test
 	public void testTreeMulitpleCompositeSerialization7() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
-		ACompositeStateNode dummyNode1 = new ACompositeStateNode("hhpop[0]");
-		ACompositeStateNode dummyNode2 = new ACompositeStateNode("bioPhys1");
-		ACompositeStateNode dummyNode3 = new ACompositeStateNode("membraneProperties");
-		ACompositeStateNode dummyNode4 = new ACompositeStateNode("naChans");
-		ACompositeStateNode dummyNode5 = new ACompositeStateNode("na");
-		ACompositeStateNode dummyNode6 = new ACompositeStateNode("m");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
+		CompositeVariableNode dummyNode1 = new CompositeVariableNode("hhpop[0]");
+		CompositeVariableNode dummyNode2 = new CompositeVariableNode("bioPhys1");
+		CompositeVariableNode dummyNode3 = new CompositeVariableNode("membraneProperties");
+		CompositeVariableNode dummyNode4 = new CompositeVariableNode("naChans");
+		CompositeVariableNode dummyNode5 = new CompositeVariableNode("na");
+		CompositeVariableNode dummyNode6 = new CompositeVariableNode("m");
 
 		StateVariableNode anotherDummyNode1 = new StateVariableNode("q");
 		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
@@ -518,13 +518,13 @@ public class TestTreeSerialization {
 	
 	@Test
 	public void testTreeMulitpleCompositeSerialization8() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
-		ACompositeStateNode dummyNode1 = new ACompositeStateNode("hhpop[0]");
-		ACompositeStateNode dummyNode2 = new ACompositeStateNode("bioPhys1");
-		ACompositeStateNode dummyNode3 = new ACompositeStateNode("membraneProperties");
-		ACompositeStateNode dummyNode4 = new ACompositeStateNode("naChans");
-		ACompositeStateNode dummyNode5 = new ACompositeStateNode("na");
-		ACompositeStateNode dummyNode6 = new ACompositeStateNode("m");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
+		CompositeVariableNode dummyNode1 = new CompositeVariableNode("hhpop[0]");
+		CompositeVariableNode dummyNode2 = new CompositeVariableNode("bioPhys1");
+		CompositeVariableNode dummyNode3 = new CompositeVariableNode("membraneProperties");
+		CompositeVariableNode dummyNode4 = new CompositeVariableNode("naChans");
+		CompositeVariableNode dummyNode5 = new CompositeVariableNode("na");
+		CompositeVariableNode dummyNode6 = new CompositeVariableNode("m");
 
 		StateVariableNode anotherDummyNode1 = new StateVariableNode("q");
 		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
@@ -565,11 +565,11 @@ public class TestTreeSerialization {
 	
 	@Test
 	public void testTreeMulitpleCompositeSerialization9() {
-		ACompositeStateNode rootNode = new ACompositeStateNode("WATCH_TREE");
-		ACompositeStateNode dummyNode1 = new ACompositeStateNode("particle[1]");
-		ACompositeStateNode dummyNode2 = new ACompositeStateNode("particle[2]");
-		ACompositeStateNode dummyNode3 = new ACompositeStateNode("position");
-		ACompositeStateNode dummyNode4 = new ACompositeStateNode("position");
+		CompositeVariableNode rootNode = new CompositeVariableNode("WATCH_TREE");
+		CompositeVariableNode dummyNode1 = new CompositeVariableNode("particle[1]");
+		CompositeVariableNode dummyNode2 = new CompositeVariableNode("particle[2]");
+		CompositeVariableNode dummyNode3 = new CompositeVariableNode("position");
+		CompositeVariableNode dummyNode4 = new CompositeVariableNode("position");
 
 		StateVariableNode anotherDummyNode1 = new StateVariableNode("x");
 		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));

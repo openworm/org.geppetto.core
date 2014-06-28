@@ -32,6 +32,12 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.geppetto.core.model.state.visitors.IStateVisitor;
+
 public class CompositeVariableNode extends ACompositeStateNode{
 
 	public CompositeVariableNode(String name) {

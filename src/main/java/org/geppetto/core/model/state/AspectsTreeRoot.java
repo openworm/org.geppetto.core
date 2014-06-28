@@ -56,7 +56,7 @@ public class AspectsTreeRoot extends ACompositeStateNode
 	public AspectsTreeRoot(String modelId)
 	{
 		super(modelId);
-		_children = new ArrayList<AStateNode>();
+		_children = new ArrayList<ANode>();
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class AspectsTreeRoot extends ACompositeStateNode
 	public AspectsTreeRoot()
 	{
 		super(null);
-		_children = new ArrayList<AStateNode>();
+		_children = new ArrayList<ANode>();
 	}
 	
 	/**
@@ -73,12 +73,12 @@ public class AspectsTreeRoot extends ACompositeStateNode
 	 */
 	public void flushSubTree(SUBTREE tree)
 	{
-		for(AStateNode node : _children)
+		for(ANode node : _children)
 		{
 			if(node.getName().equals(tree.toString()))
 			{
 				// re-assign to empty node
-				node = new ACompositeStateNode(tree.toString());
+				node = new CompositeVariableNode(tree.toString());
 				break;
 			}
 		}
@@ -90,7 +90,7 @@ public class AspectsTreeRoot extends ACompositeStateNode
 	 */
 	private ACompositeStateNode addSubTree(SUBTREE modelTree)
 	{
-		ACompositeStateNode subTree = new ACompositeStateNode(modelTree.toString());
+		ACompositeStateNode subTree = new CompositeVariableNode(modelTree.toString());
 		addChild(subTree);
 		return subTree;
 	}
@@ -102,7 +102,7 @@ public class AspectsTreeRoot extends ACompositeStateNode
 	 */
 	public ACompositeStateNode getSubTree(SUBTREE modelTree)
 	{
-		for (AStateNode node:getChildren())
+		for (ANode node:getChildren())
 		{
 			if( node.getName().equals(modelTree.toString()))
 			{
@@ -111,5 +111,4 @@ public class AspectsTreeRoot extends ACompositeStateNode
 		}
 		return addSubTree(modelTree);
 	}
-
 }
