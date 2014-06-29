@@ -140,14 +140,14 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				{
 					_serialized.append("}");
 				}
-//				else
-//				{
-//					// make sure we didn't go to far, if we did add extra bracket
-//					if(node instanceof AspectTreeNode)
-//					{
-//						_serialized.append("}");
-//					}
-//				}
+				else
+				{
+					// make sure we didn't go to far, if we did add extra bracket
+					if(node.getParent() instanceof AspectTreeNode)
+					{
+						_serialized.append("}");
+					}
+				}
 				_serialized.append("},");
 				return super.outCompositeStateNode(node);
 
