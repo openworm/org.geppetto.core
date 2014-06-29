@@ -35,12 +35,11 @@ package org.geppetto.core.model.state;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.measure.unit.Unit;
-
-import org.geppetto.core.model.state.visitors.IStateVisitor;
 import org.geppetto.core.model.values.AValue;
 
 /**
+ * Abstract node used for nodes that don't have other nodes as children, a leaf node.
+ * 
  * @author matteocantarelli
  * 
  */

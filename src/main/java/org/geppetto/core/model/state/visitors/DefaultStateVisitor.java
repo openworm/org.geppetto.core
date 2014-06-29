@@ -41,7 +41,9 @@ import org.geppetto.core.model.state.EntityNode;
 import org.geppetto.core.model.state.ParameterNode;
 import org.geppetto.core.model.state.SceneNode;
 import org.geppetto.core.model.state.StateVariableNode;
+import org.geppetto.core.model.state.TextMetadataNode;
 import org.geppetto.core.model.state.TimeNode;
+import org.geppetto.core.model.state.URLMetadataNode;
 import org.geppetto.core.visualisation.model.Collada;
 import org.geppetto.core.visualisation.model.Cylinder;
 import org.geppetto.core.visualisation.model.Particle;
@@ -97,8 +99,17 @@ public class DefaultStateVisitor implements IStateVisitor
 
 	@Override
 	public boolean visitVisualObjectNode(AVisualNode aVisualObjectNode) {
-		// TODO Auto-generated method stub
-		return false;
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean visitTextMetadataNode(TextMetadataNode textMetadataNode) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean visitURLMetadataNode(URLMetadataNode urlMetadataNode) {
+		return !_stopVisiting;
 	}
 
 }

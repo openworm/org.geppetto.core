@@ -707,6 +707,9 @@ public class TestTreeSerialization {
 		aspectA.addChild(model);
 		model.addChild(biophysicalProperties);
 		biophysicalProperties.addChild(a);
+		biophysicalProperties.addChild(b);
+		//biophysicalProperties.addChild(c);
+		//biophysicalProperties.addChild(text);
 		
 		aspectA.addChild(visualization);
 		visualization.addChild(sphere);
@@ -715,10 +718,12 @@ public class TestTreeSerialization {
 		aspectA.addChild(simulation);
 		simulation.addChild(hhpop);
 		hhpop.addChild(v);
+		//hhpop.addChild(a1);
 		
 		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
 		entity1.apply(visitor);
 		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		JsonParser jp = new JsonParser();
@@ -727,6 +732,6 @@ public class TestTreeSerialization {
 		
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals("{\"Entity1\":{\"AspectA\":{\"model\":{\"BiophysicalProperties\":{\"a\":{}}},\"visualization\":{\"sphere\":{\"position\":{\"x\":3.3,\"y\":4.0,\"z\":-1.444}},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999}}},\"simulation\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}}]}}}}", serialized);
+		Assert.assertEquals("{\"Entity1\":{\"AspectA\":{\"model\":{\"BiophysicalProperties\":{\"a\":{\"_metaType\":\"Parameter\"}}},\"visualization\":{\"sphere\":{\"position\":{\"x\":3.3,\"y\":4.0,\"z\":-1.444},\"_metaType\":\"Visual Object\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"_metaType\":\"Visual Object\"}},\"simulation\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null,\"_metaType\":\"State Variable\"}}]}}}}", serialized);
 	}
 }

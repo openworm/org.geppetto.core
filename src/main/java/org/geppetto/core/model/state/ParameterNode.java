@@ -34,10 +34,17 @@ package org.geppetto.core.model.state;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
+/**
+ * Node used to store static values that aren't going to change through simulation 
+ * 
+ * @author  Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
 public class ParameterNode extends ASimpleStateNode {
 
 	public ParameterNode(String name) {
 		super(name);
+		this.setMetaType(ANode.MetaTypes.ParameterNode.toString());
 	}
 	
 	public ParameterNode(){};

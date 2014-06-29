@@ -36,17 +36,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.geppetto.core.model.state.visitors.IStateVisitor;
-
+/**
+ * Node that can have children, used whenever node isn't meant to be a leaf. 
+ * 
+ * @author  Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
 public class CompositeVariableNode extends ACompositeStateNode{
 
 	public CompositeVariableNode(String name) {
 		super(name);
+		this.setMetaType(ANode.MetaTypes.AspectNode.toString());
 	}
 
 	protected List<ANode> _children=new ArrayList<ANode>();;
 
-	
 	public ANode addChild(ANode child)
 	{
 		_children.add(child);

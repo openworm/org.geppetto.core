@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
+ * Node use for children of AspectNode, stores; model, visualization and simulation trees.
+ * 
  * @author matteocantarelli
  * 
  */
@@ -57,6 +59,7 @@ public class AspectTreeNode extends ACompositeStateNode
 	public AspectTreeNode(String modelId)
 	{
 		super(modelId);
+		this.setMetaType(ANode.MetaTypes.AspectTreeNode.toString());
 		_children = new ArrayList<ANode>();
 	}
 	

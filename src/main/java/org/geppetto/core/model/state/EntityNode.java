@@ -37,6 +37,12 @@ import java.util.List;
 
 import org.geppetto.core.visualisation.model.Point;
 
+/**
+ * Node used to store an entity and then serialization.
+ * 
+ * @author  Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
 public class EntityNode extends ACompositeStateNode{
 
 	protected List<AspectNode> aspects =new ArrayList<AspectNode>();;
@@ -51,10 +57,14 @@ public class EntityNode extends ACompositeStateNode{
 
 	private Point position;
 	
-	public EntityNode(){}
+	public EntityNode(){
+		super();
+		this.setMetaType(ANode.MetaTypes.EntityNode.toString());
+	}
 	
 	public EntityNode(String name) {
 		super(name);
+		this.setMetaType(ANode.MetaTypes.EntityNode.toString());
 	}
 
 	public String getInstancePath() {

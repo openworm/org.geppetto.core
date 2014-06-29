@@ -35,6 +35,12 @@ package org.geppetto.core.model.state;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Node for storing a scene and then serialization
+ * 
+ * @author  Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
 public class SceneNode extends ACompositeStateNode{
 
 	private List<EntityNode> entities = new ArrayList<EntityNode>();	

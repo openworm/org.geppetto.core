@@ -32,25 +32,33 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.simulator.ISimulator;
 import org.geppetto.core.visualisation.model.VisualModel;
 
+/**
+ * Node use to store Aspect values, and serialization.
+ * 
+ * @author  Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
 public class AspectNode extends ACompositeStateNode{
 
 	private String id;
 	private TimeNode time;
 	private IModelInterpreter modelInterpreter;
 	private ISimulator simulator;
-	private List<VisualModel> visualModels;
+	private List<VisualModel> visualModels = new ArrayList<VisualModel>();
 	private String instancePath;
 	
 	public AspectNode(){}
 	
 	public AspectNode(String name) {
 		super(name);
+		this.setMetaType(ANode.MetaTypes.AspectNode.toString());
 	}
 
 	public TimeNode getTime() {

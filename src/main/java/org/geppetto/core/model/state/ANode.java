@@ -36,15 +36,47 @@ import org.geppetto.core.model.state.AspectTreeNode.SUBTREE;
 import org.geppetto.core.model.state.visitors.IVisitable;
 
 /**
+ * Parent Node, use for serialization. 
+ * 
  * @author matteocantarelli
  * 
  */
 public abstract class ANode implements IVisitable
 {
-
 	protected ANode _parent;
 	protected String _name;
-	
+	protected String _metatype;
+
+	/**
+	 * Different types of nodes
+	 * 
+	 * @author  Jesus R. Martinez (jesus@metacell.us)
+	 *
+	 */
+	public enum MetaTypes{
+		EntityNode("Entity"), AspectNode("Aspect"), AspectTreeNode("AspectNode"),
+		ParameterNode("Parameter"), AVisualNode("Visual Object"), StateVariableNode("State Variable"),
+		TextMetadataNode("Text"), TimeNode("Time"), URLMetadataNode("URL");
+
+		private final String text;
+		
+		private MetaTypes(final String text) {
+			this.text = text;
+		}
+		
+		@Override
+		public String toString() {
+			return text;
+		}
+	}
+	public String getMetaType() {
+		return _metatype;
+	}
+
+	public void setMetaType(String _metaType) {
+		this._metatype = _metaType;
+	}
+
 	public ANode(String name)
 	{
 		super();

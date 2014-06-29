@@ -34,10 +34,17 @@ package org.geppetto.core.model.state;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
+/**
+ * Node use for storing state variable values and serialization of them
+ * 
+ * @author  Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
 public class StateVariableNode extends ASimpleStateNode{
 
 	public StateVariableNode(String name) {
 		super(name);
+		this.setMetaType(ANode.MetaTypes.StateVariableNode.toString());
 	}
 
 	@Override

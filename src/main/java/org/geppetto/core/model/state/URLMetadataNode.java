@@ -32,6 +32,25 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
-public class URLMetadataNode extends AMetadataNode{
+import org.geppetto.core.model.state.visitors.IStateVisitor;
 
+/**
+ * Node use for storing metadata url properties
+ * 
+ * @author  Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
+public class URLMetadataNode extends AMetadataNode{
+	
+	
+	public URLMetadataNode(String name) {
+		super(name);
+		this.setMetaType(ANode.MetaTypes.URLMetadataNode.toString());
+	}
+
+	@Override
+	public boolean apply(IStateVisitor visitor)
+	{
+		return visitor.visitURLMetadataNode(this);
+	}
 }

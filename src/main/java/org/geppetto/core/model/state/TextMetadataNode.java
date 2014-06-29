@@ -32,6 +32,29 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
+import org.geppetto.core.model.state.visitors.IStateVisitor;
+
+/**
+ * Node use for storing text metadata properties and serialization
+ * 
+ * @author  Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
 public class TextMetadataNode extends AMetadataNode{
 
+	public TextMetadataNode(String name){
+		super(name);
+		this.setMetaType(ANode.MetaTypes.TextMetadataNode.toString());
+	}
+	
+	public TextMetadataNode(){
+		super(ANode.MetaTypes.TextMetadataNode.toString());
+		this.setMetaType(ANode.MetaTypes.TextMetadataNode.toString());
+	}
+	
+	@Override
+	public boolean apply(IStateVisitor visitor)
+	{
+		return visitor.visitTextMetadataNode(this);
+	}
 }

@@ -34,6 +34,12 @@ package org.geppetto.core.model.state;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
+/**
+ * Node use storing time step values of simulation, and serialization.
+ * 
+ * @author  Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
 public class TimeNode extends ASimpleStateNode{
 
 	private String value, unit, scale;
@@ -63,8 +69,8 @@ public class TimeNode extends ASimpleStateNode{
 	}
 
 	@Override
-	public boolean apply(IStateVisitor visitor) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean apply(IStateVisitor visitor)
+	{
+		return visitor.visitTimeNode(this);
 	}
 }

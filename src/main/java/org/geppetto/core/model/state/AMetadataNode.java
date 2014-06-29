@@ -34,9 +34,18 @@ package org.geppetto.core.model.state;
 
 import org.geppetto.core.model.values.AValue;
 
-public abstract class AMetadataNode {
+/**
+ * Node used for storing metada properties
+ * @author  Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
+public abstract class AMetadataNode extends ANode{
 
 	private AValue value;
+
+	public AMetadataNode(String name) {
+		super(name);
+	}
 
 	public AValue getValue() {
 		return value;

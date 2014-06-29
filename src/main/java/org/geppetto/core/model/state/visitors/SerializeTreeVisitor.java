@@ -9,7 +9,9 @@ import org.geppetto.core.model.state.AVisualNode;
 import org.geppetto.core.model.state.AspectTreeNode;
 import org.geppetto.core.model.state.ParameterNode;
 import org.geppetto.core.model.state.StateVariableNode;
+import org.geppetto.core.model.state.TextMetadataNode;
 import org.geppetto.core.model.state.TimeNode;
+import org.geppetto.core.model.state.URLMetadataNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.visualisation.model.Point;
 
@@ -138,14 +140,14 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				{
 					_serialized.append("}");
 				}
-				else
-				{
-					// make sure we didn't go to far, if we did add extra bracket
-					if(node.getParent() instanceof AspectTreeNode)
-					{
-						_serialized.append("}");
-					}
-				}
+//				else
+//				{
+//					// make sure we didn't go to far, if we did add extra bracket
+//					if(node instanceof AspectTreeNode)
+//					{
+//						_serialized.append("}");
+//					}
+//				}
 				_serialized.append("},");
 				return super.outCompositeStateNode(node);
 
@@ -169,6 +171,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitStateVariableNode(StateVariableNode node)
 	{
+		String metaType = "";
+		if(node.getMetaType() != null){
+			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+		
 		AValue value = node.consumeFirstValue();
 
 		String unit = null, scale = null;
@@ -182,7 +189,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		{
 			scale = "\"" + node.getScalingFactor() + "\"";
 		}
-		_serialized.append("\"" + node.getName() + "\":{\"value\":" + value + ",\"unit\":" + unit + ",\"scale\":" + scale + "},");
+		_serialized.append("\"" + node.getName() + "\":{\"value\":" + value + ",\"unit\":" + unit + ",\"scale\":" + scale +","+ metaType+ "},");
 
 		return super.visitStateVariableNode(node);
 	}
@@ -190,7 +197,12 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitParameterNode(ParameterNode node)
 	{
-		_serialized.append("\"" + node.getName() + "\":{},");
+		String metaType = "";
+		if(node.getMetaType() != null){
+			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+		
+		_serialized.append("\"" + node.getName() + "\":{"+metaType+"},");
 
 		return super.visitParameterNode(node);
 	}
@@ -198,15 +210,52 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitTimeNode(TimeNode node)
 	{
-		_serialized.append("\"" + node.getName() + "\":{},");
+		String metaType = "";
+		if(node.getMetaType() != null){
+			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+		
+		_serialized.append("\"" + node.getName() + "\":{"+metaType+"},");
 
 		return super.visitTimeNode(node);
 	}
 	
 	@Override
+	public boolean visitTextMetadataNode(TextMetadataNode node)
+	{
+		String metaType = "";
+		if(node.getMetaType() != null){
+			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+		
+		_serialized.append("\"" + node.getName() + "\":{"+metaType+"},");
+		
+		return super.visitTextMetadataNode(node);
+	}
+	
+	@Override
+	public boolean visitURLMetadataNode(URLMetadataNode node)
+	{
+		String metaType = "";
+		if(node.getMetaType() != null){
+			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+		
+		_serialized.append("\"" + node.getName() + "\":{"+metaType+"},");
+		
+		return super.visitURLMetadataNode(node);
+	}
+	
+	@Override
 	public boolean visitVisualObjectNode(AVisualNode node)
 	{
+		String metaType = "";
+		if(node.getMetaType() != null){
+			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+				
 		Point position = node.getPosition();
+		String name = node.getName();
 		
 		String positionString = null;
 		
@@ -215,7 +264,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 					+ "\"y\":" + position.getY().toString() + ","+"\"z\":" + position.getZ().toString() + "";
 		}
 		
-		_serialized.append("\"" + node.getName() + "\":{\"position\":{" + positionString + "}},");
+		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," + metaType + "},");
 
 		return super.visitVisualObjectNode(node);
 	}
