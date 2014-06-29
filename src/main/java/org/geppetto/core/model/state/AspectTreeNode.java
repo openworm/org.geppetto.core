@@ -34,11 +34,13 @@ package org.geppetto.core.model.state;
 
 import java.util.ArrayList;
 
+import org.geppetto.core.model.state.visitors.IStateVisitor;
+
 /**
  * @author matteocantarelli
  * 
  */
-public class AspectsTreeRoot extends ACompositeStateNode
+public class AspectTreeNode extends ACompositeStateNode
 {
 
 	public enum SUBTREE
@@ -51,9 +53,8 @@ public class AspectsTreeRoot extends ACompositeStateNode
 
 	/**
 	 * @param modelId
-	 * @deprecated
 	 */
-	public AspectsTreeRoot(String modelId)
+	public AspectTreeNode(String modelId)
 	{
 		super(modelId);
 		_children = new ArrayList<ANode>();
@@ -62,7 +63,7 @@ public class AspectsTreeRoot extends ACompositeStateNode
 	/**
 	 * 
 	 */
-	public AspectsTreeRoot()
+	public AspectTreeNode()
 	{
 		super(null);
 		_children = new ArrayList<ANode>();

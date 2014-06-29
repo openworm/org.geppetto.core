@@ -34,6 +34,19 @@ package org.geppetto.core.model.state.visitors;
 
 import org.geppetto.core.model.state.ACompositeStateNode;
 import org.geppetto.core.model.state.ASimpleStateNode;
+import org.geppetto.core.model.state.AVisualNode;
+import org.geppetto.core.model.state.AspectNode;
+import org.geppetto.core.model.state.AspectTreeNode;
+import org.geppetto.core.model.state.CompositeVariableNode;
+import org.geppetto.core.model.state.EntityNode;
+import org.geppetto.core.model.state.ParameterNode;
+import org.geppetto.core.model.state.SceneNode;
+import org.geppetto.core.model.state.StateVariableNode;
+import org.geppetto.core.model.state.TimeNode;
+import org.geppetto.core.visualisation.model.Collada;
+import org.geppetto.core.visualisation.model.Cylinder;
+import org.geppetto.core.visualisation.model.Particle;
+import org.geppetto.core.visualisation.model.Sphere;
 
 /**
  * @author matteocantarelli
@@ -44,10 +57,17 @@ public interface IStateVisitor
 	boolean inCompositeStateNode( ACompositeStateNode node ); // going into a branch
 	
 	boolean outCompositeStateNode( ACompositeStateNode node ); // coming out
+	
+	boolean visitStateVariableNode( StateVariableNode node );
+	
+	boolean visitParameterNode( ParameterNode node );
+	
+	boolean visitTimeNode( TimeNode node );
 
-	boolean visitSimpleStateNode( ASimpleStateNode node );
-	
-	boolean stopVisiting();
-	
+	boolean visitVisualObjectNode(AVisualNode aVisualObjectNode);
+
 	void doStopVisiting();
+
+	boolean stopVisiting();
+
 }

@@ -89,12 +89,6 @@ public abstract class ASimpleStateNode extends ANode
 		return first;
 	}
 
-	@Override
-	public boolean apply(IStateVisitor visitor)
-	{
-		return visitor.visitSimpleStateNode(this);
-	}
-
 	public void setUnit(String unit)
 	{
 		this._unit = unit;

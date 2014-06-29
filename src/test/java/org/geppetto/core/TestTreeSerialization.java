@@ -35,12 +35,25 @@ package org.geppetto.core;
 
 import junit.framework.Assert;
 
+import org.geppetto.core.model.state.AspectNode;
+import org.geppetto.core.model.state.AspectTreeNode;
 import org.geppetto.core.model.state.CompositeVariableNode;
+import org.geppetto.core.model.state.EntityNode;
+import org.geppetto.core.model.state.ParameterNode;
 import org.geppetto.core.model.state.StateVariableNode;
+import org.geppetto.core.model.state.TextMetadataNode;
 import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
+import org.geppetto.core.visualisation.model.Cylinder;
+import org.geppetto.core.visualisation.model.Point;
+import org.geppetto.core.visualisation.model.Sphere;
 import org.junit.Test;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 public class TestTreeSerialization {
 
@@ -593,5 +606,127 @@ public class TestTreeSerialization {
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
 		Assert.assertEquals("{\"WATCH_TREE\":{\"particle\":[{},{\"position\":{\"x\":{\"value\":20.0,\"unit\":null,\"scale\":null}}},{\"position\":{\"y\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}]}}", serialized);
+	}
+	
+	/**
+	 * Skeleton tree test
+	 */
+	@Test
+	public void testSkeletonTree() {
+		EntityNode entity_A = new EntityNode("Entity_A");
+		
+		AspectNode aspect_A = new AspectNode("Aspect_A");
+
+		AspectTreeNode model = new AspectTreeNode("model");
+
+		AspectTreeNode visualization = new AspectTreeNode("visualization");
+
+		AspectTreeNode simulation = new AspectTreeNode("simulation");
+
+		entity_A.addChild(aspect_A);
+		aspect_A.addChild(model);
+		aspect_A.addChild(visualization);
+		aspect_A.addChild(simulation);
+		
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		entity_A.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+		
+		Assert.assertEquals("{\"Entity_A\":{\"Aspect_A\":{\"model\":{},\"visualization\":{},\"simulation\":{}}}}", serialized);
+	}
+	
+	/**
+	 * ReCreate Sample Tree below
+	 * 
+	 * Entity1 -> EntityNode -> ACompositeNode
+    	AspectA -> AspectNode -> ACompositeNode
+        	modelTree -> AspectTreeNode -> ACompositeNode
+            	BiophysicalProperties -> CompositeVariableNode -> ACompositeNode
+                	a -> ParameterNode -> ASimpleStateNode
+                	b -> ParameterNode -> ASimpleStateNode
+                	c -> StateVariableNode -> ASimpleStateNode
+                	text -> TextMetadataNode -> AMetaDataNode
+        	visualisationTree -> AspectTreeNode -> ACompositeNode
+            		Sphere1 -> Sphere -> AVisualObject
+            		Cylinder1 -> Cylinder -> AVisualObject
+            		Cylinder2
+            	…
+            		CylinderN
+        	simulationTree -> AspectTree -> ACompositeNode
+            	hhpop -> CompositeVariableNode -> ACompositeNode
+                	0  -> CompositeVariableNode -> ACompositeNode
+                    	v -> StateVariableNode -> SimpleStateNode
+                    	a -> ParameterNode -> ASimpleStateNode
+	 */
+	@Test
+	public void testRefactorSampleTree() {
+		EntityNode entity1 = new EntityNode("Entity1");
+		
+		AspectNode aspectA = new AspectNode("AspectA");
+
+		AspectTreeNode model = new AspectTreeNode("model");
+
+		CompositeVariableNode biophysicalProperties = new CompositeVariableNode("BiophysicalProperties");
+		
+		ParameterNode a = new ParameterNode("a");
+		ParameterNode b = new ParameterNode("b");
+		ParameterNode c = new ParameterNode("c");
+		
+		TextMetadataNode text = new TextMetadataNode();
+		
+		AspectTreeNode visualization = new AspectTreeNode("visualization");
+
+		Sphere sphere = new Sphere();
+		sphere.setName("sphere");
+		Point p = new Point();
+		p.setX(new Double(3.3));
+		p.setY(new Double(4));
+		p.setZ(new Double(-1.444));
+		sphere.setPosition(p);
+		
+		Cylinder cylinder = new Cylinder();
+		cylinder.setName("cylinder");
+		Point p2 = new Point();
+		p2.setX(new Double(6.3));
+		p2.setY(new Double(8));
+		p2.setZ(new Double(-3.999));
+		cylinder.setPosition(p2);
+		
+		AspectTreeNode simulation = new AspectTreeNode("simulation");
+		
+		CompositeVariableNode hhpop = new CompositeVariableNode("hhpop[0]");
+		
+		StateVariableNode v = new StateVariableNode("v");
+		v.addValue(ValuesFactory.getDoubleValue(20d));
+		v.addValue(ValuesFactory.getDoubleValue(100d));
+		
+		ParameterNode a1 = new ParameterNode("a");
+		
+		entity1.addChild(aspectA);
+		aspectA.addChild(model);
+		model.addChild(biophysicalProperties);
+		biophysicalProperties.addChild(a);
+		
+		aspectA.addChild(visualization);
+		visualization.addChild(sphere);
+		visualization.addChild(cylinder);
+		
+		aspectA.addChild(simulation);
+		simulation.addChild(hhpop);
+		hhpop.addChild(v);
+		
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		entity1.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(serialized);
+		String prettyJsonString = gson.toJson(je);
+		
+		System.out.println(prettyJsonString);
+
+		Assert.assertEquals("{\"Entity1\":{\"AspectA\":{\"model\":{\"BiophysicalProperties\":{\"a\":{}}},\"visualization\":{\"sphere\":{\"position\":{\"x\":3.3,\"y\":4.0,\"z\":-1.444}},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999}}},\"simulation\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}}]}}}}", serialized);
 	}
 }

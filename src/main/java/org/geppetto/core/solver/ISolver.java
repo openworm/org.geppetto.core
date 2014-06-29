@@ -39,7 +39,7 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.state.AspectsTreeRoot;
+import org.geppetto.core.model.state.AspectTreeNode;
 import org.geppetto.core.simulation.IRunConfiguration;
 
 /**
@@ -48,9 +48,9 @@ import org.geppetto.core.simulation.IRunConfiguration;
  */
 public interface ISolver {
 	
-	public AspectsTreeRoot solve(final IRunConfiguration timeConfiguration) throws GeppettoExecutionException;
+	public AspectTreeNode solve(final IRunConfiguration timeConfiguration) throws GeppettoExecutionException;
 	
-	public AspectsTreeRoot initialize(final IModel model) throws GeppettoInitializationException;
+	public AspectTreeNode initialize(final IModel model) throws GeppettoInitializationException;
 	
 	public void dispose();
 	

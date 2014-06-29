@@ -45,6 +45,18 @@ public class EntityNode extends ACompositeStateNode{
 
 	private String instancePath;
 	
+	private List<Connection> connections;
+
+	private AMetadataNode metadata;
+
+	private Point position;
+	
+	public EntityNode(){}
+	
+	public EntityNode(String name) {
+		super(name);
+	}
+
 	public String getInstancePath() {
 		return instancePath;
 	}
@@ -56,12 +68,6 @@ public class EntityNode extends ACompositeStateNode{
 	public void setAspects(List<AspectNode> aspects) {
 		this.aspects = aspects;
 	}
-
-	private List<Connection> connections;
-
-	private AMetadataNode metadata;
-
-	private Point position;
 
     public List<Connection> getConnections() {
         return connections;
@@ -80,6 +86,23 @@ public class EntityNode extends ACompositeStateNode{
 	
 	public String getId() {
 		return this.id;
+	}
+	
+
+	public AMetadataNode getMetadata() {
+		return this.metadata;
+	}
+
+	public void setMetadata(AMetadataNode textMetadataNode) {
+		
+	}
+
+	public void setPosition(Point position) {
+		this.position = position;
+	}
+	
+	public Point getPosition() {
+		return this.position;
 	}
 	
 	public static class Connection{
@@ -111,31 +134,13 @@ public class EntityNode extends ACompositeStateNode{
 			return this.entity;
 		}
 
-		public void setEntityId(String entityID) {
-			// TODO Auto-generated method stub
-			
+		public void setEntityId(String entityID) {			
 		}
 
-		public void setMetadata(AMetadataNode mPost) {
-			// TODO Auto-generated method stub
-			
+		public void setMetadata(AMetadataNode mPost) {			
 		}
 
-		public void setType(String type) {
-			// TODO Auto-generated method stub
-			
+		public void setType(String type) {			
 		}
-	}
-
-	public AMetadataNode getMetadata() {
-		return this.metadata;
-	}
-
-	public void setMetadata(AMetadataNode textMetadataNode) {
-		
-	}
-
-	public void setPosition(Point position) {
-		this.position = position;
 	}
 }

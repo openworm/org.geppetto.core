@@ -4,7 +4,7 @@
 	"javaType" : "org.geppetto.core.visualisation.model.VisualModel",
 	"extends": {
 		"type" : "object",
-    	"javaType" : "org.geppetto.core.model.state.ACompositeStateNode"
+    	"javaType" : "org.geppetto.core.model.state.AVisualNode"
 	},
 	"properties": {
 		"id": { "type": "string" , "required": true },

@@ -32,6 +32,8 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
+import org.geppetto.core.model.state.visitors.IStateVisitor;
+
 public class TimeNode extends ASimpleStateNode{
 
 	private String value, unit, scale;
@@ -58,5 +60,11 @@ public class TimeNode extends ASimpleStateNode{
 
 	public void setScale(String scale) {
 		this.scale = scale;
+	}
+
+	@Override
+	public boolean apply(IStateVisitor visitor) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

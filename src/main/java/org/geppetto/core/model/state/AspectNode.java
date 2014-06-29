@@ -32,7 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
-import java.net.URL;
 import java.util.List;
 
 import org.geppetto.core.model.IModelInterpreter;
@@ -48,6 +47,12 @@ public class AspectNode extends ACompositeStateNode{
 	private List<VisualModel> visualModels;
 	private String instancePath;
 	
+	public AspectNode(){}
+	
+	public AspectNode(String name) {
+		super(name);
+	}
+
 	public TimeNode getTime() {
 		return time;
 	}
@@ -95,5 +100,4 @@ public class AspectNode extends ACompositeStateNode{
 	public String getInstancePath() {
 		return this.instancePath;
 	}
-	
 }

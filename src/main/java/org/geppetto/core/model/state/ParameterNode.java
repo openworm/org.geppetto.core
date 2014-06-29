@@ -32,11 +32,20 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
+import org.geppetto.core.model.state.visitors.IStateVisitor;
+
 public class ParameterNode extends ASimpleStateNode {
 
 	public ParameterNode(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
+	}
+	
+	public ParameterNode(){};
+	
+	@Override
+	public boolean apply(IStateVisitor visitor)
+	{
+		return visitor.visitParameterNode(this);
 	}
 
 }

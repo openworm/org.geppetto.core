@@ -32,28 +32,30 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.geppetto.core.model.state.visitors.IStateVisitor;
+import org.geppetto.core.visualisation.model.Point;
 
-public class SceneNode extends ACompositeStateNode{
+public abstract class AVisualNode extends ASimpleStateNode{
 
-	private List<EntityNode> entities = new ArrayList<EntityNode>();	
-	private TimeNode time;
-
-	public List<EntityNode> getEntities() {
-		return entities;
+	private Point position;
+	
+	public AVisualNode(String name) {
+		super(name);
+	}
+	
+	public AVisualNode(){}
+	
+	public void setPosition(Point position){
+		this.position = position;
+	}
+	
+	public Point getPosition(){
+		return this.position;
 	}
 
-	public void setEntities(List<EntityNode> entities) {
-		this.entities = entities;
+	@Override
+	public boolean apply(IStateVisitor visitor)
+	{
+		return visitor.visitVisualObjectNode(this);
 	}
-
-	public TimeNode getTime() {
-		return time;
-	}
-
-	public void setTime(TimeNode time) {
-		this.time = time;
-	}
-
 }

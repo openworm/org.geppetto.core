@@ -38,14 +38,14 @@ import java.util.List;
 
 import org.geppetto.core.model.simulation.Aspect;
 import org.geppetto.core.model.state.AspectNode;
-import org.geppetto.core.model.state.AspectsTreeRoot;
+import org.geppetto.core.model.state.AspectTreeNode;
 import org.geppetto.core.model.state.EntityNode;
 
 public interface IModelInterpreter {
 
 	IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException;
 	
-	EntityNode getVisualEntity(IModel model, Aspect aspect, AspectsTreeRoot stateTree)throws ModelInterpreterException;
+	EntityNode getVisualEntity(IModel model, Aspect aspect, AspectTreeNode stateTree)throws ModelInterpreterException;
 	
 	boolean populateVisualTree(AspectNode aspectNode);
 	

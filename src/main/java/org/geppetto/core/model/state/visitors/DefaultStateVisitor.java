@@ -33,7 +33,19 @@
 package org.geppetto.core.model.state.visitors;
 
 import org.geppetto.core.model.state.ACompositeStateNode;
-import org.geppetto.core.model.state.ASimpleStateNode;
+import org.geppetto.core.model.state.AVisualNode;
+import org.geppetto.core.model.state.AspectNode;
+import org.geppetto.core.model.state.AspectTreeNode;
+import org.geppetto.core.model.state.CompositeVariableNode;
+import org.geppetto.core.model.state.EntityNode;
+import org.geppetto.core.model.state.ParameterNode;
+import org.geppetto.core.model.state.SceneNode;
+import org.geppetto.core.model.state.StateVariableNode;
+import org.geppetto.core.model.state.TimeNode;
+import org.geppetto.core.visualisation.model.Collada;
+import org.geppetto.core.visualisation.model.Cylinder;
+import org.geppetto.core.visualisation.model.Particle;
+import org.geppetto.core.visualisation.model.Sphere;
 
 /**
  * @author matteocantarelli
@@ -44,33 +56,7 @@ public class DefaultStateVisitor implements IStateVisitor
 
 	boolean _stopVisiting=false;
 	
-	/* (non-Javadoc)
-	 * @see org.geppetto.core.model.state.visitors.IStateVisitor#visitEnter(org.geppetto.core.model.state.CompositeStateNode)
-	 */
-	@Override
-	public boolean inCompositeStateNode(ACompositeStateNode node)
-	{
-		return !_stopVisiting;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.geppetto.core.model.state.visitors.IStateVisitor#visitLeave(org.geppetto.core.model.state.CompositeStateNode)
-	 */
-	@Override
-	public boolean outCompositeStateNode(ACompositeStateNode node)
-	{
-		return !_stopVisiting;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.geppetto.core.model.state.visitors.IStateVisitor#visit(org.geppetto.core.model.state.SimpleStateNode)
-	 */
-	@Override
-	public boolean visitSimpleStateNode(ASimpleStateNode node)
-	{
-		return !_stopVisiting;
-	}
-
+	
 	@Override
 	public boolean stopVisiting()
 	{
@@ -81,6 +67,38 @@ public class DefaultStateVisitor implements IStateVisitor
 	public void doStopVisiting()
 	{
 		_stopVisiting=true;
+	}
+
+	@Override
+	public boolean inCompositeStateNode(ACompositeStateNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean outCompositeStateNode(ACompositeStateNode node) {
+		return !_stopVisiting;
+	}
+
+
+	@Override
+	public boolean visitStateVariableNode(StateVariableNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean visitParameterNode(ParameterNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean visitTimeNode(TimeNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean visitVisualObjectNode(AVisualNode aVisualObjectNode) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -44,4 +44,49 @@ public class CompositeVariableNode extends ACompositeStateNode{
 		super(name);
 	}
 
+	protected List<ANode> _children=new ArrayList<ANode>();;
+
+	
+	public ANode addChild(ANode child)
+	{
+		_children.add(child);
+		child._parent=this; //double link
+		return child;
+	}
+	
+	public List<ANode> getChildren()
+	{
+		return _children;
+	}
+
+	public String getBaseName()
+	{
+		if(isArray())
+		{
+		return _name.substring(0, _name.indexOf("["));
+		}
+		else return getName();
+	}
+	
+	public int getIndex()
+	{
+		//ASSUMPTION only one dimension
+		return Integer.parseInt(_name.substring(_name.indexOf("[")+1, _name.indexOf("]")));
+	}
+	
+	
+	@Override
+	public String toString()
+	{
+		return _name+"["+_children+"]";
+	}
+
+	/**
+	 * @param states
+	 */
+	public void addChildren(Collection<ANode> states)
+	{
+		_children.addAll(states);
+		
+	}
 }

@@ -33,6 +33,7 @@
 package org.geppetto.core.model.state.visitors;
 
 import org.geppetto.core.model.state.ASimpleStateNode;
+import org.geppetto.core.model.state.StateVariableNode;
 
 /**
  * @author matteocantarelli
@@ -44,7 +45,7 @@ public class CountTimeStepsVisitor extends DefaultStateVisitor
 	private int _numStates;
 	
 	@Override
-	public boolean visitSimpleStateNode(ASimpleStateNode node)
+	public boolean visitStateVariableNode(StateVariableNode node)
 	{
 		_numStates=node.getValues().size();
 		doStopVisiting();

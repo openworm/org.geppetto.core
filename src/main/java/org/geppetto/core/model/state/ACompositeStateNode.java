@@ -49,9 +49,9 @@ public abstract class ACompositeStateNode extends ANode
 	}
 	
 	public ACompositeStateNode(){
-		
+		super("composite_node");
 	}
-
+	
 	protected List<ANode> _children=new ArrayList<ANode>();;
 
 	
@@ -103,7 +103,7 @@ public abstract class ACompositeStateNode extends ANode
 	{
 		if (visitor.inCompositeStateNode(this))  // enter this node?
 		{
-			for(ANode stateNode:_children)
+			for(ANode stateNode:this.getChildren())
 			{
 				stateNode.apply(visitor);
 				if(visitor.stopVisiting())

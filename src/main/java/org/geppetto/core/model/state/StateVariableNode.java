@@ -32,10 +32,17 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
+import org.geppetto.core.model.state.visitors.IStateVisitor;
+
 public class StateVariableNode extends ASimpleStateNode{
 
 	public StateVariableNode(String name) {
 		super(name);
 	}
 
+	@Override
+	public boolean apply(IStateVisitor visitor)
+	{
+		return visitor.visitStateVariableNode(this);
+	}
 }

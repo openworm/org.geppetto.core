@@ -8,6 +8,6 @@
 	},
 	"extends": {
 		"type" : "object",
-    	"javaType" : "org.geppetto.core.model.state.ACompositeStateNode"
+    	"javaType" : "org.geppetto.core.model.state.AVisualNode"
 	}
 }

@@ -5,9 +5,13 @@ import java.util.Map;
 
 import org.geppetto.core.model.state.ANode;
 import org.geppetto.core.model.state.ACompositeStateNode;
-import org.geppetto.core.model.state.ASimpleStateNode;
-import org.geppetto.core.model.state.AspectsTreeRoot;
+import org.geppetto.core.model.state.AVisualNode;
+import org.geppetto.core.model.state.AspectTreeNode;
+import org.geppetto.core.model.state.ParameterNode;
+import org.geppetto.core.model.state.StateVariableNode;
+import org.geppetto.core.model.state.TimeNode;
 import org.geppetto.core.model.values.AValue;
+import org.geppetto.core.visualisation.model.Point;
 
 public class SerializeTreeVisitor extends DefaultStateVisitor
 {
@@ -19,13 +23,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	public SerializeTreeVisitor()
 	{
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean inCompositeStateNode(ACompositeStateNode node)
 	{
-
 		String name = node.getBaseName();
 		if(node.isArray() && node.getParent() != null)
 		{
@@ -94,7 +96,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			else if(node.getChildren().size() == 0)
 			{
 
-				_serialized.append("{}");
+				_serialized.append("{");
 			}
 
 		}
@@ -139,7 +141,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				else
 				{
 					// make sure we didn't go to far, if we did add extra bracket
-					if(node.getParent() instanceof AspectsTreeRoot)
+					if(node.getParent() instanceof AspectTreeNode)
 					{
 						_serialized.append("}");
 					}
@@ -150,13 +152,10 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			}
 			else
 			{
-				if(!node.getChildren().isEmpty())
+				ANode parent = node.getParent();
+				if(parent == null)
 				{
-					ANode parent = node.getParent();
-					if(parent == null || (!(node.getChildren().get(0) instanceof ACompositeStateNode) && (parent instanceof AspectsTreeRoot)))
-					{
-						_serialized.append("}");
-					}
+					_serialized.append("}");
 				}
 			}
 
@@ -168,7 +167,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	}
 
 	@Override
-	public boolean visitSimpleStateNode(ASimpleStateNode node)
+	public boolean visitStateVariableNode(StateVariableNode node)
 	{
 		AValue value = node.consumeFirstValue();
 
@@ -185,7 +184,40 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		}
 		_serialized.append("\"" + node.getName() + "\":{\"value\":" + value + ",\"unit\":" + unit + ",\"scale\":" + scale + "},");
 
-		return super.visitSimpleStateNode(node);
+		return super.visitStateVariableNode(node);
+	}
+	
+	@Override
+	public boolean visitParameterNode(ParameterNode node)
+	{
+		_serialized.append("\"" + node.getName() + "\":{},");
+
+		return super.visitParameterNode(node);
+	}
+	
+	@Override
+	public boolean visitTimeNode(TimeNode node)
+	{
+		_serialized.append("\"" + node.getName() + "\":{},");
+
+		return super.visitTimeNode(node);
+	}
+	
+	@Override
+	public boolean visitVisualObjectNode(AVisualNode node)
+	{
+		Point position = node.getPosition();
+		
+		String positionString = null;
+		
+		if(position!=null){
+			positionString = "\"x\":" + position.getX().toString() + ","
+					+ "\"y\":" + position.getY().toString() + ","+"\"z\":" + position.getZ().toString() + "";
+		}
+		
+		_serialized.append("\"" + node.getName() + "\":{\"position\":{" + positionString + "}},");
+
+		return super.visitVisualObjectNode(node);
 	}
 
 	public String getSerializedTree()
