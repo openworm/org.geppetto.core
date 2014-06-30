@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geppetto.core.model.IModelInterpreter;
+import org.geppetto.core.model.state.ANode.SUBTREE;
 import org.geppetto.core.simulator.ISimulator;
 import org.geppetto.core.visualisation.model.VisualModel;
 
@@ -53,6 +54,7 @@ public class AspectNode extends ACompositeStateNode{
 	private ISimulator simulator;
 	private List<VisualModel> visualModels = new ArrayList<VisualModel>();
 	private String instancePath;
+	
 	
 	public AspectNode(){}
 	
@@ -107,5 +109,49 @@ public class AspectNode extends ACompositeStateNode{
 
 	public String getInstancePath() {
 		return this.instancePath;
+	}
+	
+	/**
+	 * @param tree
+	 */
+	public void flushSubTree(SUBTREE tree)
+	{
+		for(ANode node : _children)
+		{
+			if(node.getName().equals(tree.toString()))
+			{
+				// re-assign to empty node
+				node = new CompositeVariableNode(tree.toString());
+				break;
+			}
+		}
+	}
+
+	/**
+	 * @param modelTree
+	 * @return
+	 */
+	private ACompositeStateNode addSubTree(SUBTREE modelTree)
+	{
+		AspectTreeNode subTree = new AspectTreeNode(modelTree.toString());
+		addChild(subTree);
+		return subTree;
+	}
+	
+	/**
+	 * It creates the subtree if it doesn't exist
+	 * @param modelTree
+	 * @return
+	 */
+	public ACompositeStateNode getSubTree(SUBTREE modelTree)
+	{
+		for (ANode node:getChildren())
+		{
+			if( node.getName().equals(modelTree.toString()))
+			{
+				return (ACompositeStateNode) node;
+			}
+		}
+		return addSubTree(modelTree);
 	}
 }

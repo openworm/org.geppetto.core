@@ -34,7 +34,8 @@ package org.geppetto.core.model.state;
 
 import java.util.ArrayList;
 
-import org.geppetto.core.model.state.visitors.IStateVisitor;
+import org.geppetto.core.model.state.ANode.SUBTREE;
+
 
 /**
  * Node use for children of AspectNode, stores; model, visualization and simulation trees.
@@ -44,15 +45,6 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  */
 public class AspectTreeNode extends ACompositeStateNode
 {
-
-	public enum SUBTREE
-	{
-		MODEL_TREE,
-		VISUALIZATION_TREE,
-		WATCH_TREE,
-		TIME_STEP
-	}
-
 	/**
 	 * @param modelId
 	 */

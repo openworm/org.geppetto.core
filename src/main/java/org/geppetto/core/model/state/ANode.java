@@ -32,7 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
-import org.geppetto.core.model.state.AspectTreeNode.SUBTREE;
 import org.geppetto.core.model.state.visitors.IVisitable;
 
 /**
@@ -47,6 +46,14 @@ public abstract class ANode implements IVisitable
 	protected String _name;
 	protected String _metatype;
 
+	public enum SUBTREE
+	{
+		MODEL_TREE,
+		VISUALIZATION_TREE,
+		WATCH_TREE,
+		TIME_STEP
+	}
+	
 	/**
 	 * Different types of nodes
 	 * 
