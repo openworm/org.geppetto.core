@@ -48,6 +48,13 @@ public class RuntimeTreeRoot extends ACompositeStateNode{
 	private List<EntityNode> entities = new ArrayList<EntityNode>();	
 	private StateVariableNode time;
 
+	public RuntimeTreeRoot(String name) {
+		super(name);
+	}
+
+	public RuntimeTreeRoot() {
+	}
+
 	public List<EntityNode> getEntities() {
 		return entities;
 	}

@@ -5,6 +5,12 @@ import java.util.List;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
+/**
+ * Node use to define a model for visualization and serialization
+ * 
+ * @author  Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
 public class VisualModelNode extends ACompositeStateNode{
 
     private List<AVisualObjectNode> models = new ArrayList<AVisualObjectNode>();

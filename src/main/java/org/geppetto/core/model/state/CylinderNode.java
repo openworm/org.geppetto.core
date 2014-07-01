@@ -3,6 +3,12 @@ package org.geppetto.core.model.state;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 import org.geppetto.core.visualisation.model.Point;
 
+/**
+ * Node use to define a cylinder for visualization and serialization
+ * 
+ * @author  Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
 public class CylinderNode extends AVisualObjectNode{
 
 	private Double radiusTop;

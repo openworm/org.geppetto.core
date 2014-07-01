@@ -54,9 +54,7 @@ public class AspectNode extends ACompositeStateNode{
 	private ISimulator simulator;
 	private List<VisualModelNode> visualModels = new ArrayList<VisualModelNode>();
 	private String instancePath;
-	
-	private final static String metaType = "Entity Node";
-	
+		
 	public AspectNode(){}
 	
 	public AspectNode(String name) {
@@ -153,11 +151,6 @@ public class AspectNode extends ACompositeStateNode{
 			}
 		}
 		return addSubTree(modelTree);
-	}
-
-	@Override
-	public String getMetaType() {
-		return this.metaType;
 	}
 	
 	@Override

@@ -91,16 +91,15 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	}
 
 	public void generalACompositeStateNodeOut(ACompositeStateNode node){
-		
-		if(_serialized.toString().endsWith(",")){
-			_serialized.deleteCharAt(_serialized.lastIndexOf(","));
-		}
-		
 		String metaType = "";
 		if(node.getMetaType() != null){
-			metaType = ",\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
-		_serialized.append(metaType);
+		
+		//if(_serialized.toString().endsWith(",")){
+			//_serialized.deleteCharAt(_serialized.lastIndexOf(","));
+			_serialized.append(metaType);
+//		/}
 
 		if(node.isArray()){
 			ANode sibling = node.nextSibling();
@@ -120,12 +119,6 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				// no parent means double bracket
 				if(node.getParent() == null){
 					_serialized.append("}");
-				}
-				else{
-					// make sure we didn't go to far, if we did add extra bracket
-					if(node.getParent() instanceof AspectTreeNode){
-						_serialized.append("}");
-					}
 				}
 				_serialized.append("},");
 				return;
