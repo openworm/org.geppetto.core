@@ -35,6 +35,7 @@ package org.geppetto.core.model.state;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geppetto.core.model.state.visitors.IStateVisitor;
 import org.geppetto.core.visualisation.model.Point;
 
 /**
@@ -56,15 +57,13 @@ public class EntityNode extends ACompositeStateNode{
 	private AMetadataNode metadata;
 
 	private Point position;
-	
+		
 	public EntityNode(){
 		super();
-		this.setMetaType(ANode.MetaTypes.EntityNode.toString());
 	}
 	
 	public EntityNode(String name) {
 		super(name);
-		this.setMetaType(ANode.MetaTypes.EntityNode.toString());
 	}
 
 	public String getInstancePath() {
@@ -113,6 +112,23 @@ public class EntityNode extends ACompositeStateNode{
 	
 	public Point getPosition() {
 		return this.position;
+	}
+	
+	@Override
+	public synchronized boolean apply(IStateVisitor visitor)
+	{
+		if (visitor.inEntityNode(this))  // enter this node?
+		{
+			for(ANode stateNode:this.getChildren())
+			{
+				stateNode.apply(visitor);
+				if(visitor.stopVisiting())
+				{
+					break;
+				}
+			}
+		}
+		return visitor.outEntityNode( this );
 	}
 	
 	public static class Connection{

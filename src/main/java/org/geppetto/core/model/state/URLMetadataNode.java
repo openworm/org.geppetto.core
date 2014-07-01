@@ -45,7 +45,6 @@ public class URLMetadataNode extends AMetadataNode{
 	
 	public URLMetadataNode(String name) {
 		super(name);
-		this.setMetaType(ANode.MetaTypes.URLMetadataNode.toString());
 	}
 
 	@Override

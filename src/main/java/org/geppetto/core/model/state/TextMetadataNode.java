@@ -32,6 +32,9 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
@@ -42,19 +45,23 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  */
 public class TextMetadataNode extends AMetadataNode{
 
+	private Map<String, Object> properties = new HashMap<String, Object>();;
+
 	public TextMetadataNode(String name){
 		super(name);
-		this.setMetaType(ANode.MetaTypes.TextMetadataNode.toString());
 	}
 	
 	public TextMetadataNode(){
-		super(ANode.MetaTypes.TextMetadataNode.toString());
-		this.setMetaType(ANode.MetaTypes.TextMetadataNode.toString());
+		super("TextMetadataNode");
 	}
 	
 	@Override
 	public boolean apply(IStateVisitor visitor)
 	{
 		return visitor.visitTextMetadataNode(this);
+	}
+
+	public void setAdditionalProperty(String property, String value) {
+		properties.put(property, value);
 	}
 }

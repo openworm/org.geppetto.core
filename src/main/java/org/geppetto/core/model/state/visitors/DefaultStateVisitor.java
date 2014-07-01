@@ -33,21 +33,20 @@
 package org.geppetto.core.model.state.visitors;
 
 import org.geppetto.core.model.state.ACompositeStateNode;
-import org.geppetto.core.model.state.AVisualNode;
 import org.geppetto.core.model.state.AspectNode;
 import org.geppetto.core.model.state.AspectTreeNode;
+import org.geppetto.core.model.state.ColladaNode;
 import org.geppetto.core.model.state.CompositeVariableNode;
+import org.geppetto.core.model.state.CylinderNode;
 import org.geppetto.core.model.state.EntityNode;
 import org.geppetto.core.model.state.ParameterNode;
-import org.geppetto.core.model.state.SceneNode;
+import org.geppetto.core.model.state.ParticleNode;
+import org.geppetto.core.model.state.RuntimeTreeRoot;
+import org.geppetto.core.model.state.SphereNode;
 import org.geppetto.core.model.state.StateVariableNode;
 import org.geppetto.core.model.state.TextMetadataNode;
-import org.geppetto.core.model.state.TimeNode;
 import org.geppetto.core.model.state.URLMetadataNode;
-import org.geppetto.core.visualisation.model.Collada;
-import org.geppetto.core.visualisation.model.Cylinder;
-import org.geppetto.core.visualisation.model.Particle;
-import org.geppetto.core.visualisation.model.Sphere;
+import org.geppetto.core.model.state.VisualModelNode;
 
 /**
  * @author matteocantarelli
@@ -72,12 +71,12 @@ public class DefaultStateVisitor implements IStateVisitor
 	}
 
 	@Override
-	public boolean inCompositeStateNode(ACompositeStateNode node) {
+	public boolean inCompositeStateNode(CompositeVariableNode node) {
 		return !_stopVisiting;
 	}
 
 	@Override
-	public boolean outCompositeStateNode(ACompositeStateNode node) {
+	public boolean outCompositeStateNode(CompositeVariableNode node) {
 		return !_stopVisiting;
 	}
 
@@ -93,12 +92,7 @@ public class DefaultStateVisitor implements IStateVisitor
 	}
 
 	@Override
-	public boolean visitTimeNode(TimeNode node) {
-		return !_stopVisiting;
-	}
-
-	@Override
-	public boolean visitVisualObjectNode(AVisualNode aVisualObjectNode) {
+	public boolean visitTimeNode(StateVariableNode node) {
 		return !_stopVisiting;
 	}
 
@@ -109,6 +103,86 @@ public class DefaultStateVisitor implements IStateVisitor
 
 	@Override
 	public boolean visitURLMetadataNode(URLMetadataNode urlMetadataNode) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean visitSphereNode(SphereNode sphereNode) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean visitColladaNode(ColladaNode sphereNode) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean visitCylinderNode(CylinderNode sphereNode) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean visitParticleNode(ParticleNode sphereNode) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean inAspectNode(AspectNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean outAspectNode(AspectNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean inEntityNode(EntityNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean outEntityNode(EntityNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean inColladaNode(ColladaNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean outColladaNode(ColladaNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean inAspectTreeNode(AspectTreeNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean outAspectTreeNode(AspectTreeNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean inVisualModelNode(VisualModelNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean outVisualModelNode(VisualModelNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean inRuntimeTreeRoot(RuntimeTreeRoot runtimeTreeRoot) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean outRuntimeTreeRoot(RuntimeTreeRoot runtimeTreeRoot) {
 		return !_stopVisiting;
 	}
 

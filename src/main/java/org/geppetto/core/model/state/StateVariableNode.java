@@ -44,7 +44,6 @@ public class StateVariableNode extends ASimpleStateNode{
 
 	public StateVariableNode(String name) {
 		super(name);
-		this.setMetaType(ANode.MetaTypes.StateVariableNode.toString());
 	}
 
 	@Override

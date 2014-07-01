@@ -37,8 +37,8 @@ import java.util.List;
 
 import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.model.state.ANode.SUBTREE;
+import org.geppetto.core.model.state.visitors.IStateVisitor;
 import org.geppetto.core.simulator.ISimulator;
-import org.geppetto.core.visualisation.model.VisualModel;
 
 /**
  * Node use to store Aspect values, and serialization.
@@ -49,25 +49,25 @@ import org.geppetto.core.visualisation.model.VisualModel;
 public class AspectNode extends ACompositeStateNode{
 
 	private String id;
-	private TimeNode time;
+	private StateVariableNode time;
 	private IModelInterpreter modelInterpreter;
 	private ISimulator simulator;
-	private List<VisualModel> visualModels = new ArrayList<VisualModel>();
+	private List<VisualModelNode> visualModels = new ArrayList<VisualModelNode>();
 	private String instancePath;
 	
+	private final static String metaType = "Entity Node";
 	
 	public AspectNode(){}
 	
 	public AspectNode(String name) {
 		super(name);
-		this.setMetaType(ANode.MetaTypes.AspectNode.toString());
 	}
 
-	public TimeNode getTime() {
+	public StateVariableNode getTime() {
 		return time;
 	}
 
-	public void setTime(TimeNode time) {
+	public void setTime(StateVariableNode time) {
 		this.time = time;
 	}
 
@@ -99,7 +99,7 @@ public class AspectNode extends ACompositeStateNode{
 		return this.getParent();
 	}
 
-	public List<VisualModel> getVisualModel() {
+	public List<VisualModelNode> getVisualModel() {
 		return this.visualModels;
 	}
 
@@ -153,5 +153,27 @@ public class AspectNode extends ACompositeStateNode{
 			}
 		}
 		return addSubTree(modelTree);
+	}
+
+	@Override
+	public String getMetaType() {
+		return this.metaType;
+	}
+	
+	@Override
+	public synchronized boolean apply(IStateVisitor visitor)
+	{
+		if (visitor.inAspectNode(this))  // enter this node?
+		{
+			for(ANode stateNode:this.getChildren())
+			{
+				stateNode.apply(visitor);
+				if(visitor.stopVisiting())
+				{
+					break;
+				}
+			}
+		}
+		return visitor.outAspectNode( this );
 	}
 }

@@ -38,16 +38,16 @@ import junit.framework.Assert;
 import org.geppetto.core.model.state.AspectNode;
 import org.geppetto.core.model.state.AspectTreeNode;
 import org.geppetto.core.model.state.CompositeVariableNode;
+import org.geppetto.core.model.state.CylinderNode;
 import org.geppetto.core.model.state.EntityNode;
 import org.geppetto.core.model.state.ParameterNode;
+import org.geppetto.core.model.state.SphereNode;
 import org.geppetto.core.model.state.StateVariableNode;
 import org.geppetto.core.model.state.TextMetadataNode;
 import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
-import org.geppetto.core.visualisation.model.Cylinder;
 import org.geppetto.core.visualisation.model.Point;
-import org.geppetto.core.visualisation.model.Sphere;
 import org.junit.Test;
 
 import com.google.gson.Gson;
@@ -684,7 +684,7 @@ public class TestTreeSerialization {
 		
 		AspectTreeNode visualization = new AspectTreeNode("visualization");
 
-		Sphere sphere = new Sphere();
+		SphereNode sphere = new SphereNode();
 		sphere.setName("sphere");
 		Point p = new Point();
 		p.setX(new Double(3.3));
@@ -692,7 +692,7 @@ public class TestTreeSerialization {
 		p.setZ(new Double(-1.444));
 		sphere.setPosition(p);
 		
-		Cylinder cylinder = new Cylinder();
+		CylinderNode cylinder = new CylinderNode();
 		cylinder.setName("cylinder");
 		Point p2 = new Point();
 		p2.setX(new Double(6.3));

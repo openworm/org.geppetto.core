@@ -32,45 +32,52 @@
  *******************************************************************************/
 package org.geppetto.core.model.state;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
- * Node use storing time step values of simulation, and serialization.
+ * Node for storing a scene and then serialization
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class TimeNode extends ASimpleStateNode{
+public class RuntimeTreeRoot extends ACompositeStateNode{
 
-	private String value, unit, scale;
+	private List<EntityNode> entities = new ArrayList<EntityNode>();	
+	private StateVariableNode time;
 
-	public String getValue() {
-		return value;
+	public List<EntityNode> getEntities() {
+		return entities;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setEntities(List<EntityNode> entities) {
+		this.entities = entities;
 	}
 
-	public String getUnit() {
-		return unit;
+	public StateVariableNode getTime() {
+		return time;
 	}
 
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
-
-	public String getScale() {
-		return scale;
-	}
-
-	public void setScale(String scale) {
-		this.scale = scale;
+	public void setTime(StateVariableNode time) {
+		this.time = time;
 	}
 
 	@Override
-	public boolean apply(IStateVisitor visitor)
+	public synchronized boolean apply(IStateVisitor visitor)
 	{
-		return visitor.visitTimeNode(this);
+		if (visitor.inRuntimeTreeRoot(this))  // enter this node?
+		{
+			for(ANode stateNode:this.getChildren())
+			{
+				stateNode.apply(visitor);
+				if(visitor.stopVisiting())
+				{
+					break;
+				}
+			}
+		}
+		return visitor.outRuntimeTreeRoot( this );
 	}
 }

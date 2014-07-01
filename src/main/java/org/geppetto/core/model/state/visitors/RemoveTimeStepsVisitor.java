@@ -33,7 +33,7 @@
 package org.geppetto.core.model.state.visitors;
 
 import org.geppetto.core.model.state.ASimpleStateNode;
-import org.geppetto.core.model.state.TimeNode;
+import org.geppetto.core.model.state.StateVariableNode;
 
 /**
  * @author matteocantarelli
@@ -50,7 +50,7 @@ public class RemoveTimeStepsVisitor extends DefaultStateVisitor
 	}
 
 	@Override
-	public boolean visitTimeNode(TimeNode node)
+	public boolean visitTimeNode(StateVariableNode node)
 	{
 		for(int i=1;i<=_timeStepsToRemove;i++)
 		{

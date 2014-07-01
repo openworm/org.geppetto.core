@@ -35,6 +35,7 @@ package org.geppetto.core.model.state;
 import java.util.ArrayList;
 
 import org.geppetto.core.model.state.ANode.SUBTREE;
+import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 
 /**
@@ -51,7 +52,6 @@ public class AspectTreeNode extends ACompositeStateNode
 	public AspectTreeNode(String modelId)
 	{
 		super(modelId);
-		this.setMetaType(ANode.MetaTypes.AspectTreeNode.toString());
 		_children = new ArrayList<ANode>();
 	}
 	
@@ -106,5 +106,22 @@ public class AspectTreeNode extends ACompositeStateNode
 			}
 		}
 		return addSubTree(modelTree);
+	}
+	
+	@Override
+	public synchronized boolean apply(IStateVisitor visitor)
+	{
+		if (visitor.inAspectTreeNode(this))  // enter this node?
+		{
+			for(ANode stateNode:this.getChildren())
+			{
+				stateNode.apply(visitor);
+				if(visitor.stopVisiting())
+				{
+					break;
+				}
+			}
+		}
+		return visitor.outAspectTreeNode( this );
 	}
 }

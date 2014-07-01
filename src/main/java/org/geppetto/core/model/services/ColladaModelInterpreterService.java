@@ -45,9 +45,9 @@ import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.simulation.Aspect;
 import org.geppetto.core.model.state.AspectNode;
 import org.geppetto.core.model.state.AspectTreeNode;
+import org.geppetto.core.model.state.ColladaNode;
 import org.geppetto.core.model.state.EntityNode;
-import org.geppetto.core.visualisation.model.Collada;
-import org.geppetto.core.visualisation.model.VisualModel;
+import org.geppetto.core.model.state.VisualModelNode;
 import org.springframework.stereotype.Service;
 
 /**
@@ -91,10 +91,10 @@ public class ColladaModelInterpreterService implements IModelInterpreter
 			rootAspect.setId(aspect.getId());
 			_visualEntity.getAspects().add(rootAspect);
 			_modelHash = model.hashCode();
-			Collada collada = new Collada();
+			ColladaNode collada = new ColladaNode();
 			collada.setModel((String) ((ModelWrapper) model).getModel(COLLADA));
 			
-			VisualModel colladaModel = new VisualModel();
+			VisualModelNode colladaModel = new VisualModelNode();
 			//colladaModel.getObjects().add(collada);
 			rootAspect.getVisualModel().add(colladaModel);
 			return _visualEntity;

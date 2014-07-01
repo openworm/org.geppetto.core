@@ -44,7 +44,7 @@ public abstract class ANode implements IVisitable
 {
 	protected ANode _parent;
 	protected String _name;
-	protected String _metatype;
+	//protected String _metatype;
 
 	public enum SUBTREE
 	{
@@ -54,35 +54,9 @@ public abstract class ANode implements IVisitable
 		TIME_STEP
 	}
 	
-	/**
-	 * Different types of nodes
-	 * 
-	 * @author  Jesus R. Martinez (jesus@metacell.us)
-	 *
-	 */
-	public enum MetaTypes{
-		EntityNode("Entity"), AspectNode("Aspect"), AspectTreeNode("AspectNode"),
-		ParameterNode("Parameter"), AVisualNode("Visual Object"), StateVariableNode("State Variable"),
-		TextMetadataNode("Text"), TimeNode("Time"), URLMetadataNode("URL");
-
-		private final String text;
-		
-		private MetaTypes(final String text) {
-			this.text = text;
-		}
-		
-		@Override
-		public String toString() {
-			return text;
-		}
-	}
-	public String getMetaType() {
-		return _metatype;
-	}
-
-	public void setMetaType(String _metaType) {
-		this._metatype = _metaType;
-	}
+	public String getMetaType(){
+		return this.getClass().getSimpleName();
+	};
 
 	public ANode(String name)
 	{

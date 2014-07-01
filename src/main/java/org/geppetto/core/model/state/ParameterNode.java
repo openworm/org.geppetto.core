@@ -44,7 +44,6 @@ public class ParameterNode extends ASimpleStateNode {
 
 	public ParameterNode(String name) {
 		super(name);
-		this.setMetaType(ANode.MetaTypes.ParameterNode.toString());
 	}
 	
 	public ParameterNode(){};

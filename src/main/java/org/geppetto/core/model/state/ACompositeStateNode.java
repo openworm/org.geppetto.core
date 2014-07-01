@@ -35,9 +35,6 @@ package org.geppetto.core.model.state;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.geppetto.core.model.state.visitors.IStateVisitor;
-
 /**
  * Abstract node that defines a node capable of having other nodes as children. 
  * Overrides apply method of parent abstract class
@@ -55,7 +52,6 @@ public abstract class ACompositeStateNode extends ANode
 	}
 	
 	protected List<ANode> _children=new ArrayList<ANode>();;
-
 	
 	public ANode addChild(ANode child)
 	{
@@ -98,22 +94,5 @@ public abstract class ACompositeStateNode extends ANode
 	{
 		_children.addAll(states);
 		
-	}
-	
-	@Override
-	public synchronized boolean apply(IStateVisitor visitor)
-	{
-		if (visitor.inCompositeStateNode(this))  // enter this node?
-		{
-			for(ANode stateNode:this.getChildren())
-			{
-				stateNode.apply(visitor);
-				if(visitor.stopVisiting())
-				{
-					break;
-				}
-			}
-		}
-		return visitor.outCompositeStateNode( this );
 	}
 }
