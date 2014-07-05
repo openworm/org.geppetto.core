@@ -30,13 +30,13 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.geppetto.core.model.IModelInterpreter;
-import org.geppetto.core.model.state.ANode.SUBTREE;
+import org.geppetto.core.model.runtime.AspectTreeNode.ASPECTTREE;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 import org.geppetto.core.simulator.ISimulator;
 
@@ -46,14 +46,14 @@ import org.geppetto.core.simulator.ISimulator;
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class AspectNode extends ACompositeStateNode{
+public class AspectNode extends ACompositeNode{
 
-	private String id;
-	private StateVariableNode time;
-	private IModelInterpreter modelInterpreter;
-	private ISimulator simulator;
-	private List<VisualModelNode> visualModels = new ArrayList<VisualModelNode>();
-	private String instancePath;
+	private String _id;
+	private StateVariableNode _time;
+	private IModelInterpreter _modelInterpreter;
+	private ISimulator _simulator;
+	private List<VisualModelNode> _visualModels = new ArrayList<VisualModelNode>();
+	private String _instancePath;
 		
 	public AspectNode(){}
 	
@@ -62,35 +62,35 @@ public class AspectNode extends ACompositeStateNode{
 	}
 
 	public StateVariableNode getTime() {
-		return time;
+		return _time;
 	}
 
 	public void setTime(StateVariableNode time) {
-		this.time = time;
+		this._time = time;
 	}
 
 	public IModelInterpreter getModelInterpreter() {
-		return modelInterpreter;
+		return _modelInterpreter;
 	}
 
 	public void setModelInterpreter(IModelInterpreter modelInterpreter) {
-		this.modelInterpreter = modelInterpreter;
+		this._modelInterpreter = modelInterpreter;
 	}
 
 	public ISimulator getSimulator() {
-		return simulator;
+		return _simulator;
 	}
 
 	public void setSimulator(ISimulator simulator) {
-		this.simulator = simulator;
+		this._simulator = simulator;
 	}
 	
 	public void setId(String id){
-		this.id = id;
+		this._id = id;
 	}
 	
 	public String getId() {
-		return this.id;
+		return this._id;
 	}
 
 	public ANode getParentEntity() {
@@ -98,21 +98,21 @@ public class AspectNode extends ACompositeStateNode{
 	}
 
 	public List<VisualModelNode> getVisualModel() {
-		return this.visualModels;
+		return this._visualModels;
 	}
 
 	public void setInstancePath(String instancePath) {
-		this.instancePath = instancePath;
+		this._instancePath = instancePath;
 	}
 
 	public String getInstancePath() {
-		return this.instancePath;
+		return this._instancePath;
 	}
 	
 	/**
 	 * @param tree
 	 */
-	public void flushSubTree(SUBTREE tree)
+	public void flushSubTree(ASPECTTREE tree)
 	{
 		for(ANode node : _children)
 		{
@@ -129,7 +129,7 @@ public class AspectNode extends ACompositeStateNode{
 	 * @param modelTree
 	 * @return
 	 */
-	private ACompositeStateNode addSubTree(SUBTREE modelTree)
+	private ACompositeNode addSubTree(ASPECTTREE modelTree)
 	{
 		AspectTreeNode subTree = new AspectTreeNode(modelTree.toString());
 		addChild(subTree);
@@ -141,13 +141,13 @@ public class AspectNode extends ACompositeStateNode{
 	 * @param modelTree
 	 * @return
 	 */
-	public ACompositeStateNode getSubTree(SUBTREE modelTree)
+	public ACompositeNode getSubTree(ASPECTTREE modelTree)
 	{
 		for (ANode node:getChildren())
 		{
 			if( node.getName().equals(modelTree.toString()))
 			{
-				return (ACompositeStateNode) node;
+				return (ACompositeNode) node;
 			}
 		}
 		return addSubTree(modelTree);

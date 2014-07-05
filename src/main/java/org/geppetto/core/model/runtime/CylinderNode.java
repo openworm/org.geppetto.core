@@ -1,4 +1,4 @@
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 import org.geppetto.core.visualisation.model.Point;
@@ -11,41 +11,41 @@ import org.geppetto.core.visualisation.model.Point;
  */
 public class CylinderNode extends AVisualObjectNode{
 
-	private Double radiusTop;
-    private Double radiusBottom;
-    private Double height;
-    private Point distal;
+	private Double _radiusTop;
+    private Double _radiusBottom;
+    private Double _height;
+    private Point _distal;
     
     public Double getRadiusTop() {
-		return radiusTop;
+		return _radiusTop;
 	}
 
 	public void setRadiusTop(Double radiusTop) {
-		this.radiusTop = radiusTop;
+		this._radiusTop = radiusTop;
 	}
 
 	public Double getRadiusBottom() {
-		return radiusBottom;
+		return _radiusBottom;
 	}
 
 	public void setRadiusBottom(Double radiusBottom) {
-		this.radiusBottom = radiusBottom;
+		this._radiusBottom = radiusBottom;
 	}
 
 	public Double getHeight() {
-		return height;
+		return _height;
 	}
 
 	public void setHeight(Double height) {
-		this.height = height;
+		this._height = height;
 	}
 
 	public Point getDistal() {
-		return distal;
+		return _distal;
 	}
 
 	public void setDistal(Point distal) {
-		this.distal = distal;
+		this._distal = distal;
 	}
     
 	@Override

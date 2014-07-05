@@ -1,4 +1,4 @@
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
@@ -10,10 +10,10 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  */
 public class ColladaNode extends AVisualObjectNode{
 
-	private String model;
+	private String _model;
 	
 	public String getModel() {
-		return model;
+		return _model;
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class ColladaNode extends AVisualObjectNode{
 	}
 
 	public void setModel(String model) {
-		this.model = model;
+		this._model = model;
 	}
 
 }

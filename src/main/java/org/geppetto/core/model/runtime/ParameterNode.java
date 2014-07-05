@@ -30,85 +30,28 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+package org.geppetto.core.model.runtime;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
- * Node that can have children, used whenever node isn't meant to be a leaf. 
+ * Node used to store static values that aren't going to change through simulation 
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class CompositeVariableNode extends ACompositeStateNode{
+public class ParameterNode extends ASimpleStateNode {
 
-	public CompositeVariableNode(String name) {
+	public ParameterNode(String name) {
 		super(name);
 	}
-
-	protected List<ANode> _children=new ArrayList<ANode>();;
-
-	public ANode addChild(ANode child)
-	{
-		_children.add(child);
-		child._parent=this; //double link
-		return child;
-	}
 	
-	public List<ANode> getChildren()
-	{
-		return _children;
-	}
-
-	public String getBaseName()
-	{
-		if(isArray())
-		{
-		return _name.substring(0, _name.indexOf("["));
-		}
-		else return getName();
-	}
-	
-	public int getIndex()
-	{
-		//ASSUMPTION only one dimension
-		return Integer.parseInt(_name.substring(_name.indexOf("[")+1, _name.indexOf("]")));
-	}
-	
+	public ParameterNode(){};
 	
 	@Override
-	public String toString()
+	public boolean apply(IStateVisitor visitor)
 	{
-		return _name+"["+_children+"]";
+		return visitor.visitParameterNode(this);
 	}
 
-	/**
-	 * @param states
-	 */
-	public void addChildren(Collection<ANode> states)
-	{
-		_children.addAll(states);
-		
-	}
-	
-	@Override
-	public synchronized boolean apply(IStateVisitor visitor)
-	{
-		if (visitor.inCompositeStateNode(this))  // enter this node?
-		{
-			for(ANode stateNode:this.getChildren())
-			{
-				stateNode.apply(visitor);
-				if(visitor.stopVisiting())
-				{
-					break;
-				}
-			}
-		}
-		return visitor.outCompositeStateNode( this );
-	}
 }

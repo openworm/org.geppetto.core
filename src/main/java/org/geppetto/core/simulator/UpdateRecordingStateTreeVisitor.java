@@ -36,8 +36,8 @@ import java.io.IOException;
 
 import org.geppetto.core.data.model.SimpleType.Type;
 import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.state.ASimpleStateNode;
-import org.geppetto.core.model.state.StateVariableNode;
+import org.geppetto.core.model.runtime.ASimpleStateNode;
+import org.geppetto.core.model.runtime.StateVariableNode;
 import org.geppetto.core.model.state.visitors.DefaultStateVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
@@ -76,7 +76,7 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitStateVariableNode(StateVariableNode node)
 	{
-		String variable = node.getFullName().replace(_instancePath + ".", "").replace(".", "/");
+		String variable = node.getInstancePath().replace(_instancePath + ".", "").replace(".", "/");
 		Variable v = _recording.getHDF5().findVariable(variable);
 		if(v == null)
 		{

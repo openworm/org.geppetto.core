@@ -35,16 +35,16 @@ package org.geppetto.core;
 
 import junit.framework.Assert;
 
-import org.geppetto.core.model.state.AspectNode;
-import org.geppetto.core.model.state.AspectTreeNode;
-import org.geppetto.core.model.state.CompositeVariableNode;
-import org.geppetto.core.model.state.CylinderNode;
-import org.geppetto.core.model.state.EntityNode;
-import org.geppetto.core.model.state.ParameterNode;
-import org.geppetto.core.model.state.RuntimeTreeRoot;
-import org.geppetto.core.model.state.SphereNode;
-import org.geppetto.core.model.state.StateVariableNode;
-import org.geppetto.core.model.state.TextMetadataNode;
+import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.runtime.AspectTreeNode;
+import org.geppetto.core.model.runtime.CompositeVariableNode;
+import org.geppetto.core.model.runtime.CylinderNode;
+import org.geppetto.core.model.runtime.EntityNode;
+import org.geppetto.core.model.runtime.ParameterNode;
+import org.geppetto.core.model.runtime.RuntimeTreeRoot;
+import org.geppetto.core.model.runtime.SphereNode;
+import org.geppetto.core.model.runtime.StateVariableNode;
+import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;

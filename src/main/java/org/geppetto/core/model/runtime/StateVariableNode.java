@@ -30,38 +30,25 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
-
-import java.util.HashMap;
-import java.util.Map;
+package org.geppetto.core.model.runtime;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
- * Node use for storing text metadata properties and serialization
+ * Node use for storing state variable values and serialization of them
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class TextMetadataNode extends AMetadataNode{
+public class StateVariableNode extends ASimpleStateNode{
 
-	private Map<String, Object> properties = new HashMap<String, Object>();;
-
-	public TextMetadataNode(String name){
+	public StateVariableNode(String name) {
 		super(name);
 	}
-	
-	public TextMetadataNode(){
-		super("TextMetadataNode");
-	}
-	
+
 	@Override
 	public boolean apply(IStateVisitor visitor)
 	{
-		return visitor.visitTextMetadataNode(this);
-	}
-
-	public void setAdditionalProperty(String property, String value) {
-		properties.put(property, value);
+		return visitor.visitStateVariableNode(this);
 	}
 }

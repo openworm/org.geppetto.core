@@ -30,37 +30,38 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
-import org.geppetto.core.model.values.AValue;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
- * Node used for storing metada properties
+ * Node use for storing text metadata properties and serialization
+ * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public abstract class AMetadataNode extends ANode{
+public class TextMetadataNode extends AMetadataNode{
 
-	private AValue value;
+	private Map<String, Object> _properties = new HashMap<String, Object>();;
 
-	public AMetadataNode(String name) {
+	public TextMetadataNode(String name){
 		super(name);
 	}
-
-	public AValue getValue() {
-		return value;
+	
+	public TextMetadataNode(){
+		super("TextMetadataNode");
+	}
+	
+	@Override
+	public boolean apply(IStateVisitor visitor)
+	{
+		return visitor.visitTextMetadataNode(this);
 	}
 
-	public void setValue(AValue value) {
-		this.value = value;
-	}
-
-	public void setAdditionalProperties(String string,
-			String value2) {		
-	}
-
-	public void setAdditionalProperties(String string,
-			AMetadataNode intracellularProperties) {
-		
+	public void setAdditionalProperty(String property, String value) {
+		_properties.put(property, value);
 	}
 }

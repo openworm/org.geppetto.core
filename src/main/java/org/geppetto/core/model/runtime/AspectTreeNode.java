@@ -30,104 +30,102 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
-import org.geppetto.core.model.state.visitors.IVisitable;
+import org.geppetto.core.model.state.visitors.IStateVisitor;
+
 
 /**
- * Parent Node, use for serialization. 
+ * Node use for children of AspectNode, stores; model, visualization and simulation trees.
  * 
  * @author matteocantarelli
  * 
  */
-public abstract class ANode implements IVisitable
+public class AspectTreeNode extends ACompositeNode
 {
-	protected ANode _parent;
-	protected String _name;
-	//protected String _metatype;
-
-	public enum SUBTREE
+	
+	public enum ASPECTTREE
 	{
 		MODEL_TREE,
 		VISUALIZATION_TREE,
 		WATCH_TREE,
-		TIME_STEP
 	}
 	
-	public String getMetaType(){
-		return this.getClass().getSimpleName();
-	};
-
-	public ANode(String name)
+	
+	/**
+	 * @param modelId
+	 */
+	public AspectTreeNode(String modelId)
 	{
-		super();
-		_name = name;
-		_parent = null;
+		super(modelId);
 	}
 	
-	public ANode(){
-		
-	}
-
-	public void setName(String name){
-		this._name = name;
-	}
-	
-	public String getName()
+	/**
+	 * 
+	 */
+	public AspectTreeNode()
 	{
-		return _name;
+		super(null);
+	}
+	
+	/**
+	 * @param tree
+	 */
+	public void flushSubTree(ASPECTTREE tree)
+	{
+		for(ANode node : _children)
+		{
+			if(node.getName().equals(tree.toString()))
+			{
+				// re-assign to empty node
+				node = new CompositeVariableNode(tree.toString());
+				break;
+			}
+		}
 	}
 
 	/**
-	 * @return the next sibling of this node
+	 * @param modelTree
+	 * @return
 	 */
-	public ANode nextSibling()
+	private ACompositeNode addSubTree(ASPECTTREE modelTree)
 	{
-		if(!(getParent() instanceof ACompositeStateNode))
-		{
-			return null;
-		}
-		else
-		{
-			int currentIndex = ((ACompositeStateNode) getParent()).getChildren().indexOf(this);
-			if(((ACompositeStateNode) getParent()).getChildren().size() < currentIndex + 2)
-			{
-				return null;
-			}
-			else
-			{
-				return ((ACompositeStateNode) getParent()).getChildren().get(currentIndex + 1);
-			}
-		}
-	}
-
-	public ANode getParent()
-	{
-		return _parent;
-	}
-
-	public boolean isArray()
-	{
-		return _name.contains("[");
+		ACompositeNode subTree = new CompositeVariableNode(modelTree.toString());
+		addChild(subTree);
+		return subTree;
 	}
 	
-	public String getFullName()
+	/**
+	 * It creates the subtree if it doesn't exist
+	 * @param modelTree
+	 * @return
+	 */
+	public ACompositeNode getSubTree(ASPECTTREE modelTree)
 	{
-		StringBuffer fullName = new StringBuffer();
-		ANode iterateState = this;
-		while(iterateState != null)
+		for (ANode node:getChildren())
 		{
-			if(iterateState._parent != null && !iterateState._name.equals(SUBTREE.MODEL_TREE.toString()) && !iterateState._name.equals(SUBTREE.WATCH_TREE.toString()))
+			if( node.getName().equals(modelTree.toString()))
 			{
-				if(!fullName.toString().isEmpty())
-				{
-					fullName.insert(0, ".");
-				}
-				fullName.insert(0, iterateState._name);
+				return (ACompositeNode) node;
 			}
-			iterateState = iterateState._parent;
 		}
-		return fullName.toString();
+		return addSubTree(modelTree);
 	}
-
+	
+	@Override
+	public synchronized boolean apply(IStateVisitor visitor)
+	{
+		if (visitor.inAspectTreeNode(this))  // enter this node?
+		{
+			for(ANode stateNode:this.getChildren())
+			{
+				stateNode.apply(visitor);
+				if(visitor.stopVisiting())
+				{
+					break;
+				}
+			}
+		}
+		return visitor.outAspectTreeNode( this );
+	}
 }

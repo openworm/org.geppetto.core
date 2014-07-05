@@ -3,7 +3,7 @@
  */
 package org.geppetto.core.model.values;
 
-import org.geppetto.core.model.state.ANode;
+import org.geppetto.core.model.runtime.ANode;
 
 /**
  * @author matteocantarelli

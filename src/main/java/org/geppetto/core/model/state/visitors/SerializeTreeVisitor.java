@@ -3,22 +3,22 @@ package org.geppetto.core.model.state.visitors;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.geppetto.core.model.state.ANode;
-import org.geppetto.core.model.state.ACompositeStateNode;
-import org.geppetto.core.model.state.AspectNode;
-import org.geppetto.core.model.state.AspectTreeNode;
-import org.geppetto.core.model.state.ColladaNode;
-import org.geppetto.core.model.state.CompositeVariableNode;
-import org.geppetto.core.model.state.CylinderNode;
-import org.geppetto.core.model.state.EntityNode;
-import org.geppetto.core.model.state.ParameterNode;
-import org.geppetto.core.model.state.ParticleNode;
-import org.geppetto.core.model.state.RuntimeTreeRoot;
-import org.geppetto.core.model.state.SphereNode;
-import org.geppetto.core.model.state.StateVariableNode;
-import org.geppetto.core.model.state.TextMetadataNode;
-import org.geppetto.core.model.state.URLMetadataNode;
-import org.geppetto.core.model.state.VisualModelNode;
+import org.geppetto.core.model.runtime.ACompositeNode;
+import org.geppetto.core.model.runtime.ANode;
+import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.runtime.AspectTreeNode;
+import org.geppetto.core.model.runtime.ColladaNode;
+import org.geppetto.core.model.runtime.CompositeVariableNode;
+import org.geppetto.core.model.runtime.CylinderNode;
+import org.geppetto.core.model.runtime.EntityNode;
+import org.geppetto.core.model.runtime.ParameterNode;
+import org.geppetto.core.model.runtime.ParticleNode;
+import org.geppetto.core.model.runtime.RuntimeTreeRoot;
+import org.geppetto.core.model.runtime.SphereNode;
+import org.geppetto.core.model.runtime.StateVariableNode;
+import org.geppetto.core.model.runtime.TextMetadataNode;
+import org.geppetto.core.model.runtime.URLMetadataNode;
+import org.geppetto.core.model.runtime.VisualModelNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.visualisation.model.Point;
 
@@ -30,7 +30,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		super();
 	}
 	
-	public void generalACompositeStateNodeIn(ACompositeStateNode node){
+	public void generalACompositeStateNodeIn(ACompositeNode node){
 		String name = node.getBaseName();
 		if(node.isArray() && node.getParent() != null){
 			int index = node.getIndex();
@@ -48,7 +48,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				// we fill in the gaps with empty objects so that we generate a valid JSON array
 				_serialized.append("{},");
 			}
-			if(!(node.getChildren().get(0) instanceof ACompositeStateNode)){
+			if(!(node.getChildren().get(0) instanceof ACompositeNode)){
 				_serialized.append("{");
 			}
 			indexMap.put(name, index);
@@ -58,8 +58,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			ANode parent = node.getParent();
 
 			if(parent != null){
-				if(((ACompositeStateNode) parent).getChildren().contains(node)){
-					if(((ACompositeStateNode) parent).getChildren().indexOf(node) > 0){
+				if(((ACompositeNode) parent).getChildren().contains(node)){
+					if(((ACompositeNode) parent).getChildren().indexOf(node) > 0){
 						if(_serialized.length() != 0){
 							namePath = namePath.replace("{", "");
 						}
@@ -70,14 +70,14 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			_serialized.append(namePath);
 
 			if(node.getChildren().size() > 1){
-				if(!(node.getChildren().get(0) instanceof ACompositeStateNode)){
+				if(!(node.getChildren().get(0) instanceof ACompositeNode)){
 					_serialized.append("{");
 				}
 			}
 
 			// puts bracket around leaf simplestatenode
 			else if(node.getChildren().size() == 1){
-				if(!(node.getChildren().get(0) instanceof ACompositeStateNode)){
+				if(!(node.getChildren().get(0) instanceof ACompositeNode)){
 					_serialized.append("{");
 				}
 			}
@@ -90,7 +90,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		_arraysLastIndexMap.put(node, new HashMap<String, Integer>());
 	}
 
-	public void generalACompositeStateNodeOut(ACompositeStateNode node){
+	public void generalACompositeStateNodeOut(ACompositeNode node){
 		String metaType = "";
 		if(node.getMetaType() != null){
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
@@ -103,7 +103,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 		if(node.isArray()){
 			ANode sibling = node.nextSibling();
-			if(sibling == null || !(sibling instanceof ACompositeStateNode) || !(((ACompositeStateNode) sibling).getBaseName().equals(node.getBaseName())))
+			if(sibling == null || !(sibling instanceof ACompositeNode) || !(((ACompositeNode) sibling).getBaseName().equals(node.getBaseName())))
 			{
 
 				_serialized.append("}],");

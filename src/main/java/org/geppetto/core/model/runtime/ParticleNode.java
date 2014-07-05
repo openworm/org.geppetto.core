@@ -1,4 +1,4 @@
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 

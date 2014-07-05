@@ -30,51 +30,30 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.geppetto.core.model.runtime;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
- * Node for storing a scene and then serialization
+ * Node that can have children, used whenever node isn't meant to be a leaf. 
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class RuntimeTreeRoot extends ACompositeStateNode{
+public class CompositeVariableNode extends ACompositeNode{
 
-	private List<EntityNode> entities = new ArrayList<EntityNode>();	
-	private StateVariableNode time;
-
-	public RuntimeTreeRoot(String name) {
+	public CompositeVariableNode(String name) {
 		super(name);
 	}
 
-	public RuntimeTreeRoot() {
+	public CompositeVariableNode() {
+		super();
 	}
-
-	public List<EntityNode> getEntities() {
-		return entities;
-	}
-
-	public void setEntities(List<EntityNode> entities) {
-		this.entities = entities;
-	}
-
-	public StateVariableNode getTime() {
-		return time;
-	}
-
-	public void setTime(StateVariableNode time) {
-		this.time = time;
-	}
-
+	
 	@Override
 	public synchronized boolean apply(IStateVisitor visitor)
 	{
-		if (visitor.inRuntimeTreeRoot(this))  // enter this node?
+		if (visitor.inCompositeStateNode(this))  // enter this node?
 		{
 			for(ANode stateNode:this.getChildren())
 			{
@@ -85,6 +64,6 @@ public class RuntimeTreeRoot extends ACompositeStateNode{
 				}
 			}
 		}
-		return visitor.outRuntimeTreeRoot( this );
+		return visitor.outCompositeStateNode( this );
 	}
 }

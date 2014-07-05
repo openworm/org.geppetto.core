@@ -30,82 +30,69 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
-import org.geppetto.core.model.values.AValue;
-
 /**
- * Abstract node used for nodes that don't have other nodes as children, a leaf node.
+ * Abstract node that defines a node capable of having other nodes as children. 
+ * Overrides apply method of parent abstract class
  * 
  * @author matteocantarelli
- * 
+ *
  */
-@SuppressWarnings("rawtypes")
-public abstract class ASimpleStateNode extends ANode
-{
-
-	private List<AValue> _values = new ArrayList<AValue>();;
-	private String _unit;
-	private String _scalingFactor;
-
-	public ASimpleStateNode(String name)
-	{
+public abstract class ACompositeNode extends ANode
+{	
+	public ACompositeNode(String name) {
 		super(name);
 	}
-
-	public ASimpleStateNode(){
-		
+	
+	public ACompositeNode(){
 	}
+	
+	protected List<ANode> _children=new ArrayList<ANode>();;
+	
+	public ANode addChild(ANode child)
+	{
+		_children.add(child);
+		child._parent=this; //double link
+		return child;
+	}
+	
+	public List<ANode> getChildren()
+	{
+		return _children;
+	}
+
+	public String getBaseName()
+	{
+		if(isArray())
+		{
+		return _name.substring(0, _name.indexOf("["));
+		}
+		else return getName();
+	}
+	
+	public int getIndex()
+	{
+		//ASSUMPTION only one dimension
+		return Integer.parseInt(_name.substring(_name.indexOf("[")+1, _name.indexOf("]")));
+	}
+	
 	
 	@Override
 	public String toString()
 	{
-		return _name + "[" + _values + "]";
+		return _name+"["+_children+"]";
 	}
 
-	public void addValue(AValue value)
+	/**
+	 * @param states
+	 */
+	public void addChildren(Collection<ANode> states)
 	{
-		value.setParentNode(this);
-		_values.add(value);
+		_children.addAll(states);
+		
 	}
-
-	public List<AValue> getValues()
-	{
-		return _values;
-	}
-
-	public AValue consumeFirstValue()
-	{
-		if(_values.size() == 0)
-		{
-			return null;
-		}
-		AValue first = _values.get(0);
-		_values.remove(0);
-		return first;
-	}
-
-	public void setUnit(String unit)
-	{
-		this._unit = unit;
-	}
-
-	public String getUnit()
-	{
-		return _unit;
-	}
-
-	public String getScalingFactor()
-	{
-		return _scalingFactor;
-	}
-
-	public void setScalingFactor(String scalingFactor)
-	{
-		this._scalingFactor = scalingFactor;
-	}
-
 }

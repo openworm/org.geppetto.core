@@ -36,10 +36,12 @@ package org.geppetto.core.model;
 import java.net.URL;
 import java.util.List;
 
+import org.geppetto.core.model.runtime.ACompositeNode;
+import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.runtime.AspectTreeNode;
+import org.geppetto.core.model.runtime.EntityNode;
+import org.geppetto.core.model.runtime.RuntimeTreeRoot;
 import org.geppetto.core.model.simulation.Aspect;
-import org.geppetto.core.model.state.AspectNode;
-import org.geppetto.core.model.state.AspectTreeNode;
-import org.geppetto.core.model.state.EntityNode;
 
 public interface IModelInterpreter {
 

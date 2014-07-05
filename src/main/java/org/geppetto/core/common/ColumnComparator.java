@@ -35,7 +35,7 @@ package org.geppetto.core.common;
 import java.util.Comparator;
 import java.util.List;
 
-import org.geppetto.core.model.state.StateInstancePath;
+import org.geppetto.core.model.runtime.StateInstancePath;
 
 /**
  *  Sort an object based on a specified column within the object.

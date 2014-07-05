@@ -30,69 +30,97 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import org.geppetto.core.model.runtime.AspectTreeNode.ASPECTTREE;
+import org.geppetto.core.model.state.visitors.IVisitable;
+
 /**
- * Abstract node that defines a node capable of having other nodes as children. 
- * Overrides apply method of parent abstract class
+ * Parent Node, use for serialization. 
  * 
  * @author matteocantarelli
- *
+ * 
  */
-public abstract class ACompositeStateNode extends ANode
-{	
-	public ACompositeStateNode(String name) {
-		super(name);
-	}
-	
-	public ACompositeStateNode(){
-	}
-	
-	protected List<ANode> _children=new ArrayList<ANode>();;
-	
-	public ANode addChild(ANode child)
+public abstract class ANode implements IVisitable
+{
+	protected ANode _parent;
+	protected String _name;
+	//protected String _metatype;
+
+	public String getMetaType(){
+		return this.getClass().getSimpleName();
+	};
+
+	public ANode(String name)
 	{
-		_children.add(child);
-		child._parent=this; //double link
-		return child;
+		super();
+		_name = name;
+		_parent = null;
 	}
 	
-	public List<ANode> getChildren()
-	{
-		return _children;
+	public ANode(){
+		
 	}
 
-	public String getBaseName()
-	{
-		if(isArray())
-		{
-		return _name.substring(0, _name.indexOf("["));
-		}
-		else return getName();
+	public void setName(String name){
+		this._name = name;
 	}
 	
-	public int getIndex()
+	public String getName()
 	{
-		//ASSUMPTION only one dimension
-		return Integer.parseInt(_name.substring(_name.indexOf("[")+1, _name.indexOf("]")));
-	}
-	
-	
-	@Override
-	public String toString()
-	{
-		return _name+"["+_children+"]";
+		return _name;
 	}
 
 	/**
-	 * @param states
+	 * @return the next sibling of this node
 	 */
-	public void addChildren(Collection<ANode> states)
+	public ANode nextSibling()
 	{
-		_children.addAll(states);
-		
+		if(!(getParent() instanceof ACompositeNode))
+		{
+			return null;
+		}
+		else
+		{
+			int currentIndex = ((ACompositeNode) getParent()).getChildren().indexOf(this);
+			if(((ACompositeNode) getParent()).getChildren().size() < currentIndex + 2)
+			{
+				return null;
+			}
+			else
+			{
+				return ((ACompositeNode) getParent()).getChildren().get(currentIndex + 1);
+			}
+		}
 	}
+
+	public ANode getParent()
+	{
+		return _parent;
+	}
+
+	public boolean isArray()
+	{
+		return _name.contains("[");
+	}
+	
+	public String getInstancePath()
+	{
+		StringBuffer fullName = new StringBuffer();
+		ANode iterateState = this;
+		while(iterateState != null)
+		{
+			if(iterateState._parent != null && !iterateState._name.equals(ASPECTTREE.MODEL_TREE.toString()) && !iterateState._name.equals(ASPECTTREE.WATCH_TREE.toString()))
+			{
+				if(!fullName.toString().isEmpty())
+				{
+					fullName.insert(0, ".");
+				}
+				fullName.insert(0, iterateState._name);
+			}
+			iterateState = iterateState._parent;
+		}
+		return fullName.toString();
+	}
+
 }

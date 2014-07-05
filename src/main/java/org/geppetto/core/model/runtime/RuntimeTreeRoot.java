@@ -30,94 +30,42 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
-import org.geppetto.core.visualisation.model.Point;
 
 /**
- * Node used to store an entity and then serialization.
+ * Node for storing a scene and then serialization
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class EntityNode extends ACompositeStateNode{
+public class RuntimeTreeRoot extends ACompositeNode{
 
-	protected List<AspectNode> aspects =new ArrayList<AspectNode>();;
+	private StateVariableNode _time;
 
-	private String id;
-
-	private String instancePath;
-	
-	private List<Connection> connections;
-
-	private AMetadataNode metadata;
-
-	private Point position;
-		
-	public EntityNode(){
-		super();
-	}
-	
-	public EntityNode(String name) {
+	public RuntimeTreeRoot(String name) {
 		super(name);
 	}
 
-	public String getInstancePath() {
-		return instancePath;
+	public RuntimeTreeRoot() {
 	}
 
-	public void setInstancePath(String instancePath) {
-		this.instancePath = instancePath;
+	public StateVariableNode getTime() {
+		return _time;
 	}
 
-	public void setAspects(List<AspectNode> aspects) {
-		this.aspects = aspects;
+	public void setTime(StateVariableNode time) {
+		this._time = time;
 	}
 
-    public List<Connection> getConnections() {
-        return connections;
-    }
-
-    public void setConnections(List<Connection> connections) {
-        this.connections = connections;
-    }
-	public List<AspectNode> getAspects() {
-		return aspects;
-	}
-		
-	public void setId(String id){
-		this.id = id;
-	}
-	
-	public String getId() {
-		return this.id;
-	}
-	
-
-	public AMetadataNode getMetadata() {
-		return this.metadata;
-	}
-
-	public void setMetadata(AMetadataNode textMetadataNode) {
-		
-	}
-
-	public void setPosition(Point position) {
-		this.position = position;
-	}
-	
-	public Point getPosition() {
-		return this.position;
-	}
-	
 	@Override
 	public synchronized boolean apply(IStateVisitor visitor)
 	{
-		if (visitor.inEntityNode(this))  // enter this node?
+		if (visitor.inRuntimeTreeRoot(this))  // enter this node?
 		{
 			for(ANode stateNode:this.getChildren())
 			{
@@ -128,45 +76,6 @@ public class EntityNode extends ACompositeStateNode{
 				}
 			}
 		}
-		return visitor.outEntityNode( this );
-	}
-	
-	public static class Connection{
-		
-		public enum CONNECTION_TYPE
-		{
-			FROM,
-			TO,
-			UNDIRECTED
-		};
-		
-		private String id;
-
-		private EntityNode entity;
-		
-		public void setId(String id){
-			this.id = id;
-		}
-		
-		public String getId() {
-			return this.id;
-		}
-		
-		public void setEntityNode(EntityNode entity){
-			this.entity = entity;
-		}
-		
-		public EntityNode getEntityNode(){
-			return this.entity;
-		}
-
-		public void setEntityId(String entityID) {			
-		}
-
-		public void setMetadata(AMetadataNode mPost) {			
-		}
-
-		public void setType(String type) {			
-		}
+		return visitor.outRuntimeTreeRoot( this );
 	}
 }

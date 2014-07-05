@@ -54,13 +54,13 @@ import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.data.DataModelFactory;
-import org.geppetto.core.model.state.ANode;
-import org.geppetto.core.model.state.ACompositeStateNode;
-import org.geppetto.core.model.state.ANode.SUBTREE;
-import org.geppetto.core.model.state.ASimpleStateNode;
-import org.geppetto.core.model.state.AspectTreeNode;
-import org.geppetto.core.model.state.CompositeVariableNode;
-import org.geppetto.core.model.state.StateVariableNode;
+import org.geppetto.core.model.runtime.ACompositeNode;
+import org.geppetto.core.model.runtime.ANode;
+import org.geppetto.core.model.runtime.ASimpleStateNode;
+import org.geppetto.core.model.runtime.AspectTreeNode;
+import org.geppetto.core.model.runtime.CompositeVariableNode;
+import org.geppetto.core.model.runtime.StateVariableNode;
+import org.geppetto.core.model.runtime.AspectTreeNode.ASPECTTREE;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
@@ -199,7 +199,7 @@ public abstract class ASimulator implements ISimulator
 		_watching = false;
 
 		// reset variable-watch branch of the state tree
-		_stateTree.flushSubTree(AspectTreeNode.SUBTREE.WATCH_TREE);
+		_stateTree.flushSubTree(AspectTreeNode.ASPECTTREE.WATCH_TREE);
 	}
 
 	/*
@@ -290,8 +290,7 @@ public abstract class ASimulator implements ISimulator
 	protected void advanceTimeStep(double timestep)
 	{
 		_runtime += timestep;
-		ACompositeStateNode timeStepsNode = _stateTree.getSubTree(SUBTREE.TIME_STEP);
-		if(timeStepsNode.getChildren().isEmpty())
+		ACompositeNode timeStepsNode =new CompositeVariableNode("time tree");
 		{
 			StateVariableNode time = new StateVariableNode("time");
 			timeStepsNode.addChild(time);
@@ -312,7 +311,7 @@ public abstract class ASimulator implements ISimulator
 	{
 		if(_recordings != null && isWatching())
 		{
-			ACompositeStateNode watchTree = _stateTree.getSubTree(SUBTREE.WATCH_TREE);
+			ACompositeNode watchTree = _stateTree.getSubTree(ASPECTTREE.WATCH_TREE);
 
 			if(watchTree.getChildren().isEmpty() || watchListModified())
 			{
@@ -328,7 +327,7 @@ public abstract class ASimulator implements ISimulator
 						if(getWatchList().contains(fullPath))
 						{
 							StringTokenizer tokenizer = new StringTokenizer(fullPath, ".");
-							ACompositeStateNode node = watchTree;
+							ACompositeNode node = watchTree;
 							while(tokenizer.hasMoreElements())
 							{
 								String current = tokenizer.nextToken();
@@ -337,9 +336,9 @@ public abstract class ASimulator implements ISimulator
 								{
 									if(child.getName().equals(current))
 									{
-										if(child instanceof ACompositeStateNode)
+										if(child instanceof ACompositeNode)
 										{
-											node = (ACompositeStateNode) child;
+											node = (ACompositeNode) child;
 										}
 										found = true;
 										break;
@@ -354,7 +353,7 @@ public abstract class ASimulator implements ISimulator
 									if(tokenizer.hasMoreElements())
 									{
 										// not a leaf, create a composite state node
-										ACompositeStateNode newNode = new CompositeVariableNode(current);
+										ACompositeNode newNode = new CompositeVariableNode(current);
 										node.addChild(newNode);
 										node = newNode;
 									}

@@ -1,4 +1,4 @@
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
@@ -10,14 +10,14 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  */
 public class SphereNode extends AVisualObjectNode{
 
-    private Double radius;
+    private Double _radius;
     
 	public Double getRadius() {
-		return radius;
+		return _radius;
 	}
 
 	public void setRadius(Double radius) {
-		this.radius = radius;
+		this._radius = radius;
 	}
 
 	@Override

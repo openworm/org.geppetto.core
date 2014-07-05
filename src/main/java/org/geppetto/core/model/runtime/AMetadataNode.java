@@ -30,25 +30,37 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
-import org.geppetto.core.model.state.visitors.IStateVisitor;
+import org.geppetto.core.model.values.AValue;
 
 /**
- * Node use for storing state variable values and serialization of them
- * 
+ * Node used for storing metada properties
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class StateVariableNode extends ASimpleStateNode{
+public abstract class AMetadataNode extends ANode{
 
-	public StateVariableNode(String name) {
+	private AValue value;
+
+	public AMetadataNode(String name) {
 		super(name);
 	}
 
-	@Override
-	public boolean apply(IStateVisitor visitor)
-	{
-		return visitor.visitStateVariableNode(this);
+	public AValue getValue() {
+		return value;
+	}
+
+	public void setValue(AValue value) {
+		this.value = value;
+	}
+
+	public void setAdditionalProperties(String string,
+			String value2) {		
+	}
+
+	public void setAdditionalProperties(String string,
+			AMetadataNode intracellularProperties) {
+		
 	}
 }

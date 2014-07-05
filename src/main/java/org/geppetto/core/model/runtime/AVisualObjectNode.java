@@ -30,28 +30,41 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
-import org.geppetto.core.model.state.visitors.IStateVisitor;
+import org.geppetto.core.visualisation.model.Point;
 
 /**
- * Node used to store static values that aren't going to change through simulation 
+ * Abstract class used by visualization objects. Node allows serialization of visual objects. 
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class ParameterNode extends ASimpleStateNode {
+public abstract class AVisualObjectNode extends ANode{
 
-	public ParameterNode(String name) {
+	private Point _position;
+	private String _id;
+	
+	public AVisualObjectNode(String name) {
 		super(name);
 	}
 	
-	public ParameterNode(){};
-	
-	@Override
-	public boolean apply(IStateVisitor visitor)
-	{
-		return visitor.visitParameterNode(this);
+	public AVisualObjectNode(){
 	}
-
+	
+	public void setId(String id) {
+		this._id = id;
+	}
+	
+	public String getId(){
+		return this._id;
+	}
+	
+	public void setPosition(Point position){
+		this._position = position;
+	}
+	
+	public Point getPosition(){
+		return this._position;
+	}
 }

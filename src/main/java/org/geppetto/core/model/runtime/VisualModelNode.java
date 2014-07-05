@@ -1,4 +1,4 @@
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,17 +11,17 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class VisualModelNode extends ACompositeStateNode{
+public class VisualModelNode extends ACompositeNode{
 
-    private List<AVisualObjectNode> models = new ArrayList<AVisualObjectNode>();
-    private String id;
+    private List<AVisualObjectNode> _models = new ArrayList<AVisualObjectNode>();
+    private String _id;
     
 	public String getId() {
-		return id;
+		return _id;
 	}
 
 	public void setId(String id) {
-		this.id = id;
+		this._id = id;
 	}
 
 	@Override
@@ -42,6 +42,6 @@ public class VisualModelNode extends ACompositeStateNode{
 	}
 
 	public List<AVisualObjectNode> getObjects() {
-		return this.models;
+		return this._models;
 	}
 }
