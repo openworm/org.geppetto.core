@@ -32,9 +32,8 @@
  *******************************************************************************/
 package org.geppetto.core.model.state.visitors;
 
-import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectTreeNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
 import org.geppetto.core.model.runtime.CompositeVariableNode;
 import org.geppetto.core.model.runtime.CylinderNode;
@@ -46,7 +45,6 @@ import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.StateVariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
-import org.geppetto.core.model.runtime.VisualModelNode;
 
 /**
  * @author matteocantarelli
@@ -157,22 +155,12 @@ public class DefaultStateVisitor implements IStateVisitor
 	}
 
 	@Override
-	public boolean inAspectTreeNode(AspectTreeNode node) {
+	public boolean inAspectTreeNode(AspectSubTreeNode node) {
 		return !_stopVisiting;
 	}
 
 	@Override
-	public boolean outAspectTreeNode(AspectTreeNode node) {
-		return !_stopVisiting;
-	}
-
-	@Override
-	public boolean inVisualModelNode(VisualModelNode node) {
-		return !_stopVisiting;
-	}
-
-	@Override
-	public boolean outVisualModelNode(VisualModelNode node) {
+	public boolean outAspectTreeNode(AspectSubTreeNode node) {
 		return !_stopVisiting;
 	}
 

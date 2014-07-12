@@ -36,7 +36,7 @@ package org.geppetto.core;
 import junit.framework.Assert;
 
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectTreeNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.CompositeVariableNode;
 import org.geppetto.core.model.runtime.CylinderNode;
 import org.geppetto.core.model.runtime.EntityNode;
@@ -611,6 +611,7 @@ public class TestTreeSerialization {
 	
 	/**
 	 * Skeleton tree test
+	 * @
 	 */
 	@Test
 	public void testSkeletonTree() {
@@ -618,11 +619,11 @@ public class TestTreeSerialization {
 		
 		AspectNode aspect_A = new AspectNode("Aspect_A");
 
-		AspectTreeNode model = new AspectTreeNode("model");
+		AspectSubTreeNode model = new AspectSubTreeNode("model");
 
-		AspectTreeNode visualization = new AspectTreeNode("visualization");
+		AspectSubTreeNode visualization = new AspectSubTreeNode("visualization");
 
-		AspectTreeNode simulation = new AspectTreeNode("simulation");
+		AspectSubTreeNode simulation = new AspectSubTreeNode("simulation");
 
 		entity_A.addChild(aspect_A);
 		aspect_A.addChild(model);
@@ -641,7 +642,7 @@ public class TestTreeSerialization {
 		
 		System.out.println(prettyJsonString);
 		
-		Assert.assertEquals("{\"Entity_A\":{\"Aspect_A\":{\"model\":{\"_metaType\":\"AspectTreeNode\"},\"visualization\":{\"_metaType\":\"AspectTreeNode\"},\"simulation\":{\"_metaType\":\"AspectTreeNode\"},\"_metaType\":\"AspectNode\"},\"_metaType\":\"EntityNode\"}}", serialized);
+		Assert.assertEquals("{\"Entity_A\":{\"Aspect_A\":{\"model\":{\"_metaType\":\"AspectSubTreeNode\"},\"visualization\":{\"_metaType\":\"AspectSubTreeNode\"},\"simulation\":{\"_metaType\":\"AspectSubTreeNode\"},\"_metaType\":\"AspectNode\"},\"_metaType\":\"EntityNode\"}}", serialized);
 	}
 	
 	/**
@@ -650,13 +651,13 @@ public class TestTreeSerialization {
 	 *  RuntimeTree -> RuntimeTreeRoot -> ACompositeNode
 		  Entity1 -> EntityNode -> ACompositeNode
 	    	AspectA -> AspectNode -> ACompositeNode
-	        	modelTree -> AspectTreeNode -> ACompositeNode
+	        	modelTree -> AspectSubTreeNode -> ACompositeNode
 	            	BiophysicalProperties -> CompositeVariableNode -> ACompositeNode
 	                	a -> ParameterNode -> ASimpleStateNode
 	                	b -> ParameterNode -> ASimpleStateNode
 	                	c -> StateVariableNode -> ASimpleStateNode
 	                	text -> TextMetadataNode -> AMetaDataNode
-	        	visualisationTree -> AspectTreeNode -> ACompositeNode
+	        	visualisationTree -> AspectSubTreeNode -> ACompositeNode
 	            		Sphere1 -> Sphere -> AVisualObject
 	            		Cylinder1 -> Cylinder -> AVisualObject
 	            		Cylinder2
@@ -667,6 +668,7 @@ public class TestTreeSerialization {
 	                	0  -> CompositeVariableNode -> ACompositeNode
 	                    	v -> StateVariableNode -> SimpleStateNode
 	                    	a -> ParameterNode -> ASimpleStateNode
+	 * @
 	 */
 	@Test
 	public void testRefactorSampleTree() {
@@ -677,7 +679,7 @@ public class TestTreeSerialization {
 		
 		AspectNode aspectA = new AspectNode("AspectA");
 
-		AspectTreeNode model = new AspectTreeNode("model");
+		AspectSubTreeNode model = new AspectSubTreeNode("model");
 
 		CompositeVariableNode biophysicalProperties = new CompositeVariableNode("BiophysicalProperties");
 		
@@ -687,25 +689,23 @@ public class TestTreeSerialization {
 		
 		TextMetadataNode text = new TextMetadataNode("text");
 		
-		AspectTreeNode visualization = new AspectTreeNode("visualization");
+		AspectSubTreeNode visualization = new AspectSubTreeNode("visualization");
 
-		SphereNode sphere = new SphereNode();
-		sphere.setName("sphere");
+		SphereNode sphere = new SphereNode("sphere");
 		Point p = new Point();
 		p.setX(new Double(3.3));
 		p.setY(new Double(4));
 		p.setZ(new Double(-1.444));
 		sphere.setPosition(p);
 		
-		CylinderNode cylinder = new CylinderNode();
-		cylinder.setName("cylinder");
+		CylinderNode cylinder = new CylinderNode("cylinder");
 		Point p2 = new Point();
 		p2.setX(new Double(6.3));
 		p2.setY(new Double(8));
 		p2.setZ(new Double(-3.999));
 		cylinder.setPosition(p2);
 		
-		AspectTreeNode simulation = new AspectTreeNode("simulation");
+		AspectSubTreeNode simulation = new AspectSubTreeNode("simulation");
 		
 		CompositeVariableNode hhpop = new CompositeVariableNode("hhpop[0]");
 		
@@ -745,6 +745,6 @@ public class TestTreeSerialization {
 		
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals("{\"RuntimeTree\":{\"Entity1\":{\"AspectA\":{\"model\":{\"BiophysicalProperties\":{\"a\":{\"_metaType\":\"ParameterNode\"},\"b\":{\"_metaType\":\"ParameterNode\"},\"c\":{\"_metaType\":\"ParameterNode\"},\"text\":{\"_metaType\":\"TextMetadataNode\"},\"_metaType\":\"CompositeVariableNode\"},\"_metaType\":\"AspectTreeNode\"},\"visualization\":{\"sphere\":{\"position\":{\"x\":3.3,\"y\":4.0,\"z\":-1.444},\"_metaType\":\"SphereNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"_metaType\":\"CylinderNode\"},\"_metaType\":\"AspectTreeNode\"},\"simulation\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null,\"_metaType\":\"StateVariableNode\"},\"a\":{\"_metaType\":\"ParameterNode\"},\"_metaType\":\"CompositeVariableNode\"}],\"_metaType\":\"AspectTreeNode\"},\"_metaType\":\"AspectNode\"},\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
+		Assert.assertEquals("{\"RuntimeTree\":{\"Entity1\":{\"AspectA\":{\"model\":{\"BiophysicalProperties\":{\"a\":{\"_metaType\":\"ParameterNode\"},\"b\":{\"_metaType\":\"ParameterNode\"},\"c\":{\"_metaType\":\"ParameterNode\"},\"text\":{\"_metaType\":\"TextMetadataNode\"},\"_metaType\":\"CompositeVariableNode\"},\"_metaType\":\"AspectSubTreeNode\"},\"visualization\":{\"sphere\":{\"position\":{\"x\":3.3,\"y\":4.0,\"z\":-1.444},\"_metaType\":\"SphereNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"_metaType\":\"CylinderNode\"},\"_metaType\":\"AspectSubTreeNode\"},\"simulation\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null,\"_metaType\":\"StateVariableNode\"},\"a\":{\"_metaType\":\"ParameterNode\"},\"_metaType\":\"CompositeVariableNode\"}],\"_metaType\":\"AspectSubTreeNode\"},\"_metaType\":\"AspectNode\"},\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
 	}
 }

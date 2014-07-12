@@ -33,7 +33,7 @@
 package org.geppetto.core.model.state.visitors;
 
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectTreeNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
 import org.geppetto.core.model.runtime.CompositeVariableNode;
 import org.geppetto.core.model.runtime.CylinderNode;
@@ -45,7 +45,6 @@ import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.StateVariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
-import org.geppetto.core.model.runtime.VisualModelNode;
 
 /**
  * @author matteocantarelli
@@ -69,13 +68,9 @@ public interface IStateVisitor
 	
 	boolean outColladaNode( ColladaNode node ); // coming out
 	
-	boolean inAspectTreeNode( AspectTreeNode node ); // going into a branch
+	boolean inAspectTreeNode( AspectSubTreeNode node ); // going into a branch
 	
-	boolean outAspectTreeNode( AspectTreeNode node ); // coming out
-	
-	boolean inVisualModelNode( VisualModelNode node ); // going into a branch
-	
-	boolean outVisualModelNode( VisualModelNode node ); // coming out
+	boolean outAspectTreeNode( AspectSubTreeNode node ); // coming out
 	
 	boolean inRuntimeTreeRoot(RuntimeTreeRoot runtimeTreeRoot);
 

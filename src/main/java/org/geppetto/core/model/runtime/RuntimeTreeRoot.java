@@ -32,9 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.model.runtime;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**

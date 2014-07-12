@@ -16,7 +16,12 @@ public class CylinderNode extends AVisualObjectNode{
     private Double _height;
     private Point _distal;
     
-    public Double getRadiusTop() {
+    public CylinderNode(String name)
+	{
+    	super(name);
+	}
+
+	public Double getRadiusTop() {
 		return _radiusTop;
 	}
 

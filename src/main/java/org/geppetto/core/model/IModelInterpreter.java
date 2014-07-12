@@ -38,7 +38,7 @@ import java.util.List;
 
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectTreeNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.EntityNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
 import org.geppetto.core.model.simulation.Aspect;
@@ -46,12 +46,10 @@ import org.geppetto.core.model.simulation.Aspect;
 public interface IModelInterpreter {
 
 	IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException;
+		
+	boolean populateVisualTree(AspectNode aspectNode) throws ModelInterpreterException;
 	
-	EntityNode getVisualEntity(IModel model, Aspect aspect, AspectTreeNode stateTree)throws ModelInterpreterException;
-	
-	boolean populateVisualTree(AspectNode aspectNode);
-	
-	boolean populateModelTree(AspectNode aspectNode);
+	boolean populateModelTree(AspectNode aspectNode) throws ModelInterpreterException;
 	
 	boolean populateRuntimeTree(AspectNode aspectNode);
 }

@@ -32,6 +32,8 @@
  *******************************************************************************/
 package org.geppetto.core.model.runtime;
 
+import java.util.HashMap;
+
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
@@ -40,8 +42,10 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class ParameterNode extends ASimpleStateNode {
+public class ParameterNode extends ASimpleNode {
 
+	private HashMap<String, String> properties = new HashMap<String, String>();
+	
 	public ParameterNode(String name) {
 		super(name);
 	}
@@ -52,6 +56,14 @@ public class ParameterNode extends ASimpleStateNode {
 	public boolean apply(IStateVisitor visitor)
 	{
 		return visitor.visitParameterNode(this);
+	}
+	
+	public void addProperty(String key, String value){
+		this.properties.put(key, value);
+	}
+	
+	public HashMap<String, String> getProperties(){
+		return properties;
 	}
 
 }

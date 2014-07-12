@@ -36,7 +36,7 @@ import java.io.IOException;
 
 import org.geppetto.core.data.model.SimpleType.Type;
 import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.runtime.ASimpleStateNode;
+import org.geppetto.core.model.runtime.ASimpleNode;
 import org.geppetto.core.model.runtime.StateVariableNode;
 import org.geppetto.core.model.state.visitors.DefaultStateVisitor;
 import org.geppetto.core.model.values.AValue;

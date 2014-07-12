@@ -2,11 +2,12 @@ package org.geppetto.core.model.state.visitors;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectTreeNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
 import org.geppetto.core.model.runtime.CompositeVariableNode;
 import org.geppetto.core.model.runtime.CylinderNode;
@@ -18,7 +19,6 @@ import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.StateVariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
-import org.geppetto.core.model.runtime.VisualModelNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.visualisation.model.Point;
 
@@ -146,20 +146,6 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		this.generalACompositeStateNodeOut(node);
 		return super.outCompositeStateNode(node);
 	}
-
-	@Override
-	public boolean inVisualModelNode(VisualModelNode node)
-	{
-		this.generalACompositeStateNodeIn(node);
-		return super.inVisualModelNode(node);
-	}
-
-	@Override
-	public boolean outVisualModelNode(VisualModelNode node)
-	{
-		this.generalACompositeStateNodeOut(node);
-		return super.outVisualModelNode(node);
-	}
 	
 	@Override
 	public boolean inAspectNode(AspectNode node)
@@ -190,14 +176,14 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	}
 
 	@Override
-	public boolean inAspectTreeNode(AspectTreeNode node)
+	public boolean inAspectTreeNode(AspectSubTreeNode node)
 	{
 		this.generalACompositeStateNodeIn(node);
 		return super.inAspectTreeNode(node);
 	}
 	
 	@Override
-	public boolean outAspectTreeNode(AspectTreeNode node)
+	public boolean outAspectTreeNode(AspectSubTreeNode node)
 	{
 		this.generalACompositeStateNodeOut(node);
 		return super.outAspectTreeNode(node);
@@ -245,7 +231,13 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 		
-		_serialized.append("\"" + node.getName() + "\":{"+metaType+"},");
+		Set<String> keys = node.getProperties().keySet();
+		StringBuilder properties = new StringBuilder();
+		
+		for(String key : keys){
+			properties.append("\"" + key + "\":\""+node.getProperties().get(key)+"\",");
+		}
+		_serialized.append("\"" + node.getName() + "\":{"+properties+metaType+"},");
 
 		return super.visitParameterNode(node);
 	}

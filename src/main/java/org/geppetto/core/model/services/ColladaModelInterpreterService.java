@@ -44,11 +44,10 @@ import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectTreeNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
 import org.geppetto.core.model.runtime.EntityNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
-import org.geppetto.core.model.runtime.VisualModelNode;
 import org.geppetto.core.model.simulation.Aspect;
 import org.springframework.stereotype.Service;
 
@@ -83,36 +82,36 @@ public class ColladaModelInterpreterService implements IModelInterpreter
 		return collada;
 	}
 
-	@Override
-	public EntityNode getVisualEntity(IModel model, Aspect aspect, AspectTreeNode stateTree) throws ModelInterpreterException
-	{
-		if(_visualEntity == null || _modelHash != model.hashCode())
-		{
-			_visualEntity = new EntityNode();
-			AspectNode rootAspect = new AspectNode();
-			rootAspect.setId(aspect.getId());
-			_visualEntity.getAspects().add(rootAspect);
-			_modelHash = model.hashCode();
-			ColladaNode collada = new ColladaNode();
-			collada.setModel((String) ((ModelWrapper) model).getModel(COLLADA));
-			
-			VisualModelNode colladaModel = new VisualModelNode();
-			//colladaModel.getObjects().add(collada);
-			rootAspect.getVisualModel().add(colladaModel);
-			return _visualEntity;
-		}
-		else
-		{
-			//if we already sent once the update every other time it's going to be empty unless it changes
-			//as the geometry won't change
-			EntityNode empty = new EntityNode();
-			AspectNode visualAspect = new AspectNode();
-			visualAspect.setId(aspect.getId());
-			empty.getAspects().add(visualAspect);
-			return empty;
-		}
-		
-	}
+//	@Override
+//	public EntityNode getVisualEntity(IModel model, Aspect aspect, AspectTreeNode stateTree) throws ModelInterpreterException
+//	{
+//		if(_visualEntity == null || _modelHash != model.hashCode())
+//		{
+//			_visualEntity = new EntityNode();
+//			AspectNode rootAspect = new AspectNode();
+//			rootAspect.setId(aspect.getId());
+//			_visualEntity.getAspects().add(rootAspect);
+//			_modelHash = model.hashCode();
+//			ColladaNode collada = new ColladaNode();
+//			collada.setModel((String) ((ModelWrapper) model).getModel(COLLADA));
+//			
+//			VisualModelNode colladaModel = new VisualModelNode();
+//			//colladaModel.getObjects().add(collada);
+//			rootAspect.getVisualModel().add(colladaModel);
+//			return _visualEntity;
+//		}
+//		else
+//		{
+//			//if we already sent once the update every other time it's going to be empty unless it changes
+//			//as the geometry won't change
+//			EntityNode empty = new EntityNode();
+//			AspectNode visualAspect = new AspectNode();
+//			visualAspect.setId(aspect.getId());
+//			empty.getAspects().add(visualAspect);
+//			return empty;
+//		}
+//		
+//	}
 
 	@Override
 	public boolean populateVisualTree(AspectNode aspectNode) {

@@ -35,8 +35,9 @@ package org.geppetto.core.model.runtime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.IModelInterpreter;
-import org.geppetto.core.model.runtime.AspectTreeNode.ASPECTTREE;
+import org.geppetto.core.model.runtime.AspectSubTreeNode.ASPECTTREE;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 import org.geppetto.core.simulator.ISimulator;
 
@@ -52,7 +53,7 @@ public class AspectNode extends ACompositeNode{
 	private StateVariableNode _time;
 	private IModelInterpreter _modelInterpreter;
 	private ISimulator _simulator;
-	private List<VisualModelNode> _visualModels = new ArrayList<VisualModelNode>();
+	private IModel _model;
 	private String _instancePath;
 		
 	public AspectNode(){}
@@ -97,10 +98,6 @@ public class AspectNode extends ACompositeNode{
 		return this.getParent();
 	}
 
-	public List<VisualModelNode> getVisualModel() {
-		return this._visualModels;
-	}
-
 	public void setInstancePath(String instancePath) {
 		this._instancePath = instancePath;
 	}
@@ -131,7 +128,7 @@ public class AspectNode extends ACompositeNode{
 	 */
 	private ACompositeNode addSubTree(ASPECTTREE modelTree)
 	{
-		AspectTreeNode subTree = new AspectTreeNode(modelTree.toString());
+		AspectSubTreeNode subTree = new AspectSubTreeNode(modelTree.toString());
 		addChild(subTree);
 		return subTree;
 	}
@@ -168,5 +165,15 @@ public class AspectNode extends ACompositeNode{
 			}
 		}
 		return visitor.outAspectNode( this );
+	}
+	
+	public IModel getModel()
+	{
+		return _model;
+	}
+
+	public void setModel(IModel _model)
+	{
+		this._model = _model;
 	}
 }

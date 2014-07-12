@@ -32,7 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.model.runtime;
 
-import org.geppetto.core.model.runtime.AspectTreeNode.ASPECTTREE;
+import org.geppetto.core.model.runtime.AspectSubTreeNode.ASPECTTREE;
 import org.geppetto.core.model.state.visitors.IVisitable;
 
 /**
@@ -97,6 +97,10 @@ public abstract class ANode implements IVisitable
 	public ANode getParent()
 	{
 		return _parent;
+	}
+	
+	public void setParent(ANode parent){
+		this._parent = parent;
 	}
 
 	public boolean isArray()

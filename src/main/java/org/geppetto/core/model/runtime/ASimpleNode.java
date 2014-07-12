@@ -32,100 +32,80 @@
  *******************************************************************************/
 package org.geppetto.core.model.runtime;
 
-import org.geppetto.core.model.state.visitors.IStateVisitor;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.geppetto.core.model.values.AValue;
 
 /**
- * Node use for children of AspectNode, stores; model, visualization and simulation trees.
+ * Abstract node used for nodes that don't have other nodes as children, a leaf node.
  * 
  * @author matteocantarelli
  * 
  */
-public class AspectTreeNode extends ACompositeNode
+@SuppressWarnings("rawtypes")
+public abstract class ASimpleNode extends ANode
 {
-	
-	public enum ASPECTTREE
+
+	private List<AValue> _values = new ArrayList<AValue>();;
+	private String _unit;
+	private String _scalingFactor;
+
+	public ASimpleNode(String name)
 	{
-		MODEL_TREE,
-		VISUALIZATION_TREE,
-		WATCH_TREE,
-	}
-	
-	
-	/**
-	 * @param modelId
-	 */
-	public AspectTreeNode(String modelId)
-	{
-		super(modelId);
-	}
-	
-	/**
-	 * 
-	 */
-	public AspectTreeNode()
-	{
-		super(null);
-	}
-	
-	/**
-	 * @param tree
-	 */
-	public void flushSubTree(ASPECTTREE tree)
-	{
-		for(ANode node : _children)
-		{
-			if(node.getName().equals(tree.toString()))
-			{
-				// re-assign to empty node
-				node = new CompositeVariableNode(tree.toString());
-				break;
-			}
-		}
+		super(name);
 	}
 
-	/**
-	 * @param modelTree
-	 * @return
-	 */
-	private ACompositeNode addSubTree(ASPECTTREE modelTree)
-	{
-		ACompositeNode subTree = new CompositeVariableNode(modelTree.toString());
-		addChild(subTree);
-		return subTree;
-	}
-	
-	/**
-	 * It creates the subtree if it doesn't exist
-	 * @param modelTree
-	 * @return
-	 */
-	public ACompositeNode getSubTree(ASPECTTREE modelTree)
-	{
-		for (ANode node:getChildren())
-		{
-			if( node.getName().equals(modelTree.toString()))
-			{
-				return (ACompositeNode) node;
-			}
-		}
-		return addSubTree(modelTree);
+	public ASimpleNode(){
+		
 	}
 	
 	@Override
-	public synchronized boolean apply(IStateVisitor visitor)
+	public String toString()
 	{
-		if (visitor.inAspectTreeNode(this))  // enter this node?
-		{
-			for(ANode stateNode:this.getChildren())
-			{
-				stateNode.apply(visitor);
-				if(visitor.stopVisiting())
-				{
-					break;
-				}
-			}
-		}
-		return visitor.outAspectTreeNode( this );
+		return _name + "[" + _values + "]";
 	}
+
+	public void addValue(AValue value)
+	{
+		value.setParentNode(this);
+		_values.add(value);
+	}
+
+	public List<AValue> getValues()
+	{
+		return _values;
+	}
+
+	public AValue consumeFirstValue()
+	{
+		if(_values.size() == 0)
+		{
+			return null;
+		}
+		AValue first = _values.get(0);
+		_values.remove(0);
+		return first;
+	}
+
+	public void setUnit(String unit)
+	{
+		this._unit = unit;
+	}
+
+	public String getUnit()
+	{
+		return _unit;
+	}
+
+	public String getScalingFactor()
+	{
+		return _scalingFactor;
+	}
+
+	public void setScalingFactor(String scalingFactor)
+	{
+		this._scalingFactor = scalingFactor;
+	}
+
 }

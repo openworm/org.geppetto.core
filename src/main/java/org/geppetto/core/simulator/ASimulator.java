@@ -51,16 +51,17 @@ import org.geppetto.core.data.model.SimpleType.Type;
 import org.geppetto.core.data.model.StructuredType;
 import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
+import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.data.DataModelFactory;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
-import org.geppetto.core.model.runtime.ASimpleStateNode;
-import org.geppetto.core.model.runtime.AspectTreeNode;
+import org.geppetto.core.model.runtime.ASimpleNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.CompositeVariableNode;
 import org.geppetto.core.model.runtime.StateVariableNode;
-import org.geppetto.core.model.runtime.AspectTreeNode.ASPECTTREE;
+import org.geppetto.core.model.runtime.AspectSubTreeNode.ASPECTTREE;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
@@ -84,7 +85,7 @@ public abstract class ASimulator implements ISimulator
 
 	private boolean _watching = false;
 
-	protected AspectTreeNode _stateTree;
+	protected AspectSubTreeNode _stateTree;
 
 	private VariableList _forceableVariables = new VariableList();
 
@@ -112,7 +113,7 @@ public abstract class ASimulator implements ISimulator
 	{
 		setListener(listener);
 		_models = models;
-		_stateTree = new AspectTreeNode();
+		_stateTree = new AspectSubTreeNode();
 		
 		// initialize recordings
 		for(IModel model : models)
@@ -199,7 +200,7 @@ public abstract class ASimulator implements ISimulator
 		_watching = false;
 
 		// reset variable-watch branch of the state tree
-		_stateTree.flushSubTree(AspectTreeNode.ASPECTTREE.WATCH_TREE);
+		_stateTree.flushSubTree(AspectSubTreeNode.ASPECTTREE.WATCH_TREE);
 	}
 
 	/*
@@ -296,17 +297,10 @@ public abstract class ASimulator implements ISimulator
 			timeStepsNode.addChild(time);
 			time.setUnit(_timeStepUnit);
 		}
-		ASimpleStateNode leafNode = (ASimpleStateNode) timeStepsNode.getChildren().get(0);
+		ASimpleNode leafNode = (ASimpleNode) timeStepsNode.getChildren().get(0);
 		leafNode.addValue(ValuesFactory.getDoubleValue(_runtime));
 	}
 
-	/**
-	 * @throws GeppettoExecutionException
-	 * 
-	 */
-	/**
-	 * @throws GeppettoExecutionException
-	 */
 	protected void advanceRecordings() throws GeppettoExecutionException
 	{
 		if(_recordings != null && isWatching())

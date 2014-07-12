@@ -40,7 +40,7 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class StateVariableNode extends ASimpleStateNode{
+public class StateVariableNode extends ASimpleNode{
 
 	public StateVariableNode(String name) {
 		super(name);
