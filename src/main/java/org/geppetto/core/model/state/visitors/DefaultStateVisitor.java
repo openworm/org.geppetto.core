@@ -37,12 +37,15 @@ import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
 import org.geppetto.core.model.runtime.CompositeVariableNode;
 import org.geppetto.core.model.runtime.CylinderNode;
+import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
+import org.geppetto.core.model.runtime.FunctionNode;
 import org.geppetto.core.model.runtime.ParameterNode;
+import org.geppetto.core.model.runtime.ParameterSpecificationNode;
 import org.geppetto.core.model.runtime.ParticleNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
 import org.geppetto.core.model.runtime.SphereNode;
-import org.geppetto.core.model.runtime.StateVariableNode;
+import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
 
@@ -69,31 +72,40 @@ public class DefaultStateVisitor implements IStateVisitor
 	}
 
 	@Override
-	public boolean inCompositeStateNode(CompositeVariableNode node) {
+	public boolean inCompositeVariableNode(CompositeVariableNode node) {
 		return !_stopVisiting;
 	}
 
 	@Override
-	public boolean outCompositeStateNode(CompositeVariableNode node) {
+	public boolean outCompositeVariableNode(CompositeVariableNode node) {
 		return !_stopVisiting;
 	}
 
 
 	@Override
-	public boolean visitStateVariableNode(StateVariableNode node) {
+	public boolean visitVariableNode(VariableNode node) {
 		return !_stopVisiting;
 	}
 
+	@Override
+	public boolean visitDynamicsSpecificationNode(DynamicsSpecificationNode node) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean visitParameterSpecificationNode(ParameterSpecificationNode node) {
+		return !_stopVisiting;
+	}
+	
+	@Override
+	public boolean visitFunctionNode(FunctionNode node) {
+		return !_stopVisiting;
+	}
+	
 	@Override
 	public boolean visitParameterNode(ParameterNode node) {
 		return !_stopVisiting;
 	}
-
-	@Override
-	public boolean visitTimeNode(StateVariableNode node) {
-		return !_stopVisiting;
-	}
-
 	@Override
 	public boolean visitTextMetadataNode(TextMetadataNode textMetadataNode) {
 		return !_stopVisiting;
@@ -155,12 +167,12 @@ public class DefaultStateVisitor implements IStateVisitor
 	}
 
 	@Override
-	public boolean inAspectTreeNode(AspectSubTreeNode node) {
+	public boolean inAspectSubTreeNode(AspectSubTreeNode node) {
 		return !_stopVisiting;
 	}
 
 	@Override
-	public boolean outAspectTreeNode(AspectSubTreeNode node) {
+	public boolean outAspectSubTreeNode(AspectSubTreeNode node) {
 		return !_stopVisiting;
 	}
 

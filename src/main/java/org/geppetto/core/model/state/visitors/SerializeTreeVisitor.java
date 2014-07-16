@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.AspectNode;
@@ -16,7 +17,7 @@ import org.geppetto.core.model.runtime.ParameterNode;
 import org.geppetto.core.model.runtime.ParticleNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
 import org.geppetto.core.model.runtime.SphereNode;
-import org.geppetto.core.model.runtime.StateVariableNode;
+import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
 import org.geppetto.core.model.values.AValue;
@@ -96,10 +97,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 		
-		//if(_serialized.toString().endsWith(",")){
-			//_serialized.deleteCharAt(_serialized.lastIndexOf(","));
-			_serialized.append(metaType);
-//		/}
+		_serialized.append(metaType);
 
 		if(node.isArray()){
 			ANode sibling = node.nextSibling();
@@ -134,30 +132,53 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	}
 	
 	@Override
-	public boolean inCompositeStateNode(CompositeVariableNode node)
+	public boolean inCompositeVariableNode(CompositeVariableNode node)
 	{
 		this.generalACompositeStateNodeIn(node);
-		return super.inCompositeStateNode(node);
+		return super.inCompositeVariableNode(node);
 	}
 
 	@Override
-	public boolean outCompositeStateNode(CompositeVariableNode node)
+	public boolean outCompositeVariableNode(CompositeVariableNode node)
 	{
 		this.generalACompositeStateNodeOut(node);
-		return super.outCompositeStateNode(node);
+		return super.outCompositeVariableNode(node);
 	}
 	
 	@Override
 	public boolean inAspectNode(AspectNode node)
 	{
 		this.generalACompositeStateNodeIn(node);
+
 		return super.inAspectNode(node);
 	}
 
 	@Override
 	public boolean outAspectNode(AspectNode node)
 	{
+		
+		String id = "";
+		if(node.getId() != null){
+			id = "\"id\":" + "\"" + node.getId() + "\",";
+		}
+		
+		String simulator = "";
+		if(node.getSimulator() != null){
+			if(node.getSimulator().getName() != null){
+				simulator = "\"simulator\":" + "\"" + node.getSimulator().getName() + "\",";
+			}
+		}
+
+		String modelInterpreter = "";
+		if(node.getModelInterpreter() != null){
+			if(node.getModelInterpreter().getName() != null){
+				modelInterpreter = "\"modelInterpreter\":" + "\"" + node.getModelInterpreter().getName() + "\",";
+			}
+		}
+				
+		_serialized.append(id + simulator+modelInterpreter);
 		this.generalACompositeStateNodeOut(node);
+		
 		return super.outAspectNode(node);
 	}
 	
@@ -171,22 +192,34 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean outEntityNode(EntityNode node)
 	{
+		String id = "";
+		if(node.getId() != null){
+			id = "\"id\":" + "\"" + node.getId() + "\",";
+		}
+		_serialized.append(id);
+		
 		this.generalACompositeStateNodeOut(node);
 		return super.outEntityNode(node);
 	}
 
 	@Override
-	public boolean inAspectTreeNode(AspectSubTreeNode node)
+	public boolean inAspectSubTreeNode(AspectSubTreeNode node)
 	{
 		this.generalACompositeStateNodeIn(node);
-		return super.inAspectTreeNode(node);
+		return super.inAspectSubTreeNode(node);
 	}
 	
 	@Override
-	public boolean outAspectTreeNode(AspectSubTreeNode node)
+	public boolean outAspectSubTreeNode(AspectSubTreeNode node)
 	{
+		String type = "";
+		if(node.getType() != null){
+			type = "\"type\":" + "\"" + node.getType() + "\",";
+		}
+		_serialized.append(type);
+		
 		this.generalACompositeStateNodeOut(node);
-		return super.outAspectTreeNode(node);
+		return super.outAspectSubTreeNode(node);
 	}
 	
 	@Override
@@ -203,24 +236,30 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		return super.outRuntimeTreeRoot(node);
 	}
 	@Override
-	public boolean visitStateVariableNode(StateVariableNode node)
+	public boolean visitVariableNode(VariableNode node)
 	{
 		String metaType = "";
-		AValue value = node.consumeFirstValue();
-		String unit = null, scale = null;
-		
-		if(node.getMetaType() != null){
-			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
-		}
-		if(node.getUnit() != null){
-			unit = "\"" + node.getUnit() + "\"";
-		}
-		if(node.getScalingFactor() != null){
-			scale = "\"" + node.getScalingFactor() + "\"";
-		}
-		_serialized.append("\"" + node.getName() + "\":{\"value\":" + value + ",\"unit\":" + unit + ",\"scale\":" + scale +","+ metaType+ "},");
+		PhysicalQuantity quantity = node.consumeFirstValue();
+		if(quantity != null){
+			AValue value = quantity.getValue();
+			String unit = null, scale = null;
 
-		return super.visitStateVariableNode(node);
+			if(node.getMetaType() != null){
+				metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+			}
+			if(quantity.getUnit() != null){
+				unit = "\"" + quantity.getUnit() + "\"";
+			}
+			if(quantity.getScalingFactor() != null){
+				scale = "\"" + quantity.getScalingFactor() + "\"";
+			}
+			_serialized.append("\"" + node.getName() + "\":{\"value\":" + value + ",\"unit\":" + unit + ",\"scale\":" + scale +","+ metaType+ "},");
+		}
+		else{
+			_serialized.append("\"" + node.getName() +metaType+ "},");
+		}
+
+		return super.visitVariableNode(node);
 	}
 	
 	@Override
@@ -240,19 +279,6 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		_serialized.append("\"" + node.getName() + "\":{"+properties+metaType+"},");
 
 		return super.visitParameterNode(node);
-	}
-	
-	@Override
-	public boolean visitTimeNode(StateVariableNode node)
-	{
-		String metaType = "";
-		if(node.getMetaType() != null){
-			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
-		}
-		
-		_serialized.append("\"" + node.getName() + "\":{"+metaType+"},");
-
-		return super.visitTimeNode(node);
 	}
 	
 	@Override

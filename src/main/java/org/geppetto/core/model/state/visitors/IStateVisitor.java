@@ -37,12 +37,15 @@ import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
 import org.geppetto.core.model.runtime.CompositeVariableNode;
 import org.geppetto.core.model.runtime.CylinderNode;
+import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
+import org.geppetto.core.model.runtime.FunctionNode;
 import org.geppetto.core.model.runtime.ParameterNode;
+import org.geppetto.core.model.runtime.ParameterSpecificationNode;
 import org.geppetto.core.model.runtime.ParticleNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
 import org.geppetto.core.model.runtime.SphereNode;
-import org.geppetto.core.model.runtime.StateVariableNode;
+import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
 
@@ -52,9 +55,9 @@ import org.geppetto.core.model.runtime.URLMetadataNode;
  */
 public interface IStateVisitor
 {
-	boolean inCompositeStateNode( CompositeVariableNode node ); // going into a branch
+	boolean inCompositeVariableNode( CompositeVariableNode node ); // going into a branch
 	
-	boolean outCompositeStateNode( CompositeVariableNode node ); // coming out
+	boolean outCompositeVariableNode( CompositeVariableNode node ); // coming out
 	
 	boolean inAspectNode( AspectNode node ); // going into a branch
 	
@@ -68,19 +71,23 @@ public interface IStateVisitor
 	
 	boolean outColladaNode( ColladaNode node ); // coming out
 	
-	boolean inAspectTreeNode( AspectSubTreeNode node ); // going into a branch
+	boolean inAspectSubTreeNode( AspectSubTreeNode node ); // going into a branch
 	
-	boolean outAspectTreeNode( AspectSubTreeNode node ); // coming out
+	boolean outAspectSubTreeNode( AspectSubTreeNode node ); // coming out
 	
 	boolean inRuntimeTreeRoot(RuntimeTreeRoot runtimeTreeRoot);
 
 	boolean outRuntimeTreeRoot(RuntimeTreeRoot runtimeTreeRoot);
 	
-	boolean visitStateVariableNode( StateVariableNode node );
+	boolean visitVariableNode( VariableNode node );
 	
 	boolean visitParameterNode( ParameterNode node );
 	
-	boolean visitTimeNode( StateVariableNode node );
+	boolean visitDynamicsSpecificationNode(DynamicsSpecificationNode dynamicsSpecificationNode);
+
+	boolean visitParameterSpecificationNode(ParameterSpecificationNode parameterSpecificationNode);
+
+	boolean visitFunctionNode(FunctionNode functionNode);
 	
 	boolean visitTextMetadataNode(TextMetadataNode textMetadataNode);
 

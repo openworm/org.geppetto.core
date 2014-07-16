@@ -32,61 +32,47 @@
  *******************************************************************************/
 package org.geppetto.core.model.runtime;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geppetto.core.model.state.visitors.IStateVisitor;
-import org.geppetto.core.visualisation.model.Point;
 
 /**
- * Node use to define a cylinder for visualization and serialization
+ * Node use for storing functions
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class CylinderNode extends AVisualObjectNode{
+public class FunctionNode extends ANode
+{
 
-	private Double _radiusTop;
-    private Double _radiusBottom;
-    private Double _height;
-    private Point _distal;
-    
-    public CylinderNode(String name)
+	private List<String> _argument = new ArrayList<String>();
+	private String _expression;
+	
+	public List<String> getArgument()
 	{
-    	super(name);
+		return _argument;
 	}
 
-	public Double getRadiusTop() {
-		return _radiusTop;
+	public void setArgument(List<String> argument)
+	{
+		this._argument = argument;
 	}
 
-	public void setRadiusTop(Double radiusTop) {
-		this._radiusTop = radiusTop;
+	public String getExpression()
+	{
+		return _expression;
 	}
 
-	public Double getRadiusBottom() {
-		return _radiusBottom;
+	public void setExpression(String expression)
+	{
+		this._expression = expression;
 	}
 
-	public void setRadiusBottom(Double radiusBottom) {
-		this._radiusBottom = radiusBottom;
-	}
-
-	public Double getHeight() {
-		return _height;
-	}
-
-	public void setHeight(Double height) {
-		this._height = height;
-	}
-
-	public Point getDistal() {
-		return _distal;
-	}
-
-	public void setDistal(Point distal) {
-		this._distal = distal;
-	}
-    
 	@Override
-	public boolean apply(IStateVisitor visitor) {
-		return visitor.visitCylinderNode(this);
+	public boolean apply(IStateVisitor visitor)
+	{
+		return visitor.visitFunctionNode(this);
 	}
+
 }

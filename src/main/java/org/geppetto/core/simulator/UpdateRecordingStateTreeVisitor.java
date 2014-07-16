@@ -36,8 +36,9 @@ import java.io.IOException;
 
 import org.geppetto.core.data.model.SimpleType.Type;
 import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.runtime.ASimpleNode;
-import org.geppetto.core.model.runtime.StateVariableNode;
+import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.runtime.ATimeSeriesNode;
+import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.state.visitors.DefaultStateVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
@@ -74,7 +75,7 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 	 * @see org.geppetto.core.model.state.visitors.DefaultStateVisitor#visitSimpleStateNode(org.geppetto.core.model.state.SimpleStateNode)
 	 */
 	@Override
-	public boolean visitStateVariableNode(StateVariableNode node)
+	public boolean visitVariableNode(VariableNode node)
 	{
 		String variable = node.getInstancePath().replace(_instancePath + ".", "").replace(".", "/");
 		Variable v = _recording.getHDF5().findVariable(variable);
@@ -92,6 +93,7 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 				value = v.read(start, lenght);
 				Type type = Type.fromValue(v.getDataType().toString());
 
+				PhysicalQuantity quantity = new PhysicalQuantity();
 				AValue readValue = null;
 				switch(type)
 				{
@@ -107,7 +109,8 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 					default:
 						break;
 				}
-				node.addValue(readValue);
+				quantity.setValue(readValue);
+				node.addPhysicalQuantity(quantity);
 			}
 			catch(IOException | InvalidRangeException e)
 			{
@@ -115,7 +118,7 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 			}
 			
 		}
-		return super.visitStateVariableNode(node);
+		return super.visitVariableNode(node);
 	}
 
 	/**

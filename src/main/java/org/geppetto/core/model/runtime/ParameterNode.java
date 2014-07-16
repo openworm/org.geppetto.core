@@ -37,12 +37,14 @@ import java.util.HashMap;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
- * Node used to store static values that aren't going to change through simulation 
+ * Node used to store static values that aren't going to change through simulation .
+ * A parameter can be considered as the input of a model and  it does not contain any intrinsic dyamics. 
+ * If a parameter changes its value over time is as result of the user changing it.
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class ParameterNode extends ASimpleNode {
+public class ParameterNode extends ATimeSeriesNode {
 
 	private HashMap<String, String> properties = new HashMap<String, String>();
 	

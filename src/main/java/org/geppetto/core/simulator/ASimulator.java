@@ -55,13 +55,14 @@ import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.data.DataModelFactory;
+import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
-import org.geppetto.core.model.runtime.ASimpleNode;
+import org.geppetto.core.model.runtime.ATimeSeriesNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.CompositeVariableNode;
-import org.geppetto.core.model.runtime.StateVariableNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode.ASPECTTREE;
+import org.geppetto.core.model.runtime.VariableNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
@@ -200,7 +201,7 @@ public abstract class ASimulator implements ISimulator
 		_watching = false;
 
 		// reset variable-watch branch of the state tree
-		_stateTree.flushSubTree(AspectSubTreeNode.ASPECTTREE.WATCH_TREE);
+		_stateTree.flushSubTree(AspectSubTreeNode.AspectTreeType.WATCH_TREE);
 	}
 
 	/*
@@ -293,19 +294,22 @@ public abstract class ASimulator implements ISimulator
 		_runtime += timestep;
 		ACompositeNode timeStepsNode =new CompositeVariableNode("time tree");
 		{
-			StateVariableNode time = new StateVariableNode("time");
+			VariableNode time = new VariableNode("time");
 			timeStepsNode.addChild(time);
-			time.setUnit(_timeStepUnit);
+			PhysicalQuantity t= new PhysicalQuantity();
+			t.setUnit(_timeStepUnit);
 		}
-		ASimpleNode leafNode = (ASimpleNode) timeStepsNode.getChildren().get(0);
-		leafNode.addValue(ValuesFactory.getDoubleValue(_runtime));
+		ATimeSeriesNode leafNode = (ATimeSeriesNode) timeStepsNode.getChildren().get(0);
+		PhysicalQuantity runTime = new PhysicalQuantity();
+		runTime.setValue(ValuesFactory.getDoubleValue(_runtime));
+		leafNode.addPhysicalQuantity(runTime);
 	}
 
 	protected void advanceRecordings() throws GeppettoExecutionException
 	{
 		if(_recordings != null && isWatching())
 		{
-			ACompositeNode watchTree = _stateTree.getSubTree(ASPECTTREE.WATCH_TREE);
+			ACompositeNode watchTree = _stateTree.getSubTree(AspectTreeType.WATCH_TREE);
 
 			if(watchTree.getChildren().isEmpty() || watchListModified())
 			{
@@ -354,7 +358,7 @@ public abstract class ASimulator implements ISimulator
 									else
 									{
 										// it's a leaf node
-										StateVariableNode newNode = new StateVariableNode(current);
+										VariableNode newNode = new VariableNode(current);
 										int[] start = { _currentRecordingIndex};
 										int[] lenght = {1};
 										Array value;
@@ -363,6 +367,7 @@ public abstract class ASimulator implements ISimulator
 											value = hdfVariable.read(start, lenght);
 											Type type = Type.fromValue(hdfVariable.getDataType().toString());
 
+											PhysicalQuantity quantity = new PhysicalQuantity();
 											AValue readValue = null;
 											switch(type)
 											{
@@ -378,7 +383,8 @@ public abstract class ASimulator implements ISimulator
 												default:
 													break;
 											}
-											newNode.addValue(readValue);
+											quantity.setValue(readValue);
+											newNode.addPhysicalQuantity(quantity);
 											node.addChild(newNode);
 										}
 										catch(IOException | InvalidRangeException e)

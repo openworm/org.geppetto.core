@@ -32,12 +32,9 @@
  *******************************************************************************/
 package org.geppetto.core.model.runtime;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.IModelInterpreter;
-import org.geppetto.core.model.runtime.AspectSubTreeNode.ASPECTTREE;
+import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 import org.geppetto.core.simulator.ISimulator;
 
@@ -50,7 +47,7 @@ import org.geppetto.core.simulator.ISimulator;
 public class AspectNode extends ACompositeNode{
 
 	private String _id;
-	private StateVariableNode _time;
+	private VariableNode _time;
 	private IModelInterpreter _modelInterpreter;
 	private ISimulator _simulator;
 	private IModel _model;
@@ -62,11 +59,11 @@ public class AspectNode extends ACompositeNode{
 		super(name);
 	}
 
-	public StateVariableNode getTime() {
+	public VariableNode getTime() {
 		return _time;
 	}
 
-	public void setTime(StateVariableNode time) {
+	public void setTime(VariableNode time) {
 		this._time = time;
 	}
 
@@ -109,7 +106,7 @@ public class AspectNode extends ACompositeNode{
 	/**
 	 * @param tree
 	 */
-	public void flushSubTree(ASPECTTREE tree)
+	public void flushSubTree(AspectTreeType tree)
 	{
 		for(ANode node : _children)
 		{
@@ -126,9 +123,9 @@ public class AspectNode extends ACompositeNode{
 	 * @param modelTree
 	 * @return
 	 */
-	private ACompositeNode addSubTree(ASPECTTREE modelTree)
+	private ACompositeNode addSubTree(AspectTreeType modelTree)
 	{
-		AspectSubTreeNode subTree = new AspectSubTreeNode(modelTree.toString());
+		AspectSubTreeNode subTree = new AspectSubTreeNode(modelTree);
 		addChild(subTree);
 		return subTree;
 	}
@@ -138,7 +135,7 @@ public class AspectNode extends ACompositeNode{
 	 * @param modelTree
 	 * @return
 	 */
-	public ACompositeNode getSubTree(ASPECTTREE modelTree)
+	public ACompositeNode getSubTree(AspectTreeType modelTree)
 	{
 		for (ANode node:getChildren())
 		{

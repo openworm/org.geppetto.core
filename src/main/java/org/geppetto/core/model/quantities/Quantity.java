@@ -30,63 +30,29 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.runtime;
+package org.geppetto.core.model.quantities;
 
-import org.geppetto.core.model.state.visitors.IStateVisitor;
-import org.geppetto.core.visualisation.model.Point;
+import org.geppetto.core.model.values.AValue;
 
-/**
- * Node use to define a cylinder for visualization and serialization
- * 
- * @author  Jesus R. Martinez (jesus@metacell.us)
- *
- */
-public class CylinderNode extends AVisualObjectNode{
-
-	private Double _radiusTop;
-    private Double _radiusBottom;
-    private Double _height;
-    private Point _distal;
-    
-    public CylinderNode(String name)
+public class Quantity
+{
+	private AValue _value;
+	private String _scalingFactor;
+	
+	public AValue getValue()
 	{
-    	super(name);
+		return _value;
 	}
-
-	public Double getRadiusTop() {
-		return _radiusTop;
+	public void setValue(AValue value)
+	{
+		this._value = value;
 	}
-
-	public void setRadiusTop(Double radiusTop) {
-		this._radiusTop = radiusTop;
+	public String getScalingFactor()
+	{
+		return _scalingFactor;
 	}
-
-	public Double getRadiusBottom() {
-		return _radiusBottom;
-	}
-
-	public void setRadiusBottom(Double radiusBottom) {
-		this._radiusBottom = radiusBottom;
-	}
-
-	public Double getHeight() {
-		return _height;
-	}
-
-	public void setHeight(Double height) {
-		this._height = height;
-	}
-
-	public Point getDistal() {
-		return _distal;
-	}
-
-	public void setDistal(Point distal) {
-		this._distal = distal;
-	}
-    
-	@Override
-	public boolean apply(IStateVisitor visitor) {
-		return visitor.visitCylinderNode(this);
+	public void setScalingFactor(String scalingFactor)
+	{
+		this._scalingFactor = scalingFactor;
 	}
 }

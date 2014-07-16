@@ -52,6 +52,8 @@ public interface ISolver {
 	
 	public AspectSubTreeNode initialize(final IModel model) throws GeppettoInitializationException;
 	
+	public void populateVisualTree(final IModel model,AspectSubTreeNode visualTree) throws GeppettoInitializationException;
+		
 	public void dispose();
 	
 	public VariableList getForceableVariables();

@@ -32,61 +32,32 @@
  *******************************************************************************/
 package org.geppetto.core.model.runtime;
 
+import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
-import org.geppetto.core.visualisation.model.Point;
 
 /**
- * Node use to define a cylinder for visualization and serialization
+ * Node used to store specific parameters with quantities
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class CylinderNode extends AVisualObjectNode{
+public class ParameterSpecificationNode extends ANode
+{
+	
+	private PhysicalQuantity _value;
 
-	private Double _radiusTop;
-    private Double _radiusBottom;
-    private Double _height;
-    private Point _distal;
-    
-    public CylinderNode(String name)
-	{
-    	super(name);
+	public void setValue(PhysicalQuantity value){
+		this._value = value;
 	}
-
-	public Double getRadiusTop() {
-		return _radiusTop;
+	
+	public PhysicalQuantity getValue(){
+		return this._value;
 	}
-
-	public void setRadiusTop(Double radiusTop) {
-		this._radiusTop = radiusTop;
-	}
-
-	public Double getRadiusBottom() {
-		return _radiusBottom;
-	}
-
-	public void setRadiusBottom(Double radiusBottom) {
-		this._radiusBottom = radiusBottom;
-	}
-
-	public Double getHeight() {
-		return _height;
-	}
-
-	public void setHeight(Double height) {
-		this._height = height;
-	}
-
-	public Point getDistal() {
-		return _distal;
-	}
-
-	public void setDistal(Point distal) {
-		this._distal = distal;
-	}
-    
+	
 	@Override
-	public boolean apply(IStateVisitor visitor) {
-		return visitor.visitCylinderNode(this);
+	public boolean apply(IStateVisitor visitor)
+	{
+		return visitor.visitParameterSpecificationNode(this);
 	}
+
 }

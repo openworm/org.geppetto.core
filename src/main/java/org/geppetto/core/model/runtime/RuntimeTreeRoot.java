@@ -42,7 +42,7 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  */
 public class RuntimeTreeRoot extends ACompositeNode{
 
-	private StateVariableNode _time;
+	private VariableNode _time;
 
 	public RuntimeTreeRoot(String name) {
 		super(name);
@@ -51,11 +51,11 @@ public class RuntimeTreeRoot extends ACompositeNode{
 	public RuntimeTreeRoot() {
 	}
 
-	public StateVariableNode getTime() {
+	public VariableNode getTime() {
 		return _time;
 	}
 
-	public void setTime(StateVariableNode time) {
+	public void setTime(VariableNode time) {
 		this._time = time;
 	}
 

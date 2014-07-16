@@ -30,63 +30,17 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.runtime;
+package org.geppetto.core.model.quantities;
 
-import org.geppetto.core.model.state.visitors.IStateVisitor;
-import org.geppetto.core.visualisation.model.Point;
+public class PhysicalQuantity extends Quantity
+{
+	private String unit;
 
-/**
- * Node use to define a cylinder for visualization and serialization
- * 
- * @author  Jesus R. Martinez (jesus@metacell.us)
- *
- */
-public class CylinderNode extends AVisualObjectNode{
-
-	private Double _radiusTop;
-    private Double _radiusBottom;
-    private Double _height;
-    private Point _distal;
-    
-    public CylinderNode(String name)
-	{
-    	super(name);
+	public void setUnit(String unit){
+		this.unit = unit;
 	}
-
-	public Double getRadiusTop() {
-		return _radiusTop;
-	}
-
-	public void setRadiusTop(Double radiusTop) {
-		this._radiusTop = radiusTop;
-	}
-
-	public Double getRadiusBottom() {
-		return _radiusBottom;
-	}
-
-	public void setRadiusBottom(Double radiusBottom) {
-		this._radiusBottom = radiusBottom;
-	}
-
-	public Double getHeight() {
-		return _height;
-	}
-
-	public void setHeight(Double height) {
-		this._height = height;
-	}
-
-	public Point getDistal() {
-		return _distal;
-	}
-
-	public void setDistal(Point distal) {
-		this._distal = distal;
-	}
-    
-	@Override
-	public boolean apply(IStateVisitor visitor) {
-		return visitor.visitCylinderNode(this);
+	
+	public String getUnit(){
+		return this.unit;
 	}
 }

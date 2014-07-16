@@ -32,61 +32,44 @@
  *******************************************************************************/
 package org.geppetto.core.model.runtime;
 
+import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
-import org.geppetto.core.visualisation.model.Point;
 
 /**
- * Node use to define a cylinder for visualization and serialization
+ * Specifies specific parameter associated with a function and physical quantity
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class CylinderNode extends AVisualObjectNode{
-
-	private Double _radiusTop;
-    private Double _radiusBottom;
-    private Double _height;
-    private Point _distal;
-    
-    public CylinderNode(String name)
+public class DynamicsSpecificationNode extends ANode
+{
+	private PhysicalQuantity _initialConditions;
+	private FunctionNode _dynamics;
+	
+	public PhysicalQuantity getInitialConditions()
 	{
-    	super(name);
+		return _initialConditions;
 	}
 
-	public Double getRadiusTop() {
-		return _radiusTop;
+	public void setInitialConditions(PhysicalQuantity initialConditions)
+	{
+		this._initialConditions = initialConditions;
 	}
 
-	public void setRadiusTop(Double radiusTop) {
-		this._radiusTop = radiusTop;
+	public FunctionNode getDynamics()
+	{
+		return _dynamics;
 	}
 
-	public Double getRadiusBottom() {
-		return _radiusBottom;
+	public void setDynamics(FunctionNode dynamics)
+	{
+		this._dynamics = dynamics;
 	}
-
-	public void setRadiusBottom(Double radiusBottom) {
-		this._radiusBottom = radiusBottom;
-	}
-
-	public Double getHeight() {
-		return _height;
-	}
-
-	public void setHeight(Double height) {
-		this._height = height;
-	}
-
-	public Point getDistal() {
-		return _distal;
-	}
-
-	public void setDistal(Point distal) {
-		this._distal = distal;
-	}
-    
+	
 	@Override
-	public boolean apply(IStateVisitor visitor) {
-		return visitor.visitCylinderNode(this);
+	public boolean apply(IStateVisitor visitor)
+	{
+		return visitor.visitDynamicsSpecificationNode(this);
 	}
+
 }

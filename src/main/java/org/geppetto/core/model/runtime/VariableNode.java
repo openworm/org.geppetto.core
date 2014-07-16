@@ -35,20 +35,22 @@ package org.geppetto.core.model.runtime;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
- * Node use for storing state variable values and serialization of them
+ * Node use for storing state variable values and serialization of them.
+ * A state variable has intrinsic dynamics that allow for it to change as
+ * part of the evolution of the model.
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class StateVariableNode extends ASimpleNode{
+public class VariableNode extends ATimeSeriesNode{
 
-	public StateVariableNode(String name) {
+	public VariableNode(String name) {
 		super(name);
 	}
 
 	@Override
 	public boolean apply(IStateVisitor visitor)
 	{
-		return visitor.visitStateVariableNode(this);
+		return visitor.visitVariableNode(this);
 	}
 }

@@ -44,20 +44,41 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
 public class AspectSubTreeNode extends ACompositeNode
 {
 	
-	public enum ASPECTTREE
+	public enum AspectTreeType
 	{
-		MODEL_TREE,
-		VISUALIZATION_TREE,
-		WATCH_TREE,
+		MODEL_TREE("ModelTree"),
+		VISUALIZATION_TREE("VisualizationTree"),
+		WATCH_TREE("SimulationTree");
+		
+		private final String text;
+
+	    /**
+	     * @param text
+	     */
+	    private AspectTreeType(final String text) {
+	        this.text = text;
+	    }
+
+
+	    /* (non-Javadoc)
+	     * @see java.lang.Enum#toString()
+	     */
+	    @Override
+	    public String toString() {
+	        return text;
+	    }
 	}
+
+	private AspectTreeType type;
 	
 	
 	/**
-	 * @param modelId
+	 * @param modelTree.toString()
 	 */
-	public AspectSubTreeNode(String modelId)
+	public AspectSubTreeNode(AspectTreeType modelTree)
 	{
-		super(modelId);
+		super(modelTree.toString());
+		this.type = modelTree;
 	}
 	
 	/**
@@ -68,10 +89,19 @@ public class AspectSubTreeNode extends ACompositeNode
 		super(null);
 	}
 	
+	public AspectSubTreeNode(String modelId)
+	{
+		super(modelId);
+	}
+
+	public String getType(){
+		return this.type.toString();
+	}
+	
 	/**
 	 * @param tree
 	 */
-	public void flushSubTree(ASPECTTREE tree)
+	public void flushSubTree(AspectTreeType tree)
 	{
 		for(ANode node : _children)
 		{
@@ -88,7 +118,7 @@ public class AspectSubTreeNode extends ACompositeNode
 	 * @param modelTree
 	 * @return
 	 */
-	private ACompositeNode addSubTree(ASPECTTREE modelTree)
+	private ACompositeNode addSubTree(AspectTreeType modelTree)
 	{
 		ACompositeNode subTree = new CompositeVariableNode(modelTree.toString());
 		addChild(subTree);
@@ -100,7 +130,7 @@ public class AspectSubTreeNode extends ACompositeNode
 	 * @param modelTree
 	 * @return
 	 */
-	public ACompositeNode getSubTree(ASPECTTREE modelTree)
+	public ACompositeNode getSubTree(AspectTreeType modelTree)
 	{
 		for (ANode node:getChildren())
 		{
@@ -115,7 +145,7 @@ public class AspectSubTreeNode extends ACompositeNode
 	@Override
 	public synchronized boolean apply(IStateVisitor visitor)
 	{
-		if (visitor.inAspectTreeNode(this))  // enter this node?
+		if (visitor.inAspectSubTreeNode(this))  // enter this node?
 		{
 			for(ANode stateNode:this.getChildren())
 			{
@@ -126,6 +156,6 @@ public class AspectSubTreeNode extends ACompositeNode
 				}
 			}
 		}
-		return visitor.outAspectTreeNode( this );
+		return visitor.outAspectSubTreeNode( this );
 	}
 }

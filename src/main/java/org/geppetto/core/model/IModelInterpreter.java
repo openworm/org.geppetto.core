@@ -46,10 +46,10 @@ import org.geppetto.core.model.simulation.Aspect;
 public interface IModelInterpreter {
 
 	IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException;
-		
-	boolean populateVisualTree(AspectNode aspectNode) throws ModelInterpreterException;
-	
+			
 	boolean populateModelTree(AspectNode aspectNode) throws ModelInterpreterException;
 	
 	boolean populateRuntimeTree(AspectNode aspectNode);
+	
+	String getName();
 }

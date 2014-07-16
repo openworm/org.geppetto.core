@@ -35,7 +35,7 @@ package org.geppetto.core.model.runtime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geppetto.core.model.values.AValue;
+import org.geppetto.core.model.quantities.PhysicalQuantity;
 
 /**
  * Abstract node used for nodes that don't have other nodes as children, a leaf node.
@@ -44,68 +44,44 @@ import org.geppetto.core.model.values.AValue;
  * 
  */
 @SuppressWarnings("rawtypes")
-public abstract class ASimpleNode extends ANode
+public abstract class ATimeSeriesNode extends ANode
 {
+	//A state variable has intrinsic dynamics that allow for it to change as part of the evolution of the model.
+	private List<PhysicalQuantity> _timeSeries = new ArrayList<PhysicalQuantity>();;
 
-	private List<AValue> _values = new ArrayList<AValue>();;
-	private String _unit;
-	private String _scalingFactor;
-
-	public ASimpleNode(String name)
+	public ATimeSeriesNode(String name)
 	{
 		super(name);
 	}
 
-	public ASimpleNode(){
+	public ATimeSeriesNode(){
 		
 	}
 	
 	@Override
 	public String toString()
 	{
-		return _name + "[" + _values + "]";
+		return _name + "[" + _timeSeries + "]";
 	}
 
-	public void addValue(AValue value)
+	public void addPhysicalQuantity(PhysicalQuantity value)
 	{
-		value.setParentNode(this);
-		_values.add(value);
+		_timeSeries.add(value);
 	}
 
-	public List<AValue> getValues()
+	public List<PhysicalQuantity> getTimeSeries()
 	{
-		return _values;
+		return _timeSeries;
 	}
 
-	public AValue consumeFirstValue()
+	public PhysicalQuantity consumeFirstValue()
 	{
-		if(_values.size() == 0)
+		if(_timeSeries.size() == 0)
 		{
 			return null;
 		}
-		AValue first = _values.get(0);
-		_values.remove(0);
+		PhysicalQuantity first = _timeSeries.get(0);
+		_timeSeries.remove(0);
 		return first;
 	}
-
-	public void setUnit(String unit)
-	{
-		this._unit = unit;
-	}
-
-	public String getUnit()
-	{
-		return _unit;
-	}
-
-	public String getScalingFactor()
-	{
-		return _scalingFactor;
-	}
-
-	public void setScalingFactor(String scalingFactor)
-	{
-		this._scalingFactor = scalingFactor;
-	}
-
 }

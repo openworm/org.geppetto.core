@@ -82,43 +82,6 @@ public class ColladaModelInterpreterService implements IModelInterpreter
 		return collada;
 	}
 
-//	@Override
-//	public EntityNode getVisualEntity(IModel model, Aspect aspect, AspectTreeNode stateTree) throws ModelInterpreterException
-//	{
-//		if(_visualEntity == null || _modelHash != model.hashCode())
-//		{
-//			_visualEntity = new EntityNode();
-//			AspectNode rootAspect = new AspectNode();
-//			rootAspect.setId(aspect.getId());
-//			_visualEntity.getAspects().add(rootAspect);
-//			_modelHash = model.hashCode();
-//			ColladaNode collada = new ColladaNode();
-//			collada.setModel((String) ((ModelWrapper) model).getModel(COLLADA));
-//			
-//			VisualModelNode colladaModel = new VisualModelNode();
-//			//colladaModel.getObjects().add(collada);
-//			rootAspect.getVisualModel().add(colladaModel);
-//			return _visualEntity;
-//		}
-//		else
-//		{
-//			//if we already sent once the update every other time it's going to be empty unless it changes
-//			//as the geometry won't change
-//			EntityNode empty = new EntityNode();
-//			AspectNode visualAspect = new AspectNode();
-//			visualAspect.setId(aspect.getId());
-//			empty.getAspects().add(visualAspect);
-//			return empty;
-//		}
-//		
-//	}
-
-	@Override
-	public boolean populateVisualTree(AspectNode aspectNode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	@Override
 	public boolean populateModelTree(AspectNode aspectNode) {
 		// TODO Auto-generated method stub
@@ -129,6 +92,14 @@ public class ColladaModelInterpreterService implements IModelInterpreter
 	public boolean populateRuntimeTree(AspectNode aspectNode) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public String getName()
+	{
+		//TODO: Create spring bean with name of interpreter to retrieve it from there. 
+		//Move this to own bundle?
+		return "Collada Model Interpreter";
 	}
 
 }
