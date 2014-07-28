@@ -35,6 +35,7 @@ package org.geppetto.core.beans;
 public class SimulatorConfig {
 	
 	private String simulatorName;
+	private String simulatorID;
 	
 	public void setSimulatorName(String simulatorName){
 		this.simulatorName = simulatorName;
@@ -42,5 +43,14 @@ public class SimulatorConfig {
 	
 	public String getSimulatorName(){
 		return this.simulatorName;
+	}
+
+	public String getSimulatorID()
+	{
+		return this.simulatorID;
+	}
+	
+	public void setSimulatorID(String simulatorID){
+		this.simulatorID = simulatorID;
 	}
 }

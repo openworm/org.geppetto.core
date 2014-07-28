@@ -50,7 +50,7 @@ import org.geppetto.core.simulation.ISimulatorCallbackListener;
  */
 public interface ISimulator {
 	
-	void simulate(IRunConfiguration runConfiguration) throws GeppettoExecutionException;
+	void simulate(IRunConfiguration runConfiguration, AspectNode aspect) throws GeppettoExecutionException;
 	
 	void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
 
@@ -62,6 +62,7 @@ public interface ISimulator {
 		
 	String getName();
 	
+	String getId();
 	/**
 	 * Adds variables to be watched by the simulator.
 	 * */
@@ -82,5 +83,5 @@ public interface ISimulator {
 	 * */
 	void clearWatchVariables();
 	
-	boolean populateVisualTree(AspectNode aspectNode) throws ModelInterpreterException;
+	boolean populateVisualTree(AspectNode aspectNode) throws ModelInterpreterException, GeppettoExecutionException;
 }

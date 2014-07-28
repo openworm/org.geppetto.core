@@ -51,7 +51,6 @@ import org.geppetto.core.data.model.SimpleType.Type;
 import org.geppetto.core.data.model.StructuredType;
 import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.data.DataModelFactory;
@@ -59,6 +58,7 @@ import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.ATimeSeriesNode;
+import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.CompositeVariableNode;
 import org.geppetto.core.model.runtime.VariableNode;
@@ -86,8 +86,6 @@ public abstract class ASimulator implements ISimulator
 
 	private boolean _watching = false;
 
-	protected AspectSubTreeNode _stateTree;
-
 	private VariableList _forceableVariables = new VariableList();
 
 	private VariableList _watchableVariables = new VariableList();
@@ -114,7 +112,6 @@ public abstract class ASimulator implements ISimulator
 	{
 		setListener(listener);
 		_models = models;
-		_stateTree = new AspectSubTreeNode();
 		
 		// initialize recordings
 		for(IModel model : models)
@@ -199,9 +196,6 @@ public abstract class ASimulator implements ISimulator
 	public void stopWatch()
 	{
 		_watching = false;
-
-		// reset variable-watch branch of the state tree
-		_stateTree.flushSubTree(AspectSubTreeNode.AspectTreeType.WATCH_TREE);
 	}
 
 	/*
@@ -305,12 +299,12 @@ public abstract class ASimulator implements ISimulator
 		leafNode.addPhysicalQuantity(runTime);
 	}
 
-	protected void advanceRecordings() throws GeppettoExecutionException
+	protected void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
 	{
 		if(_recordings != null && isWatching())
 		{
-			ACompositeNode watchTree = _stateTree.getSubTree(AspectTreeType.WATCH_TREE);
-
+			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.WATCH_TREE);
+			
 			if(watchTree.getChildren().isEmpty() || watchListModified())
 			{
 				for(RecordingModel recording : _recordings)
@@ -507,8 +501,8 @@ public abstract class ASimulator implements ISimulator
 		return null;
 	}
 
-	protected void notifyStateTreeUpdated() throws GeppettoExecutionException
+	protected void notifyStateTreeUpdated(AspectNode aspect) throws GeppettoExecutionException
 	{
-		getListener().stateTreeUpdated(_stateTree);
+		getListener().stateTreeUpdated(aspect);
 	}
 }

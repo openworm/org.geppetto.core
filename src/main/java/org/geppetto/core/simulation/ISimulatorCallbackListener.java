@@ -34,7 +34,7 @@
 package org.geppetto.core.simulation;
 
 import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
+import org.geppetto.core.model.runtime.AspectNode;
 
 /**
  * @author matteocantarelli
@@ -43,6 +43,6 @@ import org.geppetto.core.model.runtime.AspectSubTreeNode;
 public interface ISimulatorCallbackListener
 {
 
-	void stateTreeUpdated(AspectSubTreeNode stateTree) throws GeppettoExecutionException;
+	void stateTreeUpdated(AspectNode aspect) throws GeppettoExecutionException;
 
 }

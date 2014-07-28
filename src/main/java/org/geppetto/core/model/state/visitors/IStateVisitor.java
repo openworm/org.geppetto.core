@@ -48,6 +48,7 @@ import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
+import org.geppetto.core.model.runtime.VisualGroupNode;
 
 /**
  * @author matteocantarelli
@@ -100,9 +101,12 @@ public interface IStateVisitor
 	boolean visitCylinderNode(CylinderNode sphereNode);
 
 	boolean visitParticleNode(ParticleNode sphereNode);
+	
+	boolean inVisualGroupNode(VisualGroupNode visualGroupNode);
+	
+	boolean outVisualGroupNode(VisualGroupNode visualGroupNode);
 
 	void doStopVisiting();
 
 	boolean stopVisiting();
-
 }

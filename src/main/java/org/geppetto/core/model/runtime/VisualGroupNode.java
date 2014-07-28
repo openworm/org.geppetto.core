@@ -35,37 +35,50 @@ package org.geppetto.core.model.runtime;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
- * Node use to define a particle for visualization and serialization
+ * Toggles visual objects under same visual group
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class ParticleNode extends AVisualObjectNode{
-    
-	private float _particleKind;
+public class VisualGroupNode extends ACompositeNode
+{
+
+	private String id = null;
 	
-	public ParticleNode(String name)
+	public VisualGroupNode(String name)
 	{
 		super(name);
 	}
 
-	public void setParticleKind(float particleKind){
-		this._particleKind = particleKind;
-	}
-	
-	public float getKind(){
-		return this._particleKind;
-	}
-	
-	public int getIndex()
+	public VisualGroupNode()
 	{
-		//ASSUMPTION only one dimension
-		return Integer.parseInt(_name.substring(_name.indexOf("[")+1, _name.indexOf("]")));
+		super();
+	}
+
+	@Override
+	public boolean apply(IStateVisitor visitor)
+	{
+		if (visitor.inVisualGroupNode(this))  // enter this node?
+		{
+			for(ANode stateNode:this.getChildren())
+			{
+				stateNode.apply(visitor);
+				if(visitor.stopVisiting())
+				{
+					break;
+				}
+			}
+		}
+		return visitor.outVisualGroupNode( this );
+	}
+
+	public void setId(String groupId)
+	{
+		this.id = groupId;
 	}
 	
-	@Override
-	public boolean apply(IStateVisitor visitor) {
-		return visitor.visitParticleNode(this);
+	public String getId(){
+		return this.id;
 	}
 
 }

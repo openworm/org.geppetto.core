@@ -54,7 +54,7 @@ public class TestSimulator implements ISimulator
 {
 
 	@Override
-	public void simulate(IRunConfiguration runConfiguration) throws GeppettoExecutionException
+	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect) throws GeppettoExecutionException
 	{
 		// TODO Auto-generated method stub
 		
@@ -128,6 +128,13 @@ public class TestSimulator implements ISimulator
 	{
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public String getId()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

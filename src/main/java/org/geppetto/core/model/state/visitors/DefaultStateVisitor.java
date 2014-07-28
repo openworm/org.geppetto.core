@@ -48,6 +48,7 @@ import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
+import org.geppetto.core.model.runtime.VisualGroupNode;
 
 /**
  * @author matteocantarelli
@@ -183,6 +184,18 @@ public class DefaultStateVisitor implements IStateVisitor
 
 	@Override
 	public boolean outRuntimeTreeRoot(RuntimeTreeRoot runtimeTreeRoot) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean inVisualGroupNode(VisualGroupNode visualGroupNode)
+	{
+		return !_stopVisiting;
+	}
+	
+	@Override
+	public boolean outVisualGroupNode(VisualGroupNode visualGroupNode)
+	{
 		return !_stopVisiting;
 	}
 

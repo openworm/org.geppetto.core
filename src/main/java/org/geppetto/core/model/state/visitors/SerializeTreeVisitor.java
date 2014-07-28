@@ -20,6 +20,7 @@ import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
+import org.geppetto.core.model.runtime.VisualGroupNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.visualisation.model.Point;
 
@@ -175,8 +176,13 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				modelInterpreter = "\"modelInterpreter\":" + "\"" + node.getModelInterpreter().getName() + "\",";
 			}
 		}
+		
+		String instancePath = "";
+		if(node.getInstancePath() != null){
+			instancePath = "\"instancePath\":" + "\"" + node.getInstancePath()+ "\",";
+		}
 				
-		_serialized.append(id + simulator+modelInterpreter);
+		_serialized.append(id  + simulator+modelInterpreter+instancePath);
 		this.generalACompositeStateNodeOut(node);
 		
 		return super.outAspectNode(node);
@@ -196,8 +202,17 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		if(node.getId() != null){
 			id = "\"id\":" + "\"" + node.getId() + "\",";
 		}
-		_serialized.append(id);
 		
+		Point position = node.getPosition();
+		String positionString = "";
+		
+		if(position!=null){
+			positionString = "\"x\":" + position.getX().toString() + ","
+					+ "\"y\":" + position.getY().toString() + ","+"\"z\":" + position.getZ().toString() + "";
+		}
+		
+		_serialized.append(id +"\"position\":{" + positionString + "},");
+
 		this.generalACompositeStateNodeOut(node);
 		return super.outEntityNode(node);
 	}
@@ -235,18 +250,40 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		this.generalACompositeStateNodeOut(node);
 		return super.outRuntimeTreeRoot(node);
 	}
+
+	@Override
+	public boolean inVisualGroupNode(VisualGroupNode node)
+	{
+		this.generalACompositeStateNodeIn(node);
+		return super.inVisualGroupNode(node);
+	}
+	
+	@Override
+	public boolean outVisualGroupNode(VisualGroupNode node)
+	{
+		String id = "";
+		if(node.getId() != null){
+			id = "\"id\":" + "\"" + node.getId() + "\",";
+		}
+		_serialized.append(id);
+		this.generalACompositeStateNodeOut(node);
+		return super.outVisualGroupNode(node);
+	}
+	
 	@Override
 	public boolean visitVariableNode(VariableNode node)
 	{
 		String metaType = "";
+		if(node.getMetaType() != null){
+			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+		
 		PhysicalQuantity quantity = node.consumeFirstValue();
+
 		if(quantity != null){
 			AValue value = quantity.getValue();
 			String unit = null, scale = null;
 
-			if(node.getMetaType() != null){
-				metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
-			}
 			if(quantity.getUnit() != null){
 				unit = "\"" + quantity.getUnit() + "\"";
 			}
@@ -256,7 +293,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			_serialized.append("\"" + node.getName() + "\":{\"value\":" + value + ",\"unit\":" + unit + ",\"scale\":" + scale +","+ metaType+ "},");
 		}
 		else{
-			_serialized.append("\"" + node.getName() +metaType+ "},");
+			_serialized.append("\"" + node.getName() +"\":{"+metaType+"},");
 		}
 
 		return super.visitVariableNode(node);
@@ -324,7 +361,14 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 					+ "\"y\":" + position.getY().toString() + ","+"\"z\":" + position.getZ().toString() + "";
 		}
 		
-		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," + metaType + "},");
+		Double radius = node.getRadius();
+		String radiusString = null;
+		if(radius!=null){
+			radiusString = "\"" + radius.toString() + "\"";
+		}
+		
+		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," 
+								+"\"radius\":" + radiusString + ","+ metaType + "},");
 
 		return super.visitSphereNode(node);
 	}
@@ -346,7 +390,28 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 					+ "\"y\":" + position.getY().toString() + ","+"\"z\":" + position.getZ().toString() + "";
 		}
 		
-		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," + metaType + "},");
+		Point distal = node.getDistal();
+		String distalString = null;
+		
+		if(distal!=null){
+			distalString = "\"x\":" + distal.getX().toString() + ","
+					+ "\"y\":" + distal.getY().toString() + ","+"\"z\":" + distal.getZ().toString() + "";
+		}
+		
+		Double radiusBottom = node.getRadiusBottom();
+		String radiusBottomString = null;
+		if(radiusBottom!=null){
+			radiusBottomString = "\"" + radiusBottom.toString() + "\"";
+		}
+		
+		Double radiusTop = node.getRadiusTop();
+		String radiusTopString = null;
+		if(radiusTop!=null){
+			radiusTopString = "\"" + radiusTop.toString() + "\"";
+		}
+		
+		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," +"\"distal\":{" + distalString + "},"
+								+"\"radiusBottom\":" + radiusBottomString + ","+"\"radiusTop\":" + radiusTopString + ","+ metaType + "},");
 
 		return super.visitCylinderNode(node);
 	}
