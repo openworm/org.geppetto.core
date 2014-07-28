@@ -207,11 +207,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		String positionString = "";
 		
 		if(position!=null){
-			positionString = "\"x\":" + position.getX().toString() + ","
-					+ "\"y\":" + position.getY().toString() + ","+"\"z\":" + position.getZ().toString() + "";
+			positionString = "\"position\":{" +"\"x\":" + position.getX().toString() + ","
+					+ "\"y\":" + position.getY().toString() + ","+"\"z\":" + position.getZ().toString() + "},";
 		}
 		
-		_serialized.append(id +"\"position\":{" + positionString + "},");
+		_serialized.append(id  + positionString);
 
 		this.generalACompositeStateNodeOut(node);
 		return super.outEntityNode(node);
