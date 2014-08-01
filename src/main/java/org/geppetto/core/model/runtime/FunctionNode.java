@@ -49,6 +49,11 @@ public class FunctionNode extends ANode
 	private List<String> _argument = new ArrayList<String>();
 	private String _expression;
 	
+	public FunctionNode(String name)
+	{
+		super(name);
+	}
+
 	public List<String> getArgument()
 	{
 		return _argument;

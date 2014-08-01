@@ -46,6 +46,10 @@ public class DynamicsSpecificationNode extends ANode
 	private PhysicalQuantity _initialConditions;
 	private FunctionNode _dynamics;
 	
+	public DynamicsSpecificationNode(String name){
+		super(name);
+	}
+	
 	public PhysicalQuantity getInitialConditions()
 	{
 		return _initialConditions;

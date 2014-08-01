@@ -1,6 +1,7 @@
 package org.geppetto.core.model.state.visitors;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,8 +13,11 @@ import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
 import org.geppetto.core.model.runtime.CompositeVariableNode;
 import org.geppetto.core.model.runtime.CylinderNode;
+import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
+import org.geppetto.core.model.runtime.FunctionNode;
 import org.geppetto.core.model.runtime.ParameterNode;
+import org.geppetto.core.model.runtime.ParameterSpecificationNode;
 import org.geppetto.core.model.runtime.ParticleNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
 import org.geppetto.core.model.runtime.SphereNode;
@@ -316,6 +320,100 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		_serialized.append("\"" + node.getName() + "\":{"+properties+metaType+"},");
 
 		return super.visitParameterNode(node);
+	}
+	
+	public boolean visitDynamicsSpecificationNode(DynamicsSpecificationNode node)
+	{
+		String metaType = "";
+		if(node.getMetaType() != null){
+			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+		
+		PhysicalQuantity quantity = node.getInitialConditions();
+		FunctionNode functionNode = node.getDynamics();
+
+		String specs ="", function="";
+		
+		if(quantity != null){
+			AValue value = quantity.getValue();
+			String unit = null, scale = null;
+
+			if(quantity.getUnit() != null){
+				unit = "\"" + quantity.getUnit() + "\"";
+			}
+			if(quantity.getScalingFactor() != null){
+				scale = "\"" + quantity.getScalingFactor() + "\"";
+			}
+			specs = "\"value\":" +"\""+ value + "\",\"unit\":" + "\""+ unit + "\",\"scale\":" + scale +",";
+		}
+		
+		if(functionNode!=null){
+			
+			String properties="";
+
+			if(functionNode.getArgument()!=null){
+				List<String> arguments = functionNode.getArgument();
+
+				for(String key : arguments){
+					properties = properties.concat("\"arguments\":"+key+"\",");
+				}
+			}
+			
+			function = "\"expression\":" + "\"" + functionNode.getExpression() + "\"," + properties;
+		}
+			
+		_serialized.append("\"" + node.getName() +"\":{"+specs + function + metaType+"},");
+		
+
+		return super.visitDynamicsSpecificationNode(node);
+	}
+	
+	public boolean visitParameterSpecificationNode(ParameterSpecificationNode node)
+	{
+		String metaType = "";
+		if(node.getMetaType() != null){
+			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+		
+		PhysicalQuantity quantity = node.getValue();
+
+		if(quantity != null){
+			AValue value = quantity.getValue();
+			String unit = null, scale = null;
+
+			if(quantity.getUnit() != null){
+				unit = "\"" + quantity.getUnit() + "\"";
+			}
+			if(quantity.getScalingFactor() != null){
+				scale = "\"" + quantity.getScalingFactor() + "\"";
+			}
+			_serialized.append("\"" + node.getName() + "\":{\"value\":" + "\""+ value + "\",\"unit\":" + unit + ",\"scale\":" + scale +","+ metaType+ "},");
+		}
+		else{
+			_serialized.append("\"" + node.getName() +"\":{"+metaType+"},");
+		}
+
+		return super.visitParameterSpecificationNode(node);
+	}
+	
+	public boolean visitFunctionNode(FunctionNode node)
+	{
+		String metaType = "";
+		if(node.getMetaType() != null){
+			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+		
+		List<String> arguments = node.getArgument();
+		StringBuilder properties = new StringBuilder();
+		
+		for(String key : arguments){
+			properties.append("\"arguments\":"+"\"" +key+"\",");
+		}
+		
+		_serialized.append("\"" + node.getName() + "\":{"+properties+ 
+				"\"expression\":" + "\"" + node.getExpression() + "\","+ metaType+"},");
+
+		return super.visitFunctionNode(node);
 	}
 	
 	@Override
