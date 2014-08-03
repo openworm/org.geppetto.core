@@ -43,6 +43,6 @@ import org.geppetto.core.model.runtime.AspectNode;
 public interface ISimulatorCallbackListener
 {
 
-	void stateTreeUpdated(AspectNode aspect) throws GeppettoExecutionException;
+	void stateTreeUpdated() throws GeppettoExecutionException;
 
 }

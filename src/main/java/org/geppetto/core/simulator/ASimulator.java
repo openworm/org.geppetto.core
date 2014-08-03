@@ -501,8 +501,8 @@ public abstract class ASimulator implements ISimulator
 		return null;
 	}
 
-	protected void notifyStateTreeUpdated(AspectNode aspect) throws GeppettoExecutionException
+	protected void notifyStateTreeUpdated() throws GeppettoExecutionException
 	{
-		getListener().stateTreeUpdated(aspect);
+		getListener().stateTreeUpdated();
 	}
 }

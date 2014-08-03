@@ -113,7 +113,7 @@ public class AspectNode extends ACompositeNode{
 			if(node.getName().equals(tree.toString()))
 			{
 				// re-assign to empty node
-				node = new CompositeVariableNode(tree.toString());
+				((AspectSubTreeNode)node).getChildren().clear();
 				break;
 			}
 		}
