@@ -344,7 +344,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			String unit = null, scale = null;
 
 			if(quantity.getUnit() != null){
-				unit = "\"" + quantity.getUnit() + "\"";
+				unit = quantity.getUnit();
 			}
 			if(quantity.getScalingFactor() != null){
 				scale = "\"" + quantity.getScalingFactor() + "\"";
@@ -359,12 +359,19 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			if(functionNode.getArgument()!=null){
 				List<String> arguments = functionNode.getArgument();
 
-				for(String key : arguments){
-					properties = properties.concat("\"arguments\":"+key+"\",");
+				properties = "," + "\"arguments\":{";
+				
+				for(int index =0; index<arguments.size(); index++){
+					properties = properties.concat("\""+index+ "\":\""+arguments.get(index)+"\"" );
+					if(index < (arguments.size() -1)){
+						properties = properties.concat(",");
+					}
 				}
+				
+				properties = properties.concat("}");
 			}
 			
-			function = "\"expression\":" + "\"" + functionNode.getExpression() + "\"," + properties;
+			function = "\"_function\":{" + "\"expression\":" + "\"" + functionNode.getExpression() +"\""+ properties + "},";
 		}
 			
 		_serialized.append("\"" + node.getName() +"\":{"+specs + function + metaType+"},");
@@ -408,15 +415,25 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 		
-		List<String> arguments = node.getArgument();
-		StringBuilder properties = new StringBuilder();
+		String properties ="";
 		
-		for(String key : arguments){
-			properties.append("\"arguments\":"+"\"" +key+"\",");
+		if(node.getArgument()!=null){
+			List<String> arguments = node.getArgument();
+
+			properties = "\"arguments\":{";
+			
+			for(int index =0; index<arguments.size(); index++){
+				properties = properties.concat("\""+index+ "\":\""+arguments.get(index)+"\"" );
+				if(index < (arguments.size() -1)){
+					properties = properties.concat(",");
+				}
+			}
+			
+			properties = properties.concat("},");
 		}
 		
-		_serialized.append("\"" + node.getName() + "\":{"+properties+ 
-				"\"expression\":" + "\"" + node.getExpression() + "\","+ metaType+"},");
+		_serialized.append("\"" + node.getName() + "\":{"+ 
+				"\"expression\":" + "\"" + node.getExpression() + "\","+properties+ metaType+"},");
 
 		return super.visitFunctionNode(node);
 	}
