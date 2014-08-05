@@ -147,21 +147,21 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	}
 	
 	@Override
-	public boolean inCompositeVariableNode(CompositeNode node)
+	public boolean inCompositeNode(CompositeNode node)
 	{
 		this.generalACompositeStateNodeIn(node);
-		return super.inCompositeVariableNode(node);
+		return super.inCompositeNode(node);
 	}
 
 	@Override
-	public boolean outCompositeVariableNode(CompositeNode node)
+	public boolean outCompositeNode(CompositeNode node)
 	{
 		String instancePath = this.formatInstancePath(node);
 
 		_serialized.append(instancePath);
 		
 		this.generalACompositeStateNodeOut(node);
-		return super.outCompositeVariableNode(node);
+		return super.outCompositeNode(node);
 	}
 	
 	@Override

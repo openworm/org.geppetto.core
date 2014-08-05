@@ -72,12 +72,12 @@ public class DefaultStateVisitor implements IStateVisitor
 	}
 
 	@Override
-	public boolean inCompositeVariableNode(CompositeNode node) {
+	public boolean inCompositeNode(CompositeNode node) {
 		return !_stopVisiting;
 	}
 
 	@Override
-	public boolean outCompositeVariableNode(CompositeNode node) {
+	public boolean outCompositeNode(CompositeNode node) {
 		return !_stopVisiting;
 	}
 

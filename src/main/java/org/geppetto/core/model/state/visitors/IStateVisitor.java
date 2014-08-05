@@ -55,9 +55,9 @@ import org.geppetto.core.model.runtime.URLMetadataNode;
  */
 public interface IStateVisitor
 {
-	boolean inCompositeVariableNode( CompositeNode node ); // going into a branch
+	boolean inCompositeNode( CompositeNode node ); // going into a branch
 	
-	boolean outCompositeVariableNode( CompositeNode node ); // coming out
+	boolean outCompositeNode( CompositeNode node ); // coming out
 	
 	boolean inAspectNode( AspectNode node ); // going into a branch
 	

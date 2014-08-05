@@ -53,7 +53,7 @@ public class CompositeNode extends ACompositeNode{
 	@Override
 	public synchronized boolean apply(IStateVisitor visitor)
 	{
-		if (visitor.inCompositeVariableNode(this))  // enter this node?
+		if (visitor.inCompositeNode(this))  // enter this node?
 		{
 			for(ANode stateNode:this.getChildren())
 			{
@@ -64,6 +64,6 @@ public class CompositeNode extends ACompositeNode{
 				}
 			}
 		}
-		return visitor.outCompositeVariableNode( this );
+		return visitor.outCompositeNode( this );
 	}
 }
