@@ -48,7 +48,6 @@ public class EntityNode extends ACompositeNode{
 
 	protected List<AspectNode> _aspects =new ArrayList<AspectNode>();;
 	private String _id;
-	private String _instancePath;
 	private List<Connection> _connections;
 	private AMetadataNode _metadata;
 	private Point _position;
@@ -59,14 +58,6 @@ public class EntityNode extends ACompositeNode{
 	
 	public EntityNode(String name) {
 		super(name);
-	}
-
-	public String getInstancePath() {
-		return _instancePath;
-	}
-
-	public void setInstancePath(String instancePath) {
-		this._instancePath = instancePath;
 	}
 
 	public void setAspects(List<AspectNode> aspects) {

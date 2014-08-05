@@ -40,13 +40,13 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class CompositeVariableNode extends ACompositeNode{
+public class CompositeNode extends ACompositeNode{
 
-	public CompositeVariableNode(String name) {
+	public CompositeNode(String name) {
 		super(name);
 	}
 
-	public CompositeVariableNode() {
+	public CompositeNode() {
 		super();
 	}
 	

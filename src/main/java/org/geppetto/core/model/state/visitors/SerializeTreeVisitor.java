@@ -11,7 +11,7 @@ import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
-import org.geppetto.core.model.runtime.CompositeVariableNode;
+import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.CylinderNode;
 import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
@@ -24,7 +24,6 @@ import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
-import org.geppetto.core.model.runtime.VisualGroupNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.visualisation.model.Point;
 
@@ -136,16 +135,31 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		}
 	}
 	
+	private String formatInstancePath(ANode node){
+		String instancePath = "";
+		if(node.getInstancePath()!=null){
+			if(!node.getInstancePath().equals("")){
+				instancePath = "\"instancePath\":" + "\"" + node.getInstancePath()+ "\",";
+			}
+		}
+		
+		return instancePath;
+	}
+	
 	@Override
-	public boolean inCompositeVariableNode(CompositeVariableNode node)
+	public boolean inCompositeVariableNode(CompositeNode node)
 	{
 		this.generalACompositeStateNodeIn(node);
 		return super.inCompositeVariableNode(node);
 	}
 
 	@Override
-	public boolean outCompositeVariableNode(CompositeVariableNode node)
+	public boolean outCompositeVariableNode(CompositeNode node)
 	{
+		String instancePath = this.formatInstancePath(node);
+
+		_serialized.append(instancePath);
+		
 		this.generalACompositeStateNodeOut(node);
 		return super.outCompositeVariableNode(node);
 	}
@@ -181,10 +195,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			}
 		}
 		
-		String instancePath = "";
-		if(node.getInstancePath() != null){
-			instancePath = "\"instancePath\":" + "\"" + node.getInstancePath()+ "\",";
-		}
+		String instancePath = this.formatInstancePath(node);
 				
 		_serialized.append(id  + simulator+modelInterpreter+instancePath);
 		this.generalACompositeStateNodeOut(node);
@@ -215,10 +226,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 					+ "\"y\":" + position.getY().toString() + ","+"\"z\":" + position.getZ().toString() + "},";
 		}
 		
-		String instancePath = "";
-		if(node.getInstancePath() != null){
-			instancePath = "\"instancePath\":" + "\"" + node.getInstancePath()+ "\",";
-		}
+		String instancePath = this.formatInstancePath(node);
 		
 		_serialized.append(id  + positionString + instancePath);
 
@@ -240,7 +248,10 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		if(node.getType() != null){
 			type = "\"type\":" + "\"" + node.getType() + "\",";
 		}
-		_serialized.append(type);
+		
+		String instancePath = this.formatInstancePath(node);
+
+		_serialized.append(type+instancePath);
 		
 		this.generalACompositeStateNodeOut(node);
 		return super.outAspectSubTreeNode(node);
@@ -261,25 +272,6 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	}
 
 	@Override
-	public boolean inVisualGroupNode(VisualGroupNode node)
-	{
-		this.generalACompositeStateNodeIn(node);
-		return super.inVisualGroupNode(node);
-	}
-	
-	@Override
-	public boolean outVisualGroupNode(VisualGroupNode node)
-	{
-		String id = "";
-		if(node.getId() != null){
-			id = "\"id\":" + "\"" + node.getId() + "\",";
-		}
-		_serialized.append(id);
-		this.generalACompositeStateNodeOut(node);
-		return super.outVisualGroupNode(node);
-	}
-	
-	@Override
 	public boolean visitVariableNode(VariableNode node)
 	{
 		String metaType = "";
@@ -287,6 +279,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 		
+		String instancePath = this.formatInstancePath(node);
+
 		PhysicalQuantity quantity = node.consumeFirstValue();
 
 		if(quantity != null){
@@ -299,10 +293,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			if(quantity.getScalingFactor() != null){
 				scale = "\"" + quantity.getScalingFactor() + "\"";
 			}
-			_serialized.append("\"" + node.getName() + "\":{\"value\":" + value + ",\"unit\":" + unit + ",\"scale\":" + scale +","+ metaType+ "},");
+			_serialized.append("\"" + node.getName() + "\":{\"value\":" + value + ",\"unit\":"
+											+ unit + ",\"scale\":" + scale +","+ instancePath + metaType+ "},");
 		}
 		else{
-			_serialized.append("\"" + node.getName() +"\":{"+metaType+"},");
+			_serialized.append("\"" + node.getName() +"\":{"+instancePath+metaType+"},");
 		}
 
 		return super.visitVariableNode(node);
@@ -316,13 +311,28 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 		
-		Set<String> keys = node.getProperties().keySet();
-		StringBuilder properties = new StringBuilder();
+		String instancePath = this.formatInstancePath(node);
+
+		String properties ="";
 		
-		for(String key : keys){
-			properties.append("\"" + key + "\":\""+node.getProperties().get(key)+"\",");
+		if(node.getProperties().size()>0){
+			HashMap<String, String> props = node.getProperties();
+
+			properties = ",\"properties\":{";
+			
+			Set<String> keys = props.keySet();
+			int index =0;
+			for(String key : keys){
+				index++;
+				properties = properties.concat("\""+key+ "\":\""+props.get(key)+"\"" );
+				if(index < (props.size() -1)){
+					properties = properties.concat(",");
+				}
+			}
+			
+			properties = properties.concat("},");
 		}
-		_serialized.append("\"" + node.getName() + "\":{"+properties+metaType+"},");
+		_serialized.append("\"" + node.getName() + "\":{"+instancePath+metaType+properties+"},");
 
 		return super.visitParameterNode(node);
 	}
@@ -333,6 +343,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		if(node.getMetaType() != null){
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
+		
+		String instancePath = this.formatInstancePath(node);
 		
 		PhysicalQuantity quantity = node.getInitialConditions();
 		FunctionNode functionNode = node.getDynamics();
@@ -374,7 +386,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			function = "\"_function\":{" + "\"expression\":" + "\"" + functionNode.getExpression() +"\""+ properties + "},";
 		}
 			
-		_serialized.append("\"" + node.getName() +"\":{"+specs + function + metaType+"},");
+		_serialized.append("\"" + node.getName() +"\":{"+specs + function + instancePath + metaType+"},");
 		
 
 		return super.visitDynamicsSpecificationNode(node);
@@ -387,6 +399,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 		
+		String instancePath = this.formatInstancePath(node);
+
 		PhysicalQuantity quantity = node.getValue();
 
 		if(quantity != null){
@@ -399,10 +413,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			if(quantity.getScalingFactor() != null){
 				scale = "\"" + quantity.getScalingFactor() + "\"";
 			}
-			_serialized.append("\"" + node.getName() + "\":{\"value\":" + "\""+ value + "\",\"unit\":" + unit + ",\"scale\":" + scale +","+ metaType+ "},");
+			_serialized.append("\"" + node.getName() + "\":{\"value\":" + "\""+ value + "\",\"unit\":" + unit + 
+								",\"scale\":" + scale +","+ instancePath + metaType+ "},");
 		}
 		else{
-			_serialized.append("\"" + node.getName() +"\":{"+metaType+"},");
+			_serialized.append("\"" + node.getName() +"\":{"+instancePath+metaType+"},");
 		}
 
 		return super.visitParameterSpecificationNode(node);
@@ -415,6 +430,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 		
+		String instancePath = this.formatInstancePath(node);
+
 		String properties ="";
 		
 		if(node.getArgument()!=null){
@@ -433,7 +450,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		}
 		
 		_serialized.append("\"" + node.getName() + "\":{"+ 
-				"\"expression\":" + "\"" + node.getExpression() + "\","+properties+ metaType+"},");
+				"\"expression\":" + "\"" + node.getExpression() + "\","+properties+ instancePath + metaType+"},");
 
 		return super.visitFunctionNode(node);
 	}

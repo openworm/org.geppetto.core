@@ -89,9 +89,10 @@ public class AspectSubTreeNode extends ACompositeNode
 		super(null);
 	}
 	
-	public AspectSubTreeNode(String modelId)
+	public AspectSubTreeNode(String treeType)
 	{
-		super(modelId);
+		super(treeType);
+		this.setName(treeType);
 	}
 
 	public String getType(){
@@ -108,7 +109,7 @@ public class AspectSubTreeNode extends ACompositeNode
 			if(node.getName().equals(tree.toString()))
 			{
 				// re-assign to empty node
-				node = new CompositeVariableNode(tree.toString());
+				node = new CompositeNode(tree.toString());
 				break;
 			}
 		}
@@ -118,9 +119,9 @@ public class AspectSubTreeNode extends ACompositeNode
 	 * @param modelTree
 	 * @return
 	 */
-	private ACompositeNode addSubTree(AspectTreeType modelTree)
+	private AspectSubTreeNode addSubTree(AspectTreeType treeType)
 	{
-		ACompositeNode subTree = new CompositeVariableNode(modelTree.toString());
+		AspectSubTreeNode subTree = new AspectSubTreeNode(treeType.toString());
 		addChild(subTree);
 		return subTree;
 	}
@@ -130,16 +131,16 @@ public class AspectSubTreeNode extends ACompositeNode
 	 * @param modelTree
 	 * @return
 	 */
-	public ACompositeNode getSubTree(AspectTreeType modelTree)
+	public ACompositeNode getSubTree(AspectTreeType treeType)
 	{
 		for (ANode node:getChildren())
 		{
-			if( node.getName().equals(modelTree.toString()))
+			if( node.getName().equals(treeType.toString()))
 			{
 				return (ACompositeNode) node;
 			}
 		}
-		return addSubTree(modelTree);
+		return addSubTree(treeType);
 	}
 	
 	@Override

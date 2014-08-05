@@ -32,7 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.model.runtime;
 
-import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.state.visitors.IVisitable;
 
 /**
@@ -114,7 +113,7 @@ public abstract class ANode implements IVisitable
 		ANode iterateState = this;
 		while(iterateState != null)
 		{
-			if(iterateState._parent != null && !iterateState._name.equals(AspectTreeType.MODEL_TREE.toString()) && !iterateState._name.equals(AspectTreeType.WATCH_TREE.toString()))
+			if(iterateState._parent != null)
 			{
 				if(!fullName.toString().isEmpty())
 				{

@@ -35,7 +35,7 @@ package org.geppetto.core.model.state.visitors;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
-import org.geppetto.core.model.runtime.CompositeVariableNode;
+import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.CylinderNode;
 import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
@@ -48,7 +48,6 @@ import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
-import org.geppetto.core.model.runtime.VisualGroupNode;
 
 /**
  * @author matteocantarelli
@@ -73,12 +72,12 @@ public class DefaultStateVisitor implements IStateVisitor
 	}
 
 	@Override
-	public boolean inCompositeVariableNode(CompositeVariableNode node) {
+	public boolean inCompositeVariableNode(CompositeNode node) {
 		return !_stopVisiting;
 	}
 
 	@Override
-	public boolean outCompositeVariableNode(CompositeVariableNode node) {
+	public boolean outCompositeVariableNode(CompositeNode node) {
 		return !_stopVisiting;
 	}
 
@@ -186,17 +185,4 @@ public class DefaultStateVisitor implements IStateVisitor
 	public boolean outRuntimeTreeRoot(RuntimeTreeRoot runtimeTreeRoot) {
 		return !_stopVisiting;
 	}
-
-	@Override
-	public boolean inVisualGroupNode(VisualGroupNode visualGroupNode)
-	{
-		return !_stopVisiting;
-	}
-	
-	@Override
-	public boolean outVisualGroupNode(VisualGroupNode visualGroupNode)
-	{
-		return !_stopVisiting;
-	}
-
 }

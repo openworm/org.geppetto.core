@@ -60,7 +60,7 @@ import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.ATimeSeriesNode;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.model.runtime.CompositeVariableNode;
+import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.values.AValue;
@@ -286,7 +286,7 @@ public abstract class ASimulator implements ISimulator
 	protected void advanceTimeStep(double timestep)
 	{
 		_runtime += timestep;
-		ACompositeNode timeStepsNode =new CompositeVariableNode("time tree");
+		ACompositeNode timeStepsNode =new CompositeNode("time tree");
 		{
 			VariableNode time = new VariableNode("time");
 			timeStepsNode.addChild(time);
@@ -345,7 +345,7 @@ public abstract class ASimulator implements ISimulator
 									if(tokenizer.hasMoreElements())
 									{
 										// not a leaf, create a composite state node
-										ACompositeNode newNode = new CompositeVariableNode(current);
+										ACompositeNode newNode = new CompositeNode(current);
 										node.addChild(newNode);
 										node = newNode;
 									}

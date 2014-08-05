@@ -51,7 +51,6 @@ public class AspectNode extends ACompositeNode{
 	private IModelInterpreter _modelInterpreter;
 	private ISimulator _simulator;
 	private IModel _model;
-	private String _instancePath;
 		
 	public AspectNode(){}
 	
@@ -93,14 +92,6 @@ public class AspectNode extends ACompositeNode{
 
 	public ANode getParentEntity() {
 		return this.getParent();
-	}
-
-	public void setInstancePath(String instancePath) {
-		this._instancePath = instancePath;
-	}
-
-	public String getInstancePath() {
-		return this._instancePath;
 	}
 	
 	/**
