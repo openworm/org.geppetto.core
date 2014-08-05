@@ -21,5 +21,14 @@
 	<aop:scoped-proxy proxy-target-class="false"/>
 	</bean>
 
+	<osgi:service id="ObjModelExporter" ref="objModelInterpreterService"
+		interface="org.geppetto.core.model.IModelInterpreter">
+		<osgi:service-properties>
+			<entry key="discoverableID" value="objModelInterpreter" />
+		</osgi:service-properties>
+	</osgi:service>
+	<bean id="objModelInterpreterService" scope="thread" class="org.geppetto.core.model.services.OBJModelInterpreterService">
+	<aop:scoped-proxy proxy-target-class="false"/>
+	</bean>
 	
 </beans>
