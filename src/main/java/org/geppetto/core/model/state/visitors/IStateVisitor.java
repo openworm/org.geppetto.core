@@ -40,6 +40,7 @@ import org.geppetto.core.model.runtime.CylinderNode;
 import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
 import org.geppetto.core.model.runtime.FunctionNode;
+import org.geppetto.core.model.runtime.OBJNode;
 import org.geppetto.core.model.runtime.ParameterNode;
 import org.geppetto.core.model.runtime.ParameterSpecificationNode;
 import org.geppetto.core.model.runtime.ParticleNode;
@@ -66,10 +67,6 @@ public interface IStateVisitor
 	boolean inEntityNode( EntityNode node ); // going into a branch
 	
 	boolean outEntityNode( EntityNode node ); // coming out
-	
-	boolean inColladaNode( ColladaNode node ); // going into a branch
-	
-	boolean outColladaNode( ColladaNode node ); // coming out
 	
 	boolean inAspectSubTreeNode( AspectSubTreeNode node ); // going into a branch
 	
@@ -100,6 +97,8 @@ public interface IStateVisitor
 	boolean visitCylinderNode(CylinderNode sphereNode);
 
 	boolean visitParticleNode(ParticleNode sphereNode);
+	
+	boolean visitObjNode(OBJNode objNode);
 
 	void doStopVisiting();
 

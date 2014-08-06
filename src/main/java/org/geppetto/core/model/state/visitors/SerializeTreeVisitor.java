@@ -16,6 +16,7 @@ import org.geppetto.core.model.runtime.CylinderNode;
 import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
 import org.geppetto.core.model.runtime.FunctionNode;
+import org.geppetto.core.model.runtime.OBJNode;
 import org.geppetto.core.model.runtime.ParameterNode;
 import org.geppetto.core.model.runtime.ParameterSpecificationNode;
 import org.geppetto.core.model.runtime.ParticleNode;
@@ -605,16 +606,53 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				
 		Point position = node.getPosition();
 		String name = node.getName();		
-		String positionString = null;
+		String positionString = "";
 		
 		if(position!=null){
 			positionString = "\"x\":" + position.getX().toString() + ","
 					+ "\"y\":" + position.getY().toString() + ","+"\"z\":" + position.getZ().toString() + "";
 		}
 		
-		_serialized.append("\"" + name + "," + "\":{\"position\":{" + positionString + "}," + metaType + "},");
+		String model = "";
+		if(node.getModel() != null){
+			model = "\"model\":" + "\"" + node.getModel() + "\""+ ",";
+		}
+		
+		_serialized.append("\"" + name + "," + "\":{\"position\":{" + positionString + "}," +  model +metaType + "},");
 
 		return super.visitColladaNode(node);
+	}
+	
+	@Override
+	public boolean visitObjNode(OBJNode node)
+	{
+		String id = "";
+		if(node.getId() != null){
+			id = "\"id\":" + "\"" + node.getId() + "\",";
+		}
+		
+		String metaType = "";
+		if(node.getMetaType() != null){
+			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+				
+		Point position = node.getPosition();
+		String name = node.getName();		
+		String positionString = "";
+		
+		if(position!=null){
+			positionString = "\"x\":" + position.getX().toString() + ","
+					+ "\"y\":" + position.getY().toString() + ","+"\"z\":" + position.getZ().toString() + "";
+		}
+		
+		String model = "";
+		if(node.getModel() != null){
+			model = "\"model\":" + "\"" + node.getModel() + "\""+ ",";
+		}
+		
+		_serialized.append("\"" + name + "," + "\":{\"position\":{" + positionString + "}," +  model +metaType + "},");
+
+		return super.visitObjNode(node);
 	}
 
 	public String getSerializedTree()

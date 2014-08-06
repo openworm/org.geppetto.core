@@ -17,9 +17,17 @@
 			<entry key="discoverableID" value="colladaModelInterpreter" />
 		</osgi:service-properties>
 	</osgi:service>
+	<osgi:service id="ColladaSimulatorExporter" ref="colladaSimulatorService"
+		interface="org.geppetto.core.simulator.ISimulator">
+		<osgi:service-properties>
+			<entry key="discoverableID" value="colladaSimulator" />
+		</osgi:service-properties>
+	</osgi:service>
 	<bean id="colladaModelInterpreterService" scope="thread" class="org.geppetto.core.model.services.ColladaModelInterpreterService">
 	<aop:scoped-proxy proxy-target-class="false"/>
 	</bean>
-
+	<bean id="colladaSimulatorService" scope="thread" class="org.geppetto.core.simulator.services.ColladaSimulatorService">
+	<aop:scoped-proxy proxy-target-class="false"/>
+	</bean>
 	
 </beans>

@@ -35,16 +35,16 @@ package org.geppetto.core.model.runtime;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
- * Node use to define a collada object for visualization and serialization
+ * Node use to define an OBJ object for visualization and serialization
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class ColladaNode extends AVisualObjectNode{
+public class OBJNode extends AVisualObjectNode{
 
 	private String _model;
 	
-	public ColladaNode(String name) {
+	public OBJNode(String name) {
 		super(name);
 	}
 
@@ -54,7 +54,7 @@ public class ColladaNode extends AVisualObjectNode{
 
 	@Override
 	public boolean apply(IStateVisitor visitor) {
-		return visitor.visitColladaNode(this);
+		return visitor.visitObjNode(this);
 	}
 
 	public void setModel(String model) {

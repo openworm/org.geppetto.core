@@ -50,10 +50,10 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public class ColladaModelInterpreterService implements IModelInterpreter
+public class OBJModelInterpreterService implements IModelInterpreter
 {
 
-	private static final String COLLADA = "COLLADA";
+	private static final String OBJ = "OBj";
 
 	@Override
 	public IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException
@@ -62,9 +62,9 @@ public class ColladaModelInterpreterService implements IModelInterpreter
 		try
 		{
 			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
-			String colladaContent = scanner.useDelimiter("\\A").next();
+			String objContent = scanner.useDelimiter("\\A").next();
 			scanner.close();
-			collada.wrapModel(COLLADA, colladaContent);
+			collada.wrapModel(OBJ, objContent);
 		}
 		catch(IOException e)
 		{
@@ -90,8 +90,8 @@ public class ColladaModelInterpreterService implements IModelInterpreter
 	public String getName()
 	{
 		//TODO: Create spring bean with name of interpreter to retrieve it from there. 
-		//Move this to own bundle?
-		return "Collada Model Interpreter";
+		//Move this to own bundle
+		return "Obj Model Interpreter";
 	}
 
 }

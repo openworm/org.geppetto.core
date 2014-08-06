@@ -40,6 +40,7 @@ import org.geppetto.core.model.runtime.CylinderNode;
 import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
 import org.geppetto.core.model.runtime.FunctionNode;
+import org.geppetto.core.model.runtime.OBJNode;
 import org.geppetto.core.model.runtime.ParameterNode;
 import org.geppetto.core.model.runtime.ParameterSpecificationNode;
 import org.geppetto.core.model.runtime.ParticleNode;
@@ -125,6 +126,11 @@ public class DefaultStateVisitor implements IStateVisitor
 	public boolean visitColladaNode(ColladaNode sphereNode) {
 		return !_stopVisiting;
 	}
+	
+	@Override
+	public boolean visitObjNode(OBJNode sphereNode) {
+		return !_stopVisiting;
+	}
 
 	@Override
 	public boolean visitCylinderNode(CylinderNode sphereNode) {
@@ -153,16 +159,6 @@ public class DefaultStateVisitor implements IStateVisitor
 
 	@Override
 	public boolean outEntityNode(EntityNode node) {
-		return !_stopVisiting;
-	}
-
-	@Override
-	public boolean inColladaNode(ColladaNode node) {
-		return !_stopVisiting;
-	}
-
-	@Override
-	public boolean outColladaNode(ColladaNode node) {
 		return !_stopVisiting;
 	}
 
