@@ -28,6 +28,10 @@ import org.geppetto.core.model.runtime.URLMetadataNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.visualisation.model.Point;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 public class SerializeTreeVisitor extends DefaultStateVisitor
 {
 	private StringBuilder _serialized = new StringBuilder();
@@ -593,12 +597,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	
 	@Override
 	public boolean visitColladaNode(ColladaNode node)
-	{
-		String id = "";
-		if(node.getId() != null){
-			id = "\"id\":" + "\"" + node.getId() + "\",";
-		}
-		
+	{	
 		String metaType = "";
 		if(node.getMetaType() != null){
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
@@ -615,7 +614,9 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		
 		String model = "";
 		if(node.getModel() != null){
-			model = "\"model\":" + "\"" + node.getModel() + "\""+ ",";
+			JsonObject obj = new JsonObject();
+			obj.addProperty("data", node.getModel());
+			model = "\"model\":"  + obj.toString() + ",";
 		}
 		
 		_serialized.append("\"" + name + "," + "\":{\"position\":{" + positionString + "}," +  model +metaType + "},");
@@ -626,11 +627,6 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitObjNode(OBJNode node)
 	{
-		String id = "";
-		if(node.getId() != null){
-			id = "\"id\":" + "\"" + node.getId() + "\",";
-		}
-		
 		String metaType = "";
 		if(node.getMetaType() != null){
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
@@ -647,7 +643,9 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		
 		String model = "";
 		if(node.getModel() != null){
-			model = "\"model\":" + "\"" + node.getModel() + "\""+ ",";
+			JsonObject obj = new JsonObject();
+			obj.addProperty("data", node.getModel());
+			model = "\"model\":"  + obj.toString() + ",";
 		}
 		
 		_serialized.append("\"" + name + "," + "\":{\"position\":{" + positionString + "}," +  model +metaType + "},");

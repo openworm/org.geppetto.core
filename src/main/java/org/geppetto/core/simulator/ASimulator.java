@@ -315,9 +315,11 @@ public abstract class ASimulator implements ISimulator
 					{
 
 						// for every state found in the recordings check if we are watching that variable
-						String fullPath = _models.get(0).getInstancePath() + "." + hdfVariable.getFullName().replace("/", ".");
+						String fullPath = watchTree.getInstancePath() + "." + hdfVariable.getFullName().replace("/", ".");
 						if(getWatchList().contains(fullPath))
 						{
+							fullPath = fullPath.replace(watchTree.getInstancePath() + ".", "");
+							
 							StringTokenizer tokenizer = new StringTokenizer(fullPath, ".");
 							ACompositeNode node = watchTree;
 							while(tokenizer.hasMoreElements())
@@ -397,7 +399,7 @@ public abstract class ASimulator implements ISimulator
 			{
 				for(RecordingModel recording : _recordings)
 				{
-					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, _models.get(0).getInstancePath(), _currentRecordingIndex++);
+					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, watchTree.getInstancePath(), _currentRecordingIndex++);
 					watchTree.apply(updateStateTreeVisitor);
 					if(updateStateTreeVisitor.getError() != null)
 					{

@@ -53,7 +53,7 @@ import org.springframework.stereotype.Service;
 public class OBJModelInterpreterService implements IModelInterpreter
 {
 
-	private static final String OBJ = "OBj";
+	private static final String OBJ = "OBJ";
 
 	@Override
 	public IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException
@@ -90,7 +90,7 @@ public class OBJModelInterpreterService implements IModelInterpreter
 	public String getName()
 	{
 		//TODO: Create spring bean with name of interpreter to retrieve it from there. 
-		//Move this to own bundle
+		//Move this to own bundle?
 		return "Obj Model Interpreter";
 	}
 
