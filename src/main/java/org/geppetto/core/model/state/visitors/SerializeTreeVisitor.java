@@ -619,7 +619,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			model = "\"model\":"  + obj.toString() + ",";
 		}
 		
-		_serialized.append("\"" + name + "," + "\":{\"position\":{" + positionString + "}," +  model +metaType + "},");
+		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," +  model +metaType + "},");
 
 		return super.visitColladaNode(node);
 	}
@@ -648,7 +648,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			model = "\"model\":"  + obj.toString() + ",";
 		}
 		
-		_serialized.append("\"" + name + "," + "\":{\"position\":{" + positionString + "}," +  model +metaType + "},");
+		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," +  model +metaType + "},");
 
 		return super.visitObjNode(node);
 	}
