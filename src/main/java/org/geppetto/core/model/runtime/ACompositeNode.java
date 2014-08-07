@@ -30,37 +30,37 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.geppetto.core.model.state.visitors.IStateVisitor;
-
 /**
+ * Abstract node that defines a node capable of having other nodes as children. 
+ * Overrides apply method of parent abstract class
+ * 
  * @author matteocantarelli
  *
  */
-public class CompositeStateNode extends AStateNode
-{
-
-	protected List<AStateNode> _children=new ArrayList<AStateNode>();;
-	
-	public CompositeStateNode(String name)
-	{
+public abstract class ACompositeNode extends ANode
+{	
+	public ACompositeNode(String name) {
 		super(name);
-		_children=new ArrayList<AStateNode>();
 	}
 	
-	public AStateNode addChild(AStateNode child)
+	public ACompositeNode(){
+	}
+	
+	protected List<ANode> _children=new ArrayList<ANode>();;
+	
+	public ANode addChild(ANode child)
 	{
 		_children.add(child);
 		child._parent=this; //double link
 		return child;
 	}
 	
-	public List<AStateNode> getChildren()
+	public List<ANode> getChildren()
 	{
 		return _children;
 	}
@@ -87,27 +87,10 @@ public class CompositeStateNode extends AStateNode
 		return _name+"["+_children+"]";
 	}
 
-	@Override
-	public synchronized boolean apply(IStateVisitor visitor)
-	{
-		if (visitor.inCompositeStateNode(this))  // enter this node?
-		{
-			for(AStateNode stateNode:_children)
-			{
-				stateNode.apply(visitor);
-				if(visitor.stopVisiting())
-				{
-					break;
-				}
-			}
-		}
-		return visitor.outCompositeStateNode( this );
-	}
-
 	/**
 	 * @param states
 	 */
-	public void addChildren(Collection<AStateNode> states)
+	public void addChildren(Collection<ANode> states)
 	{
 		_children.addAll(states);
 		

@@ -54,11 +54,15 @@ import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.data.DataModelFactory;
-import org.geppetto.core.model.state.AStateNode;
-import org.geppetto.core.model.state.CompositeStateNode;
-import org.geppetto.core.model.state.SimpleStateNode;
-import org.geppetto.core.model.state.StateTreeRoot;
-import org.geppetto.core.model.state.StateTreeRoot.SUBTREE;
+import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.runtime.ACompositeNode;
+import org.geppetto.core.model.runtime.ANode;
+import org.geppetto.core.model.runtime.ATimeSeriesNode;
+import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
+import org.geppetto.core.model.runtime.CompositeNode;
+import org.geppetto.core.model.runtime.VariableNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
@@ -81,8 +85,6 @@ public abstract class ASimulator implements ISimulator
 	private boolean _initialized = false;
 
 	private boolean _watching = false;
-
-	protected StateTreeRoot _stateTree;
 
 	private VariableList _forceableVariables = new VariableList();
 
@@ -110,7 +112,6 @@ public abstract class ASimulator implements ISimulator
 	{
 		setListener(listener);
 		_models = models;
-		_stateTree = new StateTreeRoot();
 		
 		// initialize recordings
 		for(IModel model : models)
@@ -195,9 +196,6 @@ public abstract class ASimulator implements ISimulator
 	public void stopWatch()
 	{
 		_watching = false;
-
-		// reset variable-watch branch of the state tree
-		_stateTree.flushSubTree(StateTreeRoot.SUBTREE.WATCH_TREE);
 	}
 
 	/*
@@ -288,30 +286,25 @@ public abstract class ASimulator implements ISimulator
 	protected void advanceTimeStep(double timestep)
 	{
 		_runtime += timestep;
-		CompositeStateNode timeStepsNode = _stateTree.getSubTree(SUBTREE.TIME_STEP);
-		if(timeStepsNode.getChildren().isEmpty())
+		ACompositeNode timeStepsNode =new CompositeNode("time tree");
 		{
-			SimpleStateNode time = new SimpleStateNode("time");
+			VariableNode time = new VariableNode("time");
 			timeStepsNode.addChild(time);
-			time.setUnit(_timeStepUnit);
+			PhysicalQuantity t= new PhysicalQuantity();
+			t.setUnit(_timeStepUnit);
 		}
-		SimpleStateNode leafNode = (SimpleStateNode) timeStepsNode.getChildren().get(0);
-		leafNode.addValue(ValuesFactory.getDoubleValue(_runtime));
+		ATimeSeriesNode leafNode = (ATimeSeriesNode) timeStepsNode.getChildren().get(0);
+		PhysicalQuantity runTime = new PhysicalQuantity();
+		runTime.setValue(ValuesFactory.getDoubleValue(_runtime));
+		leafNode.addPhysicalQuantity(runTime);
 	}
 
-	/**
-	 * @throws GeppettoExecutionException
-	 * 
-	 */
-	/**
-	 * @throws GeppettoExecutionException
-	 */
-	protected void advanceRecordings() throws GeppettoExecutionException
+	protected void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
 	{
 		if(_recordings != null && isWatching())
 		{
-			CompositeStateNode watchTree = _stateTree.getSubTree(SUBTREE.WATCH_TREE);
-
+			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.WATCH_TREE);
+			
 			if(watchTree.getChildren().isEmpty() || watchListModified())
 			{
 				for(RecordingModel recording : _recordings)
@@ -322,22 +315,24 @@ public abstract class ASimulator implements ISimulator
 					{
 
 						// for every state found in the recordings check if we are watching that variable
-						String fullPath = _models.get(0).getInstancePath() + "." + hdfVariable.getFullName().replace("/", ".");
+						String fullPath = watchTree.getInstancePath() + "." + hdfVariable.getFullName().replace("/", ".");
 						if(getWatchList().contains(fullPath))
 						{
+							fullPath = fullPath.replace(watchTree.getInstancePath() + ".", "");
+							
 							StringTokenizer tokenizer = new StringTokenizer(fullPath, ".");
-							CompositeStateNode node = watchTree;
+							ACompositeNode node = watchTree;
 							while(tokenizer.hasMoreElements())
 							{
 								String current = tokenizer.nextToken();
 								boolean found = false;
-								for(AStateNode child : node.getChildren())
+								for(ANode child : node.getChildren())
 								{
 									if(child.getName().equals(current))
 									{
-										if(child instanceof CompositeStateNode)
+										if(child instanceof ACompositeNode)
 										{
-											node = (CompositeStateNode) child;
+											node = (ACompositeNode) child;
 										}
 										found = true;
 										break;
@@ -352,14 +347,14 @@ public abstract class ASimulator implements ISimulator
 									if(tokenizer.hasMoreElements())
 									{
 										// not a leaf, create a composite state node
-										CompositeStateNode newNode = new CompositeStateNode(current);
+										ACompositeNode newNode = new CompositeNode(current);
 										node.addChild(newNode);
 										node = newNode;
 									}
 									else
 									{
 										// it's a leaf node
-										SimpleStateNode newNode = new SimpleStateNode(current);
+										VariableNode newNode = new VariableNode(current);
 										int[] start = { _currentRecordingIndex};
 										int[] lenght = {1};
 										Array value;
@@ -368,6 +363,7 @@ public abstract class ASimulator implements ISimulator
 											value = hdfVariable.read(start, lenght);
 											Type type = Type.fromValue(hdfVariable.getDataType().toString());
 
+											PhysicalQuantity quantity = new PhysicalQuantity();
 											AValue readValue = null;
 											switch(type)
 											{
@@ -383,7 +379,8 @@ public abstract class ASimulator implements ISimulator
 												default:
 													break;
 											}
-											newNode.addValue(readValue);
+											quantity.setValue(readValue);
+											newNode.addPhysicalQuantity(quantity);
 											node.addChild(newNode);
 										}
 										catch(IOException | InvalidRangeException e)
@@ -402,7 +399,7 @@ public abstract class ASimulator implements ISimulator
 			{
 				for(RecordingModel recording : _recordings)
 				{
-					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, _models.get(0).getInstancePath(), _currentRecordingIndex++);
+					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, watchTree.getInstancePath(), _currentRecordingIndex++);
 					watchTree.apply(updateStateTreeVisitor);
 					if(updateStateTreeVisitor.getError() != null)
 					{
@@ -508,6 +505,6 @@ public abstract class ASimulator implements ISimulator
 
 	protected void notifyStateTreeUpdated() throws GeppettoExecutionException
 	{
-		getListener().stateTreeUpdated(_stateTree);
+		getListener().stateTreeUpdated();
 	}
 }

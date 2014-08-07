@@ -17,18 +17,34 @@
 			<entry key="discoverableID" value="colladaModelInterpreter" />
 		</osgi:service-properties>
 	</osgi:service>
-	<bean id="colladaModelInterpreterService" scope="thread" class="org.geppetto.core.model.services.ColladaModelInterpreterService">
-	<aop:scoped-proxy proxy-target-class="false"/>
-	</bean>
-
-	<osgi:service id="ObjModelExporter" ref="objModelInterpreterService"
+	<osgi:service id="ColladaSimulatorExporter" ref="colladaSimulatorService"
+		interface="org.geppetto.core.simulator.ISimulator">
+		<osgi:service-properties>
+			<entry key="discoverableID" value="colladaSimulator" />
+		</osgi:service-properties>
+	</osgi:service>
+	<osgi:service id="OBJModelExporter" ref="objModelInterpreterService"
 		interface="org.geppetto.core.model.IModelInterpreter">
 		<osgi:service-properties>
 			<entry key="discoverableID" value="objModelInterpreter" />
 		</osgi:service-properties>
 	</osgi:service>
+	<osgi:service id="OBJSimulatorExporter" ref="objSimulatorService"
+		interface="org.geppetto.core.simulator.ISimulator">
+		<osgi:service-properties>
+			<entry key="discoverableID" value="objSimulator" />
+		</osgi:service-properties>
+	</osgi:service>
+	<bean id="colladaModelInterpreterService" scope="thread" class="org.geppetto.core.model.services.ColladaModelInterpreterService">
+	<aop:scoped-proxy proxy-target-class="false"/>
+	</bean>
+	<bean id="colladaSimulatorService" scope="thread" class="org.geppetto.core.simulator.services.ColladaSimulatorService">
+	<aop:scoped-proxy proxy-target-class="false"/>
+	</bean>
 	<bean id="objModelInterpreterService" scope="thread" class="org.geppetto.core.model.services.OBJModelInterpreterService">
 	<aop:scoped-proxy proxy-target-class="false"/>
 	</bean>
-	
+	<bean id="objSimulatorService" scope="thread" class="org.geppetto.core.simulator.services.OBJSimulatorService">
+	<aop:scoped-proxy proxy-target-class="false"/>
+	</bean>
 </beans>

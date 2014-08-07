@@ -98,6 +98,11 @@
 			<artifactId>org.springframework.context</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.1</version>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
@@ -165,9 +170,9 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>com.googlecode.jsonschema2pojo</groupId>
+				<groupId>org.jsonschema2pojo</groupId>
 				<artifactId>jsonschema2pojo-maven-plugin</artifactId>
-				<version>0.3.7</version>
+				<version>0.4.4</version>
 				<executions>
 					<execution>
 						<id>data</id>

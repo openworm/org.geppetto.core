@@ -30,85 +30,100 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.measure.unit.Unit;
-
-import org.geppetto.core.model.state.visitors.IStateVisitor;
-import org.geppetto.core.model.values.AValue;
+import org.geppetto.core.model.state.visitors.IVisitable;
 
 /**
+ * Parent Node, use for serialization. 
+ * 
  * @author matteocantarelli
  * 
  */
-@SuppressWarnings("rawtypes")
-public class SimpleStateNode extends AStateNode
+public abstract class ANode implements IVisitable
 {
+	protected ANode _parent;
+	protected String _name;
+	//protected String _metatype;
 
-	private List<AValue> _values = new ArrayList<AValue>();;
-	private String _unit;
-	private String _scalingFactor;
+	public String getMetaType(){
+		return this.getClass().getSimpleName();
+	};
 
-	public SimpleStateNode(String name)
+	public ANode(String name)
 	{
-		super(name);
+		super();
+		_name = name;
+		_parent = null;
+	}
+	
+	public ANode(){
+		
 	}
 
-	@Override
-	public String toString()
+	public void setName(String name){
+		this._name = name;
+	}
+	
+	public String getName()
 	{
-		return _name + "[" + _values + "]";
+		return _name;
 	}
 
-	public void addValue(AValue value)
+	/**
+	 * @return the next sibling of this node
+	 */
+	public ANode nextSibling()
 	{
-		value.setParentNode(this);
-		_values.add(value);
-	}
-
-	public List<AValue> getValues()
-	{
-		return _values;
-	}
-
-	public AValue consumeFirstValue()
-	{
-		if(_values.size() == 0)
+		if(!(getParent() instanceof ACompositeNode))
 		{
 			return null;
 		}
-		AValue first = _values.get(0);
-		_values.remove(0);
-		return first;
+		else
+		{
+			int currentIndex = ((ACompositeNode) getParent()).getChildren().indexOf(this);
+			if(((ACompositeNode) getParent()).getChildren().size() < currentIndex + 2)
+			{
+				return null;
+			}
+			else
+			{
+				return ((ACompositeNode) getParent()).getChildren().get(currentIndex + 1);
+			}
+		}
 	}
 
-	@Override
-	public boolean apply(IStateVisitor visitor)
+	public ANode getParent()
 	{
-		return visitor.visitSimpleStateNode(this);
+		return _parent;
+	}
+	
+	public void setParent(ANode parent){
+		this._parent = parent;
 	}
 
-	public void setUnit(String unit)
+	public boolean isArray()
 	{
-		this._unit = unit;
+		return _name.contains("[");
 	}
-
-	public String getUnit()
+	
+	public String getInstancePath()
 	{
-		return _unit;
-	}
-
-	public String getScalingFactor()
-	{
-		return _scalingFactor;
-	}
-
-	public void setScalingFactor(String scalingFactor)
-	{
-		this._scalingFactor = scalingFactor;
+		StringBuffer fullName = new StringBuffer();
+		ANode iterateState = this;
+		while(iterateState != null)
+		{
+			if(iterateState._parent != null)
+			{
+				if(!fullName.toString().isEmpty())
+				{
+					fullName.insert(0, ".");
+				}
+				fullName.insert(0, iterateState._name);
+			}
+			iterateState = iterateState._parent;
+		}
+		return fullName.toString();
 	}
 
 }

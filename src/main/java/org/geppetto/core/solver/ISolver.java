@@ -39,7 +39,8 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.state.StateTreeRoot;
+import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.simulation.IRunConfiguration;
 
 /**
@@ -48,9 +49,13 @@ import org.geppetto.core.simulation.IRunConfiguration;
  */
 public interface ISolver {
 	
-	public StateTreeRoot solve(final IRunConfiguration timeConfiguration) throws GeppettoExecutionException;
+	public void solve(final IRunConfiguration timeConfiguration, AspectNode aspect) throws GeppettoExecutionException;
 	
-	public StateTreeRoot initialize(final IModel model) throws GeppettoInitializationException;
+	public void initialize(final IModel model) throws GeppettoInitializationException;
+	
+	public void populateVisualTree(final IModel model,AspectSubTreeNode visualTree) throws GeppettoInitializationException;
+		
+	public void populateSimulationTree(AspectSubTreeNode watchTree) throws GeppettoInitializationException;
 	
 	public void dispose();
 	

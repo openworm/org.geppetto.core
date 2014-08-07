@@ -30,85 +30,58 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.geppetto.core.model.quantities.PhysicalQuantity;
 
 /**
+ * Abstract node used for nodes that don't have other nodes as children, a leaf node.
+ * 
  * @author matteocantarelli
  * 
  */
-public class StateTreeRoot extends CompositeStateNode
+@SuppressWarnings("rawtypes")
+public abstract class ATimeSeriesNode extends ANode
 {
+	//A state variable has intrinsic dynamics that allow for it to change as part of the evolution of the model.
+	private List<PhysicalQuantity> _timeSeries = new ArrayList<PhysicalQuantity>();;
 
-	public enum SUBTREE
+	public ATimeSeriesNode(String name)
 	{
-		WATCH_TREE,
-		MODEL_TREE, 
-		TIME_STEP
+		super(name);
 	}
 
-	/**
-	 * @param modelId
-	 * @deprecated
-	 */
-	public StateTreeRoot(String modelId)
-	{
-		super(modelId);
-		_children = new ArrayList<AStateNode>();
+	public ATimeSeriesNode(){
+		
 	}
 	
-	/**
-	 * 
-	 */
-	public StateTreeRoot()
+	@Override
+	public String toString()
 	{
-		super(null);
-		_children = new ArrayList<AStateNode>();
+		return _name + "[" + _timeSeries + "]";
 	}
-	
-	/**
-	 * @param tree
-	 */
-	public void flushSubTree(SUBTREE tree)
+
+	public void addPhysicalQuantity(PhysicalQuantity value)
 	{
-		for(AStateNode node : _children)
+		_timeSeries.add(value);
+	}
+
+	public List<PhysicalQuantity> getTimeSeries()
+	{
+		return _timeSeries;
+	}
+
+	public PhysicalQuantity consumeFirstValue()
+	{
+		if(_timeSeries.size() == 0)
 		{
-			if(node.getName().equals(tree.toString()))
-			{
-				// re-assign to empty node
-				node = new CompositeStateNode(tree.toString());
-				break;
-			}
+			return null;
 		}
+		PhysicalQuantity first = _timeSeries.get(0);
+		_timeSeries.remove(0);
+		return first;
 	}
-
-	/**
-	 * @param modelTree
-	 * @return
-	 */
-	private CompositeStateNode addSubTree(SUBTREE modelTree)
-	{
-		CompositeStateNode subTree = new CompositeStateNode(modelTree.toString());
-		addChild(subTree);
-		return subTree;
-	}
-	
-	/**
-	 * It creates the subtree if it doesn't exist
-	 * @param modelTree
-	 * @return
-	 */
-	public CompositeStateNode getSubTree(SUBTREE modelTree)
-	{
-		for (AStateNode node:getChildren())
-		{
-			if( node.getName().equals(modelTree.toString()))
-			{
-				return (CompositeStateNode) node;
-			}
-		}
-		return addSubTree(modelTree);
-	}
-
 }
