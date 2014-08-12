@@ -46,7 +46,9 @@ import org.geppetto.core.model.runtime.OBJNode;
 import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.simulator.ASimulator;
+import org.springframework.stereotype.Service;
 
+@Service
 public class OBJSimulatorService extends ASimulator{
 
 	@Override
