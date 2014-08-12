@@ -31,55 +31,67 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.solver;
+package org.geppetto.core.model.services;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import java.util.Scanner;
 
-import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
+import org.geppetto.core.model.IModelInterpreter;
+import org.geppetto.core.model.ModelInterpreterException;
+import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.simulation.IRunConfiguration;
+import org.springframework.stereotype.Service;
 
 /**
  * @author matteocantarelli
- *
+ * 
  */
-public interface ISolver {
-	
-	public void solve(final IRunConfiguration timeConfiguration, AspectNode aspect) throws GeppettoExecutionException;
-	
-	public void initialize(final IModel model) throws GeppettoInitializationException;
-	
-	public void populateVisualTree(final IModel model,AspectSubTreeNode visualTree) throws GeppettoInitializationException;
-		
-	public void populateSimulationTree(AspectSubTreeNode watchTree) throws GeppettoInitializationException;
-	
-	public void dispose();
-	
-	public VariableList getForceableVariables();
-	
-	public VariableList getWatchableVariables();
+@Service
+public class OBJModelInterpreterService implements IModelInterpreter
+{
 
-	/**
-	 * Adds variables to be watched by the simulator.
-	 * */
-	void addWatchVariables(List<String> variableNames);
-	
-	/**
-	 * Starts watching variables.
-	 * */
-	void startWatch();
-	
-	/**
-	 * Stop watching variables.
-	 * */
-	void stopWatch();
-	
-	/**
-	 * Clear lists of variables to be watched by the simulator.
-	 * */
-	void clearWatchVariables();
+	private static final String OBJ = "OBJ";
+
+	@Override
+	public IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException
+	{
+		ModelWrapper collada = new ModelWrapper(instancePath);
+		try
+		{
+			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
+			String objContent = scanner.useDelimiter("\\A").next();
+			scanner.close();
+			collada.wrapModel(OBJ, objContent);
+		}
+		catch(IOException e)
+		{
+			throw new ModelInterpreterException(e);
+		}
+
+		return collada;
+	}
+
+	@Override
+	public boolean populateModelTree(AspectNode aspectNode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean populateRuntimeTree(AspectNode aspectNode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getName()
+	{
+		//TODO: Create spring bean with name of interpreter to retrieve it from there. 
+		//Move this to own bundle?
+		return "Obj Model Interpreter";
+	}
+
 }

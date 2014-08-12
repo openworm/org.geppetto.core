@@ -30,27 +30,51 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.beans;
+package org.geppetto.core;
 
-public class SimulatorConfig {
-	
-	private String simulatorName;
-	private String simulatorID;
-	
-	public void setSimulatorName(String simulatorName){
-		this.simulatorName = simulatorName;
-	}
-	
-	public String getSimulatorName(){
-		return this.simulatorName;
-	}
+import java.net.URL;
+import java.util.List;
 
-	public String getSimulatorID()
+import org.geppetto.core.model.IModel;
+import org.geppetto.core.model.IModelInterpreter;
+import org.geppetto.core.model.ModelInterpreterException;
+import org.geppetto.core.model.runtime.AspectNode;
+
+/**
+ * Dummy model interpreter used for testing purposes
+ * 
+ * @author  Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
+public class TestModelInterpreter implements IModelInterpreter
+{
+
+	@Override
+	public IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException
 	{
-		return this.simulatorID;
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
-	public void setSimulatorID(String simulatorID){
-		this.simulatorID = simulatorID;
+
+	@Override
+	public boolean populateModelTree(AspectNode aspectNode) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
+
+	@Override
+	public boolean populateRuntimeTree(AspectNode aspectNode)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getName()
+	{
+		// TODO Auto-generated method stub
+		return "Test Model interpreter";
+	}
+
 }

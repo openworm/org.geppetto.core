@@ -32,8 +32,23 @@
  *******************************************************************************/
 package org.geppetto.core.model.state.visitors;
 
-import org.geppetto.core.model.state.CompositeStateNode;
-import org.geppetto.core.model.state.SimpleStateNode;
+import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
+import org.geppetto.core.model.runtime.ColladaNode;
+import org.geppetto.core.model.runtime.CompositeNode;
+import org.geppetto.core.model.runtime.CylinderNode;
+import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
+import org.geppetto.core.model.runtime.EntityNode;
+import org.geppetto.core.model.runtime.FunctionNode;
+import org.geppetto.core.model.runtime.OBJNode;
+import org.geppetto.core.model.runtime.ParameterNode;
+import org.geppetto.core.model.runtime.ParameterSpecificationNode;
+import org.geppetto.core.model.runtime.ParticleNode;
+import org.geppetto.core.model.runtime.RuntimeTreeRoot;
+import org.geppetto.core.model.runtime.SphereNode;
+import org.geppetto.core.model.runtime.VariableNode;
+import org.geppetto.core.model.runtime.TextMetadataNode;
+import org.geppetto.core.model.runtime.URLMetadataNode;
 
 /**
  * @author matteocantarelli
@@ -41,13 +56,51 @@ import org.geppetto.core.model.state.SimpleStateNode;
  */
 public interface IStateVisitor
 {
-	boolean inCompositeStateNode( CompositeStateNode node ); // going into a branch
+	boolean inCompositeNode( CompositeNode node ); // going into a branch
 	
-	boolean outCompositeStateNode( CompositeStateNode node ); // coming out
+	boolean outCompositeNode( CompositeNode node ); // coming out
+	
+	boolean inAspectNode( AspectNode node ); // going into a branch
+	
+	boolean outAspectNode( AspectNode node ); // coming out
 
-	boolean visitSimpleStateNode( SimpleStateNode node );
+	boolean inEntityNode( EntityNode node ); // going into a branch
 	
-	boolean stopVisiting();
+	boolean outEntityNode( EntityNode node ); // coming out
 	
+	boolean inAspectSubTreeNode( AspectSubTreeNode node ); // going into a branch
+	
+	boolean outAspectSubTreeNode( AspectSubTreeNode node ); // coming out
+	
+	boolean inRuntimeTreeRoot(RuntimeTreeRoot runtimeTreeRoot);
+
+	boolean outRuntimeTreeRoot(RuntimeTreeRoot runtimeTreeRoot);
+	
+	boolean visitVariableNode( VariableNode node );
+	
+	boolean visitParameterNode( ParameterNode node );
+	
+	boolean visitDynamicsSpecificationNode(DynamicsSpecificationNode dynamicsSpecificationNode);
+
+	boolean visitParameterSpecificationNode(ParameterSpecificationNode parameterSpecificationNode);
+
+	boolean visitFunctionNode(FunctionNode functionNode);
+	
+	boolean visitTextMetadataNode(TextMetadataNode textMetadataNode);
+
+	boolean visitURLMetadataNode(URLMetadataNode urlMetadataNode);
+	
+	boolean visitSphereNode(SphereNode sphereNode);
+	
+	boolean visitColladaNode(ColladaNode sphereNode);
+
+	boolean visitCylinderNode(CylinderNode sphereNode);
+
+	boolean visitParticleNode(ParticleNode sphereNode);
+	
+	boolean visitObjNode(OBJNode objNode);
+
 	void doStopVisiting();
+
+	boolean stopVisiting();
 }

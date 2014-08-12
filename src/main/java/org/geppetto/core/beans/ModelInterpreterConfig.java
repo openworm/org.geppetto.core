@@ -32,25 +32,21 @@
  *******************************************************************************/
 package org.geppetto.core.beans;
 
-public class SimulatorConfig {
+/**
+ * Bean to store values for the model interpreter 
+ * 
+ * @author  Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
+public class ModelInterpreterConfig {
 	
-	private String simulatorName;
-	private String simulatorID;
+	private String modelInterpreterName;
 	
-	public void setSimulatorName(String simulatorName){
-		this.simulatorName = simulatorName;
+	public void setModelInterpreterName(String modelInterpreterName){
+		this.modelInterpreterName = modelInterpreterName;
 	}
 	
-	public String getSimulatorName(){
-		return this.simulatorName;
-	}
-
-	public String getSimulatorID()
-	{
-		return this.simulatorID;
-	}
-	
-	public void setSimulatorID(String simulatorID){
-		this.simulatorID = simulatorID;
+	public String getModelInterpreterName(){
+		return this.modelInterpreterName;
 	}
 }

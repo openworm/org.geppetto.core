@@ -42,12 +42,7 @@ import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
-import org.geppetto.core.model.simulation.Aspect;
-import org.geppetto.core.model.state.StateTreeRoot;
-import org.geppetto.core.visualisation.model.CAspect;
-import org.geppetto.core.visualisation.model.CEntity;
-import org.geppetto.core.visualisation.model.Collada;
-import org.geppetto.core.visualisation.model.VisualModel;
+import org.geppetto.core.model.runtime.AspectNode;
 import org.springframework.stereotype.Service;
 
 /**
@@ -59,8 +54,6 @@ public class ColladaModelInterpreterService implements IModelInterpreter
 {
 
 	private static final String COLLADA = "COLLADA";
-	private CEntity _visualEntity;
-	private int _modelHash;
 
 	@Override
 	public IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException
@@ -82,34 +75,23 @@ public class ColladaModelInterpreterService implements IModelInterpreter
 	}
 
 	@Override
-	public CEntity getVisualEntity(IModel model, Aspect aspect, StateTreeRoot stateTree) throws ModelInterpreterException
+	public boolean populateModelTree(AspectNode aspectNode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean populateRuntimeTree(AspectNode aspectNode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getName()
 	{
-		if(_visualEntity == null || _modelHash != model.hashCode())
-		{
-			_visualEntity = new CEntity();
-			CAspect rootAspect = new CAspect();
-			rootAspect.setId(aspect.getId());
-			_visualEntity.getAspects().add(rootAspect);
-			_modelHash = model.hashCode();
-			Collada collada = new Collada();
-			collada.setModel((String) ((ModelWrapper) model).getModel(COLLADA));
-			
-			VisualModel colladaModel = new VisualModel();
-			colladaModel.getObjects().add(collada);
-			rootAspect.getVisualModel().add(colladaModel);
-			return _visualEntity;
-		}
-		else
-		{
-			//if we already sent once the update every other time it's going to be empty unless it changes
-			//as the geometry won't change
-			CEntity empty = new CEntity();
-			CAspect visualAspect = new CAspect();
-			visualAspect.setId(aspect.getId());
-			empty.getAspects().add(visualAspect);
-			return empty;
-		}
-		
+		//TODO: Create spring bean with name of interpreter to retrieve it from there. 
+		//Move this to own bundle?
+		return "Collada Model Interpreter";
 	}
 
 }

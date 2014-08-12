@@ -31,7 +31,7 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.model.state;
+package org.geppetto.core.model.runtime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,6 @@ import java.util.StringTokenizer;
  */
 public class StateInstancePath
 {
-
 	private String _instancePath;
 
 	public StateInstancePath(String instancePath)

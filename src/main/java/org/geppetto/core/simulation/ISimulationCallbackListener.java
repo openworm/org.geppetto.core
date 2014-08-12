@@ -43,7 +43,7 @@ public interface ISimulationCallbackListener
 	    SIMULATION_OVER
 	}
 	
-	void updateReady(SimulationEvents event, String sceneUpdate, String variableWatchTree);
+	void updateReady(SimulationEvents event, String sceneUpdate);
 
 	void error(GeppettoErrorCodes error, String classSource, String errorMessage, Exception e);
 }

@@ -40,6 +40,7 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.data.model.WatchList;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
 
 /**
  * @author matteocantarelli
@@ -139,4 +140,6 @@ public interface ISimulation {
 	List<URL> getScripts();	
 	
 	int getSimulationCapacity();
+
+	String getModelTree(String aspectID);
 }

@@ -30,32 +30,62 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-
 package org.geppetto.core;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.Assert;
 
-import org.geppetto.core.model.state.CompositeStateNode;
-import org.geppetto.core.model.state.SimpleStateNode;
+import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
+import org.geppetto.core.model.runtime.CompositeNode;
+import org.geppetto.core.model.runtime.CylinderNode;
+import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
+import org.geppetto.core.model.runtime.EntityNode;
+import org.geppetto.core.model.runtime.FunctionNode;
+import org.geppetto.core.model.runtime.ParameterNode;
+import org.geppetto.core.model.runtime.ParameterSpecificationNode;
+import org.geppetto.core.model.runtime.RuntimeTreeRoot;
+import org.geppetto.core.model.runtime.SphereNode;
+import org.geppetto.core.model.runtime.VariableNode;
+import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
 import org.geppetto.core.model.values.AValue;
+import org.geppetto.core.model.values.DoubleValue;
 import org.geppetto.core.model.values.ValuesFactory;
+import org.geppetto.core.visualisation.model.Point;
 import org.junit.Test;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 public class TestTreeSerialization {
 
 	@Test
 	public void testTime() {
-		CompositeStateNode rootNode = new CompositeStateNode("TIME");
+		CompositeNode rootNode = new CompositeNode("TIME");
 		
-		SimpleStateNode stepNode = new SimpleStateNode("step");
-		stepNode.addValue(ValuesFactory.getDoubleValue(0.05));
-		stepNode.setUnit("ms");
+		VariableNode stepNode = new VariableNode("step");
+		PhysicalQuantity quantity = new PhysicalQuantity();
+		quantity.setValue(ValuesFactory.getDoubleValue(0.05));
+		quantity.setUnit("ms");
+		stepNode.addPhysicalQuantity(quantity);
 		
-		SimpleStateNode dummyNode = new SimpleStateNode("time");
-		dummyNode.addValue(ValuesFactory.getDoubleValue(0.04));
-		dummyNode.addValue(ValuesFactory.getDoubleValue(0.05));
-		dummyNode.setUnit("ms");
+		VariableNode dummyNode = new VariableNode("time");
+		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		quantity2.setValue(ValuesFactory.getDoubleValue(0.04));
+		quantity2.setUnit("ms");
+		dummyNode.addPhysicalQuantity(quantity2);
+		
+		PhysicalQuantity quantity3 = new PhysicalQuantity();
+		quantity3.setValue(ValuesFactory.getDoubleValue(0.05));
+		quantity3.setUnit("ms");
+		dummyNode.addPhysicalQuantity(quantity3);
 		
 		rootNode.addChild(stepNode);
 		rootNode.addChild(dummyNode);		
@@ -65,19 +95,32 @@ public class TestTreeSerialization {
 		String serialized = visitor.getSerializedTree();
 		
 		System.out.println(serialized);
-		Assert.assertEquals("{\"TIME\":{\"step\":{\"value\":0.05,\"unit\":\"ms\",\"scale\":null},\"time\":{\"value\":0.04,\"unit\":\"ms\",\"scale\":null}}}", serialized);
+		Assert.assertEquals("{\"TIME\":{\"step\":{\"value\":0.05,\"unit\":\"ms\",\"scale\":null,\"instancePath\":\"step\",\"_metaType\":\"VariableNode\"},\"time\":{\"value\":0.04,\"unit\":\"ms\",\"scale\":null,\"instancePath\":\"time\",\"_metaType\":\"VariableNode\"},\"_metaType\":\"CompositeNode\"}}", serialized);
 	}
 	
 	@Test
 	public void testTreeSerialization() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
+		CompositeNode rootNode = new CompositeNode("WATCH_TREE");
 		
-		SimpleStateNode dummyNode = new SimpleStateNode("dummyFloat");
-		dummyNode.addValue(ValuesFactory.getDoubleValue(50d));
-		dummyNode.addValue(ValuesFactory.getDoubleValue(100d));
-		SimpleStateNode anotherDummyNode = new SimpleStateNode("dummyDouble");
-		anotherDummyNode.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode.addValue(ValuesFactory.getDoubleValue(100d));
+		VariableNode dummyNode = new VariableNode("dummyFloat");
+		PhysicalQuantity quantity = new PhysicalQuantity();
+		quantity.setValue(ValuesFactory.getDoubleValue(50d));
+		dummyNode.addPhysicalQuantity(quantity);
+		
+		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
+		dummyNode.addPhysicalQuantity(quantity2);
+		
+		VariableNode anotherDummyNode = new VariableNode("dummyDouble");
+		
+		PhysicalQuantity quantity3 = new PhysicalQuantity();
+		quantity3.setValue(ValuesFactory.getDoubleValue(20d));
+		anotherDummyNode.addPhysicalQuantity(quantity3);
+		
+		PhysicalQuantity quantity4 = new PhysicalQuantity();
+		quantity4.setValue(ValuesFactory.getDoubleValue(100d));
+		anotherDummyNode.addPhysicalQuantity(quantity4);
+				
 		rootNode.addChild(dummyNode);
 		rootNode.addChild(anotherDummyNode);
 		
@@ -86,125 +129,86 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"dummyFloat\":{\"value\":50.0,\"unit\":null,\"scale\":null},\"dummyDouble\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"dummyFloat\":{\"value\":50.0,\"unit\":null,\"scale\":null,\"instancePath\":\"dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"value\":20.0,\"unit\":null,\"scale\":null,\"instancePath\":\"dummyDouble\",\"_metaType\":\"VariableNode\"},\"_metaType\":\"CompositeNode\"}}", serialized);
 	}
 
 	@Test
 	public void testTreeWithUnits() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
+		CompositeNode rootNode = new CompositeNode("WATCH_TREE");
 		
 		AValue val = ValuesFactory.getDoubleValue(50d);
 		AValue val2 = ValuesFactory.getDoubleValue(100d);
 		
-		SimpleStateNode dummyNode = new SimpleStateNode("dummyFloat");
-		dummyNode.addValue(val);
-		dummyNode.addValue(val2);
+		PhysicalQuantity quantity = new PhysicalQuantity();
+		quantity.setValue(val);
+		quantity.setUnit("V");
+		quantity.setScalingFactor("1.E3");
 		
-		dummyNode.setUnit("V");
-		dummyNode.setScalingFactor("1.E3");
-
-		SimpleStateNode anotherDummyNode = new SimpleStateNode("dummyDouble");
+		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		quantity2.setValue(val2);
+		quantity2.setScalingFactor("1.E3");
+		quantity2.setUnit("V");
+	
+		VariableNode dummyNode = new VariableNode("dummyFloat");
+		dummyNode.addPhysicalQuantity(quantity);
+		dummyNode.addPhysicalQuantity(quantity2);
+		
+		VariableNode anotherDummyNode = new VariableNode("dummyDouble");
 		
 		AValue val3= ValuesFactory.getDoubleValue(50d);
 		AValue val4 = ValuesFactory.getDoubleValue(100d);
 		
-		anotherDummyNode.setUnit("mV");
-		anotherDummyNode.setScalingFactor("1.E3");
+		PhysicalQuantity quantity3 = new PhysicalQuantity();
+		quantity3.setValue(val3);
+		quantity3.setUnit("mV");
+		quantity3.setScalingFactor("1.E3");
 		
-		anotherDummyNode.addValue(val3);
-		anotherDummyNode.addValue(val4);
+		PhysicalQuantity quantity4 = new PhysicalQuantity();
+		quantity4.setValue(val4);
+		quantity4.setScalingFactor("1.E3");
+		quantity4.setUnit("mV");
+				
+		anotherDummyNode.addPhysicalQuantity(quantity3);
+		anotherDummyNode.addPhysicalQuantity(quantity4);
 		rootNode.addChild(dummyNode);
 		rootNode.addChild(anotherDummyNode);
 		
-		
 		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"dummyFloat\":{\"value\":50.0,\"unit\":\"V\",\"scale\":\"1.E3\"},\"dummyDouble\":{\"value\":50.0,\"unit\":\"mV\",\"scale\":\"1.E3\"}}}", serialized);
-	}
-	
-	@Test
-	public void testTreeNestedSerialization2() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
-		CompositeStateNode dummyNode0 = new CompositeStateNode("hhpop[0]");
-
-		SimpleStateNode anotherDummyNode0 = new SimpleStateNode("v");
-		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(100d));
-		rootNode.addChild(dummyNode0);
-		dummyNode0.addChild(anotherDummyNode0);
-		
-		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("spiking");
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(55d));
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(65d));
-		dummyNode0.addChild(anotherDummyNode1);
-		
-		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
-		rootNode.apply(visitor);
-		String serialized = visitor.getSerializedTree();
-		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"spiking\":{\"value\":55.0,\"unit\":null,\"scale\":null}}]}}", serialized);
-	}
-	
-	@Test
-	public void testTreeNestedSerialization3() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
-		CompositeStateNode c302 = new CompositeStateNode("c302");
-		
-		CompositeStateNode electrical = new CompositeStateNode("electrical");
-		
-		CompositeStateNode adal = new CompositeStateNode("ADAL");
-		
-		CompositeStateNode adal0 = new CompositeStateNode("0");
-		
-		CompositeStateNode adalgeneric_iaf_cell = new CompositeStateNode("generic_iaf_cell");
-		
-		CompositeStateNode adar = new CompositeStateNode("ADAR");
-		
-		CompositeStateNode adar0 = new CompositeStateNode("0");
-		
-		CompositeStateNode adargeneric_iaf_cell = new CompositeStateNode("generic_iaf_cell");
-
-		SimpleStateNode v = new SimpleStateNode("v");
-		v.addValue(ValuesFactory.getDoubleValue(-0.05430606873466336d));
-		rootNode.addChild(c302);
-		c302.addChild(electrical);
-		electrical.addChild(adal);
-		adal.addChild(adal0);
-		adal0.addChild(adalgeneric_iaf_cell);
-		adalgeneric_iaf_cell.addChild(v);
-		
-		SimpleStateNode adarV = new SimpleStateNode("v");
-		adarV.addValue(ValuesFactory.getDoubleValue(-0.055433782139120126d));
-		
-		electrical.addChild(adar);
-		adar.addChild(adar0);
-		adar0.addChild(adargeneric_iaf_cell);
-		adargeneric_iaf_cell.addChild(adarV);
-		
-		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
-		rootNode.apply(visitor);
-		String serialized = visitor.getSerializedTree();
-		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"c302\":{\"electrical\":{\"ADAL\":{\"0\":{\"generic_iaf_cell\":{\"v\":{\"value\":-0.05430606873466336,\"unit\":null,\"scale\":null}}}},\"ADAR\":{\"0\":{\"generic_iaf_cell\":{\"v\":{\"value\":-0.055433782139120126,\"unit\":null,\"scale\":null}}}}}}}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"dummyFloat\":{\"value\":50.0,\"unit\":\"V\",\"scale\":\"1.E3\",\"instancePath\":\"dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"value\":50.0,\"unit\":\"mV\",\"scale\":\"1.E3\",\"instancePath\":\"dummyDouble\",\"_metaType\":\"VariableNode\"},\"_metaType\":\"CompositeNode\"}}", serialized);
 	}
 	
 	@Test
 	public void testTreeNestedSerialization() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
-		CompositeStateNode dummyNode0 = new CompositeStateNode("hhpop[0]");
-		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[1]");
+		CompositeNode rootNode = new CompositeNode("WATCH_TREE");
+		CompositeNode dummyNode0 = new CompositeNode("hhpop[0]");
+		CompositeNode dummyNode1 = new CompositeNode("hhpop[1]");
 
-		SimpleStateNode anotherDummyNode0 = new SimpleStateNode("v");
-		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(100d));
+		VariableNode anotherDummyNode0 = new VariableNode("v");
+		PhysicalQuantity quantity = new PhysicalQuantity();
+		quantity.setValue(ValuesFactory.getDoubleValue(20d));
+		
+		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
+		
+		anotherDummyNode0.addPhysicalQuantity(quantity);
+		anotherDummyNode0.addPhysicalQuantity(quantity2);
+		
 		rootNode.addChild(dummyNode0);
 		dummyNode0.addChild(anotherDummyNode0);
 		
-		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("v");
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(55d));
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(65d));
+		VariableNode anotherDummyNode1 = new VariableNode("v");
+		PhysicalQuantity quantity3 = new PhysicalQuantity();
+		quantity3.setValue(ValuesFactory.getDoubleValue(55d));
+		
+		PhysicalQuantity quantity4 = new PhysicalQuantity();
+		quantity4.setValue(ValuesFactory.getDoubleValue(65d));
+		
+		anotherDummyNode1.addPhysicalQuantity(quantity3);
+		anotherDummyNode1.addPhysicalQuantity(quantity4);
+		
 		rootNode.addChild(dummyNode1);
 		dummyNode1.addChild(anotherDummyNode1);
 		
@@ -212,386 +216,230 @@ public class TestTreeSerialization {
 		rootNode.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}},{\"v\":{\"value\":55.0,\"unit\":null,\"scale\":null}}]}}", serialized);
+		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null,\"instancePath\":\"hhpop[0].v\",\"_metaType\":\"VariableNode\"},\"instancePath\":\"hhpop[0]\",\"_metaType\":\"CompositeNode\"},{\"v\":{\"value\":55.0,\"unit\":null,\"scale\":null,\"instancePath\":\"hhpop[1].v\",\"_metaType\":\"VariableNode\"},\"instancePath\":\"hhpop[1]\",\"_metaType\":\"CompositeNode\"}],\"_metaType\":\"CompositeNode\"}}", serialized);
 	}
 	
+	/**
+	 * Skeleton tree test
+	 * @
+	 */
 	@Test
-	public void testTreeNestedSerializationWithGaps() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
-		CompositeStateNode dummyNode0 = new CompositeStateNode("hhpop[10]");
-		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[15]");
-
-		SimpleStateNode anotherDummyNode0 = new SimpleStateNode("v");
-		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode0.addValue(ValuesFactory.getDoubleValue(100d));
-		rootNode.addChild(dummyNode0);
-		dummyNode0.addChild(anotherDummyNode0);
+	public void testSkeletonTree() {
+		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
 		
-		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("v");
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(55d));
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(65d));
-		rootNode.addChild(dummyNode1);
-		dummyNode1.addChild(anotherDummyNode1);
+		EntityNode entity_A = new EntityNode("Entity_A");
+		
+		AspectNode aspect_A = new AspectNode("Aspect_A");
+
+		AspectSubTreeNode model = new AspectSubTreeNode(AspectTreeType.MODEL_TREE);
+
+		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
+
+		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.WATCH_TREE);
+
+		runtime.addChild(entity_A);
+		entity_A.addChild(aspect_A);
+		aspect_A.addChild(model);
+		aspect_A.addChild(visualization);
+		aspect_A.addChild(simulation);
 		
 		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
-		rootNode.apply(visitor);
+		runtime.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{},{},{},{},{},{},{},{},{},{},{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}},{},{},{},{},{\"v\":{\"value\":55.0,\"unit\":null,\"scale\":null}}]}}", serialized);
+		
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(serialized);
+		String prettyJsonString = gson.toJson(je);
+		
+		System.out.println(prettyJsonString);
+		
+		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"ModelTree\":{\"type\":\"ModelTree\",\"instancePath\":\"Entity_A.Aspect_A.ModelTree\",\"_metaType\":\"AspectSubTreeNode\"},\"VisualizationTree\":{\"type\":\"VisualizationTree\",\"instancePath\":\"Entity_A.Aspect_A.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"type\":\"SimulationTree\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
 	}
 	
-	
+	/**
+	 * ReCreate Sample Tree below
+	 * 
+	 *  RuntimeTree -> RuntimeTreeRoot -> ACompositeNode
+		  Entity1 -> EntityNode -> ACompositeNode
+	    	AspectA -> AspectNode -> ACompositeNode
+	        	modelTree -> AspectSubTreeNode -> ACompositeNode
+	            	BiophysicalProperties -> CompositeNode -> ACompositeNode
+	                	a -> ParameterNode -> ASimpleStateNode
+	                	b -> ParameterNode -> ASimpleStateNode
+	                	c -> VariableNode -> ASimpleStateNode
+	                	text -> TextMetadataNode -> AMetaDataNode
+	        	visualisationTree -> AspectSubTreeNode -> ACompositeNode
+	            		Sphere1 -> Sphere -> AVisualObject
+	            		Cylinder1 -> Cylinder -> AVisualObject
+	            		Cylinder2
+	            	…
+	            		CylinderN
+	        	simulationTree -> AspectTree -> ACompositeNode
+	            	hhpop -> CompositeNode -> ACompositeNode
+	                	0  -> CompositeNode -> ACompositeNode
+	                    	v -> VariableNode -> SimpleStateNode
+	                    	a -> ParameterNode -> ASimpleStateNode
+	 * @
+	 */
 	@Test
-	public void testTreeMultpleCompositeSerialization() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
-		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[0]");
-		CompositeStateNode dummyNode2 = new CompositeStateNode("hhpop[1]");
+	public void testRefactorSampleTree() {
+		
+		RuntimeTreeRoot runtimeTree = new RuntimeTreeRoot("RuntimeTree");
+		
+		EntityNode entity1 = new EntityNode("Entity1");
+		
+		AspectNode aspectA = new AspectNode("AspectA");
+		aspectA.setId("12");
+		TestSimulator sim = new TestSimulator();
+		aspectA.setSimulator(sim);
+		TestModelInterpreter modelInt = new TestModelInterpreter();
+		aspectA.setModelInterpreter(modelInt);
 
-		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("v");
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(100d));
+		AspectSubTreeNode model = new AspectSubTreeNode(AspectTreeType.MODEL_TREE);
+		DynamicsSpecificationNode dynamics = new DynamicsSpecificationNode("Dynamics");
 		
-		SimpleStateNode anotherDummyNode2 = new SimpleStateNode("v");
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(100d));
-		rootNode.addChild(dummyNode1);
-		rootNode.addChild(dummyNode2);
-		dummyNode1.addChild(anotherDummyNode1);
-		dummyNode2.addChild(anotherDummyNode2);
+		PhysicalQuantity value = new PhysicalQuantity();
+		value.setScalingFactor("10");
+		value.setUnit("ms");
+		value.setValue(new DoubleValue(10));
+		dynamics.setInitialConditions(value);
 		
+		FunctionNode function = new FunctionNode("Function");
+		function.setExpression("y=x+2");
+		List<String> argumentsF = new ArrayList<String>();
+		argumentsF.add("1");
+		argumentsF.add("2");
+		function.setArgument(argumentsF);
+		
+		dynamics.setDynamics(function);
+		
+		ParameterSpecificationNode parameter = new ParameterSpecificationNode("Parameter");
+		
+		PhysicalQuantity value1 = new PhysicalQuantity();
+		value1.setScalingFactor("10");
+		value1.setUnit("ms");
+		value1.setValue(new DoubleValue(10));	
+		
+		parameter.setValue(value1);
+		
+		FunctionNode functionNode = new FunctionNode("FunctionNode");
+		functionNode.setExpression("y=x^2");
+		List<String> arguments = new ArrayList<String>();
+		arguments.add("1");
+		functionNode.setArgument(arguments);
+		
+		
+		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
+		
+		SphereNode sphere = new SphereNode("sphere");
+		Point p = new Point();
+		p.setX(new Double(3.3));
+		p.setY(new Double(4));
+		p.setZ(new Double(-1.444));
+		sphere.setPosition(p);
+		sphere.setRadius(new Double(33));
+		
+		CylinderNode cylinder = new CylinderNode("cylinder");
+		Point p2 = new Point();
+		p2.setX(new Double(6.3));
+		p2.setY(new Double(8));
+		p2.setZ(new Double(-3.999));
+		cylinder.setPosition(p2);
+		Point p3 = new Point();
+		p3.setX(new Double(6.3));
+		p3.setY(new Double(8));
+		p3.setZ(new Double(-3.999));
+		cylinder.setDistal(p3);
+		cylinder.setRadiusBottom(new Double(34.55));
+		cylinder.setRadiusTop(new Double(34.55));
+
+		CylinderNode cylinder2 = new CylinderNode("cylinder");
+		cylinder2.setPosition(p2);
+		cylinder2.setDistal(p3);
+		cylinder2.setRadiusBottom(new Double(34.55));
+		cylinder2.setRadiusTop(new Double(34.55));
+		
+		CylinderNode cylinder3 = new CylinderNode("cylinder");
+		cylinder3.setPosition(p2);
+		cylinder3.setDistal(p3);
+		cylinder3.setRadiusBottom(new Double(34.55));
+		cylinder3.setRadiusTop(new Double(34.55));
+		
+		CylinderNode cylinder4 = new CylinderNode("cylinder");
+		cylinder4.setPosition(p2);
+		cylinder4.setDistal(p3);
+		cylinder4.setRadiusBottom(new Double(34.55));
+		cylinder4.setRadiusTop(new Double(34.55));
+		
+		CylinderNode cylinder5 = new CylinderNode("cylinder");
+		cylinder5.setPosition(p2);
+		cylinder5.setDistal(p3);
+		cylinder5.setRadiusBottom(new Double(34.55));
+		cylinder5.setRadiusTop(new Double(34.55));
+		
+		CompositeNode vg = new CompositeNode("vg");
+		vg.addChild(sphere);
+		vg.addChild(cylinder);
+		vg.addChild(cylinder2);
+		vg.addChild(cylinder3);
+		vg.addChild(cylinder4);
+		vg.addChild(cylinder5);
+		
+		CompositeNode vg2 = new CompositeNode("vg2");
+		vg2.addChild(cylinder);
+		vg2.addChild(cylinder2);
+		vg2.addChild(cylinder3);
+		vg2.addChild(cylinder4);
+		vg2.addChild(cylinder5);
+		vg2.addChild(sphere);
+		
+		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.WATCH_TREE);
+		
+		
+		CompositeNode hhpop = new CompositeNode("hhpop[0]");
+		
+		VariableNode v = new VariableNode("v");
+		PhysicalQuantity quantity = new PhysicalQuantity();
+		quantity.setValue(ValuesFactory.getDoubleValue(20d));
+		
+		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
+		
+		v.addPhysicalQuantity(quantity);
+		v.addPhysicalQuantity(quantity2);
+		
+		ParameterNode a1 = new ParameterNode("a");
+		
+		runtimeTree.addChild(entity1);
+		entity1.addChild(aspectA);
+		aspectA.addChild(model);
+		model.addChild(parameter);
+		model.addChild(dynamics);
+		model.addChild(functionNode);
+		
+		aspectA.addChild(visualization);
+		visualization.addChild(vg);
+		visualization.addChild(vg2);
+		
+		aspectA.addChild(simulation);
+		simulation.addChild(hhpop);
+		hhpop.addChild(v);
+		hhpop.addChild(a1); 
 		
 		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
-		rootNode.apply(visitor);
+		runtimeTree.apply(visitor);
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}},{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null}}]}}", serialized);
-	}
-
-	
-	@Test
-	public void testTreeMulitpleCompositeSerialization2() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
-		CompositeStateNode dummyNode1 = new CompositeStateNode("particle[1]");
-		CompositeStateNode dummyNode2 = new CompositeStateNode("position");
-
-		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("x");
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(100d));
 		
-		SimpleStateNode anotherDummyNode2 = new SimpleStateNode("y");
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(100d));
-				
-		rootNode.addChild(dummyNode1);		
-		dummyNode2.addChild(anotherDummyNode1);
-		dummyNode2.addChild(anotherDummyNode2);
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(serialized);
+		String prettyJsonString = gson.toJson(je);
 		
-		dummyNode1.addChild(dummyNode2);
+		System.out.println(prettyJsonString);
 
-		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
-		rootNode.apply(visitor);
-		String serialized = visitor.getSerializedTree();
-		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"particle\":[{},{\"position\":{\"x\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"y\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}]}}", serialized);
-	}
-	
-	@Test
-	public void testTreeMulitpleCompositeSerialization3() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
-		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[0]");
-		CompositeStateNode dummyNode2 = new CompositeStateNode("bioPhys1");
-		CompositeStateNode dummyNode3 = new CompositeStateNode("membraneProperties");
-		CompositeStateNode dummyNode4 = new CompositeStateNode("naChans");
-		CompositeStateNode dummyNode5 = new CompositeStateNode("na");
-		CompositeStateNode dummyNode6 = new CompositeStateNode("m");
-		CompositeStateNode dummyNode7 = new CompositeStateNode("h");
-
-		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("q");
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(100d));
-		
-		SimpleStateNode anotherDummyNode2 = new SimpleStateNode("q");
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(100d));
-				
-		rootNode.addChild(dummyNode1);		
-		dummyNode6.addChild(anotherDummyNode1);
-		dummyNode7.addChild(anotherDummyNode2);
-		
-		dummyNode5.addChild(dummyNode7);
-		dummyNode5.addChild(dummyNode6);
-		
-		dummyNode4.addChild(dummyNode5);
-		dummyNode3.addChild(dummyNode4);
-		dummyNode2.addChild(dummyNode3);
-		dummyNode1.addChild(dummyNode2);
-
-		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
-		rootNode.apply(visitor);
-		String serialized = visitor.getSerializedTree();
-		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"na\":{\"h\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}},\"m\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}}}}}]}}", serialized);
-	}
-	
-	@Test
-	public void testTreeMulitpleCompositeSerialization4() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
-		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[0]");
-		CompositeStateNode dummyNode2 = new CompositeStateNode("bioPhys1");
-		CompositeStateNode dummyNode3 = new CompositeStateNode("membraneProperties");
-		CompositeStateNode dummyNode4 = new CompositeStateNode("naChans");
-		CompositeStateNode dummyNode5 = new CompositeStateNode("na");
-		CompositeStateNode dummyNode6 = new CompositeStateNode("m");
-
-		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("q");
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(100d));
-		
-		SimpleStateNode anotherDummyNode2 = new SimpleStateNode("gDensity");
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(100d));
-				
-		rootNode.addChild(dummyNode1);		
-		dummyNode6.addChild(anotherDummyNode1);
-		dummyNode5.addChild(anotherDummyNode2);
-
-		dummyNode5.addChild(dummyNode6);
-		
-		dummyNode4.addChild(dummyNode5);
-		dummyNode3.addChild(dummyNode4);
-		dummyNode2.addChild(dummyNode3);
-		dummyNode1.addChild(dummyNode2);
-
-		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
-		rootNode.apply(visitor);
-		String serialized = visitor.getSerializedTree();
-		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"na\":{\"gDensity\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"m\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}}}}}]}}", serialized);
-	}
-	
-	@Test
-	public void testTreeMulitpleCompositeSerialization5() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
-		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[0]");
-		CompositeStateNode dummyNode2 = new CompositeStateNode("bioPhys1");
-		CompositeStateNode dummyNode3 = new CompositeStateNode("membraneProperties");
-		CompositeStateNode dummyNode4 = new CompositeStateNode("naChans");
-		CompositeStateNode dummyNode5 = new CompositeStateNode("na");
-		CompositeStateNode dummyNode6 = new CompositeStateNode("m");
-		CompositeStateNode dummyNode7 = new CompositeStateNode("kChans");
-		CompositeStateNode dummyNode8 = new CompositeStateNode("k");
-		CompositeStateNode dummyNode9 = new CompositeStateNode("n");
-		
-		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("q");
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(100d));
-		
-		SimpleStateNode anotherDummyNode2 = new SimpleStateNode("q");
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(100d));
-		
-		SimpleStateNode anotherDummyNode3 = new SimpleStateNode("gDensity");
-		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(100d));
-				
-		rootNode.addChild(dummyNode1);		
-		dummyNode6.addChild(anotherDummyNode1);
-		dummyNode5.addChild(anotherDummyNode3);
-		dummyNode9.addChild(anotherDummyNode2);
-		
-		dummyNode8.addChild(dummyNode9);
-		dummyNode7.addChild(dummyNode8);
-		
-		dummyNode3.addChild(dummyNode7);
-		dummyNode5.addChild(dummyNode6);
-		
-		dummyNode4.addChild(dummyNode5);
-		dummyNode3.addChild(dummyNode4);
-		dummyNode2.addChild(dummyNode3);
-		dummyNode1.addChild(dummyNode2);
-
-		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
-		rootNode.apply(visitor);
-		String serialized = visitor.getSerializedTree();
-		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"kChans\":{\"k\":{\"n\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}},\"naChans\":{\"na\":{\"gDensity\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"m\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}}}}}]}}", serialized);
-	}
-	
-	@Test
-	public void testTreeMulitpleCompositeSerialization6() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
-		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[0]");
-		CompositeStateNode dummyNode2 = new CompositeStateNode("bioPhys1");
-		CompositeStateNode dummyNode3 = new CompositeStateNode("membraneProperties");
-		CompositeStateNode dummyNode4 = new CompositeStateNode("naChans");
-		CompositeStateNode dummyNode5 = new CompositeStateNode("na");
-		CompositeStateNode dummyNode6 = new CompositeStateNode("m");
-		CompositeStateNode dummyNode7 = new CompositeStateNode("kChans");
-		CompositeStateNode dummyNode8 = new CompositeStateNode("k");
-		CompositeStateNode dummyNode9 = new CompositeStateNode("n");
-		
-		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("q");
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(100d));
-		
-		SimpleStateNode anotherDummyNode2 = new SimpleStateNode("q");
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(100d));
-		
-		SimpleStateNode anotherDummyNode3 = new SimpleStateNode("gDensity");
-		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(100d));
-		
-		SimpleStateNode anotherDummyNode4 = new SimpleStateNode("gDensity");
-		anotherDummyNode4.addValue(ValuesFactory.getDoubleValue(40d));
-		anotherDummyNode4.addValue(ValuesFactory.getDoubleValue(100d));
-		
-		rootNode.addChild(dummyNode1);		
-		dummyNode6.addChild(anotherDummyNode1);
-		dummyNode7.addChild(anotherDummyNode4);
-		dummyNode4.addChild(anotherDummyNode3);
-		dummyNode9.addChild(anotherDummyNode2);
-		
-		dummyNode8.addChild(dummyNode9);
-		dummyNode7.addChild(dummyNode8);
-		
-		dummyNode3.addChild(dummyNode7);
-		dummyNode5.addChild(dummyNode6);
-		
-		dummyNode4.addChild(dummyNode5);
-		dummyNode3.addChild(dummyNode4);
-		dummyNode2.addChild(dummyNode3);
-		dummyNode1.addChild(dummyNode2);
-
-		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
-		rootNode.apply(visitor);
-		String serialized = visitor.getSerializedTree();
-		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"kChans\":{\"gDensity\":{\"value\":40.0,\"unit\":null,\"scale\":null},\"k\":{\"n\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}},\"naChans\":{\"gDensity\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"na\":{\"m\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}}}}}]}}", serialized);
-	}
-
-	@Test
-	public void testTreeMulitpleCompositeSerialization7() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
-		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[0]");
-		CompositeStateNode dummyNode2 = new CompositeStateNode("bioPhys1");
-		CompositeStateNode dummyNode3 = new CompositeStateNode("membraneProperties");
-		CompositeStateNode dummyNode4 = new CompositeStateNode("naChans");
-		CompositeStateNode dummyNode5 = new CompositeStateNode("na");
-		CompositeStateNode dummyNode6 = new CompositeStateNode("m");
-
-		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("q");
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(100d));
-
-		SimpleStateNode anotherDummyNode2 = new SimpleStateNode("v");
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(100d));
-
-		SimpleStateNode anotherDummyNode3 = new SimpleStateNode("spiking");
-		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(100d));
-
-		SimpleStateNode anotherDummyNode4 = new SimpleStateNode("gDensity");
-		anotherDummyNode4.addValue(ValuesFactory.getDoubleValue(40d));
-		anotherDummyNode4.addValue(ValuesFactory.getDoubleValue(100d));
-
-		rootNode.addChild(dummyNode1);		
-		dummyNode1.addChild(anotherDummyNode2);
-		dummyNode1.addChild(anotherDummyNode3);
-		dummyNode6.addChild(anotherDummyNode1);
-
-		dummyNode4.addChild(anotherDummyNode4);
-
-		dummyNode5.addChild(dummyNode6);
-		dummyNode4.addChild(dummyNode5);
-		dummyNode3.addChild(dummyNode4);
-		dummyNode2.addChild(dummyNode3);
-		dummyNode1.addChild(dummyNode2);
-
-		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
-		rootNode.apply(visitor);
-		String serialized = visitor.getSerializedTree();
-		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"spiking\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"gDensity\":{\"value\":40.0,\"unit\":null,\"scale\":null},\"na\":{\"m\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}}}}}]}}", serialized);
-	}
-	
-	@Test
-	public void testTreeMulitpleCompositeSerialization8() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
-		CompositeStateNode dummyNode1 = new CompositeStateNode("hhpop[0]");
-		CompositeStateNode dummyNode2 = new CompositeStateNode("bioPhys1");
-		CompositeStateNode dummyNode3 = new CompositeStateNode("membraneProperties");
-		CompositeStateNode dummyNode4 = new CompositeStateNode("naChans");
-		CompositeStateNode dummyNode5 = new CompositeStateNode("na");
-		CompositeStateNode dummyNode6 = new CompositeStateNode("m");
-
-		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("q");
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(100d));
-
-		SimpleStateNode anotherDummyNode2 = new SimpleStateNode("v");
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(100d));
-
-		SimpleStateNode anotherDummyNode3 = new SimpleStateNode("spiking");
-		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode3.addValue(ValuesFactory.getDoubleValue(100d));
-
-		SimpleStateNode anotherDummyNode4 = new SimpleStateNode("gDensity");
-		anotherDummyNode4.addValue(ValuesFactory.getDoubleValue(40d));
-		anotherDummyNode4.addValue(ValuesFactory.getDoubleValue(100d));
-
-		rootNode.addChild(dummyNode1);		
-		dummyNode6.addChild(anotherDummyNode1);
-
-		dummyNode4.addChild(anotherDummyNode4);
-
-		dummyNode5.addChild(dummyNode6);
-		dummyNode4.addChild(dummyNode5);
-		dummyNode3.addChild(dummyNode4);
-		dummyNode2.addChild(dummyNode3);
-		dummyNode1.addChild(dummyNode2);
-		
-		dummyNode1.addChild(anotherDummyNode2);
-		dummyNode1.addChild(anotherDummyNode3);
-
-		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
-		rootNode.apply(visitor);
-		String serialized = visitor.getSerializedTree();
-		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"hhpop\":[{\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"gDensity\":{\"value\":40.0,\"unit\":null,\"scale\":null},\"na\":{\"m\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}}}},\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null},\"spiking\":{\"value\":20.0,\"unit\":null,\"scale\":null}}]}}", serialized);
-	}
-	
-	@Test
-	public void testTreeMulitpleCompositeSerialization9() {
-		CompositeStateNode rootNode = new CompositeStateNode("WATCH_TREE");
-		CompositeStateNode dummyNode1 = new CompositeStateNode("particle[1]");
-		CompositeStateNode dummyNode2 = new CompositeStateNode("particle[2]");
-		CompositeStateNode dummyNode3 = new CompositeStateNode("position");
-		CompositeStateNode dummyNode4 = new CompositeStateNode("position");
-
-		SimpleStateNode anotherDummyNode1 = new SimpleStateNode("x");
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode1.addValue(ValuesFactory.getDoubleValue(100d));
-		
-		SimpleStateNode anotherDummyNode2 = new SimpleStateNode("y");
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(20d));
-		anotherDummyNode2.addValue(ValuesFactory.getDoubleValue(100d));
-				
-		rootNode.addChild(dummyNode1);
-		rootNode.addChild(dummyNode2);
-		
-		dummyNode3.addChild(anotherDummyNode1);
-		dummyNode4.addChild(anotherDummyNode2);
-		
-		dummyNode1.addChild(dummyNode3);
-		dummyNode2.addChild(dummyNode4);
-		
-		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
-		rootNode.apply(visitor);
-		String serialized = visitor.getSerializedTree();
-		System.out.println(serialized);
-		Assert.assertEquals("{\"WATCH_TREE\":{\"particle\":[{},{\"position\":{\"x\":{\"value\":20.0,\"unit\":null,\"scale\":null}}},{\"position\":{\"y\":{\"value\":20.0,\"unit\":null,\"scale\":null}}}]}}", serialized);
+		Assert.assertEquals("{\"RuntimeTree\":{\"Entity1\":{\"AspectA\":{\"ModelTree\":{\"Parameter\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"instancePath\":\"Entity1.AspectA.ModelTree.Parameter\",\"_metaType\":\"ParameterSpecificationNode\"},\"Dynamics\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"_function\":{\"expression\":\"y=x+2\",\"arguments\":{\"0\":\"1\",\"1\":\"2\"}},\"instancePath\":\"Entity1.AspectA.ModelTree.Dynamics\",\"_metaType\":\"DynamicsSpecificationNode\"},\"FunctionNode\":{\"expression\":\"y=x^2\",\"arguments\":{\"0\":\"1\"},\"instancePath\":\"Entity1.AspectA.ModelTree.FunctionNode\",\"_metaType\":\"FunctionNode\"},\"type\":\"ModelTree\",\"instancePath\":\"Entity1.AspectA.ModelTree\",\"_metaType\":\"AspectSubTreeNode\"},\"VisualizationTree\":{\"vg\":{\"sphere\":{\"position\":{\"x\":3.3,\"y\":4.0,\"z\":-1.444},\"radius\":\"33.0\",\"_metaType\":\"SphereNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"instancePath\":\"Entity1.AspectA.VisualizationTree.vg\",\"_metaType\":\"CompositeNode\"},\"vg2\":{\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"sphere\":{\"position\":{\"x\":3.3,\"y\":4.0,\"z\":-1.444},\"radius\":\"33.0\",\"_metaType\":\"SphereNode\"},\"instancePath\":\"Entity1.AspectA.VisualizationTree.vg2\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"instancePath\":\"Entity1.AspectA.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null,\"instancePath\":\"Entity1.AspectA.SimulationTree.hhpop[0].v\",\"_metaType\":\"VariableNode\"},\"a\":{\"instancePath\":\"Entity1.AspectA.SimulationTree.hhpop[0].a\",\"_metaType\":\"ParameterNode\"},\"instancePath\":\"Entity1.AspectA.SimulationTree.hhpop[0]\",\"_metaType\":\"CompositeNode\"}],\"type\":\"SimulationTree\",\"instancePath\":\"Entity1.AspectA.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"12\",\"simulator\":\"test\",\"modelInterpreter\":\"Test Model interpreter\",\"instancePath\":\"Entity1.AspectA\",\"_metaType\":\"AspectNode\"},\"instancePath\":\"Entity1\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
 	}
 }

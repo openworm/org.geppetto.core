@@ -43,5 +43,5 @@ public enum GeppettoErrorCodes
 	SOLVER,
 	MODEL_INTERPRETER,
 	SIMULATOR,
-	SIMULATION
+	SIMULATION,
 }
