@@ -46,7 +46,9 @@ import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.simulator.ASimulator;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ColladaSimulatorService extends ASimulator{
 
 	@Override
