@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+							http://www.springframework.org/schema/context
+							http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<!--  <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>--> 
+	<!-- Instructs Spring to scan for internal service components to instantiate and configure -->
+	<context:annotation-config/>	
+	<context:component-scan base-package="org.geppetto.core" />
+		
+ 
+	<bean id="objModelInterpreterConfig" class="org.geppetto.core.beans.ModelInterpreterConfig"> 
+		<property name="modelInterpreterName" value="OBJ Model Interpreter" />
+	</bean>
+	<bean id="colladaModelInterpreterConfig" class="org.geppetto.core.beans.ModelInterpreterConfig"> 
+		<property name="modelInterpreterName" value="Collada Model Interpreter" />
+	</bean>
+	
+	<bean id="objSimulatorConfig" class="org.geppetto.core.beans.SimulatorConfig"> 
+		<property name="simulatorName" value="OBJ Simulator" />
+		<property name="simulatorID" value="objSimulator" />
+	</bean> 
+	<bean id="colladaSimulatorConfig" class="org.geppetto.core.beans.SimulatorConfig"> 
+		<property name="simulatorName" value="Collada Simulator" />
+		<property name="simulatorID" value="colladaSimulator" />
+	</bean>
+</beans>
