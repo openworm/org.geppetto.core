@@ -10,7 +10,8 @@
 	<!--  <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>--> 
 	<!-- Instructs Spring to scan for internal service components to instantiate and configure -->
 	<context:annotation-config />			
-	<context:component-scan base-package="org.geppetto.core.model.services" />
+	<context:component-scan base-package="org.geppetto.core.model.services, org.geppetto.core.simulator.services" />
+	
 	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
 		<property name="scopes">
 			<map>		
