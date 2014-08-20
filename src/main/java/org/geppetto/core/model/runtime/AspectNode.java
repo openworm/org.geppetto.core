@@ -46,7 +46,6 @@ import org.geppetto.core.simulator.ISimulator;
  */
 public class AspectNode extends ACompositeNode{
 
-	private String _id;
 	private VariableNode _time;
 	private IModelInterpreter _modelInterpreter;
 	private ISimulator _simulator;
@@ -80,14 +79,6 @@ public class AspectNode extends ACompositeNode{
 
 	public void setSimulator(ISimulator simulator) {
 		this._simulator = simulator;
-	}
-	
-	public void setId(String id){
-		this._id = id;
-	}
-	
-	public String getId() {
-		return this._id;
 	}
 
 	public ANode getParentEntity() {
