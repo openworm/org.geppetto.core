@@ -70,7 +70,7 @@ public class AspectSubTreeNode extends ACompositeNode
 	}
 
 	private AspectTreeType type;
-	
+	private boolean _modified = false;
 	
 	/**
 	 * @param modelTree.toString()
@@ -97,6 +97,14 @@ public class AspectSubTreeNode extends ACompositeNode
 
 	public String getType(){
 		return this.type.toString();
+	}
+	
+	public boolean isModified(){
+		return this._modified;
+	}
+	
+	public void setModified(boolean mode){
+		this._modified = mode;
 	}
 	
 	/**

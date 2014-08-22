@@ -262,9 +262,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			id = "\"id\":" + "\"" + node.getId() + "\",";
 		}
 		
+		String modified ="\"modified\":" + String.valueOf(node.isModified()) + ",";
+		
 		String instancePath = this.formatInstancePath(node);
 
-		_serialized.append(type+id+instancePath);
+		_serialized.append(type+id+modified+instancePath);
 		
 		this.generalACompositeStateNodeOut(node);
 		return super.outAspectSubTreeNode(node);
