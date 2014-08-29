@@ -77,20 +77,20 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 			_serialized.append(namePath);
 
-			if(node.getChildren().size() > 1){
+			//add bracket if node hsa more children
+			if(node.getChildren().size() >= 1){
+				//add brakcet if not instance of compositenode
 				if(!(node.getChildren().get(0) instanceof ACompositeNode)){
 					_serialized.append("{");
 				}
-			}
-
-			// puts bracket around leaf simplestatenode
-			else if(node.getChildren().size() == 1){
-				if(!(node.getChildren().get(0) instanceof ACompositeNode)){
-					_serialized.append("{");
+				//add bracket to subtree if it wasn't modified
+				else if(node instanceof AspectSubTreeNode){
+					if(!((AspectSubTreeNode) node).isModified()){
+						_serialized.append("{");
+					}
 				}
 			}
 			else if(node.getChildren().size() == 0){
-
 				_serialized.append("{");
 			}
 
@@ -246,7 +246,14 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	public boolean inAspectSubTreeNode(AspectSubTreeNode node)
 	{
 		this.generalACompositeStateNodeIn(node);
-		return super.inAspectSubTreeNode(node);
+		
+		//only traverse inside of subtree if modified flag is set to true
+		if(node.isModified()){
+			return super.inAspectSubTreeNode(node);
+		}
+		else{
+			return false;
+		}
 	}
 	
 	@Override
@@ -269,7 +276,14 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		_serialized.append(type+id+modified+instancePath);
 		
 		this.generalACompositeStateNodeOut(node);
-		return super.outAspectSubTreeNode(node);
+		
+		//only traverse through subtree nodes if modified flag is set to true
+		if(node.isModified()){
+			return super.outAspectSubTreeNode(node);
+		}
+		else{
+			return false;
+		}
 	}
 	
 	@Override
