@@ -130,6 +130,7 @@ public class AspectSubTreeNode extends ACompositeNode
 	private AspectSubTreeNode addSubTree(AspectTreeType treeType)
 	{
 		AspectSubTreeNode subTree = new AspectSubTreeNode(treeType.toString());
+		subTree.setId(treeType.toString());
 		addChild(subTree);
 		return subTree;
 	}
