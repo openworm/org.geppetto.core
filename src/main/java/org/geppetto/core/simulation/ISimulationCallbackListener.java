@@ -40,10 +40,10 @@ public interface ISimulationCallbackListener
 	public enum SimulationEvents {
 	    LOAD_MODEL,
 	    SCENE_UPDATE,
-	    SIMULATION_OVER
+	    SIMULATION_OVER, START_SIMULATION
 	}
 	
-	void updateReady(SimulationEvents event, String sceneUpdate);
+	void updateReady(SimulationEvents event, String requestID, String sceneUpdate);
 
 	void error(GeppettoErrorCodes error, String classSource, String errorMessage, Exception e);
 }

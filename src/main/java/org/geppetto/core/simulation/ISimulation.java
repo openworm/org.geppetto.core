@@ -54,7 +54,7 @@ public interface ISimulation {
 	 * @param simConfigURL
 	 * @param simulationListener 
 	 */
-	void init(URL simConfigURL, ISimulationCallbackListener simulationListener) throws GeppettoInitializationException;
+	void init(URL simConfigURL, String requestID,  ISimulationCallbackListener simulationListener) throws GeppettoInitializationException;
 	
 	/**
 	 * Initialize the simulation from a string containing the simulation configuration
@@ -63,12 +63,13 @@ public interface ISimulation {
 	 * @param simulationListener
 	 * @throws GeppettoInitializationException
 	 */
-	void init(String simulationConfig, ISimulationCallbackListener simulationListener) throws GeppettoInitializationException;
+	void init(String simulationConfig, String requestID, ISimulationCallbackListener simulationListener) throws GeppettoInitializationException;
 	
 	/**
+	 * @param requestID 
 	 * 
 	 */
-	void start() throws GeppettoExecutionException;
+	void start(String requestID) throws GeppettoExecutionException;
 	
 	/**
 	 * 
