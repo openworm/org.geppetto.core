@@ -65,5 +65,13 @@ public class HDF5ReaderTest
 		NetcdfFile file=HDF5Reader.readHDF5File(new File("./src/test/resources/example2.h5").toURI().toURL());
 		Assert.notNull(file);
 	}
+	
+	@Test
+	public void testExample3() throws MalformedURLException, GeppettoExecutionException
+	{
+		NetcdfFile file=HDF5Reader.readHDF5File(new File("./src/test/resources/recording_small.h5").toURI().toURL());
+		Assert.notNull(file);
+	}
+	
 
 }
