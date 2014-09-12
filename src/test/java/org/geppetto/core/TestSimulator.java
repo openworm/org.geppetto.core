@@ -137,4 +137,10 @@ public class TestSimulator implements ISimulator
 		return null;
 	}
 
+	@Override
+	public void setInitialized(boolean initialized) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

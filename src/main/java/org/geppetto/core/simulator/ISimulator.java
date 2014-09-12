@@ -84,4 +84,6 @@ public interface ISimulator {
 	void clearWatchVariables();
 	
 	boolean populateVisualTree(AspectNode aspectNode) throws ModelInterpreterException, GeppettoExecutionException;
+
+	void setInitialized(boolean initialized);
 }

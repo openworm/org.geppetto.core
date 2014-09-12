@@ -155,6 +155,12 @@ public abstract class ASimulator implements ISimulator
 	{
 		return _initialized;
 	}
+	
+	@Override
+	public void setInitialized(boolean initialized)
+	{
+		 _initialized = initialized;
+	}
 
 	/**
 	 * @param _listener
