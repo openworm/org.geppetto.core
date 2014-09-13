@@ -56,6 +56,7 @@ public class ColladaSimulatorService extends ASimulator{
 	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect)
 			throws GeppettoExecutionException {
 		advanceTimeStep(0);
+		notifyStateTreeUpdated();
 	}
 
 	@Override
@@ -85,7 +86,7 @@ public class ColladaSimulatorService extends ASimulator{
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
-		return null;
+		return "colladaSimulator";
 	}
 
 	@Override
@@ -123,5 +124,4 @@ public class ColladaSimulatorService extends ASimulator{
 
 		return false;
 	}
-
 }

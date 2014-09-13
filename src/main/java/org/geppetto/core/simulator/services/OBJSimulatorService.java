@@ -56,6 +56,7 @@ public class OBJSimulatorService extends ASimulator{
 	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect)
 			throws GeppettoExecutionException {
 		advanceTimeStep(0);
+		notifyStateTreeUpdated();
 	}
 
 	@Override
@@ -85,7 +86,7 @@ public class OBJSimulatorService extends ASimulator{
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
-		return null;
+		return "objSimulator";
 	}
 
 	@Override
@@ -123,5 +124,4 @@ public class OBJSimulatorService extends ASimulator{
 
 		return false;
 	}
-
 }
