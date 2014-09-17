@@ -36,12 +36,7 @@ package org.geppetto.core.model;
 import java.net.URL;
 import java.util.List;
 
-import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.model.runtime.EntityNode;
-import org.geppetto.core.model.runtime.RuntimeTreeRoot;
-import org.geppetto.core.model.simulation.Aspect;
 
 public interface IModelInterpreter {
 
@@ -49,7 +44,7 @@ public interface IModelInterpreter {
 			
 	boolean populateModelTree(AspectNode aspectNode) throws ModelInterpreterException;
 	
-	boolean populateRuntimeTree(AspectNode aspectNode);
+	boolean populateRuntimeTree(AspectNode aspectNode) throws ModelInterpreterException;;
 	
 	String getName();
 }
