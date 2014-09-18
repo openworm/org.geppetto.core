@@ -103,6 +103,14 @@ public class EntityNode extends ACompositeNode{
 					break;
 				}
 			}
+			for(AspectNode stateNode:this.getAspects())
+			{
+				stateNode.apply(visitor);
+				if(visitor.stopVisiting())
+				{
+					break;
+				}
+			}
 		}
 		return visitor.outEntityNode( this );
 	}

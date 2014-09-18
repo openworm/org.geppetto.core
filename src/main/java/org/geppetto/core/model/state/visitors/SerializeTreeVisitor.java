@@ -40,7 +40,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	
 	public void generalACompositeStateNodeIn(ACompositeNode node){
 		String name = node.getBaseName();
-		if(node.isArray() && node.getParent() != null){
+		if(node.isArray()){
 			int index = node.getIndex();
 			Map<String, Integer> indexMap = _arraysLastIndexMap.get(node.getParent());
 
@@ -61,18 +61,18 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			}
 			indexMap.put(name, index);
 		}
-		else{
+		else{  
 			String namePath = "{\"" + name + "\":";
+			
 			ANode parent = node.getParent();
 
 			if(parent != null){
-				if(((ACompositeNode) parent).getChildren().contains(node)){
-					if(((ACompositeNode) parent).getChildren().indexOf(node) > 0){
+				ACompositeNode castParent = ((ACompositeNode) parent);
+					if(castParent.getChildren().indexOf(node) > 0 ){
 						if(_serialized.length() != 0){
 							namePath = namePath.replace("{", "");
 						}
 					}
-				}
 			}
 
 			_serialized.append(namePath);
@@ -175,7 +175,18 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean inAspectNode(AspectNode node)
 	{
-		this.generalACompositeStateNodeIn(node);
+		String namePath = "";
+
+		if(_serialized.charAt(_serialized.length() - 1) == '{' ||
+				_serialized.charAt(_serialized.length() - 1) == ',')
+		{
+			namePath = "\"" + node.getName() + "\":";	
+		}
+		else{
+			namePath = "{\"" + node.getName() + "\":";
+		}
+		
+		_serialized.append(namePath);
 
 		return super.inAspectNode(node);
 	}
@@ -183,7 +194,13 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean outAspectNode(AspectNode node)
 	{
-		
+
+		//add bracket if node hsa more children
+		if(node.getChildren().size() == 0){
+			//add brakcet if not instance of compositenode
+			_serialized.append("{");
+		}
+
 		String id = "";
 		if(node.getId() != null){
 			id = "\"id\":" + "\"" + node.getId() + "\",";
@@ -214,7 +231,25 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean inEntityNode(EntityNode node)
 	{
-		this.generalACompositeStateNodeIn(node);
+		String namePath = "{\"" + node.getName() + "\":";
+		
+		if(_serialized.charAt(_serialized.length() - 1) == '{' ||
+				_serialized.charAt(_serialized.length() - 1) == ',')
+		{
+			namePath = "\"" + node.getName() + "\":";	
+		}
+		else{
+			namePath = "{\"" + node.getName() + "\":";
+		}
+		
+		_serialized.append(namePath);
+
+		//add bracket if node hsa more children
+		if(node.getChildren().size() == 0){
+			//add brakcet if not instance of compositenode
+				_serialized.append("{");
+		}
+
 		return super.inEntityNode(node);
 	}
 	

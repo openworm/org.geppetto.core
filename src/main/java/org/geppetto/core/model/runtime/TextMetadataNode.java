@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
+import org.geppetto.core.model.values.AValue;
 
 /**
  * Node use for storing text metadata properties and serialization
@@ -49,6 +50,15 @@ public class TextMetadataNode extends AMetadataNode{
 
 	public TextMetadataNode(String name){
 		super(name);
+	}
+	
+	public TextMetadataNode(String name, AValue value){
+		super(name, value);
+	}
+	
+	public TextMetadataNode(String name, String id, AValue value){
+		super(name, value);
+		setId(id);
 	}
 	
 	public TextMetadataNode(){
