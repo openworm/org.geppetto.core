@@ -68,18 +68,18 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 			if(parent != null){
 				ACompositeNode castParent = ((ACompositeNode) parent);
-					if(castParent.getChildren().indexOf(node) > 0 ){
-						if(_serialized.length() != 0){
-							namePath = namePath.replace("{", "");
-						}
+				if(castParent.getChildren().indexOf(node) > 0 ){
+					if(_serialized.length() != 0){
+						namePath = namePath.replace("{", "");
 					}
+				}
 			}
 
 			_serialized.append(namePath);
 
-			//add bracket if node hsa more children
+			//add bracket if node haa more children
 			if(node.getChildren().size() >= 1){
-				//add brakcet if not instance of compositenode
+				//add bracket if not instance of compositenode
 				if(!(node.getChildren().get(0) instanceof ACompositeNode)){
 					_serialized.append("{");
 				}
@@ -195,9 +195,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	public boolean outAspectNode(AspectNode node)
 	{
 
-		//add bracket if node hsa more children
 		if(node.getChildren().size() == 0){
-			//add brakcet if not instance of compositenode
 			_serialized.append("{");
 		}
 
@@ -244,10 +242,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		
 		_serialized.append(namePath);
 
-		//add bracket if node hsa more children
 		if(node.getChildren().size() == 0){
-			//add brakcet if not instance of compositenode
-				_serialized.append("{");
+			_serialized.append("{");
 		}
 
 		return super.inEntityNode(node);
