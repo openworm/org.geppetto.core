@@ -95,8 +95,8 @@ public class AspectSubTreeNode extends ACompositeNode
 		this.setName(treeType);
 	}
 
-	public String getType(){
-		return this._type.toString();
+	public AspectTreeType getType(){
+		return this._type;
 	}
 	
 	public boolean isModified(){
