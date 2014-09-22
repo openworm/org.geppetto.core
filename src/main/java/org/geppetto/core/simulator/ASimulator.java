@@ -84,6 +84,8 @@ public abstract class ASimulator implements ISimulator
 
 	private boolean _initialized = false;
 
+	protected boolean _treesEmptied = false;
+
 	private boolean _watching = false;
 
 	private VariableList _forceableVariables = new VariableList();
@@ -112,7 +114,7 @@ public abstract class ASimulator implements ISimulator
 	{
 		setListener(listener);
 		_models = models;
-		
+
 		// initialize recordings
 		for(IModel model : models)
 		{
@@ -136,6 +138,10 @@ public abstract class ASimulator implements ISimulator
 
 		_runtime = 0;
 		_initialized = true;
+		if(!_watchableVariables.getVariables().isEmpty())
+		{
+			_treesEmptied = true;
+		}
 	}
 
 	/**
@@ -155,11 +161,11 @@ public abstract class ASimulator implements ISimulator
 	{
 		return _initialized;
 	}
-	
+
 	@Override
 	public void setInitialized(boolean initialized)
 	{
-		 _initialized = initialized;
+		_initialized = initialized;
 	}
 
 	/**
@@ -292,11 +298,11 @@ public abstract class ASimulator implements ISimulator
 	protected void advanceTimeStep(double timestep)
 	{
 		_runtime += timestep;
-		ACompositeNode timeStepsNode =new CompositeNode("time tree");
+		ACompositeNode timeStepsNode = new CompositeNode("time tree");
 		{
 			VariableNode time = new VariableNode("time");
 			timeStepsNode.addChild(time);
-			PhysicalQuantity t= new PhysicalQuantity();
+			PhysicalQuantity t = new PhysicalQuantity();
 			t.setUnit(_timeStepUnit);
 		}
 		ATimeSeriesNode leafNode = (ATimeSeriesNode) timeStepsNode.getChildren().get(0);
@@ -310,7 +316,7 @@ public abstract class ASimulator implements ISimulator
 		if(_recordings != null && isWatching())
 		{
 			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.WATCH_TREE);
-			
+
 			if(watchTree.getChildren().isEmpty() || watchListModified())
 			{
 				for(RecordingModel recording : _recordings)
@@ -325,7 +331,7 @@ public abstract class ASimulator implements ISimulator
 						if(getWatchList().contains(fullPath))
 						{
 							fullPath = fullPath.replace(watchTree.getInstancePath() + ".", "");
-							
+
 							StringTokenizer tokenizer = new StringTokenizer(fullPath, ".");
 							ACompositeNode node = watchTree;
 							while(tokenizer.hasMoreElements())
@@ -361,8 +367,8 @@ public abstract class ASimulator implements ISimulator
 									{
 										// it's a leaf node
 										VariableNode newNode = new VariableNode(current);
-										int[] start = { _currentRecordingIndex};
-										int[] lenght = {1};
+										int[] start = { _currentRecordingIndex };
+										int[] lenght = { 1 };
 										Array value;
 										try
 										{
@@ -496,6 +502,27 @@ public abstract class ASimulator implements ISimulator
 		}
 	}
 
+	/**
+	 * @return
+	 */
+	protected boolean treesEmptied()
+	{
+		return _treesEmptied;
+	}
+
+	/**
+	 * @param b
+	 */
+	protected void treesEmptied(boolean b)
+	{
+		_treesEmptied = b;
+	}
+
+	/**
+	 * @param s
+	 * @param list
+	 * @return
+	 */
 	protected static AVariable getVariable(String s, List<AVariable> list)
 	{
 		String searchVar = s;
@@ -509,6 +536,9 @@ public abstract class ASimulator implements ISimulator
 		return null;
 	}
 
+	/**
+	 * @throws GeppettoExecutionException
+	 */
 	protected void notifyStateTreeUpdated() throws GeppettoExecutionException
 	{
 		getListener().stateTreeUpdated();
