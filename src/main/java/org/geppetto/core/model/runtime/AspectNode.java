@@ -105,7 +105,7 @@ public class AspectNode extends ACompositeNode{
 	 * @param modelTree
 	 * @return
 	 */
-	private ACompositeNode addSubTree(AspectTreeType modelTree)
+	private AspectSubTreeNode addSubTree(AspectTreeType modelTree)
 	{
 		AspectSubTreeNode subTree = new AspectSubTreeNode(modelTree);
 		addChild(subTree);
@@ -114,19 +114,19 @@ public class AspectNode extends ACompositeNode{
 	
 	/**
 	 * It creates the subtree if it doesn't exist
-	 * @param modelTree
+	 * @param treeType
 	 * @return
 	 */
-	public ACompositeNode getSubTree(AspectTreeType modelTree)
+	public AspectSubTreeNode getSubTree(AspectTreeType treeType)
 	{
 		for (ANode node:getChildren())
 		{
-			if( node.getName().equals(modelTree.toString()))
+			if( node.getName().equals(treeType.toString()))
 			{
-				return (ACompositeNode) node;
+				return (AspectSubTreeNode) node;
 			}
 		}
-		return addSubTree(modelTree);
+		return addSubTree(treeType);
 	}
 	
 	@Override
