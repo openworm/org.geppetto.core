@@ -44,7 +44,7 @@ public interface IModelInterpreter {
 			
 	boolean populateModelTree(AspectNode aspectNode) throws ModelInterpreterException;
 	
-	boolean populateRuntimeTree(AspectNode aspectNode) throws ModelInterpreterException;;
+	boolean populateRuntimeTree(AspectNode aspectNode) throws ModelInterpreterException;
 	
 	String getName();
 }
