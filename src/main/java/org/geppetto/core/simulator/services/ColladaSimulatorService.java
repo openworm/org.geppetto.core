@@ -41,6 +41,7 @@ import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.simulation.IRunConfiguration;
@@ -55,6 +56,7 @@ public class ColladaSimulatorService extends ASimulator{
 	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect)
 			throws GeppettoExecutionException {
 		advanceTimeStep(0);
+		notifyStateTreeUpdated();
 	}
 
 	@Override
@@ -84,7 +86,7 @@ public class ColladaSimulatorService extends ASimulator{
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
-		return null;
+		return "colladaSimulator";
 	}
 
 	@Override
@@ -118,8 +120,8 @@ public class ColladaSimulatorService extends ASimulator{
 		collada.setModel((String) ((ModelWrapper) aspectNode.getModel()).getModel("COLLADA"));
 
 		aspectNode.getSubTree(AspectTreeType.VISUALIZATION_TREE).addChild(collada);
+		((AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.VISUALIZATION_TREE)).setModified(true);
 
 		return false;
 	}
-
 }

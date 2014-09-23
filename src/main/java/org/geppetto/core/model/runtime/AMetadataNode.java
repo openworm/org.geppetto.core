@@ -47,6 +47,11 @@ public abstract class AMetadataNode extends ANode{
 		super(name);
 	}
 
+	public AMetadataNode(String name, AValue value) {
+		super(name);
+		setValue(value);
+	}
+	
 	public AValue getValue() {
 		return value;
 	}

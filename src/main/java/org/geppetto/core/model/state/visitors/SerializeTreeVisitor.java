@@ -28,8 +28,6 @@ import org.geppetto.core.model.runtime.URLMetadataNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.visualisation.model.Point;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class SerializeTreeVisitor extends DefaultStateVisitor
@@ -42,7 +40,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	
 	public void generalACompositeStateNodeIn(ACompositeNode node){
 		String name = node.getBaseName();
-		if(node.isArray() && node.getParent() != null){
+		if(node.isArray()){
 			int index = node.getIndex();
 			Map<String, Integer> indexMap = _arraysLastIndexMap.get(node.getParent());
 
@@ -63,36 +61,36 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			}
 			indexMap.put(name, index);
 		}
-		else{
+		else{  
 			String namePath = "{\"" + name + "\":";
+			
 			ANode parent = node.getParent();
 
 			if(parent != null){
-				if(((ACompositeNode) parent).getChildren().contains(node)){
-					if(((ACompositeNode) parent).getChildren().indexOf(node) > 0){
-						if(_serialized.length() != 0){
-							namePath = namePath.replace("{", "");
-						}
+				ACompositeNode castParent = ((ACompositeNode) parent);
+				if(castParent.getChildren().indexOf(node) > 0 ){
+					if(_serialized.length() != 0){
+						namePath = namePath.replace("{", "");
 					}
 				}
 			}
 
 			_serialized.append(namePath);
 
-			if(node.getChildren().size() > 1){
+			//add bracket if node haa more children
+			if(node.getChildren().size() >= 1){
+				//add bracket if not instance of compositenode
 				if(!(node.getChildren().get(0) instanceof ACompositeNode)){
 					_serialized.append("{");
 				}
-			}
-
-			// puts bracket around leaf simplestatenode
-			else if(node.getChildren().size() == 1){
-				if(!(node.getChildren().get(0) instanceof ACompositeNode)){
-					_serialized.append("{");
+				//add bracket to subtree if it wasn't modified
+				else if(node instanceof AspectSubTreeNode){
+					if(!((AspectSubTreeNode) node).isModified()){
+						_serialized.append("{");
+					}
 				}
 			}
 			else if(node.getChildren().size() == 0){
-
 				_serialized.append("{");
 			}
 
@@ -161,9 +159,14 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean outCompositeNode(CompositeNode node)
 	{
+		String id = "";
+		if(node.getId() != null){
+			id = "\"id\":" + "\"" + node.getId() + "\",";
+		}
+		
 		String instancePath = this.formatInstancePath(node);
 
-		_serialized.append(instancePath);
+		_serialized.append(id + instancePath);
 		
 		this.generalACompositeStateNodeOut(node);
 		return super.outCompositeNode(node);
@@ -172,7 +175,18 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean inAspectNode(AspectNode node)
 	{
-		this.generalACompositeStateNodeIn(node);
+		String namePath = "";
+
+		if(_serialized.charAt(_serialized.length() - 1) == '{' ||
+				_serialized.charAt(_serialized.length() - 1) == ',')
+		{
+			namePath = "\"" + node.getName() + "\":";	
+		}
+		else{
+			namePath = "{\"" + node.getName() + "\":";
+		}
+		
+		_serialized.append(namePath);
 
 		return super.inAspectNode(node);
 	}
@@ -180,7 +194,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean outAspectNode(AspectNode node)
 	{
-		
+
+		if(node.getChildren().size() == 0){
+			_serialized.append("{");
+		}
+
 		String id = "";
 		if(node.getId() != null){
 			id = "\"id\":" + "\"" + node.getId() + "\",";
@@ -211,7 +229,23 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean inEntityNode(EntityNode node)
 	{
-		this.generalACompositeStateNodeIn(node);
+		String namePath = "{\"" + node.getName() + "\":";
+		
+		if(_serialized.charAt(_serialized.length() - 1) == '{' ||
+				_serialized.charAt(_serialized.length() - 1) == ',')
+		{
+			namePath = "\"" + node.getName() + "\":";	
+		}
+		else{
+			namePath = "{\"" + node.getName() + "\":";
+		}
+		
+		_serialized.append(namePath);
+
+		if(node.getChildren().size() == 0){
+			_serialized.append("{");
+		}
+
 		return super.inEntityNode(node);
 	}
 	
@@ -243,7 +277,14 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	public boolean inAspectSubTreeNode(AspectSubTreeNode node)
 	{
 		this.generalACompositeStateNodeIn(node);
-		return super.inAspectSubTreeNode(node);
+		
+		//only traverse inside of subtree if modified flag is set to true
+		if(node.isModified()){
+			return super.inAspectSubTreeNode(node);
+		}
+		else{
+			return false;
+		}
 	}
 	
 	@Override
@@ -254,12 +295,26 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			type = "\"type\":" + "\"" + node.getType() + "\",";
 		}
 		
+		String id = "";
+		if(node.getId() != null){
+			id = "\"id\":" + "\"" + node.getId() + "\",";
+		}
+		
+		String modified ="\"modified\":" + String.valueOf(node.isModified()) + ",";
+		
 		String instancePath = this.formatInstancePath(node);
 
-		_serialized.append(type+instancePath);
+		_serialized.append(type+id+modified+instancePath);
 		
 		this.generalACompositeStateNodeOut(node);
-		return super.outAspectSubTreeNode(node);
+		
+		//only traverse through subtree nodes if modified flag is set to true
+		if(node.isModified()){
+			return super.outAspectSubTreeNode(node);
+		}
+		else{
+			return false;
+		}
 	}
 	
 	@Override
@@ -284,6 +339,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 		
+		String id = "";
+		if(node.getId() != null){
+			id = "\"id\":" + "\"" + node.getId() + "\",";
+		}
+		
 		String instancePath = this.formatInstancePath(node);
 
 		PhysicalQuantity quantity = node.consumeFirstValue();
@@ -299,10 +359,10 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				scale = "\"" + quantity.getScalingFactor() + "\"";
 			}
 			_serialized.append("\"" + node.getName() + "\":{\"value\":" + value + ",\"unit\":"
-											+ unit + ",\"scale\":" + scale +","+ instancePath + metaType+ "},");
+											+ unit + ",\"scale\":" + scale +","+ id + instancePath + metaType+ "},");
 		}
 		else{
-			_serialized.append("\"" + node.getName() +"\":{"+instancePath+metaType+"},");
+			_serialized.append("\"" + node.getName() +"\":{"+ id + instancePath+metaType+"},");
 		}
 
 		return super.visitVariableNode(node);
@@ -314,6 +374,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		String metaType = "";
 		if(node.getMetaType() != null){
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+		
+		String id = "";
+		if(node.getId() != null){
+			id = "\"id\":" + "\"" + node.getId() + "\",";
 		}
 		
 		String instancePath = this.formatInstancePath(node);
@@ -337,7 +402,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			
 			properties = properties.concat("},");
 		}
-		_serialized.append("\"" + node.getName() + "\":{"+instancePath+metaType+properties+"},");
+		_serialized.append("\"" + node.getName() + "\":{"+id +instancePath+metaType+properties+"},");
 
 		return super.visitParameterNode(node);
 	}
@@ -347,6 +412,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		String metaType = "";
 		if(node.getMetaType() != null){
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+		
+		String id = "";
+		if(node.getId() != null){
+			id = "\"id\":" + "\"" + node.getId() + "\",";
 		}
 		
 		String instancePath = this.formatInstancePath(node);
@@ -391,7 +461,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			function = "\"_function\":{" + "\"expression\":" + "\"" + functionNode.getExpression() +"\""+ properties + "},";
 		}
 			
-		_serialized.append("\"" + node.getName() +"\":{"+specs + function + instancePath + metaType+"},");
+		_serialized.append("\"" + node.getName() +"\":{"+specs + function + id + instancePath + metaType+"},");
 		
 
 		return super.visitDynamicsSpecificationNode(node);
@@ -402,6 +472,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		String metaType = "";
 		if(node.getMetaType() != null){
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+		
+		String id = "";
+		if(node.getId() != null){
+			id = "\"id\":" + "\"" + node.getId() + "\",";
 		}
 		
 		String instancePath = this.formatInstancePath(node);
@@ -419,10 +494,10 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				scale = "\"" + quantity.getScalingFactor() + "\"";
 			}
 			_serialized.append("\"" + node.getName() + "\":{\"value\":" + "\""+ value + "\",\"unit\":" + unit + 
-								",\"scale\":" + scale +","+ instancePath + metaType+ "},");
+								",\"scale\":" + scale +","+ id + instancePath + metaType+ "},");
 		}
 		else{
-			_serialized.append("\"" + node.getName() +"\":{"+instancePath+metaType+"},");
+			_serialized.append("\"" + node.getName() +"\":{"+id+instancePath+metaType+"},");
 		}
 
 		return super.visitParameterSpecificationNode(node);
@@ -433,6 +508,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		String metaType = "";
 		if(node.getMetaType() != null){
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		}
+		
+		String id = "";
+		if(node.getId() != null){
+			id = "\"id\":" + "\"" + node.getId() + "\",";
 		}
 		
 		String instancePath = this.formatInstancePath(node);
@@ -455,7 +535,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		}
 		
 		_serialized.append("\"" + node.getName() + "\":{"+ 
-				"\"expression\":" + "\"" + node.getExpression() + "\","+properties+ instancePath + metaType+"},");
+				"\"expression\":" + "\"" + node.getExpression() + "\","+properties+ id + instancePath + metaType+"},");
 
 		return super.visitFunctionNode(node);
 	}
@@ -619,7 +699,12 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			model = "\"model\":"  + obj.toString() + ",";
 		}
 		
-		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," +  model +metaType + "},");
+		String id = "";
+		if(node.getId() != null){
+			id = "\"id\":" + "\"" + node.getId() + "\",";
+		}
+		
+		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," +  model + id+metaType + "},");
 
 		return super.visitColladaNode(node);
 	}
@@ -632,6 +717,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 				
+		String id = "";
+		if(node.getId() != null){
+			id = "\"id\":" + "\"" + node.getId() + "\",";
+		}
+		
 		Point position = node.getPosition();
 		String name = node.getName();		
 		String positionString = "";
@@ -648,7 +738,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 			model = "\"model\":"  + obj.toString() + ",";
 		}
 		
-		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," +  model +metaType + "},");
+		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," +  model + id + metaType + "},");
 
 		return super.visitObjNode(node);
 	}

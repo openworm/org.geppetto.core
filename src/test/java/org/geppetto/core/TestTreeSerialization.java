@@ -238,7 +238,8 @@ public class TestTreeSerialization {
 		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.WATCH_TREE);
 
 		runtime.addChild(entity_A);
-		entity_A.addChild(aspect_A);
+		entity_A.getAspects().add(aspect_A);
+		aspect_A.setParent(entity_A);
 		aspect_A.addChild(model);
 		aspect_A.addChild(visualization);
 		aspect_A.addChild(simulation);
@@ -255,7 +256,7 @@ public class TestTreeSerialization {
 		
 		System.out.println(prettyJsonString);
 		
-		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"ModelTree\":{\"type\":\"ModelTree\",\"instancePath\":\"Entity_A.Aspect_A.ModelTree\",\"_metaType\":\"AspectSubTreeNode\"},\"VisualizationTree\":{\"type\":\"VisualizationTree\",\"instancePath\":\"Entity_A.Aspect_A.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"type\":\"SimulationTree\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
+		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"ModelTree\":{\"type\":\"ModelTree\",\"modified\":true,\"instancePath\":\"Entity_A.Aspect_A.ModelTree\",\"_metaType\":\"AspectSubTreeNode\"},\"VisualizationTree\":{\"type\":\"VisualizationTree\",\"modified\":true,\"instancePath\":\"Entity_A.Aspect_A.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"type\":\"SimulationTree\",\"modified\":true,\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
 	}
 	
 	/**
@@ -298,6 +299,8 @@ public class TestTreeSerialization {
 		aspectA.setModelInterpreter(modelInt);
 
 		AspectSubTreeNode model = new AspectSubTreeNode(AspectTreeType.MODEL_TREE);
+		model.setModified(true);
+		
 		DynamicsSpecificationNode dynamics = new DynamicsSpecificationNode("Dynamics");
 		
 		PhysicalQuantity value = new PhysicalQuantity();
@@ -332,6 +335,7 @@ public class TestTreeSerialization {
 		
 		
 		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
+		visualization.setModified(true);
 		
 		SphereNode sphere = new SphereNode("sphere");
 		Point p = new Point();
@@ -396,7 +400,7 @@ public class TestTreeSerialization {
 		vg2.addChild(sphere);
 		
 		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.WATCH_TREE);
-		
+		simulation.setModified(true);
 		
 		CompositeNode hhpop = new CompositeNode("hhpop[0]");
 		
@@ -413,7 +417,8 @@ public class TestTreeSerialization {
 		ParameterNode a1 = new ParameterNode("a");
 		
 		runtimeTree.addChild(entity1);
-		entity1.addChild(aspectA);
+		entity1.getAspects().add(aspectA);
+		aspectA.setParent(entity1);
 		aspectA.addChild(model);
 		model.addChild(parameter);
 		model.addChild(dynamics);
@@ -440,6 +445,187 @@ public class TestTreeSerialization {
 		
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals("{\"RuntimeTree\":{\"Entity1\":{\"AspectA\":{\"ModelTree\":{\"Parameter\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"instancePath\":\"Entity1.AspectA.ModelTree.Parameter\",\"_metaType\":\"ParameterSpecificationNode\"},\"Dynamics\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"_function\":{\"expression\":\"y=x+2\",\"arguments\":{\"0\":\"1\",\"1\":\"2\"}},\"instancePath\":\"Entity1.AspectA.ModelTree.Dynamics\",\"_metaType\":\"DynamicsSpecificationNode\"},\"FunctionNode\":{\"expression\":\"y=x^2\",\"arguments\":{\"0\":\"1\"},\"instancePath\":\"Entity1.AspectA.ModelTree.FunctionNode\",\"_metaType\":\"FunctionNode\"},\"type\":\"ModelTree\",\"instancePath\":\"Entity1.AspectA.ModelTree\",\"_metaType\":\"AspectSubTreeNode\"},\"VisualizationTree\":{\"vg\":{\"sphere\":{\"position\":{\"x\":3.3,\"y\":4.0,\"z\":-1.444},\"radius\":\"33.0\",\"_metaType\":\"SphereNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"instancePath\":\"Entity1.AspectA.VisualizationTree.vg\",\"_metaType\":\"CompositeNode\"},\"vg2\":{\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"sphere\":{\"position\":{\"x\":3.3,\"y\":4.0,\"z\":-1.444},\"radius\":\"33.0\",\"_metaType\":\"SphereNode\"},\"instancePath\":\"Entity1.AspectA.VisualizationTree.vg2\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"instancePath\":\"Entity1.AspectA.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null,\"instancePath\":\"Entity1.AspectA.SimulationTree.hhpop[0].v\",\"_metaType\":\"VariableNode\"},\"a\":{\"instancePath\":\"Entity1.AspectA.SimulationTree.hhpop[0].a\",\"_metaType\":\"ParameterNode\"},\"instancePath\":\"Entity1.AspectA.SimulationTree.hhpop[0]\",\"_metaType\":\"CompositeNode\"}],\"type\":\"SimulationTree\",\"instancePath\":\"Entity1.AspectA.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"12\",\"simulator\":\"test\",\"modelInterpreter\":\"Test Model interpreter\",\"instancePath\":\"Entity1.AspectA\",\"_metaType\":\"AspectNode\"},\"instancePath\":\"Entity1\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
+		Assert.assertEquals("{\"RuntimeTree\":{\"Entity1\":{\"AspectA\":{\"ModelTree\":{\"Parameter\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"instancePath\":\"Entity1.AspectA.ModelTree.Parameter\",\"_metaType\":\"ParameterSpecificationNode\"},\"Dynamics\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"_function\":{\"expression\":\"y=x+2\",\"arguments\":{\"0\":\"1\",\"1\":\"2\"}},\"instancePath\":\"Entity1.AspectA.ModelTree.Dynamics\",\"_metaType\":\"DynamicsSpecificationNode\"},\"FunctionNode\":{\"expression\":\"y=x^2\",\"arguments\":{\"0\":\"1\"},\"instancePath\":\"Entity1.AspectA.ModelTree.FunctionNode\",\"_metaType\":\"FunctionNode\"},\"type\":\"ModelTree\",\"modified\":true,\"instancePath\":\"Entity1.AspectA.ModelTree\",\"_metaType\":\"AspectSubTreeNode\"},\"VisualizationTree\":{\"vg\":{\"sphere\":{\"position\":{\"x\":3.3,\"y\":4.0,\"z\":-1.444},\"radius\":\"33.0\",\"_metaType\":\"SphereNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"instancePath\":\"Entity1.AspectA.VisualizationTree.vg\",\"_metaType\":\"CompositeNode\"},\"vg2\":{\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"cylinder\":{\"position\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"distal\":{\"x\":6.3,\"y\":8.0,\"z\":-3.999},\"radiusBottom\":\"34.55\",\"radiusTop\":\"34.55\",\"_metaType\":\"CylinderNode\"},\"sphere\":{\"position\":{\"x\":3.3,\"y\":4.0,\"z\":-1.444},\"radius\":\"33.0\",\"_metaType\":\"SphereNode\"},\"instancePath\":\"Entity1.AspectA.VisualizationTree.vg2\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"modified\":true,\"instancePath\":\"Entity1.AspectA.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null,\"instancePath\":\"Entity1.AspectA.SimulationTree.hhpop[0].v\",\"_metaType\":\"VariableNode\"},\"a\":{\"instancePath\":\"Entity1.AspectA.SimulationTree.hhpop[0].a\",\"_metaType\":\"ParameterNode\"},\"instancePath\":\"Entity1.AspectA.SimulationTree.hhpop[0]\",\"_metaType\":\"CompositeNode\"}],\"type\":\"SimulationTree\",\"modified\":true,\"instancePath\":\"Entity1.AspectA.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"12\",\"simulator\":\"test\",\"modelInterpreter\":\"Test Model interpreter\",\"instancePath\":\"Entity1.AspectA\",\"_metaType\":\"AspectNode\"},\"instancePath\":\"Entity1\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
+	}
+	
+	@Test
+	public void testNetworks() {
+		
+		RuntimeTreeRoot runtimeTree = new RuntimeTreeRoot("RuntimeTree");
+		
+		EntityNode entity1 = new EntityNode("Entity1");
+		EntityNode entity2 = new EntityNode("Entity2");
+		EntityNode entity3 = new EntityNode("Entity3");
+
+		AspectNode aspectA = new AspectNode("Aspect1");
+		aspectA.setId("12");
+		TestSimulator sim = new TestSimulator();
+		aspectA.setSimulator(sim);
+		TestModelInterpreter modelInt = new TestModelInterpreter();
+		aspectA.setModelInterpreter(modelInt);
+		
+		AspectNode aspectB = new AspectNode("Aspect2");
+		aspectA.setId("125");
+		aspectA.setSimulator(sim);
+		aspectA.setModelInterpreter(modelInt);
+		
+		AspectNode aspectC = new AspectNode("Aspect3");
+		aspectB.setId("123");
+		aspectB.setSimulator(sim);
+		aspectB.setModelInterpreter(modelInt);
+
+		AspectSubTreeNode model = new AspectSubTreeNode(AspectTreeType.MODEL_TREE);
+		model.setModified(true);
+		
+		DynamicsSpecificationNode dynamics = new DynamicsSpecificationNode("Dynamics");
+		
+		PhysicalQuantity value = new PhysicalQuantity();
+		value.setScalingFactor("10");
+		value.setUnit("ms");
+		value.setValue(new DoubleValue(10));
+		dynamics.setInitialConditions(value);
+		
+		FunctionNode function = new FunctionNode("Function");
+		function.setExpression("y=x+2");
+		List<String> argumentsF = new ArrayList<String>();
+		argumentsF.add("1");
+		argumentsF.add("2");
+		function.setArgument(argumentsF);
+		
+		dynamics.setDynamics(function);
+		
+		ParameterSpecificationNode parameter = new ParameterSpecificationNode("Parameter");
+		
+		PhysicalQuantity value1 = new PhysicalQuantity();
+		value1.setScalingFactor("10");
+		value1.setUnit("ms");
+		value1.setValue(new DoubleValue(10));	
+		
+		parameter.setValue(value1);
+		
+		FunctionNode functionNode = new FunctionNode("FunctionNode");
+		functionNode.setExpression("y=x^2");
+		List<String> arguments = new ArrayList<String>();
+		arguments.add("1");
+		functionNode.setArgument(arguments);
+		
+		
+		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
+		visualization.setModified(true);
+		
+		SphereNode sphere = new SphereNode("sphere");
+		Point p = new Point();
+		p.setX(new Double(3.3));
+		p.setY(new Double(4));
+		p.setZ(new Double(-1.444));
+		sphere.setPosition(p);
+		sphere.setRadius(new Double(33));
+		
+		CylinderNode cylinder = new CylinderNode("cylinder");
+		Point p2 = new Point();
+		p2.setX(new Double(6.3));
+		p2.setY(new Double(8));
+		p2.setZ(new Double(-3.999));
+		cylinder.setPosition(p2);
+		Point p3 = new Point();
+		p3.setX(new Double(6.3));
+		p3.setY(new Double(8));
+		p3.setZ(new Double(-3.999));
+		cylinder.setDistal(p3);
+		cylinder.setRadiusBottom(new Double(34.55));
+		cylinder.setRadiusTop(new Double(34.55));
+
+		CylinderNode cylinder2 = new CylinderNode("cylinder");
+		cylinder2.setPosition(p2);
+		cylinder2.setDistal(p3);
+		cylinder2.setRadiusBottom(new Double(34.55));
+		cylinder2.setRadiusTop(new Double(34.55));
+		
+		CylinderNode cylinder3 = new CylinderNode("cylinder");
+		cylinder3.setPosition(p2);
+		cylinder3.setDistal(p3);
+		cylinder3.setRadiusBottom(new Double(34.55));
+		cylinder3.setRadiusTop(new Double(34.55));
+		
+		CylinderNode cylinder4 = new CylinderNode("cylinder");
+		cylinder4.setPosition(p2);
+		cylinder4.setDistal(p3);
+		cylinder4.setRadiusBottom(new Double(34.55));
+		cylinder4.setRadiusTop(new Double(34.55));
+		
+		CylinderNode cylinder5 = new CylinderNode("cylinder");
+		cylinder5.setPosition(p2);
+		cylinder5.setDistal(p3);
+		cylinder5.setRadiusBottom(new Double(34.55));
+		cylinder5.setRadiusTop(new Double(34.55));
+		
+		CompositeNode vg = new CompositeNode("vg");
+		vg.addChild(sphere);
+		vg.addChild(cylinder);
+		vg.addChild(cylinder2);
+		vg.addChild(cylinder3);
+		vg.addChild(cylinder4);
+		vg.addChild(cylinder5);
+		
+		CompositeNode vg2 = new CompositeNode("vg2");
+		vg2.addChild(cylinder);
+		vg2.addChild(cylinder2);
+		vg2.addChild(cylinder3);
+		vg2.addChild(cylinder4);
+		vg2.addChild(cylinder5);
+		vg2.addChild(sphere);
+		
+		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.WATCH_TREE);
+		simulation.setModified(true);
+		
+		CompositeNode hhpop = new CompositeNode("hhpop[0]");
+		
+		VariableNode v = new VariableNode("v");
+		PhysicalQuantity quantity = new PhysicalQuantity();
+		quantity.setValue(ValuesFactory.getDoubleValue(20d));
+		
+		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
+		
+		v.addPhysicalQuantity(quantity);
+		v.addPhysicalQuantity(quantity2);
+		
+		ParameterNode a1 = new ParameterNode("a");
+		
+		runtimeTree.addChild(entity1);
+		runtimeTree.addChild(entity2);
+		entity1.addChild(entity2);
+		entity2.addChild(entity3);
+		entity2.getAspects().add(aspectB);
+		entity1.getAspects().add(aspectA);
+		entity3.getAspects().add(aspectC);
+		aspectC.setParent(entity3);
+		aspectB.setParent(entity2);
+		aspectA.setParent(entity1);
+		aspectA.addChild(model);
+		model.addChild(parameter);
+		model.addChild(dynamics);
+		model.addChild(functionNode);
+		
+		aspectA.addChild(visualization);
+		visualization.addChild(vg);
+		visualization.addChild(vg2);
+		
+		aspectA.addChild(simulation);
+		simulation.addChild(hhpop);
+		hhpop.addChild(v);
+		hhpop.addChild(a1); 
+		
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		runtimeTree.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+		
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(serialized);
+		String prettyJsonString = gson.toJson(je);
+		
+		System.out.println(prettyJsonString);
 	}
 }

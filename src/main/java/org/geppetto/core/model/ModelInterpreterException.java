@@ -41,6 +41,11 @@ package org.geppetto.core.model;
 public class ModelInterpreterException extends Exception
 {
 
+	public ModelInterpreterException(String message)
+	{
+		super(message);
+	}
+
 	public ModelInterpreterException(Throwable e)
 	{
 		super(e);

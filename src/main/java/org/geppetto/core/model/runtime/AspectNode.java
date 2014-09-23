@@ -46,7 +46,6 @@ import org.geppetto.core.simulator.ISimulator;
  */
 public class AspectNode extends ACompositeNode{
 
-	private String _id;
 	private VariableNode _time;
 	private IModelInterpreter _modelInterpreter;
 	private ISimulator _simulator;
@@ -81,14 +80,6 @@ public class AspectNode extends ACompositeNode{
 	public void setSimulator(ISimulator simulator) {
 		this._simulator = simulator;
 	}
-	
-	public void setId(String id){
-		this._id = id;
-	}
-	
-	public String getId() {
-		return this._id;
-	}
 
 	public ANode getParentEntity() {
 		return this.getParent();
@@ -114,7 +105,7 @@ public class AspectNode extends ACompositeNode{
 	 * @param modelTree
 	 * @return
 	 */
-	private ACompositeNode addSubTree(AspectTreeType modelTree)
+	private AspectSubTreeNode addSubTree(AspectTreeType modelTree)
 	{
 		AspectSubTreeNode subTree = new AspectSubTreeNode(modelTree);
 		addChild(subTree);
@@ -123,19 +114,19 @@ public class AspectNode extends ACompositeNode{
 	
 	/**
 	 * It creates the subtree if it doesn't exist
-	 * @param modelTree
+	 * @param treeType
 	 * @return
 	 */
-	public ACompositeNode getSubTree(AspectTreeType modelTree)
+	public AspectSubTreeNode getSubTree(AspectTreeType treeType)
 	{
 		for (ANode node:getChildren())
 		{
-			if( node.getName().equals(modelTree.toString()))
+			if( node.getName().equals(treeType.toString()))
 			{
-				return (ACompositeNode) node;
+				return (AspectSubTreeNode) node;
 			}
 		}
-		return addSubTree(modelTree);
+		return addSubTree(treeType);
 	}
 	
 	@Override

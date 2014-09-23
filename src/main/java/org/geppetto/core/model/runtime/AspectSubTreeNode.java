@@ -69,16 +69,16 @@ public class AspectSubTreeNode extends ACompositeNode
 	    }
 	}
 
-	private AspectTreeType type;
-	
+	private AspectTreeType _type;
+	private boolean _modified = true;
 	
 	/**
 	 * @param modelTree.toString()
 	 */
-	public AspectSubTreeNode(AspectTreeType modelTree)
+	public AspectSubTreeNode(AspectTreeType treeType)
 	{
-		super(modelTree.toString());
-		this.type = modelTree;
+		super(treeType.toString());
+		this._type = treeType;
 	}
 	
 	/**
@@ -95,8 +95,16 @@ public class AspectSubTreeNode extends ACompositeNode
 		this.setName(treeType);
 	}
 
-	public String getType(){
-		return this.type.toString();
+	public AspectTreeType getType(){
+		return this._type;
+	}
+	
+	public boolean isModified(){
+		return this._modified;
+	}
+	
+	public void setModified(boolean mode){
+		this._modified = mode;
 	}
 	
 	/**
@@ -122,6 +130,7 @@ public class AspectSubTreeNode extends ACompositeNode
 	private AspectSubTreeNode addSubTree(AspectTreeType treeType)
 	{
 		AspectSubTreeNode subTree = new AspectSubTreeNode(treeType.toString());
+		subTree.setId(treeType.toString());
 		addChild(subTree);
 		return subTree;
 	}

@@ -43,21 +43,12 @@ import org.geppetto.core.visualisation.model.Point;
 public abstract class AVisualObjectNode extends ANode{
 
 	private Point _position;
-	private String _id;
 	
 	public AVisualObjectNode(String name) {
 		super(name);
 	}
 	
 	public AVisualObjectNode(){
-	}
-	
-	public void setId(String id) {
-		this._id = id;
-	}
-	
-	public String getId(){
-		return this._id;
 	}
 	
 	public void setPosition(Point position){

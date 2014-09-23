@@ -44,7 +44,7 @@ public abstract class ANode implements IVisitable
 {
 	protected ANode _parent;
 	protected String _name;
-	//protected String _metatype;
+	private String _id;
 
 	public String getMetaType(){
 		return this.getClass().getSimpleName();
@@ -70,6 +70,14 @@ public abstract class ANode implements IVisitable
 		return _name;
 	}
 
+	public void setId(String id){
+		this._id = id;
+	}
+	
+	public String getId() {
+		return this._id;
+	}
+	
 	/**
 	 * @return the next sibling of this node
 	 */
