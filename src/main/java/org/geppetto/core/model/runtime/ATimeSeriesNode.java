@@ -53,10 +53,6 @@ public abstract class ATimeSeriesNode extends ANode
 	{
 		super(name);
 	}
-
-	public ATimeSeriesNode(){
-		
-	}
 	
 	@Override
 	public String toString()

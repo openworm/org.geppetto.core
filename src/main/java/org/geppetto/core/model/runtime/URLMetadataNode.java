@@ -43,8 +43,8 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
 public class URLMetadataNode extends AMetadataNode{
 	
 	
-	public URLMetadataNode(String name) {
-		super(name);
+	public URLMetadataNode(String id) {
+		super(id);
 	}
 
 	@Override

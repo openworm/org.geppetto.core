@@ -42,17 +42,13 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  */
 public class CompositeNode extends ACompositeNode{
 
-	public CompositeNode(String name) {
-		super(name);
+	public CompositeNode(String id) {
+		super(id);
 	}
 
-	public CompositeNode(String name, String id) {
-		super(name);
-		setId(id);
-	}
-	
-	public CompositeNode() {
-		super();
+	public CompositeNode(String id,String name) {
+		super(id);
+		setName(name);
 	}
 	
 	@Override

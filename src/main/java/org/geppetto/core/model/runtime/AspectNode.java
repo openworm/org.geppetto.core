@@ -52,11 +52,8 @@ public class AspectNode extends ACompositeNode {
 	private IModel _model;
 	private boolean _modified = true;
 
-	public AspectNode() {
-	}
-
-	public AspectNode(String name) {
-		super(name);
+	public AspectNode(String id) {
+		super(id);
 	}
 
 	public VariableNode getTime() {
@@ -100,7 +97,7 @@ public class AspectNode extends ACompositeNode {
 	 */
 	public void flushSubTree(AspectTreeType tree) {
 		for (ANode node : _children) {
-			if (node.getName().equals(tree.toString())) {
+			if (node.getId().equals(tree.toString())) {
 				// re-assign to empty node
 				((AspectSubTreeNode) node).getChildren().clear();
 				break;
@@ -126,7 +123,7 @@ public class AspectNode extends ACompositeNode {
 	 */
 	public AspectSubTreeNode getSubTree(AspectTreeType treeType) {
 		for (ANode node : getChildren()) {
-			if (node.getName().equals(treeType.toString())) {
+			if (node.getId().equals(treeType.toString())) {
 				return (AspectSubTreeNode) node;
 			}
 		}
