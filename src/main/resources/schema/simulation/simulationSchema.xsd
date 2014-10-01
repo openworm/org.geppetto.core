@@ -51,6 +51,15 @@
 		</restriction>
 	</simpleType>
 	
+	<simpleType name="ConnectionType">
+		<restriction base="string">
+			<enumeration value="FROM" />
+			<enumeration value="TO" />
+			<enumeration value="UNDIRECTED" />
+		</restriction>
+	</simpleType>
+  				
+	
 	<complexType name="AdditionalProperty">
 		<sequence>
 			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
@@ -71,19 +80,25 @@
 
 	<complexType name="Entity">
 		<sequence>
-			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
-			<element name="instancePath" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="aspect" type="tns:Aspect" maxOccurs="unbounded"
+			<element name="id" type="string" maxOccurs="1"
 				minOccurs="1">
+			</element>
+			<element name="instancePath" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="aspect" type="tns:Aspect"
+				maxOccurs="unbounded" minOccurs="1">
 				<annotation>
 					<appinfo>
 						<jxb:property name="aspects" />
 					</appinfo>
 				</annotation>
 			</element>
-			<element name="parentEntity" type="tns:Entity" maxOccurs="1" minOccurs="0"></element>
-			<element name="entity" type="tns:Entity" maxOccurs="unbounded"
+			<element name="parentEntity" type="tns:Entity" maxOccurs="1"
 				minOccurs="0">
+			</element>
+			<element name="entity" type="tns:Entity"
+				maxOccurs="unbounded" minOccurs="0">
 				<annotation>
 					<appinfo>
 						<jxb:property name="entities" />
@@ -91,23 +106,18 @@
 				</annotation>
 			</element>
 			<element name="position" type="tns:Point3D" minOccurs="0"
-				maxOccurs="1"></element>
-		</sequence>
+				maxOccurs="1">
+			</element>
+            <element name="connections" type="tns:Connection" maxOccurs="unbounded" minOccurs="0"></element>
+        </sequence>
 	</complexType>
 	
 	<complexType name="Connection">
 		<sequence>
 			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
 			<element name="entityId" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="type">
-  				<simpleType>
-    				<restriction base="string">
-      					<enumeration value="FROM"/>
-      					<enumeration value="TO"/>
-      					<enumeration value="UNDIRECTED"/>
-    				</restriction>
-  				</simpleType>
-			</element>
+			<element name="type" type="tns:ConnectionType" maxOccurs="1"
+				minOccurs="1"></element>
 			<element name="customProperties" type="tns:AdditionalProperty" maxOccurs="unbounded"
 				minOccurs="0">
 				<annotation>
