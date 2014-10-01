@@ -49,6 +49,7 @@ import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
 import org.geppetto.core.model.runtime.CompositeNode;
+import org.geppetto.core.model.runtime.ConnectionNode;
 import org.geppetto.core.model.runtime.CylinderNode;
 import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
@@ -295,6 +296,23 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		return super.outRuntimeTreeRoot(node);
 	}
 
+	@Override
+	public boolean visitConnectionNode(ConnectionNode node) {
+
+		String commonproperties = this.commonProperties(node);
+		
+		String entityId = "";
+		if (node.getEntityId() != null) {
+			entityId = "\"entityId\":" + "\"" + node.getEntityId() + "\",";
+		}
+		
+		String type = "\"type\":" + "\"" +node.getConnectionType().toString()+ "\",";
+		
+		_serialized.append("\"" + node.getId() + "\":{"
+				+entityId + type+ commonproperties+ "},");
+		return super.visitConnectionNode(node);
+	}
+	
 	@Override
 	public boolean visitVariableNode(VariableNode node) {
 

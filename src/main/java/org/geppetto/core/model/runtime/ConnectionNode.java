@@ -1,11 +1,13 @@
 package org.geppetto.core.model.runtime;
 
+import org.geppetto.core.model.state.visitors.IStateVisitor;
+
 /**
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class ConnectionNode {
+public class ConnectionNode extends ANode{
 
 	public enum ConnectionType
 	{
@@ -32,13 +34,31 @@ public class ConnectionNode {
 	    }
 	}
 	
-	private EntityNode entity;
+	private String entity;
+	private ConnectionType type;
 	
-	public void setEntity(EntityNode entity){
-		this.entity = entity;
+	public ConnectionNode(String id) {
+		super(id);
+	}
+
+	public void setEntityId(String entityId){
+		this.entity = entityId;
 	}
 	
-	public EntityNode getEntity(){
+	public String getEntityId(){
 		return this.entity;
+	}
+	
+	public void setType(ConnectionType type){
+		this.type = type;
+	}
+	
+	public ConnectionType getConnectionType(){
+		return this.type;
+	}
+
+	@Override
+	public boolean apply(IStateVisitor visitor) {
+		return visitor.visitConnectionNode(this);
 	}
 }

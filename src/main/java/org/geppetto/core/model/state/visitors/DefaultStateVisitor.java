@@ -36,6 +36,7 @@ import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
 import org.geppetto.core.model.runtime.CompositeNode;
+import org.geppetto.core.model.runtime.ConnectionNode;
 import org.geppetto.core.model.runtime.CylinderNode;
 import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
@@ -179,6 +180,11 @@ public class DefaultStateVisitor implements IStateVisitor
 
 	@Override
 	public boolean outRuntimeTreeRoot(RuntimeTreeRoot runtimeTreeRoot) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean visitConnectionNode(ConnectionNode connectionNode) {
 		return !_stopVisiting;
 	}
 }

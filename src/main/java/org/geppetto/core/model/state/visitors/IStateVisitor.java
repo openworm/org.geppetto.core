@@ -36,6 +36,7 @@ import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
 import org.geppetto.core.model.runtime.CompositeNode;
+import org.geppetto.core.model.runtime.ConnectionNode;
 import org.geppetto.core.model.runtime.CylinderNode;
 import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
@@ -103,4 +104,6 @@ public interface IStateVisitor
 	void doStopVisiting();
 
 	boolean stopVisiting();
+
+	boolean visitConnectionNode(ConnectionNode connectionNode);
 }

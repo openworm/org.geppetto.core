@@ -128,6 +128,12 @@ public class EntityNode extends ACompositeNode {
 					break;
 				}
 			}
+			for (ConnectionNode stateNode : this.getConnections()) {
+				stateNode.apply(visitor);
+				if (visitor.stopVisiting()) {
+					break;
+				}
+			}
 		}
 		return visitor.outEntityNode(this);
 	}
