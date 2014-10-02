@@ -1,5 +1,9 @@
 package org.geppetto.core.model.runtime;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.geppetto.core.model.simulation.ConnectionType;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
@@ -8,53 +12,37 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  *
  */
 public class ConnectionNode extends ANode{
-
-	public enum ConnectionType
-	{
-		FROM("from"),
-		TO("to"),
-		UNDIRECTED("undirected");
-		
-		private final String text;
-
-	    /**
-	     * @param text
-	     */
-	    private ConnectionType(final String text) {
-	        this.text = text;
-	    }
-
-
-	    /* (non-Javadoc)
-	     * @see java.lang.Enum#toString()
-	     */
-	    @Override
-	    public String toString() {
-	        return text;
-	    }
+	
+	private String _entityInstancePath;
+	private ConnectionType _type;
+	private List<ANode> _customProperties = new ArrayList<ANode>();
+	
+	public List<ANode> getCustomProperties() {
+		return _customProperties;
 	}
-	
-	private String entity;
-	private ConnectionType type;
-	
+
+	public void setCustomProperties(List<ANode> customProperties) {
+		this._customProperties = customProperties;
+	}
+
 	public ConnectionNode(String id) {
 		super(id);
 	}
 
-	public void setEntityId(String entityId){
-		this.entity = entityId;
+	public void setEntityInstancePath(String entityId){
+		this._entityInstancePath = entityId;
 	}
 	
-	public String getEntityId(){
-		return this.entity;
+	public String getEntityInstancePath(){
+		return this._entityInstancePath;
 	}
 	
-	public void setType(ConnectionType type){
-		this.type = type;
+	public void setType(ConnectionType connectionType){
+		this._type = connectionType;
 	}
 	
 	public ConnectionType getConnectionType(){
-		return this.type;
+		return this._type;
 	}
 
 	@Override

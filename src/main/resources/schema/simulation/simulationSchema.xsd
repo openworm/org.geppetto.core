@@ -58,13 +58,6 @@
 			<enumeration value="UNDIRECTED" />
 		</restriction>
 	</simpleType>
-  				
-	
-	<complexType name="AdditionalProperty">
-		<sequence>
-			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
-		</sequence>
-	</complexType>
 	
 	<complexType name="Aspect">
 		<sequence>
@@ -108,24 +101,23 @@
 			<element name="position" type="tns:Point3D" minOccurs="0"
 				maxOccurs="1">
 			</element>
-            <element name="connections" type="tns:Connection" maxOccurs="unbounded" minOccurs="0"></element>
+            <element name="connection" type="tns:Connection" 
+            	maxOccurs="unbounded" minOccurs="0">
+            	<annotation>
+					<appinfo>
+						<jxb:property name="connections" />
+					</appinfo>
+				</annotation>
+            </element>
         </sequence>
 	</complexType>
 	
 	<complexType name="Connection">
 		<sequence>
 			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
-			<element name="entityId" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element name="entityInstancePath" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="type" type="tns:ConnectionType" maxOccurs="1"
 				minOccurs="1"></element>
-			<element name="customProperties" type="tns:AdditionalProperty" maxOccurs="unbounded"
-				minOccurs="0">
-				<annotation>
-					<appinfo>
-						<jxb:property name="AdditionalProperty" />
-					</appinfo>
-				</annotation>
-			</element>
 		</sequence>
 	</complexType>
 

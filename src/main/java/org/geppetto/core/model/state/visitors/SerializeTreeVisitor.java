@@ -302,8 +302,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		String commonproperties = this.commonProperties(node);
 		
 		String entityId = "";
-		if (node.getEntityId() != null) {
-			entityId = "\"entityId\":" + "\"" + node.getEntityId() + "\",";
+		if (node.getEntityInstancePath() != null) {
+			entityId = "\"entityInstancePath\":" + "\"" + node.getEntityInstancePath()+ "\",";
 		}
 		
 		String type = "\"type\":" + "\"" +node.getConnectionType().toString()+ "\",";
@@ -510,6 +510,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 	@Override
 	public boolean visitSphereNode(SphereNode node) {
+		String id = "";
+		if (node.getId() != null) {
+			id = "\"id\":" + "\"" + node.getId() + "\",";
+		}
+		
 		String metaType = "";
 		if (node.getMetaType() != null) {
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
@@ -532,7 +537,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		}
 
 		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
-				+ "}," + "\"radius\":" + radiusString + ","+ metaType
+				+ "}," + "\"radius\":" + radiusString + ","+ id + metaType
 				+ "},");
 
 		return super.visitSphereNode(node);
@@ -540,6 +545,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 	@Override
 	public boolean visitCylinderNode(CylinderNode node) {
+		String id = "";
+		if (node.getId() != null) {
+			id = "\"id\":" + "\"" + node.getId() + "\",";
+		}
+		
 		String metaType = "";
 		if (node.getMetaType() != null) {
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
@@ -579,7 +589,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
 				+ "}," + "\"distal\":{" + distalString + "},"
 				+ "\"radiusBottom\":" + radiusBottomString + ","
-				+ "\"radiusTop\":" + radiusTopString + "," + metaType
+				+ "\"radiusTop\":" + radiusTopString + "," + id + metaType
 				+ "},");
 
 		return super.visitCylinderNode(node);
@@ -587,6 +597,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 	@Override
 	public boolean visitParticleNode(ParticleNode node) {
+		String id = "";
+		if (node.getId() != null) {
+			id = "\"id\":" + "\"" + node.getId() + "\",";
+		}
+		
 		String metaType = "";
 		if (node.getMetaType() != null) {
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
@@ -603,7 +618,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		}
 
 		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
-				+ "}," + metaType + "},");
+				+ "}," + id+ metaType + "},");
 
 		return super.visitParticleNode(node);
 	}
