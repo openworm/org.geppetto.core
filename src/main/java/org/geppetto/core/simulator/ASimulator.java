@@ -340,7 +340,7 @@ public abstract class ASimulator implements ISimulator
 								boolean found = false;
 								for(ANode child : node.getChildren())
 								{
-									if(child.getName().equals(current))
+									if(child.getId().equals(current))
 									{
 										if(child instanceof ACompositeNode)
 										{
