@@ -44,8 +44,8 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  */
 public class VariableNode extends ATimeSeriesNode{
 
-	public VariableNode(String name) {
-		super(name);
+	public VariableNode(String id) {
+		super(id);
 	}
 
 	@Override

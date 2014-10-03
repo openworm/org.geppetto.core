@@ -48,12 +48,10 @@ public class ParameterNode extends ATimeSeriesNode {
 
 	private HashMap<String, String> properties = new HashMap<String, String>();
 	
-	public ParameterNode(String name) {
-		super(name);
+	public ParameterNode(String id) {
+		super(id);
 	}
-	
-	public ParameterNode(){};
-	
+		
 	@Override
 	public boolean apply(IStateVisitor visitor)
 	{

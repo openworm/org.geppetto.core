@@ -49,6 +49,7 @@ import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
 import org.geppetto.core.model.runtime.CompositeNode;
+import org.geppetto.core.model.runtime.ConnectionNode;
 import org.geppetto.core.model.runtime.CylinderNode;
 import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
@@ -107,7 +108,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 	@Override
 	public boolean inCompositeNode(CompositeNode node) {
-		String name = node.getBaseName();
+		String id = node.getId();
 		if (node.isArray()) {
 			int index = node.getIndex();
 			Map<String, Integer> indexMap = _arraysLastIndexMap.get(node
@@ -119,24 +120,24 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 				indexMap = _arraysLastIndexMap.get(node.getParent());
 			}
 
-			if (!indexMap.containsKey(name)) {
+			if (!indexMap.containsKey(id)) {
 				// if the object is not in the map we haven't found this array
 				// before
-				_serialized.append("\"" + name + "\":[");
-				indexMap.put(name, -1);
+				_serialized.append("\"" + node.getBaseName() + "\":[");
+				indexMap.put(id, -1);
 			} else {
 				_serialized.append("{");
 			}
-			if (indexMap.containsKey(name) && indexMap.get(name) > index) {
+			if (indexMap.containsKey(id) && indexMap.get(id) > index) {
 				throw new RuntimeException(
 						"The tree is not ordered, found surpassed index");
 			}
-			for (int i = indexMap.get(name); i < index - 1; i++) {
+			for (int i = indexMap.get(id); i < index - 1; i++) {
 				// we fill in the gaps with empty objects so that we generate a
 				// valid JSON array
 				_serialized.append("{},");
 			}
-			indexMap.put(name, index);
+			indexMap.put(id, index);
 		} else {
 			// add bracket if array and it's at index 0
 			if (node.getParent().isArray()) {
@@ -146,7 +147,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 				}
 			}
 
-			String namePath = "\"" + name + "\":{";
+			String namePath = "\"" + node.getBaseName() + "\":{";
 
 			_serialized.append(namePath);
 
@@ -184,7 +185,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		if (node.isModified()) {
 			String namePath = "";
 
-			namePath = "\"" + node.getName() + "\":{";
+			namePath = "\"" + node.getBaseName() + "\":{";
 
 			_serialized.append(namePath);
 			return super.inAspectNode(node);
@@ -206,7 +207,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	@Override
 	public boolean inEntityNode(EntityNode node) {
 		if (node.isModified()) {
-			String namePath = "\"" + node.getName() + "\":";
+			String namePath = "\"" + node.getBaseName() + "\":";
 
 			_serialized.append(namePath + "{");
 			return super.inEntityNode(node);
@@ -238,7 +239,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	@Override
 	public boolean inAspectSubTreeNode(AspectSubTreeNode node) {
 		if (node.isModified()) {
-			String namePath = "\"" + node.getName() + "\":{";
+			String namePath = "\"" + node.getBaseName() + "\":{";
 
 			_serialized.append(namePath);
 
@@ -256,12 +257,20 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 				type = "\"type\":" + "\"" + node.getType() + "\",";
 			}
 
-			String modified = "\"modified\":"
-					+ String.valueOf(node.isModified()) + ",";
+			String instancePath = "";
+			if (node.getInstancePath() != null) {
+				if (!node.getInstancePath().equals("")) {
+					instancePath = "\"instancePath\":" + "\""
+							+ node.getInstancePath() + "\",";
+				}
+			}
 
-			String commonProperties = this.commonProperties(node);
+			String metaType = "";
+			if (node.getMetaType() != null) {
+				metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+			}
 
-			_serialized.append(type + modified + commonProperties + "},");
+			_serialized.append(type + instancePath + metaType + "},");
 
 			return super.outAspectSubTreeNode(node);
 		}
@@ -270,7 +279,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 	@Override
 	public boolean inRuntimeTreeRoot(RuntimeTreeRoot node) {
-		String namePath = "{\"" + node.getName() + "\":{";
+		String namePath = "{\"" + node.getBaseName() + "\":{";
 
 		_serialized.append(namePath);
 		return super.inRuntimeTreeRoot(node);
@@ -287,6 +296,23 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		return super.outRuntimeTreeRoot(node);
 	}
 
+	@Override
+	public boolean visitConnectionNode(ConnectionNode node) {
+
+		String commonproperties = this.commonProperties(node);
+		
+		String entityId = "";
+		if (node.getEntityInstancePath() != null) {
+			entityId = "\"entityInstancePath\":" + "\"" + node.getEntityInstancePath()+ "\",";
+		}
+		
+		String type = "\"type\":" + "\"" +node.getConnectionType().toString()+ "\",";
+		
+		_serialized.append("\"" + node.getId() + "\":{"
+				+entityId + type+ commonproperties+ "},");
+		return super.visitConnectionNode(node);
+	}
+	
 	@Override
 	public boolean visitVariableNode(VariableNode node) {
 
@@ -311,11 +337,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			if (quantity.getScalingFactor() != null) {
 				scale = "\"" + quantity.getScalingFactor() + "\"";
 			}
-			_serialized.append("\"" + node.getName() + "\":{\"value\":" + value
+			_serialized.append("\"" + node.getId() + "\":{\"value\":" + value
 					+ ",\"unit\":" + unit + ",\"scale\":" + scale + ","
 					+ commonProperties + "},");
 		} else {
-			_serialized.append("\"" + node.getName() + "\":{"
+			_serialized.append("\"" + node.getId() + "\":{"
 					+ commonProperties + "},");
 		}
 		return super.visitVariableNode(node);
@@ -345,7 +371,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 			properties = properties.concat("},");
 		}
-		_serialized.append("\"" + node.getName() + "\":{" + commonProperties
+		_serialized.append("\"" + node.getId() + "\":{" + commonProperties
 				+ properties + "},");
 
 		return super.visitParameterNode(node);
@@ -397,7 +423,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 					+ functionNode.getExpression() + "\"" + properties + "},";
 		}
 
-		_serialized.append("\"" + node.getName() + "\":{" + specs + function
+		_serialized.append("\"" + node.getId() + "\":{" + specs + function
 				+ commonProperties + "},");
 
 		return super.visitDynamicsSpecificationNode(node);
@@ -419,11 +445,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			if (quantity.getScalingFactor() != null) {
 				scale = "\"" + quantity.getScalingFactor() + "\"";
 			}
-			_serialized.append("\"" + node.getName() + "\":{\"value\":" + "\""
+			_serialized.append("\"" + node.getId() + "\":{\"value\":" + "\""
 					+ value + "\",\"unit\":" + unit + ",\"scale\":" + scale
 					+ "," + commonProperties + "},");
 		} else {
-			_serialized.append("\"" + node.getName() + "\":{"
+			_serialized.append("\"" + node.getId() + "\":{"
 					+ commonProperties + "},");
 		}
 
@@ -451,7 +477,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			properties = properties.concat("},");
 		}
 
-		_serialized.append("\"" + node.getName() + "\":{" + "\"expression\":"
+		_serialized.append("\"" + node.getId() + "\":{" + "\"expression\":"
 				+ "\"" + node.getExpression() + "\"," + properties
 				+ commonProperties + "},");
 
@@ -465,7 +491,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 
-		_serialized.append("\"" + node.getName() + "\":{" + metaType + "},");
+		_serialized.append("\"" + node.getId() + "\":{" + metaType + "},");
 
 		return super.visitTextMetadataNode(node);
 	}
@@ -477,7 +503,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 
-		_serialized.append("\"" + node.getName() + "\":{" + metaType + "},");
+		_serialized.append("\"" + node.getId() + "\":{" + metaType + "},");
 
 		return super.visitURLMetadataNode(node);
 	}
@@ -488,14 +514,14 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		if (node.getId() != null) {
 			id = "\"id\":" + "\"" + node.getId() + "\",";
 		}
-
+		
 		String metaType = "";
 		if (node.getMetaType() != null) {
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 
 		Point position = node.getPosition();
-		String name = node.getName();
+		String name = node.getId();
 		String positionString = "";
 
 		if (position != null) {
@@ -511,7 +537,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		}
 
 		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
-				+ "}," + "\"radius\":" + radiusString + "," + id + metaType
+				+ "}," + "\"radius\":" + radiusString + ","+ id + metaType
 				+ "},");
 
 		return super.visitSphereNode(node);
@@ -523,14 +549,14 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		if (node.getId() != null) {
 			id = "\"id\":" + "\"" + node.getId() + "\",";
 		}
-
+		
 		String metaType = "";
 		if (node.getMetaType() != null) {
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 
 		Point position = node.getPosition();
-		String name = node.getName();
+		String name = node.getId();
 		String positionString = "";
 
 		if (position != null) {
@@ -575,14 +601,14 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		if (node.getId() != null) {
 			id = "\"id\":" + "\"" + node.getId() + "\",";
 		}
-
+		
 		String metaType = "";
 		if (node.getMetaType() != null) {
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 
 		Point position = node.getPosition();
-		String name = node.getName();
+		String name = node.getId();
 		String positionString = "";
 
 		if (position != null) {
@@ -592,7 +618,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		}
 
 		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
-				+ "}," + id + metaType + "},");
+				+ "}," + id+ metaType + "},");
 
 		return super.visitParticleNode(node);
 	}
@@ -605,7 +631,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		}
 
 		Point position = node.getPosition();
-		String name = node.getName();
+		String name = node.getId();
 		String positionString = "";
 
 		if (position != null) {
@@ -645,7 +671,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		}
 
 		Point position = node.getPosition();
-		String name = node.getName();
+		String name = node.getId();
 		String positionString = "";
 
 		if (position != null) {
