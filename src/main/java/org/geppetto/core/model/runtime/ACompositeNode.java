@@ -55,9 +55,12 @@ public abstract class ACompositeNode extends ANode
 	
 	public ANode addChild(ANode child)
 	{
-		_children.add(child);
-		child._parent=this; //double link
-		return child;
+		if (child != null){
+			_children.add(child);
+			child._parent=this; //double link
+			return child;
+		}
+		return null;
 	}
 	
 	public List<ANode> getChildren()

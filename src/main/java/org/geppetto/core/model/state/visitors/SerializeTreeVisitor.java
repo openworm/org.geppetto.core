@@ -467,6 +467,28 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			AValue value = node.getValue();
 			valueString = "\"value\":" + "\"" + value + "\",";
 		}
+		
+//		String properties = "";
+//
+//		if (node.getProperties().size() > 0) {
+//			HashMap<String, String> props = node.getProperties();
+//
+//			properties = ",\"properties\":{";
+//
+//			Set<String> keys = props.keySet();
+//			int index = 0;
+//			for (String key : keys) {
+//				index++;
+//				properties = properties.concat("\"" + key + "\":\""
+//						+ props.get(key) + "\"");
+//				if (index < (props.size() - 1)) {
+//					properties = properties.concat(",");
+//				}
+//			}
+//
+//			properties = properties.concat("},");
+//		}
+		
 
 		_serialized.append("\"" + node.getName() + "\":{" + valueString.replaceAll("[\n\r]", "") + commonProperties+ "},");
 
