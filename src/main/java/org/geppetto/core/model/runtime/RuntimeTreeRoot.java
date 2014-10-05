@@ -44,11 +44,8 @@ public class RuntimeTreeRoot extends ACompositeNode{
 
 	private VariableNode _time;
 
-	public RuntimeTreeRoot(String name) {
-		super(name);
-	}
-
-	public RuntimeTreeRoot() {
+	public RuntimeTreeRoot(String id) {
+		super(id);
 	}
 
 	public VariableNode getTime() {

@@ -44,21 +44,17 @@ public abstract class ANode implements IVisitable
 {
 	protected ANode _parent;
 	protected String _name;
-	private String _id;
+	protected String _id;
 
 	public String getMetaType(){
 		return this.getClass().getSimpleName();
 	};
 
-	public ANode(String name)
+	public ANode(String id)
 	{
 		super();
-		_name = name;
+		_id = id;
 		_parent = null;
-	}
-	
-	public ANode(){
-		
 	}
 
 	public void setName(String name){
@@ -112,7 +108,7 @@ public abstract class ANode implements IVisitable
 
 	public boolean isArray()
 	{
-		return _name.contains("[");
+		return _id.contains("[");
 	}
 	
 	public String getInstancePath()
@@ -127,7 +123,7 @@ public abstract class ANode implements IVisitable
 				{
 					fullName.insert(0, ".");
 				}
-				fullName.insert(0, iterateState._name);
+				fullName.insert(0, iterateState._id);
 			}
 			iterateState = iterateState._parent;
 		}

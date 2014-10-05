@@ -37,14 +37,19 @@
  */
 package org.geppetto.core;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import junit.framework.Assert;
 
 import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.runtime.CompositeNode;
+import org.geppetto.core.model.runtime.ConnectionNode;
 import org.geppetto.core.model.runtime.CylinderNode;
 import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
@@ -54,12 +59,12 @@ import org.geppetto.core.model.runtime.ParameterSpecificationNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
 import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.VariableNode;
+import org.geppetto.core.model.simulation.ConnectionType;
 import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
 import org.geppetto.core.model.values.DoubleValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.visualisation.model.Point;
 import org.junit.Test;
-import org.springframework.util.Assert;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -67,6 +72,60 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 public class TestNetworkSerialization {
+
+	@Test
+	public void testConnection() {
+
+		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
+
+		EntityNode hhcell = new EntityNode("hhcell");
+		
+		EntityNode purkinje = new EntityNode("purkinje");
+
+		AspectNode electrical = new AspectNode("electrical");
+		AspectNode electrical2 = new AspectNode("electrical");
+
+		AspectSubTreeNode visualization = new AspectSubTreeNode(
+				AspectTreeType.VISUALIZATION_TREE);
+
+		SphereNode sphere = new SphereNode("purkinje");
+		visualization.addChild(sphere);
+
+		runtime.addChild(hhcell);
+		runtime.addChild(purkinje);
+		hhcell.getAspects().add(electrical);
+		purkinje.getAspects().add(electrical2);
+		electrical.setParent(hhcell);
+		electrical2.setParent(purkinje);
+
+		ConnectionNode con1 = new ConnectionNode("Connection_1");
+		con1.setEntityInstancePath(hhcell.getInstancePath());
+		con1.setType(ConnectionType.TO);
+		con1.setParent(hhcell);
+		hhcell.getConnections().add(con1);
+		
+		ConnectionNode con2 = new ConnectionNode("Connection_2");
+		con2.setEntityInstancePath(purkinje.getInstancePath());
+		con2.setType(ConnectionType.FROM);
+		con2.setParent(purkinje);
+		purkinje.getConnections().add(con2);
+		
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		runtime.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(serialized);
+		String prettyJsonString = gson.toJson(je);
+
+		System.out.println(prettyJsonString);
+
+		Assert.assertEquals(
+				"{\"root\":{\"hhcell\":{\"electrical\":{\"id\":\"electrical\",\"instancePath\":\"hhcell.electrical\",\"_metaType\":\"AspectNode\"},\"Connection_1\":{\"entityInstancePath\":\"hhcell\",\"type\":\"TO\",\"id\":\"Connection_1\",\"instancePath\":\"hhcell.Connection_1\",\"_metaType\":\"ConnectionNode\"},\"id\":\"hhcell\",\"instancePath\":\"hhcell\",\"_metaType\":\"EntityNode\"},\"purkinje\":{\"electrical\":{\"id\":\"electrical\",\"instancePath\":\"purkinje.electrical\",\"_metaType\":\"AspectNode\"},\"Connection_2\":{\"entityInstancePath\":\"purkinje\",\"type\":\"FROM\",\"id\":\"Connection_2\",\"instancePath\":\"purkinje.Connection_2\",\"_metaType\":\"ConnectionNode\"},\"id\":\"purkinje\",\"instancePath\":\"purkinje\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
+				serialized);
+	}
 
 	@Test
 	public void testNetworks() {
@@ -450,7 +509,7 @@ public class TestNetworkSerialization {
 
 		System.out.println(prettyJsonString);
 
-		Assert.notNull(prettyJsonString);
+		Assert.assertNotNull(prettyJsonString);
 	}
 
 	@Test
@@ -645,7 +704,7 @@ public class TestNetworkSerialization {
 
 		System.out.println(prettyJsonString);
 
-		Assert.notNull(prettyJsonString);
+		Assert.assertNotNull(prettyJsonString);
 
 	}
 }

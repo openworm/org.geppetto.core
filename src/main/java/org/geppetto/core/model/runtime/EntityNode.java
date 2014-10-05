@@ -46,17 +46,14 @@ import org.geppetto.core.visualisation.model.Point;
  */
 public class EntityNode extends ACompositeNode {
 
-	protected List<AspectNode> _aspects = new ArrayList<AspectNode>();;
+	private List<AspectNode> _aspects = new ArrayList<AspectNode>();
+	protected List<ConnectionNode> _connections = new ArrayList<ConnectionNode>();
 	private AMetadataNode _metadata;
 	private Point _position;
 	private boolean _modified = true;
 
-	public EntityNode() {
-		super();
-	}
-
-	public EntityNode(String name) {
-		super(name);
+	public EntityNode(String id) {
+		super(id);
 	}
 
 	public void setAspects(List<AspectNode> aspects) {
@@ -65,6 +62,14 @@ public class EntityNode extends ACompositeNode {
 
 	public List<AspectNode> getAspects() {
 		return _aspects;
+	}
+	
+	public void setConnections(List<ConnectionNode> connections){
+		this._connections = connections;
+	}
+	
+	public List<ConnectionNode> getConnections(){
+		return this._connections;
 	}
 
 	public AMetadataNode getMetadata() {
@@ -118,6 +123,12 @@ public class EntityNode extends ACompositeNode {
 				}
 			}
 			for (AspectNode stateNode : this.getAspects()) {
+				stateNode.apply(visitor);
+				if (visitor.stopVisiting()) {
+					break;
+				}
+			}
+			for (ConnectionNode stateNode : this.getConnections()) {
 				stateNode.apply(visitor);
 				if (visitor.stopVisiting()) {
 					break;

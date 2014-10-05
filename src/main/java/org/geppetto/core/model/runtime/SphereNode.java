@@ -12,9 +12,9 @@ public class SphereNode extends AVisualObjectNode{
 
     private Double _radius;
     
-	public SphereNode(String name)
+	public SphereNode(String id)
 	{
-		super(name);
+		super(id);
 	}
 
 	public Double getRadius() {

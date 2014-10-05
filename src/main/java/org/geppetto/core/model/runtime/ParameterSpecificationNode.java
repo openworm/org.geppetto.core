@@ -46,8 +46,8 @@ public class ParameterSpecificationNode extends ANode
 	
 	private PhysicalQuantity _value;
 
-	public ParameterSpecificationNode(String name){
-		super(name);
+	public ParameterSpecificationNode(String id){
+		super(id);
 	}
 	
 	public ParameterSpecificationNode(String name, String id){

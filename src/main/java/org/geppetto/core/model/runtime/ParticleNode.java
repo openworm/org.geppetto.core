@@ -44,9 +44,9 @@ public class ParticleNode extends AVisualObjectNode{
     
 	private float _particleKind;
 	
-	public ParticleNode(String name)
+	public ParticleNode(String id)
 	{
-		super(name);
+		super(id);
 	}
 
 	public void setParticleKind(float particleKind){
@@ -60,7 +60,7 @@ public class ParticleNode extends AVisualObjectNode{
 	public int getIndex()
 	{
 		//ASSUMPTION only one dimension
-		return Integer.parseInt(_name.substring(_name.indexOf("[")+1, _name.indexOf("]")));
+		return Integer.parseInt(_id.substring(_id.indexOf("[")+1, _id.indexOf("]")));
 	}
 	
 	@Override

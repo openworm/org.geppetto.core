@@ -44,11 +44,8 @@ import java.util.List;
  */
 public abstract class ACompositeNode extends ANode
 {	
-	public ACompositeNode(String name) {
-		super(name);
-	}
-	
-	public ACompositeNode(){
+	public ACompositeNode(String id) {
+		super(id);
 	}
 	
 	protected List<ANode> _children=new ArrayList<ANode>();;
@@ -72,15 +69,15 @@ public abstract class ACompositeNode extends ANode
 	{
 		if(isArray())
 		{
-		return _name.substring(0, _name.indexOf("["));
+			return getId().substring(0, getId().indexOf("["));
 		}
-		else return getName();
+		else return getId();
 	}
 	
 	public int getIndex()
 	{
 		//ASSUMPTION only one dimension
-		return Integer.parseInt(_name.substring(_name.indexOf("[")+1, _name.indexOf("]")));
+		return Integer.parseInt(_id.substring(_id.indexOf("[")+1, _id.indexOf("]")));
 	}
 	
 	

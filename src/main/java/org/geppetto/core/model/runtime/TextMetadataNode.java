@@ -48,8 +48,8 @@ public class TextMetadataNode extends AMetadataNode{
 
 	private Map<String, Object> _properties = new HashMap<String, Object>();
 
-	public TextMetadataNode(String name){
-		super(name);
+	public TextMetadataNode(String id){
+		super(id);
 	}
 	
 	public TextMetadataNode(String name, AValue value){
