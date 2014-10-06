@@ -90,7 +90,7 @@ public abstract class ACompositeNode extends ANode
 	/**
 	 * @param states
 	 */
-	public void addChildren(Collection<ANode> states)
+	public void addChildren(Collection<? extends ANode> states)
 	{
 		_children.addAll(states);
 		
