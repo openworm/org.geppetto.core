@@ -92,7 +92,9 @@ public abstract class ACompositeNode extends ANode
 	 */
 	public void addChildren(Collection<? extends ANode> states)
 	{
-		_children.addAll(states);
+		for (ANode state : states){
+			addChild(state);
+		}
 		
 	}
 }
