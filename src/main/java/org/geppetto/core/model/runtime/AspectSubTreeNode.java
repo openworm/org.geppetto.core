@@ -159,12 +159,10 @@ public class AspectSubTreeNode extends ACompositeNode
 		{
 			for(ANode stateNode:this.getChildren())
 			{
-				if (stateNode != null){
-					stateNode.apply(visitor);
-					if(visitor.stopVisiting())
-					{
-						break;
-					}
+				stateNode.apply(visitor);
+				if(visitor.stopVisiting())
+				{
+					break;
 				}
 			}
 		}
