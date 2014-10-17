@@ -49,9 +49,9 @@ public class FunctionNode extends ANode
 	private List<String> _argument = new ArrayList<String>();
 	private String _expression;
 	
-	public FunctionNode(String name)
+	public FunctionNode(String id)
 	{
-		super(name);
+		super(id);
 	}
 
 	public List<String> getArgument()

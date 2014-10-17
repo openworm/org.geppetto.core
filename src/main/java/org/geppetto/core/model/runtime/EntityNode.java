@@ -41,37 +41,35 @@ import org.geppetto.core.visualisation.model.Point;
 /**
  * Node used to store an entity and then serialization.
  * 
- * @author  Jesus R. Martinez (jesus@metacell.us)
- *
+ * @author Jesus R. Martinez (jesus@metacell.us)
+ * 
  */
-public class EntityNode extends ACompositeNode{
+public class EntityNode extends ACompositeNode {
 
-	protected List<AspectNode> _aspects =new ArrayList<AspectNode>();;
-	private List<Connection> _connections;
+	private List<AspectNode> _aspects = new ArrayList<AspectNode>();
+	protected List<ConnectionNode> _connections = new ArrayList<ConnectionNode>();
 	private AMetadataNode _metadata;
 	private Point _position;
-		
-	public EntityNode(){
-		super();
-	}
-	
-	public EntityNode(String name) {
-		super(name);
+	private boolean _modified = true;
+
+	public EntityNode(String id) {
+		super(id);
 	}
 
 	public void setAspects(List<AspectNode> aspects) {
 		this._aspects = aspects;
 	}
 
-    public List<Connection> getConnections() {
-        return _connections;
-    }
-
-    public void setConnections(List<Connection> connections) {
-        this._connections = connections;
-    }
 	public List<AspectNode> getAspects() {
 		return _aspects;
+	}
+	
+	public void setConnections(List<ConnectionNode> connections){
+		this._connections = connections;
+	}
+	
+	public List<ConnectionNode> getConnections(){
+		return this._connections;
 	}
 
 	public AMetadataNode getMetadata() {
@@ -79,78 +77,64 @@ public class EntityNode extends ACompositeNode{
 	}
 
 	public void setMetadata(AMetadataNode textMetadataNode) {
-		
+
 	}
 
 	public void setPosition(Point position) {
 		this._position = position;
 	}
-	
+
 	public Point getPosition() {
 		return this._position;
 	}
-	
-	@Override
-	public synchronized boolean apply(IStateVisitor visitor)
-	{
-		if (visitor.inEntityNode(this))  // enter this node?
-		{
-			for(ANode stateNode:this.getChildren())
-			{
-				stateNode.apply(visitor);
-				if(visitor.stopVisiting())
-				{
-					break;
-				}
-			}
-			for(AspectNode stateNode:this.getAspects())
-			{
-				stateNode.apply(visitor);
-				if(visitor.stopVisiting())
-				{
-					break;
-				}
-			}
-		}
-		return visitor.outEntityNode( this );
+
+	public boolean isModified() {
+		return this._modified;
 	}
-	
-	public static class Connection{
-		
-		public enum CONNECTION_TYPE
+
+	public void setModified(boolean mode) {
+		this._modified = mode;
+	}
+
+	public void updateParentEntitiesFlags(boolean mode) {
+		this._modified = mode;
+		EntityNode parentEntity = null;
+		if (this.getParent().getMetaType().equals("EntityNode")) {
+			parentEntity = (EntityNode) this.getParent();
+		}
+		while (parentEntity != null) {
+			parentEntity.setModified(mode);
+			if (parentEntity.getParent().getMetaType().equals("EntityNode")) {
+				parentEntity = (EntityNode) parentEntity.getParent();
+			} else {
+				parentEntity = null;
+			}
+		}
+	}
+
+	@Override
+	public synchronized boolean apply(IStateVisitor visitor) {
+		if (visitor.inEntityNode(this)) // enter this node?
 		{
-			FROM,
-			TO,
-			UNDIRECTED
-		};
-		
-		private String id;
-
-		private EntityNode entity;
-		
-		public void setId(String id){
-			this.id = id;
+			for (ANode stateNode : this.getChildren()) {
+				stateNode.apply(visitor);
+				if (visitor.stopVisiting()) {
+					break;
+				}
+			}
+			for (AspectNode stateNode : this.getAspects()) {
+				stateNode.apply(visitor);
+				if (visitor.stopVisiting()) {
+					break;
+				}
+			}
+			for (ConnectionNode stateNode : this.getConnections()) {
+				stateNode.apply(visitor);
+				if (visitor.stopVisiting()) {
+					break;
+				}
+			}
 		}
-		
-		public String getId() {
-			return this.id;
-		}
-		
-		public void setEntityNode(EntityNode entity){
-			this.entity = entity;
-		}
-		
-		public EntityNode getEntityNode(){
-			return this.entity;
-		}
-
-		public void setEntityId(String entityID) {			
-		}
-
-		public void setMetadata(AMetadataNode mPost) {			
-		}
-
-		public void setType(String type) {			
-		}
+		return visitor.outEntityNode(this);
 	}
 }

@@ -44,11 +44,8 @@ public abstract class AVisualObjectNode extends ANode{
 
 	private Point _position;
 	
-	public AVisualObjectNode(String name) {
-		super(name);
-	}
-	
-	public AVisualObjectNode(){
+	public AVisualObjectNode(String id) {
+		super(id);
 	}
 	
 	public void setPosition(Point position){

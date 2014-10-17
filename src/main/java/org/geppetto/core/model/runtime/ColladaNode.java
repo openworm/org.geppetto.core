@@ -44,8 +44,8 @@ public class ColladaNode extends AVisualObjectNode{
 
 	private String _model;
 	
-	public ColladaNode(String name) {
-		super(name);
+	public ColladaNode(String id) {
+		super(id);
 	}
 
 	public String getModel() {

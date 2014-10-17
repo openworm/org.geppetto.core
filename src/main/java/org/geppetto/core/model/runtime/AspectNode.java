@@ -41,20 +41,19 @@ import org.geppetto.core.simulator.ISimulator;
 /**
  * Node use to store Aspect values, and serialization.
  * 
- * @author  Jesus R. Martinez (jesus@metacell.us)
- *
+ * @author Jesus R. Martinez (jesus@metacell.us)
+ * 
  */
-public class AspectNode extends ACompositeNode{
+public class AspectNode extends ACompositeNode {
 
 	private VariableNode _time;
 	private IModelInterpreter _modelInterpreter;
 	private ISimulator _simulator;
 	private IModel _model;
-		
-	public AspectNode(){}
-	
-	public AspectNode(String name) {
-		super(name);
+	private boolean _modified = true;
+
+	public AspectNode(String id) {
+		super(id);
 	}
 
 	public VariableNode getTime() {
@@ -63,6 +62,14 @@ public class AspectNode extends ACompositeNode{
 
 	public void setTime(VariableNode time) {
 		this._time = time;
+	}
+
+	public boolean isModified() {
+		return this._modified;
+	}
+
+	public void setModified(boolean mode) {
+		this._modified = mode;
 	}
 
 	public IModelInterpreter getModelInterpreter() {
@@ -81,21 +88,18 @@ public class AspectNode extends ACompositeNode{
 		this._simulator = simulator;
 	}
 
-	public ANode getParentEntity() {
-		return this.getParent();
+	public EntityNode getParentEntity() {
+		return (EntityNode) this.getParent();
 	}
-	
+
 	/**
 	 * @param tree
 	 */
-	public void flushSubTree(AspectTreeType tree)
-	{
-		for(ANode node : _children)
-		{
-			if(node.getName().equals(tree.toString()))
-			{
+	public void flushSubTree(AspectTreeType tree) {
+		for (ANode node : _children) {
+			if (node.getId().equals(tree.toString())) {
 				// re-assign to empty node
-				((AspectSubTreeNode)node).getChildren().clear();
+				((AspectSubTreeNode) node).getChildren().clear();
 				break;
 			}
 		}
@@ -105,54 +109,46 @@ public class AspectNode extends ACompositeNode{
 	 * @param modelTree
 	 * @return
 	 */
-	private AspectSubTreeNode addSubTree(AspectTreeType modelTree)
-	{
+	private AspectSubTreeNode addSubTree(AspectTreeType modelTree) {
 		AspectSubTreeNode subTree = new AspectSubTreeNode(modelTree);
 		addChild(subTree);
 		return subTree;
 	}
-	
+
 	/**
 	 * It creates the subtree if it doesn't exist
+	 * 
 	 * @param treeType
 	 * @return
 	 */
-	public AspectSubTreeNode getSubTree(AspectTreeType treeType)
-	{
-		for (ANode node:getChildren())
-		{
-			if( node.getName().equals(treeType.toString()))
-			{
+	public AspectSubTreeNode getSubTree(AspectTreeType treeType) {
+		for (ANode node : getChildren()) {
+			if (node.getId().equals(treeType.toString())) {
 				return (AspectSubTreeNode) node;
 			}
 		}
 		return addSubTree(treeType);
 	}
-	
+
 	@Override
-	public synchronized boolean apply(IStateVisitor visitor)
-	{
-		if (visitor.inAspectNode(this))  // enter this node?
+	public synchronized boolean apply(IStateVisitor visitor) {
+		if (visitor.inAspectNode(this)) // enter this node?
 		{
-			for(ANode stateNode:this.getChildren())
-			{
+			for (ANode stateNode : this.getChildren()) {
 				stateNode.apply(visitor);
-				if(visitor.stopVisiting())
-				{
+				if (visitor.stopVisiting()) {
 					break;
 				}
 			}
 		}
-		return visitor.outAspectNode( this );
+		return visitor.outAspectNode(this);
 	}
-	
-	public IModel getModel()
-	{
+
+	public IModel getModel() {
 		return _model;
 	}
 
-	public void setModel(IModel _model)
-	{
+	public void setModel(IModel _model) {
 		this._model = _model;
 	}
 }

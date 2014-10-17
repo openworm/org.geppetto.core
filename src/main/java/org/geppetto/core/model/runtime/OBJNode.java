@@ -44,8 +44,8 @@ public class OBJNode extends AVisualObjectNode{
 
 	private String _model;
 	
-	public OBJNode(String name) {
-		super(name);
+	public OBJNode(String id) {
+		super(id);
 	}
 
 	public String getModel() {
