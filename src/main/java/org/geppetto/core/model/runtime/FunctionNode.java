@@ -53,6 +53,11 @@ public class FunctionNode extends ANode
 	{
 		super(id);
 	}
+	
+	public FunctionNode(String name, String id){
+		super(name);
+		setId(id);
+	}
 
 	public List<String> getArgument()
 	{

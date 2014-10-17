@@ -98,12 +98,16 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			}
 		}
 
+		String name = "\"name\":" + "\"" + ((node.getName()!= null)?node.getName():node.getId()) + "\",";
+
 		String metaType = "";
 		if (node.getMetaType() != null) {
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
+		
+		
 
-		return id + instancePath + metaType;
+		return id + instancePath + name + metaType;
 	}
 
 	@Override
@@ -486,12 +490,15 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 	@Override
 	public boolean visitTextMetadataNode(TextMetadataNode node) {
-		String metaType = "";
-		if (node.getMetaType() != null) {
-			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		String commonProperties = this.commonProperties(node);
+		
+		String valueString = "";
+		if (node.getValue() != null){
+			AValue value = node.getValue();
+			valueString = "\"value\":" + "\"" + value + "\",";
 		}
 
-		_serialized.append("\"" + node.getId() + "\":{" + metaType + "},");
+		_serialized.append("\"" + node.getId() + "\":{" + valueString.replaceAll("[\n\r]", "") + commonProperties+ "},");
 
 		return super.visitTextMetadataNode(node);
 	}
