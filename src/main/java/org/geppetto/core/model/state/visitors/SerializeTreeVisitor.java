@@ -98,12 +98,16 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			}
 		}
 
+		String name = "\"name\":" + "\"" + ((node.getName()!= null)?node.getName():node.getId()) + "\",";
+
 		String metaType = "";
 		if (node.getMetaType() != null) {
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
+		
+		
 
-		return id + instancePath + metaType;
+		return id + instancePath + name + metaType;
 	}
 
 	@Override
