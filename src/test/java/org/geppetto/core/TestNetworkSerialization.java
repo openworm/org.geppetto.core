@@ -58,7 +58,10 @@ import org.geppetto.core.model.runtime.ParameterNode;
 import org.geppetto.core.model.runtime.ParameterSpecificationNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
 import org.geppetto.core.model.runtime.SphereNode;
+import org.geppetto.core.model.runtime.TextMetadataNode;
+import org.geppetto.core.model.runtime.URLMetadataNode;
 import org.geppetto.core.model.runtime.VariableNode;
+import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
 import org.geppetto.core.model.simulation.ConnectionType;
 import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
 import org.geppetto.core.model.values.DoubleValue;
@@ -103,6 +106,25 @@ public class TestNetworkSerialization {
 		con1.setType(ConnectionType.TO);
 		con1.setParent(hhcell);
 		hhcell.getConnections().add(con1);
+		VisualObjectReferenceNode visObj = new VisualObjectReferenceNode("Vis");
+		visObj.setAspectInstancePath(electrical.getInstancePath());
+		visObj.setVisualObjectId(sphere.getId());
+		TextMetadataNode text = new TextMetadataNode("Text");
+		text.setValue(new DoubleValue(2));
+		text.setText("Basic information for text goes here");
+		
+		URLMetadataNode url = new URLMetadataNode("URL");
+		url.setValue(new DoubleValue(2));
+		url.setURL("hhtp://url.com");
+		
+		FunctionNode function = new FunctionNode("Function");
+		function.setExpression("x=y^2");
+		function.setName("hello");
+		
+		con1.getCustomNodes().add(text);
+		con1.getCustomNodes().add(url);
+		con1.getCustomNodes().add(function);
+		con1.getVisualReferences().add(visObj);
 		
 		ConnectionNode con2 = new ConnectionNode("Connection_2");
 		con2.setEntityInstancePath(purkinje.getInstancePath());
