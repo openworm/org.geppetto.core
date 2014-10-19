@@ -91,6 +91,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			id = "\"id\":" + "\"" + node.getId() + "\",";
 		}
 		
+		String name = "";
+		if (node.getName() != null) {
+			id = "\"name\":" + "\"" + node.getName() + "\",";
+		}
+		
 		String domainType = "";
 		if (node.getDomainType() != null) {
 			id = "\"domainType\":" + "\"" + node.getDomainType() + "\",";
@@ -109,7 +114,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 
-		return id + domainType + instancePath + metaType;
+		return id + name + domainType + instancePath + metaType;
 	}
 
 	@Override
@@ -263,20 +268,9 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 				type = "\"type\":" + "\"" + node.getType() + "\",";
 			}
 
-			String instancePath = "";
-			if (node.getInstancePath() != null) {
-				if (!node.getInstancePath().equals("")) {
-					instancePath = "\"instancePath\":" + "\""
-							+ node.getInstancePath() + "\",";
-				}
-			}
+			String commonProperties = this.commonProperties(node);
 
-			String metaType = "";
-			if (node.getMetaType() != null) {
-				metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
-			}
-
-			_serialized.append(type + instancePath + metaType + "},");
+			_serialized.append(type + commonProperties + "},");
 
 			return super.outAspectSubTreeNode(node);
 		}
