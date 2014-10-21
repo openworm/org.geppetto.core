@@ -105,6 +105,7 @@ public class TestNetworkSerialization {
 		con1.setEntityInstancePath(hhcell.getInstancePath());
 		con1.setType(ConnectionType.TO);
 		con1.setParent(hhcell);
+		con1.setName("Connection1");
 		hhcell.getConnections().add(con1);
 		VisualObjectReferenceNode visObj = new VisualObjectReferenceNode("Vis");
 		visObj.setAspectInstancePath(electrical.getInstancePath());

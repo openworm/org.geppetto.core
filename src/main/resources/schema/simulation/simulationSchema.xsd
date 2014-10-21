@@ -76,7 +76,7 @@
 			<element name="name" type="string"
 				maxOccurs="1" minOccurs="1">
 			</element>
-			<element name="information" type="string" maxOccurs="1"
+			<element name="text" type="string" maxOccurs="1"
 				minOccurs="1">
 			</element>
 			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
@@ -142,7 +142,7 @@
 			<element name="entityInstancePath" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="type" type="tns:ConnectionType" maxOccurs="1"
 				minOccurs="1"></element>
-			<element name="visualObjectReferences" type="tns:VisualObjectReference"
+			<element name="visualReference" type="tns:VisualObjectReference"
 				maxOccurs="unbounded" minOccurs="0">
 				<annotation>
 					<appinfo>
@@ -150,7 +150,7 @@
 					</appinfo>
 				</annotation>
 			</element>
-			<element name="customProperties" type="tns:CustomProperty"
+			<element name="customProperty" type="tns:CustomProperty"
 				maxOccurs="unbounded" minOccurs="0">
 				<annotation>
 					<appinfo>
