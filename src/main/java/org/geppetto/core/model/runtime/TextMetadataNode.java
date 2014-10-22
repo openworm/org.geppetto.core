@@ -52,14 +52,11 @@ public class TextMetadataNode extends AMetadataNode{
 		super(id);
 	}
 	
-	public TextMetadataNode(String name, AValue value){
-		super(name, value);
+	public TextMetadataNode(String name, String id){
+		super(id);
+		setName(name);
 	}
-	
-	public TextMetadataNode(String name, String id, AValue value){
-		super(name, value);
-		setId(id);
-	}
+
 	
 	public TextMetadataNode(){
 		super("TextMetadataNode");
