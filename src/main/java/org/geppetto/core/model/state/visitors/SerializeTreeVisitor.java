@@ -93,12 +93,12 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		
 		String name = "";
 		if (node.getName() != null) {
-			id = "\"name\":" + "\"" + node.getName() + "\",";
+			name = "\"name\":" + "\"" + node.getName() + "\",";
 		}
 		
 		String domainType = "";
 		if (node.getDomainType() != null) {
-			id = "\"domainType\":" + "\"" + node.getDomainType() + "\",";
+			domainType = "\"domainType\":" + "\"" + node.getDomainType() + "\",";
 		}
 
 		String instancePath = "";
