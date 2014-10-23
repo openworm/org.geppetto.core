@@ -510,12 +510,13 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	public boolean visitTextMetadataNode(TextMetadataNode node) {
 		String commonProperties = this.commonProperties(node);
 
-		String text = "";
-		if(node.getText()!=null){
-			text = "\"text\":" + "\"" + node.getText() + "\",";
+		String valueString = "";
+		if (node.getValue() != null){
+			AValue value = node.getValue();
+			valueString = "\"value\":" + "\"" + value + "\",";
 		}
 		
-		_serialized.append("\"" + node.getId() + "\":{" + text+commonProperties+ "},");
+		_serialized.append("\"" + node.getId() + "\":{" + valueString.replaceAll("[\n\r]", "") + commonProperties+ "},");
 
 		return super.visitTextMetadataNode(node);
 	}

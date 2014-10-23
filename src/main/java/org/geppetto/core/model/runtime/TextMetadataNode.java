@@ -32,29 +32,16 @@
  *******************************************************************************/
 package org.geppetto.core.model.runtime;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.geppetto.core.model.state.visitors.IStateVisitor;
-import org.geppetto.core.model.values.AValue;
 
 /**
  * Node use for storing text metadata properties and serialization
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
 public class TextMetadataNode extends AMetadataNode{
-
-	private String _text = null;
-
-	public String getText() {
-		return _text;
-	}
-
-	public void setText(String text) {
-		this._text = text;
-	}
 
 	public TextMetadataNode(String id){
 		super(id);
