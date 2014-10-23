@@ -15,14 +15,30 @@ public class ConnectionNode extends ANode{
 	
 	private String _entityInstancePath;
 	private ConnectionType _type;
-	private List<ANode> _customProperties = new ArrayList<ANode>();
+	private List<ANode> _customNodes = new ArrayList<ANode>();
+	private List<VisualObjectReferenceNode> _visualReferences
+									 = new ArrayList<VisualObjectReferenceNode>();
 	
-	public List<ANode> getCustomProperties() {
-		return _customProperties;
+	public List<VisualObjectReferenceNode> getVisualReferences() {
+		return _visualReferences;
 	}
 
-	public void setCustomProperties(List<ANode> customProperties) {
-		this._customProperties = customProperties;
+	public void setVisualReferences(
+			List<VisualObjectReferenceNode> _visualReferences) {
+		this._visualReferences = _visualReferences;
+	}
+
+	public List<ANode> getCustomNodes() {
+		return _customNodes;
+	}
+
+	public void setCustomNodes(List<ANode> customProperties) {
+		this._customNodes = customProperties;
+	}
+	
+	public void addCustomNode(ANode customProperties){
+		customProperties._parent = this;
+		this.getCustomNodes().add(customProperties);
 	}
 
 	public ConnectionNode(String id) {
@@ -47,6 +63,22 @@ public class ConnectionNode extends ANode{
 
 	@Override
 	public boolean apply(IStateVisitor visitor) {
-		return visitor.visitConnectionNode(this);
+		if(visitor.inConnectionNode(this)){
+			for(ANode a : this.getCustomNodes()){
+				a.apply(visitor);
+				if (visitor.stopVisiting()) {
+					break;
+				}
+			}
+			
+			for(VisualObjectReferenceNode vis : this.getVisualReferences()){
+				vis.apply(visitor);
+				if (visitor.stopVisiting()) {
+					break;
+				}
+			}
+			
+		}
+		return visitor.outConnectionNode(this);
 	}
 }

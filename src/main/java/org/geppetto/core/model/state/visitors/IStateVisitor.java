@@ -50,6 +50,7 @@ import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
+import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
 
 /**
  * @author matteocantarelli
@@ -105,5 +106,10 @@ public interface IStateVisitor
 
 	boolean stopVisiting();
 
-	boolean visitConnectionNode(ConnectionNode connectionNode);
+	boolean inConnectionNode(ConnectionNode connectionNode);
+	
+	boolean outConnectionNode(ConnectionNode connectionNode);
+	
+	boolean visitVisualObjectReferenceNode(VisualObjectReferenceNode visualReferenceNode);
+
 }

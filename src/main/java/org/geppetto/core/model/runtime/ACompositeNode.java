@@ -54,7 +54,7 @@ public abstract class ACompositeNode extends ANode
 	{
 		if (child != null){
 			_children.add(child);
-			child._parent=this; //double link
+			child._parent = this; //double link
 			return child;
 		}
 		return null;

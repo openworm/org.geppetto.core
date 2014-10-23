@@ -46,7 +46,15 @@ import org.geppetto.core.model.values.AValue;
  */
 public class TextMetadataNode extends AMetadataNode{
 
-	private Map<String, Object> _properties = new HashMap<String, Object>();
+	private String _text = null;
+
+	public String getText() {
+		return _text;
+	}
+
+	public void setText(String text) {
+		this._text = text;
+	}
 
 	public TextMetadataNode(String id){
 		super(id);
@@ -56,19 +64,10 @@ public class TextMetadataNode extends AMetadataNode{
 		super(id);
 		setName(name);
 	}
-
-	
-	public TextMetadataNode(){
-		super("TextMetadataNode");
-	}
 	
 	@Override
 	public boolean apply(IStateVisitor visitor)
 	{
 		return visitor.visitTextMetadataNode(this);
-	}
-
-	public void setAdditionalProperty(String property, String value) {
-		_properties.put(property, value);
 	}
 }
