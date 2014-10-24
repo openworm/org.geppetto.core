@@ -27,6 +27,11 @@ public class ConnectionNode extends ANode{
 			List<VisualObjectReferenceNode> _visualReferences) {
 		this._visualReferences = _visualReferences;
 	}
+	
+	public void addVisualReferencesNode(VisualObjectReferenceNode visualObjectReferenceNode){
+		visualObjectReferenceNode._parent = this;
+		this.getVisualReferences().add(visualObjectReferenceNode);
+	}
 
 	public List<ANode> getCustomNodes() {
 		return _customNodes;

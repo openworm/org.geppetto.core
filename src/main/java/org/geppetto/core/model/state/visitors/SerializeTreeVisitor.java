@@ -681,8 +681,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	}
 
 	public String getSerializedTree() {
-		if (_serialized.charAt(_serialized.length() - 1) == ',')
-			_serialized.deleteCharAt(_serialized.lastIndexOf(","));
-		return _serialized.toString();
+		if (_serialized.length() != 0){
+			if (_serialized.charAt(_serialized.length() - 1) == ',')
+				_serialized.deleteCharAt(_serialized.lastIndexOf(","));
+			return _serialized.toString();
+		}
+		return "";
 	}
 }
