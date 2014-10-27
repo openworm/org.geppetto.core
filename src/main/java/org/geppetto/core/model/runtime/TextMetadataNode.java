@@ -33,6 +33,8 @@
 package org.geppetto.core.model.runtime;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
+import org.geppetto.core.model.values.AValue;
+import org.geppetto.core.model.values.StringValue;
 
 /**
  * Node use for storing text metadata properties and serialization
@@ -42,20 +44,16 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
  */
 public class TextMetadataNode extends AMetadataNode{
 
-	private String _text = null;
-
-	public String getText() {
-		return _text;
-	}
-
-	public void setText(String text) {
-		this._text = text;
-	}
-
 	public TextMetadataNode(String id){
 		super(id);
 	}
 	
+	public TextMetadataNode(String id, String name, AValue value) {
+		super(id);
+		this._name = name;
+		setValue(value);
+	}
+
 	@Override
 	public boolean apply(IStateVisitor visitor)
 	{

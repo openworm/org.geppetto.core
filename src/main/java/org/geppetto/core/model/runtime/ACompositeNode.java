@@ -52,9 +52,12 @@ public abstract class ACompositeNode extends ANode
 	
 	public ANode addChild(ANode child)
 	{
-		_children.add(child);
-		child._parent=this; //double link
-		return child;
+		if (child != null){
+			_children.add(child);
+			child._parent=this; //double link
+			return child;
+		}
+		return null;
 	}
 	
 	public List<ANode> getChildren()
@@ -87,9 +90,11 @@ public abstract class ACompositeNode extends ANode
 	/**
 	 * @param states
 	 */
-	public void addChildren(Collection<ANode> states)
+	public void addChildren(Collection<? extends ANode> states)
 	{
-		_children.addAll(states);
+		for (ANode state : states){
+			addChild(state);
+		}
 		
 	}
 }

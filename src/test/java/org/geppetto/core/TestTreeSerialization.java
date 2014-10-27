@@ -120,9 +120,7 @@ public class TestTreeSerialization {
 
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals(
-				"{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"value\":50.0,\"unit\":null,\"scale\":null,\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"value\":20.0,\"unit\":null,\"scale\":null,\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
-				serialized);
+		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"value\":50.0,\"unit\":null,\"scale\":null,\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"value\":20.0,\"unit\":null,\"scale\":null,\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
 	}
 
 	@Test
@@ -195,9 +193,7 @@ public class TestTreeSerialization {
 
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals(
-				"{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"value\":50.0,\"unit\":\"V\",\"scale\":\"1.E3\",\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"value\":50.0,\"unit\":\"mV\",\"scale\":\"1.E3\",\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
-				serialized);
+		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"value\":50.0,\"unit\":\"V\",\"scale\":\"1.E3\",\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"value\":50.0,\"unit\":\"mV\",\"scale\":\"1.E3\",\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
 	}
 
 	@Test
@@ -407,9 +403,7 @@ public class TestTreeSerialization {
 
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals(
-				"{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"ModelTree\":{\"type\":\"ModelTree\",\"id\":\"ModelTree\",\"instancePath\":\"Entity_A.Aspect_A.ModelTree\",\"_metaType\":\"AspectSubTreeNode\"},\"VisualizationTree\":{\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"instancePath\":\"Entity_A.Aspect_A.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
-				serialized);
+		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"ModelTree\":{\"type\":\"ModelTree\",\"id\":\"ModelTree\",\"instancePath\":\"Entity_A.Aspect_A.ModelTree\",\"_metaType\":\"AspectSubTreeNode\"},\"VisualizationTree\":{\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"instancePath\":\"Entity_A.Aspect_A.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
 	}
 
 	/**
@@ -458,9 +452,7 @@ public class TestTreeSerialization {
 
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals(
-				"{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"ModelTree\":{\"type\":\"ModelTree\",\"id\":\"ModelTree\",\"instancePath\":\"Entity_A.Aspect_A.ModelTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
-				serialized);
+		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"ModelTree\":{\"type\":\"ModelTree\",\"id\":\"ModelTree\",\"instancePath\":\"Entity_A.Aspect_A.ModelTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
 	}
 
 	/**
@@ -505,9 +497,7 @@ public class TestTreeSerialization {
 
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals(
-				"{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
-				serialized);
+		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
 	}
 
 	/**
@@ -553,9 +543,7 @@ public class TestTreeSerialization {
 
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals(
-				"{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"VisualizationTree\":{\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"instancePath\":\"Entity_A.Aspect_A.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
-				serialized);
+		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"VisualizationTree\":{\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"instancePath\":\"Entity_A.Aspect_A.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
 	}
 
 	/**

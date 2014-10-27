@@ -112,7 +112,6 @@ public class TestNetworkSerialization {
 		visObj.setVisualObjectId(sphere.getId());
 		TextMetadataNode text = new TextMetadataNode("Text");
 		text.setValue(new DoubleValue(2));
-		text.setText("Basic information for text goes here");
 		
 		URLMetadataNode url = new URLMetadataNode("URL");
 		url.setValue(new DoubleValue(2));
