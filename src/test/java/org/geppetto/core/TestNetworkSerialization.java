@@ -45,6 +45,7 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
@@ -61,6 +62,8 @@ import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
 import org.geppetto.core.model.runtime.VariableNode;
+import org.geppetto.core.model.runtime.VisualGroupElementNode;
+import org.geppetto.core.model.runtime.VisualGroupNode;
 import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
 import org.geppetto.core.model.simulation.ConnectionType;
 import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
@@ -76,6 +79,71 @@ import com.google.gson.JsonParser;
 
 public class TestNetworkSerialization {
 
+	@Test
+	public void testVisualGroups() {
+
+		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
+
+		EntityNode hhcell = new EntityNode("hhcell");
+		
+		EntityNode purkinje = new EntityNode("purkinje");
+
+		AspectNode electrical = new AspectNode("electrical");
+		AspectNode electrical2 = new AspectNode("electrical");
+
+		AspectSubTreeNode visualization = electrical.getSubTree(AspectTreeType.VISUALIZATION_TREE);
+		SphereNode sphere = new SphereNode("purkinje");
+		visualization.addChild(sphere);
+
+		runtime.addChild(hhcell);
+		runtime.addChild(purkinje);
+		hhcell.getAspects().add(electrical);
+		purkinje.getAspects().add(electrical2);
+		electrical.setParent(hhcell);
+		electrical2.setParent(purkinje);
+		
+		VisualGroupNode group = new VisualGroupNode("group");
+		group.setName("Group 1");
+		group.setHighSpectrumColor("red");
+		group.setLowSpectrumColor("yellow");
+		group.setType("group");
+		
+		VisualGroupElementNode soma = new VisualGroupElementNode("soma");
+		soma.setDefaultColor("orange");
+		Quantity quantity = new Quantity();
+		quantity.setScalingFactor("ms");
+		quantity.setValue(new DoubleValue(12));
+		soma.setParameter(quantity);
+		
+		VisualGroupElementNode synapse = new VisualGroupElementNode("synapse");
+		synapse.setDefaultColor("orange");
+		Quantity quantity2 = new Quantity();
+		quantity2.setScalingFactor("ms");
+		quantity2.setValue(new DoubleValue(12));
+		synapse.setParameter(quantity2);
+		
+		group.getVisualGroupElements().add(soma);
+		group.getVisualGroupElements().add(synapse);
+		
+		visualization.addChild(group);
+		
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		runtime.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(serialized);
+		String prettyJsonString = gson.toJson(je);
+
+		System.out.println(prettyJsonString);
+
+//		Assert.assertEquals(
+//				"{\"root\":{\"hhcell\":{\"electrical\":{\"id\":\"electrical\",\"instancePath\":\"hhcell.electrical\",\"_metaType\":\"AspectNode\"},\"Connection_1\":{\"entityInstancePath\":\"hhcell\",\"type\":\"TO\",\"id\":\"Connection_1\",\"instancePath\":\"hhcell.Connection_1\",\"_metaType\":\"ConnectionNode\"},\"id\":\"hhcell\",\"instancePath\":\"hhcell\",\"_metaType\":\"EntityNode\"},\"purkinje\":{\"electrical\":{\"id\":\"electrical\",\"instancePath\":\"purkinje.electrical\",\"_metaType\":\"AspectNode\"},\"Connection_2\":{\"entityInstancePath\":\"purkinje\",\"type\":\"FROM\",\"id\":\"Connection_2\",\"instancePath\":\"purkinje.Connection_2\",\"_metaType\":\"ConnectionNode\"},\"id\":\"purkinje\",\"instancePath\":\"purkinje\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
+//				serialized);
+	}
+	
 	@Test
 	public void testConnection() {
 

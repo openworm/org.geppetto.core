@@ -3,6 +3,7 @@ package org.geppetto.core.model.runtime;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
+ * Used inside connections to reference 3D objects
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *

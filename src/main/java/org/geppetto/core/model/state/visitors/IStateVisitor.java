@@ -50,6 +50,8 @@ import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
+import org.geppetto.core.model.runtime.VisualGroupElementNode;
+import org.geppetto.core.model.runtime.VisualGroupNode;
 import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
 
 /**
@@ -77,6 +79,10 @@ public interface IStateVisitor
 	boolean inRuntimeTreeRoot(RuntimeTreeRoot runtimeTreeRoot);
 
 	boolean outRuntimeTreeRoot(RuntimeTreeRoot runtimeTreeRoot);
+	
+	boolean inVisualGroupNode(VisualGroupNode visualGroupNode);
+
+	boolean outVisualGroupNode(VisualGroupNode visualGroupNode);
 	
 	boolean visitVariableNode( VariableNode node );
 	
@@ -111,5 +117,7 @@ public interface IStateVisitor
 	boolean outConnectionNode(ConnectionNode connectionNode);
 	
 	boolean visitVisualObjectReferenceNode(VisualObjectReferenceNode visualReferenceNode);
+
+	boolean visitVisualGroupElementNode(VisualGroupElementNode visualGroupElementNode);
 
 }

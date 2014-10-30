@@ -63,10 +63,13 @@ import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
 import org.geppetto.core.model.runtime.VariableNode;
+import org.geppetto.core.model.runtime.VisualGroupElementNode;
+import org.geppetto.core.model.runtime.VisualGroupNode;
 import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.visualisation.model.Point;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class SerializeTreeVisitor extends DefaultStateVisitor {
@@ -320,6 +323,36 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		_serialized.append(entityId + type+ commonproperties+ "},");
 		return super.outConnectionNode(node);
 	}
+
+	@Override
+	public boolean inVisualGroupNode(VisualGroupNode node) {
+		String namePath = "\"" + node.getId() + "\":";
+
+		_serialized.append(namePath + "{");
+		return super.inVisualGroupNode(node);
+
+	}
+	
+	@Override
+	public boolean outVisualGroupNode(VisualGroupNode node) {
+
+		String commonproperties = this.commonProperties(node);
+		
+		String highSpectrumColor = "";
+		if (node.getHighSpectrumColor()!=null) {
+			highSpectrumColor = "\"highSpectrumColor\":" + "\"" + node.getHighSpectrumColor()+ "\",";
+		}
+		
+		String lowSpectrumColor = "";
+		if (node.getLowSpectrumColor()!=null) {
+			lowSpectrumColor = "\"lowSpectrumColor\":" + "\"" + node.getLowSpectrumColor()+ "\",";
+		}
+		
+		String type = "\"type\":" + "\"" +node.getType()+ "\",";
+		
+		_serialized.append(highSpectrumColor+ lowSpectrumColor + type+ commonproperties+ "},");
+		return super.outVisualGroupNode(node);
+	}
 	
 	@Override
 	public boolean visitVisualObjectReferenceNode(VisualObjectReferenceNode node){
@@ -333,6 +366,25 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		_serialized.append("\"" + node.getId() + "\":{" +aspectInstancePath + visualObjectID + commonProperties + "},");
 		
 		return super.visitVisualObjectReferenceNode(node);
+	}
+	
+	@Override
+	public boolean visitVisualGroupElementNode(VisualGroupElementNode node){
+		
+		String parameter = "";
+		if(node.getParameter()!=null){
+			String param = "value\":" + node.getParameter().getValue().toString() + 
+							",\"scalingFactor\":" + "\"" + node.getParameter().getScalingFactor();
+			parameter = "\"parameter\":{" + "\"" +param+ "\"},";
+		}
+		
+		String color = "\"color\":" + "\"" +node.getDefaultColor()+ "\",";
+		
+		String commonProperties = this.commonProperties(node);
+		
+		_serialized.append("\"" + node.getId() + "\":{" +parameter + color + commonProperties + "},");
+		
+		return super.visitVisualGroupElementNode(node);
 	}
 	
 	@Override
@@ -553,9 +605,23 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		if (radius != null) {
 			radiusString = "\"" + radius.toString() + "\"";
 		}
+		
+		List<String> map = node.getGroupElementsMap();
+
+		String groups = "\"groups\":{";
+
+		for (int index = 0; index < map.size(); index++) {
+			groups = groups.concat("\"" + index + "\":\""
+					+ map.get(index) + "\"");
+			if (index < (map.size() - 1)) {
+				groups = groups.concat(",");
+			}
+		}
+
+		groups = groups.concat("},");
 
 		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
-				+ "}," + "\"radius\":" + radiusString + ","+ commonProperties
+				+ "}," + groups + "\"radius\":" + radiusString + ","+ commonProperties
 				+ "},");
 
 		return super.visitSphereNode(node);
@@ -595,9 +661,24 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		if (radiusTop != null) {
 			radiusTopString = "\"" + radiusTop.toString() + "\"";
 		}
+		
+		List<String> map = node.getGroupElementsMap();
+
+		String groups = "\"groups\":{";
+
+		for (int index = 0; index < map.size(); index++) {
+			groups = groups.concat("\"" + index + "\":\""
+					+ map.get(index) + "\"");
+			if (index < (map.size() - 1)) {
+				groups = groups.concat(",");
+			}
+		}
+
+		groups = groups.concat("},");
 
 		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
 				+ "}," + "\"distal\":{" + distalString + "},"
+				+ groups
 				+ "\"radiusBottom\":" + radiusBottomString + ","
 				+ "\"radiusTop\":" + radiusTopString + "," + commonProperties
 				+ "},");
