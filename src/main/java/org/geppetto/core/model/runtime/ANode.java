@@ -45,6 +45,7 @@ public abstract class ANode implements IVisitable
 	protected ANode _parent;
 	protected String _name;
 	protected String _id;
+	protected String _domainType;
 
 	public String getMetaType(){
 		return this.getClass().getSimpleName();
@@ -55,6 +56,14 @@ public abstract class ANode implements IVisitable
 		super();
 		_id = id;
 		_parent = null;
+	}
+	
+	public void setDomainType(String domainType){
+		this._domainType=domainType;
+	}
+	
+	public String getDomainType(){
+		return this._domainType;
 	}
 
 	public void setName(String name){

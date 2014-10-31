@@ -59,6 +59,30 @@
 		</restriction>
 	</simpleType>
 	
+	<complexType name="VisualObjectReference">
+		<sequence>
+			<element name="aspectInstancePath" type="string"
+				maxOccurs="1" minOccurs="1">
+			</element>
+			<element name="visualObjectID" type="string" maxOccurs="1"
+				minOccurs="1">
+			</element>
+			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="CustomProperty">
+		<sequence>
+			<element name="name" type="string"
+				maxOccurs="1" minOccurs="1">
+			</element>
+			<element name="value" type="float" maxOccurs="1"
+				minOccurs="1">
+			</element>
+			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+	</complexType>
+	
 	<complexType name="Aspect">
 		<sequence>
 			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
@@ -118,6 +142,22 @@
 			<element name="entityInstancePath" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="type" type="tns:ConnectionType" maxOccurs="1"
 				minOccurs="1"></element>
+			<element name="visualReference" type="tns:VisualObjectReference"
+				maxOccurs="unbounded" minOccurs="0">
+				<annotation>
+					<appinfo>
+						<jxb:property name="visualObjectReferences" />
+					</appinfo>
+				</annotation>
+			</element>
+			<element name="customProperty" type="tns:CustomProperty"
+				maxOccurs="unbounded" minOccurs="0">
+				<annotation>
+					<appinfo>
+						<jxb:property name="customProperties" />
+					</appinfo>
+				</annotation>
+			</element>
 		</sequence>
 	</complexType>
 

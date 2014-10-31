@@ -63,9 +63,13 @@ import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
 import org.geppetto.core.model.runtime.VariableNode;
+import org.geppetto.core.model.runtime.VisualGroupElementNode;
+import org.geppetto.core.model.runtime.VisualGroupNode;
+import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.visualisation.model.Point;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class SerializeTreeVisitor extends DefaultStateVisitor {
@@ -89,6 +93,16 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		if (node.getId() != null) {
 			id = "\"id\":" + "\"" + node.getId() + "\",";
 		}
+		
+		String name = "";
+		if (node.getName() != null) {
+			name = "\"name\":" + "\"" + node.getName() + "\",";
+		}
+		
+		String domainType = "";
+		if (node.getDomainType() != null) {
+			domainType = "\"domainType\":" + "\"" + node.getDomainType() + "\",";
+		}
 
 		String instancePath = "";
 		if (node.getInstancePath() != null) {
@@ -98,16 +112,12 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			}
 		}
 
-		String name = "\"name\":" + "\"" + ((node.getName()!= null)?node.getName():node.getId()) + "\",";
-
 		String metaType = "";
 		if (node.getMetaType() != null) {
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
-		
-		
 
-		return id + instancePath + name + metaType;
+		return id + name + domainType + instancePath + metaType;
 	}
 
 	@Override
@@ -261,20 +271,9 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 				type = "\"type\":" + "\"" + node.getType() + "\",";
 			}
 
-			String instancePath = "";
-			if (node.getInstancePath() != null) {
-				if (!node.getInstancePath().equals("")) {
-					instancePath = "\"instancePath\":" + "\""
-							+ node.getInstancePath() + "\",";
-				}
-			}
+			String commonProperties = this.commonProperties(node);
 
-			String metaType = "";
-			if (node.getMetaType() != null) {
-				metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
-			}
-
-			_serialized.append(type + instancePath + metaType + "},");
+			_serialized.append(type + commonProperties + "},");
 
 			return super.outAspectSubTreeNode(node);
 		}
@@ -301,7 +300,16 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	}
 
 	@Override
-	public boolean visitConnectionNode(ConnectionNode node) {
+	public boolean inConnectionNode(ConnectionNode node) {
+		String namePath = "\"" + node.getId() + "\":";
+
+		_serialized.append(namePath + "{");
+		return super.inConnectionNode(node);
+
+	}
+	
+	@Override
+	public boolean outConnectionNode(ConnectionNode node) {
 
 		String commonproperties = this.commonProperties(node);
 		
@@ -312,9 +320,71 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		
 		String type = "\"type\":" + "\"" +node.getConnectionType().toString()+ "\",";
 		
-		_serialized.append("\"" + node.getId() + "\":{"
-				+entityId + type+ commonproperties+ "},");
-		return super.visitConnectionNode(node);
+		_serialized.append(entityId + type+ commonproperties+ "},");
+		return super.outConnectionNode(node);
+	}
+
+	@Override
+	public boolean inVisualGroupNode(VisualGroupNode node) {
+		String namePath = "\"" + node.getId() + "\":";
+
+		_serialized.append(namePath + "{");
+		return super.inVisualGroupNode(node);
+
+	}
+	
+	@Override
+	public boolean outVisualGroupNode(VisualGroupNode node) {
+
+		String commonproperties = this.commonProperties(node);
+		
+		String highSpectrumColor = "";
+		if (node.getHighSpectrumColor()!=null) {
+			highSpectrumColor = "\"highSpectrumColor\":" + "\"" + node.getHighSpectrumColor()+ "\",";
+		}
+		
+		String lowSpectrumColor = "";
+		if (node.getLowSpectrumColor()!=null) {
+			lowSpectrumColor = "\"lowSpectrumColor\":" + "\"" + node.getLowSpectrumColor()+ "\",";
+		}
+		
+		String type = "\"type\":" + "\"" +node.getType()+ "\",";
+		
+		_serialized.append(highSpectrumColor+ lowSpectrumColor + type+ commonproperties+ "},");
+		return super.outVisualGroupNode(node);
+	}
+	
+	@Override
+	public boolean visitVisualObjectReferenceNode(VisualObjectReferenceNode node){
+		
+		String aspectInstancePath = "\"aspectInstancePath\":" + "\"" +node.getAspectInstancePath()+ "\",";
+		
+		String visualObjectID = "\"visualObjectID\":" + "\"" +node.getVisualObjectId()+ "\",";
+		
+		String commonProperties = this.commonProperties(node);
+		
+		_serialized.append("\"" + node.getId() + "\":{" +aspectInstancePath + visualObjectID + commonProperties + "},");
+		
+		return super.visitVisualObjectReferenceNode(node);
+	}
+	
+	@Override
+	public boolean visitVisualGroupElementNode(VisualGroupElementNode node){
+		
+		String parameter = "";
+		if(node.getParameter()!=null){
+			String param = "value\":" + node.getParameter().getValue().toString() + 
+							",\"scalingFactor\":" + "\"" + node.getParameter().getScalingFactor();
+			parameter = "\"parameter\":{" + "\"" +param+ "\"},";
+		}
+		
+		String color = "\"color\":" + "\"" +node.getDefaultColor()+ "\",";
+		
+		String commonProperties = this.commonProperties(node);
+		
+		_serialized.append("\"" + node.getId() + "\":{" +parameter + color + commonProperties + "},");
+		
+		return super.visitVisualGroupElementNode(node);
 	}
 	
 	@Override
@@ -491,13 +561,12 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	@Override
 	public boolean visitTextMetadataNode(TextMetadataNode node) {
 		String commonProperties = this.commonProperties(node);
-		
 		String valueString = "";
 		if (node.getValue() != null){
 			AValue value = node.getValue();
 			valueString = "\"value\":" + "\"" + value + "\",";
 		}
-
+		
 		_serialized.append("\"" + node.getId() + "\":{" + valueString.replaceAll("[\n\r]", "") + commonProperties+ "},");
 
 		return super.visitTextMetadataNode(node);
@@ -505,27 +574,21 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 	@Override
 	public boolean visitURLMetadataNode(URLMetadataNode node) {
-		String metaType = "";
-		if (node.getMetaType() != null) {
-			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
+		String commonProperties = this.commonProperties(node);
+		
+		String url = "";
+		if(node.getURL()!=null){
+			url = "\"url\":" + "\"" + node.getURL()+ "\",";
 		}
 
-		_serialized.append("\"" + node.getId() + "\":{" + metaType + "},");
+		_serialized.append("\"" + node.getId() + "\":{" + url +commonProperties + "},");
 
 		return super.visitURLMetadataNode(node);
 	}
 
 	@Override
 	public boolean visitSphereNode(SphereNode node) {
-		String id = "";
-		if (node.getId() != null) {
-			id = "\"id\":" + "\"" + node.getId() + "\",";
-		}
-		
-		String metaType = "";
-		if (node.getMetaType() != null) {
-			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
-		}
+		String commonProperties = this.commonProperties(node);
 
 		Point position = node.getPosition();
 		String name = node.getId();
@@ -542,9 +605,23 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		if (radius != null) {
 			radiusString = "\"" + radius.toString() + "\"";
 		}
+		
+		List<String> map = node.getGroupElementsMap();
+
+		String groups = "\"groups\":{";
+
+		for (int index = 0; index < map.size(); index++) {
+			groups = groups.concat("\"" + index + "\":\""
+					+ map.get(index) + "\"");
+			if (index < (map.size() - 1)) {
+				groups = groups.concat(",");
+			}
+		}
+
+		groups = groups.concat("},");
 
 		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
-				+ "}," + "\"radius\":" + radiusString + ","+ id + metaType
+				+ "}," + groups + "\"radius\":" + radiusString + ","+ commonProperties
 				+ "},");
 
 		return super.visitSphereNode(node);
@@ -552,15 +629,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 	@Override
 	public boolean visitCylinderNode(CylinderNode node) {
-		String id = "";
-		if (node.getId() != null) {
-			id = "\"id\":" + "\"" + node.getId() + "\",";
-		}
-		
-		String metaType = "";
-		if (node.getMetaType() != null) {
-			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
-		}
+		String commonProperties = this.commonProperties(node);
 
 		Point position = node.getPosition();
 		String name = node.getId();
@@ -592,11 +661,26 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		if (radiusTop != null) {
 			radiusTopString = "\"" + radiusTop.toString() + "\"";
 		}
+		
+		List<String> map = node.getGroupElementsMap();
+
+		String groups = "\"groups\":{";
+
+		for (int index = 0; index < map.size(); index++) {
+			groups = groups.concat("\"" + index + "\":\""
+					+ map.get(index) + "\"");
+			if (index < (map.size() - 1)) {
+				groups = groups.concat(",");
+			}
+		}
+
+		groups = groups.concat("},");
 
 		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
 				+ "}," + "\"distal\":{" + distalString + "},"
+				+ groups
 				+ "\"radiusBottom\":" + radiusBottomString + ","
-				+ "\"radiusTop\":" + radiusTopString + "," + id + metaType
+				+ "\"radiusTop\":" + radiusTopString + "," + commonProperties
 				+ "},");
 
 		return super.visitCylinderNode(node);
@@ -604,15 +688,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 	@Override
 	public boolean visitParticleNode(ParticleNode node) {
-		String id = "";
-		if (node.getId() != null) {
-			id = "\"id\":" + "\"" + node.getId() + "\",";
-		}
-		
-		String metaType = "";
-		if (node.getMetaType() != null) {
-			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
-		}
+		String commonProperties = this.commonProperties(node);
 
 		Point position = node.getPosition();
 		String name = node.getId();
@@ -625,17 +701,14 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		}
 
 		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
-				+ "}," + id+ metaType + "},");
+				+ "}," + commonProperties + "},");
 
 		return super.visitParticleNode(node);
 	}
 
 	@Override
 	public boolean visitColladaNode(ColladaNode node) {
-		String metaType = "";
-		if (node.getMetaType() != null) {
-			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
-		}
+		String commonProperties = this.commonProperties(node);
 
 		Point position = node.getPosition();
 		String name = node.getId();
@@ -653,30 +726,17 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			obj.addProperty("data", node.getModel());
 			model = "\"model\":" + obj.toString() + ",";
 		}
-
-		String id = "";
-		if (node.getId() != null) {
-			id = "\"id\":" + "\"" + node.getId() + "\",";
-		}
-
+		
 		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
-				+ "}," + model + id + metaType + "},");
+				+ "}," + model + commonProperties + "},");
 
 		return super.visitColladaNode(node);
 	}
 
 	@Override
 	public boolean visitObjNode(OBJNode node) {
-		String metaType = "";
-		if (node.getMetaType() != null) {
-			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
-		}
-
-		String id = "";
-		if (node.getId() != null) {
-			id = "\"id\":" + "\"" + node.getId() + "\",";
-		}
-
+		String commonProperties = this.commonProperties(node);
+		
 		Point position = node.getPosition();
 		String name = node.getId();
 		String positionString = "";
@@ -695,14 +755,17 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		}
 
 		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
-				+ "}," + model + id + metaType + "},");
+				+ "}," + model + commonProperties + "},");
 
 		return super.visitObjNode(node);
 	}
 
 	public String getSerializedTree() {
-		if (_serialized.charAt(_serialized.length() - 1) == ',')
-			_serialized.deleteCharAt(_serialized.lastIndexOf(","));
-		return _serialized.toString();
+		if (_serialized.length() != 0){
+			if (_serialized.charAt(_serialized.length() - 1) == ',')
+				_serialized.deleteCharAt(_serialized.lastIndexOf(","));
+			return _serialized.toString();
+		}
+		return "";
 	}
 }
