@@ -119,5 +119,4 @@ public interface IStateVisitor
 	boolean visitVisualObjectReferenceNode(VisualObjectReferenceNode visualReferenceNode);
 
 	boolean visitVisualGroupElementNode(VisualGroupElementNode visualGroupElementNode);
-
 }

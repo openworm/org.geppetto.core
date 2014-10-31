@@ -40,6 +40,7 @@ import org.geppetto.core.model.values.StringValue;
  * Node use for storing text metadata properties and serialization
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
 public class TextMetadataNode extends AMetadataNode{
