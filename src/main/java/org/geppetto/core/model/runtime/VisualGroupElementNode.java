@@ -1,5 +1,6 @@
 package org.geppetto.core.model.runtime;
 
+import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
@@ -12,7 +13,7 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
 public class VisualGroupElementNode extends ANode{
 
 	private String _defaultColor;
-	private Quantity _parameter;
+	private PhysicalQuantity _parameter;
 	
 	public VisualGroupElementNode(String id) {
 		super(id);
@@ -26,11 +27,11 @@ public class VisualGroupElementNode extends ANode{
 		this._defaultColor = defaultColor;
 	}
 	
-	public Quantity getParameter(){
+	public PhysicalQuantity getParameter(){
 		return this._parameter;
 	}
 	
-	public void setParameter(Quantity parameter){
+	public void setParameter(PhysicalQuantity parameter){
 		this._parameter = parameter;
 	}
 	@Override

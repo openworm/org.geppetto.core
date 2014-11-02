@@ -69,7 +69,6 @@ import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.visualisation.model.Point;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class SerializeTreeVisitor extends DefaultStateVisitor {
@@ -374,7 +373,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		String parameter = "";
 		if(node.getParameter()!=null){
 			String param = "value\":" + node.getParameter().getValue().toString() + 
-							",\"scalingFactor\":" + "\"" + node.getParameter().getScalingFactor();
+							",\"scalingFactor\":" + "\"" + node.getParameter().getScalingFactor()+"\"" + 
+							",\"unit\":" + "\"" + node.getParameter().getUnit();
 			parameter = "\"parameter\":{" + "\"" +param+ "\"},";
 		}
 		
