@@ -300,27 +300,32 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 	@Override
 	public boolean inConnectionNode(ConnectionNode node) {
-		String namePath = "\"" + node.getId() + "\":";
+		if(node.isModified()){
+			String namePath = "\"" + node.getId() + "\":";
 
-		_serialized.append(namePath + "{");
-		return super.inConnectionNode(node);
+			_serialized.append(namePath + "{");
+			return super.inConnectionNode(node);
+		}
 
+		return this._stopVisiting;
 	}
 	
 	@Override
 	public boolean outConnectionNode(ConnectionNode node) {
+		if(node.isModified()){
+			String commonproperties = this.commonProperties(node);
 
-		String commonproperties = this.commonProperties(node);
-		
-		String entityId = "";
-		if (node.getEntityInstancePath() != null) {
-			entityId = "\"entityInstancePath\":" + "\"" + node.getEntityInstancePath()+ "\",";
+			String entityId = "";
+			if (node.getEntityInstancePath() != null) {
+				entityId = "\"entityInstancePath\":" + "\"" + node.getEntityInstancePath()+ "\",";
+			}
+
+			String type = "\"type\":" + "\"" +node.getConnectionType().toString()+ "\",";
+
+			_serialized.append(entityId + type+ commonproperties+ "},");
+			return super.outConnectionNode(node);
 		}
-		
-		String type = "\"type\":" + "\"" +node.getConnectionType().toString()+ "\",";
-		
-		_serialized.append(entityId + type+ commonproperties+ "},");
-		return super.outConnectionNode(node);
+		return this._stopVisiting;
 	}
 
 	@Override

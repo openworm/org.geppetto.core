@@ -18,6 +18,7 @@ public class ConnectionNode extends ANode{
 	private List<ANode> _customNodes = new ArrayList<ANode>();
 	private List<VisualObjectReferenceNode> _visualReferences
 									 = new ArrayList<VisualObjectReferenceNode>();
+	private boolean _modified = true;;
 	
 	public List<VisualObjectReferenceNode> getVisualReferences() {
 		return _visualReferences;
@@ -56,6 +57,14 @@ public class ConnectionNode extends ANode{
 		return this._type;
 	}
 
+	public boolean isModified() {
+		return this._modified;
+	}
+
+	public void setModified(boolean mode) {
+		this._modified = mode;
+	}
+	
 	@Override
 	public boolean apply(IStateVisitor visitor) {
 		if(visitor.inConnectionNode(this)){
