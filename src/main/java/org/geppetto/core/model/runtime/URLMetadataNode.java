@@ -43,6 +43,8 @@ import org.geppetto.core.model.state.visitors.IStateVisitor;
 public class URLMetadataNode extends AMetadataNode{
 	
 	
+	private String _url;
+
 	public URLMetadataNode(String id) {
 		super(id);
 	}
@@ -51,5 +53,13 @@ public class URLMetadataNode extends AMetadataNode{
 	public boolean apply(IStateVisitor visitor)
 	{
 		return visitor.visitURLMetadataNode(this);
+	}
+
+	public void setURL(String url) {
+		this._url = url;
+	}
+	
+	public String getURL(){
+		return this._url;
 	}
 }

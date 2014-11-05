@@ -50,6 +50,9 @@ import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
+import org.geppetto.core.model.runtime.VisualGroupElementNode;
+import org.geppetto.core.model.runtime.VisualGroupNode;
+import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
 
 /**
  * @author matteocantarelli
@@ -184,7 +187,34 @@ public class DefaultStateVisitor implements IStateVisitor
 	}
 
 	@Override
-	public boolean visitConnectionNode(ConnectionNode connectionNode) {
+	public boolean inConnectionNode(ConnectionNode connectionNode) {
+		return !_stopVisiting;
+	}
+	
+	@Override
+	public boolean outConnectionNode(ConnectionNode connectionNode) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean visitVisualObjectReferenceNode(
+			VisualObjectReferenceNode visualReferenceNode) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean inVisualGroupNode(VisualGroupNode visualGroupNode) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean outVisualGroupNode(VisualGroupNode visualGroupNode) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean visitVisualGroupElementNode(
+			VisualGroupElementNode visualGroupElementNode) {
 		return !_stopVisiting;
 	}
 }
