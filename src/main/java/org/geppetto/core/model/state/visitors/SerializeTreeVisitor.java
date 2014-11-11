@@ -440,12 +440,12 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			Set<String> keys = props.keySet();
 			int index = 0;
 			for (String key : keys) {
-				index++;
 				properties = properties.concat("\"" + key + "\":\""
 						+ props.get(key) + "\"");
 				if (index < (props.size() - 1)) {
 					properties = properties.concat(",");
 				}
+				index++;
 			}
 
 			properties = properties.concat("},");
@@ -555,10 +555,31 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 			properties = properties.concat("},");
 		}
+		
+		String plotMetadata = "";
+
+		if (node.getPlotMetadata().size() > 0) {
+			HashMap<String, String> props = node.getPlotMetadata();
+
+			plotMetadata = "\"plotMetadata\":{";
+
+			Set<String> keys = props.keySet();
+			int index = 0;
+			for (String key : keys) {
+				plotMetadata = plotMetadata.concat("\"" + key + "\":\""
+						+ props.get(key) + "\"");
+				if (index < (props.size() - 1)) {
+					plotMetadata = plotMetadata.concat(",");
+				}
+				index++;
+			}
+
+			plotMetadata = plotMetadata.concat("},");
+		}
 
 		_serialized.append("\"" + node.getId() + "\":{" + "\"expression\":"
 				+ "\"" + node.getExpression() + "\"," + properties
-				+ commonProperties + "},");
+				+ plotMetadata + commonProperties + "},");
 
 		return super.visitFunctionNode(node);
 	}
