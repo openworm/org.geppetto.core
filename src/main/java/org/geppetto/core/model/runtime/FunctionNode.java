@@ -33,7 +33,9 @@
 package org.geppetto.core.model.runtime;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
@@ -48,6 +50,8 @@ public class FunctionNode extends ANode
 
 	private List<String> _argument = new ArrayList<String>();
 	private String _expression;
+	
+	private HashMap<String, String> _plotMetadata = new HashMap<String, String>();
 	
 	public FunctionNode(String id)
 	{
@@ -77,6 +81,10 @@ public class FunctionNode extends ANode
 	public void setExpression(String expression)
 	{
 		this._expression = expression;
+	}
+	
+	public HashMap<String, String> getPlotMetadata() {
+		return _plotMetadata;
 	}
 
 	@Override
