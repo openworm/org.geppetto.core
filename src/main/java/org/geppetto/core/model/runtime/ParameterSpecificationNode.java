@@ -51,8 +51,8 @@ public class ParameterSpecificationNode extends ANode
 	}
 	
 	public ParameterSpecificationNode(String name, String id){
-		super(name);
-		setId(id);
+		super(id);
+		this._name = name;
 	}
 	
 	public void setValue(PhysicalQuantity value){

@@ -59,8 +59,8 @@ public class FunctionNode extends ANode
 	}
 	
 	public FunctionNode(String name, String id){
-		super(name);
-		setId(id);
+		super(id);
+		this._name = name;
 	}
 
 	public List<String> getArgument()
