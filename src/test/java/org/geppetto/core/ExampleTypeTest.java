@@ -53,3 +53,4 @@ public class ExampleTypeTest {
 //		example.printMessage();
 //	}
 }
+ 
