@@ -79,6 +79,9 @@ public class AspectSubTreeNode extends ACompositeNode
 	{
 		super(treeType.toString());
 		this._type = treeType;
+		String id = treeType.toString();
+		String name = id.replace("Tree", "");
+		this.setName(name);
 	}
 	
 	/**
@@ -131,6 +134,9 @@ public class AspectSubTreeNode extends ACompositeNode
 	{
 		AspectSubTreeNode subTree = new AspectSubTreeNode(treeType.toString());
 		subTree.setId(treeType.toString());
+		String id = treeType.toString();
+		String name = id.replace("Tree", "");
+		subTree.setName(name);
 		addChild(subTree);
 		return subTree;
 	}

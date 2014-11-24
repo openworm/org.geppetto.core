@@ -132,13 +132,17 @@ public class TestNetworkSerialization {
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
 
+		/*
+		 * Parse serialized tree using gson, if it passes it returns pretty json string
+		 * and if it fails to validate serialized tree then it throws exception making test fail. 
+		 */
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		JsonParser jp = new JsonParser();
 		JsonElement je = jp.parse(serialized);
 		String prettyJsonString = gson.toJson(je);
 
 		System.out.println(prettyJsonString);
-		
+
 		Assert.assertNotNull(prettyJsonString);
 	}
 	
@@ -203,6 +207,10 @@ public class TestNetworkSerialization {
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
 
+		/*
+		 * Parse serialized tree using gson, if it passes it returns pretty json string
+		 * and if it fails to validate serialized tree then it throws exception making test fail. 
+		 */
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		JsonParser jp = new JsonParser();
 		JsonElement je = jp.parse(serialized);
@@ -399,6 +407,10 @@ public class TestNetworkSerialization {
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
 
+		/*
+		 * Parse serialized tree using gson, if it passes it returns pretty json string
+		 * and if it fails to validate serialized tree then it throws exception making test fail. 
+		 */
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		JsonParser jp = new JsonParser();
 		JsonElement je = jp.parse(serialized);
@@ -590,6 +602,10 @@ public class TestNetworkSerialization {
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
 
+		/*
+		 * Parse serialized tree using gson, if it passes it returns pretty json string
+		 * and if it fails to validate serialized tree then it throws exception making test fail. 
+		 */
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		JsonParser jp = new JsonParser();
 		JsonElement je = jp.parse(serialized);
@@ -785,6 +801,10 @@ public class TestNetworkSerialization {
 		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
 
+		/*
+		 * Parse serialized tree using gson, if it passes it returns pretty json string
+		 * and if it fails to validate serialized tree then it throws exception making test fail. 
+		 */
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		JsonParser jp = new JsonParser();
 		JsonElement je = jp.parse(serialized);
