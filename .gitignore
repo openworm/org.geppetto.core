@@ -5,3 +5,5 @@
 /.externalToolBuilders/
 /.settings/
 .classpath
+*.iml
+/target
