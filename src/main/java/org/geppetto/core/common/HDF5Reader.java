@@ -45,18 +45,21 @@ import ucar.nc2.NetcdfFile;
 public class HDF5Reader
 {
 
+    public static NetcdfFile readLocalHDF5File(String filePath) throws GeppettoExecutionException
+    {
+        try
+        {
+            return NetcdfFile.open(filePath);
+        }
+        catch(IOException ioe)
+        {
+            throw new GeppettoExecutionException(ioe);
+        }
+    }
+
 	public static NetcdfFile readHDF5File(URL url) throws GeppettoExecutionException
 	{
-		NetcdfFile ncfile = null;
-		try
-		{
-			ncfile = NetcdfFile.open(url.toExternalForm());
-			return ncfile;
-		}
-		catch(IOException ioe)
-		{
-			throw new GeppettoExecutionException(ioe);
-		}
+		return readLocalHDF5File(url.toExternalForm());
 //		finally
 //		{
 //			if(null != ncfile) try

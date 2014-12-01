@@ -41,6 +41,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.common.ArrayUtils;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
@@ -70,6 +72,7 @@ import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import ucar.ma2.Array;
 import ucar.ma2.InvalidRangeException;
 import ucar.nc2.NetcdfFile;
+import ucar.nc2.Variable;
 
 /**
  * @author matteocantarelli
@@ -104,7 +107,9 @@ public abstract class ASimulator implements ISimulator
 
 	protected List<RecordingModel> _recordings = new ArrayList<RecordingModel>();
 
-	/*
+    private static final Log logger = LogFactory.getLog(ASimulator.class);
+
+    /*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#initialize(org.geppetto.core.model.IModel, org.geppetto.core.simulation.ISimulatorCallbackListener)
@@ -313,113 +318,118 @@ public abstract class ASimulator implements ISimulator
 
 	protected void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
 	{
-		if(_recordings != null && isWatching())
-		{
-			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.WATCH_TREE);
 
-			if(watchTree.getChildren().isEmpty() || watchListModified())
-			{
-				for(RecordingModel recording : _recordings)
-				{
-					watchListModified(false);
-					NetcdfFile file = recording.getHDF5();
-					for(ucar.nc2.Variable hdfVariable : file.getVariables())
-					{
+        if(_recordings == null || !isWatching()) {
+            return;
+        }
 
-						// for every state found in the recordings check if we are watching that variable
-						String fullPath = watchTree.getInstancePath() + "." + hdfVariable.getFullName().replace("/", ".");
-						if(getWatchList().contains(fullPath))
-						{
-							fullPath = fullPath.replace(watchTree.getInstancePath() + ".", "");
+        AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.WATCH_TREE);
 
-							StringTokenizer tokenizer = new StringTokenizer(fullPath, ".");
-							ACompositeNode node = watchTree;
-							while(tokenizer.hasMoreElements())
-							{
-								String current = tokenizer.nextToken();
-								boolean found = false;
-								for(ANode child : node.getChildren())
-								{
-									if(child.getId().equals(current))
-									{
-										if(child instanceof ACompositeNode)
-										{
-											node = (ACompositeNode) child;
-										}
-										found = true;
-										break;
-									}
-								}
-								if(found)
-								{
-									continue;
-								}
-								else
-								{
-									if(tokenizer.hasMoreElements())
-									{
-										// not a leaf, create a composite state node
-										ACompositeNode newNode = new CompositeNode(current);
-										node.addChild(newNode);
-										node = newNode;
-									}
-									else
-									{
-										// it's a leaf node
-										VariableNode newNode = new VariableNode(current);
-										int[] start = { _currentRecordingIndex };
-										int[] lenght = { 1 };
-										Array value;
-										try
-										{
-											value = hdfVariable.read(start, lenght);
-											Type type = Type.fromValue(hdfVariable.getDataType().toString());
+        if(watchTree.getChildren().isEmpty() || watchListModified())
+        {
+            for(RecordingModel recording : _recordings)
+            {
+                watchListModified(false);
+                NetcdfFile file = recording.getHDF5();
 
-											PhysicalQuantity quantity = new PhysicalQuantity();
-											AValue readValue = null;
-											switch(type)
-											{
-												case DOUBLE:
-													readValue = ValuesFactory.getDoubleValue(value.getDouble(0));
-													break;
-												case FLOAT:
-													readValue = ValuesFactory.getFloatValue(value.getFloat(0));
-													break;
-												case INTEGER:
-													readValue = ValuesFactory.getIntValue(value.getInt(0));
-													break;
-												default:
-													break;
-											}
-											quantity.setValue(readValue);
-											newNode.addPhysicalQuantity(quantity);
-											node.addChild(newNode);
-										}
-										catch(IOException | InvalidRangeException e)
-										{
-											throw new GeppettoExecutionException(e);
-										}
-									}
-								}
-							}
-						}
-					}
-					_currentRecordingIndex++;
-				}
-			}
-			else
-			{
-				for(RecordingModel recording : _recordings)
-				{
-					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, watchTree.getInstancePath(), _currentRecordingIndex++);
-					watchTree.apply(updateStateTreeVisitor);
-					if(updateStateTreeVisitor.getError() != null)
-					{
-						throw new GeppettoExecutionException(updateStateTreeVisitor.getError());
-					}
-				}
-			}
-		}
+                for(ucar.nc2.Variable hdfVariable : file.getVariables())
+                {
+
+                    // for every state found in the recordings check if we are watching that variable
+                    String fullPath = watchTree.getInstancePath() + "." + hdfVariable.getFullName().replace("/", ".");
+
+                    if(getWatchList().contains(fullPath))
+                    {
+                        fullPath = fullPath.replace(watchTree.getInstancePath() + ".", "");
+
+                        StringTokenizer tokenizer = new StringTokenizer(fullPath, ".");
+                        ACompositeNode node = watchTree;
+                        while(tokenizer.hasMoreElements())
+                        {
+                            String current = tokenizer.nextToken();
+                            boolean found = false;
+                            for(ANode child : node.getChildren())
+                            {
+                                if(child.getId().equals(current))
+                                {
+                                    if(child instanceof ACompositeNode)
+                                    {
+                                        node = (ACompositeNode) child;
+                                    }
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if(found)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                if(tokenizer.hasMoreElements())
+                                {
+                                    // not a leaf, create a composite state node
+                                    ACompositeNode newNode = new CompositeNode(current);
+                                    node.addChild(newNode);
+                                    node = newNode;
+                                }
+                                else
+                                {
+                                    // it's a leaf node
+                                    VariableNode newNode = new VariableNode(current);
+                                    int[] start = { _currentRecordingIndex };
+                                    int[] lenght = { 1 };
+                                    Array value;
+                                    try
+                                    {
+                                        value = hdfVariable.read(start, lenght);
+                                        Type type = Type.fromValue(hdfVariable.getDataType().toString());
+
+                                        PhysicalQuantity quantity = new PhysicalQuantity();
+                                        AValue readValue = null;
+                                        switch(type)
+                                        {
+                                            case DOUBLE:
+                                                readValue = ValuesFactory.getDoubleValue(value.getDouble(0));
+                                                break;
+                                            case FLOAT:
+                                                readValue = ValuesFactory.getFloatValue(value.getFloat(0));
+                                                break;
+                                            case INTEGER:
+                                                readValue = ValuesFactory.getIntValue(value.getInt(0));
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                        quantity.setValue(readValue);
+                                        newNode.addPhysicalQuantity(quantity);
+                                        node.addChild(newNode);
+                                    }
+                                    catch(IOException | InvalidRangeException e)
+                                    {
+                                        throw new GeppettoExecutionException(e);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                _currentRecordingIndex++;
+            }
+        }
+        else
+        {
+            for(RecordingModel recording : _recordings)
+            {
+                UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, watchTree.getInstancePath(), _currentRecordingIndex++);
+                watchTree.apply(updateStateTreeVisitor);
+                if(updateStateTreeVisitor.getError() != null)
+                {
+                    throw new GeppettoExecutionException(updateStateTreeVisitor.getError());
+                }
+            }
+        }
+
 	}
 
 	/**
