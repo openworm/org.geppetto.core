@@ -4,7 +4,7 @@
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
 	<name>Geppetto Core Bundle</name>
-	<version>0.1.9</version>
+	<version>0.2.0</version>
 	<packaging>bundle</packaging>
 	<properties>
 		<github.global.server>github</github.global.server>
