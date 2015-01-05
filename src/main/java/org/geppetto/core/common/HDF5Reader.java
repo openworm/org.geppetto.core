@@ -50,7 +50,7 @@ public class HDF5Reader
 		NetcdfFile ncfile = null;
 		try
 		{
-			ncfile = NetcdfFile.open(url.getPath());
+			ncfile = NetcdfFile.open(url.toExternalForm());
 			return ncfile;
 		}
 		catch(IOException ioe)
