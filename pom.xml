@@ -18,6 +18,11 @@
 			<artifactId>com.springsource.org.apache.commons.logging</artifactId>
 			<version>1.1.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.commons-httpclient</artifactId>
+			<version>3.1_7</version>
+		</dependency>
 		<!-- test dependencies -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

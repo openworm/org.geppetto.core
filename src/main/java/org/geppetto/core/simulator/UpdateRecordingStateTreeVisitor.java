@@ -90,13 +90,14 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 			Array value;
 			try
 			{
-				value = v.read(start, lenght);
-				Type type = Type.fromValue(v.getDataType().toString());
+				if(_currentIndex < v.getSize()){
+					value = v.read(start, lenght);
+					Type type = Type.fromValue(v.getDataType().toString());
 
-				PhysicalQuantity quantity = new PhysicalQuantity();
-				AValue readValue = null;
-				switch(type)
-				{
+					PhysicalQuantity quantity = new PhysicalQuantity();
+					AValue readValue = null;
+					switch(type)
+					{
 					case DOUBLE:
 						readValue = ValuesFactory.getDoubleValue(value.getDouble(0));
 						break;
@@ -108,9 +109,10 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 						break;
 					default:
 						break;
+					}
+					quantity.setValue(readValue);
+					node.addPhysicalQuantity(quantity);
 				}
-				quantity.setValue(readValue);
-				node.addPhysicalQuantity(quantity);
 			}
 			catch(IOException | InvalidRangeException e)
 			{

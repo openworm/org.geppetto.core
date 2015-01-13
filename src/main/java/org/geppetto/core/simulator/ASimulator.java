@@ -316,7 +316,10 @@ public abstract class ASimulator implements ISimulator
 		if(_recordings != null && isWatching())
 		{
 			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.WATCH_TREE);
-
+			watchTree.setModified(true);
+			aspect.setModified(true);
+			aspect.getParentEntity().setModified(true);
+			
 			if(watchTree.getChildren().isEmpty() || watchListModified())
 			{
 				for(RecordingModel recording : _recordings)
