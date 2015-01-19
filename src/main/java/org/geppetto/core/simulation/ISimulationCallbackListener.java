@@ -40,7 +40,7 @@ public interface ISimulationCallbackListener
 	public enum SimulationEvents {
 	    LOAD_MODEL,
 	    SCENE_UPDATE,
-	    SIMULATION_OVER, START_SIMULATION
+	    SIMULATION_OVER, START_SIMULATION, STOP_SIMULATION
 	}
 	
 	void updateReady(SimulationEvents event, String requestID, String sceneUpdate);
