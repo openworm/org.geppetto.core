@@ -34,11 +34,13 @@ package org.geppetto.core.model.runtime;
 
 import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
+import org.geppetto.core.model.values.AValue;
 
 /**
  * Node used to store specific parameters with quantities
  * 
  * @author  Jesus R. Martinez (jesus@metacell.us)
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
 public class ParameterSpecificationNode extends ANode
@@ -50,9 +52,18 @@ public class ParameterSpecificationNode extends ANode
 		super(id);
 	}
 	
-	public ParameterSpecificationNode(String name, String id){
+	public ParameterSpecificationNode(String id, String name){
 		super(id);
 		this._name = name;
+	}
+	
+	public ParameterSpecificationNode(String id, String name, AValue value, String unit){
+		super(id);
+		this._name = name;
+		
+		if (value != null){
+			this._value = new PhysicalQuantity(value, unit);
+		}
 	}
 	
 	public void setValue(PhysicalQuantity value){
