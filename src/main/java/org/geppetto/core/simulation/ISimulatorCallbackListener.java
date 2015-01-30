@@ -46,4 +46,5 @@ public interface ISimulatorCallbackListener
 	
 	void stateTreeUpdated() throws GeppettoExecutionException;
 
+	void simulatorDone(String message);
 }

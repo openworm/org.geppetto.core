@@ -1,8 +1,13 @@
 package org.geppetto.core.simulator;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.geppetto.core.common.GeppettoExecutionException;
+import org.geppetto.core.externalprocesses.ExternalProcess;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.simulation.IExternalSimulatorCallbackListener;
 import org.geppetto.core.simulation.IRunConfiguration;
 
 /**
@@ -11,18 +16,37 @@ import org.geppetto.core.simulation.IRunConfiguration;
  * @author Jesus R Martinez (jesus@metacell.us)
  *
  */
-public abstract class AExternalProcessSimulator extends ASimulator{
+public abstract class AExternalProcessSimulator extends ASimulator implements IExternalSimulatorCallbackListener{
+	
+	Map<String, ExternalProcess> externalProcesses = new HashMap<String,ExternalProcess>();
 
+	public void runExternalProcess(String command, String directoryToExecuteFrom,
+			String fileToExecute){
+		ExternalProcess process = 
+				new ExternalProcess(command, directoryToExecuteFrom, fileToExecute, this);
+		process.start();
+		
+		externalProcesses.put(command, process);
+	}
+	
 	@Override
 	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect)
 			throws GeppettoExecutionException {
-		notifyStateTreeUpdated();
+		
 	}
 
 	@Override
 	public boolean populateVisualTree(AspectNode aspectNode)
 			throws ModelInterpreterException, GeppettoExecutionException {
+		// TODO Auto-generated method stub
 		return false;
 	}
+	
 
+	@Override
+	public void processDone(String processCommand) {
+		ExternalProcess process = this.externalProcesses.get(processCommand);
+		this.getListener().simulatorDone("Process for " + 
+				process.getFileToExecute()+ " is done executing");
+	}
 }
