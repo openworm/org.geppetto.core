@@ -25,6 +25,8 @@
 				minOccurs="0"></element>
 			<element name="instancePath" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="parentAspect" type="tns:Aspect" maxOccurs="1" minOccurs="0"></element>
+			<element name="conversionServiceId" type="string" maxOccurs="1"
+				minOccurs="0"></element>
 		</sequence>
 	</complexType>
 
