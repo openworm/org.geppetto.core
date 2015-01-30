@@ -47,5 +47,5 @@ public interface ISimulationCallbackListener
 
 	void error(GeppettoErrorCodes error, String classSource, String errorMessage, Exception e);
 
-	void sendMessage(String message);
+	void message(String message);
 }

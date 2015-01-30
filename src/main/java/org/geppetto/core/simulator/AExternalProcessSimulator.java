@@ -46,7 +46,7 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 	@Override
 	public void processDone(String processCommand) {
 		ExternalProcess process = this.externalProcesses.get(processCommand);
-		this.getListener().simulatorDone("Process for " + 
+		this.getListener().endOfSteps("Process for " + 
 				process.getFileToExecute()+ " is done executing");
 	}
 }
