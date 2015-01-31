@@ -34,6 +34,7 @@ package org.geppetto.core.simulator.services;
 
 import java.util.List;
 
+import org.geppetto.core.beans.SimulatorConfig;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.VariableList;
@@ -47,11 +48,15 @@ import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.simulator.ASimulator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ColladaSimulatorService extends ASimulator{
 
+	@Autowired
+	private SimulatorConfig colladaSimulatorConfig;
+	
 	@Override
 	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect)
 			throws GeppettoExecutionException {
@@ -79,14 +84,12 @@ public class ColladaSimulatorService extends ASimulator{
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.colladaSimulatorConfig.getSimulatorName();
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
-		return "colladaSimulator";
+		return this.colladaSimulatorConfig.getSimulatorID();
 	}
 
 	@Override

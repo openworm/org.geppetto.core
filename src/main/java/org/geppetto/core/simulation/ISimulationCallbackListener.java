@@ -46,4 +46,6 @@ public interface ISimulationCallbackListener
 	void updateReady(SimulationEvents event, String requestID, String sceneUpdate);
 
 	void error(GeppettoErrorCodes error, String classSource, String errorMessage, Exception e);
+
+	void message(String message);
 }

@@ -424,12 +424,12 @@ public abstract class ASimulator implements ISimulator
 					watchTree.apply(updateStateTreeVisitor);
 					if(updateStateTreeVisitor.getError() != null)
 					{
-						_listener.endOfSteps();
+						_listener.endOfSteps(null);
 						this.stopWatch();
 						throw new GeppettoExecutionException(updateStateTreeVisitor.getError());
 					}
 					else if(updateStateTreeVisitor.getRange()!=null){
-						_listener.endOfSteps();
+						_listener.endOfSteps(null);
 						this.stopWatch();
 					}
 				}
