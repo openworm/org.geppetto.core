@@ -5,6 +5,23 @@
 	jxb:version="2.0">
 
 
+	<element name="simulation">
+		<complexType>
+			<sequence>
+				<element name="entity" type="tns:Entity" maxOccurs="unbounded"
+					minOccurs="1">
+					<annotation>
+						<appinfo>
+							<jxb:property name="entities" />
+						</appinfo>
+					</annotation>
+				</element>
+				<element name="script" type="string" maxOccurs="unbounded"
+					minOccurs="0"></element>
+			</sequence>
+		</complexType>
+	</element>
+
 	<complexType name="Model">
 		<sequence>
 			<element name="modelInterpreterId" type="string" maxOccurs="1"
@@ -89,10 +106,10 @@
 		<sequence>
 			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
 			<element name="instancePath" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="model" type="tns:Model" maxOccurs="1"
-				minOccurs="1"></element>
 			<element name="simulator" type="tns:Simulator" maxOccurs="1"
 				minOccurs="0"></element>
+			<element name="model" type="tns:Model" maxOccurs="1"
+				minOccurs="1"></element>
 			<element name="parentEntity" type="tns:Entity" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
@@ -163,20 +180,5 @@
 		</sequence>
 	</complexType>
 
-	<element name="simulation">
-		<complexType>
-			<sequence>
-				<element name="entity" type="tns:Entity" maxOccurs="unbounded"
-					minOccurs="1">
-					<annotation>
-						<appinfo>
-							<jxb:property name="entities" />
-						</appinfo>
-					</annotation>
-				</element>
-				<element name="script" type="string" maxOccurs="unbounded"
-					minOccurs="0"></element>
-			</sequence>
-		</complexType>
-	</element>
+	
 </schema>
