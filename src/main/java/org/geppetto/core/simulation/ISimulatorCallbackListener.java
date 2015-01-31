@@ -42,8 +42,7 @@ import org.geppetto.core.common.GeppettoExecutionException;
 public interface ISimulatorCallbackListener
 {
 
-	void endOfSteps();
+	void endOfSteps(String message);
 	
 	void stateTreeUpdated() throws GeppettoExecutionException;
-
 }
