@@ -46,7 +46,7 @@ public class CompositeNode extends ACompositeNode{
 		super(id);
 	}
 
-	public CompositeNode(String id,String name) {
+	public CompositeNode(String id, String name) {
 		super(id);
 		setName(name);
 	}

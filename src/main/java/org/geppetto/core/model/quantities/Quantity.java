@@ -39,6 +39,15 @@ public class Quantity
 	private AValue _value;
 	private String _scalingFactor;
 	
+	public Quantity() {
+		super();
+	}
+	
+	public Quantity(AValue _value) {
+		super();
+		this._value = _value;
+	}
+	
 	public AValue getValue()
 	{
 		return _value;

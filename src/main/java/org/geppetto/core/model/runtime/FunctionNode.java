@@ -58,7 +58,7 @@ public class FunctionNode extends ANode
 		super(id);
 	}
 	
-	public FunctionNode(String name, String id){
+	public FunctionNode(String id, String name){
 		super(id);
 		this._name = name;
 	}
