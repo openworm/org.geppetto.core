@@ -32,9 +32,20 @@
  *******************************************************************************/
 package org.geppetto.core.model.quantities;
 
+import org.geppetto.core.model.values.AValue;
+
 public class PhysicalQuantity extends Quantity
 {
 	private String unit;
+
+	public PhysicalQuantity(){
+		super();
+	}
+	
+	public PhysicalQuantity(AValue value, String unit) {
+		super(value);
+		this.unit = unit;
+	}
 
 	public void setUnit(String unit){
 		this.unit = unit;
