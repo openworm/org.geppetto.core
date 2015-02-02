@@ -10,7 +10,7 @@ import org.geppetto.core.simulation.IExternalSimulatorCallbackListener;
 import org.geppetto.core.simulator.AExternalProcessSimulator;
 
 /**
- * Threaded class used to run a Neuron process
+ * Threaded class used to execute an external process
  * 
  * @author Jesus R Martinez (jesus@metacell.us)
  *
