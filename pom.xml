@@ -219,7 +219,7 @@
 							</schemaIncludes>
 							<args>
 								<arg>-Xvisitor</arg>
-								<arg>-Xvisitor-package:com.massfords.humantask</arg>
+								<arg>-Xvisitor-package:org.geppetto.core.model.simulation.visitor</arg>
 							</args>
 
 							<plugins>
