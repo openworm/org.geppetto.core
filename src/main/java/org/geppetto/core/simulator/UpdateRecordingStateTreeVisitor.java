@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  * 
- * Copyright (c) 2011, 2013 OpenWorm.
+ * Copyright (c) 2011 - 2015 OpenWorm.
  * http://openworm.org
  * 
  * All rights reserved. This program and the accompanying materials
@@ -42,6 +42,7 @@ import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.state.visitors.DefaultStateVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
+import org.geppetto.core.simulation.ISimulatorCallbackListener;
 
 import ucar.ma2.Array;
 import ucar.ma2.InvalidRangeException;
@@ -57,18 +58,22 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 	private RecordingModel _recording;
 	private String _instancePath;
 	private String _errorMessage = null;
+	private String _endOfSteps = null;
 	private int _currentIndex;
+	private ISimulatorCallbackListener _listener;
 
 	/**
 	 * @param recording
 	 * @param instancePath
+	 * @param _listener 
 	 * @param currentIndex
 	 */
-	public UpdateRecordingStateTreeVisitor(RecordingModel recording, String instancePath, int currentIndex)
+	public UpdateRecordingStateTreeVisitor(RecordingModel recording, String instancePath, ISimulatorCallbackListener listener, int currentIndex)
 	{
 		_recording = recording;
 		_instancePath = instancePath;
 		_currentIndex = currentIndex;
+		_listener = listener;
 	}
 
 	/* (non-Javadoc)
@@ -97,26 +102,27 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 				AValue readValue = null;
 				switch(type)
 				{
-					case DOUBLE:
-						readValue = ValuesFactory.getDoubleValue(value.getDouble(0));
-						break;
-					case FLOAT:
-						readValue = ValuesFactory.getFloatValue(value.getFloat(0));
-						break;
-					case INTEGER:
-						readValue = ValuesFactory.getIntValue(value.getInt(0));
-						break;
-					default:
-						break;
+				case DOUBLE:
+					readValue = ValuesFactory.getDoubleValue(value.getDouble(0));
+					break;
+				case FLOAT:
+					readValue = ValuesFactory.getFloatValue(value.getFloat(0));
+					break;
+				case INTEGER:
+					readValue = ValuesFactory.getIntValue(value.getInt(0));
+					break;
+				default:
+					break;
 				}
 				quantity.setValue(readValue);
 				node.addPhysicalQuantity(quantity);
 			}
-			catch(IOException | InvalidRangeException e)
+			catch(IOException e)
 			{
 				_errorMessage = e.getMessage();
+			} catch (InvalidRangeException e) {
+				_endOfSteps = e.getMessage();
 			}
-			
 		}
 		return super.visitVariableNode(node);
 	}
@@ -129,4 +135,11 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 		return _errorMessage;
 	}
 
+	/**
+	 * @return
+	 */
+	public String getRange()
+	{
+		return _endOfSteps;
+	}
 }

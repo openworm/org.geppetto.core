@@ -4,7 +4,7 @@
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
 	<name>Geppetto Core Bundle</name>
-	<version>0.2.0</version>
+	<version>0.2.1</version>
 	<packaging>bundle</packaging>
 	<properties>
 		<github.global.server>github</github.global.server>
@@ -17,6 +17,11 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>com.springsource.org.apache.commons.logging</artifactId>
 			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.commons-httpclient</artifactId>
+			<version>3.1_7</version>
 		</dependency>
 		<!-- test dependencies -->
 		<dependency>
@@ -214,7 +219,7 @@
 							</schemaIncludes>
 							<args>
 								<arg>-Xvisitor</arg>
-								<arg>-Xvisitor-package:com.massfords.humantask</arg>
+								<arg>-Xvisitor-package:org.geppetto.core.model.simulation.visitor</arg>
 							</args>
 
 							<plugins>

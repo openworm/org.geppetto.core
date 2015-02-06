@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  * 
- * Copyright (c) 2011, 2013 OpenWorm.
+ * Copyright (c) 2011 - 2015 OpenWorm.
  * http://openworm.org
  * 
  * All rights reserved. This program and the accompanying materials
@@ -58,7 +58,7 @@ public class FunctionNode extends ANode
 		super(id);
 	}
 	
-	public FunctionNode(String name, String id){
+	public FunctionNode(String id, String name){
 		super(id);
 		this._name = name;
 	}

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  *
- * Copyright (c) 2011, 2013 OpenWorm.
+ * Copyright (c) 2011 - 2015 OpenWorm.
  * http://openworm.org
  *
  * All rights reserved. This program and the accompanying materials
@@ -40,10 +40,12 @@ public interface ISimulationCallbackListener
 	public enum SimulationEvents {
 	    LOAD_MODEL,
 	    SCENE_UPDATE,
-	    SIMULATION_OVER, START_SIMULATION
+	    SIMULATION_OVER, START_SIMULATION, STOP_SIMULATION
 	}
 	
 	void updateReady(SimulationEvents event, String requestID, String sceneUpdate);
 
 	void error(GeppettoErrorCodes error, String classSource, String errorMessage, Exception e);
+
+	void message(String message);
 }

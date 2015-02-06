@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  * 
- * Copyright (c) 2011, 2013 OpenWorm.
+ * Copyright (c) 2011 - 2015 OpenWorm.
  * http://openworm.org
  * 
  * All rights reserved. This program and the accompanying materials
@@ -46,7 +46,7 @@ public class CompositeNode extends ACompositeNode{
 		super(id);
 	}
 
-	public CompositeNode(String id,String name) {
+	public CompositeNode(String id, String name) {
 		super(id);
 		setName(name);
 	}

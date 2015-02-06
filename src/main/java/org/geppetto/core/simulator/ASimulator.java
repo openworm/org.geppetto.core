@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  *
- * Copyright (c) 2011, 2013 OpenWorm.
+ * Copyright (c) 2011 - 2015 OpenWorm.
  * http://openworm.org
  *
  * All rights reserved. This program and the accompanying materials
@@ -104,6 +104,8 @@ public abstract class ASimulator implements ISimulator
 
 	protected List<RecordingModel> _recordings = new ArrayList<RecordingModel>();
 
+	public ASimulator(){};
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -208,6 +210,7 @@ public abstract class ASimulator implements ISimulator
 	public void stopWatch()
 	{
 		_watching = false;
+		_currentRecordingIndex = 0;
 	}
 
 	/*
@@ -316,7 +319,10 @@ public abstract class ASimulator implements ISimulator
 		if(_recordings != null && isWatching())
 		{
 			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.WATCH_TREE);
-
+			watchTree.setModified(true);
+			aspect.setModified(true);
+			aspect.getParentEntity().setModified(true);
+			
 			if(watchTree.getChildren().isEmpty() || watchListModified())
 			{
 				for(RecordingModel recording : _recordings)
@@ -365,20 +371,21 @@ public abstract class ASimulator implements ISimulator
 									}
 									else
 									{
-										// it's a leaf node
-										VariableNode newNode = new VariableNode(current);
-										int[] start = { _currentRecordingIndex };
-										int[] lenght = { 1 };
-										Array value;
-										try
-										{
-											value = hdfVariable.read(start, lenght);
-											Type type = Type.fromValue(hdfVariable.getDataType().toString());
-
-											PhysicalQuantity quantity = new PhysicalQuantity();
-											AValue readValue = null;
-											switch(type)
+										if(_currentRecordingIndex < hdfVariable.getSize()){
+											// it's a leaf node
+											VariableNode newNode = new VariableNode(current);
+											int[] start = { _currentRecordingIndex };
+											int[] lenght = { 1 };
+											Array value;
+											try
 											{
+												value = hdfVariable.read(start, lenght);
+												Type type = Type.fromValue(hdfVariable.getDataType().toString());
+
+												PhysicalQuantity quantity = new PhysicalQuantity();
+												AValue readValue = null;
+												switch(type)
+												{
 												case DOUBLE:
 													readValue = ValuesFactory.getDoubleValue(value.getDouble(0));
 													break;
@@ -390,14 +397,16 @@ public abstract class ASimulator implements ISimulator
 													break;
 												default:
 													break;
+												}
+												quantity.setValue(readValue);
+												newNode.addPhysicalQuantity(quantity);
+												node.addChild(newNode);
 											}
-											quantity.setValue(readValue);
-											newNode.addPhysicalQuantity(quantity);
-											node.addChild(newNode);
-										}
-										catch(IOException | InvalidRangeException e)
-										{
-											throw new GeppettoExecutionException(e);
+
+											catch(IOException | InvalidRangeException e)
+											{
+												throw new GeppettoExecutionException(e);
+											}
 										}
 									}
 								}
@@ -411,11 +420,17 @@ public abstract class ASimulator implements ISimulator
 			{
 				for(RecordingModel recording : _recordings)
 				{
-					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, watchTree.getInstancePath(), _currentRecordingIndex++);
+					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, watchTree.getInstancePath(),_listener, _currentRecordingIndex++);
 					watchTree.apply(updateStateTreeVisitor);
 					if(updateStateTreeVisitor.getError() != null)
 					{
+						_listener.endOfSteps(null);
+						this.stopWatch();
 						throw new GeppettoExecutionException(updateStateTreeVisitor.getError());
+					}
+					else if(updateStateTreeVisitor.getRange()!=null){
+						_listener.endOfSteps(null);
+						this.stopWatch();
 					}
 				}
 			}

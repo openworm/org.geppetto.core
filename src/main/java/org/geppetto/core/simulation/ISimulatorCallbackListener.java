@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  *
- * Copyright (c) 2011, 2013 OpenWorm.
+ * Copyright (c) 2011 - 2015 OpenWorm.
  * http://openworm.org
  *
  * All rights reserved. This program and the accompanying materials
@@ -34,7 +34,6 @@
 package org.geppetto.core.simulation;
 
 import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.model.runtime.AspectNode;
 
 /**
  * @author matteocantarelli
@@ -43,6 +42,7 @@ import org.geppetto.core.model.runtime.AspectNode;
 public interface ISimulatorCallbackListener
 {
 
+	void endOfSteps(String message);
+	
 	void stateTreeUpdated() throws GeppettoExecutionException;
-
 }

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  * 
- * Copyright (c) 2011, 2013 OpenWorm.
+ * Copyright (c) 2011 - 2015 OpenWorm.
  * http://openworm.org
  * 
  * All rights reserved. This program and the accompanying materials
@@ -50,7 +50,7 @@ public class HDF5Reader
 		NetcdfFile ncfile = null;
 		try
 		{
-			ncfile = NetcdfFile.open(url.getPath());
+			ncfile = NetcdfFile.open(url.toExternalForm());
 			return ncfile;
 		}
 		catch(IOException ioe)
