@@ -93,5 +93,11 @@ public class OBJModelInterpreterService implements IModelInterpreter
 		//Move this to own bundle?
 		return "Obj Model Interpreter";
 	}
+	
+	@Override
+	public void registerGeppettoService() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

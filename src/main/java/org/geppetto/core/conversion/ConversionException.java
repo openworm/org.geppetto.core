@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  *
- * Copyright (c) 2011 - 2015 OpenWorm.
+ * Copyright (c) 2011, 2013 OpenWorm.
  * http://openworm.org
  *
  * All rights reserved. This program and the accompanying materials
@@ -31,60 +31,32 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.simulator;
+package org.geppetto.core.conversion;
 
-import java.util.List;
-
-import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.data.model.VariableList;
-import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.services.IServices;
-import org.geppetto.core.simulation.IRunConfiguration;
-import org.geppetto.core.simulation.ISimulatorCallbackListener;
 
 /**
- * @author matteocantarelli
- * @author giovanniidili
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
+ *
  */
-public interface ISimulator extends IServices{
-	
-	void simulate(IRunConfiguration runConfiguration, AspectNode aspect) throws GeppettoExecutionException;
-	
-	void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
+public class ConversionException extends Exception
+{
 
-	boolean isInitialized();
-	
-	VariableList getForceableVariables();
-	
-	VariableList getWatchableVariables();
-		
-	String getName();
-	
-	String getId();
-	/**
-	 * Adds variables to be watched by the simulator.
-	 * */
-	void addWatchVariables(List<String> variableNames);
-	
-	/**
-	 * Starts watching variables.
-	 * */
-	void startWatch();
-	
-	/**
-	 * Stop watching variables.
-	 * */
-	void stopWatch();
-	
-	/**
-	 * Clear lists of variables to be watched by the simulator.
-	 * */
-	void clearWatchVariables();
-	
-	boolean populateVisualTree(AspectNode aspectNode) throws ModelInterpreterException, GeppettoExecutionException;
+	public ConversionException(String message)
+	{
+		super(message);
+	}
 
-	void setInitialized(boolean initialized);
+	public ConversionException(Throwable e)
+	{
+		super(e);
+	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8712503151350991595L;
+
+
+	
+
 }

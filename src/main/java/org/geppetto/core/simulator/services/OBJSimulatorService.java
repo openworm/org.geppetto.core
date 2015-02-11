@@ -127,4 +127,11 @@ public class OBJSimulatorService extends ASimulator{
 
 		return false;
 	}
+
+	@Override
+	public void registerGeppettoService()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

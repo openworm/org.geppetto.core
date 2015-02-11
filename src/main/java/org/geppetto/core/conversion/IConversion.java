@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  *
- * Copyright (c) 2011 - 2015 OpenWorm.
+ * Copyright (c) 2011, 2013 OpenWorm.
  * http://openworm.org
  *
  * All rights reserved. This program and the accompanying materials
@@ -31,73 +31,25 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.model.services;
+package org.geppetto.core.conversion;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.List;
-import java.util.Scanner;
-
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.IModelInterpreter;
-import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.model.ModelWrapper;
-import org.geppetto.core.model.runtime.AspectNode;
-import org.springframework.stereotype.Service;
+import org.geppetto.core.services.IServices;
+import org.geppetto.core.services.ModelFormat;
 
 /**
- * @author matteocantarelli
- * 
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
+ *
  */
-@Service
-public class ColladaModelInterpreterService implements IModelInterpreter
-{
-
-	private static final String COLLADA = "COLLADA";
-
-	@Override
-	public IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException
-	{
-		ModelWrapper collada = new ModelWrapper(instancePath);
-		try
-		{
-			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
-			String colladaContent = scanner.useDelimiter("\\A").next();
-			scanner.close();
-			collada.wrapModel(COLLADA, colladaContent);
-		}
-		catch(IOException e)
-		{
-			throw new ModelInterpreterException(e);
-		}
-
-		return collada;
-	}
-
-	@Override
-	public boolean populateModelTree(AspectNode aspectNode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean populateRuntimeTree(AspectNode aspectNode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String getName()
-	{
-		//TODO: Create spring bean with name of interpreter to retrieve it from there. 
-		//Move this to own bundle?
-		return "Collada Model Interpreter";
-	}
+public interface IConversion extends IServices{
 	
-	@Override
-	public void registerGeppettoService() {
-		// TODO Auto-generated method stub
+	List<ModelFormat> getSupportedOutputs(IModel model, ModelFormat input) throws ConversionException;
+	
+	ModelFormat getSupportedInput() throws ConversionException;
+	
+	void setSupportedInput(ModelFormat supportedInput) throws ConversionException;
+	
+	IModel convert(IModel model, ModelFormat input, ModelFormat output) throws ConversionException;
 		
-	}
-
 }

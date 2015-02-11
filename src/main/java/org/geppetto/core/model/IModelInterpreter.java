@@ -37,8 +37,9 @@ import java.net.URL;
 import java.util.List;
 
 import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.services.IServices;
 
-public interface IModelInterpreter {
+public interface IModelInterpreter extends IServices{
 
 	IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException;
 			

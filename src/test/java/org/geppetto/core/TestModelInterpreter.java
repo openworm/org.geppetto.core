@@ -77,4 +77,10 @@ public class TestModelInterpreter implements IModelInterpreter
 		return "Test Model interpreter";
 	}
 
+	@Override
+	public void registerGeppettoService() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

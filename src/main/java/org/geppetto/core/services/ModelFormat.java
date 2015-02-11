@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  *
- * Copyright (c) 2011 - 2015 OpenWorm.
+ * Copyright (c) 2011, 2013 OpenWorm.
  * http://openworm.org
  *
  * All rights reserved. This program and the accompanying materials
@@ -31,73 +31,60 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.model.services;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-import java.util.Scanner;
-
-import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.IModelInterpreter;
-import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.model.ModelWrapper;
-import org.geppetto.core.model.runtime.AspectNode;
-import org.springframework.stereotype.Service;
+package org.geppetto.core.services;
 
 /**
- * @author matteocantarelli
- * 
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
+ *
  */
-@Service
-public class ColladaModelInterpreterService implements IModelInterpreter
+public class ModelFormat
 {
+	private String format;
 
-	private static final String COLLADA = "COLLADA";
+	public ModelFormat(String format) {
+		super();
+		this.format = format;
+	}
 
 	@Override
-	public IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException
-	{
-		ModelWrapper collada = new ModelWrapper(instancePath);
-		try
-		{
-			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
-			String colladaContent = scanner.useDelimiter("\\A").next();
-			scanner.close();
-			collada.wrapModel(COLLADA, colladaContent);
+	public String toString() {
+		return "ModelFormat [format=" + format + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((format == null) ? 0 : format.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if ((getClass() != obj.getClass()) && (format.getClass() != obj.getClass()))
+			return false;
+		String otherFormat = null;
+		if (obj instanceof ModelFormat){
+			ModelFormat other = (ModelFormat) obj;
+			otherFormat = other.format;
 		}
-		catch(IOException e)
-		{
-			throw new ModelInterpreterException(e);
+		else{
+			otherFormat = (String)obj;
 		}
-
-		return collada;
-	}
-
-	@Override
-	public boolean populateModelTree(AspectNode aspectNode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean populateRuntimeTree(AspectNode aspectNode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String getName()
-	{
-		//TODO: Create spring bean with name of interpreter to retrieve it from there. 
-		//Move this to own bundle?
-		return "Collada Model Interpreter";
+		if (format == null) {
+			if (otherFormat != null)
+				return false;
+		} else if (!format.equals(otherFormat))
+			return false;
+		
+		return true;
 	}
 	
-	@Override
-	public void registerGeppettoService() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
+	
+	
 }
