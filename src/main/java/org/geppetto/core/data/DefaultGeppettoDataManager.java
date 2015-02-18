@@ -32,7 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.data;
 
-public interface IGeppettoDataManager
+public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
 	
 }

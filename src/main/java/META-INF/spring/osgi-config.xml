@@ -52,4 +52,14 @@
 	<aop:scoped-proxy proxy-target-class="false"/>
 	</bean>
 	
+	<osgi:service id="DataManager" ref="dataManagerService"
+		interface="org.geppetto.core.data.IGeppettoDataManager">
+		<osgi:service-properties>
+			<entry key="discoverableID" value="dataManager" />
+		</osgi:service-properties>
+	</osgi:service>
+	<bean id="dataManagerService" scope="thread" class="org.geppetto.core.data.DefaultGeppettoDataManager">
+	<aop:scoped-proxy proxy-target-class="false"/>
+	</bean>
+	
 </beans>
