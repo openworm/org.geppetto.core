@@ -34,5 +34,8 @@ package org.geppetto.core.data;
 
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
-	
+	public String getName()
+	{
+		return "Default data manager";
+	}
 }

@@ -34,5 +34,5 @@ package org.geppetto.core.data;
 
 public interface IGeppettoDataManager
 {
-	
+	String getName();
 }
