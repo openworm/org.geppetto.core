@@ -54,6 +54,9 @@ public class RuntimeTreeRoot extends ACompositeNode{
 
 	public void setTime(VariableNode time) {
 		this._time = time;
+		if(!this.getChildren().contains(_time)){
+			this.getChildren().add(_time);
+		}
 	}
 
 	@Override

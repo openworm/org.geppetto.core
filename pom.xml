@@ -94,14 +94,14 @@
 			<version>4.3.1</version>
 		</dependency>
 		<dependency>
-			<groupId>edu.ucar</groupId>
-			<artifactId>netcdf</artifactId>
-			<version>4.3.20</version>
-		</dependency>
-		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>ncsa.hdf</groupId>
+			<artifactId>object</artifactId>
+			<version>2.10</version>
 		</dependency>
 	</dependencies>
 	<repositories>

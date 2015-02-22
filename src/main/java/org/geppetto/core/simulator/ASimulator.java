@@ -33,7 +33,6 @@
 
 package org.geppetto.core.simulator;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -41,23 +40,22 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import org.geppetto.core.common.ArrayUtils;
+import ncsa.hdf.object.Dataset;
+import ncsa.hdf.object.FileFormat;
+import ncsa.hdf.object.h5.H5File;
+
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.AVariable;
-import org.geppetto.core.data.model.ArrayVariable;
 import org.geppetto.core.data.model.SimpleType;
 import org.geppetto.core.data.model.SimpleType.Type;
-import org.geppetto.core.data.model.StructuredType;
 import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.data.DataModelFactory;
 import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
-import org.geppetto.core.model.runtime.ATimeSeriesNode;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.CompositeNode;
@@ -66,10 +64,6 @@ import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
-
-import ucar.ma2.Array;
-import ucar.ma2.InvalidRangeException;
-import ucar.nc2.NetcdfFile;
 
 /**
  * @author matteocantarelli
@@ -96,13 +90,13 @@ public abstract class ASimulator implements ISimulator
 
 	private boolean _watchListModified = false;
 
-	private double _runtime = 0;
-
 	private String _timeStepUnit = "ms";
 
 	protected int _currentRecordingIndex = 0;
 
 	protected List<RecordingModel> _recordings = new ArrayList<RecordingModel>();
+
+	private double _runtime;
 
 	public ASimulator(){};
 	
@@ -280,14 +274,6 @@ public abstract class ASimulator implements ISimulator
 	}
 
 	/**
-	 * @return
-	 */
-	public String getTimeStepUnit()
-	{
-		return _timeStepUnit;
-	}
-
-	/**
 	 * @param timeStepUnit
 	 */
 	public void setTimeStepUnit(String timeStepUnit)
@@ -297,21 +283,11 @@ public abstract class ASimulator implements ISimulator
 
 	/**
 	 * @param timestep
+	 * @param aspect 
 	 */
-	protected void advanceTimeStep(double timestep)
+	public void advanceTimeStep(double timestep, AspectNode aspect)
 	{
 		_runtime += timestep;
-		ACompositeNode timeStepsNode = new CompositeNode("time tree");
-		{
-			VariableNode time = new VariableNode("time");
-			timeStepsNode.addChild(time);
-			PhysicalQuantity t = new PhysicalQuantity();
-			t.setUnit(_timeStepUnit);
-		}
-		ATimeSeriesNode leafNode = (ATimeSeriesNode) timeStepsNode.getChildren().get(0);
-		PhysicalQuantity runTime = new PhysicalQuantity();
-		runTime.setValue(ValuesFactory.getDoubleValue(_runtime));
-		leafNode.addPhysicalQuantity(runTime);
 	}
 
 	protected void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
@@ -328,86 +304,94 @@ public abstract class ASimulator implements ISimulator
 				for(RecordingModel recording : _recordings)
 				{
 					watchListModified(false);
-					NetcdfFile file = recording.getHDF5();
-					for(ucar.nc2.Variable hdfVariable : file.getVariables())
+					H5File file = recording.getHDF5();
+					try {
+						file.open();
+					} catch (Exception e1) {
+						throw new GeppettoExecutionException(e1);
+					}
+					for(String watchedVariable : this.getWatchList())
 					{
+						String path = "/"+watchedVariable.replace(watchTree.getInstancePath()+".", "");
+						path = path.replace(".", "/");
+						Dataset v = (Dataset) FileFormat.findObject(file, path);
 
-						// for every state found in the recordings check if we are watching that variable
-						String fullPath = watchTree.getInstancePath() + "." + hdfVariable.getFullName().replace("/", ".");
-						if(getWatchList().contains(fullPath))
+						path = path.replaceFirst("/", "");
+						StringTokenizer tokenizer = new StringTokenizer(path, "/");
+						ACompositeNode node = watchTree;
+						while(tokenizer.hasMoreElements())
 						{
-							fullPath = fullPath.replace(watchTree.getInstancePath() + ".", "");
-
-							StringTokenizer tokenizer = new StringTokenizer(fullPath, ".");
-							ACompositeNode node = watchTree;
-							while(tokenizer.hasMoreElements())
+							String current = tokenizer.nextToken();
+							boolean found = false;
+							for(ANode child : node.getChildren())
 							{
-								String current = tokenizer.nextToken();
-								boolean found = false;
-								for(ANode child : node.getChildren())
+								if(child.getId().equals(current))
 								{
-									if(child.getId().equals(current))
+									if(child instanceof ACompositeNode)
 									{
-										if(child instanceof ACompositeNode)
-										{
-											node = (ACompositeNode) child;
-										}
-										found = true;
-										break;
+										node = (ACompositeNode) child;
 									}
+									found = true;
+									break;
 								}
-								if(found)
+							}
+							if(found)
+							{
+								continue;
+							}
+							else
+							{
+								if(tokenizer.hasMoreElements())
 								{
-									continue;
+									// not a leaf, create a composite state node
+									ACompositeNode newNode = new CompositeNode(current);
+									node.addChild(newNode);
+									node = newNode;
 								}
 								else
 								{
-									if(tokenizer.hasMoreElements())
+									// it's a leaf node
+									VariableNode newNode = new VariableNode(current);
+									Object dataRead;
+									try
 									{
-										// not a leaf, create a composite state node
-										ACompositeNode newNode = new CompositeNode(current);
-										node.addChild(newNode);
-										node = newNode;
-									}
-									else
-									{
-										if(_currentRecordingIndex < hdfVariable.getSize()){
-											// it's a leaf node
-											VariableNode newNode = new VariableNode(current);
-											int[] start = { _currentRecordingIndex };
-											int[] lenght = { 1 };
-											Array value;
-											try
-											{
-												value = hdfVariable.read(start, lenght);
-												Type type = Type.fromValue(hdfVariable.getDataType().toString());
-
-												PhysicalQuantity quantity = new PhysicalQuantity();
-												AValue readValue = null;
-												switch(type)
-												{
-												case DOUBLE:
-													readValue = ValuesFactory.getDoubleValue(value.getDouble(0));
-													break;
-												case FLOAT:
-													readValue = ValuesFactory.getFloatValue(value.getFloat(0));
-													break;
-												case INTEGER:
-													readValue = ValuesFactory.getIntValue(value.getInt(0));
-													break;
-												default:
-													break;
-												}
-												quantity.setValue(readValue);
-												newNode.addPhysicalQuantity(quantity);
-												node.addChild(newNode);
-											}
-
-											catch(IOException | InvalidRangeException e)
-											{
-												throw new GeppettoExecutionException(e);
-											}
+										dataRead = v.read();
+										Type type =null;
+										if(dataRead instanceof double[]){
+											type = Type.fromValue(SimpleType.Type.DOUBLE.toString());
+										}else if(dataRead instanceof int[]){
+											type = Type.fromValue(SimpleType.Type.INTEGER.toString());
+										}else if(dataRead instanceof float[]){
+											type = Type.fromValue(SimpleType.Type.FLOAT.toString());
 										}
+
+										PhysicalQuantity quantity = new PhysicalQuantity();
+										AValue readValue = null;
+										switch(type)
+										{
+										case DOUBLE:
+											double[] dr = (double[])dataRead;
+											readValue = ValuesFactory.getDoubleValue(dr[_currentRecordingIndex]);
+											break;
+										case FLOAT:
+											float[] fr = (float[])dataRead;
+											readValue = ValuesFactory.getFloatValue(fr[_currentRecordingIndex]);
+											break;
+										case INTEGER:
+											int[] ir = (int[])dataRead;
+											readValue = ValuesFactory.getIntValue(ir[_currentRecordingIndex]);
+											break;
+										default:
+											break;
+										}
+										quantity.setValue(readValue);
+										newNode.addPhysicalQuantity(quantity);
+										node.addChild(newNode);
+									}
+
+									catch(Exception | OutOfMemoryError e)
+									{
+										throw new GeppettoExecutionException(e);
 									}
 								}
 							}
@@ -442,79 +426,82 @@ public abstract class ASimulator implements ISimulator
 	 */
 	protected void setWatchableVariablesFromRecordings()
 	{
-		if(_recordings != null)
-		{
-			for(RecordingModel recording : _recordings)
-			{
-				NetcdfFile file = recording.getHDF5();
-				for(ucar.nc2.Variable hdfVariable : file.getVariables())
-				{
-					String fullPath = hdfVariable.getFullName();
-					List<AVariable> listToCheck = getWatchableVariables().getVariables();
-					StringTokenizer stok = new StringTokenizer(fullPath, "/");
-
-					while(stok.hasMoreTokens())
-					{
-						String s = stok.nextToken();
-						String searchVar = s;
-
-						if(ArrayUtils.isArray(s))
-						{
-							searchVar = ArrayUtils.getArrayName(s);
-						}
-
-						AVariable v = getVariable(searchVar, listToCheck);
-
-						if(v == null)
-						{
-							if(stok.hasMoreTokens())
-							{
-								StructuredType structuredType = new StructuredType();
-								structuredType.setName(searchVar + "T");
-
-								if(ArrayUtils.isArray(s))
-								{
-									v = DataModelFactory.getArrayVariable(searchVar, structuredType, ArrayUtils.getArrayIndex(s) + 1);
-								}
-								else
-								{
-									v = DataModelFactory.getSimpleVariable(searchVar, structuredType);
-								}
-								listToCheck.add(v);
-								listToCheck = structuredType.getVariables();
-							}
-							else
-							{
-								SimpleType type = DataModelFactory.getCachedSimpleType(Type.fromValue(hdfVariable.getDataType().toString()));
-								if(ArrayUtils.isArray(s))
-								{
-									v = DataModelFactory.getArrayVariable(searchVar, type, ArrayUtils.getArrayIndex(s) + 1);
-								}
-								else
-								{
-									v = DataModelFactory.getSimpleVariable(searchVar, type);
-								}
-								listToCheck.add(v);
-							}
-						}
-						else
-						{
-							if(stok.hasMoreTokens())
-							{
-								listToCheck = ((StructuredType) v.getType()).getVariables();
-								if(ArrayUtils.isArray(s))
-								{
-									if(ArrayUtils.getArrayIndex(s) + 1 > ((ArrayVariable) v).getSize())
-									{
-										((ArrayVariable) v).setSize(ArrayUtils.getArrayIndex(s) + 1);
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+		//TODO : Update code below to use own bindings jar vs netcdf one. 
+		//Method being called from RecordingSimulator. 22/2/2015
+//		if(_recordings != null)
+//		{
+//			for(RecordingModel recording : _recordings)
+//			{
+//				H5File file = recording.getHDF5();
+//				List<AVariable> listToCheck = getWatchableVariables().getVariables();
+//
+//				for(AVariable var  : listToCheck)
+//				{
+//					String fullPath = hdfVariable.getFullName();
+//					StringTokenizer stok = new StringTokenizer(fullPath, "/");
+//
+//					while(stok.hasMoreTokens())
+//					{
+//						String s = stok.nextToken();
+//						String searchVar = s;
+//
+//						if(ArrayUtils.isArray(s))
+//						{
+//							searchVar = ArrayUtils.getArrayName(s);
+//						}
+//
+//						AVariable v = getVariable(searchVar, listToCheck);
+//
+//						if(v == null)
+//						{
+//							if(stok.hasMoreTokens())
+//							{
+//								StructuredType structuredType = new StructuredType();
+//								structuredType.setName(searchVar + "T");
+//
+//								if(ArrayUtils.isArray(s))
+//								{
+//									v = DataModelFactory.getArrayVariable(searchVar, structuredType, ArrayUtils.getArrayIndex(s) + 1);
+//								}
+//								else
+//								{
+//									v = DataModelFactory.getSimpleVariable(searchVar, structuredType);
+//								}
+//								listToCheck.add(v);
+//								listToCheck = structuredType.getVariables();
+//							}
+//							else
+//							{
+//								SimpleType type = DataModelFactory.getCachedSimpleType(Type.fromValue(hdfVariable.getDataType().toString()));
+//								if(ArrayUtils.isArray(s))
+//								{
+//									v = DataModelFactory.getArrayVariable(searchVar, type, ArrayUtils.getArrayIndex(s) + 1);
+//								}
+//								else
+//								{
+//									v = DataModelFactory.getSimpleVariable(searchVar, type);
+//								}
+//								listToCheck.add(v);
+//							}
+//						}
+//						else
+//						{
+//							if(stok.hasMoreTokens())
+//							{
+//								listToCheck = ((StructuredType) v.getType()).getVariables();
+//								if(ArrayUtils.isArray(s))
+//								{
+//									if(ArrayUtils.getArrayIndex(s) + 1 > ((ArrayVariable) v).getSize())
+//									{
+//										((ArrayVariable) v).setSize(ArrayUtils.getArrayIndex(s) + 1);
+//									}
+//								}
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
 	}
 
 	/**
@@ -557,5 +544,15 @@ public abstract class ASimulator implements ISimulator
 	protected void notifyStateTreeUpdated() throws GeppettoExecutionException
 	{
 		getListener().stateTreeUpdated();
+	}
+	
+	@Override
+	public double getTime() {
+		return _runtime;
+	}
+	
+	@Override
+	public String getTimeStepUnit() {
+		return _timeStepUnit;
 	}
 }

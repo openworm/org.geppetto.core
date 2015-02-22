@@ -60,7 +60,7 @@ public class OBJSimulatorService extends ASimulator{
 	@Override
 	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect)
 			throws GeppettoExecutionException {
-		advanceTimeStep(0);
+		advanceTimeStep(0, aspect);
 		notifyStateTreeUpdated();
 	}
 
@@ -69,7 +69,6 @@ public class OBJSimulatorService extends ASimulator{
 			ISimulatorCallbackListener listener)
 			throws GeppettoInitializationException, GeppettoExecutionException {
 		super.initialize(models, listener);
-		advanceTimeStep(0);
 	}
 
 	@Override

@@ -143,4 +143,16 @@ public class TestSimulator implements ISimulator
 		
 	}
 
+	@Override
+	public double getTime() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getTimeStepUnit() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

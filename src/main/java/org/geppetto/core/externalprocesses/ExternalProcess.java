@@ -7,7 +7,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.simulation.IExternalSimulatorCallbackListener;
-import org.geppetto.core.simulator.AExternalProcessSimulator;
 
 /**
  * Threaded class used to execute an external process
@@ -30,16 +29,11 @@ public class ExternalProcess extends Thread{
 		this._directoryToExecuteFrom = directoryToExecuteFrom;
 		this._callback = callback;
 		this._fileToExecute = fileToExecute;
-	}
-	@Override
-	public void run(){
-		if(run){
-			run = false;
-			try {
-				compile();
-			} catch (GeppettoExecutionException e) {
-				_logger.error("Geppetto Exectuion Exception error : " + e.getMessage());
-			}
+		
+		try {
+			compile();
+		} catch (GeppettoExecutionException e) {
+			_logger.error("Geppetto Exectuion Exception error : " + e.getMessage());
 		}
 	}
 	
