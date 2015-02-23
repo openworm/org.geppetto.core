@@ -38,4 +38,8 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	{
 		return "Default data manager";
 	}
+	
+	public boolean isDefault() {
+		return true;
+	}
 }
