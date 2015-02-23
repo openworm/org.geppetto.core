@@ -61,10 +61,12 @@ public class TestHDFBindings {
 	public void createHDF5File(){
 
 		//User directory is path to store file
-		String path = System.getProperty("user.dir");;
+		String path = System.getProperty("user.dir");
 
 		try {
+			_logger.info("Setting natives at " + path);
 			SetNatives.getInstance().setHDF5Native(path);
+			_logger.info("Native at " + System.getProperty("ncsa.hdf.hdf5lib.H5.hdf5lib"));
 
 
 			long[] dims2D = { 20, 10 };

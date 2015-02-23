@@ -24,6 +24,7 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 			String fileToExecute){
 		ExternalProcess process = 
 				new ExternalProcess(command, directoryToExecuteFrom, fileToExecute, this);
+		process.start();
 		
 		externalProcesses.put(command, process);
 	}

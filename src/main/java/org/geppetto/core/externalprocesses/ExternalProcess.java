@@ -29,11 +29,16 @@ public class ExternalProcess extends Thread{
 		this._directoryToExecuteFrom = directoryToExecuteFrom;
 		this._callback = callback;
 		this._fileToExecute = fileToExecute;
-		
-		try {
-			compile();
-		} catch (GeppettoExecutionException e) {
-			_logger.error("Geppetto Exectuion Exception error : " + e.getMessage());
+	}
+	@Override
+	public void run(){
+		if(run){
+			run = false;
+			try {
+				compile();
+			} catch (GeppettoExecutionException e) {
+				_logger.error("Geppetto Exectuion Exception error : " + e.getMessage());
+			}
 		}
 	}
 	
