@@ -47,7 +47,6 @@ import org.springframework.util.Assert;
 
 public class HDF5ReaderTest
 {
-	@Before
 	public void setup(){
 		try {
 			SetNatives.getInstance().setHDF5Native(System.getProperty("user.dir"));
@@ -59,6 +58,7 @@ public class HDF5ReaderTest
 	@Test
 	public void test() throws MalformedURLException, GeppettoExecutionException
 	{
+		this.setup();
 		H5File file=HDF5Reader.readHDF5File(new File("./src/test/resources/H5DatasetCreate.h5").toURI().toURL());
 		Assert.notNull(file);
 	}
@@ -66,6 +66,7 @@ public class HDF5ReaderTest
 	@Test
 	public void testExample1() throws MalformedURLException, GeppettoExecutionException
 	{
+		this.setup();
 		H5File file=HDF5Reader.readHDF5File(new File("./src/test/resources/example1.h5").toURI().toURL());
 		Assert.notNull(file);
 	}
@@ -73,6 +74,7 @@ public class HDF5ReaderTest
 	@Test
 	public void testExample2() throws MalformedURLException, GeppettoExecutionException
 	{
+		this.setup();
 		H5File file=HDF5Reader.readHDF5File(new File("./src/test/resources/example2.h5").toURI().toURL());
 		Assert.notNull(file);
 	}
@@ -80,9 +82,8 @@ public class HDF5ReaderTest
 	@Test
 	public void testExample3() throws MalformedURLException, GeppettoExecutionException
 	{
+		this.setup();
 		H5File file=HDF5Reader.readHDF5File(new File("./src/test/resources/recording_small.h5").toURI().toURL());
 		Assert.notNull(file);
 	}
-	
-
 }
