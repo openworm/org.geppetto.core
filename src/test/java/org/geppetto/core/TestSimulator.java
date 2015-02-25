@@ -155,4 +155,10 @@ public class TestSimulator implements ISimulator
 		return null;
 	}
 
+	@Override
+	public void resetWatch() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

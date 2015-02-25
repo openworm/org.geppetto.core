@@ -84,6 +84,8 @@ public interface ISimulator {
 	 * */
 	void stopWatch();
 	
+	void resetWatch();
+	
 	/**
 	 * Clear lists of variables to be watched by the simulator.
 	 * */

@@ -187,24 +187,28 @@ public abstract class ASimulator implements ISimulator
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.geppetto.core.simulator.ISimulator#startWatch()
-	 */
-	@Override
-	public void startWatch()
-	{
-		_watching = true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#stopWatch()
 	 */
 	@Override
 	public void stopWatch()
 	{
 		_watching = false;
+	}
+	
+	@Override
+	public void resetWatch(){
 		_currentRecordingIndex = 0;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.geppetto.core.simulator.ISimulator#startWatch()
+	 */
+	@Override
+	public void startWatch()
+	{
+		_watching = true;
 	}
 
 	/*
@@ -409,12 +413,10 @@ public abstract class ASimulator implements ISimulator
 					if(updateStateTreeVisitor.getError() != null)
 					{
 						_listener.endOfSteps(null);
-						this.stopWatch();
 						throw new GeppettoExecutionException(updateStateTreeVisitor.getError());
 					}
 					else if(updateStateTreeVisitor.getRange()!=null){
 						_listener.endOfSteps(null);
-						this.stopWatch();
 					}
 				}
 			}
