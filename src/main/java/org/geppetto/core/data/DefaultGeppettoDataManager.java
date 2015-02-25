@@ -33,14 +33,40 @@
 
 package org.geppetto.core.data;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.geppetto.core.data.model.local.LocalGeppettoProject;
+
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
 	public String getName()
 	{
 		return "Default data manager";
 	}
-	
-	public boolean isDefault() {
+
+	public boolean isDefault()
+	{
 		return true;
 	}
+
+	public List<LocalGeppettoProject> getAllGeppettoProjects()
+	{
+		return new ArrayList<LocalGeppettoProject>();
+	}
+
+	public List<LocalGeppettoProject> getGeppettoProjectsForUser(String login)
+	{
+		return new ArrayList<LocalGeppettoProject>();
+	}
+
+	public void createParameter(String name, String value)
+	{
+	}
+
+	public void createExperiment(String name, String description, Date creationDate, Date lastModified)
+	{
+	}
+
 }
