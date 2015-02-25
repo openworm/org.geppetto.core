@@ -31,16 +31,26 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.data;
+package org.geppetto.core.data.model;
 
-public class DefaultGeppettoDataManager implements IGeppettoDataManager
+import java.util.Date;
+import java.util.List;
+
+public interface IExperiment
 {
-	public String getName()
-	{
-		return "Default data manager";
-	}
-	
-	public boolean isDefault() {
-		return true;
-	}
+
+	long getId();
+
+	String getName();
+
+	String getDescription();
+
+	Date getCreationDate();
+
+	Date getLastModified();
+
+	List<? extends IParameter> getModelParameters();
+
+	List<? extends ISimulationRun> getSimulationRuns();
+
 }
