@@ -35,24 +35,32 @@ package org.geppetto.core.services;
 
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
- *
+ * 
  */
 public class ModelFormat
 {
 	private String format;
 
-	public ModelFormat(String format) {
+	public ModelFormat(String format)
+	{
 		super();
 		this.format = format;
 	}
 
+	public String getFormat()
+	{
+		return format;
+	}
+
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "ModelFormat [format=" + format + "]";
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((format == null) ? 0 : format.hashCode());
@@ -60,31 +68,28 @@ public class ModelFormat
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if ((getClass() != obj.getClass()) && (format.getClass() != obj.getClass()))
-			return false;
+	public boolean equals(Object obj)
+	{
+		if(this == obj) return true;
+		if(obj == null) return false;
+		if((getClass() != obj.getClass()) && (format.getClass() != obj.getClass())) return false;
 		String otherFormat = null;
-		if (obj instanceof ModelFormat){
+		if(obj instanceof ModelFormat)
+		{
 			ModelFormat other = (ModelFormat) obj;
 			otherFormat = other.format;
 		}
-		else{
-			otherFormat = (String)obj;
+		else
+		{
+			otherFormat = (String) obj;
 		}
-		if (format == null) {
-			if (otherFormat != null)
-				return false;
-		} else if (!format.equals(otherFormat))
-			return false;
-		
+		if(format == null)
+		{
+			if(otherFormat != null) return false;
+		}
+		else if(!format.equals(otherFormat)) return false;
+
 		return true;
 	}
-	
-	
-	
-	
+
 }

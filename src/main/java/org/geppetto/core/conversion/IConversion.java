@@ -46,9 +46,15 @@ public interface IConversion extends IServices{
 	
 	List<ModelFormat> getSupportedOutputs(IModel model, ModelFormat input) throws ConversionException;
 	
-	ModelFormat getSupportedInput() throws ConversionException;
+	List<ModelFormat> getSupportedOutputs() throws ConversionException;
 	
-	void setSupportedInput(ModelFormat supportedInput) throws ConversionException;
+	List<ModelFormat> getSupportedInputs() throws ConversionException;
+	
+	void setSupportedInputs(List<ModelFormat> supportedInputs) throws ConversionException;
+	
+	void addSupportedInput(ModelFormat supportedInput) throws ConversionException;
+	
+	void checkSupportedFormat(ModelFormat input) throws ConversionException;
 	
 	IModel convert(IModel model, ModelFormat input, ModelFormat output) throws ConversionException;
 		
