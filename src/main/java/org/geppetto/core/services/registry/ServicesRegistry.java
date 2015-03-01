@@ -44,6 +44,7 @@ import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.simulator.ISimulator;
+import org.springframework.aop.TargetClassAware;
 
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
@@ -51,42 +52,42 @@ import org.geppetto.core.simulator.ISimulator;
  */
 public class ServicesRegistry {
 
-	static Map<IModelInterpreter, List<ModelFormat>> registeredModelInterpreterServices = new HashMap<IModelInterpreter, List<ModelFormat>>();
+	static Map<Class<? extends IModelInterpreter>, List<ModelFormat>> registeredModelInterpreterServices = new HashMap<Class<? extends IModelInterpreter>, List<ModelFormat>>();
 	static Map<ConversionServiceKey, List<IConversion>> registeredConversionServices = new HashMap<ConversionServiceKey, List<IConversion>>();
-	static Map<ISimulator, List<ModelFormat>> registerSimulatorServices = new HashMap<ISimulator, List<ModelFormat>>();
+	static Map<Class<? extends ISimulator>, List<ModelFormat>> registerSimulatorServices = new HashMap<Class<? extends ISimulator>, List<ModelFormat>>();
 	
 	
 	public static void registerModelInterpreterService(IModelInterpreter interpreterService, List<ModelFormat> outputModelFormats)
 	{
-		registeredModelInterpreterServices.put(interpreterService, outputModelFormats);
+		registeredModelInterpreterServices.put(interpreterService.getClass(), outputModelFormats);
 	}
 	
 	public static List<ModelFormat> getModelInterpreterServiceFormats(IModelInterpreter interpreterService){
-		for (Map.Entry<IModelInterpreter, List<ModelFormat>> entry : registeredModelInterpreterServices.entrySet()) {
-			IModelInterpreter key = entry.getKey();
-			if (key.getName().equals(interpreterService.getName())){
-				return entry.getValue();
-			}
+		Class interpreterServiceClass;
+		if (interpreterService instanceof TargetClassAware){
+			interpreterServiceClass = ((TargetClassAware)interpreterService).getTargetClass();
 		}
-		return null;
-		
-		//return registeredModelInterpreterServices.get(interpreterService);
+		else{
+			interpreterServiceClass = interpreterService.getClass();
+		}
+		return registeredModelInterpreterServices.get(interpreterServiceClass);
 	}
 	
 	public static void registerSimulatorService(ISimulator simulatorService, List<ModelFormat> inputModelFormats)
 	{
-		registerSimulatorServices.put(simulatorService, inputModelFormats);
+		registerSimulatorServices.put(simulatorService.getClass(), inputModelFormats);
 	}
 	
 	public static List<ModelFormat> getSimulatorServiceFormats(ISimulator simulatorService){
-		for (Map.Entry<ISimulator, List<ModelFormat>> entry : registerSimulatorServices.entrySet()) {
-			ISimulator key = entry.getKey();
-			if (key.getId().equals(simulatorService.getId())){
-				return entry.getValue();
-			}
+		Class simulatorServiceClass;
+		if (simulatorService instanceof TargetClassAware){
+			simulatorServiceClass = ((TargetClassAware)simulatorService).getTargetClass();
 		}
-		return null;
-		//return registerSimulatorService.get(simulatorService);
+		else{
+			simulatorServiceClass = simulatorService.getClass();
+		}
+		
+		return registerSimulatorServices.get(simulatorServiceClass);
 	}
 
 	public static void registerConversionService(IConversion conversionService, List<ModelFormat> inputModelFormats, List<ModelFormat> outputModelFormats)
