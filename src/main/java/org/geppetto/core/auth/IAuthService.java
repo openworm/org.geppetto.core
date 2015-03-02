@@ -6,5 +6,7 @@ public interface IAuthService {
     public Boolean isAuthenticated();
 
     public String authFailureRedirect();
+    
+    boolean isDefault();
 
 }
