@@ -37,12 +37,15 @@ import java.util.Date;
 import java.util.List;
 
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.data.model.IUser;
 
 public interface IGeppettoDataManager
 {
 	String getName();
 
 	boolean isDefault();
+	
+	IUser getUserByLogin(String login);
 
 	List<? extends IGeppettoProject> getAllGeppettoProjects();
 

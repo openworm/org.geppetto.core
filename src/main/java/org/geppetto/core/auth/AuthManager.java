@@ -30,50 +30,26 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+package org.geppetto.core.auth;
 
-package org.geppetto.core.data;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.geppetto.core.data.model.IUser;
-import org.geppetto.core.data.model.local.LocalGeppettoProject;
-import org.geppetto.core.data.model.local.LocalUser;
-
-public class DefaultGeppettoDataManager implements IGeppettoDataManager
+public class AuthManager
 {
-	public String getName()
+	private static final String DEFAULT_USER = "guest";
+
+	private static String currentUser;
+
+	public static String getCurrentUser()
 	{
-		return "Default data manager";
+		if(currentUser == null)
+		{
+			return DEFAULT_USER;
+		}
+		return currentUser;
 	}
 
-	public boolean isDefault()
+	public static void setCurrentUser(String user)
 	{
-		return true;
-	}
-
-	public IUser getUserByLogin(String login)
-	{
-		return new LocalUser(login, login, new ArrayList<LocalGeppettoProject>(), 0, 0);
-	}
-
-	public List<LocalGeppettoProject> getAllGeppettoProjects()
-	{
-		return new ArrayList<LocalGeppettoProject>();
-	}
-
-	public List<LocalGeppettoProject> getGeppettoProjectsForUser(String login)
-	{
-		return new ArrayList<LocalGeppettoProject>();
-	}
-
-	public void createParameter(String name, String value)
-	{
-	}
-
-	public void createExperiment(String name, String description, Date creationDate, Date lastModified)
-	{
+		currentUser = user;
 	}
 
 }
