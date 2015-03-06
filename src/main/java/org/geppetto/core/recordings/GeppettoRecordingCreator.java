@@ -70,7 +70,7 @@ public class GeppettoRecordingCreator {
 
 	private String _timeStepUnit;
 	private float _timeStep = 0;
-	private double[] _timePoints;
+	private float[] _timePoints;
 
 	public enum MetaType{
 		Variable_Node("VariableNode"), Parameter_Node("ParameterNode"),
@@ -153,15 +153,16 @@ public class GeppettoRecordingCreator {
 		while(iterator.hasNext()){
 			RecordingObject o = map.get(iterator.next());
 			superAddValues(o);
+			recordingsH5File.reloadTree(this.getRoot());
 			//match biggest array length
 			if(biggestLength <o.getValuesLength()){
 				biggestLength = o.getValuesLength();
 			}
 		}
 
-		double[] timeValues = new double[biggestLength];
+		float[] timeValues = new float[biggestLength];
 		if(_timePoints==null && _timeStep>0){
-			double time = 0;
+			float time = 0;
 			for(int i =0; i<biggestLength; i++){
 				timeValues[i] = time;
 				time = time + this._timeStep;
@@ -177,9 +178,6 @@ public class GeppettoRecordingCreator {
 		HObject time = FileFormat.findObject(recordingsH5File, "/time");
 		if(time == null){
 			createTime(biggestLength,timeValues);
-		}else{
-			Dataset data = (Dataset) time;
-			data.write(timeValues);
 		}
 		recordingsH5File.close();
 	}
@@ -194,7 +192,7 @@ public class GeppettoRecordingCreator {
 		this._timeStepUnit = timeStepUnit;
 	}
 
-	public void addTimePoints(double[] timePoints, String timeStepUnit){
+	public void addTimePoints(float[] timePoints, String timeStepUnit){
 		this._timePoints = timePoints;
 		this._timeStepUnit = timeStepUnit;
 	}
@@ -271,7 +269,7 @@ public class GeppettoRecordingCreator {
 		o.setUnit(unit);
 		o.setValues(values);
 		o.setDataType(Datatype.CLASS_FLOAT);
-		o.setDataBytes(8);
+		o.setDataBytes(16);
 		o.setValuesLenght(values.length);
 		if(map.containsKey(variable)){
 			RecordingObject object = map.get(variable);
@@ -332,7 +330,7 @@ public class GeppettoRecordingCreator {
 		o.setUnit(unit);
 		o.setValues(values);
 		o.setDataType(Datatype.CLASS_FLOAT);
-		o.setDataBytes(8);
+		o.setDataBytes(16);
 		o.setValuesLenght(values.length);
 		if(map.containsKey(variable)){
 			RecordingObject object = map.get(variable);
@@ -435,13 +433,13 @@ public class GeppettoRecordingCreator {
 	 * @param timeValues - Values of time
 	 * @throws Exception
 	 */
-	private void createTime(int biggestLength, double[] timeValues) throws Exception{
+	private void createTime(int biggestLength, float[] timeValues) throws Exception{
 		//dimension of dataset, length of array and 1 column 
 		long[] dims2D = { biggestLength,1 };
 
 		//we will be storing integers as our data type
 		Datatype dataType = recordingsH5File.createDatatype(
-				Datatype.CLASS_FLOAT, 8, 
+				Datatype.CLASS_FLOAT, 16, 
 				Datatype.NATIVE, Datatype.NATIVE);
 		// create 1D 32-bit float dataset
 		Dataset dataset = recordingsH5File.createScalarDS("time", getRoot(), dataType, 
@@ -563,7 +561,7 @@ public class GeppettoRecordingCreator {
 		String path = "/"+recordingObject.getVariable().replace(".", "/");
 		String parent = path.replace("/"+name, "");
 		Group datasetParent = (Group) FileFormat.findObject(recordingsH5File, parent);
-		recordingObject.setDataBytes(8);
+		recordingObject.setDataBytes(16);
 		recordingObject.setDataType(Datatype.CLASS_FLOAT);
 		recordingObject.setVariable(name);
 		recordingObject.setValues(newData);
@@ -629,9 +627,10 @@ public class GeppettoRecordingCreator {
 			setLength++;
 		}
 		String path = "/"+recordingObject.getVariable().replace(".", "/");
-		String parent = path.replace("/"+name, "");
+		int index  = path.lastIndexOf("/");
+		String parent = path.substring(0,index);
 		Group datasetParent = (Group) FileFormat.findObject(recordingsH5File, parent);
-		recordingObject.setDataBytes(8);
+		recordingObject.setDataBytes(16);
 		recordingObject.setDataType(Datatype.CLASS_FLOAT);
 		recordingObject.setVariable(name);
 		recordingObject.setValues(newData);
