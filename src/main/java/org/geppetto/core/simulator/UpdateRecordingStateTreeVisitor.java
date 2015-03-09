@@ -34,6 +34,12 @@ package org.geppetto.core.simulator;
 
 import java.io.IOException;
 
+import ncsa.hdf.object.Dataset;
+import ncsa.hdf.object.FileFormat;
+import ncsa.hdf.object.HObject;
+import ncsa.hdf.object.h5.H5File;
+
+import org.geppetto.core.data.model.SimpleType;
 import org.geppetto.core.data.model.SimpleType.Type;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.quantities.PhysicalQuantity;
@@ -43,10 +49,6 @@ import org.geppetto.core.model.state.visitors.DefaultStateVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
-
-import ucar.ma2.Array;
-import ucar.ma2.InvalidRangeException;
-import ucar.nc2.Variable;
 
 /**
  * @author matteocantarelli
@@ -60,7 +62,6 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 	private String _errorMessage = null;
 	private String _endOfSteps = null;
 	private int _currentIndex;
-	private ISimulatorCallbackListener _listener;
 
 	/**
 	 * @param recording
@@ -73,7 +74,6 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 		_recording = recording;
 		_instancePath = instancePath;
 		_currentIndex = currentIndex;
-		_listener = listener;
 	}
 
 	/* (non-Javadoc)
@@ -83,33 +83,43 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 	public boolean visitVariableNode(VariableNode node)
 	{
 		String variable = node.getInstancePath().replace(_instancePath + ".", "").replace(".", "/");
-		Variable v = _recording.getHDF5().findVariable(variable);
+		H5File file = _recording.getHDF5();
+		String variablePath = "/" + variable.replace(".", "/");
+		Dataset v = (Dataset) FileFormat.findObject(file, variablePath);
 		if(v == null)
 		{
 			_errorMessage = variable + " not found in recording";
 		}
 		else
 		{
-			int[] start = { _currentIndex};
-			int[] lenght = {1};
-			Array value;
+			Object dataRead;
 			try
 			{
-				value = v.read(start, lenght);
-				Type type = Type.fromValue(v.getDataType().toString());
+				dataRead = v.read();
+				Type type =null;
+				if(dataRead instanceof double[]){
+					type = Type.fromValue(SimpleType.Type.DOUBLE.toString());
+				}else if(dataRead instanceof int[]){
+					type = Type.fromValue(SimpleType.Type.INTEGER.toString());
+				}else if(dataRead instanceof float[]){
+					type = Type.fromValue(SimpleType.Type.FLOAT.toString());
+				}
 
 				PhysicalQuantity quantity = new PhysicalQuantity();
 				AValue readValue = null;
 				switch(type)
 				{
 				case DOUBLE:
-					readValue = ValuesFactory.getDoubleValue(value.getDouble(0));
+					double[] dr = (double[])dataRead;
+					readValue = ValuesFactory.getDoubleValue(dr[_currentIndex]);
 					break;
 				case FLOAT:
-					readValue = ValuesFactory.getFloatValue(value.getFloat(0));
+					float[] fr = (float[])dataRead;
+					readValue = ValuesFactory.getFloatValue(fr[_currentIndex]);
 					break;
 				case INTEGER:
-					readValue = ValuesFactory.getIntValue(value.getInt(0));
+					int[] ir = (int[])dataRead;
+					readValue = ValuesFactory.getIntValue(ir[_currentIndex]);
 					break;
 				default:
 					break;
@@ -117,11 +127,12 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 				quantity.setValue(readValue);
 				node.addPhysicalQuantity(quantity);
 			}
-			catch(IOException e)
+			catch (ArrayIndexOutOfBoundsException  e) {
+				_endOfSteps = e.getMessage();
+			}
+			catch(Exception | OutOfMemoryError e)
 			{
 				_errorMessage = e.getMessage();
-			} catch (InvalidRangeException e) {
-				_endOfSteps = e.getMessage();
 			}
 		}
 		return super.visitVariableNode(node);

@@ -35,8 +35,8 @@ package org.geppetto.core.common;
 import java.io.IOException;
 import java.net.URL;
 
-import ucar.nc2.Group;
-import ucar.nc2.NetcdfFile;
+import ncsa.hdf.object.FileFormat;
+import ncsa.hdf.object.h5.H5File;
 
 /**
  * @author matteocantarelli
@@ -45,28 +45,24 @@ import ucar.nc2.NetcdfFile;
 public class HDF5Reader
 {
 
-	public static NetcdfFile readHDF5File(URL url) throws GeppettoExecutionException
+	public static H5File readHDF5File(URL url) throws GeppettoExecutionException
 	{
-		NetcdfFile ncfile = null;
 		try
-		{
-			ncfile = NetcdfFile.open(url.toExternalForm());
-			return ncfile;
+		{			
+			// retrieve an instance of H5File
+	        FileFormat fileFormat = FileFormat.getFileFormat(FileFormat.FILE_TYPE_HDF5);
+
+	        // open the file with read and write access
+	        H5File testFile = (H5File) fileFormat.createInstance(url.getPath(), FileFormat.READ);
+			
+	        return testFile;
 		}
 		catch(IOException ioe)
 		{
 			throw new GeppettoExecutionException(ioe);
 		}
-//		finally
-//		{
-//			if(null != ncfile) try
-//			{
-//				ncfile.close();
-//			}
-//			catch(IOException ioe)
-//			{
-//				throw new GeppettoExecutionException(ioe);
-//			}
-//		}
+		catch (Exception e) {
+			throw new GeppettoExecutionException(e);
+		}
 	}
 }

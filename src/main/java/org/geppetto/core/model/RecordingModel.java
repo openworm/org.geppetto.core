@@ -32,8 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.model;
 
-import ucar.nc2.Group;
-import ucar.nc2.NetcdfFile;
+import ncsa.hdf.object.h5.H5File;
 
 /**
  * @author matteocantarelli
@@ -42,15 +41,15 @@ import ucar.nc2.NetcdfFile;
 public class RecordingModel extends AModel
 {
 	
-	NetcdfFile _file=null;
+	H5File _file=null;
 
-	public RecordingModel(NetcdfFile file)
+	public RecordingModel(H5File file)
 	{
 		super(null); //the id is deprecated, this will go away
 		_file=file;
 	}
 
-	public NetcdfFile getHDF5()
+	public H5File getHDF5()
 	{
 		return _file;
 	}

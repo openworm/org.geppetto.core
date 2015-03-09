@@ -42,6 +42,7 @@ import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.services.IServices;
+import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 
@@ -64,6 +65,11 @@ public interface ISimulator extends IServices{
 	String getName();
 	
 	String getId();
+	
+	double getTime();
+	
+	String getTimeStepUnit();
+	
 	/**
 	 * Adds variables to be watched by the simulator.
 	 * */
@@ -78,6 +84,8 @@ public interface ISimulator extends IServices{
 	 * Stop watching variables.
 	 * */
 	void stopWatch();
+	
+	void resetWatch();
 	
 	/**
 	 * Clear lists of variables to be watched by the simulator.
