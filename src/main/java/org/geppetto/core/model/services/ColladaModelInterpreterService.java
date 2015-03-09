@@ -35,6 +35,7 @@ package org.geppetto.core.model.services;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -43,6 +44,9 @@ import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.services.IModelFormat;
+import org.geppetto.core.services.ModelFormat;
+import org.geppetto.core.services.registry.ServicesRegistry;
 import org.springframework.stereotype.Service;
 
 /**
@@ -53,8 +57,6 @@ import org.springframework.stereotype.Service;
 public class ColladaModelInterpreterService implements IModelInterpreter
 {
 
-	private static final String COLLADA = "COLLADA";
-
 	@Override
 	public IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException
 	{
@@ -64,7 +66,7 @@ public class ColladaModelInterpreterService implements IModelInterpreter
 			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
 			String colladaContent = scanner.useDelimiter("\\A").next();
 			scanner.close();
-			collada.wrapModel(COLLADA, colladaContent);
+			collada.wrapModel(ModelFormat.COLLADA, colladaContent);
 		}
 		catch(IOException e)
 		{
@@ -96,8 +98,9 @@ public class ColladaModelInterpreterService implements IModelInterpreter
 	
 	@Override
 	public void registerGeppettoService() {
-		// TODO Auto-generated method stub
-		
+		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
+		modelFormatList.add(ModelFormat.COLLADA);
+		ServicesRegistry.registerModelInterpreterService(this, modelFormatList);
 	}
 
 }

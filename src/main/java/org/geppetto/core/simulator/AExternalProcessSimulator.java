@@ -18,9 +18,9 @@ import org.geppetto.core.simulation.IRunConfiguration;
  */
 public abstract class AExternalProcessSimulator extends ASimulator implements IExternalSimulatorCallbackListener{
 	
-	Map<String, ExternalProcess> externalProcesses = new HashMap<String,ExternalProcess>();
+	Map<String[], ExternalProcess> externalProcesses = new HashMap<String[],ExternalProcess>();
 
-	public void runExternalProcess(String command, String directoryToExecuteFrom,
+	public void runExternalProcess(String[] command, String directoryToExecuteFrom,
 			String fileToExecute){
 		ExternalProcess process = 
 				new ExternalProcess(command, directoryToExecuteFrom, fileToExecute, this);
@@ -44,7 +44,7 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 	
 
 	@Override
-	public void processDone(String processCommand) {
+	public void processDone(String[] processCommand) {
 		ExternalProcess process = this.externalProcesses.get(processCommand);
 		this.getListener().endOfSteps("Process for " + 
 				process.getFileToExecute()+ " is done executing");

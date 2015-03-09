@@ -36,7 +36,7 @@ package org.geppetto.core.conversion;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geppetto.core.services.ModelFormat;
+import org.geppetto.core.services.IModelFormat;
 
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
@@ -45,26 +45,26 @@ import org.geppetto.core.services.ModelFormat;
 public abstract class AConversion implements IConversion
 {
 
-	private List<ModelFormat> _supportedInputs = new ArrayList<ModelFormat>();
+	private List<IModelFormat> _supportedInputs = new ArrayList<IModelFormat>();
 	
 	@Override
-	public List<ModelFormat> getSupportedInputs(){
+	public List<IModelFormat> getSupportedInputs(){
 		return _supportedInputs;
 	}
 	
 	@Override
-	public void addSupportedInput(ModelFormat supportedInput){
+	public void addSupportedInput(IModelFormat supportedInput){
 		this._supportedInputs.add(supportedInput);
 	}
 
 	@Override
-	public void setSupportedInputs(List<ModelFormat> supportedInputs) throws ConversionException
+	public void setSupportedInputs(List<IModelFormat> supportedInputs) throws ConversionException
 	{
 		this._supportedInputs = supportedInputs;
 	}
 
 	@Override
-	public void checkSupportedFormat(ModelFormat input) throws ConversionException
+	public void checkSupportedFormat(IModelFormat input) throws ConversionException
 	{
 		if (!_supportedInputs.contains(input)){
 			throw new ConversionException("FORMAT NOT SUPPORTED");

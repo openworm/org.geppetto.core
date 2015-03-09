@@ -30,32 +30,17 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+package org.geppetto.core;
 
-package org.geppetto.core.conversion;
-
-import java.util.List;
-import org.geppetto.core.model.IModel;
 import org.geppetto.core.services.IModelFormat;
-import org.geppetto.core.services.IServices;
 
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public interface IConversion extends IServices{
+public enum ModelFormat implements IModelFormat
+{
+
+	TEST;
 	
-	List<IModelFormat> getSupportedOutputs(IModel model, IModelFormat input) throws ConversionException;
-	
-	List<IModelFormat> getSupportedOutputs() throws ConversionException;
-	
-	List<IModelFormat> getSupportedInputs() throws ConversionException;
-	
-	void setSupportedInputs(List<IModelFormat> supportedInputs) throws ConversionException;
-	
-	void addSupportedInput(IModelFormat supportedInput) throws ConversionException;
-	
-	void checkSupportedFormat(IModelFormat input) throws ConversionException;
-	
-	IModel convert(IModel model, IModelFormat input, IModelFormat output) throws ConversionException;
-		
 }

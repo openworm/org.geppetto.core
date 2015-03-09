@@ -37,6 +37,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.geppetto.core.services.IModelFormat;
+
+
 /**
  * @author matteocantarelli
  * 
@@ -52,6 +55,15 @@ public class ModelWrapper extends AModel
 		_models = new HashMap<String, Object>();
 	}
 
+	public Object getModel(IModelFormat format)
+	{
+		if(_models.containsKey(format.toString()))
+		{
+			return _models.get(format.toString());
+		}
+		return null;
+	}
+	
 	public Object getModel(String id)
 	{
 		if(_models.containsKey(id))
@@ -64,6 +76,11 @@ public class ModelWrapper extends AModel
 	public void wrapModel(String id, Object model)
 	{
 		_models.put(id, model);
+	}
+	
+	public void wrapModel(IModelFormat format, Object model)
+	{
+		_models.put(format.toString(), model);
 	}
 	
 	public Collection<Object> getModels()

@@ -32,6 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geppetto.core.common.GeppettoExecutionException;
@@ -40,6 +41,8 @@ import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.services.IModelFormat;
+import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.simulator.ISimulator;
@@ -146,7 +149,9 @@ public class TestSimulator implements ISimulator
 	@Override
 	public void registerGeppettoService()
 	{
-		// TODO Auto-generated method stub
+		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
+		modelFormatList.add(ModelFormat.TEST);
+		ServicesRegistry.registerSimulatorService(this, modelFormatList);
 		
 	}
 
