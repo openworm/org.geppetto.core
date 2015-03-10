@@ -58,7 +58,7 @@ public abstract class AConversion implements IConversion
 	}
 
 	@Override
-	public void setSupportedInputs(List<IModelFormat> supportedInputs) throws ConversionException
+	public void setSupportedInputs(List<IModelFormat> supportedInputs)
 	{
 		this._supportedInputs = supportedInputs;
 	}

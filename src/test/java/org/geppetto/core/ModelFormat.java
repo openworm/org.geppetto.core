@@ -41,6 +41,7 @@ import org.geppetto.core.services.IModelFormat;
 public enum ModelFormat implements IModelFormat
 {
 
-	TEST;
+	TEST,
+	TEST2;
 	
 }

@@ -149,7 +149,7 @@ public class ServicesRegistry {
 		return supportedOutputs;		
 	}
 	
-	public static Map<ConversionServiceKey, List<IConversion>> getConversionServices(List<IModelFormat> inputModelFormats, List<IModelFormat> outputModelFormats)
+	public static Map<ConversionServiceKey, List<IConversion>> getConversionService(List<IModelFormat> inputModelFormats, List<IModelFormat> outputModelFormats)
 	{
 		Map<ConversionServiceKey, List<IConversion>> conversionServices = new HashMap<ConversionServiceKey, List<IConversion>>();
 		for (IModelFormat inputModelFormat : inputModelFormats){
