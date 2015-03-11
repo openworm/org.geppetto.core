@@ -46,7 +46,6 @@ import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.core.services.registry.ServicesRegistry.ConversionServiceKey;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -57,7 +56,7 @@ import org.junit.Test;
 public class ServiceRegistryTest
 {
 	@BeforeClass
-	public static void setup(){
+	public static void initializeServiceRegistry() throws Exception{
 		TestModelInterpreter testModelInterpreter = new TestModelInterpreter();
 		testModelInterpreter.registerGeppettoService();
 		TestModelInterpreter2 testModelInterpreter2 = new TestModelInterpreter2();
