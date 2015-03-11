@@ -46,6 +46,7 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 		return this.externalProcesses;
 	}
 	
+	public abstract String getSimulatorPath();
 
 	@Override
 	public void processDone(String[] processCommand) {
