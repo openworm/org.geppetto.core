@@ -32,11 +32,12 @@
  *******************************************************************************/
 package org.geppetto.core.services;
 
+
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  * 
  */
 public interface IServices
 {
-	void registerGeppettoService();
+	void registerGeppettoService() throws Exception;
 }

@@ -55,7 +55,7 @@ public class PathConfig
 	{
 		super();
 		Properties prop = new Properties();
-	try
+		try
 		{
 			prop.load(PathConfig.class.getResourceAsStream("/Geppetto.properties"));
 			convertedResultsPath = prop.getProperty("convertedResultsPath");

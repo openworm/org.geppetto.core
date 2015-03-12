@@ -33,10 +33,9 @@
 
 package org.geppetto.core.conversion;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.geppetto.core.beans.PathConfig;
 import org.geppetto.core.services.IModelFormat;
+import org.geppetto.core.services.registry.ServicesRegistry;
 
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
@@ -44,35 +43,25 @@ import org.geppetto.core.services.IModelFormat;
  */
 public abstract class AConversion implements IConversion
 {
+	private PathConfig pathConfig = new PathConfig();
 
-	private List<IModelFormat> _supportedInputs = new ArrayList<IModelFormat>();
-	
-	@Override
-	public List<IModelFormat> getSupportedInputs(){
-		return _supportedInputs;
-	}
-	
-	@Override
-	public void addSupportedInput(IModelFormat supportedInput){
-		this._supportedInputs.add(supportedInput);
-	}
-
-	@Override
-	public void setSupportedInputs(List<IModelFormat> supportedInputs)
-	{
-		this._supportedInputs = supportedInputs;
-	}
-
-	@Override
 	public void checkSupportedFormat(IModelFormat input) throws ConversionException
 	{
-		if (!_supportedInputs.contains(input)){
+		if(!this.getSupportedInputs().contains(input))
+		{
 			throw new ConversionException("FORMAT NOT SUPPORTED");
 		}
 	}
 
+	public String getConvertedResultsPath()
+	{
+		return this.pathConfig.getConvertedResultsPath();
+	}
+	
+	@Override
+	public void registerGeppettoService() throws ConversionException
+	{
+		ServicesRegistry.registerConversionService(this, getSupportedInputs(), getSupportedOutputs());
+	}
 
-	
-	
-	
 }

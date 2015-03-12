@@ -52,25 +52,46 @@ public class ApplicationListenerBean implements ApplicationListener<ContextRefre
 	{
 		ApplicationContext applicationContext = event.getApplicationContext();
 		Map<String, IModelInterpreter> modelBeans = applicationContext.getBeansOfType(IModelInterpreter.class, false, false);
-		
+
 		for(Map.Entry<String, IModelInterpreter> modelBean : modelBeans.entrySet())
 		{
 			_logger.info("Registering Model Interpreter Services: " + modelBean.getKey());
-			modelBean.getValue().registerGeppettoService();
+			try
+			{
+				modelBean.getValue().registerGeppettoService();
+			}
+			catch(Exception e)
+			{
+				_logger.error("Error registering model interpreter service: " + modelBean.getKey() + " Error:" + e.getMessage());
+			}
 		}
 
 		Map<String, IConversion> conversionBeans = applicationContext.getBeansOfType(IConversion.class, false, false);
 		for(Map.Entry<String, IConversion> conversionBean : conversionBeans.entrySet())
 		{
 			_logger.info("Registering Conversion Services: " + conversionBean.getKey());
-			conversionBean.getValue().registerGeppettoService();
+			try
+			{
+				conversionBean.getValue().registerGeppettoService();
+			}
+			catch(Exception e)
+			{
+				_logger.error("Error registering conversion service: " + conversionBean.getKey() + " Error:" + e.getMessage());
+			}
 		}
 
 		Map<String, ISimulator> simulatorBeans = applicationContext.getBeansOfType(ISimulator.class, false, false);
 		for(Map.Entry<String, ISimulator> simulatorBean : simulatorBeans.entrySet())
 		{
 			_logger.info("Registering Simulator Services: " + simulatorBean.getKey());
-			simulatorBean.getValue().registerGeppettoService();
+			try
+			{
+				simulatorBean.getValue().registerGeppettoService();
+			}
+			catch(Exception e)
+			{
+				_logger.error("Error registering simulator service: " + simulatorBean.getKey() + " Error:" + e.getMessage());
+			}
 		}
 	}
 }

@@ -79,27 +79,6 @@ public class TestConversion implements IConversion
 	}
 
 	@Override
-	public void setSupportedInputs(List<IModelFormat> supportedInputs) throws ConversionException
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void addSupportedInput(IModelFormat supportedInput) throws ConversionException
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void checkSupportedFormat(IModelFormat input) throws ConversionException
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public IModel convert(IModel model, IModelFormat input, IModelFormat output) throws ConversionException
 	{
 		// TODO Auto-generated method stub

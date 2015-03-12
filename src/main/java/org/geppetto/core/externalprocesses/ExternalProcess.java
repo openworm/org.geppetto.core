@@ -37,7 +37,7 @@ public class ExternalProcess extends Thread{
 			try {
 				compile();
 			} catch (GeppettoExecutionException e) {
-				_logger.error("Geppetto Exectuion Exception error : " + e.getMessage());
+				_logger.error("Geppetto Execution Exception error : " + e.getMessage());
 			}
 		}
 	}
