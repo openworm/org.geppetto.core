@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
 import org.geppetto.core.data.model.local.LocalUser;
@@ -56,6 +57,11 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	public IUser getUserByLogin(String login)
 	{
 		return new LocalUser(login, login, new ArrayList<LocalGeppettoProject>(), 0, 0);
+	}
+
+	public IGeppettoProject getGeppettoProjectById(int id)
+	{
+		return null;
 	}
 
 	public List<LocalGeppettoProject> getAllGeppettoProjects()
