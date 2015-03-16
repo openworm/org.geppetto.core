@@ -45,6 +45,8 @@ public interface IGeppettoDataManager
 
 	boolean isDefault();
 	
+	IUser getCurrentUser();
+	
 	IUser getUserByLogin(String login);
 	
 	IGeppettoProject getGeppettoProjectById(int id);

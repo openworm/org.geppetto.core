@@ -54,6 +54,11 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return true;
 	}
 
+	public IUser getCurrentUser()
+	{
+		return new LocalUser("guest", "guest", new ArrayList<LocalGeppettoProject>(), 0, 0);
+	}
+
 	public IUser getUserByLogin(String login)
 	{
 		return new LocalUser(login, login, new ArrayList<LocalGeppettoProject>(), 0, 0);
