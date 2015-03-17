@@ -4,7 +4,7 @@
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
 	<name>Geppetto Core Bundle</name>
-	<version>0.2.1</version>
+	<version>0.2.2</version>
 	<packaging>bundle</packaging>
 	<properties>
 		<github.global.server>github</github.global.server>
@@ -94,14 +94,14 @@
 			<version>4.3.1</version>
 		</dependency>
 		<dependency>
-			<groupId>edu.ucar</groupId>
-			<artifactId>netcdf</artifactId>
-			<version>4.3.20</version>
-		</dependency>
-		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>ncsa.hdf</groupId>
+			<artifactId>object</artifactId>
+			<version>2.10</version>
 		</dependency>
 	</dependencies>
 	<repositories>
