@@ -6,11 +6,10 @@ package org.geppetto.core.model;
 import java.net.URL;
 import java.util.List;
 
+import ncsa.hdf.object.h5.H5File;
+
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.HDF5Reader;
-
-import ucar.nc2.NetcdfFile;
-
 /**
  * @author matteocantarelli
  * 
@@ -29,7 +28,7 @@ public abstract class AModelInterpreter implements IModelInterpreter
 				int i = 1;
 				for(URL recording : recordings)
 				{
-					NetcdfFile file = HDF5Reader.readHDF5File(recording);
+					H5File file = HDF5Reader.readHDF5File(recording);
 					RecordingModel recordingModel = new RecordingModel(file);
 					recordingModel.setInstancePath(instancePath);
 					modelWrapper.wrapModel(ID + i++, recordingModel);

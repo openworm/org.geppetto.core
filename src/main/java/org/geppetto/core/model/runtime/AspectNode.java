@@ -62,6 +62,10 @@ public class AspectNode extends ACompositeNode {
 
 	public void setTime(VariableNode time) {
 		this._time = time;
+		//add it to node if it ain't attach to it already
+		if(!this.getChildren().contains(_time)){
+			this.getChildren().add(_time);
+		}
 	}
 
 	public boolean isModified() {

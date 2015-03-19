@@ -42,6 +42,10 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 		return false;
 	}
 	
+	public Map<String, ExternalProcess> getExternalProccesses(){
+		return this.externalProcesses;
+	}
+	
 
 	@Override
 	public void processDone(String processCommand) {
