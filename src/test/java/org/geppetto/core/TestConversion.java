@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  *
- * Copyright (c) 2011 - 2015 OpenWorm.
+ * Copyright (c) 2011, 2013 OpenWorm.
  * http://openworm.org
  *
  * All rights reserved. This program and the accompanying materials
@@ -30,77 +30,59 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+package org.geppetto.core;
 
-package org.geppetto.core.model.services;
-
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
+import org.geppetto.core.conversion.ConversionException;
+import org.geppetto.core.conversion.IConversion;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.IModelInterpreter;
-import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.model.ModelWrapper;
-import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.services.IModelFormat;
-import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
-import org.springframework.stereotype.Service;
 
 /**
- * @author matteocantarelli
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  * 
  */
-@Service
-public class OBJModelInterpreterService implements IModelInterpreter
+public class TestConversion implements IConversion
 {
 
 	@Override
-	public IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException
+	public void registerGeppettoService()
 	{
-		ModelWrapper collada = new ModelWrapper(instancePath);
-		try
-		{
-			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
-			String objContent = scanner.useDelimiter("\\A").next();
-			scanner.close();
-			collada.wrapModel(ModelFormat.OBJ, objContent);
-		}
-		catch(IOException e)
-		{
-			throw new ModelInterpreterException(e);
-		}
-
-		return collada;
+		ServicesRegistry.registerConversionService(this, getSupportedInputs(), getSupportedOutputs());
 	}
 
 	@Override
-	public boolean populateModelTree(AspectNode aspectNode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean populateRuntimeTree(AspectNode aspectNode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String getName()
+	public List<IModelFormat> getSupportedOutputs(IModel model, IModelFormat input) throws ConversionException
 	{
-		//TODO: Create spring bean with name of interpreter to retrieve it from there. 
-		//Move this to own bundle?
-		return "Obj Model Interpreter";
-	}
-	
-	@Override
-	public void registerGeppettoService() {
 		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
-		modelFormatList.add(ModelFormat.OBJ);
-		ServicesRegistry.registerModelInterpreterService(this, modelFormatList);
+		modelFormatList.add(ModelFormat.TEST2);
+		return modelFormatList;
+	}
+
+	@Override
+	public List<IModelFormat> getSupportedOutputs()
+	{
+		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
+		modelFormatList.add(ModelFormat.TEST2);
+		return modelFormatList;
+	}
+
+	@Override
+	public List<IModelFormat> getSupportedInputs()
+	{
+		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
+		modelFormatList.add(ModelFormat.TEST);
+		return modelFormatList;
+	}
+
+	@Override
+	public IModel convert(IModel model, IModelFormat input, IModelFormat output) throws ConversionException
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

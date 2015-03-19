@@ -41,6 +41,7 @@ import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.services.IServices;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
@@ -49,7 +50,7 @@ import org.geppetto.core.simulation.ISimulatorCallbackListener;
  * @author matteocantarelli
  * @author giovanniidili
  */
-public interface ISimulator {
+public interface ISimulator extends IServices{
 	
 	void simulate(IRunConfiguration runConfiguration, AspectNode aspect) throws GeppettoExecutionException;
 	

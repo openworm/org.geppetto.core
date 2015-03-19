@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  *
- * Copyright (c) 2011 - 2015 OpenWorm.
+ * Copyright (c) 2011, 2013 OpenWorm.
  * http://openworm.org
  *
  * All rights reserved. This program and the accompanying materials
@@ -31,23 +31,32 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.model;
+package org.geppetto.core.conversion;
 
-import java.net.URL;
-import java.util.List;
 
-import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.services.IServices;
+/**
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
+ *
+ */
+public class ConversionException extends Exception
+{
 
-public interface IModelInterpreter extends IServices{
+	public ConversionException(String message)
+	{
+		super(message);
+	}
 
-	IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException;
-			
-	boolean populateModelTree(AspectNode aspectNode) throws ModelInterpreterException;
+	public ConversionException(Throwable e)
+	{
+		super(e);
+	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8712503151350991595L;
+
+
 	
-	boolean populateRuntimeTree(AspectNode aspectNode) throws ModelInterpreterException;
-	
-	
-	
-	String getName();
+
 }
