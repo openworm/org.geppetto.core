@@ -64,10 +64,10 @@ public class ExternalProcess extends Thread{
 				
 				currentProcess.waitFor();
 			}
+						
+			_logger.info("Proccess done for command "+_commands + " done");
 			
 			_callback.processDone(this._commands);
-			
-			_logger.info("Proccess done for command "+_commands + " done");
 		}
 		catch(IOException | InterruptedException e){
 			_logger.error("Unable to execute command: " + _commands);
