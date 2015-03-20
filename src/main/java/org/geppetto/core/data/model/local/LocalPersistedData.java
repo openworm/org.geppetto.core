@@ -44,8 +44,9 @@ public class LocalPersistedData implements IPersistedData
 
 	private PersistedDataType type;
 
-	public LocalPersistedData(String url, PersistedDataType type)
+	public LocalPersistedData(long id, String url, PersistedDataType type)
 	{
+		this.id = id;
 		this.url = url;
 		this.type = type;
 	}

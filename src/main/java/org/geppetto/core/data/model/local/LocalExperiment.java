@@ -54,8 +54,9 @@ public class LocalExperiment implements IExperiment
 
 	private List<LocalSimulationRun> simulationRuns;
 
-	public LocalExperiment(String name, String description, Date creationDate, Date lastModified, List<LocalParameter> modelParameters, List<LocalSimulationRun> simulationRuns)
+	public LocalExperiment(long id, String name, String description, Date creationDate, Date lastModified, List<LocalParameter> modelParameters, List<LocalSimulationRun> simulationRuns)
 	{
+		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.creationDate = creationDate;

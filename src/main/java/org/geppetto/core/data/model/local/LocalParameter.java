@@ -46,8 +46,9 @@ public class LocalParameter implements IParameter
 
 	private String instancePath;
 
-	public LocalParameter(ParameterType type, String value, String instancePath)
+	public LocalParameter(long id, ParameterType type, String value, String instancePath)
 	{
+		this.id = id;
 		this.type = type;
 		this.value = value;
 		this.instancePath = instancePath;

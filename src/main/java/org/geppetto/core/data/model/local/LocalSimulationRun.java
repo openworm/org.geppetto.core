@@ -53,8 +53,9 @@ public class LocalSimulationRun implements ISimulationRun
 
 	private Date endDate;
 
-	public LocalSimulationRun(SimulationStatus status, List<LocalParameter> simulationParameters, LocalPersistedData results, Date startDate, Date endDate)
+	public LocalSimulationRun(long id, SimulationStatus status, List<LocalParameter> simulationParameters, LocalPersistedData results, Date startDate, Date endDate)
 	{
+		this.id = id;
 		this.status = status;
 		this.simulationParameters = simulationParameters;
 		this.results = results;

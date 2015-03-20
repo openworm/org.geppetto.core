@@ -49,8 +49,9 @@ public class LocalGeppettoProject implements IGeppettoProject
 
 	private LocalSimulationRun activeSimulation;
 
-	public LocalGeppettoProject(String name, List<LocalExperiment> experiments, LocalPersistedData geppettoModel, LocalSimulationRun activeSimulation)
+	public LocalGeppettoProject(long id, String name, List<LocalExperiment> experiments, LocalPersistedData geppettoModel, LocalSimulationRun activeSimulation)
 	{
+		this.id = id;
 		this.name = name;
 		this.experiments = experiments;
 		this.geppettoModel = geppettoModel;

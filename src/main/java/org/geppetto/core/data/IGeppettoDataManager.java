@@ -49,7 +49,7 @@ public interface IGeppettoDataManager
 	
 	IUser getUserByLogin(String login);
 	
-	IGeppettoProject getGeppettoProjectById(int id);
+	IGeppettoProject getGeppettoProjectById(long id);
 
 	List<? extends IGeppettoProject> getAllGeppettoProjects();
 
