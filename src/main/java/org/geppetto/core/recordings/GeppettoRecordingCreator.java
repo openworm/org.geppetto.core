@@ -32,6 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.recordings;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -125,6 +126,13 @@ public class GeppettoRecordingCreator {
 			_logger.error("Cannot find HDF5 FileFormat.");
 			throw new GeppettoExecutionException("Cannot find HDF5 FileFormat.");
 		}
+		
+		String recordingsDirPath = System.getProperty("user.dir")+"/recordings";
+		//check parent directory for recordings exist
+		File recordingsDir = new File(recordingsDirPath);
+		if(!recordingsDir.exists()){
+			recordingsDir.mkdir();
+		}
 
 		//Create instance pointing to file name
 		recordingsH5File = 
@@ -208,11 +216,12 @@ public class GeppettoRecordingCreator {
 	 * @param metaType - Type of node, either variable or parameter node
 	 * @throws Exception
 	 */
-	public void addValues(String variable, double value, String unit, MetaType metaType) throws Exception{
+	public void addValues(String variable, double value, 
+			String unit, MetaType metaType,boolean update) throws Exception{
 		//Convert single number into array, to store as dataset
 		double[] values = new double[1];
 		values[0] = value;
-		addValues(variable, values, unit,metaType);
+		addValues(variable, values, unit,metaType,update);
 	}
 
 	/**
@@ -226,11 +235,12 @@ public class GeppettoRecordingCreator {
 	 * @param metaType - Type of node, either variable or parameter node
 	 * @throws Exception
 	 */
-	public void addValues(String variable, int value, String unit, MetaType metaType) throws Exception{
+	public void addValues(String variable, int value, 
+			String unit, MetaType metaType, boolean update) throws Exception{
 		//Convert single number into array, to store as dataset
 		int[] values = new int[1];
 		values[0] = value;
-		addValues(variable, values, unit,metaType);
+		addValues(variable, values, unit,metaType,update);
 	}
 
 	/**
@@ -244,11 +254,12 @@ public class GeppettoRecordingCreator {
 	 * @param metaType - Type of node, either variable or parameter node
 	 * @throws Exception
 	 */
-	public void addValues(String variable, float value, String unit, MetaType metaType) throws Exception{
+	public void addValues(String variable, float value, 
+			String unit, MetaType metaType,boolean update) throws Exception{
 		//Convert single number into array, to store as dataset
 		float[] values = new float[1];
 		values[0] = value;
-		addValues(variable, values, unit,metaType);
+		addValues(variable, values, unit,metaType,update);
 	}
 
 	/**
@@ -262,7 +273,8 @@ public class GeppettoRecordingCreator {
 	 * @throws Exception
 	 * 
 	 */
-	public void addValues(String variable,double[] values, String unit,MetaType metaType) throws Exception{
+	public void addValues(String variable,double[] values, 
+			String unit,MetaType metaType,boolean update) throws Exception{
 		RecordingObject o = new RecordingObject();
 		o.setMetaType(metaType);
 		o.setVariable(variable);
@@ -271,7 +283,7 @@ public class GeppettoRecordingCreator {
 		o.setDataType(Datatype.CLASS_FLOAT);
 		o.setDataBytes(16);
 		o.setValuesLenght(values.length);
-		if(map.containsKey(variable)){
+		if(map.containsKey(variable)&&update){
 			RecordingObject object = map.get(variable);
 			double[]  oldValues = (double[]) object.getValues();
 			oldValues = ArrayUtils.addAll(oldValues,values);
@@ -293,7 +305,8 @@ public class GeppettoRecordingCreator {
 	 * @param metaType - Type of node, either variable or parameter node
 	 * @throws Exception
 	 */
-	public void addValues(String variable, int[] values, String unit, MetaType metaType) throws Exception{
+	public void addValues(String variable, int[] values,
+			String unit, MetaType metaType, boolean update) throws Exception{
 		RecordingObject o = new RecordingObject();
 		o.setMetaType(metaType);
 		o.setVariable(variable);
@@ -302,7 +315,7 @@ public class GeppettoRecordingCreator {
 		o.setDataType(Datatype.CLASS_INTEGER);
 		o.setDataBytes(4);
 		o.setValuesLenght(values.length);
-		if(map.containsKey(variable)){
+		if(map.containsKey(variable)&&update){
 			RecordingObject object = map.get(variable);
 			int[]  oldValues = (int[]) object.getValues();
 			oldValues = ArrayUtils.addAll(oldValues,values);
@@ -323,7 +336,8 @@ public class GeppettoRecordingCreator {
 	 * @param metaType - Type of node, either variable or parameter node
 	 * @throws Exception
 	 */
-	public void addValues(String variable,float[] values, String unit, MetaType metaType) throws Exception{
+	public void addValues(String variable,float[] values, 
+			String unit, MetaType metaType,boolean update) throws Exception{
 		RecordingObject o = new RecordingObject();
 		o.setMetaType(metaType);
 		o.setVariable(variable);
@@ -332,7 +346,7 @@ public class GeppettoRecordingCreator {
 		o.setDataType(Datatype.CLASS_FLOAT);
 		o.setDataBytes(16);
 		o.setValuesLenght(values.length);
-		if(map.containsKey(variable)){
+		if(map.containsKey(variable)&&update){
 			RecordingObject object = map.get(variable);
 			float[]  oldValues = (float[]) object.getValues();
 			oldValues = ArrayUtils.addAll(oldValues,values);

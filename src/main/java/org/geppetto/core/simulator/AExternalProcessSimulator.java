@@ -49,7 +49,7 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 	public abstract String getSimulatorPath();
 
 	@Override
-	public void processDone(String[] processCommand) {
+	public void processDone(String[] processCommand) throws GeppettoExecutionException {
 		ExternalProcess process = this.externalProcesses.get(processCommand);
 		this.getListener().endOfSteps("Process for " + 
 				process.getFileToExecute()+ " is done executing");
