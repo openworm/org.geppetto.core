@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.common.GeppettoExecutionException;
+import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.simulation.IExternalSimulatorCallbackListener;
 
 /**
@@ -22,12 +23,15 @@ public class ExternalProcess extends Thread{
 	public volatile boolean run = true;
 	private IExternalSimulatorCallbackListener _callback;
 	private String _fileToExecute;
+	private AspectNode _aspectNode;
 	
 	public ExternalProcess(String[] commands, String directoryToExecuteFrom, 
-			String fileToExecute, IExternalSimulatorCallbackListener callback){
+			String fileToExecute, IExternalSimulatorCallbackListener callback,
+			AspectNode aspect){
 		this._commands = commands;
 		this._directoryToExecuteFrom = directoryToExecuteFrom;
 		this._callback = callback;
+		this._aspectNode = aspect;
 		this._fileToExecute = fileToExecute;
 	}
 	@Override
@@ -86,5 +90,8 @@ public class ExternalProcess extends Thread{
 	
 	public String getFileToExecute(){
 		return this._fileToExecute;
+	}
+	public AspectNode getAspectNode() {
+		return _aspectNode;
 	}
 }

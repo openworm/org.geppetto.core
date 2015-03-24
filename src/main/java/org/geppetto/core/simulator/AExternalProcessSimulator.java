@@ -21,18 +21,12 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 	Map<String[], ExternalProcess> externalProcesses = new HashMap<String[],ExternalProcess>();
 
 	public void runExternalProcess(String[] command, String directoryToExecuteFrom,
-			String fileToExecute){
+			String fileToExecute, AspectNode aspect){
 		ExternalProcess process = 
-				new ExternalProcess(command, directoryToExecuteFrom, fileToExecute, this);
+				new ExternalProcess(command, directoryToExecuteFrom, fileToExecute, this, aspect);
 		process.start();
 		
 		externalProcesses.put(command, process);
-	}
-	
-	@Override
-	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect)
-			throws GeppettoExecutionException {
-		
 	}
 
 	@Override
@@ -51,7 +45,5 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 	@Override
 	public void processDone(String[] processCommand) throws GeppettoExecutionException {
 		ExternalProcess process = this.externalProcesses.get(processCommand);
-		this.getListener().endOfSteps("Process for " + 
-				process.getFileToExecute()+ " is done executing");
 	}
 }
