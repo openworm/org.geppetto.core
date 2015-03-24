@@ -197,11 +197,11 @@ public class ServicesRegistry {
 			int result = 1;
 			result = prime
 					* result
-					+ ((inputModelFormat == null) ? 0 : inputModelFormat
+					+ ((inputModelFormat.toString() == null) ? 0 : inputModelFormat.toString()
 							.hashCode());
 			result = prime
 					* result
-					+ ((outputModelFormat == null) ? 0 : outputModelFormat
+					+ ((outputModelFormat.toString() == null) ? 0 : outputModelFormat.toString()
 							.hashCode());
 			return result;
 		}
