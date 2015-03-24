@@ -72,7 +72,7 @@ public class TestGeppettoRecordingsCreator {
 			file.open();
 			Dataset dataset = (Dataset) file.findObject(file, "/P/J");
 			float[] value =  (float[])dataset.read();
-			Assert.assertEquals(2.0f,value[0]);
+			Assert.assertEquals(8.0f,value[0]);
 			Assert.assertEquals(8.0f,value[1]);
 			_logger.info("Value "+ value[0] + " should read");
 
@@ -208,7 +208,7 @@ public class TestGeppettoRecordingsCreator {
 			file.open();
 			Dataset dataset = (Dataset) file.findObject(file, "/P/b/c");
 			int[] value =  (int[])dataset.read();
-			Assert.assertEquals(3,value[0]);
+			Assert.assertEquals(33,value[0]);
 			_logger.info("Value "+ value[0] + " read should be 3");
 			List metaData = dataset.getMetadata();
 			Attribute unit = (Attribute)metaData.get(1);
