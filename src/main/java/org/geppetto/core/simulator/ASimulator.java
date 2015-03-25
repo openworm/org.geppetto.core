@@ -608,9 +608,11 @@ public abstract class ASimulator implements ISimulator
 					
 				}
 				catch (ArrayIndexOutOfBoundsException  e) {
+					throw new GeppettoExecutionException(e);
 				}
 				catch(Exception | OutOfMemoryError e)
 				{
+					throw new GeppettoExecutionException(e);
 				}
 			}
 			}
