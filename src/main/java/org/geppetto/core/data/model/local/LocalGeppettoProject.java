@@ -47,15 +47,12 @@ public class LocalGeppettoProject implements IGeppettoProject
 
 	private LocalPersistedData geppettoModel;
 
-	private LocalSimulationRun activeSimulation;
-
-	public LocalGeppettoProject(long id, String name, List<LocalExperiment> experiments, LocalPersistedData geppettoModel, LocalSimulationRun activeSimulation)
+	public LocalGeppettoProject(long id, String name, List<LocalExperiment> experiments, LocalPersistedData geppettoModel)
 	{
 		this.id = id;
 		this.name = name;
 		this.experiments = experiments;
 		this.geppettoModel = geppettoModel;
-		this.activeSimulation = activeSimulation;
 	}
 
 	@Override
@@ -85,12 +82,6 @@ public class LocalGeppettoProject implements IGeppettoProject
 	public LocalPersistedData getGeppettoModel()
 	{
 		return geppettoModel;
-	}
-
-	@Override
-	public LocalSimulationRun getActiveSimulation()
-	{
-		return activeSimulation;
 	}
 
 	@Override

@@ -36,11 +36,14 @@ package org.geppetto.core.data.model.local;
 import java.util.Date;
 import java.util.List;
 
+import org.geppetto.core.data.model.ExperimentStatus;
 import org.geppetto.core.data.model.IExperiment;
 
 public class LocalExperiment implements IExperiment
 {
 	private long id;
+
+	private List<LocalAspectConfiguration> aspectConfigurations;
 
 	private String name;
 
@@ -50,19 +53,27 @@ public class LocalExperiment implements IExperiment
 
 	private Date lastModified;
 
-	private List<LocalParameter> modelParameters;
+	private ExperimentStatus status;
 
-	private List<LocalSimulationRun> simulationRuns;
+	private List<LocalSimulationResult> simulationResults;
 
-	public LocalExperiment(long id, String name, String description, Date creationDate, Date lastModified, List<LocalParameter> modelParameters, List<LocalSimulationRun> simulationRuns)
+	private Date startDate;
+
+	private Date endDate;
+
+	public LocalExperiment(long id, List<LocalAspectConfiguration> aspectConfigurations, String name, String description, Date creationDate, Date lastModified, ExperimentStatus status,
+			List<LocalSimulationResult> simulationResults, Date startDate, Date endDate)
 	{
 		this.id = id;
+		this.aspectConfigurations = aspectConfigurations;
 		this.name = name;
 		this.description = description;
 		this.creationDate = creationDate;
 		this.lastModified = lastModified;
-		this.modelParameters = modelParameters;
-		this.simulationRuns = simulationRuns;
+		this.status = status;
+		this.simulationResults = simulationResults;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 
 	@Override
@@ -72,14 +83,15 @@ public class LocalExperiment implements IExperiment
 	}
 
 	@Override
+	public List<LocalAspectConfiguration> getAspectConfigurations()
+	{
+		return aspectConfigurations;
+	}
+
+	@Override
 	public String getName()
 	{
 		return name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
 	}
 
 	@Override
@@ -101,14 +113,26 @@ public class LocalExperiment implements IExperiment
 	}
 
 	@Override
-	public List<LocalParameter> getModelParameters()
+	public List<LocalSimulationResult> getSimulationResults()
 	{
-		return modelParameters;
+		return simulationResults;
 	}
 
 	@Override
-	public List<LocalSimulationRun> getSimulationRuns()
+	public ExperimentStatus getStatus()
 	{
-		return simulationRuns;
+		return status;
+	}
+
+	@Override
+	public Date getStartDate()
+	{
+		return startDate;
+	}
+
+	@Override
+	public Date getEndDate()
+	{
+		return endDate;
 	}
 }

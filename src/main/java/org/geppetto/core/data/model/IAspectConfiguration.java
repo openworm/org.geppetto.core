@@ -30,42 +30,21 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+package org.geppetto.core.data.model;
 
-package org.geppetto.core.data.model.local;
+import java.util.List;
 
-import org.geppetto.core.data.model.IParameter;
-
-public class LocalParameter implements IParameter
+public interface IAspectConfiguration
 {
-	private long id;
 
-	private LocalInstancePath variable;
+	long getId();
 
-	private String value;
+	IInstancePath getAspect();
 
-	public LocalParameter(long id, LocalInstancePath variable, String value)
-	{
-		this.id = id;
-		this.variable = variable;
-		this.value = value;
-	}
+	List<? extends IInstancePath> getWatchedVariables();
 
-	@Override
-	public long getId()
-	{
-		return id;
-	}
+	List<? extends IParameter> getModelParameter();
 
-	@Override
-	public String getValue()
-	{
-		return value;
-	}
-
-	@Override
-	public LocalInstancePath getVariable()
-	{
-		return variable;
-	}
+	ISimulatorConfiguration getSimulatorConfiguration();
 
 }

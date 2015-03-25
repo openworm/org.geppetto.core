@@ -31,41 +31,9 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.data.model.local;
+package org.geppetto.core.data.model;
 
-import org.geppetto.core.data.model.IParameter;
-
-public class LocalParameter implements IParameter
+public enum ExperimentStatus
 {
-	private long id;
-
-	private LocalInstancePath variable;
-
-	private String value;
-
-	public LocalParameter(long id, LocalInstancePath variable, String value)
-	{
-		this.id = id;
-		this.variable = variable;
-		this.value = value;
-	}
-
-	@Override
-	public long getId()
-	{
-		return id;
-	}
-
-	@Override
-	public String getValue()
-	{
-		return value;
-	}
-
-	@Override
-	public LocalInstancePath getVariable()
-	{
-		return variable;
-	}
-
+	DESIGN, QUEUED, RUNNING, ERROR, COMPLETED, DELETED
 }

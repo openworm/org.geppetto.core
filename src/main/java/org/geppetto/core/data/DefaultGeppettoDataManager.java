@@ -34,18 +34,14 @@
 package org.geppetto.core.data;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.data.model.PersistedDataType;
-import org.geppetto.core.data.model.SimulationStatus;
 import org.geppetto.core.data.model.local.LocalExperiment;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
-import org.geppetto.core.data.model.local.LocalParameter;
 import org.geppetto.core.data.model.local.LocalPersistedData;
-import org.geppetto.core.data.model.local.LocalSimulationRun;
 import org.geppetto.core.data.model.local.LocalUser;
 
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
@@ -111,14 +107,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	{
 	}
 
-	public void createExperiment(String name, String description, Date creationDate, Date lastModified)
-	{
-	}
-
 	private static LocalGeppettoProject buildProject(long id, String name, String url)
 	{
 		LocalPersistedData persistedData = new LocalPersistedData(id, url, PersistedDataType.GEPPETTO_PROJECT);
-		return new LocalGeppettoProject(id, name, new ArrayList<LocalExperiment>(), persistedData, new LocalSimulationRun(id, SimulationStatus.COMPLETED, new ArrayList<LocalParameter>(),
-				persistedData, new Date(), new Date()));
+		return new LocalGeppettoProject(id, name, new ArrayList<LocalExperiment>(), persistedData);
 	}
 }

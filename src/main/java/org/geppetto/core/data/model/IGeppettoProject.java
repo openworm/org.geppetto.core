@@ -46,6 +46,4 @@ public interface IGeppettoProject
 
 	IPersistedData getGeppettoModel();
 
-	ISimulationRun getActiveSimulation();
-
 }

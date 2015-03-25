@@ -33,34 +33,29 @@
 
 package org.geppetto.core.data.model.local;
 
-import java.util.Date;
 import java.util.List;
 
-import org.geppetto.core.data.model.ISimulationRun;
-import org.geppetto.core.data.model.SimulationStatus;
+import org.geppetto.core.data.model.IAspectConfiguration;
 
-public class LocalSimulationRun implements ISimulationRun
+public class LocalAspectConfiguration implements IAspectConfiguration
 {
 	private long id;
 
-	private SimulationStatus status;
+	private LocalInstancePath aspect;
 
-	private LocalPersistedData results;
+	private List<LocalInstancePath> watchedVariables;
 
-	private List<LocalParameter> simulationParameters;
+	private List<LocalParameter> modelParameter;
 
-	private Date startDate;
+	private LocalSimulatorConfiguration simulatorConfiguration;
 
-	private Date endDate;
-
-	public LocalSimulationRun(long id, SimulationStatus status, List<LocalParameter> simulationParameters, LocalPersistedData results, Date startDate, Date endDate)
+	public LocalAspectConfiguration(long id, LocalInstancePath aspect, List<LocalInstancePath> watchedVariables, List<LocalParameter> modelParameter, LocalSimulatorConfiguration simulatorConfiguration)
 	{
 		this.id = id;
-		this.status = status;
-		this.simulationParameters = simulationParameters;
-		this.results = results;
-		this.startDate = startDate;
-		this.endDate = endDate;
+		this.aspect = aspect;
+		this.watchedVariables = watchedVariables;
+		this.modelParameter = modelParameter;
+		this.simulatorConfiguration = simulatorConfiguration;
 	}
 
 	@Override
@@ -70,45 +65,27 @@ public class LocalSimulationRun implements ISimulationRun
 	}
 
 	@Override
-	public SimulationStatus getStatus()
+	public LocalInstancePath getAspect()
 	{
-		return status;
+		return aspect;
 	}
 
 	@Override
-	public LocalPersistedData getResults()
+	public List<LocalInstancePath> getWatchedVariables()
 	{
-		return results;
+		return watchedVariables;
 	}
 
 	@Override
-	public List<LocalParameter> getSimulationParameters()
+	public List<LocalParameter> getModelParameter()
 	{
-		return simulationParameters;
+		return modelParameter;
 	}
 
 	@Override
-	public Date getStartDate()
+	public LocalSimulatorConfiguration getSimulatorConfiguration()
 	{
-		return startDate;
-	}
-
-	@Override
-	public Date getEndDate()
-	{
-		return endDate;
-	}
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		return id == ((LocalSimulationRun) obj).id;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return status.hashCode();
+		return simulatorConfiguration;
 	}
 
 }

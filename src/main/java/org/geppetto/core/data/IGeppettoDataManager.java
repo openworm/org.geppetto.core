@@ -33,7 +33,6 @@
 
 package org.geppetto.core.data;
 
-import java.util.Date;
 import java.util.List;
 
 import org.geppetto.core.data.model.IGeppettoProject;
@@ -44,11 +43,11 @@ public interface IGeppettoDataManager
 	String getName();
 
 	boolean isDefault();
-	
+
 	IUser getCurrentUser();
-	
+
 	IUser getUserByLogin(String login);
-	
+
 	IGeppettoProject getGeppettoProjectById(long id);
 
 	List<? extends IGeppettoProject> getAllGeppettoProjects();
@@ -56,6 +55,4 @@ public interface IGeppettoDataManager
 	List<? extends IGeppettoProject> getGeppettoProjectsForUser(String login);
 
 	void createParameter(String name, String value);
-
-	void createExperiment(String name, String description, Date creationDate, Date lastModified);
 }

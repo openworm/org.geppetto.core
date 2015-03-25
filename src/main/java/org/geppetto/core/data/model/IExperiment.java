@@ -41,6 +41,8 @@ public interface IExperiment
 
 	long getId();
 
+	List<? extends IAspectConfiguration> getAspectConfigurations();
+
 	String getName();
 
 	String getDescription();
@@ -49,8 +51,12 @@ public interface IExperiment
 
 	Date getLastModified();
 
-	List<? extends IParameter> getModelParameters();
+	ExperimentStatus getStatus();
+	
+	List<? extends ISimulationResult> getSimulationResults();
 
-	List<? extends ISimulationRun> getSimulationRuns();
+	Date getStartDate();
+
+	Date getEndDate();
 
 }

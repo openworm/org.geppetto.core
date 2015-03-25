@@ -31,9 +31,52 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.data.model;
+package org.geppetto.core.data.model.local;
 
-public enum SimulationStatus
+import java.util.Map;
+
+import org.geppetto.core.data.model.ISimulatorConfiguration;
+
+public class LocalSimulatorConfiguration implements ISimulatorConfiguration
 {
-	QUEUED, RUNNING, ERROR, COMPLETED, DELETED
+	private long id;
+
+	private String simulatorId;
+
+	private String timestep;
+
+	private Map<String, String> parameters;
+
+	public LocalSimulatorConfiguration(long id, String simulatorId, String timestep, Map<String, String> parameters)
+	{
+		this.id = id;
+		this.simulatorId = simulatorId;
+		this.timestep = timestep;
+		this.parameters = parameters;
+	}
+
+	@Override
+	public long getId()
+	{
+		return id;
+	}
+
+	@Override
+	public String getSimulatorId()
+	{
+		return simulatorId;
+	}
+
+	@Override
+	public String getTimestep()
+	{
+		return timestep;
+	}
+
+	@Override
+	public Map<String, String> getParameters()
+	{
+		return parameters;
+	}
+
 }

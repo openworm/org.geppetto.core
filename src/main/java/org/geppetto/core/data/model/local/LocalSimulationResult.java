@@ -33,21 +33,21 @@
 
 package org.geppetto.core.data.model.local;
 
-import org.geppetto.core.data.model.IParameter;
+import org.geppetto.core.data.model.ISimulationResult;
 
-public class LocalParameter implements IParameter
+public class LocalSimulationResult implements ISimulationResult
 {
 	private long id;
 
-	private LocalInstancePath variable;
+	private LocalInstancePath aspect;
 
-	private String value;
+	private LocalPersistedData result;
 
-	public LocalParameter(long id, LocalInstancePath variable, String value)
+	public LocalSimulationResult(long id, LocalInstancePath aspect, LocalPersistedData result)
 	{
 		this.id = id;
-		this.variable = variable;
-		this.value = value;
+		this.aspect = aspect;
+		this.result = result;
 	}
 
 	@Override
@@ -57,15 +57,15 @@ public class LocalParameter implements IParameter
 	}
 
 	@Override
-	public String getValue()
+	public LocalPersistedData getResult()
 	{
-		return value;
+		return result;
 	}
 
 	@Override
-	public LocalInstancePath getVariable()
+	public LocalInstancePath getAspect()
 	{
-		return variable;
+		return aspect;
 	}
 
 }
