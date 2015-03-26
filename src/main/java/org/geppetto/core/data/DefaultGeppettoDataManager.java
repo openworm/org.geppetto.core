@@ -43,9 +43,11 @@ import org.geppetto.core.data.model.local.LocalExperiment;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
 import org.geppetto.core.data.model.local.LocalPersistedData;
 import org.geppetto.core.data.model.local.LocalUser;
+import org.springframework.http.HttpStatus;
 
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
+
 	private static final List<LocalGeppettoProject> PROJECTS = new ArrayList<>();
 
 	static
@@ -105,6 +107,11 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	public void createParameter(String name, String value)
 	{
+	}
+
+	public Object deleteGeppettoProject(IGeppettoProject project)
+	{
+		return new JsonRequestException("Cannot delete project", HttpStatus.BAD_REQUEST);
 	}
 
 	private static LocalGeppettoProject buildProject(long id, String name, String url)

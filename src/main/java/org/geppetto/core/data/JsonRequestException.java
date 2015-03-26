@@ -30,31 +30,30 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-
 package org.geppetto.core.data;
 
-import java.util.List;
+import org.springframework.http.HttpStatus;
 
-import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.data.model.IUser;
-
-public interface IGeppettoDataManager
+public class JsonRequestException
 {
-	String getName();
+	private String message;
 
-	boolean isDefault();
+	private HttpStatus status = HttpStatus.OK;
 
-	IUser getCurrentUser();
+	public JsonRequestException(String message, HttpStatus status)
+	{
+		this.message = message;
+		this.status = status;
+	}
 
-	IUser getUserByLogin(String login);
+	public String getMessage()
+	{
+		return message;
+	}
 
-	IGeppettoProject getGeppettoProjectById(long id);
+	public HttpStatus getStatus()
+	{
+		return status;
+	}
 
-	List<? extends IGeppettoProject> getAllGeppettoProjects();
-
-	List<? extends IGeppettoProject> getGeppettoProjectsForUser(String login);
-
-	void createParameter(String name, String value);
-	
-	Object deleteGeppettoProject(IGeppettoProject project);
 }
