@@ -426,6 +426,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			if (_serialized.charAt(_serialized.length() - 1) == ',')
 				_serialized.deleteCharAt(_serialized.lastIndexOf(","));
 			_serialized.append("},"+commonProperties + "},");
+			node.getTimeSeries().clear();
 		}
 		return super.visitVariableNode(node);
 	}
