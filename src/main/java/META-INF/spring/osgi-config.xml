@@ -65,5 +65,7 @@
 	<bean id="authService" scope="thread" class="org.geppetto.core.auth.DefaultAuthService">
 	<aop:scoped-proxy proxy-target-class="false"/>
 	</bean>
+
+	<bean id="eventListenerBean" class="org.geppetto.core.services.registry.ApplicationListenerBean" />
 	
 </beans>

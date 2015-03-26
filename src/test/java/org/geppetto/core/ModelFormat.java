@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  *
- * Copyright (c) 2011 - 2015 OpenWorm.
+ * Copyright (c) 2011, 2013 OpenWorm.
  * http://openworm.org
  *
  * All rights reserved. This program and the accompanying materials
@@ -30,24 +30,18 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+package org.geppetto.core;
 
-package org.geppetto.core.model;
+import org.geppetto.core.services.IModelFormat;
 
-import java.net.URL;
-import java.util.List;
+/**
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
+ *
+ */
+public enum ModelFormat implements IModelFormat
+{
 
-import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.services.IServices;
-
-public interface IModelInterpreter extends IServices{
-
-	IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException;
-			
-	boolean populateModelTree(AspectNode aspectNode) throws ModelInterpreterException;
+	TEST,
+	TEST2;
 	
-	boolean populateRuntimeTree(AspectNode aspectNode) throws ModelInterpreterException;
-	
-	
-	
-	String getName();
 }

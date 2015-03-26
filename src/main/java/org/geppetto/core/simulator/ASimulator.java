@@ -308,99 +308,7 @@ public abstract class ASimulator implements ISimulator
 				for(RecordingModel recording : _recordings)
 				{
 					watchListModified(false);
-					H5File file = recording.getHDF5();
-					try {
-						file.open();
-					} catch (Exception e1) {
-						throw new GeppettoExecutionException(e1);
-					}
-					for(String watchedVariable : this.getWatchList())
-					{
-						String path = "/"+watchedVariable.replace(watchTree.getInstancePath()+".", "");
-						path = path.replace(".", "/");
-						Dataset v = (Dataset) FileFormat.findObject(file, path);
-
-						path = path.replaceFirst("/", "");
-						StringTokenizer tokenizer = new StringTokenizer(path, "/");
-						ACompositeNode node = watchTree;
-						while(tokenizer.hasMoreElements())
-						{
-							String current = tokenizer.nextToken();
-							boolean found = false;
-							for(ANode child : node.getChildren())
-							{
-								if(child.getId().equals(current))
-								{
-									if(child instanceof ACompositeNode)
-									{
-										node = (ACompositeNode) child;
-									}
-									found = true;
-									break;
-								}
-							}
-							if(found)
-							{
-								continue;
-							}
-							else
-							{
-								if(tokenizer.hasMoreElements())
-								{
-									// not a leaf, create a composite state node
-									ACompositeNode newNode = new CompositeNode(current);
-									node.addChild(newNode);
-									node = newNode;
-								}
-								else
-								{
-									// it's a leaf node
-									VariableNode newNode = new VariableNode(current);
-									Object dataRead;
-									try
-									{
-										dataRead = v.read();
-										Type type =null;
-										if(dataRead instanceof double[]){
-											type = Type.fromValue(SimpleType.Type.DOUBLE.toString());
-										}else if(dataRead instanceof int[]){
-											type = Type.fromValue(SimpleType.Type.INTEGER.toString());
-										}else if(dataRead instanceof float[]){
-											type = Type.fromValue(SimpleType.Type.FLOAT.toString());
-										}
-
-										PhysicalQuantity quantity = new PhysicalQuantity();
-										AValue readValue = null;
-										switch(type)
-										{
-										case DOUBLE:
-											double[] dr = (double[])dataRead;
-											readValue = ValuesFactory.getDoubleValue(dr[_currentRecordingIndex]);
-											break;
-										case FLOAT:
-											float[] fr = (float[])dataRead;
-											readValue = ValuesFactory.getFloatValue(fr[_currentRecordingIndex]);
-											break;
-										case INTEGER:
-											int[] ir = (int[])dataRead;
-											readValue = ValuesFactory.getIntValue(ir[_currentRecordingIndex]);
-											break;
-										default:
-											break;
-										}
-										quantity.setValue(readValue);
-										newNode.addPhysicalQuantity(quantity);
-										node.addChild(newNode);
-									}
-
-									catch(Exception | OutOfMemoryError e)
-									{
-										throw new GeppettoExecutionException(e);
-									}
-								}
-							}
-						}
-					}
+					this.readRecording(recording.getHDF5(), watchTree, false);
 					_currentRecordingIndex++;
 				}
 			}
@@ -556,5 +464,155 @@ public abstract class ASimulator implements ISimulator
 	@Override
 	public String getTimeStepUnit() {
 		return _timeStepUnit;
+	}
+	
+	public void readRecording(H5File h5File, AspectSubTreeNode watchTree,boolean readAll) throws GeppettoExecutionException{
+		try {
+			h5File.open();
+		} catch (Exception e1) {
+			throw new GeppettoExecutionException(e1);
+		}
+		for(String watchedVariable : this.getWatchList())
+		{
+			String path = "/"+watchedVariable.replace(watchTree.getInstancePath()+".", "");
+			path = path.replace(".", "/");
+			Dataset v = (Dataset) FileFormat.findObject(h5File, path);
+
+			path = path.replaceFirst("/", "");
+			StringTokenizer tokenizer = new StringTokenizer(path, "/");
+			ACompositeNode node = watchTree;
+			VariableNode newVariableNode = null;
+			while(tokenizer.hasMoreElements())
+			{
+				String current = tokenizer.nextToken();
+				boolean found = false;
+				for(ANode child : node.getChildren())
+				{
+					if(child.getId().equals(current))
+					{
+						if(child instanceof ACompositeNode)
+						{
+							node = (ACompositeNode) child;
+						}
+						found = true;
+						break;
+					}
+				}
+				if(found)
+				{
+					continue;
+				}
+				else
+				{
+					if(tokenizer.hasMoreElements())
+					{
+						// not a leaf, create a composite state node
+						ACompositeNode newNode = new CompositeNode(current);
+						node.addChild(newNode);
+						node = newNode;
+					}
+					else
+					{
+						// it's a leaf node
+						VariableNode newNode = new VariableNode(current);
+						Object dataRead;
+						try
+						{
+							dataRead = v.read();
+							Type type =null;
+							if(dataRead instanceof double[]){
+								type = Type.fromValue(SimpleType.Type.DOUBLE.toString());
+							}else if(dataRead instanceof int[]){
+								type = Type.fromValue(SimpleType.Type.INTEGER.toString());
+							}else if(dataRead instanceof float[]){
+								type = Type.fromValue(SimpleType.Type.FLOAT.toString());
+							}
+
+							PhysicalQuantity quantity = new PhysicalQuantity();
+							AValue readValue = null;
+							switch(type)
+							{
+							case DOUBLE:
+								double[] dr = (double[])dataRead;
+								readValue = ValuesFactory.getDoubleValue(dr[_currentRecordingIndex]);
+								break;
+							case FLOAT:
+								float[] fr = (float[])dataRead;
+								readValue = ValuesFactory.getFloatValue(fr[_currentRecordingIndex]);
+								break;
+							case INTEGER:
+								int[] ir = (int[])dataRead;
+								readValue = ValuesFactory.getIntValue(ir[_currentRecordingIndex]);
+								break;
+							default:
+								break;
+							}
+							quantity.setValue(readValue);
+							newNode.addPhysicalQuantity(quantity);
+							newVariableNode = newNode;
+							node.addChild(newNode);
+						}
+
+						catch(Exception | OutOfMemoryError e)
+						{
+							throw new GeppettoExecutionException(e);
+						}
+					}
+				}
+			}
+			if(readAll){
+				Object dataRead;
+				try
+				{
+					dataRead = v.read();
+					Type type =null;
+					if(dataRead instanceof double[]){
+						type = Type.fromValue(SimpleType.Type.DOUBLE.toString());
+					}else if(dataRead instanceof int[]){
+						type = Type.fromValue(SimpleType.Type.INTEGER.toString());
+					}else if(dataRead instanceof float[]){
+						type = Type.fromValue(SimpleType.Type.FLOAT.toString());
+					}
+
+					PhysicalQuantity quantity = new PhysicalQuantity();
+					AValue readValue = null;
+					switch(type)
+					{
+					case DOUBLE:
+						double[] dr = (double[])dataRead;
+						for(int i=0; i<dr.length;i++){
+							readValue = ValuesFactory.getDoubleValue(dr[i]);
+							quantity.setValue(readValue);
+							newVariableNode.addPhysicalQuantity(quantity);
+						}
+						break;
+					case FLOAT:
+						float[] fr = (float[])dataRead;
+						for(int i=0; i<fr.length;i++){
+							readValue = ValuesFactory.getDoubleValue(fr[i]);
+							quantity.setValue(readValue);
+							newVariableNode.addPhysicalQuantity(quantity);
+						}
+						break;
+					case INTEGER:
+						int[] ir = (int[])dataRead;
+						for(int i=0; i<ir.length;i++){
+							readValue = ValuesFactory.getDoubleValue(ir[i]);
+							quantity.setValue(readValue);
+							newVariableNode.addPhysicalQuantity(quantity);
+						}
+						break;
+					default:
+						break;
+					}
+					
+				}
+				catch (ArrayIndexOutOfBoundsException  e) {
+				}
+				catch(Exception | OutOfMemoryError e)
+				{
+				}
+			}
+			}
 	}
 }

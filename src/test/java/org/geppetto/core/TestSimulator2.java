@@ -32,59 +32,144 @@
  *******************************************************************************/
 package org.geppetto.core;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geppetto.core.common.GeppettoExecutionException;
+import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
+import org.geppetto.core.simulation.IRunConfiguration;
+import org.geppetto.core.simulation.ISimulatorCallbackListener;
+import org.geppetto.core.simulator.ISimulator;
 
 /**
- * Dummy model interpreter used for testing purposes
+ * Dummy simulator used for testing purposes 
  * 
- * @author  Jesus R. Martinez (jesus@metacell.us)
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public class TestModelInterpreter implements IModelInterpreter
+public class TestSimulator2 implements ISimulator
 {
 
 	@Override
-	public IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException
+	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect) throws GeppettoExecutionException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isInitialized()
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public VariableList getForceableVariables()
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean populateModelTree(AspectNode aspectNode) throws ModelInterpreterException
+	public VariableList getWatchableVariables()
 	{
 		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean populateRuntimeTree(AspectNode aspectNode)
-	{
-		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
 	public String getName()
 	{
 		// TODO Auto-generated method stub
-		return "Test Model interpreter";
+		return "test";
 	}
 
 	@Override
-	public void registerGeppettoService() {
+	public void addWatchVariables(List<String> variableNames)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void startWatch()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stopWatch()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clearWatchVariables()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean populateVisualTree(AspectNode aspectNode) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getId()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setInitialized(boolean initialized) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getTime() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getTimeStepUnit() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void resetWatch() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void registerGeppettoService()
+	{
 		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
-		modelFormatList.add(ModelFormat.TEST);
-		ServicesRegistry.registerModelInterpreterService(this, modelFormatList);
+		modelFormatList.add(ModelFormat.TEST2);
+		ServicesRegistry.registerSimulatorService(this, modelFormatList);
 		
 	}
 

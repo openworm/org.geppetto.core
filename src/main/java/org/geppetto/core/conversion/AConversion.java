@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  *
- * Copyright (c) 2011 - 2015 OpenWorm.
+ * Copyright (c) 2011, 2013 OpenWorm.
  * http://openworm.org
  *
  * All rights reserved. This program and the accompanying materials
@@ -31,23 +31,37 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.model;
+package org.geppetto.core.conversion;
 
-import java.net.URL;
-import java.util.List;
+import org.geppetto.core.beans.PathConfig;
+import org.geppetto.core.services.IModelFormat;
+import org.geppetto.core.services.registry.ServicesRegistry;
 
-import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.services.IServices;
+/**
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
+ * 
+ */
+public abstract class AConversion implements IConversion
+{
+	private PathConfig pathConfig = new PathConfig();
 
-public interface IModelInterpreter extends IServices{
+	public void checkSupportedFormat(IModelFormat input) throws ConversionException
+	{
+		if(!this.getSupportedInputs().contains(input))
+		{
+			throw new ConversionException("FORMAT NOT SUPPORTED");
+		}
+	}
 
-	IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException;
-			
-	boolean populateModelTree(AspectNode aspectNode) throws ModelInterpreterException;
+	public String getConvertedResultsPath()
+	{
+		return this.pathConfig.getConvertedResultsPath();
+	}
 	
-	boolean populateRuntimeTree(AspectNode aspectNode) throws ModelInterpreterException;
-	
-	
-	
-	String getName();
+	@Override
+	public void registerGeppettoService() throws ConversionException
+	{
+		ServicesRegistry.registerConversionService(this, getSupportedInputs(), getSupportedOutputs());
+	}
+
 }

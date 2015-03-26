@@ -49,7 +49,7 @@ import org.geppetto.core.services.registry.ServicesRegistry;
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class TestModelInterpreter implements IModelInterpreter
+public class TestModelInterpreter2 implements IModelInterpreter
 {
 
 	@Override
@@ -83,7 +83,7 @@ public class TestModelInterpreter implements IModelInterpreter
 	@Override
 	public void registerGeppettoService() {
 		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
-		modelFormatList.add(ModelFormat.TEST);
+		modelFormatList.add(ModelFormat.TEST2);
 		ServicesRegistry.registerModelInterpreterService(this, modelFormatList);
 		
 	}

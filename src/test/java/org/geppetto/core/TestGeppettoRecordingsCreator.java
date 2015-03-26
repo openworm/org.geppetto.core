@@ -62,8 +62,8 @@ public class TestGeppettoRecordingsCreator {
 	public void addInitialVariable(){
 		try {
 			GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
-			creator.addValues("P.J", 2.0f, "ms", MetaType.Variable_Node);
-			creator.addValues("P.J", 8.0f, "ms", MetaType.Variable_Node);
+			creator.addValues("P.J", 2.0f, "ms", MetaType.Variable_Node,false);
+			creator.addValues("P.J", 8.0f, "ms", MetaType.Variable_Node,false);
 			creator.addTimeStep(0.03f, "ms");
 			creator.create();
 			assertNotNull(creator.getRecordingsFile());
@@ -72,7 +72,7 @@ public class TestGeppettoRecordingsCreator {
 			file.open();
 			Dataset dataset = (Dataset) file.findObject(file, "/P/J");
 			float[] value =  (float[])dataset.read();
-			Assert.assertEquals(2.0f,value[0]);
+			Assert.assertEquals(8.0f,value[0]);
 			Assert.assertEquals(8.0f,value[1]);
 			_logger.info("Value "+ value[0] + " should read");
 
@@ -99,7 +99,7 @@ public class TestGeppettoRecordingsCreator {
 		try {
 			float[] values = {0.03f,0.055f,0.100f};
 			GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
-			creator.addValues("P.neuron",values, "ms",MetaType.Variable_Node);
+			creator.addValues("P.neuron",values, "ms",MetaType.Variable_Node,false);
 			creator.create();
 			assertNotNull(creator.getRecordingsFile());
 			
@@ -132,7 +132,7 @@ public class TestGeppettoRecordingsCreator {
 	public void addSiblingSameName(){
 		try {
 			GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
-			creator.addValues("P.j", 3.0f, "ms",MetaType.Variable_Node);
+			creator.addValues("P.j", 3.0f, "ms",MetaType.Variable_Node,false);
 			creator.create();
 			assertNotNull(creator.getRecordingsFile());
 			
@@ -165,7 +165,7 @@ public class TestGeppettoRecordingsCreator {
 	public void addGrandChildren(){
 		try {
 			GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
-			creator.addValues("P.b.aa", 3.0f, "ms",MetaType.Variable_Node);
+			creator.addValues("P.b.aa", 3.0f, "ms",MetaType.Variable_Node,false);
 			creator.create();
 			assertNotNull(creator.getRecordingsFile());
 			
@@ -198,8 +198,8 @@ public class TestGeppettoRecordingsCreator {
 	public void addSingleInteger(){
 		try {
 			GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
-			creator.addValues("P.b.c", 3, "ms",MetaType.Parameter_Node);
-			creator.addValues("P.b.c", 33, "ms",MetaType.Parameter_Node);
+			creator.addValues("P.b.c", 3, "ms",MetaType.Parameter_Node,false);
+			creator.addValues("P.b.c", 33, "ms",MetaType.Parameter_Node,false);
 
 			creator.create();
 			assertNotNull(creator.getRecordingsFile());
@@ -208,7 +208,7 @@ public class TestGeppettoRecordingsCreator {
 			file.open();
 			Dataset dataset = (Dataset) file.findObject(file, "/P/b/c");
 			int[] value =  (int[])dataset.read();
-			Assert.assertEquals(3,value[0]);
+			Assert.assertEquals(33,value[0]);
 			_logger.info("Value "+ value[0] + " read should be 3");
 			List metaData = dataset.getMetadata();
 			Attribute unit = (Attribute)metaData.get(1);
@@ -233,7 +233,7 @@ public class TestGeppettoRecordingsCreator {
 		try {
 			int[] values = {20,30,40};
 			GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
-			creator.addValues("P.b.a", values, "ms",MetaType.Parameter_Node);
+			creator.addValues("P.b.a", values, "ms",MetaType.Parameter_Node,false);
 			creator.create();
 			assertNotNull(creator.getRecordingsFile());
 			
