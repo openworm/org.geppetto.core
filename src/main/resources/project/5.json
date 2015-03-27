@@ -1,0 +1,10 @@
+{
+  id: 5,
+  name: "Primary Auditory Cortex Network",
+  experiments: [ ],
+  geppettoModel: {
+    id: 5,
+    url: "https://raw.github.com/openworm/org.geppetto.samples/master//NeuroML/ACnet2/GEPPETTO.xml",
+    type: "GEPPETTO_PROJECT"
+  }
+}

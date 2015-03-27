@@ -1,0 +1,10 @@
+{
+  id: 4,
+  name: "OpenWorm C.elegans muscle model",
+  experiments: [ ],
+  geppettoModel: {
+    id: 4,
+    url: "https://raw.githubusercontent.com/openworm/org.geppetto.samples/development/LEMS/MuscleModel/GEPPETTO.xml",
+    type: "GEPPETTO_PROJECT"
+  }
+}

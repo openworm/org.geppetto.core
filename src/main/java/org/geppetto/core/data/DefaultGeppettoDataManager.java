@@ -33,17 +33,19 @@
 
 package org.geppetto.core.data;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IUser;
-import org.geppetto.core.data.model.PersistedDataType;
-import org.geppetto.core.data.model.local.LocalExperiment;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
-import org.geppetto.core.data.model.local.LocalPersistedData;
 import org.geppetto.core.data.model.local.LocalUser;
 import org.springframework.http.HttpStatus;
+
+import com.google.gson.Gson;
 
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
@@ -52,15 +54,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	static
 	{
-		PROJECTS.add(buildProject(1, "LEMS Sample Hodgkin-Huxley Neuron", "https://raw.github.com/openworm/org.geppetto.samples/master/LEMS/SingleComponentHH/GEPPETTO.xml"));
-		PROJECTS.add(buildProject(2, "PCISPH Small Liquid Scene", "https://raw.github.com/openworm/org.geppetto.samples/master/SPH/LiquidSmall/GEPPETTO.xml"));
-		PROJECTS.add(buildProject(3, "PCISPH Small Elastic Scene", "https://raw.github.com/openworm/org.geppetto.samples/master/SPH/ElasticSmall/GEPPETTO.xml"));
-		PROJECTS.add(buildProject(4, "OpenWorm C.elegans muscle model", "https://raw.githubusercontent.com/openworm/org.geppetto.samples/development/LEMS/MuscleModel/GEPPETTO.xml"));
-		PROJECTS.add(buildProject(5, "Primary Auditory Cortex Network", "https://raw.github.com/openworm/org.geppetto.samples/master//NeuroML/ACnet2/GEPPETTO.xml"));
-		PROJECTS.add(buildProject(6, "C302 Experimental network of integrate and fire neurons", "https://raw.githubusercontent.com/openworm/org.geppetto.samples/master/LEMS/C302/GEPPETTO.xml"));
-		PROJECTS.add(buildProject(7, "NeuroML Purkinje Cell (No Simulation)", "https://raw.github.com/openworm/org.geppetto.samples/master/NeuroML/Purkinje/GEPPETTO.xml"));
-		PROJECTS.add(buildProject(8, "NeuroML C.elegans PVDR Neuron (No Simulation)", "https://raw.github.com/openworm/org.geppetto.samples/master/NeuroML/PVDR/GEPPETTO.xml"));
-		PROJECTS.add(buildProject(9, "EyeWire Ganglion Cell (No Simulation)", "https://raw.github.com/openworm/org.geppetto.samples/master/obj/Eyewire/GEPPETTO.xml"));
+		loadGeppettoProjects();
 	}
 
 	public String getName()
@@ -114,9 +108,14 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return new JsonRequestException("Cannot delete project", HttpStatus.BAD_REQUEST);
 	}
 
-	private static LocalGeppettoProject buildProject(long id, String name, String url)
+	private static void loadGeppettoProjects()
 	{
-		LocalPersistedData persistedData = new LocalPersistedData(id, url, PersistedDataType.GEPPETTO_PROJECT);
-		return new LocalGeppettoProject(id, name, new ArrayList<LocalExperiment>(), persistedData);
+		for(int i = 1; i < 10; i++)
+		{
+			InputStream strean = DefaultGeppettoDataManager.class.getResourceAsStream("/project/" + i + ".json");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(strean));
+			LocalGeppettoProject project = new Gson().fromJson(reader, LocalGeppettoProject.class);
+			PROJECTS.add(project);
+		}
 	}
 }

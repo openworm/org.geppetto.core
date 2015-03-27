@@ -1,0 +1,10 @@
+{
+  id: 7,
+  name: "NeuroML Purkinje Cell (No Simulation)",
+  experiments: [ ],
+  geppettoModel: {
+    id: 7,
+    url: "https://raw.github.com/openworm/org.geppetto.samples/master/NeuroML/Purkinje/GEPPETTO.xml",
+    type: "GEPPETTO_PROJECT"
+  }
+}
