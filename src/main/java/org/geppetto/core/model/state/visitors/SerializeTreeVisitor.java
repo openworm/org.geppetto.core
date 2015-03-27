@@ -403,9 +403,10 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 		}
 
 		String commonProperties = this.commonProperties(node);
+		
+		String watched = "\"watched\":" + "\"" + node.isWatched() + "\",";
 
 		PhysicalQuantity quantity = node.consumeFirstValue();
-
 		if (quantity != null) {
 			AValue value = quantity.getValue();
 			String unit = null, scale = null;
@@ -418,9 +419,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			}
 			_serialized.append("\"" + node.getId() + "\":{\"value\":" + value
 					+ ",\"unit\":" + unit + ",\"scale\":" + scale + ","
+					+ watched
 					+ commonProperties + "},");
 		} else {
 			_serialized.append("\"" + node.getId() + "\":{"
+					+ watched
 					+ commonProperties + "},");
 		}
 		return super.visitVariableNode(node);
