@@ -45,8 +45,4 @@ public interface ISimulatorCallbackListener
 	void endOfSteps(String message);
 	
 	void stateTreeUpdated() throws GeppettoExecutionException;
-	
-	void idle();
-
-	void stepping();
 }
