@@ -110,7 +110,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	private static void loadGeppettoProjects()
 	{
-		for(int i = 1; i < 10; i++)
+		for(int i = 1; i <= 10; i++)
 		{
 			InputStream stream = DefaultGeppettoDataManager.class.getResourceAsStream("/project/" + i + ".json");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));

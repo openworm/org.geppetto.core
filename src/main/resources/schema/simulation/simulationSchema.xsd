@@ -76,8 +76,6 @@
 		<sequence>
 			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
 			<element name="instancePath" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="simulator" type="tns:Simulator" maxOccurs="1"
-				minOccurs="0"></element>
 			<element name="model" type="tns:Model" maxOccurs="1"
 				minOccurs="0"></element>
 			<element name="parentEntity" type="tns:Entity" maxOccurs="1" minOccurs="0"></element>

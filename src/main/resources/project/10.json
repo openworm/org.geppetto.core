@@ -1,0 +1,10 @@
+{
+  id: 10,
+  name: "Test New Structure (LEMS Sample Hodgkin-Huxley Neuron)",
+  experiments: [ ],
+  geppettoModel: {
+    id: 10,
+    url: "https://raw.github.com/openworm/org.geppetto.core/datamanager/src/main/resources/project/newstructure.xml",
+    type: "GEPPETTO_PROJECT"
+  }
+}
