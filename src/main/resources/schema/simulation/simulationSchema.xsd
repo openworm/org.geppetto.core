@@ -5,7 +5,7 @@
 	jxb:version="2.0">
 
 
-	<element name="simulation">
+	<element name="geppettoModel">
 		<complexType>
 			<sequence>
 				<element name="entity" type="tns:Entity" maxOccurs="unbounded"
@@ -16,8 +16,6 @@
 						</appinfo>
 					</annotation>
 				</element>
-				<element name="script" type="string" maxOccurs="unbounded"
-					minOccurs="0"></element>
 			</sequence>
 		</complexType>
 	</element>
@@ -34,27 +32,6 @@
 		</sequence>
 	</complexType>
 
-	<complexType name="Simulator">
-		<sequence>
-			<element name="simulatorId" type="string" maxOccurs="1"
-				minOccurs="0"></element>
-			<element name="timeStep" type="tns:TimeStep" maxOccurs="1"
-				minOccurs="0"></element>
-			<element name="instancePath" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="parentAspect" type="tns:Aspect" maxOccurs="1" minOccurs="0"></element>
-			<element name="conversionServiceId" type="string" maxOccurs="1"
-				minOccurs="0"></element>
-		</sequence>
-	</complexType>
-
-	<complexType name="TimeStep">
-		<sequence>
-			<element name="type" type="tns:TimeStepType" maxOccurs="1"
-				minOccurs="1"></element>
-			<element name="value" type="float" maxOccurs="1" minOccurs="0"></element>
-		</sequence>
-	</complexType>
-
 	<complexType name="Point3D">
 		<sequence>
 			<element name="x" type="float" maxOccurs="1" minOccurs="1"></element>
@@ -63,13 +40,6 @@
 		</sequence>
 	</complexType>
 
-	<simpleType name="TimeStepType">
-		<restriction base="string">
-			<enumeration value="FIXED" />
-			<enumeration value="VARIABLE" />
-		</restriction>
-	</simpleType>
-	
 	<simpleType name="ConnectionType">
 		<restriction base="string">
 			<enumeration value="FROM" />
