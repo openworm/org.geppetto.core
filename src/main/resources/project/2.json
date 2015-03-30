@@ -1,9 +1,9 @@
 {
-  id: 1,
+  id: 2,
   name: "PCISPH Small Liquid Scene",
   experiments: [ ],
   geppettoModel: {
-    id: 1,
+    id: 2,
     url: "https://raw.github.com/openworm/org.geppetto.samples/master/SPH/LiquidSmall/GEPPETTO.xml",
     type: "GEPPETTO_PROJECT"
   }

@@ -112,8 +112,8 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	{
 		for(int i = 1; i < 10; i++)
 		{
-			InputStream strean = DefaultGeppettoDataManager.class.getResourceAsStream("/project/" + i + ".json");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(strean));
+			InputStream stream = DefaultGeppettoDataManager.class.getResourceAsStream("/project/" + i + ".json");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 			LocalGeppettoProject project = new Gson().fromJson(reader, LocalGeppettoProject.class);
 			PROJECTS.add(project);
 		}
