@@ -404,24 +404,29 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 		String commonProperties = this.commonProperties(node);
 
-		PhysicalQuantity quantity = node.consumeFirstValue();
+		if(node.getTimeSeries().size()>0){
+			_serialized.append("\"" + node.getId() + "\":{\"timeSeries\":{");
+			for(int i=0; i<node.getTimeSeries().size();i++){
+				PhysicalQuantity quantity = node.getTimeSeries().get(i);
+				if (quantity != null) {
+					AValue value = quantity.getValue();
+					String unit = null, scale = null;
 
-		if (quantity != null) {
-			AValue value = quantity.getValue();
-			String unit = null, scale = null;
-
-			if (quantity.getUnit() != null) {
-				unit = "\"" + quantity.getUnit() + "\"";
+					if (quantity.getUnit() != null) {
+						unit = "\"" + quantity.getUnit() + "\"";
+					}
+					if (quantity.getScalingFactor() != null) {
+						scale = "\"" + quantity.getScalingFactor() + "\"";
+					}
+					String qName = "quantity"+String.valueOf(i);
+					_serialized.append("\""+ qName +"\":{\"value\":" + value
+							+ ",\"unit\":" + unit + ",\"scale\":" + scale+"},");
+				}
 			}
-			if (quantity.getScalingFactor() != null) {
-				scale = "\"" + quantity.getScalingFactor() + "\"";
-			}
-			_serialized.append("\"" + node.getId() + "\":{\"value\":" + value
-					+ ",\"unit\":" + unit + ",\"scale\":" + scale + ","
-					+ commonProperties + "},");
-		} else {
-			_serialized.append("\"" + node.getId() + "\":{"
-					+ commonProperties + "},");
+			if (_serialized.charAt(_serialized.length() - 1) == ',')
+				_serialized.deleteCharAt(_serialized.lastIndexOf(","));
+			_serialized.append("},"+commonProperties + "},");
+			node.getTimeSeries().clear();
 		}
 		return super.visitVariableNode(node);
 	}
