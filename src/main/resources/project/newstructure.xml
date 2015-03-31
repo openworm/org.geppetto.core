@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tns:simulation xmlns:tns="http://www.openworm.org/simulationSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="../../main/resources/schema/simulationSchema.xsd">
+<tns:geppettoModel xmlns:tns="http://www.openworm.org/simulationSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="../../main/resources/schema/simulationSchema.xsd">
  
 	<tns:entity>
 		<tns:id>hhcell</tns:id>
@@ -12,4 +12,4 @@
 		</tns:aspect>		
 	</tns:entity>
 	
-</tns:simulation>
+</tns:geppettoModel>
