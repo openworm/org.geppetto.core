@@ -49,7 +49,6 @@ import com.google.gson.Gson;
 
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
-
 	private static final List<IGeppettoProject> PROJECTS = new ArrayList<>();
 
 	static
