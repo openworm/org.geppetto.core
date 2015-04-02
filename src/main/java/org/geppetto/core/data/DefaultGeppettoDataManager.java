@@ -50,7 +50,7 @@ import com.google.gson.Gson;
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
 
-	private static final List<LocalGeppettoProject> PROJECTS = new ArrayList<>();
+	private static final List<IGeppettoProject> PROJECTS = new ArrayList<>();
 
 	static
 	{
@@ -79,7 +79,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	public IGeppettoProject getGeppettoProjectById(long id)
 	{
-		for(LocalGeppettoProject project : PROJECTS)
+		for(IGeppettoProject project : PROJECTS)
 		{
 			if(project.getId() == id)
 			{
@@ -89,12 +89,12 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return null;
 	}
 
-	public List<LocalGeppettoProject> getAllGeppettoProjects()
+	public List<IGeppettoProject> getAllGeppettoProjects()
 	{
 		return PROJECTS;
 	}
 
-	public List<LocalGeppettoProject> getGeppettoProjectsForUser(String login)
+	public List<IGeppettoProject> getGeppettoProjectsForUser(String login)
 	{
 		return PROJECTS;
 	}
@@ -114,7 +114,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		{
 			InputStream stream = DefaultGeppettoDataManager.class.getResourceAsStream("/project/" + i + ".json");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-			LocalGeppettoProject project = new Gson().fromJson(reader, LocalGeppettoProject.class);
+			IGeppettoProject project = new Gson().fromJson(reader, LocalGeppettoProject.class);
 			PROJECTS.add(project);
 		}
 	}
