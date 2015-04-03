@@ -36,7 +36,9 @@ package org.geppetto.core.data;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.geppetto.core.data.model.IGeppettoProject;
@@ -46,6 +48,11 @@ import org.geppetto.core.data.model.local.LocalUser;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
@@ -109,11 +116,22 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	private static void loadGeppettoProjects()
 	{
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>()
+		{
+			@Override
+			public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
+			{
+				return new Date(json.getAsJsonPrimitive().getAsLong());
+			}
+		});
+		Gson gson = builder.create();
 		for(int i = 1; i <= 10; i++)
 		{
 			InputStream stream = DefaultGeppettoDataManager.class.getResourceAsStream("/project/" + i + ".json");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-			IGeppettoProject project = new Gson().fromJson(reader, LocalGeppettoProject.class);
+
+			IGeppettoProject project = gson.fromJson(reader, LocalGeppettoProject.class);
 			PROJECTS.add(project);
 		}
 	}

@@ -1,7 +1,89 @@
 {
   id: 10,
   name: "Test New Structure (LEMS Sample Hodgkin-Huxley Neuron)",
-  experiments: [ ],
+  experiments: [
+    {
+      id: 1,
+      aspectConfigurations: [
+        {
+          id: 1,
+          aspect: {
+            id: 1,
+            entityInstancePath: "entityInstancePathAspect",
+            aspect: "aspectAspect",
+            localInstancePath: "localInstancePathAspect"
+          },
+          watchedVariables: [
+            {
+              id: 1,
+              entityInstancePath: "entityInstancePath",
+              aspect: "aspect",
+              localInstancePath: "localInstancePath"
+            },
+            {
+              id: 2,
+              entityInstancePath: "entityInstancePath2",
+              aspect: "aspect2",
+              localInstancePath: "localInstancePath2"
+            }
+          ],
+          modelParameter: [
+            {
+              id: 1,
+              variable: {
+              id: 1,
+              entityInstancePath: "entityInstancePath",
+              aspect: "aspect",
+              localInstancePath: "localInstancePath"
+            },
+            value: "value "
+          },
+          {
+            id: 2,
+            variable: {
+              id: 2,
+              entityInstancePath: "entityInstancePath2",
+              aspect: "aspect2",
+              localInstancePath: "localInstancePath2"
+            },
+            value: "value2 "
+          }
+        ],
+        simulatorConfiguration: {
+          id: 1,
+          simulatorId: "simulatorId",
+          timestep: "timestep",
+          parameters: {
+            key: "value"
+          }
+        }
+      }
+    ],
+      name: "experiment ",
+      description: "experiment description",
+      creationDate: 1428074375937,
+      lastModified: 1428074375937,
+      status: "COMPLETED",
+      simulationResults: [
+        {
+          id: 1,
+          aspect: {
+            id: 1,
+            entityInstancePath: "entityInstancePathAspect",
+            aspect: "aspectAspect",
+            localInstancePath: "localInstancePathAspect"
+          },
+          result: {
+            id: 1,
+            url: "some url",
+            type: "GEPPETTO_PROJECT"
+          }
+        }
+      ],
+      startDate: 1428074375937,
+      endDate: 1428074375937  	  
+     }
+  ],
   geppettoModel: {
     id: 10,
     url: "https://raw.github.com/openworm/org.geppetto.core/datamanager/src/main/resources/project/newstructure.xml",
