@@ -33,8 +33,6 @@
 
 package org.geppetto.core.simulator;
 
-import java.util.List;
-
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.VariableList;
@@ -42,9 +40,11 @@ import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.services.IServices;
-import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
+import org.geppetto.core.simulation.SimulationVariablesMessage;
+
+import java.util.List;
 
 /**
  * @author matteocantarelli
@@ -95,4 +95,14 @@ public interface ISimulator extends IServices{
 	boolean populateVisualTree(AspectNode aspectNode) throws ModelInterpreterException, GeppettoExecutionException;
 
 	void setInitialized(boolean initialized);
+
+	/**
+	 * Add a variable that should be sent to another aspect
+	 * after each successful simulation step.
+	 * @param varName a name of the variable
+	 * @param destAspect an id of the destination aspect
+	 */
+	void addOutputVariable(String varName, String destAspect);
+	void clearOutputVariables();
+	SimulationVariablesMessage getSimvarMessageByAspectId(String aspectId);
 }

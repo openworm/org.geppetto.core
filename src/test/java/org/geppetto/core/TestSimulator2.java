@@ -32,9 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.VariableList;
@@ -45,7 +42,11 @@ import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
+import org.geppetto.core.simulation.SimulationVariablesMessage;
 import org.geppetto.core.simulator.ISimulator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Dummy simulator used for testing purposes 
@@ -144,6 +145,21 @@ public class TestSimulator2 implements ISimulator
 	public void setInitialized(boolean initialized) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void addOutputVariable(String varName, String destAspect) {
+
+	}
+
+	@Override
+	public void clearOutputVariables() {
+
+	}
+
+	@Override
+	public SimulationVariablesMessage getSimvarMessageByAspectId(String aspectId) {
+		return null;
 	}
 
 	@Override

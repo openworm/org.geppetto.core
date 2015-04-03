@@ -33,17 +33,9 @@
 
 package org.geppetto.core.simulator;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
-
 import ncsa.hdf.object.Dataset;
 import ncsa.hdf.object.FileFormat;
 import ncsa.hdf.object.h5.H5File;
-
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.AVariable;
@@ -58,12 +50,22 @@ import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.VariableNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
+import org.geppetto.core.simulation.SimulationVariablesMessage;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 /**
  * @author matteocantarelli
@@ -95,6 +97,9 @@ public abstract class ASimulator implements ISimulator
 	protected int _currentRecordingIndex = 0;
 
 	protected List<RecordingModel> _recordings = new ArrayList<RecordingModel>();
+
+	protected Map<String, SimulationVariablesMessage> _aspectToSimvarMsg = new HashMap<>();
+	protected Map<String, SimulationVariablesMessage> _variableToSimvarMsg = new HashMap<>();
 
 	private double _runtime;
 
@@ -252,6 +257,28 @@ public abstract class ASimulator implements ISimulator
 		return _watchableVariables;
 	}
 
+	@Override
+	public void addOutputVariable(String varName, String destAspectName) {
+		SimulationVariablesMessage msg = _aspectToSimvarMsg.get(destAspectName);
+		if (msg == null) {
+			msg = new SimulationVariablesMessage();
+			_aspectToSimvarMsg.put(destAspectName, msg);
+		}
+
+		_variableToSimvarMsg.put(varName, msg);
+	}
+
+	@Override
+	public void clearOutputVariables() {
+		for (SimulationVariablesMessage vBundle : _aspectToSimvarMsg.values()) {
+			vBundle.clear();
+		}
+	}
+
+	protected SimulationVariablesMessage getSimvarMessageByVarName(String varName) {
+		return _variableToSimvarMsg.get(varName);
+	}
+
 	/**
 	 * @return
 	 */
@@ -292,6 +319,11 @@ public abstract class ASimulator implements ISimulator
 	public void advanceTimeStep(double timestep, AspectNode aspect)
 	{
 		_runtime += timestep;
+	}
+
+	@Override
+	public SimulationVariablesMessage getSimvarMessageByAspectId(String aspectId) {
+		return _aspectToSimvarMsg.get(aspectId);
 	}
 
 	protected void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
@@ -465,7 +497,7 @@ public abstract class ASimulator implements ISimulator
 	public String getTimeStepUnit() {
 		return _timeStepUnit;
 	}
-	
+
 	public void readRecording(H5File h5File, AspectSubTreeNode watchTree,boolean readAll) throws GeppettoExecutionException{
 		try {
 			h5File.open();
