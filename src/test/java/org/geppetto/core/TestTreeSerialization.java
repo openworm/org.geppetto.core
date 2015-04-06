@@ -81,20 +81,24 @@ public class TestTreeSerialization {
 		VariableNode dummyNode = new VariableNode("dummyFloat");
 		PhysicalQuantity quantity = new PhysicalQuantity();
 		quantity.setValue(ValuesFactory.getDoubleValue(50d));
+		quantity.setUnit("ms");
 		dummyNode.addPhysicalQuantity(quantity);
 
 		PhysicalQuantity quantity2 = new PhysicalQuantity();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
+		quantity2.setUnit("ms");
 		dummyNode.addPhysicalQuantity(quantity2);
 
 		VariableNode anotherDummyNode = new VariableNode("dummyDouble");
 
 		PhysicalQuantity quantity3 = new PhysicalQuantity();
 		quantity3.setValue(ValuesFactory.getDoubleValue(20d));
+		quantity3.setUnit("ms");
 		anotherDummyNode.addPhysicalQuantity(quantity3);
 
 		PhysicalQuantity quantity4 = new PhysicalQuantity();
 		quantity4.setValue(ValuesFactory.getDoubleValue(100d));
+		quantity4.setUnit("ms");
 		anotherDummyNode.addPhysicalQuantity(quantity4);
 
 		runtime.addChild(entity_A);
@@ -120,7 +124,57 @@ public class TestTreeSerialization {
 
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"value\":50.0,\"unit\":null,\"scale\":null,\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"value\":20.0,\"unit\":null,\"scale\":null,\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
+		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"timeSeries\":{\"quantity0\":{\"value\":50.0,\"unit\":\"ms\",\"scale\":null},\"quantity1\":{\"value\":100.0,\"unit\":\"ms\",\"scale\":null}},\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"unit\":\"ms\",\"scale\":null},\"quantity1\":{\"value\":100.0,\"unit\":\"ms\",\"scale\":null}},\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
+	}
+	
+	@Test
+	public void testTreeSerializationSingleValue() {
+		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
+
+		EntityNode entity_A = new EntityNode("Entity_A");
+
+		AspectNode aspect_A = new AspectNode("Aspect_A");
+
+		AspectSubTreeNode simulation = new AspectSubTreeNode(
+				AspectTreeType.WATCH_TREE);
+
+		VariableNode dummyNode = new VariableNode("dummyFloat");
+		PhysicalQuantity quantity = new PhysicalQuantity();
+		quantity.setValue(ValuesFactory.getDoubleValue(50d));
+		quantity.setUnit("ms");
+		dummyNode.addPhysicalQuantity(quantity);
+
+		VariableNode anotherDummyNode = new VariableNode("dummyDouble");
+
+		PhysicalQuantity quantity3 = new PhysicalQuantity();
+		quantity3.setValue(ValuesFactory.getDoubleValue(20d));
+		quantity3.setUnit("ms");
+		anotherDummyNode.addPhysicalQuantity(quantity3);
+
+		runtime.addChild(entity_A);
+		entity_A.getAspects().add(aspect_A);
+		aspect_A.setParent(entity_A);
+		aspect_A.addChild(simulation);
+		simulation.addChild(dummyNode);
+		simulation.addChild(anotherDummyNode);
+
+		simulation.setModified(true);
+		aspect_A.setModified(true);
+		entity_A.setModified(true);
+
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		runtime.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(serialized);
+		String prettyJsonString = gson.toJson(je);
+
+		System.out.println(prettyJsonString);
+
+		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"timeSeries\":{\"quantity0\":{\"value\":50.0,\"unit\":\"ms\",\"scale\":null}},\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"unit\":\"ms\",\"scale\":null}},\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
 	}
 
 	@Test
@@ -136,39 +190,25 @@ public class TestTreeSerialization {
 				AspectTreeType.WATCH_TREE);
 
 		AValue val = ValuesFactory.getDoubleValue(50d);
-		AValue val2 = ValuesFactory.getDoubleValue(100d);
 
 		PhysicalQuantity quantity = new PhysicalQuantity();
 		quantity.setValue(val);
 		quantity.setUnit("V");
 		quantity.setScalingFactor("1.E3");
 
-		PhysicalQuantity quantity2 = new PhysicalQuantity();
-		quantity2.setValue(val2);
-		quantity2.setScalingFactor("1.E3");
-		quantity2.setUnit("V");
-
 		VariableNode dummyNode = new VariableNode("dummyFloat");
 		dummyNode.addPhysicalQuantity(quantity);
-		dummyNode.addPhysicalQuantity(quantity2);
 
 		VariableNode anotherDummyNode = new VariableNode("dummyDouble");
 
 		AValue val3 = ValuesFactory.getDoubleValue(50d);
-		AValue val4 = ValuesFactory.getDoubleValue(100d);
 
 		PhysicalQuantity quantity3 = new PhysicalQuantity();
 		quantity3.setValue(val3);
 		quantity3.setUnit("mV");
 		quantity3.setScalingFactor("1.E3");
 
-		PhysicalQuantity quantity4 = new PhysicalQuantity();
-		quantity4.setValue(val4);
-		quantity4.setScalingFactor("1.E3");
-		quantity4.setUnit("mV");
-
 		anotherDummyNode.addPhysicalQuantity(quantity3);
-		anotherDummyNode.addPhysicalQuantity(quantity4);
 
 		runtime.addChild(entity_A);
 		entity_A.getAspects().add(aspect_A);
@@ -193,7 +233,7 @@ public class TestTreeSerialization {
 
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"value\":50.0,\"unit\":\"V\",\"scale\":\"1.E3\",\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"value\":50.0,\"unit\":\"mV\",\"scale\":\"1.E3\",\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
+		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"timeSeries\":{\"quantity0\":{\"value\":50.0,\"unit\":\"V\",\"scale\":\"1.E3\"}},\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"timeSeries\":{\"quantity0\":{\"value\":50.0,\"unit\":\"mV\",\"scale\":\"1.E3\"}},\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
 	}
 
 	@Test
@@ -233,7 +273,6 @@ public class TestTreeSerialization {
 		VariableNode q = new VariableNode("q");
 
 		v.addPhysicalQuantity(quantity);
-		v.addPhysicalQuantity(quantity2);
 
 		spiking.addPhysicalQuantity(quantity);
 		q.addPhysicalQuantity(quantity);
@@ -270,7 +309,7 @@ public class TestTreeSerialization {
 		System.out.println(prettyJsonString);
 
 		Assert.assertEquals(
-				"{\"root\":{\"hhcell\":{\"electrical\":{\"SimulationTree\":{\"hhpop\":[{\"v\":{\"value\":20.0,\"unit\":null,\"scale\":null,\"id\":\"v\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].v\",\"_metaType\":\"VariableNode\"},\"spiking\":{\"value\":20.0,\"unit\":null,\"scale\":null,\"id\":\"spiking\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].spiking\",\"_metaType\":\"VariableNode\"},\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"na\":{\"m\":{\"q\":{\"value\":20.0,\"unit\":null,\"scale\":null,\"id\":\"q\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q\",\"_metaType\":\"VariableNode\"},\"id\":\"m\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.m\",\"_metaType\":\"CompositeNode\"},\"id\":\"na\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na\",\"_metaType\":\"CompositeNode\"},\"id\":\"naChans\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans\",\"_metaType\":\"CompositeNode\"},\"id\":\"membraneProperties\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties\",\"_metaType\":\"CompositeNode\"},\"id\":\"bioPhys1\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1\",\"_metaType\":\"CompositeNode\"},\"id\":\"hhpop[0]\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0]\",\"_metaType\":\"CompositeNode\"}],\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"hhcell.electrical.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"electrical\",\"instancePath\":\"hhcell.electrical\",\"_metaType\":\"AspectNode\"},\"id\":\"hhcell\",\"instancePath\":\"hhcell\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
+				"{\"root\":{\"hhcell\":{\"electrical\":{\"SimulationTree\":{\"hhpop\":[{\"v\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"unit\":null,\"scale\":null}},\"id\":\"v\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].v\",\"_metaType\":\"VariableNode\"},\"spiking\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"unit\":null,\"scale\":null}},\"id\":\"spiking\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].spiking\",\"_metaType\":\"VariableNode\"},\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"na\":{\"m\":{\"q\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"unit\":null,\"scale\":null}},\"id\":\"q\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q\",\"_metaType\":\"VariableNode\"},\"id\":\"m\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.m\",\"_metaType\":\"CompositeNode\"},\"id\":\"na\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na\",\"_metaType\":\"CompositeNode\"},\"id\":\"naChans\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans\",\"_metaType\":\"CompositeNode\"},\"id\":\"membraneProperties\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties\",\"_metaType\":\"CompositeNode\"},\"id\":\"bioPhys1\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1\",\"_metaType\":\"CompositeNode\"},\"id\":\"hhpop[0]\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0]\",\"_metaType\":\"CompositeNode\"}],\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"hhcell.electrical.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"electrical\",\"instancePath\":\"hhcell.electrical\",\"_metaType\":\"AspectNode\"},\"id\":\"hhcell\",\"instancePath\":\"hhcell\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
 				serialized);
 	}
 
@@ -358,7 +397,7 @@ public class TestTreeSerialization {
 		System.out.println(prettyJsonString);
 
 		Assert.assertEquals(
-				"{\"root\":{\"small\":{\"fluid\":{\"VisualizationTree\":{\"Elastic\":{\"id\":\"Elastic\",\"instancePath\":\"small.fluid.VisualizationTree.Elastic\",\"_metaType\":\"CompositeNode\"},\"Liquid\":{\"p[0]\":{\"position\":{},\"id\":\"p[0]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[0]\",\"_metaType\":\"ParticleNode\"},\"p[1]\":{\"position\":{},\"id\":\"p[1]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[1]\",\"_metaType\":\"ParticleNode\"},\"p[2]\":{\"position\":{},\"id\":\"p[2]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[2]\",\"_metaType\":\"ParticleNode\"},\"id\":\"Liquid\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid\",\"_metaType\":\"CompositeNode\"},\"Boundary\":{\"id\":\"Boundary\",\"instancePath\":\"small.fluid.VisualizationTree.Boundary\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"instancePath\":\"small.fluid.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"particle\":[{},{\"position\":{\"v\":{\"value\":55.0,\"unit\":null,\"scale\":null,\"id\":\"v\",\"instancePath\":\"small.fluid.SimulationTree.particle[1].position.v\",\"_metaType\":\"VariableNode\"},\"id\":\"position\",\"instancePath\":\"small.fluid.SimulationTree.particle[1].position\",\"_metaType\":\"CompositeNode\"},\"id\":\"particle[1]\",\"instancePath\":\"small.fluid.SimulationTree.particle[1]\",\"_metaType\":\"CompositeNode\"}],\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"small.fluid.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"fluid\",\"instancePath\":\"small.fluid\",\"_metaType\":\"AspectNode\"},\"id\":\"small\",\"instancePath\":\"small\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
+				"{\"root\":{\"small\":{\"fluid\":{\"VisualizationTree\":{\"Elastic\":{\"id\":\"Elastic\",\"instancePath\":\"small.fluid.VisualizationTree.Elastic\",\"_metaType\":\"CompositeNode\"},\"Liquid\":{\"p[0]\":{\"position\":{},\"id\":\"p[0]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[0]\",\"_metaType\":\"ParticleNode\"},\"p[1]\":{\"position\":{},\"id\":\"p[1]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[1]\",\"_metaType\":\"ParticleNode\"},\"p[2]\":{\"position\":{},\"id\":\"p[2]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[2]\",\"_metaType\":\"ParticleNode\"},\"id\":\"Liquid\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid\",\"_metaType\":\"CompositeNode\"},\"Boundary\":{\"id\":\"Boundary\",\"instancePath\":\"small.fluid.VisualizationTree.Boundary\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"instancePath\":\"small.fluid.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"particle\":[{},{\"position\":{\"v\":{\"timeSeries\":{\"quantity0\":{\"value\":55.0,\"unit\":null,\"scale\":null},\"quantity1\":{\"value\":65.0,\"unit\":null,\"scale\":null}},\"id\":\"v\",\"instancePath\":\"small.fluid.SimulationTree.particle[1].position.v\",\"_metaType\":\"VariableNode\"},\"id\":\"position\",\"instancePath\":\"small.fluid.SimulationTree.particle[1].position\",\"_metaType\":\"CompositeNode\"},\"id\":\"particle[1]\",\"instancePath\":\"small.fluid.SimulationTree.particle[1]\",\"_metaType\":\"CompositeNode\"}],\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"small.fluid.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"fluid\",\"instancePath\":\"small.fluid\",\"_metaType\":\"AspectNode\"},\"id\":\"small\",\"instancePath\":\"small\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
 				serialized);
 	}
 

@@ -24,15 +24,12 @@ public class ExternalProcess extends Thread{
 	public volatile boolean run = true;
 	private IExternalSimulatorCallbackListener _callback;
 	private String _fileToExecute;
-	private AspectNode _aspectNode;
 	
 	public ExternalProcess(String[] commands, String directoryToExecuteFrom, 
-			String fileToExecute, IExternalSimulatorCallbackListener callback,
-			AspectNode aspect){
+			String fileToExecute, IExternalSimulatorCallbackListener callback){
 		this._commands = commands;
 		this._directoryToExecuteFrom = directoryToExecuteFrom;
 		this._callback = callback;
-		this._aspectNode = aspect;
 		this._fileToExecute = fileToExecute;
 	}
 	@Override
@@ -90,8 +87,5 @@ public class ExternalProcess extends Thread{
 	
 	public String getFileToExecute(){
 		return this._fileToExecute;
-	}
-	public AspectNode getAspectNode() {
-		return _aspectNode;
 	}
 }

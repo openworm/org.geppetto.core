@@ -494,6 +494,9 @@ public abstract class ASimulator implements ISimulator
 						{
 							node = (ACompositeNode) child;
 						}
+						if(child instanceof VariableNode){
+							newVariableNode = (VariableNode) child;
+						}
 						found = true;
 						break;
 					}
@@ -574,13 +577,13 @@ public abstract class ASimulator implements ISimulator
 						type = Type.fromValue(SimpleType.Type.FLOAT.toString());
 					}
 
-					PhysicalQuantity quantity = new PhysicalQuantity();
 					AValue readValue = null;
 					switch(type)
 					{
 					case DOUBLE:
 						double[] dr = (double[])dataRead;
 						for(int i=0; i<dr.length;i++){
+							PhysicalQuantity quantity = new PhysicalQuantity();
 							readValue = ValuesFactory.getDoubleValue(dr[i]);
 							quantity.setValue(readValue);
 							newVariableNode.addPhysicalQuantity(quantity);
@@ -589,6 +592,7 @@ public abstract class ASimulator implements ISimulator
 					case FLOAT:
 						float[] fr = (float[])dataRead;
 						for(int i=0; i<fr.length;i++){
+							PhysicalQuantity quantity = new PhysicalQuantity();
 							readValue = ValuesFactory.getDoubleValue(fr[i]);
 							quantity.setValue(readValue);
 							newVariableNode.addPhysicalQuantity(quantity);
@@ -597,6 +601,7 @@ public abstract class ASimulator implements ISimulator
 					case INTEGER:
 						int[] ir = (int[])dataRead;
 						for(int i=0; i<ir.length;i++){
+							PhysicalQuantity quantity = new PhysicalQuantity();
 							readValue = ValuesFactory.getDoubleValue(ir[i]);
 							quantity.setValue(readValue);
 							newVariableNode.addPhysicalQuantity(quantity);
@@ -608,9 +613,11 @@ public abstract class ASimulator implements ISimulator
 					
 				}
 				catch (ArrayIndexOutOfBoundsException  e) {
+					throw new GeppettoExecutionException(e);
 				}
 				catch(Exception | OutOfMemoryError e)
 				{
+					throw new GeppettoExecutionException(e);
 				}
 			}
 			}
