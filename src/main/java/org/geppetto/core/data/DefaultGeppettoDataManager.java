@@ -56,6 +56,7 @@ import com.google.gson.JsonParseException;
 
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
+	
 	private static final List<IGeppettoProject> PROJECTS = new ArrayList<>();
 
 	static
