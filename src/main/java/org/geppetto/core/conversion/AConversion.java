@@ -34,6 +34,7 @@
 package org.geppetto.core.conversion;
 
 import org.geppetto.core.beans.PathConfig;
+import org.geppetto.core.services.AService;
 import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 
@@ -41,7 +42,7 @@ import org.geppetto.core.services.registry.ServicesRegistry;
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  * 
  */
-public abstract class AConversion implements IConversion
+public abstract class AConversion extends AService implements IConversion
 {
 	private PathConfig pathConfig = new PathConfig();
 

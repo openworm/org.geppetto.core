@@ -36,6 +36,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geppetto.core.model.AModelInterpreter;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.model.ModelInterpreterException;
@@ -49,7 +50,7 @@ import org.geppetto.core.services.registry.ServicesRegistry;
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class TestModelInterpreter implements IModelInterpreter
+public class TestModelInterpreter extends AModelInterpreter
 {
 
 	@Override

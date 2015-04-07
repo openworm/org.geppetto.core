@@ -29,13 +29,6 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 
 		externalProcesses.put(command, process);
 	}
-
-	@Override
-	public boolean populateVisualTree(AspectNode aspectNode)
-			throws ModelInterpreterException, GeppettoExecutionException {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	public Map<String[], ExternalProcess> getExternalProccesses(){
 		return this.externalProcesses;

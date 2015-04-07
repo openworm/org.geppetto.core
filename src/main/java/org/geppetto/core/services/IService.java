@@ -32,12 +32,15 @@
  *******************************************************************************/
 package org.geppetto.core.services;
 
-
+import org.geppetto.core.features.IFeature;
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  * 
  */
-public interface IServices
+public interface IService
 {
 	void registerGeppettoService() throws Exception;
+	boolean isSupported(GeppettoFeature feature);
+	IFeature getFeature(GeppettoFeature feature);
+	void addFeature(IFeature feature);
 }

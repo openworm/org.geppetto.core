@@ -39,10 +39,8 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.services.IServices;
-import org.geppetto.core.model.runtime.VariableNode;
+import org.geppetto.core.services.IService;
 import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 
@@ -50,7 +48,7 @@ import org.geppetto.core.simulation.ISimulatorCallbackListener;
  * @author matteocantarelli
  * @author giovanniidili
  */
-public interface ISimulator extends IServices{
+public interface ISimulator extends IService{
 	
 	void simulate(IRunConfiguration runConfiguration, AspectNode aspect) throws GeppettoExecutionException;
 	
@@ -60,8 +58,6 @@ public interface ISimulator extends IServices{
 	
 	VariableList getForceableVariables();
 	
-	VariableList getWatchableVariables();
-		
 	String getName();
 	
 	String getId();
@@ -70,29 +66,5 @@ public interface ISimulator extends IServices{
 	
 	String getTimeStepUnit();
 	
-	/**
-	 * Adds variables to be watched by the simulator.
-	 * */
-	void addWatchVariables(List<String> variableNames);
-	
-	/**
-	 * Starts watching variables.
-	 * */
-	void startWatch();
-	
-	/**
-	 * Stop watching variables.
-	 * */
-	void stopWatch();
-	
-	void resetWatch();
-	
-	/**
-	 * Clear lists of variables to be watched by the simulator.
-	 * */
-	void clearWatchVariables();
-	
-	boolean populateVisualTree(AspectNode aspectNode) throws ModelInterpreterException, GeppettoExecutionException;
-
 	void setInitialized(boolean initialized);
 }

@@ -39,14 +39,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.geppetto.core.model.AModelInterpreter;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.services.AService;
 import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
+import org.geppetto.core.simulator.services.ColladaVisualTreeFeature;
 import org.springframework.stereotype.Service;
 
 /**
@@ -54,7 +57,7 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public class ColladaModelInterpreterService implements IModelInterpreter
+public class ColladaModelInterpreterService extends AModelInterpreter
 {
 
 	@Override
@@ -67,6 +70,8 @@ public class ColladaModelInterpreterService implements IModelInterpreter
 			String colladaContent = scanner.useDelimiter("\\A").next();
 			scanner.close();
 			collada.wrapModel(ModelFormat.COLLADA, colladaContent);
+			
+			this.addFeature(new ColladaVisualTreeFeature());
 		}
 		catch(IOException e)
 		{
