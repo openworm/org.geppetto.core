@@ -33,10 +33,13 @@
 
 package org.geppetto.core.data;
 
+import java.io.Reader;
 import java.util.List;
 
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IUser;
+
+import com.google.gson.Gson;
 
 public interface IGeppettoDataManager
 {
@@ -55,6 +58,10 @@ public interface IGeppettoDataManager
 	List<? extends IGeppettoProject> getGeppettoProjectsForUser(String login);
 
 	void createParameter(String name, String value);
-	
+
 	Object deleteGeppettoProject(IGeppettoProject project);
+
+	IGeppettoProject getProjectFromJson(Gson gson, String json);
+
+	IGeppettoProject getProjectFromJson(Gson gson, Reader json);
 }

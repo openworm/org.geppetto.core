@@ -36,6 +36,7 @@ package org.geppetto.core.data;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,7 +57,7 @@ import com.google.gson.JsonParseException;
 
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
-	
+
 	private static final List<IGeppettoProject> PROJECTS = new ArrayList<>();
 
 	static
@@ -136,4 +137,15 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 			PROJECTS.add(project);
 		}
 	}
+
+	public IGeppettoProject getProjectFromJson(Gson gson, String json)
+	{
+		return gson.fromJson(json, LocalGeppettoProject.class);
+	}
+
+	public IGeppettoProject getProjectFromJson(Gson gson, Reader json)
+	{
+		return gson.fromJson(json, LocalGeppettoProject.class);
+	}
+
 }
