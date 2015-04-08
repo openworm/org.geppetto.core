@@ -17,4 +17,6 @@ public interface IVariableWatchFeature extends IFeature{
 	void stopWatch();
 	void clearWatchVariables();
 	boolean isWatching();
+	boolean watchListModified();
+	void setWatchListModified(boolean modified);
 }

@@ -82,4 +82,6 @@ public interface ISolver {
 	 * Clear lists of variables to be watched by the simulator.
 	 * */
 	void clearWatchVariables();
+
+	void updateVisualizationTree(AspectNode aspect);
 }
