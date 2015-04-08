@@ -63,7 +63,7 @@
       description: "experiment description",
       creationDate: 1428074375937,
       lastModified: 1428074375937,
-      status: "COMPLETED",
+      status: "QUEUED",
       simulationResults: [
         {
           id: 1,
@@ -75,6 +75,86 @@
           },
           result: {
             id: 1,
+            url: "some url",
+            type: "GEPPETTO_PROJECT"
+          }
+        }
+      ],
+      startDate: 1428074375937,
+      endDate: 1428074375937  	  
+     }, {
+      id: 2,
+      aspectConfigurations: [
+        {
+          id: 2,
+          aspect: {
+            id: 2,
+            entityInstancePath: "entityInstancePathAspect",
+            aspect: "aspectAspect",
+            localInstancePath: "localInstancePathAspect"
+          },
+          watchedVariables: [
+            {
+              id: 3,
+              entityInstancePath: "entityInstancePath",
+              aspect: "aspect",
+              localInstancePath: "localInstancePath"
+            },
+            {
+              id: 4,
+              entityInstancePath: "entityInstancePath2",
+              aspect: "aspect2",
+              localInstancePath: "localInstancePath2"
+            }
+          ],
+          modelParameter: [
+            {
+              id: 3,
+              variable: {
+              id: 3,
+              entityInstancePath: "entityInstancePath",
+              aspect: "aspect",
+              localInstancePath: "localInstancePath"
+            },
+            value: "value "
+          },
+          {
+            id: 4,
+            variable: {
+              id: 4,
+              entityInstancePath: "entityInstancePath2",
+              aspect: "aspect2",
+              localInstancePath: "localInstancePath2"
+            },
+            value: "value2 "
+          }
+        ],
+        simulatorConfiguration: {
+          id: 2,
+          simulatorId: "simulatorId",
+          timestep: "timestep",
+          parameters: {
+            key: "value"
+          }
+        }
+      }
+    ],
+      name: "experiment 2",
+      description: "experiment description",
+      creationDate: 1428074375937,
+      lastModified: 1428074375937,
+      status: "RUNNING",
+      simulationResults: [
+        {
+          id: 2,
+          aspect: {
+            id: 2,
+            entityInstancePath: "entityInstancePathAspect",
+            aspect: "aspectAspect",
+            localInstancePath: "localInstancePathAspect"
+          },
+          result: {
+            id: 2,
             url: "some url",
             type: "GEPPETTO_PROJECT"
           }

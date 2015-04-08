@@ -39,11 +39,14 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IUser;
+import org.geppetto.core.data.model.local.LocalExperiment;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
 import org.geppetto.core.data.model.local.LocalUser;
 import org.springframework.http.HttpStatus;
@@ -58,7 +61,7 @@ import com.google.gson.JsonParseException;
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
 
-	private static final List<IGeppettoProject> PROJECTS = new ArrayList<>();
+	private static final List<LocalGeppettoProject> PROJECTS = new ArrayList<>();
 
 	static
 	{
@@ -75,9 +78,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return true;
 	}
 
-	public IUser getCurrentUser()
+	public LocalUser getCurrentUser()
 	{
-		return new LocalUser(1, "guest", "guest", "guest", new ArrayList<LocalGeppettoProject>(), 0, 0);
+		return new LocalUser(1, "guest", "guest", "guest", PROJECTS, 0, 0);
 	}
 
 	public IUser getUserByLogin(String login)
@@ -96,15 +99,24 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		}
 		return null;
 	}
+	
+	public List<LocalUser> getAllUsers() {
+		return Arrays.asList(new LocalUser[] {getCurrentUser()});
+	}
 
-	public List<IGeppettoProject> getAllGeppettoProjects()
+	public List<LocalGeppettoProject> getAllGeppettoProjects()
 	{
 		return PROJECTS;
 	}
 
-	public List<IGeppettoProject> getGeppettoProjectsForUser(String login)
+	public List<LocalGeppettoProject> getGeppettoProjectsForUser(String login)
 	{
 		return PROJECTS;
+	}
+	
+	public List<? extends IExperiment> getExperimentsForProject(long projectId) {
+		IGeppettoProject project = getGeppettoProjectById(projectId);
+		return project.getExperiments();
 	}
 
 	public void createParameter(String name, String value)
@@ -133,7 +145,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 			InputStream stream = DefaultGeppettoDataManager.class.getResourceAsStream("/project/" + i + ".json");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
-			IGeppettoProject project = gson.fromJson(reader, LocalGeppettoProject.class);
+			LocalGeppettoProject project = gson.fromJson(reader, LocalGeppettoProject.class);
 			PROJECTS.add(project);
 		}
 	}
