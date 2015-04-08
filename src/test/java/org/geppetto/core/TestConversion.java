@@ -35,6 +35,7 @@ package org.geppetto.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geppetto.core.conversion.AConversion;
 import org.geppetto.core.conversion.ConversionException;
 import org.geppetto.core.conversion.IConversion;
 import org.geppetto.core.model.IModel;
@@ -45,7 +46,7 @@ import org.geppetto.core.services.registry.ServicesRegistry;
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  * 
  */
-public class TestConversion implements IConversion
+public class TestConversion extends AConversion
 {
 
 	@Override

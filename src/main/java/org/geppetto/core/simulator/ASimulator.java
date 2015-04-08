@@ -46,6 +46,7 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.features.IVariableWatchFeature;
 import org.geppetto.core.data.model.AVariable;
 import org.geppetto.core.data.model.SimpleType;
 import org.geppetto.core.data.model.SimpleType.Type;
@@ -63,13 +64,15 @@ import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
+import org.geppetto.core.services.AService;
+import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 
 /**
  * @author matteocantarelli
  * 
  */
-public abstract class ASimulator implements ISimulator
+public abstract class ASimulator extends AService implements ISimulator
 {
 
 	protected List<IModel> _models;
@@ -79,16 +82,7 @@ public abstract class ASimulator implements ISimulator
 	private boolean _initialized = false;
 
 	protected boolean _treesEmptied = false;
-
-	private boolean _watching = false;
-
 	private VariableList _forceableVariables = new VariableList();
-
-	private VariableList _watchableVariables = new VariableList();
-
-	private Set<String> _watchList = new HashSet<String>();
-
-	private boolean _watchListModified = false;
 
 	private String _timeStepUnit = "ms";
 
@@ -134,10 +128,6 @@ public abstract class ASimulator implements ISimulator
 
 		_runtime = 0;
 		_initialized = true;
-		if(!_watchableVariables.getVariables().isEmpty())
-		{
-			_treesEmptied = true;
-		}
 	}
 
 	/**
@@ -171,65 +161,7 @@ public abstract class ASimulator implements ISimulator
 	{
 		this._listener = listener;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.simulator.ISimulator#addWatchVariables(java.util.List)
-	 */
-	@Override
-	public void addWatchVariables(List<String> variableNames)
-	{
-		_watchList.addAll(variableNames);
-		_watchListModified = true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.simulator.ISimulator#stopWatch()
-	 */
-	@Override
-	public void stopWatch()
-	{
-		_watching = false;
-	}
 	
-	@Override
-	public void resetWatch(){
-		_currentRecordingIndex = 0;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.simulator.ISimulator#startWatch()
-	 */
-	@Override
-	public void startWatch()
-	{
-		_watching = true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.simulator.ISimulator#clearWatchVariables()
-	 */
-	@Override
-	public void clearWatchVariables()
-	{
-		_watchList.clear();
-	}
-
-	/**
-	 * @return
-	 */
-	public boolean isWatching()
-	{
-		return _watching;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -239,42 +171,6 @@ public abstract class ASimulator implements ISimulator
 	public VariableList getForceableVariables()
 	{
 		return _forceableVariables;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.simulator.ISimulator#getWatchableVariables()
-	 */
-	@Override
-	public VariableList getWatchableVariables()
-	{
-		return _watchableVariables;
-	}
-
-	/**
-	 * @return
-	 */
-	protected Collection<String> getWatchList()
-	{
-		return _watchList;
-	}
-
-	/**
-	 * @return
-	 */
-	protected boolean watchListModified()
-	{
-		return _watchListModified;
-	}
-
-	/**
-	 * @param watchListModified
-	 */
-	protected void watchListModified(boolean watchListModified)
-	{
-		_watchListModified = watchListModified;
-
 	}
 
 	/**
@@ -296,18 +192,19 @@ public abstract class ASimulator implements ISimulator
 
 	protected void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
 	{
-		if(_recordings != null && isWatching())
+		IVariableWatchFeature watchFeature =
+				((IVariableWatchFeature)this.getFeature(GeppettoFeature.VARIALE_WATCH_FEATURE));
+		if(_recordings != null && watchFeature.isWatching())
 		{
 			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.WATCH_TREE);
 			watchTree.setModified(true);
 			aspect.setModified(true);
 			aspect.getParentEntity().setModified(true);
 			
-			if(watchTree.getChildren().isEmpty() || watchListModified())
+			if(watchTree.getChildren().isEmpty())
 			{
 				for(RecordingModel recording : _recordings)
 				{
-					watchListModified(false);
 					this.readRecording(recording.getHDF5(), watchTree, false);
 					_currentRecordingIndex++;
 				}
@@ -329,89 +226,6 @@ public abstract class ASimulator implements ISimulator
 				}
 			}
 		}
-	}
-
-	/**
-	 * 
-	 */
-	protected void setWatchableVariablesFromRecordings()
-	{
-		//TODO : Update code below to use own bindings jar vs netcdf one. 
-		//Method being called from RecordingSimulator. 22/2/2015
-//		if(_recordings != null)
-//		{
-//			for(RecordingModel recording : _recordings)
-//			{
-//				H5File file = recording.getHDF5();
-//				List<AVariable> listToCheck = getWatchableVariables().getVariables();
-//
-//				for(AVariable var  : listToCheck)
-//				{
-//					String fullPath = hdfVariable.getFullName();
-//					StringTokenizer stok = new StringTokenizer(fullPath, "/");
-//
-//					while(stok.hasMoreTokens())
-//					{
-//						String s = stok.nextToken();
-//						String searchVar = s;
-//
-//						if(ArrayUtils.isArray(s))
-//						{
-//							searchVar = ArrayUtils.getArrayName(s);
-//						}
-//
-//						AVariable v = getVariable(searchVar, listToCheck);
-//
-//						if(v == null)
-//						{
-//							if(stok.hasMoreTokens())
-//							{
-//								StructuredType structuredType = new StructuredType();
-//								structuredType.setName(searchVar + "T");
-//
-//								if(ArrayUtils.isArray(s))
-//								{
-//									v = DataModelFactory.getArrayVariable(searchVar, structuredType, ArrayUtils.getArrayIndex(s) + 1);
-//								}
-//								else
-//								{
-//									v = DataModelFactory.getSimpleVariable(searchVar, structuredType);
-//								}
-//								listToCheck.add(v);
-//								listToCheck = structuredType.getVariables();
-//							}
-//							else
-//							{
-//								SimpleType type = DataModelFactory.getCachedSimpleType(Type.fromValue(hdfVariable.getDataType().toString()));
-//								if(ArrayUtils.isArray(s))
-//								{
-//									v = DataModelFactory.getArrayVariable(searchVar, type, ArrayUtils.getArrayIndex(s) + 1);
-//								}
-//								else
-//								{
-//									v = DataModelFactory.getSimpleVariable(searchVar, type);
-//								}
-//								listToCheck.add(v);
-//							}
-//						}
-//						else
-//						{
-//							if(stok.hasMoreTokens())
-//							{
-//								listToCheck = ((StructuredType) v.getType()).getVariables();
-//								if(ArrayUtils.isArray(s))
-//								{
-//									if(ArrayUtils.getArrayIndex(s) + 1 > ((ArrayVariable) v).getSize())
-//									{
-//										((ArrayVariable) v).setSize(ArrayUtils.getArrayIndex(s) + 1);
-//									}
-//								}
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
 	}
 
 	/**
@@ -472,9 +286,12 @@ public abstract class ASimulator implements ISimulator
 		} catch (Exception e1) {
 			throw new GeppettoExecutionException(e1);
 		}
-		for(String watchedVariable : this.getWatchList())
+		IVariableWatchFeature watchFeature =
+				((IVariableWatchFeature)this.getFeature(GeppettoFeature.VARIALE_WATCH_FEATURE));
+		for(AVariable watchedVariable : watchFeature.getWatcheableVariables().getVariables())
 		{
-			String path = "/"+watchedVariable.replace(watchTree.getInstancePath()+".", "");
+			String name = watchedVariable.getName();
+			String path = "/"+name.replace(watchTree.getInstancePath()+".", "");
 			path = path.replace(".", "/");
 			Dataset v = (Dataset) FileFormat.findObject(h5File, path);
 

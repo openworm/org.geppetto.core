@@ -10,11 +10,12 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.HDF5Reader;
+import org.geppetto.core.services.AService;
 /**
  * @author matteocantarelli
  * 
  */
-public abstract class AModelInterpreter implements IModelInterpreter
+public abstract class AModelInterpreter extends AService implements IModelInterpreter
 {
 
 	private static final String ID = "RECORDING_";
