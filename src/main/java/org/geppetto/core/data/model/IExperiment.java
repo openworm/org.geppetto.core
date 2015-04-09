@@ -53,6 +53,8 @@ public interface IExperiment
 
 	ExperimentStatus getStatus();
 	
+	void setStatus(ExperimentStatus status);
+	
 	List<? extends ISimulationResult> getSimulationResults();
 
 	Date getStartDate();

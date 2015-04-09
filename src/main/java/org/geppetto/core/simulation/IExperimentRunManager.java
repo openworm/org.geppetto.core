@@ -33,9 +33,13 @@
 package org.geppetto.core.simulation;
 
 import org.geppetto.core.data.model.IExperiment;
+import org.geppetto.core.data.model.IUser;
 
 public interface IExperimentRunManager
 {
+	void queueExperiment(IUser user, IExperiment experiment);
 
-	void queueExperiment(IExperiment experiment);
+	boolean checkExperiment(IExperiment experiment);
+	
+	void runExperiment(IExperiment experiment);
 }
