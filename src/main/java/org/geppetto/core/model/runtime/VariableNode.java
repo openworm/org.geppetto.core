@@ -32,6 +32,9 @@
  *******************************************************************************/
 package org.geppetto.core.model.runtime;
 
+import java.util.List;
+
+import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
@@ -46,6 +49,9 @@ public class VariableNode extends ATimeSeriesNode{
 
 	public VariableNode(String id) {
 		super(id);
+	}
+	
+	public void setTimeSeries(List<PhysicalQuantity> series){
 	}
 
 	@Override

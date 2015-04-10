@@ -34,7 +34,9 @@ package org.geppetto.core;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.List;
+import java.util.Properties;
 
 import junit.framework.Assert;
 
@@ -46,6 +48,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.recordings.GeppettoRecordingCreator;
 import org.geppetto.core.recordings.GeppettoRecordingCreator.MetaType;
+import org.junit.AfterClass;
 import org.junit.Test;
 
 /**
@@ -73,7 +76,6 @@ public class TestGeppettoRecordingsCreator {
 			Dataset dataset = (Dataset) file.findObject(file, "/P/J");
 			float[] value =  (float[])dataset.read();
 			Assert.assertEquals(8.0f,value[0]);
-			Assert.assertEquals(8.0f,value[1]);
 			_logger.info("Value "+ value[0] + " should read");
 
 			List metaData = dataset.getMetadata();
@@ -189,6 +191,7 @@ public class TestGeppettoRecordingsCreator {
 
 			file.close();
 			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -223,6 +226,7 @@ public class TestGeppettoRecordingsCreator {
 
 			file.close();
 			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -256,8 +260,18 @@ public class TestGeppettoRecordingsCreator {
 
 			file.close();
 			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	@AfterClass
+    public static void teardown() throws Exception {
+		File sampleFile = new File(System.getProperty("user.dir")+"/sample.h5");
+		if(sampleFile.exists()){
+			sampleFile.delete();
+			_logger.info("Deleting sample h5");
+		}
+    } 
 }

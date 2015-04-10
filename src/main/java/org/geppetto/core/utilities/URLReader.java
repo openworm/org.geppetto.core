@@ -9,6 +9,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * @author matteocantarelli
  * 
@@ -16,8 +19,12 @@ import java.net.URLConnection;
 public class URLReader
 {
 
+	private static Log _logger = LogFactory.getLog(URLReader.class);
+	
 	public static String readStringFromURL(URL url) throws IOException
 	{
+		long startRead = System.currentTimeMillis();
+		
 		StringBuilder content = new StringBuilder();
 
 		// many of these calls can throw exceptions, so i've just
@@ -39,10 +46,13 @@ public class URLReader
 				content.append(line + "\n");
 			}
 			bufferedReader.close();
+			
+			_logger.info("Reading of " + url.toString() + " took " + (System.currentTimeMillis() - startRead) + "ms");
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			//e.printStackTrace();
+			_logger.warn("File at " + url + " not found");
 		}
 		return content.toString();
 

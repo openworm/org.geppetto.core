@@ -32,10 +32,13 @@ package org.geppetto.core;
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.AfterClass;
 import org.junit.Test;
 
 import ncsa.hdf.object.Dataset;
@@ -55,7 +58,7 @@ public class TestHDFBindings {
 
 	private static Log _logger = LogFactory.getLog(TestHDFBindings.class);
 
-	String fname  = "H5DatasetRead.h5";
+	static String fname  = "H5DatasetRead.h5";
 
 	@Test
 	public void createHDF5File(){
@@ -108,7 +111,7 @@ public class TestHDFBindings {
 			testFile.close();
 
 			org.junit.Assert.assertEquals(testFile.exists(), true);
-
+			
 			readHDF5File();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -172,4 +175,13 @@ public class TestHDFBindings {
         // close file resource
         testFile.close();
 	}
+	
+	@AfterClass
+    public static void teardown() throws Exception {
+		File sampleFile = new File(System.getProperty("user.dir")+"/"+fname);
+		if(sampleFile.exists()){
+			sampleFile.delete();
+			_logger.info("Deleting datasets h5");
+		}
+    } 
 }

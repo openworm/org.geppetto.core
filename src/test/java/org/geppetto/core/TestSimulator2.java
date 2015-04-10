@@ -38,13 +38,16 @@ import java.util.List;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.VariableList;
+import org.geppetto.core.features.IFeature;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
+import org.geppetto.core.simulator.ASimulator;
 import org.geppetto.core.simulator.ISimulator;
 
 /**
@@ -53,7 +56,7 @@ import org.geppetto.core.simulator.ISimulator;
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public class TestSimulator2 implements ISimulator
+public class TestSimulator2 extends ASimulator
 {
 
 	@Override
@@ -85,52 +88,10 @@ public class TestSimulator2 implements ISimulator
 	}
 
 	@Override
-	public VariableList getWatchableVariables()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getName()
 	{
 		// TODO Auto-generated method stub
 		return "test";
-	}
-
-	@Override
-	public void addWatchVariables(List<String> variableNames)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void startWatch()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void stopWatch()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void clearWatchVariables()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean populateVisualTree(AspectNode aspectNode) throws ModelInterpreterException
-	{
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
@@ -158,11 +119,6 @@ public class TestSimulator2 implements ISimulator
 		return null;
 	}
 
-	@Override
-	public void resetWatch() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void registerGeppettoService()
@@ -171,6 +127,18 @@ public class TestSimulator2 implements ISimulator
 		modelFormatList.add(ModelFormat.TEST2);
 		ServicesRegistry.registerSimulatorService(this, modelFormatList);
 		
+	}
+
+	@Override
+	public boolean isSupported(GeppettoFeature feature) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public IFeature getFeature(GeppettoFeature feature) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

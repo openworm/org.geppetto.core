@@ -21,19 +21,13 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 	Map<String[], ExternalProcess> externalProcesses = new HashMap<String[],ExternalProcess>();
 
 	public void runExternalProcess(String[] command, String directoryToExecuteFrom,
-			String fileToExecute, AspectNode aspect){
+			String fileToExecute){
 		ExternalProcess process = 
-				new ExternalProcess(command, directoryToExecuteFrom, fileToExecute, this, aspect);
+				new ExternalProcess(command, directoryToExecuteFrom, fileToExecute, this);
+		process.setName("External Process");
 		process.start();
-		
-		externalProcesses.put(command, process);
-	}
 
-	@Override
-	public boolean populateVisualTree(AspectNode aspectNode)
-			throws ModelInterpreterException, GeppettoExecutionException {
-		// TODO Auto-generated method stub
-		return false;
+		externalProcesses.put(command, process);
 	}
 	
 	public Map<String[], ExternalProcess> getExternalProccesses(){
