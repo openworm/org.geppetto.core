@@ -1,6 +1,5 @@
 package org.geppetto.core.features;
 
-import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.runtime.AspectNode;
 
