@@ -7,3 +7,4 @@
 .classpath
 /core.iml
 *.jnilib
+/recordings
