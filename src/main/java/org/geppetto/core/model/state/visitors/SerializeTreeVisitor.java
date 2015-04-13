@@ -427,8 +427,13 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			}
 			if (_serialized.charAt(_serialized.length() - 1) == ',')
 				_serialized.deleteCharAt(_serialized.lastIndexOf(","));
-			_serialized.append("},"+ watched +commonProperties + "},");
+			_serialized.append("}," + watched +commonProperties + "},");
 			node.getTimeSeries().clear();
+		}
+		else{
+			_serialized.append("\"" + node.getId() + "\":{"
+					+ watched
+					+ commonProperties + "},");
 		}
 		return super.visitVariableNode(node);
 	}

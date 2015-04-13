@@ -143,5 +143,7 @@ public interface ISimulation {
 
 	String getModelTree(String aspectID);
 	
+	String getSimulationTree(String aspectID);
+	
 	String writeModel(String aspectID, String format);
 }
