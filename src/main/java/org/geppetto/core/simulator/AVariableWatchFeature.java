@@ -34,8 +34,10 @@ package org.geppetto.core.simulator;
 
 import java.util.List;
 
+import org.geppetto.core.data.model.SimpleType;
 import org.geppetto.core.data.model.SimpleVariable;
 import org.geppetto.core.data.model.VariableList;
+import org.geppetto.core.data.model.SimpleType.Type;
 import org.geppetto.core.features.IVariableWatchFeature;
 import org.geppetto.core.services.GeppettoFeature;
 
@@ -61,6 +63,8 @@ public class AVariableWatchFeature implements IVariableWatchFeature{
 	@Override
 	public void addWatchVariables(List<String> variableNames)
 	{
+		SimpleType doubleType = new SimpleType();
+		doubleType.setType(Type.FLOAT);
 		for(String s : variableNames){
 			SimpleVariable var = new SimpleVariable();
 			var.setName(s);
