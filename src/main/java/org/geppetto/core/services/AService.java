@@ -4,22 +4,42 @@ import java.util.HashMap;
 import java.util.Map;
 import org.geppetto.core.features.IFeature;
 
-public abstract class AService implements IService{
+/**
+ * This abstract implementation allows services to implement different features.
+ * 
+ * @author Jesus Martinez (jesus@metacell.us)
+ * @author matteocantarelli
+ *
+ */
+public abstract class AService implements IService
+{
 
-	Map<GeppettoFeature, IFeature> features = new HashMap<GeppettoFeature, IFeature>();
+	protected Map<GeppettoFeature, IFeature> features = new HashMap<GeppettoFeature, IFeature>();
 
+	/* (non-Javadoc)
+	 * @see org.geppetto.core.services.IService#isSupported(org.geppetto.core.services.GeppettoFeature)
+	 */
 	@Override
-	public boolean isSupported(GeppettoFeature feature){
+	public boolean isSupported(GeppettoFeature feature)
+	{
 		return features.containsKey(feature);
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see org.geppetto.core.services.IService#getFeature(org.geppetto.core.services.GeppettoFeature)
+	 */
 	@Override
-	public IFeature getFeature(GeppettoFeature feature){
+	public IFeature getFeature(GeppettoFeature feature)
+	{
 		return features.get(feature);
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see org.geppetto.core.services.IService#addFeature(org.geppetto.core.features.IFeature)
+	 */
 	@Override
-	public void addFeature(IFeature feature){
-		features.put(feature.getType(),feature);
+	public void addFeature(IFeature feature)
+	{
+		features.put(feature.getType(), feature);
 	}
 }

@@ -6,3 +6,5 @@
 /.settings/
 .classpath
 /core.iml
+*.jnilib
+/recordings
