@@ -52,34 +52,14 @@ public interface ISolver {
 	public void solve(final IRunConfiguration timeConfiguration, AspectNode aspect) throws GeppettoExecutionException;
 	
 	public void initialize(final IModel model) throws GeppettoInitializationException;
-	
-	public void populateVisualTree(final IModel model,AspectSubTreeNode visualTree) throws GeppettoInitializationException;
-		
+			
 	public void populateSimulationTree(AspectSubTreeNode watchTree) throws GeppettoInitializationException;
 	
 	public void dispose();
 	
 	public VariableList getForceableVariables();
-	
-	public VariableList getWatchableVariables();
 
-	/**
-	 * Adds variables to be watched by the simulator.
-	 * */
-	void addWatchVariables(List<String> variableNames);
-	
-	/**
-	 * Starts watching variables.
-	 * */
-	void startWatch();
-	
-	/**
-	 * Stop watching variables.
-	 * */
-	void stopWatch();
-	
-	/**
-	 * Clear lists of variables to be watched by the simulator.
-	 * */
-	void clearWatchVariables();
+	void updateVisualizationTree(AspectNode aspect);
+
+	boolean addWatchVariables(List<String> variableNames);	
 }

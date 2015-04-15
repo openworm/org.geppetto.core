@@ -39,6 +39,7 @@ import org.geppetto.core.beans.SimulatorConfig;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.VariableList;
+import org.geppetto.core.features.IFeature;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
@@ -46,6 +47,7 @@ import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.runtime.OBJNode;
+import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
@@ -81,11 +83,6 @@ public class OBJSimulatorService extends ASimulator{
 	}
 
 	@Override
-	public VariableList getWatchableVariables() {
-		return new VariableList();
-	}
-
-	@Override
 	public String getName() {
 		return this.objSimulatorConfig.getSimulatorName();
 	}
@@ -93,42 +90,6 @@ public class OBJSimulatorService extends ASimulator{
 	@Override
 	public String getId() {
 		return this.objSimulatorConfig.getSimulatorID();
-	}
-
-	@Override
-	public void addWatchVariables(List<String> variableNames) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void startWatch() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void stopWatch() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void clearWatchVariables() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean populateVisualTree(AspectNode aspectNode)
-			throws ModelInterpreterException, GeppettoExecutionException {
-		OBJNode obj = new OBJNode("OBJ");
-		obj.setModel((String) ((ModelWrapper) aspectNode.getModel()).getModel("OBJ"));
-
-		aspectNode.getSubTree(AspectTreeType.VISUALIZATION_TREE).addChild(obj);
-		((AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.VISUALIZATION_TREE)).setModified(true);
-
-		return false;
 	}
 
 	@Override

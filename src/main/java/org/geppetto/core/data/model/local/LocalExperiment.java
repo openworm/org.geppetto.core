@@ -125,10 +125,11 @@ public class LocalExperiment implements IExperiment
 	}
 
 	@Override
-	public void setStatus(ExperimentStatus status) {
+	public void setStatus(ExperimentStatus status)
+	{
 		this.status = status;
 	}
-	
+
 	@Override
 	public Date getStartDate()
 	{

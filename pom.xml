@@ -260,7 +260,7 @@
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Include-Resource>
-							{maven-resources},META-INF/spring=src/main/java/META-INF/spring
+							{maven-resources},META-INF/spring=src/main/java/META-INF/spring,src/main/resources/Geppetto.properties
 						</Include-Resource>
 						<Import-Package>
 							org.aopalliance.aop,org.springframework.aop,,org.springframework.aop.scope,org.springframework.aop.framework,*

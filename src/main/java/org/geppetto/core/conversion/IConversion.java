@@ -36,13 +36,13 @@ package org.geppetto.core.conversion;
 import java.util.List;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.services.IModelFormat;
-import org.geppetto.core.services.IServices;
+import org.geppetto.core.services.IService;
 
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public interface IConversion extends IServices{
+public interface IConversion extends IService{
 	
 	List<IModelFormat> getSupportedOutputs(IModel model, IModelFormat input) throws ConversionException;
 	
