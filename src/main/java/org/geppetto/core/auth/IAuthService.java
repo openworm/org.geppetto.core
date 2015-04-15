@@ -41,14 +41,8 @@ public interface IAuthService
 
 	public Boolean isAuthenticated();
 
-<<<<<<< HEAD
-    public Boolean isAuthenticated();
-
     public String authFailureRedirect();
     
     boolean isDefault();
-=======
-	public String authFailureRedirect();
->>>>>>> refs/remotes/origin/development
 
 }
