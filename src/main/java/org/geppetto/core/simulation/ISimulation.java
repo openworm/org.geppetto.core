@@ -95,16 +95,6 @@ public interface ISimulation {
 	 */
 	String getSimulationConfig(URL simURL) throws GeppettoInitializationException;
 	
-	/**
-	 * Returns a list of watchable variables for the entire simulation
-	 * */
-	VariableList listWatchableVariables();
-	
-	/**
-	 * Returns a list of forceable variables for the entire simulation
-	 * */
-	VariableList listForceableVariables();
-		
 	String getSimulatorName();
 	
 	/**
@@ -113,34 +103,21 @@ public interface ISimulation {
 	 * @throws GeppettoInitializationException 
 	 * */
 	void addWatchLists(List<WatchList> list) throws GeppettoExecutionException, GeppettoInitializationException;
-	
-	/**
-	 * Starts recording watched variables values 
-	 * */
-	void startWatch();
-	
-	
-	/**
-	 * Number of connections allowed on simulation
-	 *
-	 * Starts recording watched variables values 
-	 * */
-	void stopWatch();
+//	void setWatchedVariables(List<String> var);
 	
 	/**
 	 * Starts recording watched variables values
 	 * */
 	void clearWatchLists();
 	
-	/**
-	 * Gets existing watch lists  
-	 * */
-	List<WatchList> getWatchLists();
+	
 	
 	List<URL> getScripts();	
 	
 	int getSimulationCapacity();
 
+
+	
 	String getModelTree(String aspectID);
 	
 	String getSimulationTree(String aspectID);

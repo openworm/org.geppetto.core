@@ -30,87 +30,17 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.simulator;
+package org.geppetto.core.features;
 
-import java.util.List;
-
-import org.geppetto.core.features.IVariableWatchFeature;
+import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.services.GeppettoFeature;
 
 /**
- * Abstract feature class for variable watch
+ * Interface used by classes that need to implement variable watch
  * 
- * @author Jesus R Martinez (jesus@metacell.us)
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public class AVariableWatchFeature implements IVariableWatchFeature{
-
-	//private VariableList _watchableVariables = new VariableList();
-//	private boolean _watching = false;
-	protected int _currentRecordingIndex = 0;
-	private GeppettoFeature _type = GeppettoFeature.VARIABLE_WATCH_FEATURE;
-	private boolean _watchListModified;
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.simulator.ISimulator#addWatchVariables(java.util.List)
-	 */
-	@Override
-	public void addWatchVariables(List<String> variableNames)
-	{
-//		for(String s : variableNames){
-//			SimpleVariable var = new SimpleVariable();
-//			var.setName(s);
-//			_watchableVariables.getVariables().add(var);
-//		}
-		
-		//FIXME
-		
-		this._watchListModified = true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.simulator.ISimulator#clearWatchVariables()
-	 */
-	@Override
-	public void clearWatchVariables()
-	{
-		//_watchableVariables.getVariables().clear();
-		//FIXME
-	}
-
-	/**
-	 * @return
-	 */
-	@Override
-	public boolean isWatching()
-	{
-		return true;
-	}
-	
-//	@Override
-//	public VariableList getWatcheableVariables()
-//	{
-//		return _watchableVariables;
-//	}
-
-	@Override
-	public GeppettoFeature getType() {
-		return _type ;
-	}
-	
-	@Override
-	public boolean watchListModified(){
-		return _watchListModified;
-	}
-	
-	@Override
-	public void setWatchListModified(boolean modified){
-		_watchListModified = modified;
-	}
-
+public interface IWatchableVariableListFeature extends IFeature{
+	boolean listWatchableVariablea(AspectNode aspectNode) throws ModelInterpreterException;
 }

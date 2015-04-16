@@ -4,7 +4,7 @@ import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.runtime.AspectNode;
 
 /**
- * Interface feature use for populatin of visualization trees
+ * Interface feature used for population of visualization trees
  * 
  * @author Jesus Martinez (jesus@metacell.us)
  *

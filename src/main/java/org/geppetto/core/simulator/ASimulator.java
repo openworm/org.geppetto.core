@@ -34,10 +34,7 @@
 package org.geppetto.core.simulator;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import ncsa.hdf.object.Dataset;
@@ -46,11 +43,11 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.features.IVariableWatchFeature;
 import org.geppetto.core.data.model.AVariable;
 import org.geppetto.core.data.model.SimpleType;
 import org.geppetto.core.data.model.SimpleType.Type;
 import org.geppetto.core.data.model.VariableList;
+import org.geppetto.core.features.IVariableWatchFeature;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
@@ -59,9 +56,10 @@ import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.VariableNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
+import org.geppetto.core.model.state.visitors.IterateWatchableVariableListVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.services.AService;
@@ -196,7 +194,7 @@ public abstract class ASimulator extends AService implements ISimulator
 				((IVariableWatchFeature)this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
 		if(_recordings != null && watchFeature.isWatching())
 		{
-			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.WATCH_TREE);
+			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.SIMULATION_TREE);
 			watchTree.setModified(true);
 			aspect.setModified(true);
 			aspect.getParentEntity().setModified(true);
@@ -280,24 +278,27 @@ public abstract class ASimulator extends AService implements ISimulator
 		return _timeStepUnit;
 	}
 	
-	public void readRecording(H5File h5File, AspectSubTreeNode watchTree,boolean readAll) throws GeppettoExecutionException{
+	public void readRecording(H5File h5File, AspectSubTreeNode simulationTree, boolean readAll) throws GeppettoExecutionException{
 		try {
 			h5File.open();
 		} catch (Exception e1) {
 			throw new GeppettoExecutionException(e1);
 		}
-		IVariableWatchFeature watchFeature =
-				((IVariableWatchFeature)this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
-		for(AVariable watchedVariable : watchFeature.getWatcheableVariables().getVariables())
+		IVariableWatchFeature watchFeature = ((IVariableWatchFeature)this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
+		
+		
+		IterateWatchableVariableListVisitor readWatchableVariableListVisitor = new IterateWatchableVariableListVisitor();
+		simulationTree.apply(readWatchableVariableListVisitor);
+		for(String watchedVariable : readWatchableVariableListVisitor.getWatchableVariableList())
 		{
-			String name = watchedVariable.getName();
-			String path = "/"+name.replace(watchTree.getInstancePath()+".", "");
+			//String name = watchedVariable.getName();
+			String path = "/"+watchedVariable.replace(simulationTree.getInstancePath()+".", "");
 			path = path.replace(".", "/");
 			Dataset v = (Dataset) FileFormat.findObject(h5File, path);
 
 			path = path.replaceFirst("/", "");
 			StringTokenizer tokenizer = new StringTokenizer(path, "/");
-			ACompositeNode node = watchTree;
+			ACompositeNode node = simulationTree;
 			VariableNode newVariableNode = null;
 			while(tokenizer.hasMoreElements())
 			{
