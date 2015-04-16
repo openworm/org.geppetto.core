@@ -52,7 +52,7 @@ public class AVariableWatchFeature implements IVariableWatchFeature{
 	private VariableList _watchableVariables = new VariableList();
 	private boolean _watching = false;
 	protected int _currentRecordingIndex = 0;
-	private GeppettoFeature _type = GeppettoFeature.VARIALE_WATCH_FEATURE;
+	private GeppettoFeature _type = GeppettoFeature.VARIABLE_WATCH_FEATURE;
 	private boolean _watchListModified;
 
 	/*

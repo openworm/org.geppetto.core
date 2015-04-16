@@ -191,7 +191,7 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	protected void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
 	{
-		IVariableWatchFeature watchFeature = ((IVariableWatchFeature) this.getFeature(GeppettoFeature.VARIALE_WATCH_FEATURE));
+		IVariableWatchFeature watchFeature = ((IVariableWatchFeature) this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
 		if(_recordings != null && watchFeature.isWatching())
 		{
 			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.WATCH_TREE);
@@ -291,7 +291,7 @@ public abstract class ASimulator extends AService implements ISimulator
 		{
 			throw new GeppettoExecutionException(e1);
 		}
-		IVariableWatchFeature watchFeature = ((IVariableWatchFeature) this.getFeature(GeppettoFeature.VARIALE_WATCH_FEATURE));
+		IVariableWatchFeature watchFeature = ((IVariableWatchFeature) this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
 		for(AVariable watchedVariable : watchFeature.getWatcheableVariables().getVariables())
 		{
 			String name = watchedVariable.getName();
