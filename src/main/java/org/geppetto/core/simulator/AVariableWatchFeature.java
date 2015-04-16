@@ -35,22 +35,21 @@ package org.geppetto.core.simulator;
 import java.util.List;
 
 import org.geppetto.core.features.IVariableWatchFeature;
-import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.state.visitors.IterateWatchableVariableListVisitor;
 import org.geppetto.core.services.GeppettoFeature;
 
 /**
  * Abstract feature class for variable watch
  * 
  * @author Jesus R Martinez (jesus@metacell.us)
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
 public class AVariableWatchFeature implements IVariableWatchFeature{
 
-	//private VariableList _watchableVariables = new VariableList();
-//	private boolean _watching = false;
 	protected int _currentRecordingIndex = 0;
-	private GeppettoFeature _type = GeppettoFeature.VARIABLE_WATCH_FEATURE;
 	private boolean _watchListModified;
+	private GeppettoFeature _type = GeppettoFeature.VARIABLE_WATCH_FEATURE;
 	
 	/*
 	 * (non-Javadoc)
@@ -60,14 +59,6 @@ public class AVariableWatchFeature implements IVariableWatchFeature{
 	@Override
 	public void addWatchVariables(List<String> variableNames)
 	{
-//		for(String s : variableNames){
-//			SimpleVariable var = new SimpleVariable();
-//			var.setName(s);
-//			_watchableVariables.getVariables().add(var);
-//		}
-		
-		//FIXME
-		
 		this._watchListModified = true;
 	}
 
@@ -91,12 +82,6 @@ public class AVariableWatchFeature implements IVariableWatchFeature{
 	{
 		return true;
 	}
-	
-//	@Override
-//	public VariableList getWatcheableVariables()
-//	{
-//		return _watchableVariables;
-//	}
 
 	@Override
 	public GeppettoFeature getType() {

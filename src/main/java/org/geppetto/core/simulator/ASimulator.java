@@ -46,7 +46,6 @@ import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.AVariable;
 import org.geppetto.core.data.model.SimpleType;
 import org.geppetto.core.data.model.SimpleType.Type;
-import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.features.IVariableWatchFeature;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelWrapper;
@@ -80,7 +79,6 @@ public abstract class ASimulator extends AService implements ISimulator
 	private boolean _initialized = false;
 
 	protected boolean _treesEmptied = false;
-	private VariableList _forceableVariables = new VariableList();
 
 	private String _timeStepUnit = "ms";
 
@@ -160,17 +158,6 @@ public abstract class ASimulator extends AService implements ISimulator
 		this._listener = listener;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.simulator.ISimulator#getForceableVariables()
-	 */
-	@Override
-	public VariableList getForceableVariables()
-	{
-		return _forceableVariables;
-	}
-
 	/**
 	 * @param timeStepUnit
 	 */

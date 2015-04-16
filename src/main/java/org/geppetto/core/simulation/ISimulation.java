@@ -38,8 +38,6 @@ import java.util.List;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.data.model.VariableList;
-import org.geppetto.core.data.model.WatchList;
 
 /**
  * @author matteocantarelli
@@ -102,7 +100,7 @@ public interface ISimulation {
 	 * @throws GeppettoExecutionException 
 	 * @throws GeppettoInitializationException 
 	 * */
-	void addWatchLists(List<WatchList> list) throws GeppettoExecutionException, GeppettoInitializationException;
+	void addWatchLists(List<String> watchedVariables) throws GeppettoExecutionException, GeppettoInitializationException;
 //	void setWatchedVariables(List<String> var);
 	
 	/**

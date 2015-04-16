@@ -35,7 +35,6 @@ package org.geppetto.core.model.state.visitors;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geppetto.core.data.model.WatchList;
 import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.VariableNode;
 
@@ -49,14 +48,14 @@ public class IterateWatchableVariableListVisitor extends DefaultStateVisitor {
 
 	private List<String> _watchableVariableList = new ArrayList<String>();
 	private String _mode = "read";
-	private List<WatchList> _lists;
+	private List<String> _lists;
 	
 	public IterateWatchableVariableListVisitor()
 	{
 		super();
 	}
 	
-	public IterateWatchableVariableListVisitor(List<WatchList> lists)
+	public IterateWatchableVariableListVisitor(List<String> lists)
 	{
 		super();
 		this._mode = "setWatched";
@@ -91,16 +90,9 @@ public class IterateWatchableVariableListVisitor extends DefaultStateVisitor {
 				this._watchableVariableList.add(node.getInstancePath());
 		}
 		else{
-			for(WatchList list : this._lists)
-			{
-				for(String varPath : list.getVariablePaths())
-				{
-					if (node.getInstancePath().equals(varPath)){
-						node.setWatched(true);
-					}
-				}
-			}	
-			
+			if (this._lists.contains(node.getInstancePath())){
+				node.setWatched(true);
+			}
 		}
 		return super.visitVariableNode(node);
 	}
