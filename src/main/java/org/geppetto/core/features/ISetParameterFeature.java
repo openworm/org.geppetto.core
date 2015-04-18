@@ -1,5 +1,7 @@
 package org.geppetto.core.features;
 
+import java.util.Map;
+
 /**
  * 
  * This interface allows the users to change the value of the parameters
@@ -10,5 +12,5 @@ package org.geppetto.core.features;
  */
 public interface ISetParameterFeature extends IFeature
 {
-
+	void setParameter(Map<String,String> parameters);
 }
