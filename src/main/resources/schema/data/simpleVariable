@@ -1,7 +1,0 @@
-{
-	"description": "A simple variable",
-	"type":"object",
-	"extends": {
-        "$ref": "variable"
-    }
-}

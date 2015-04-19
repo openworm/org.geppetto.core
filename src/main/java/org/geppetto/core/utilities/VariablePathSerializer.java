@@ -33,12 +33,6 @@
 
 package org.geppetto.core.utilities;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.geppetto.core.data.model.AVariable;
-import org.geppetto.core.data.model.SimpleType;
-import org.geppetto.core.data.model.StructuredType;
 
 /**
  * @author matteocantarelli
@@ -46,38 +40,6 @@ import org.geppetto.core.data.model.StructuredType;
  */
 public class VariablePathSerializer
 {
-	/**
-	 * @param var
-	 * @param parentName
-	 * @param variablePaths
-	 */
-	public static void GetFullVariablePath(AVariable var, String parentName, List<String> variablePaths)
-	{
-		String varName = parentName.equals("") ? var.getName() : (parentName + "." + var.getName());
-
-		if(var.getType() instanceof StructuredType)
-		{
-			// NODE
-			StructuredType strucT = (StructuredType) var.getType();
-			List<AVariable> vars = strucT.getVariables();
-
-			for(AVariable v : vars)
-			{
-				GetFullVariablePath(v, varName, variablePaths);
-			}
-		}
-		else if(var.getType() instanceof SimpleType)
-		{
-			// LEAF
-			if(variablePaths == null)
-			{
-				variablePaths = new ArrayList<String>();
-			}
-
-			variablePaths.add(varName);
-		}
-	}
-	
 	/**
 	 * @param var
 	 * @param index

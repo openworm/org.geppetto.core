@@ -43,9 +43,6 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.data.model.AVariable;
-import org.geppetto.core.data.model.SimpleType;
-import org.geppetto.core.data.model.SimpleType.Type;
 import org.geppetto.core.features.IVariableWatchFeature;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelWrapper;
@@ -88,8 +85,10 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	private double _runtime;
 
-	public ASimulator(){};
-	
+	public ASimulator()
+	{
+	};
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -157,7 +156,7 @@ public abstract class ASimulator extends AService implements ISimulator
 	{
 		this._listener = listener;
 	}
-	
+
 	/**
 	 * @param timeStepUnit
 	 */
@@ -168,7 +167,7 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	/**
 	 * @param timestep
-	 * @param aspect 
+	 * @param aspect
 	 */
 	public void advanceTimeStep(double timestep, AspectNode aspect)
 	{
@@ -177,15 +176,14 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	protected void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
 	{
-		IVariableWatchFeature watchFeature =
-				((IVariableWatchFeature)this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
+		IVariableWatchFeature watchFeature = ((IVariableWatchFeature) this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
 		if(_recordings != null && watchFeature.isWatching())
 		{
 			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.SIMULATION_TREE);
 			watchTree.setModified(true);
 			aspect.setModified(true);
 			aspect.getParentEntity().setModified(true);
-			
+
 			if(watchTree.getChildren().isEmpty())
 			{
 				for(RecordingModel recording : _recordings)
@@ -198,14 +196,15 @@ public abstract class ASimulator extends AService implements ISimulator
 			{
 				for(RecordingModel recording : _recordings)
 				{
-					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, watchTree.getInstancePath(),_listener, _currentRecordingIndex++);
+					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, watchTree.getInstancePath(), _listener, _currentRecordingIndex++);
 					watchTree.apply(updateStateTreeVisitor);
 					if(updateStateTreeVisitor.getError() != null)
 					{
 						_listener.endOfSteps(null);
 						throw new GeppettoExecutionException(updateStateTreeVisitor.getError());
 					}
-					else if(updateStateTreeVisitor.getRange()!=null){
+					else if(updateStateTreeVisitor.getRange() != null)
+					{
 						_listener.endOfSteps(null);
 					}
 				}
@@ -230,56 +229,41 @@ public abstract class ASimulator extends AService implements ISimulator
 	}
 
 	/**
-	 * @param s
-	 * @param list
-	 * @return
-	 */
-	protected static AVariable getVariable(String s, List<AVariable> list)
-	{
-		String searchVar = s;
-		for(AVariable v : list)
-		{
-			if(v.getName().equals(searchVar))
-			{
-				return v;
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * @throws GeppettoExecutionException
 	 */
 	protected void notifyStateTreeUpdated() throws GeppettoExecutionException
 	{
 		getListener().stateTreeUpdated();
 	}
-	
+
 	@Override
-	public double getTime() {
+	public double getTime()
+	{
 		return _runtime;
 	}
-	
+
 	@Override
-	public String getTimeStepUnit() {
+	public String getTimeStepUnit()
+	{
 		return _timeStepUnit;
 	}
-	
-	public void readRecording(H5File h5File, AspectSubTreeNode simulationTree, boolean readAll) throws GeppettoExecutionException{
-		try {
+
+	public void readRecording(H5File h5File, AspectSubTreeNode simulationTree, boolean readAll) throws GeppettoExecutionException
+	{
+		try
+		{
 			h5File.open();
-		} catch (Exception e1) {
+		}
+		catch(Exception e1)
+		{
 			throw new GeppettoExecutionException(e1);
 		}
-		IVariableWatchFeature watchFeature = ((IVariableWatchFeature)this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
-		
-		
 		IterateWatchableVariableListVisitor readWatchableVariableListVisitor = new IterateWatchableVariableListVisitor();
 		simulationTree.apply(readWatchableVariableListVisitor);
 		for(String watchedVariable : readWatchableVariableListVisitor.getWatchableVariableList())
 		{
-			//String name = watchedVariable.getName();
-			String path = "/"+watchedVariable.replace(simulationTree.getInstancePath()+".", "");
+			// String name = watchedVariable.getName();
+			String path = "/" + watchedVariable.replace(simulationTree.getInstancePath() + ".", "");
 			path = path.replace(".", "/");
 			Dataset v = (Dataset) FileFormat.findObject(h5File, path);
 
@@ -299,7 +283,8 @@ public abstract class ASimulator extends AService implements ISimulator
 						{
 							node = (ACompositeNode) child;
 						}
-						if(child instanceof VariableNode){
+						if(child instanceof VariableNode)
+						{
 							newVariableNode = (VariableNode) child;
 						}
 						found = true;
@@ -327,34 +312,24 @@ public abstract class ASimulator extends AService implements ISimulator
 						try
 						{
 							dataRead = v.read();
-							Type type =null;
-							if(dataRead instanceof double[]){
-								type = Type.fromValue(SimpleType.Type.DOUBLE.toString());
-							}else if(dataRead instanceof int[]){
-								type = Type.fromValue(SimpleType.Type.INTEGER.toString());
-							}else if(dataRead instanceof float[]){
-								type = Type.fromValue(SimpleType.Type.FLOAT.toString());
-							}
-
 							PhysicalQuantity quantity = new PhysicalQuantity();
 							AValue readValue = null;
-							switch(type)
+							if(dataRead instanceof double[])
 							{
-							case DOUBLE:
-								double[] dr = (double[])dataRead;
+								double[] dr = (double[]) dataRead;
 								readValue = ValuesFactory.getDoubleValue(dr[_currentRecordingIndex]);
-								break;
-							case FLOAT:
-								float[] fr = (float[])dataRead;
-								readValue = ValuesFactory.getFloatValue(fr[_currentRecordingIndex]);
-								break;
-							case INTEGER:
-								int[] ir = (int[])dataRead;
-								readValue = ValuesFactory.getIntValue(ir[_currentRecordingIndex]);
-								break;
-							default:
-								break;
 							}
+							else if(dataRead instanceof float[])
+							{
+								float[] fr = (float[]) dataRead;
+								readValue = ValuesFactory.getFloatValue(fr[_currentRecordingIndex]);
+							}
+							else if(dataRead instanceof int[])
+							{
+								int[] ir = (int[]) dataRead;
+								readValue = ValuesFactory.getIntValue(ir[_currentRecordingIndex]);
+							}
+
 							quantity.setValue(readValue);
 							newNode.addPhysicalQuantity(quantity);
 							newVariableNode = newNode;
@@ -368,56 +343,51 @@ public abstract class ASimulator extends AService implements ISimulator
 					}
 				}
 			}
-			if(readAll){
+			if(readAll)
+			{
 				Object dataRead;
 				try
 				{
 					dataRead = v.read();
-					Type type =null;
-					if(dataRead instanceof double[]){
-						type = Type.fromValue(SimpleType.Type.DOUBLE.toString());
-					}else if(dataRead instanceof int[]){
-						type = Type.fromValue(SimpleType.Type.INTEGER.toString());
-					}else if(dataRead instanceof float[]){
-						type = Type.fromValue(SimpleType.Type.FLOAT.toString());
-					}
 
 					AValue readValue = null;
-					switch(type)
+
+					if(dataRead instanceof double[])
 					{
-					case DOUBLE:
-						double[] dr = (double[])dataRead;
-						for(int i=0; i<dr.length;i++){
+						double[] dr = (double[]) dataRead;
+						for(int i = 0; i < dr.length; i++)
+						{
 							PhysicalQuantity quantity = new PhysicalQuantity();
 							readValue = ValuesFactory.getDoubleValue(dr[i]);
 							quantity.setValue(readValue);
 							newVariableNode.addPhysicalQuantity(quantity);
 						}
-						break;
-					case FLOAT:
-						float[] fr = (float[])dataRead;
-						for(int i=0; i<fr.length;i++){
+					}
+					else if(dataRead instanceof float[])
+					{
+						float[] fr = (float[]) dataRead;
+						for(int i = 0; i < fr.length; i++)
+						{
 							PhysicalQuantity quantity = new PhysicalQuantity();
 							readValue = ValuesFactory.getDoubleValue(fr[i]);
 							quantity.setValue(readValue);
 							newVariableNode.addPhysicalQuantity(quantity);
 						}
-						break;
-					case INTEGER:
-						int[] ir = (int[])dataRead;
-						for(int i=0; i<ir.length;i++){
+					}
+					else if(dataRead instanceof int[])
+					{
+						int[] ir = (int[]) dataRead;
+						for(int i = 0; i < ir.length; i++)
+						{
 							PhysicalQuantity quantity = new PhysicalQuantity();
 							readValue = ValuesFactory.getDoubleValue(ir[i]);
 							quantity.setValue(readValue);
 							newVariableNode.addPhysicalQuantity(quantity);
 						}
-						break;
-					default:
-						break;
 					}
-					
 				}
-				catch (ArrayIndexOutOfBoundsException  e) {
+				catch(ArrayIndexOutOfBoundsException e)
+				{
 					throw new GeppettoExecutionException(e);
 				}
 				catch(Exception | OutOfMemoryError e)
@@ -425,6 +395,6 @@ public abstract class ASimulator extends AService implements ISimulator
 					throw new GeppettoExecutionException(e);
 				}
 			}
-			}
+		}
 	}
 }
