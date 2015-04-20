@@ -42,5 +42,5 @@ import org.geppetto.core.model.runtime.AspectNode;
  *
  */
 public interface IWatchableVariableListFeature extends IFeature{
-	boolean listWatchableVariablea(AspectNode aspectNode) throws ModelInterpreterException;
+	boolean listWatchableVariables(AspectNode aspectNode) throws ModelInterpreterException;
 }

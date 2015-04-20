@@ -52,21 +52,8 @@ public interface ISolver {
 	
 	public void initialize(final IModel model) throws GeppettoInitializationException;
 	
-	public void populateVisualTree(final IModel model,AspectSubTreeNode visualTree) throws GeppettoInitializationException;
-		
-	public void populateSimulationTree(AspectSubTreeNode watchTree) throws GeppettoInitializationException;
 	
 	public void dispose();
 	
-	/**
-	 * Adds variables to be watched by the simulator.
-	 * */
-	void addWatchVariables(List<String> variableNames);
-	
-	/**
-	 * Clear lists of variables to be watched by the simulator.
-	 * */
-	void clearWatchVariables();
-
 	void updateVisualizationTree(AspectNode aspect);
 }
