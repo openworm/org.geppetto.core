@@ -46,7 +46,6 @@ import java.util.List;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IUser;
-import org.geppetto.core.data.model.local.LocalExperiment;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
 import org.geppetto.core.data.model.local.LocalUser;
 import org.springframework.http.HttpStatus;
@@ -99,9 +98,10 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		}
 		return null;
 	}
-	
-	public List<LocalUser> getAllUsers() {
-		return Arrays.asList(new LocalUser[] {getCurrentUser()});
+
+	public List<LocalUser> getAllUsers()
+	{
+		return Arrays.asList(new LocalUser[] { getCurrentUser() });
 	}
 
 	public List<LocalGeppettoProject> getAllGeppettoProjects()
@@ -113,8 +113,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	{
 		return PROJECTS;
 	}
-	
-	public List<? extends IExperiment> getExperimentsForProject(long projectId) {
+
+	public List<? extends IExperiment> getExperimentsForProject(long projectId)
+	{
 		IGeppettoProject project = getGeppettoProjectById(projectId);
 		return project.getExperiments();
 	}
