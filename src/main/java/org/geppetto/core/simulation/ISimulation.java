@@ -35,6 +35,7 @@ package org.geppetto.core.simulation;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
@@ -144,4 +145,6 @@ public interface ISimulation {
 	String getModelTree(String aspectID);
 	
 	String writeModel(String aspectID, String format);
+
+	boolean setParameters(String model, Map<String, String> parameters);
 }

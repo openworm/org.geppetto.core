@@ -2,6 +2,8 @@ package org.geppetto.core.features;
 
 import java.util.Map;
 
+import org.geppetto.core.model.ModelInterpreterException;
+
 /**
  * 
  * This interface allows the users to change the value of the parameters
@@ -12,5 +14,5 @@ import java.util.Map;
  */
 public interface ISetParameterFeature extends IFeature
 {
-	void setParameter(Map<String,String> parameters);
+	void setParameter(Map<String,String> parameters) throws ModelInterpreterException;
 }
