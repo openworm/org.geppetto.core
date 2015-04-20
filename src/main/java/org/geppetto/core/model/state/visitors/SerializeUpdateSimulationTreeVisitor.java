@@ -44,18 +44,18 @@ import org.geppetto.core.model.runtime.VariableNode;
  *         This method updates the particles already present in the tree adding
  *         new values as found on the position pointer
  */
-public class IterateWatchableVariableListVisitor extends DefaultStateVisitor {
+public class SerializeUpdateSimulationTreeVisitor extends DefaultStateVisitor {
 
 	private List<String> _watchableVariableList = new ArrayList<String>();
 	private String _mode = "read";
 	private List<String> _lists;
 	
-	public IterateWatchableVariableListVisitor()
+	public SerializeUpdateSimulationTreeVisitor()
 	{
 		super();
 	}
 	
-	public IterateWatchableVariableListVisitor(List<String> lists)
+	public SerializeUpdateSimulationTreeVisitor(List<String> lists)
 	{
 		super();
 		this._mode = "setWatched";
@@ -93,6 +93,9 @@ public class IterateWatchableVariableListVisitor extends DefaultStateVisitor {
 			if (this._lists.contains(node.getInstancePath())){
 				node.setWatched(true);
 			}
+			else if (this._lists == null) {
+				node.setWatched(false);
+			}
 		}
 		return super.visitVariableNode(node);
 	}
@@ -100,6 +103,10 @@ public class IterateWatchableVariableListVisitor extends DefaultStateVisitor {
 	public List<String> getWatchableVariableList()
 	{
 		return _watchableVariableList;
+	}
+	
+	public void setMode(String mode){
+		this._mode = mode;
 	}
 
 }

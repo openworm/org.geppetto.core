@@ -35,7 +35,6 @@ package org.geppetto.core.simulator;
 import java.util.List;
 
 import org.geppetto.core.features.IVariableWatchFeature;
-import org.geppetto.core.model.state.visitors.IterateWatchableVariableListVisitor;
 import org.geppetto.core.services.GeppettoFeature;
 
 /**
@@ -57,7 +56,7 @@ public class AVariableWatchFeature implements IVariableWatchFeature{
 	 * @see org.geppetto.core.simulator.ISimulator#addWatchVariables(java.util.List)
 	 */
 	@Override
-	public void addWatchVariables(List<String> variableNames)
+	public void setWatchedVariables(List<String> variableNames)
 	{
 		this._watchListModified = true;
 	}
@@ -70,8 +69,7 @@ public class AVariableWatchFeature implements IVariableWatchFeature{
 	@Override
 	public void clearWatchVariables()
 	{
-		//_watchableVariables.getVariables().clear();
-		//FIXME
+		this._watchListModified = true;
 	}
 
 	/**

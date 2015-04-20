@@ -43,14 +43,9 @@ import java.util.List;
  */
 public interface IVariableWatchFeature extends IFeature{
 
-	void addWatchVariables(List<String> vars);
-	
-//	void setWatchedVariable(String var);
-//	void setWatchedVariables(List<String> var);
-	
+	void setWatchedVariables(List<String> vars);
 	void clearWatchVariables();
 	
-	@Deprecated
 	boolean isWatching();
 
 	boolean watchListModified();

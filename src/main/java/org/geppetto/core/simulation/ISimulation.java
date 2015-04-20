@@ -100,20 +100,17 @@ public interface ISimulation {
 	 * @throws GeppettoExecutionException 
 	 * @throws GeppettoInitializationException 
 	 * */
-	void addWatchLists(List<String> watchedVariables) throws GeppettoExecutionException, GeppettoInitializationException;
-//	void setWatchedVariables(List<String> var);
+	void setWatchedVariables(List<String> watchedVariables) throws GeppettoExecutionException, GeppettoInitializationException;
+
 	
 	/**
-	 * Starts recording watched variables values
+	 * Clear watched variables
 	 * */
 	void clearWatchLists();
-	
-	
 	
 	List<URL> getScripts();	
 	
 	int getSimulationCapacity();
-
 
 	
 	String getModelTree(String aspectID);
