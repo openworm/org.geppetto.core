@@ -1,10 +1,14 @@
 package org.geppetto.core.auth;
 
+/**
+ * @author mattolson
+ *
+ */
+public interface IAuthService
+{
 
-public interface IAuthService {
+	public Boolean isAuthenticated();
 
-    public Boolean isAuthenticated();
-
-    public String authFailureRedirect();
+	public String authFailureRedirect();
 
 }

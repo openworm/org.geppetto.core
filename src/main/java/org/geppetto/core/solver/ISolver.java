@@ -52,7 +52,6 @@ public interface ISolver {
 	
 	public void initialize(final IModel model) throws GeppettoInitializationException;
 	
-	
 	public void dispose();
 	
 	void updateVisualizationTree(AspectNode aspect);

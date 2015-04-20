@@ -34,7 +34,10 @@
 package org.geppetto.core.simulator;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import ncsa.hdf.object.Dataset;
@@ -85,10 +88,8 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	private double _runtime;
 
-	public ASimulator()
-	{
-	};
-
+	public ASimulator(){};
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -167,7 +168,7 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	/**
 	 * @param timestep
-	 * @param aspect
+	 * @param aspect 
 	 */
 	public void advanceTimeStep(double timestep, AspectNode aspect)
 	{
@@ -235,16 +236,14 @@ public abstract class ASimulator extends AService implements ISimulator
 	{
 		getListener().stateTreeUpdated();
 	}
-
+	
 	@Override
-	public double getTime()
-	{
+	public double getTime() {
 		return _runtime;
 	}
-
+	
 	@Override
-	public String getTimeStepUnit()
-	{
+	public String getTimeStepUnit() {
 		return _timeStepUnit;
 	}
 
@@ -253,9 +252,7 @@ public abstract class ASimulator extends AService implements ISimulator
 		try
 		{
 			h5File.open();
-		}
-		catch(Exception e1)
-		{
+		} catch (Exception e1) {
 			throw new GeppettoExecutionException(e1);
 		}
 		SerializeUpdateSimulationTreeVisitor readWatchableVariableListVisitor = new SerializeUpdateSimulationTreeVisitor();

@@ -70,7 +70,9 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 		_currentIndex = currentIndex;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.model.state.visitors.DefaultStateVisitor#visitSimpleStateNode(org.geppetto.core.model.state.SimpleStateNode)
 	 */
 	@Override

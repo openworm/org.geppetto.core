@@ -34,9 +34,13 @@ package org.geppetto.core.features;
 
 import java.util.List;
 
+import org.geppetto.core.data.model.VariableList;
+
 /**
- * Interface used by classes that need to implement variable watch
+ * This feature allows the users to watch the values of parameters and variables
+ * during the execution.
  * 
+ * @author matteocantarelli
  * @author Jesus Martinez (jesus@metacell.us)
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
