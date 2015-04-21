@@ -46,6 +46,7 @@ import org.geppetto.core.model.runtime.ParameterNode;
 import org.geppetto.core.model.runtime.ParameterSpecificationNode;
 import org.geppetto.core.model.runtime.ParticleNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
+import org.geppetto.core.model.runtime.SkeletonAnimationNode;
 import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
@@ -213,8 +214,12 @@ public class DefaultStateVisitor implements IStateVisitor
 	}
 
 	@Override
-	public boolean visitVisualGroupElementNode(
-			VisualGroupElementNode visualGroupElementNode) {
+	public boolean visitVisualGroupElementNode(VisualGroupElementNode visualGroupElementNode) {
+		return !_stopVisiting;
+	}
+
+	@Override
+	public boolean visitSkeletonAnimationNode(SkeletonAnimationNode node) {
 		return !_stopVisiting;
 	}
 }

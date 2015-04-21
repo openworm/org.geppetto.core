@@ -59,6 +59,7 @@ import org.geppetto.core.model.runtime.ParameterNode;
 import org.geppetto.core.model.runtime.ParameterSpecificationNode;
 import org.geppetto.core.model.runtime.ParticleNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
+import org.geppetto.core.model.runtime.SkeletonAnimationNode;
 import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
@@ -789,6 +790,65 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 				+ "}," + model + commonProperties + "},");
 
 		return super.visitObjNode(node);
+	}
+	
+	@Override
+	public boolean visitSkeletonAnimationNode(SkeletonAnimationNode node) {
+		String commonProperties = this.commonProperties(node);
+		String name = node.getId();
+		
+		List<List<List<Double>>> transformations = node.getSkeletonAnimationMatrices();
+		String transformationsString = "";
+
+		if (transformations != null) {
+			
+			// TODO: open bracket for array of matrices
+			
+			// Loop list of matrices
+			for (int i=0; i < transformations.size(); i++){
+				List<List<Double>> matrix = transformations.get(i);
+				
+				// if any rows 
+				if (matrix.size() > 0){
+					
+					// TODO: open bracket for matrix 
+					
+					// Loop rows
+					for (int j = 0; j < matrix.size(); j++){
+						List<Double> row = matrix.get(j);
+						
+						if(row.size() > 0)
+						{
+							// TODO: open bracket for row
+							
+							// Loop row items
+							for (int k=0; k<row.size(); k++){
+								Double cell = row.get(k);
+								
+								// TODO: add cell
+								
+								// TODO: add comma unless it's the last element
+							}
+							
+							// TODO: close bracket for row
+							
+							// TODO: add comma unless it's the last element
+						}
+					}
+					
+					// TODO: close bracket for matrix 
+					
+					// TODO: add comma unless it's the last element
+				}
+			}
+			
+			// TODO: close bracket for array of matrices
+		}
+
+		_serialized.append("\"" + name + "\":{\"skeletonTransformations\":{" + transformationsString
+				+ "}," + commonProperties + "},");
+
+		return super.visitSkeletonAnimationNode(node);
 	}
 
 	public String getSerializedTree() {

@@ -61,11 +61,11 @@ public class SkeletonAnimationNode extends ANode {
 		return false;
 	}
 
-	List<List<List<Double>>> getSkeletonAnimationMatrices() {
+	public List<List<List<Double>>> getSkeletonAnimationMatrices() {
 		return _skeletonAnimationMatrices;
 	}
 
-	void setSkeletonAnimationMatrices(List<List<List<Double>>> _skeletonAnimationMatrices) {
+	public void setSkeletonAnimationMatrices(List<List<List<Double>>> _skeletonAnimationMatrices) {
 		this._skeletonAnimationMatrices = _skeletonAnimationMatrices;
 	}
 }
