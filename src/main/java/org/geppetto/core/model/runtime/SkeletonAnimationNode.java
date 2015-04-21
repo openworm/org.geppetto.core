@@ -57,8 +57,7 @@ public class SkeletonAnimationNode extends ANode {
 
 	@Override
 	public boolean apply(IStateVisitor visitor) {
-		// TODO Auto-generated method stub
-		return false;
+		return visitor.visitSkeletonAnimationNode(this);
 	}
 
 	public List<List<List<Double>>> getSkeletonAnimationMatrices() {

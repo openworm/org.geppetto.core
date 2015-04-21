@@ -38,6 +38,7 @@
 package org.geppetto.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -53,6 +54,7 @@ import org.geppetto.core.model.runtime.FunctionNode;
 import org.geppetto.core.model.runtime.ParameterSpecificationNode;
 import org.geppetto.core.model.runtime.ParticleNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
+import org.geppetto.core.model.runtime.SkeletonAnimationNode;
 import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
@@ -728,5 +730,55 @@ public class TestTreeSerialization {
 		Assert.assertEquals(
 				"{\"ModelTree\":{\"One_1\":{\"Parameter\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"id\":\"Parameter\",\"instancePath\":\"One_1.Parameter\",\"_metaType\":\"ParameterSpecificationNode\"},\"Dynamics\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"_function\":{\"expression\":\"y=x+2\",\"arguments\":{\"0\":\"1\",\"1\":\"2\"}},\"id\":\"Dynamics\",\"instancePath\":\"One_1.Dynamics\",\"_metaType\":\"DynamicsSpecificationNode\"},\"FunctionNode\":{\"expression\":\"y=x^2\",\"arguments\":{\"0\":\"1\"},\"id\":\"FunctionNode\",\"instancePath\":\"One_1.FunctionNode\",\"_metaType\":\"FunctionNode\"},\"id\":\"One_1\",\"instancePath\":\"One_1\",\"_metaType\":\"CompositeNode\"},\"One_2\":{\"Parameter\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"id\":\"Parameter\",\"instancePath\":\"One_2.Parameter\",\"_metaType\":\"ParameterSpecificationNode\"},\"id\":\"One_2\",\"instancePath\":\"One_2\",\"_metaType\":\"CompositeNode\"},\"type\":\"ModelTree\",\"id\":\"ModelTree\",\"name\":\"Model\",\"_metaType\":\"AspectSubTreeNode\"}}",
 				serialized);
+	}
+	
+	/**
+	 * Test tree serialization with skeleton animation node.
+	 */
+	@Test
+	public void treeWithSkeletonAnimationNode() {
+		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
+		visualization.setModified(true);
+		
+		CompositeNode first = new CompositeNode("CompositeNode");
+		first.setId("Composite_XXX");
+		
+		SkeletonAnimationNode skeletonNode = new SkeletonAnimationNode("SkeletonAnimation");
+		skeletonNode.setId("Skeleton_XXX");
+		
+		List<List<Double>> matrix1 = new ArrayList<List<Double>>();
+		matrix1.add(Arrays.asList(1.0, 2.0, 3.0));
+		matrix1.add(Arrays.asList(4.0, 5.0, 6.0));
+		matrix1.add(Arrays.asList(7.0, 8.0, 9.0));
+		
+		List<List<Double>> matrix2 = new ArrayList<List<Double>>();
+		matrix2.add(Arrays.asList(10.0, 11.0, 12.0));
+		matrix2.add(Arrays.asList(13.0, 14.0, 15.0));
+		matrix2.add(Arrays.asList(16.0, 17.0, 18.0));
+		
+		List<List<Double>> matrix3 = new ArrayList<List<Double>>();
+		matrix3.add(Arrays.asList(19.0, 20.0, 21.0));
+		matrix3.add(Arrays.asList(22.0, 23.0, 24.0));
+		matrix3.add(Arrays.asList(25.0, 26.0, 27.0));
+		
+		skeletonNode.setSkeletonAnimationMatrices(Arrays.asList(matrix1, matrix2, matrix3));
+		
+		// build tree
+		first.addChild(skeletonNode);
+		visualization.addChild(first);
+		
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		visualization.apply(visitor);
+		String serialized = "{" + visitor.getSerializedTree() + "}";
+		System.out.println(serialized);
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(serialized);
+		String prettyJsonString = gson.toJson(je);
+
+		System.out.println(prettyJsonString);
+
+		Assert.assertEquals("{\"VisualizationTree\":{\"Composite_XXX\":{\"Skeleton_XXX\":{\"skeletonTransformations\":[[[1.0,2.0,3.0],[4.0,5.0,6.0],[7.0,8.0,9.0]],[[10.0,11.0,12.0],[13.0,14.0,15.0],[16.0,17.0,18.0]],[[19.0,20.0,21.0],[22.0,23.0,24.0],[25.0,26.0,27.0]]],\"id\":\"Skeleton_XXX\",\"instancePath\":\"Composite_XXX.Skeleton_XXX\",\"_metaType\":\"SkeletonAnimationNode\"},\"id\":\"Composite_XXX\",\"instancePath\":\"Composite_XXX\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"_metaType\":\"AspectSubTreeNode\"}}", serialized);		
 	}
 }

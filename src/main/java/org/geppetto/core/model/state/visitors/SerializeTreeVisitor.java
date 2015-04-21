@@ -802,51 +802,67 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 		if (transformations != null) {
 			
-			// TODO: open bracket for array of matrices
+			// open bracket for array of matrices
+			transformationsString+= "[";
 			
 			// Loop list of matrices
 			for (int i=0; i < transformations.size(); i++){
-				List<List<Double>> matrix = transformations.get(i);
+				List<List<Double>> matrixRows = transformations.get(i);
 				
 				// if any rows 
-				if (matrix.size() > 0){
+				if (matrixRows.size() > 0){
 					
-					// TODO: open bracket for matrix 
+					// open bracket for matrix 
+					transformationsString+= "[";
 					
 					// Loop rows
-					for (int j = 0; j < matrix.size(); j++){
-						List<Double> row = matrix.get(j);
+					for (int j = 0; j < matrixRows.size(); j++){
+						List<Double> row = matrixRows.get(j);
 						
 						if(row.size() > 0)
 						{
-							// TODO: open bracket for row
+							// open bracket for row
+							transformationsString+= "[";
 							
 							// Loop row items
 							for (int k=0; k<row.size(); k++){
 								Double cell = row.get(k);
 								
-								// TODO: add cell
+								// add cell
+								transformationsString+= cell.toString();
 								
-								// TODO: add comma unless it's the last element
+								// add comma unless it's the last element
+								if (k != row.size()-1){
+									transformationsString+= ",";
+								}
 							}
 							
-							// TODO: close bracket for row
+							// close bracket for row
+							transformationsString+= "]";
 							
-							// TODO: add comma unless it's the last element
+							// add comma unless it's the last row
+							if (j != matrixRows.size()-1){
+								transformationsString+= ",";
+							}
 						}
 					}
 					
-					// TODO: close bracket for matrix 
+					// close bracket for matrix
+					transformationsString+= "]";
 					
-					// TODO: add comma unless it's the last element
+					// add comma unless it's the last element
+					if (i != transformations.size()-1){
+						transformationsString+= ",";
+					}
 				}
 			}
 			
-			// TODO: close bracket for array of matrices
+			// close bracket for array of matrices
+			transformationsString+= "]";
 		}
 
-		_serialized.append("\"" + name + "\":{\"skeletonTransformations\":{" + transformationsString
-				+ "}," + commonProperties + "},");
+		_serialized.append("\"" + name + "\":{\"skeletonTransformations\":" + transformationsString
+				+ "," + commonProperties + "},");
 
 		return super.visitSkeletonAnimationNode(node);
 	}
