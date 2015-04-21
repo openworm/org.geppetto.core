@@ -72,15 +72,6 @@ public class AVariableWatchFeature implements IVariableWatchFeature{
 		this._watchListModified = true;
 	}
 
-	/**
-	 * @return
-	 */
-	@Override
-	public boolean isWatching()
-	{
-		return true;
-	}
-
 	@Override
 	public GeppettoFeature getType() {
 		return _type ;
