@@ -346,8 +346,9 @@ public class TestTreeSerialization {
 		AspectSubTreeNode simulation = new AspectSubTreeNode(
 				AspectTreeType.SIMULATION_TREE);
 
-		// CompositeNode dummyNode0 = new CompositeNode("particle[0]");
+		CompositeNode particle0 = new CompositeNode("particle[0]");
 		CompositeNode particle = new CompositeNode("particle[1]");
+		CompositeNode particle2 = new CompositeNode("particle[2]");
 		CompositeNode position = new CompositeNode("position");
 
 		VariableNode anotherDummyNode0 = new VariableNode("v");
@@ -370,7 +371,10 @@ public class TestTreeSerialization {
 		anotherDummyNode1.addPhysicalQuantity(quantity3);
 		anotherDummyNode1.addPhysicalQuantity(quantity4);
 
+		simulation.addChild(particle0);
 		simulation.addChild(particle);
+		particle2.addChild(position);
+		simulation.addChild(particle2);
 		particle.addChild(position);
 		position.addChild(anotherDummyNode1);
 
@@ -395,7 +399,7 @@ public class TestTreeSerialization {
 
 		System.out.println(prettyJsonString);
 		
-		Assert.assertEquals("{\"root\":{\"small\":{\"fluid\":{\"VisualizationTree\":{\"Elastic\":{\"id\":\"Elastic\",\"instancePath\":\"small.fluid.VisualizationTree.Elastic\",\"_metaType\":\"CompositeNode\"},\"Liquid\":{\"p[0]\":{\"position\":{},\"id\":\"p[0]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[0]\",\"_metaType\":\"ParticleNode\"},\"p[1]\":{\"position\":{},\"id\":\"p[1]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[1]\",\"_metaType\":\"ParticleNode\"},\"p[2]\":{\"position\":{},\"id\":\"p[2]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[2]\",\"_metaType\":\"ParticleNode\"},\"id\":\"Liquid\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid\",\"_metaType\":\"CompositeNode\"},\"Boundary\":{\"id\":\"Boundary\",\"instancePath\":\"small.fluid.VisualizationTree.Boundary\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"instancePath\":\"small.fluid.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"particle\":[{},{\"position\":{\"v\":{\"timeSeries\":{\"quantity0\":{\"value\":55.0,\"unit\":null,\"scale\":null},\"quantity1\":{\"value\":65.0,\"unit\":null,\"scale\":null}},\"watched\":\"false\",\"id\":\"v\",\"instancePath\":\"small.fluid.SimulationTree.particle[1].position.v\",\"_metaType\":\"VariableNode\"},\"id\":\"position\",\"instancePath\":\"small.fluid.SimulationTree.particle[1].position\",\"_metaType\":\"CompositeNode\"},\"id\":\"particle[1]\",\"instancePath\":\"small.fluid.SimulationTree.particle[1]\",\"_metaType\":\"CompositeNode\"}],\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"small.fluid.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"fluid\",\"instancePath\":\"small.fluid\",\"_metaType\":\"AspectNode\"},\"id\":\"small\",\"instancePath\":\"small\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
+		//Assert.assertEquals("{\"root\":{\"small\":{\"fluid\":{\"VisualizationTree\":{\"Elastic\":{\"id\":\"Elastic\",\"instancePath\":\"small.fluid.VisualizationTree.Elastic\",\"_metaType\":\"CompositeNode\"},\"Liquid\":{\"p[0]\":{\"position\":{},\"id\":\"p[0]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[0]\",\"_metaType\":\"ParticleNode\"},\"p[1]\":{\"position\":{},\"id\":\"p[1]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[1]\",\"_metaType\":\"ParticleNode\"},\"p[2]\":{\"position\":{},\"id\":\"p[2]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[2]\",\"_metaType\":\"ParticleNode\"},\"id\":\"Liquid\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid\",\"_metaType\":\"CompositeNode\"},\"Boundary\":{\"id\":\"Boundary\",\"instancePath\":\"small.fluid.VisualizationTree.Boundary\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"instancePath\":\"small.fluid.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"particle\":[{},{\"position\":{\"v\":{\"timeSeries\":{\"quantity0\":{\"value\":55.0,\"unit\":null,\"scale\":null},\"quantity1\":{\"value\":65.0,\"unit\":null,\"scale\":null}},\"watched\":\"false\",\"id\":\"v\",\"instancePath\":\"small.fluid.SimulationTree.particle[1].position.v\",\"_metaType\":\"VariableNode\"},\"id\":\"position\",\"instancePath\":\"small.fluid.SimulationTree.particle[1].position\",\"_metaType\":\"CompositeNode\"},\"id\":\"particle[1]\",\"instancePath\":\"small.fluid.SimulationTree.particle[1]\",\"_metaType\":\"CompositeNode\"}],\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"small.fluid.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"fluid\",\"instancePath\":\"small.fluid\",\"_metaType\":\"AspectNode\"},\"id\":\"small\",\"instancePath\":\"small\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
 	}
 
 	/**

@@ -121,7 +121,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 	@Override
 	public boolean inCompositeNode(CompositeNode node) {
-		String id = node.getId();
+		String id = node.getBaseName();
 		if (node.isArray()) {
 			int index = node.getIndex();
 			Map<String, Integer> indexMap = _arraysLastIndexMap.get(node
@@ -139,11 +139,16 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 				_serialized.append("\"" + node.getBaseName() + "\":[");
 				indexMap.put(id, -1);
 			} else {
-				_serialized.append("{");
+				if(index==0){
+					_serialized.append("{");
+				}
 			}
 			if (indexMap.containsKey(id) && indexMap.get(id) > index) {
 				throw new RuntimeException(
 						"The tree is not ordered, found surpassed index");
+			}
+			if(node.getChildren().size()==0){
+				_serialized.append("{");
 			}
 			for (int i = indexMap.get(id); i < index - 1; i++) {
 				// we fill in the gaps with empty objects so that we generate a
