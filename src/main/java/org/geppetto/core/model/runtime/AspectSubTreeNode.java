@@ -48,7 +48,7 @@ public class AspectSubTreeNode extends ACompositeNode
 	{
 		MODEL_TREE("ModelTree"),
 		VISUALIZATION_TREE("VisualizationTree"),
-		WATCH_TREE("SimulationTree");
+		SIMULATION_TREE("SimulationTree");
 		
 		private final String text;
 

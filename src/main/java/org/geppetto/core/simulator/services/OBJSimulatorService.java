@@ -38,16 +38,8 @@ import java.util.List;
 import org.geppetto.core.beans.SimulatorConfig;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.data.model.VariableList;
-import org.geppetto.core.features.IFeature;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
-import org.geppetto.core.model.runtime.OBJNode;
-import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
@@ -75,11 +67,6 @@ public class OBJSimulatorService extends ASimulator{
 			ISimulatorCallbackListener listener)
 			throws GeppettoInitializationException, GeppettoExecutionException {
 		super.initialize(models, listener);
-	}
-
-	@Override
-	public VariableList getForceableVariables() {
-		return new VariableList();
 	}
 
 	@Override

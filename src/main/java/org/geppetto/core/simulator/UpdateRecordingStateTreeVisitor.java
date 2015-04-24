@@ -36,8 +36,6 @@ import ncsa.hdf.object.Dataset;
 import ncsa.hdf.object.FileFormat;
 import ncsa.hdf.object.h5.H5File;
 
-import org.geppetto.core.data.model.SimpleType;
-import org.geppetto.core.data.model.SimpleType.Type;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.runtime.VariableNode;
@@ -62,7 +60,7 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 	/**
 	 * @param recording
 	 * @param instancePath
-	 * @param _listener
+	 * @param _listener 
 	 * @param currentIndex
 	 */
 	public UpdateRecordingStateTreeVisitor(RecordingModel recording, String instancePath, ISimulatorCallbackListener listener, int currentIndex)
@@ -94,44 +92,22 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 			try
 			{
 				dataRead = v.read();
-				Type type = null;
-				if(dataRead instanceof double[])
-				{
-					type = Type.fromValue(SimpleType.Type.DOUBLE.toString());
-				}
-				else if(dataRead instanceof int[])
-				{
-					type = Type.fromValue(SimpleType.Type.INTEGER.toString());
-				}
-				else if(dataRead instanceof float[])
-				{
-					type = Type.fromValue(SimpleType.Type.FLOAT.toString());
-				}
-
 				PhysicalQuantity quantity = new PhysicalQuantity();
 				AValue readValue = null;
-				switch(type)
-				{
-					case DOUBLE:
-						double[] dr = (double[]) dataRead;
-						readValue = ValuesFactory.getDoubleValue(dr[_currentIndex]);
-						break;
-					case FLOAT:
-						float[] fr = (float[]) dataRead;
-						readValue = ValuesFactory.getFloatValue(fr[_currentIndex]);
-						break;
-					case INTEGER:
-						int[] ir = (int[]) dataRead;
-						readValue = ValuesFactory.getIntValue(ir[_currentIndex]);
-						break;
-					default:
-						break;
+				if(dataRead instanceof double[]){
+					double[] dr = (double[])dataRead;
+					readValue = ValuesFactory.getDoubleValue(dr[_currentIndex]);
+				}else if(dataRead instanceof float[]){
+					float[] fr = (float[])dataRead;
+					readValue = ValuesFactory.getFloatValue(fr[_currentIndex]);
+				}else if(dataRead instanceof int[]){
+					int[] ir = (int[])dataRead;
+					readValue = ValuesFactory.getIntValue(ir[_currentIndex]);
 				}
 				quantity.setValue(readValue);
 				node.addPhysicalQuantity(quantity);
 			}
-			catch(ArrayIndexOutOfBoundsException e)
-			{
+			catch (ArrayIndexOutOfBoundsException  e) {
 				_endOfSteps = e.getMessage();
 			}
 			catch(Exception | OutOfMemoryError e)
