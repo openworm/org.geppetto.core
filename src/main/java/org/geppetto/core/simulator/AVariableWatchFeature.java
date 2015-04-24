@@ -32,12 +32,9 @@
  *******************************************************************************/
 package org.geppetto.core.simulator;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.geppetto.core.data.model.SimpleType;
-import org.geppetto.core.data.model.SimpleVariable;
-import org.geppetto.core.data.model.VariableList;
-import org.geppetto.core.data.model.SimpleType.Type;
 import org.geppetto.core.features.IVariableWatchFeature;
 import org.geppetto.core.services.GeppettoFeature;
 
@@ -45,54 +42,28 @@ import org.geppetto.core.services.GeppettoFeature;
  * Abstract feature class for variable watch
  * 
  * @author Jesus R Martinez (jesus@metacell.us)
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
 public class AVariableWatchFeature implements IVariableWatchFeature{
 
-	private VariableList _watchableVariables = new VariableList();
-	private boolean _watching = false;
 	protected int _currentRecordingIndex = 0;
-	private GeppettoFeature _type = GeppettoFeature.VARIABLE_WATCH_FEATURE;
 	private boolean _watchListModified;
-
+	private GeppettoFeature _type = GeppettoFeature.VARIABLE_WATCH_FEATURE;
+	List<String> watchedVariables = new ArrayList<String>();
+	 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.geppetto.core.simulator.ISimulator#addWatchVariables(java.util.List)
 	 */
 	@Override
-	public void addWatchVariables(List<String> variableNames)
+	public void setWatchedVariables(List<String> variableNames)
 	{
-		SimpleType doubleType = new SimpleType();
-		doubleType.setType(Type.FLOAT);
-		for(String s : variableNames){
-			SimpleVariable var = new SimpleVariable();
-			var.setName(s);
-			_watchableVariables.getVariables().add(var);
-		}
 		this._watchListModified = true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.simulator.ISimulator#stopWatch()
-	 */
-	@Override
-	public void stopWatch()
-	{
-		_watching = false;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.simulator.ISimulator#startWatch()
-	 */
-	@Override
-	public void startWatch()
-	{
-		_watching = true;
+		for(String s : variableNames){
+			this.watchedVariables.add(s);
+		}
 	}
 
 	/*
@@ -103,22 +74,7 @@ public class AVariableWatchFeature implements IVariableWatchFeature{
 	@Override
 	public void clearWatchVariables()
 	{
-		_watchableVariables.getVariables().clear();
-	}
-
-	/**
-	 * @return
-	 */
-	@Override
-	public boolean isWatching()
-	{
-		return _watching;
-	}
-	
-	@Override
-	public VariableList getWatcheableVariables()
-	{
-		return _watchableVariables;
+		this._watchListModified = true;
 	}
 
 	@Override
@@ -135,4 +91,10 @@ public class AVariableWatchFeature implements IVariableWatchFeature{
 	public void setWatchListModified(boolean modified){
 		_watchListModified = modified;
 	}
+
+	@Override
+	public List<String> getWatchedVariables() {
+		return this.watchedVariables;
+	}
+
 }

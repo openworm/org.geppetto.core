@@ -32,23 +32,15 @@
  *******************************************************************************/
 package org.geppetto.core.features;
 
-import java.util.List;
+import org.geppetto.core.model.ModelInterpreterException;
+import org.geppetto.core.model.runtime.AspectNode;
 
 /**
- * This feature allows the users to watch the values of parameters and variables
- * during the execution.
+ * Interface used by classes that need to implement variable watch
  * 
- * @author matteocantarelli
- * @author Jesus Martinez (jesus@metacell.us)
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public interface IVariableWatchFeature extends IFeature{
-
-	void setWatchedVariables(List<String> vars);
-	List<String> getWatchedVariables();
-	void clearWatchVariables();
-	
-	boolean watchListModified();
-	void setWatchListModified(boolean modified);
+public interface IWatchableVariableListFeature extends IFeature{
+	boolean listWatchableVariables(AspectNode aspectNode) throws ModelInterpreterException;
 }

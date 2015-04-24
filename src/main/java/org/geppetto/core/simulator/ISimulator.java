@@ -37,7 +37,6 @@ import java.util.List;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.services.IService;
@@ -48,24 +47,21 @@ import org.geppetto.core.simulation.ISimulatorCallbackListener;
  * @author matteocantarelli
  * @author giovanniidili
  */
-public interface ISimulator extends IService
-{
-
+public interface ISimulator extends IService{
+	
 	void simulate(IRunConfiguration runConfiguration, AspectNode aspect) throws GeppettoExecutionException;
-
+	
 	void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
 
 	boolean isInitialized();
-
-	VariableList getForceableVariables();
-
+	
 	String getName();
-
+	
 	String getId();
-
+	
 	double getTime();
-
+	
 	String getTimeStepUnit();
-
+	
 	void setInitialized(boolean initialized);
 }

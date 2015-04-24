@@ -175,16 +175,6 @@
 				<version>0.4.4</version>
 				<executions>
 					<execution>
-						<id>data</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<sourceDirectory>${basedir}/src/main/resources/schema/data</sourceDirectory>
-							<targetPackage>org.geppetto.core.data.model</targetPackage>
-						</configuration>
-					</execution>
-					<execution>
 						<id>visualisation</id>
 						<goals>
 							<goal>generate</goal>

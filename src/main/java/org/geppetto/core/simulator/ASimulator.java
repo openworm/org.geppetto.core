@@ -34,7 +34,10 @@
 package org.geppetto.core.simulator;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import ncsa.hdf.object.Dataset;
@@ -43,10 +46,6 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.data.model.AVariable;
-import org.geppetto.core.data.model.SimpleType;
-import org.geppetto.core.data.model.SimpleType.Type;
-import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.features.IVariableWatchFeature;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelWrapper;
@@ -59,6 +58,7 @@ import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.VariableNode;
+import org.geppetto.core.model.state.visitors.SerializeUpdateSimulationTreeVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.services.AService;
@@ -79,7 +79,6 @@ public abstract class ASimulator extends AService implements ISimulator
 	private boolean _initialized = false;
 
 	protected boolean _treesEmptied = false;
-	private VariableList _forceableVariables = new VariableList();
 
 	private String _timeStepUnit = "ms";
 
@@ -89,10 +88,8 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	private double _runtime;
 
-	public ASimulator()
-	{
-	};
-
+	public ASimulator(){};
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -161,17 +158,6 @@ public abstract class ASimulator extends AService implements ISimulator
 		this._listener = listener;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.simulator.ISimulator#getForceableVariables()
-	 */
-	@Override
-	public VariableList getForceableVariables()
-	{
-		return _forceableVariables;
-	}
-
 	/**
 	 * @param timeStepUnit
 	 */
@@ -182,7 +168,7 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	/**
 	 * @param timestep
-	 * @param aspect
+	 * @param aspect 
 	 */
 	public void advanceTimeStep(double timestep, AspectNode aspect)
 	{
@@ -192,9 +178,9 @@ public abstract class ASimulator extends AService implements ISimulator
 	protected void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
 	{
 		IVariableWatchFeature watchFeature = ((IVariableWatchFeature) this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
-		if(_recordings != null && watchFeature.isWatching())
+		if(_recordings != null)
 		{
-			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.WATCH_TREE);
+			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.SIMULATION_TREE);
 			watchTree.setModified(true);
 			aspect.setModified(true);
 			aspect.getParentEntity().setModified(true);
@@ -203,7 +189,7 @@ public abstract class ASimulator extends AService implements ISimulator
 			{
 				for(RecordingModel recording : _recordings)
 				{
-					this.readRecording(recording.getHDF5(), watchTree, false);
+					this.readRecording(recording.getHDF5(),watchFeature.getWatchedVariables(), watchTree, false);
 					_currentRecordingIndex++;
 				}
 			}
@@ -244,64 +230,42 @@ public abstract class ASimulator extends AService implements ISimulator
 	}
 
 	/**
-	 * @param s
-	 * @param list
-	 * @return
-	 */
-	protected static AVariable getVariable(String s, List<AVariable> list)
-	{
-		String searchVar = s;
-		for(AVariable v : list)
-		{
-			if(v.getName().equals(searchVar))
-			{
-				return v;
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * @throws GeppettoExecutionException
 	 */
 	protected void notifyStateTreeUpdated() throws GeppettoExecutionException
 	{
 		getListener().stateTreeUpdated();
 	}
-
+	
 	@Override
-	public double getTime()
-	{
+	public double getTime() {
 		return _runtime;
 	}
-
+	
 	@Override
-	public String getTimeStepUnit()
-	{
+	public String getTimeStepUnit() {
 		return _timeStepUnit;
 	}
 
-	public void readRecording(H5File h5File, AspectSubTreeNode watchTree, boolean readAll) throws GeppettoExecutionException
+	public void readRecording(H5File h5File,List<String> variables, AspectSubTreeNode simulationTree, boolean readAll) throws GeppettoExecutionException
 	{
 		try
 		{
 			h5File.open();
-		}
-		catch(Exception e1)
-		{
+		} catch (Exception e1) {
 			throw new GeppettoExecutionException(e1);
 		}
-		IVariableWatchFeature watchFeature = ((IVariableWatchFeature) this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
-		for(AVariable watchedVariable : watchFeature.getWatcheableVariables().getVariables())
+		
+		for(String watchedVariable : variables)
 		{
-			String name = watchedVariable.getName();
-			String path = "/" + name.replace(watchTree.getInstancePath() + ".", "");
+			// String name = watchedVariable.getName();
+			String path = "/" + watchedVariable.replace(simulationTree.getInstancePath() + ".", "");
 			path = path.replace(".", "/");
 			Dataset v = (Dataset) FileFormat.findObject(h5File, path);
 
 			path = path.replaceFirst("/", "");
 			StringTokenizer tokenizer = new StringTokenizer(path, "/");
-			ACompositeNode node = watchTree;
+			ACompositeNode node = simulationTree;
 			VariableNode newVariableNode = null;
 			while(tokenizer.hasMoreElements())
 			{
@@ -344,39 +308,24 @@ public abstract class ASimulator extends AService implements ISimulator
 						try
 						{
 							dataRead = v.read();
-							Type type = null;
+							PhysicalQuantity quantity = new PhysicalQuantity();
+							AValue readValue = null;
 							if(dataRead instanceof double[])
 							{
-								type = Type.fromValue(SimpleType.Type.DOUBLE.toString());
-							}
-							else if(dataRead instanceof int[])
-							{
-								type = Type.fromValue(SimpleType.Type.INTEGER.toString());
+								double[] dr = (double[]) dataRead;
+								readValue = ValuesFactory.getDoubleValue(dr[_currentRecordingIndex]);
 							}
 							else if(dataRead instanceof float[])
 							{
-								type = Type.fromValue(SimpleType.Type.FLOAT.toString());
+								float[] fr = (float[]) dataRead;
+								readValue = ValuesFactory.getFloatValue(fr[_currentRecordingIndex]);
+							}
+							else if(dataRead instanceof int[])
+							{
+								int[] ir = (int[]) dataRead;
+								readValue = ValuesFactory.getIntValue(ir[_currentRecordingIndex]);
 							}
 
-							PhysicalQuantity quantity = new PhysicalQuantity();
-							AValue readValue = null;
-							switch(type)
-							{
-								case DOUBLE:
-									double[] dr = (double[]) dataRead;
-									readValue = ValuesFactory.getDoubleValue(dr[_currentRecordingIndex]);
-									break;
-								case FLOAT:
-									float[] fr = (float[]) dataRead;
-									readValue = ValuesFactory.getFloatValue(fr[_currentRecordingIndex]);
-									break;
-								case INTEGER:
-									int[] ir = (int[]) dataRead;
-									readValue = ValuesFactory.getIntValue(ir[_currentRecordingIndex]);
-									break;
-								default:
-									break;
-							}
 							quantity.setValue(readValue);
 							newNode.addPhysicalQuantity(quantity);
 							newVariableNode = newNode;
@@ -396,57 +345,42 @@ public abstract class ASimulator extends AService implements ISimulator
 				try
 				{
 					dataRead = v.read();
-					Type type = null;
+
+					AValue readValue = null;
+
 					if(dataRead instanceof double[])
 					{
-						type = Type.fromValue(SimpleType.Type.DOUBLE.toString());
-					}
-					else if(dataRead instanceof int[])
-					{
-						type = Type.fromValue(SimpleType.Type.INTEGER.toString());
+						double[] dr = (double[]) dataRead;
+						for(int i = 0; i < dr.length; i++)
+						{
+							PhysicalQuantity quantity = new PhysicalQuantity();
+							readValue = ValuesFactory.getDoubleValue(dr[i]);
+							quantity.setValue(readValue);
+							newVariableNode.addPhysicalQuantity(quantity);
+						}
 					}
 					else if(dataRead instanceof float[])
 					{
-						type = Type.fromValue(SimpleType.Type.FLOAT.toString());
+						float[] fr = (float[]) dataRead;
+						for(int i = 0; i < fr.length; i++)
+						{
+							PhysicalQuantity quantity = new PhysicalQuantity();
+							readValue = ValuesFactory.getDoubleValue(fr[i]);
+							quantity.setValue(readValue);
+							newVariableNode.addPhysicalQuantity(quantity);
+						}
 					}
-
-					AValue readValue = null;
-					switch(type)
+					else if(dataRead instanceof int[])
 					{
-						case DOUBLE:
-							double[] dr = (double[]) dataRead;
-							for(int i = 0; i < dr.length; i++)
-							{
-								PhysicalQuantity quantity = new PhysicalQuantity();
-								readValue = ValuesFactory.getDoubleValue(dr[i]);
-								quantity.setValue(readValue);
-								newVariableNode.addPhysicalQuantity(quantity);
-							}
-							break;
-						case FLOAT:
-							float[] fr = (float[]) dataRead;
-							for(int i = 0; i < fr.length; i++)
-							{
-								PhysicalQuantity quantity = new PhysicalQuantity();
-								readValue = ValuesFactory.getDoubleValue(fr[i]);
-								quantity.setValue(readValue);
-								newVariableNode.addPhysicalQuantity(quantity);
-							}
-							break;
-						case INTEGER:
-							int[] ir = (int[]) dataRead;
-							for(int i = 0; i < ir.length; i++)
-							{
-								PhysicalQuantity quantity = new PhysicalQuantity();
-								readValue = ValuesFactory.getDoubleValue(ir[i]);
-								quantity.setValue(readValue);
-								newVariableNode.addPhysicalQuantity(quantity);
-							}
-							break;
-						default:
-							break;
+						int[] ir = (int[]) dataRead;
+						for(int i = 0; i < ir.length; i++)
+						{
+							PhysicalQuantity quantity = new PhysicalQuantity();
+							readValue = ValuesFactory.getDoubleValue(ir[i]);
+							quantity.setValue(readValue);
+							newVariableNode.addPhysicalQuantity(quantity);
+						}
 					}
-
 				}
 				catch(ArrayIndexOutOfBoundsException e)
 				{

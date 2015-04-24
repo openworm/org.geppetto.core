@@ -1,8 +1,0 @@
-{
-    "description": "An abstract type",
-    "type" : "object",
-    "javaType" : "org.geppetto.core.data.model.AType",
-    "properties": {
-		"name": { "type": "string", "required": false }
-	}
-}
