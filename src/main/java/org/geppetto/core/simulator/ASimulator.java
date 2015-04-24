@@ -189,7 +189,7 @@ public abstract class ASimulator extends AService implements ISimulator
 			{
 				for(RecordingModel recording : _recordings)
 				{
-					this.readRecording(recording.getHDF5(), watchTree, false);
+					this.readRecording(recording.getHDF5(),watchFeature.getWatchedVariables(), watchTree, false);
 					_currentRecordingIndex++;
 				}
 			}
@@ -247,7 +247,7 @@ public abstract class ASimulator extends AService implements ISimulator
 		return _timeStepUnit;
 	}
 
-	public void readRecording(H5File h5File, AspectSubTreeNode simulationTree, boolean readAll) throws GeppettoExecutionException
+	public void readRecording(H5File h5File,List<String> variables, AspectSubTreeNode simulationTree, boolean readAll) throws GeppettoExecutionException
 	{
 		try
 		{
@@ -255,9 +255,8 @@ public abstract class ASimulator extends AService implements ISimulator
 		} catch (Exception e1) {
 			throw new GeppettoExecutionException(e1);
 		}
-		SerializeUpdateSimulationTreeVisitor readWatchableVariableListVisitor = new SerializeUpdateSimulationTreeVisitor();
-		simulationTree.apply(readWatchableVariableListVisitor);
-		for(String watchedVariable : readWatchableVariableListVisitor.getWatchableVariableList())
+		
+		for(String watchedVariable : variables)
 		{
 			// String name = watchedVariable.getName();
 			String path = "/" + watchedVariable.replace(simulationTree.getInstancePath() + ".", "");
