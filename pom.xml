@@ -201,7 +201,7 @@
 							<bindingIncludes>
 								<include>simulationSchema.xjb</include>
 							</bindingIncludes>
-							<forceRegenerate>true</forceRegenerate>
+							<!--<forceRegenerate>true</forceRegenerate>-->
 							<schemaDirectory>src/main/resources/schema/simulation</schemaDirectory>
 							<generateDirectory>${project.build.directory}/generated-sources/simulationSchema</generateDirectory>
 							<schemaIncludes>
