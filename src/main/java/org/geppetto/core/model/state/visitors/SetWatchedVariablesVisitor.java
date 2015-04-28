@@ -32,7 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.model.state.visitors;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.geppetto.core.model.runtime.CompositeNode;
@@ -41,36 +40,33 @@ import org.geppetto.core.model.runtime.VariableNode;
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  * 
- *         This method updates the particles already present in the tree adding
- *         new values as found on the position pointer
+ *         This visitor sets the variables passed as a list of strings to watched in the simulation tree
+ *         If no list is passed the simulation tree is cleared, i.e. no variables is watched in the simulation tree.
  */
-public class SerializeUpdateSimulationTreeVisitor extends DefaultStateVisitor {
+public class SetWatchedVariablesVisitor extends DefaultStateVisitor
+{
 
-	private List<String> _watchableVariableList = new ArrayList<String>();
-	private String _mode = "read";
-	private List<String> _lists;
-	
-	public SerializeUpdateSimulationTreeVisitor()
+	private List<String> _watchedVariables;
+
+	public SetWatchedVariablesVisitor()
 	{
 		super();
 	}
-	
-	public SerializeUpdateSimulationTreeVisitor(List<String> lists)
+
+	public SetWatchedVariablesVisitor(List<String> lists)
 	{
 		super();
-		this._mode = "setWatched";
-		this._lists = lists;
+		this._watchedVariables = lists;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.geppetto.core.model.state.visitors.DefaultStateVisitor#inAspectNode
-	 * (org.geppetto.core.model.runtime.AspectNode)
+	 * @see org.geppetto.core.model.state.visitors.DefaultStateVisitor#inAspectNode (org.geppetto.core.model.runtime.AspectNode)
 	 */
 	@Override
-	public boolean inCompositeNode(CompositeNode node) {
+	public boolean inCompositeNode(CompositeNode node)
+	{
 		// we only visit the nodes which belong to the same aspect
 		return super.inCompositeNode(node);
 	}
@@ -78,35 +74,21 @@ public class SerializeUpdateSimulationTreeVisitor extends DefaultStateVisitor {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.geppetto.core.model.state.visitors.DefaultStateVisitor#visitVariableNode
-	 * (org.geppetto.core.model.runtime.VariableNode)
+	 * @see org.geppetto.core.model.state.visitors.DefaultStateVisitor#visitVariableNode (org.geppetto.core.model.runtime.VariableNode)
 	 */
 	@Override
-	public boolean visitVariableNode(VariableNode node) {
-		
-		if (_mode.equals("read")){
-			if (node.isWatched())
-				this._watchableVariableList.add(node.getInstancePath());
+	public boolean visitVariableNode(VariableNode node)
+	{
+		// If watchedVariables is null, clear the simulation tree
+		if(this._watchedVariables.contains(node.getInstancePath()))
+		{
+			node.setWatched(true);
 		}
-		else{
-			if (this._lists.contains(node.getInstancePath())){
-				node.setWatched(true);
-			}
-			else if (this._lists == null) {
-				node.setWatched(false);
-			}
+		else if(this._watchedVariables == null)
+		{
+			node.setWatched(false);
 		}
 		return super.visitVariableNode(node);
-	}
-
-	public List<String> getWatchableVariableList()
-	{
-		return _watchableVariableList;
-	}
-	
-	public void setMode(String mode){
-		this._mode = mode;
 	}
 
 }
