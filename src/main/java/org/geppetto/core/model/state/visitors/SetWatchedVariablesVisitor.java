@@ -82,7 +82,7 @@ public class SetWatchedVariablesVisitor extends DefaultStateVisitor
 		// If watchedVariables is null, clear the simulation tree
 		if(this._watchedVariables.contains(node.getInstancePath()))
 		{
-			node.setWatched(true);
+			node.setWatched(!node.isWatched());
 		}
 		else if(this._watchedVariables == null)
 		{
