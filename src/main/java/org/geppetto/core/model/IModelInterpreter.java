@@ -37,14 +37,17 @@ import java.net.URL;
 import java.util.List;
 
 import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.services.IService;
 
-public interface IModelInterpreter {
+public interface IModelInterpreter extends IService{
 
 	IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException;
 			
 	boolean populateModelTree(AspectNode aspectNode) throws ModelInterpreterException;
 	
 	boolean populateRuntimeTree(AspectNode aspectNode) throws ModelInterpreterException;
+	
+	
 	
 	String getName();
 }

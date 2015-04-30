@@ -35,14 +35,20 @@ package org.geppetto.core.model.services;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.geppetto.core.model.AModelInterpreter;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.services.IModelFormat;
+import org.geppetto.core.services.ModelFormat;
+import org.geppetto.core.services.registry.ServicesRegistry;
+import org.geppetto.core.simulator.services.OBJVisualTreeFeature;
 import org.springframework.stereotype.Service;
 
 /**
@@ -50,10 +56,8 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public class OBJModelInterpreterService implements IModelInterpreter
+public class OBJModelInterpreterService extends AModelInterpreter
 {
-
-	private static final String OBJ = "OBJ";
 
 	@Override
 	public IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException
@@ -64,7 +68,9 @@ public class OBJModelInterpreterService implements IModelInterpreter
 			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
 			String objContent = scanner.useDelimiter("\\A").next();
 			scanner.close();
-			collada.wrapModel(OBJ, objContent);
+			collada.wrapModel(ModelFormat.OBJ, objContent);
+			
+			this.addFeature(new OBJVisualTreeFeature());
 		}
 		catch(IOException e)
 		{
@@ -92,6 +98,13 @@ public class OBJModelInterpreterService implements IModelInterpreter
 		//TODO: Create spring bean with name of interpreter to retrieve it from there. 
 		//Move this to own bundle?
 		return "Obj Model Interpreter";
+	}
+	
+	@Override
+	public void registerGeppettoService() {
+		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
+		modelFormatList.add(ModelFormat.OBJ);
+		ServicesRegistry.registerModelInterpreterService(this, modelFormatList);
 	}
 
 }

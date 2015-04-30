@@ -33,12 +33,16 @@
 package org.geppetto.core;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.geppetto.core.model.AModelInterpreter;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.services.IModelFormat;
+import org.geppetto.core.services.registry.ServicesRegistry;
 
 /**
  * Dummy model interpreter used for testing purposes
@@ -46,7 +50,7 @@ import org.geppetto.core.model.runtime.AspectNode;
  * @author  Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class TestModelInterpreter implements IModelInterpreter
+public class TestModelInterpreter extends AModelInterpreter
 {
 
 	@Override
@@ -75,6 +79,14 @@ public class TestModelInterpreter implements IModelInterpreter
 	{
 		// TODO Auto-generated method stub
 		return "Test Model interpreter";
+	}
+
+	@Override
+	public void registerGeppettoService() {
+		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
+		modelFormatList.add(ModelFormat.TEST);
+		ServicesRegistry.registerModelInterpreterService(this, modelFormatList);
+		
 	}
 
 }

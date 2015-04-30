@@ -32,19 +32,17 @@
  *******************************************************************************/
 package org.geppetto.core.simulator.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geppetto.core.beans.SimulatorConfig;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.model.runtime.ColladaNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
+import org.geppetto.core.services.IModelFormat;
+import org.geppetto.core.services.ModelFormat;
+import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.simulator.ASimulator;
@@ -72,16 +70,6 @@ public class ColladaSimulatorService extends ASimulator{
 	}
 
 	@Override
-	public VariableList getForceableVariables() {
-		return new VariableList();
-	}
-
-	@Override
-	public VariableList getWatchableVariables() {
-		return new VariableList();
-	}
-
-	@Override
 	public String getName() {
 		return this.colladaSimulatorConfig.getSimulatorName();
 	}
@@ -90,40 +78,11 @@ public class ColladaSimulatorService extends ASimulator{
 	public String getId() {
 		return this.colladaSimulatorConfig.getSimulatorID();
 	}
-
 	@Override
-	public void addWatchVariables(List<String> variableNames) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void startWatch() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void stopWatch() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void clearWatchVariables() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean populateVisualTree(AspectNode aspectNode)
-			throws ModelInterpreterException, GeppettoExecutionException {
-		ColladaNode collada = new ColladaNode("Collada");
-		collada.setModel((String) ((ModelWrapper) aspectNode.getModel()).getModel("COLLADA"));
-
-		aspectNode.getSubTree(AspectTreeType.VISUALIZATION_TREE).addChild(collada);
-		((AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.VISUALIZATION_TREE)).setModified(true);
-
-		return false;
+	public void registerGeppettoService()
+	{
+		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
+		modelFormatList.add(ModelFormat.COLLADA);
+		ServicesRegistry.registerSimulatorService(this, modelFormatList);
 	}
 }

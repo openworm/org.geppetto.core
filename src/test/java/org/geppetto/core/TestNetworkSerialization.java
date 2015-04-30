@@ -37,15 +37,12 @@
  */
 package org.geppetto.core;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
 
 import org.geppetto.core.model.quantities.PhysicalQuantity;
-import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
@@ -352,7 +349,7 @@ public class TestNetworkSerialization {
 		vg2.addChild(sphere);
 
 		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.WATCH_TREE);
+				AspectTreeType.SIMULATION_TREE);
 		simulation.setModified(true);
 
 		CompositeNode hhpop = new CompositeNode("hhpop[0]");
@@ -554,7 +551,7 @@ public class TestNetworkSerialization {
 		vg2.addChild(sphere);
 
 		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.WATCH_TREE);
+				AspectTreeType.SIMULATION_TREE);
 		simulation.setModified(true);
 
 		CompositeNode hhpop = new CompositeNode("hhpop[0]");
@@ -749,7 +746,7 @@ public class TestNetworkSerialization {
 		vg2.addChild(sphere);
 
 		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.WATCH_TREE);
+				AspectTreeType.SIMULATION_TREE);
 		simulation.setModified(true);
 
 		CompositeNode hhpop = new CompositeNode("hhpop[0]");

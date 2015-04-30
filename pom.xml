@@ -4,7 +4,7 @@
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
 	<name>Geppetto Core Bundle</name>
-	<version>0.2.2</version>
+	<version>0.2.3</version>
 	<packaging>bundle</packaging>
 	<properties>
 		<github.global.server>github</github.global.server>
@@ -175,16 +175,6 @@
 				<version>0.4.4</version>
 				<executions>
 					<execution>
-						<id>data</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<sourceDirectory>${basedir}/src/main/resources/schema/data</sourceDirectory>
-							<targetPackage>org.geppetto.core.data.model</targetPackage>
-						</configuration>
-					</execution>
-					<execution>
 						<id>visualisation</id>
 						<goals>
 							<goal>generate</goal>
@@ -211,7 +201,7 @@
 							<bindingIncludes>
 								<include>simulationSchema.xjb</include>
 							</bindingIncludes>
-							<forceRegenerate>true</forceRegenerate>
+							<!--<forceRegenerate>true</forceRegenerate>-->
 							<schemaDirectory>src/main/resources/schema/simulation</schemaDirectory>
 							<generateDirectory>${project.build.directory}/generated-sources/simulationSchema</generateDirectory>
 							<schemaIncludes>
@@ -260,7 +250,7 @@
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Include-Resource>
-							{maven-resources},META-INF/spring=src/main/java/META-INF/spring
+							{maven-resources},META-INF/spring=src/main/java/META-INF/spring,src/main/resources/Geppetto.properties
 						</Include-Resource>
 						<Import-Package>
 							org.aopalliance.aop,org.springframework.aop,,org.springframework.aop.scope,org.springframework.aop.framework,*
@@ -285,6 +275,14 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.15</version>
+				<configuration>
+					<junitArtifactName>org.junit:com.springsource.org.junit</junitArtifactName>
+				</configuration>	
 			</plugin>
 		</plugins>
 		<pluginManagement>

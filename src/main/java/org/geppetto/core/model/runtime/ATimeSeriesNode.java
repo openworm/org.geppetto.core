@@ -47,7 +47,8 @@ import org.geppetto.core.model.quantities.PhysicalQuantity;
 public abstract class ATimeSeriesNode extends ANode
 {
 	//A state variable has intrinsic dynamics that allow for it to change as part of the evolution of the model.
-	private List<PhysicalQuantity> _timeSeries = new ArrayList<PhysicalQuantity>();;
+	private List<PhysicalQuantity> _timeSeries = new ArrayList<PhysicalQuantity>();
+	private boolean watched;
 
 	public ATimeSeriesNode(String name)
 	{
@@ -79,5 +80,15 @@ public abstract class ATimeSeriesNode extends ANode
 		PhysicalQuantity first = _timeSeries.get(0);
 		_timeSeries.remove(0);
 		return first;
+	}
+	
+	public boolean isWatched()
+	{
+		return watched;
+	}
+
+	public void setWatched(boolean watched)
+	{
+		this.watched = watched;
 	}
 }
