@@ -32,9 +32,16 @@
  *******************************************************************************/
 package org.geppetto.core.simulation;
 
+import java.net.MalformedURLException;
+
+import org.geppetto.core.common.GeppettoExecutionException;
+import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IGeppettoProject;
 
 public interface IProjectManager
 {
-	String getGeppettoModelUrl(IGeppettoProject project);
+	void loadProject(IGeppettoProject project, ISimulationCallbackListener listener) throws MalformedURLException, GeppettoInitializationException;
+
+	void closeProject(IGeppettoProject project) throws GeppettoExecutionException;
+	
 }
