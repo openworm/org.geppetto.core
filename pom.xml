@@ -4,7 +4,7 @@
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
 	<name>Geppetto Core Bundle</name>
-	<version>0.2.2</version>
+	<version>0.2.3</version>
 	<packaging>bundle</packaging>
 	<properties>
 		<github.global.server>github</github.global.server>
@@ -206,7 +206,7 @@
 							<bindingIncludes>
 								<include>simulationSchema.xjb</include>
 							</bindingIncludes>
-							<forceRegenerate>true</forceRegenerate>
+							<!--<forceRegenerate>true</forceRegenerate>-->
 							<schemaDirectory>src/main/resources/schema/simulation</schemaDirectory>
 							<generateDirectory>${project.build.directory}/generated-sources/simulationSchema</generateDirectory>
 							<schemaIncludes>
