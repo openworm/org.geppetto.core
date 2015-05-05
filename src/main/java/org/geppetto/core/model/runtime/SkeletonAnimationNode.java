@@ -1,7 +1,7 @@
 /*******************************************************************************
  * The MIT License (MIT)
  * 
- * Copyright (c) 2011, 2013 OpenWorm.
+ * Copyright (c) 2011 - 2015 OpenWorm.
  * http://openworm.org
  * 
  * All rights reserved. This program and the accompanying materials
@@ -30,6 +30,41 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
- 
-convertedResultsPath = geppettoTmp/convertedResults/
-rawResultsPath = geppettoTmp/rawResults/
+package org.geppetto.core.model.runtime;
+
+import java.util.List;
+
+import org.geppetto.core.model.state.visitors.IStateVisitor;
+
+/**
+ * A node that stores skeleton animations.
+ * 
+ * @author  Giovanni Idili (giovanni@openworm.org)
+ *
+ */
+public class SkeletonAnimationNode extends ANode {
+	
+	/**
+	 * _skeletonAnimationMatrices stores a list of bidimensional matrices with skeleton animation info.
+	 * 
+	 * TODO: Look into refactoring this into a generic MatrixValue, same as the other AValue derived classes we have.
+	 */
+	private List<List<List<Double>>> _skeletonAnimationMatrices;
+	
+	public SkeletonAnimationNode(String id) {
+		super(id);
+	}
+
+	@Override
+	public boolean apply(IStateVisitor visitor) {
+		return visitor.visitSkeletonAnimationNode(this);
+	}
+
+	public List<List<List<Double>>> getSkeletonAnimationMatrices() {
+		return _skeletonAnimationMatrices;
+	}
+
+	public void setSkeletonAnimationMatrices(List<List<List<Double>>> _skeletonAnimationMatrices) {
+		this._skeletonAnimationMatrices = _skeletonAnimationMatrices;
+	}
+}

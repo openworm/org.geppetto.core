@@ -59,6 +59,7 @@ import org.geppetto.core.model.runtime.ParameterNode;
 import org.geppetto.core.model.runtime.ParameterSpecificationNode;
 import org.geppetto.core.model.runtime.ParticleNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
+import org.geppetto.core.model.runtime.SkeletonAnimationNode;
 import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
@@ -801,6 +802,81 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 				+ "}," + model + commonProperties + "},");
 
 		return super.visitObjNode(node);
+	}
+	
+	@Override
+	public boolean visitSkeletonAnimationNode(SkeletonAnimationNode node) {
+		String commonProperties = this.commonProperties(node);
+		String name = node.getId();
+		
+		List<List<List<Double>>> transformations = node.getSkeletonAnimationMatrices();
+		String transformationsString = "";
+
+		if (transformations != null) {
+			
+			// open bracket for array of matrices
+			transformationsString+= "[";
+			
+			// Loop list of matrices
+			for (int i=0; i < transformations.size(); i++){
+				List<List<Double>> matrixRows = transformations.get(i);
+				
+				// if any rows 
+				if (matrixRows.size() > 0){
+					
+					// open bracket for matrix 
+					transformationsString+= "[";
+					
+					// Loop rows
+					for (int j = 0; j < matrixRows.size(); j++){
+						List<Double> row = matrixRows.get(j);
+						
+						if(row.size() > 0)
+						{
+							// open bracket for row
+							transformationsString+= "[";
+							
+							// Loop row items
+							for (int k=0; k<row.size(); k++){
+								Double cell = row.get(k);
+								
+								// add cell
+								transformationsString+= cell.toString();
+								
+								// add comma unless it's the last element
+								if (k != row.size()-1){
+									transformationsString+= ",";
+								}
+							}
+							
+							// close bracket for row
+							transformationsString+= "]";
+							
+							// add comma unless it's the last row
+							if (j != matrixRows.size()-1){
+								transformationsString+= ",";
+							}
+						}
+					}
+					
+					// close bracket for matrix
+					transformationsString+= "]";
+					
+					// add comma unless it's the last element
+					if (i != transformations.size()-1){
+						transformationsString+= ",";
+					}
+				}
+			}
+			
+			// close bracket for array of matrices
+			transformationsString+= "]";
+		}
+
+		_serialized.append("\"" + name + "\":{\"skeletonTransformations\":" + transformationsString
+				+ "," + commonProperties + "},");
+
+		return super.visitSkeletonAnimationNode(node);
 	}
 
 	public String getSerializedTree() {
