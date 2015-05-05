@@ -46,19 +46,14 @@ import ncsa.hdf.hdf5lib.callbacks.H5O_iterate_t;
 import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
 import ncsa.hdf.hdf5lib.structs.H5L_info_t;
 import ncsa.hdf.hdf5lib.structs.H5O_info_t;
-import ncsa.hdf.object.Dataset;
-import ncsa.hdf.object.FileFormat;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.features.IVariableWatchFeature;
 import org.geppetto.core.features.IWatchableVariableListFeature;
-import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.AspectNode;
@@ -66,16 +61,12 @@ import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
-import org.geppetto.core.model.services.ColladaSimulationTreeFeature;
-import org.geppetto.core.model.values.AValue;
-import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.services.GeppettoFeature;
 
 /**
- * Abstract feature class for variable watch
+ * Abstract feature class for listing variable watch
  * 
  * @author Jesus R Martinez (jesus@metacell.us)
- * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
 public class AWatchableVariableListFeature implements IWatchableVariableListFeature{
@@ -84,7 +75,7 @@ public class AWatchableVariableListFeature implements IWatchableVariableListFeat
 
 	private GeppettoFeature type = GeppettoFeature.WATCHABLE_VARIABLE_LIST_FEATURE;
 
-	private static Log _logger = LogFactory.getLog(ColladaSimulationTreeFeature.class);
+	private static Log _logger = LogFactory.getLog(AWatchableVariableListFeature.class);
 
 	@Override
 	public GeppettoFeature getType()
@@ -115,7 +106,7 @@ public class AWatchableVariableListFeature implements IWatchableVariableListFeat
 				try {
 					this.readRecording(((RecordingModel) m).getHDF5().getAbsolutePath(), simulationTree, false);
 				} catch (GeppettoExecutionException e) {
-
+					throw new ModelInterpreterException(e);
 				}
 			}
 		}
@@ -131,15 +122,12 @@ public class AWatchableVariableListFeature implements IWatchableVariableListFeat
             file_id = H5.H5Fopen(file, HDF5Constants.H5F_ACC_RDONLY, HDF5Constants.H5P_DEFAULT);
 
             //Begin iteration using H5Ovisit
-            System.out.println("Objects in the file:");
             H5O_iterate_t iter_data = new H5O_iter_data();
             H5O_iterate_cb iter_cb = new H5O_iter_callback(this.simulationTree);
             H5.H5Ovisit(file_id, HDF5Constants.H5_INDEX_NAME, HDF5Constants.H5_ITER_NATIVE, iter_cb, iter_data);
-            System.out.println();
             //Repeat the same process using H5Lvisit
             H5L_iterate_t iter_data2 = new H5L_iter_data();
             H5L_iterate_cb iter_cb2 = new H5L_iter_callback(this.simulationTree);
-            System.out.println ("Links in the file:");
             H5.H5Lvisit(file_id, HDF5Constants.H5_INDEX_NAME, HDF5Constants.H5_ITER_NATIVE, iter_cb2, iter_data2);
 
         }
@@ -199,7 +187,7 @@ class H5L_iter_callback implements H5L_iterate_cb {
             ret=iter_cbO.callback(group, name, infobuf, iter_dataO);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            
         }
 
         return ret;
@@ -221,21 +209,9 @@ class H5O_iter_callback implements H5O_iterate_cb {
 	public int callback(int group, String name, H5O_info_t info, H5O_iterate_t op_data) {
         idata id = new idata(name, info.type);
         ((H5O_iter_data)op_data).iterdata.add(id);
-
-        System.out.print("/"); /* Print root group in object path */
-
-        //Check if the current object is the root group, and if not print the full path name and type.
-
-        if (name.charAt(0) == '.')         /* Root group, do not print '.' */
-            System.out.println("  (Group)");
-        else if(info.type == HDF5Constants.H5O_TYPE_GROUP ) 
-            System.out.println(name + "  (Group)" );
-        else if(info.type == HDF5Constants.H5O_TYPE_DATASET)
-            System.out.println(name + "  (Dataset)");
-        else if (info.type == HDF5Constants.H5O_TYPE_NAMED_DATATYPE )
-            System.out.println(name + "  (Datatype)");
-        else
-            System.out.println(name + "  (Unknown)");
+        
+        if(info.type == HDF5Constants.H5O_TYPE_DATASET)
+            createNodes(name);
 
         return 0;
     }
@@ -243,7 +219,7 @@ class H5O_iter_callback implements H5O_iterate_cb {
     public void createNodes(String path){
 		path = path.replace(".", "/");
 
-		path = path.replaceFirst("/", "");
+		//path = path.replaceFirst("/", "");
 		StringTokenizer tokenizer = new StringTokenizer(path, "/");
 		ACompositeNode node = simulationTree;
 		VariableNode newVariableNode = null;
