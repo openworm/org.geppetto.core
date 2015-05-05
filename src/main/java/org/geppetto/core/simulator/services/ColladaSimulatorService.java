@@ -48,6 +48,7 @@ import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.simulator.ASimulator;
 import org.geppetto.core.simulator.AVariableWatchFeature;
+import org.geppetto.core.simulator.AWatchableVariableListFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,7 +75,7 @@ public class ColladaSimulatorService extends ASimulator{
 		//add variable watch feature
 		if(this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE)==null){
 			this.addFeature(new AVariableWatchFeature());
-		}
+		}		
 	}
 
 	@Override
