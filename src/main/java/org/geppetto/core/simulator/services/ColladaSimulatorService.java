@@ -75,7 +75,7 @@ public class ColladaSimulatorService extends ASimulator{
 		//add variable watch feature
 		if(this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE)==null){
 			this.addFeature(new AVariableWatchFeature());
-		}		
+		}
 	}
 
 	@Override
