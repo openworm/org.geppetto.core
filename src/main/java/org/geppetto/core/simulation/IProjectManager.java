@@ -36,12 +36,22 @@ import java.net.MalformedURLException;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 
 public interface IProjectManager
 {
-	void loadProject(IGeppettoProject project, ISimulationCallbackListener listener) throws MalformedURLException, GeppettoInitializationException;
+	void loadProject(String requestId, IGeppettoProject project, ISimulationCallbackListener listener) throws MalformedURLException, GeppettoInitializationException;
 
-	void closeProject(IGeppettoProject project) throws GeppettoExecutionException;
+	void closeProject(String requestId, IGeppettoProject project) throws GeppettoExecutionException;
 	
+	// TODO: implement methods in PM
+	// TODO: call the methods from the GeppettoServletController
+	void loadExperiment(String requestId, IExperiment experiment);
+	
+	void runExperiment(String requestId, IExperiment experiment);
+	
+	void deleteExperiment(String requestId, IExperiment experiment);
+	
+	void persistProject(String requestId, IGeppettoProject project);
 }

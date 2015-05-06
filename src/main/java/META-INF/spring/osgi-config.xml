@@ -59,10 +59,6 @@
 	<aop:scoped-proxy proxy-target-class="false"/>
 	</bean>
 
-	<osgi:service id="ProjectManager" ref="projectManagerService"
-		interface="org.geppetto.core.simulation.IProjectManager">
-	</osgi:service>
-	
 	<osgi:service id="AuthService" ref="authService"
 		interface="org.geppetto.core.auth.IAuthService">
 	</osgi:service>
