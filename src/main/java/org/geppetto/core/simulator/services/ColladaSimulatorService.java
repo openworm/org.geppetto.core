@@ -33,13 +33,19 @@
 package org.geppetto.core.simulator.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.geppetto.core.beans.SimulatorConfig;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.model.IModel;
+import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.runtime.RuntimeTreeRoot;
 import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.ModelFormat;
@@ -49,6 +55,7 @@ import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.simulator.ASimulator;
 import org.geppetto.core.simulator.AVariableWatchFeature;
 import org.geppetto.core.simulator.AWatchableVariableListFeature;
+import org.geppetto.core.simulator.FindSimulationTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +69,24 @@ public class ColladaSimulatorService extends ASimulator{
 	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect)
 			throws GeppettoExecutionException {
 		advanceTimeStep(0, aspect);
-		advanceRecordings(aspect);
+		RuntimeTreeRoot root;
+		ANode n = aspect.getParent();
+		while(n.getParent()!=null){
+			n  = n.getParent();
+		}
+		
+		root = (RuntimeTreeRoot) n;
+		//traverse scene root to get all simulation trees for all aspects
+		FindSimulationTree mappingVisitor = new FindSimulationTree();
+		root.apply(mappingVisitor);
+		HashMap<String, AspectNode> aspects = 
+				mappingVisitor.getAspects();
+		Iterator it = aspects.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry o = (Map.Entry)it.next();
+			AspectNode a = (AspectNode) o.getValue();
+			advanceRecordings(a);
+		}
 		notifyStateTreeUpdated();
 	}
 

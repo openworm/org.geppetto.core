@@ -210,8 +210,8 @@ class H5O_iter_data implements H5O_iterate_t {
 
 class H5O_iter_callback implements H5O_iterate_cb {
     private HashMap<String, AspectNode> mapping;
-	private String VISUALIZATION_TREE = "VISUALIZATION_TREE";
-	private String SIMULATION_TREE = "SIMULATION_TREE";
+	private String VISUALIZATION_TREE = "VisualizationTree";
+	private String SIMULATION_TREE = "SimulationTree";
 	
 
 	public H5O_iter_callback(HashMap<String, AspectNode> hashMap) {

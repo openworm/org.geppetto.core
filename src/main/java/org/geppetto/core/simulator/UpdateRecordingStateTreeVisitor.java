@@ -78,15 +78,11 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitVariableNode(VariableNode node)
 	{
-		String variable = node.getInstancePath().replace(_instancePath + ".", "").replace(".", "/");
+		String variable = node.getInstancePath();
 		H5File file = _recording.getHDF5();
 		String variablePath = "/" + variable.replace(".", "/");
 		Dataset v = (Dataset) FileFormat.findObject(file, variablePath);
-		if(v == null)
-		{
-			_errorMessage = variable + " not found in recording";
-		}
-		else
+		if(v != null)
 		{
 			Object dataRead;
 			try
