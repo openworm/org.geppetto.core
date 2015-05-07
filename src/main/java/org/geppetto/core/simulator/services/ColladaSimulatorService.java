@@ -54,7 +54,7 @@ import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.simulator.ASimulator;
 import org.geppetto.core.simulator.AVariableWatchFeature;
-import org.geppetto.core.simulator.AWatchableVariableListFeature;
+import org.geppetto.core.simulator.RecordingVariableListFeature;
 import org.geppetto.core.simulator.FindSimulationTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

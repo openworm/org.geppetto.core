@@ -54,7 +54,7 @@ import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
-import org.geppetto.core.simulator.AWatchableVariableListFeature;
+import org.geppetto.core.simulator.RecordingVariableListFeature;
 import org.geppetto.core.simulator.services.ColladaVisualTreeFeature;
 import org.springframework.stereotype.Service;
 
@@ -83,7 +83,7 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 				this.addFeature(new ColladaVisualTreeFeature());
 			}
 			if(this.getFeature(GeppettoFeature.WATCHABLE_VARIABLE_LIST_FEATURE)==null){
-				this.addFeature(new AWatchableVariableListFeature());
+				this.addFeature(new RecordingVariableListFeature());
 			}
 		}
 		catch(IOException e)
