@@ -38,20 +38,20 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.data.model.IUser;
 
 public interface IProjectManager
 {
-	void loadProject(String requestId, IGeppettoProject project, ISimulationCallbackListener listener) throws MalformedURLException, GeppettoInitializationException;
+	void loadProject(String requestId, IUser user, IGeppettoProject project, ISimulationCallbackListener listener) throws MalformedURLException, GeppettoInitializationException, GeppettoExecutionException;
 
-	void closeProject(String requestId, IGeppettoProject project) throws GeppettoExecutionException;
-	
-	// TODO: implement methods in PM
+	void closeProject(String requestId, IUser user, IGeppettoProject project) throws GeppettoExecutionException;
+
 	// TODO: call the methods from the GeppettoServletController
-	void loadExperiment(String requestId, IExperiment experiment);
-	
-	void runExperiment(String requestId, IExperiment experiment);
-	
-	void deleteExperiment(String requestId, IExperiment experiment);
-	
-	void persistProject(String requestId, IGeppettoProject project);
+	void loadExperiment(String requestId, IUser user, IExperiment experiment) throws GeppettoExecutionException;
+
+	void runExperiment(String requestId, IUser user, IExperiment experiment) throws GeppettoInitializationException;
+
+	void deleteExperiment(String requestId, IUser user, IExperiment experiment);
+
+	void persistProject(String requestId, IUser user, IGeppettoProject project);
 }
