@@ -37,7 +37,6 @@ import java.util.List;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.data.model.VariableList;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
@@ -52,14 +51,8 @@ public interface ISolver {
 	public void solve(final IRunConfiguration timeConfiguration, AspectNode aspect) throws GeppettoExecutionException;
 	
 	public void initialize(final IModel model) throws GeppettoInitializationException;
-			
-	public void populateSimulationTree(AspectSubTreeNode watchTree) throws GeppettoInitializationException;
 	
 	public void dispose();
 	
-	public VariableList getForceableVariables();
-
 	void updateVisualizationTree(AspectNode aspect);
-
-	boolean addWatchVariables(List<String> variableNames);	
 }

@@ -349,7 +349,7 @@ public class TestNetworkSerialization {
 		vg2.addChild(sphere);
 
 		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.WATCH_TREE);
+				AspectTreeType.SIMULATION_TREE);
 		simulation.setModified(true);
 
 		CompositeNode hhpop = new CompositeNode("hhpop[0]");
@@ -551,7 +551,7 @@ public class TestNetworkSerialization {
 		vg2.addChild(sphere);
 
 		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.WATCH_TREE);
+				AspectTreeType.SIMULATION_TREE);
 		simulation.setModified(true);
 
 		CompositeNode hhpop = new CompositeNode("hhpop[0]");
@@ -746,7 +746,7 @@ public class TestNetworkSerialization {
 		vg2.addChild(sphere);
 
 		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.WATCH_TREE);
+				AspectTreeType.SIMULATION_TREE);
 		simulation.setModified(true);
 
 		CompositeNode hhpop = new CompositeNode("hhpop[0]");

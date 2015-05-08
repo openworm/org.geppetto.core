@@ -32,7 +32,12 @@
  *******************************************************************************/
 package org.geppetto.core.common;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import ncsa.hdf.object.FileFormat;
@@ -55,6 +60,34 @@ public class HDF5Reader
 	        // open the file with read and write access
 	        H5File testFile = (H5File) fileFormat.createInstance(url.getPath(), FileFormat.READ);
 			
+	        if(!testFile.canRead()){
+	        	File recordings = new File("/recordings");
+	        	if(!recordings.exists()){
+	        		recordings.mkdir();
+	        	}
+	        	
+	        	InputStream is = null;
+	            DataInputStream dis;
+	            String s;
+	       
+	            try {
+	               is = url.openStream();         // throws an IOException
+
+	               dis = new DataInputStream(new BufferedInputStream(is));
+	            } catch (MalformedURLException mue) {
+	       
+	               System.out.println("Ouch - a MalformedURLException happened.");
+	       
+	            } catch (IOException ioe) {
+	       
+	               System.out.println("Oops- an IOException happened.");
+	            } finally {
+	               try {
+	                  is.close();
+	               } catch (IOException ioe) {
+	               }
+	            }
+	        }
 	        return testFile;
 		}
 		catch(IOException ioe)

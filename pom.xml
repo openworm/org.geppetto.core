@@ -4,7 +4,7 @@
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
 	<name>Geppetto Core Bundle</name>
-	<version>0.2.2</version>
+	<version>0.2.3</version>
 	<packaging>bundle</packaging>
 	<properties>
 		<github.global.server>github</github.global.server>
@@ -180,16 +180,6 @@
 				<version>0.4.4</version>
 				<executions>
 					<execution>
-						<id>data</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<sourceDirectory>${basedir}/src/main/resources/schema/data</sourceDirectory>
-							<targetPackage>org.geppetto.core.data.model</targetPackage>
-						</configuration>
-					</execution>
-					<execution>
 						<id>visualisation</id>
 						<goals>
 							<goal>generate</goal>
@@ -216,7 +206,7 @@
 							<bindingIncludes>
 								<include>simulationSchema.xjb</include>
 							</bindingIncludes>
-							<forceRegenerate>true</forceRegenerate>
+							<!--<forceRegenerate>true</forceRegenerate>-->
 							<schemaDirectory>src/main/resources/schema/simulation</schemaDirectory>
 							<generateDirectory>${project.build.directory}/generated-sources/simulationSchema</generateDirectory>
 							<schemaIncludes>

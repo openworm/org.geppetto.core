@@ -38,15 +38,8 @@ import java.util.List;
 import org.geppetto.core.beans.SimulatorConfig;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.data.model.VariableList;
-import org.geppetto.core.features.IFeature;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.model.runtime.ColladaNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.ModelFormat;
@@ -54,6 +47,7 @@ import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.simulator.ASimulator;
+import org.geppetto.core.simulator.AVariableWatchFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +61,7 @@ public class ColladaSimulatorService extends ASimulator{
 	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect)
 			throws GeppettoExecutionException {
 		advanceTimeStep(0, aspect);
+		advanceRecordings(aspect);
 		notifyStateTreeUpdated();
 	}
 
@@ -75,12 +70,13 @@ public class ColladaSimulatorService extends ASimulator{
 			ISimulatorCallbackListener listener)
 			throws GeppettoInitializationException, GeppettoExecutionException {
 		super.initialize(models, listener);
+
+		//add variable watch feature
+		if(this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE)==null){
+			this.addFeature(new AVariableWatchFeature());
+		}
 	}
 
-	@Override
-	public VariableList getForceableVariables() {
-		return new VariableList();
-	}
 	@Override
 	public String getName() {
 		return this.colladaSimulatorConfig.getSimulatorName();

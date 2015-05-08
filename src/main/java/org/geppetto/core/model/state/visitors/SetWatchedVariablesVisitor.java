@@ -30,60 +30,65 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.simulator.services;
+package org.geppetto.core.model.state.visitors;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.geppetto.core.beans.SimulatorConfig;
-import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.services.IModelFormat;
-import org.geppetto.core.services.ModelFormat;
-import org.geppetto.core.services.registry.ServicesRegistry;
-import org.geppetto.core.simulation.IRunConfiguration;
-import org.geppetto.core.simulation.ISimulatorCallbackListener;
-import org.geppetto.core.simulator.ASimulator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.geppetto.core.model.runtime.CompositeNode;
+import org.geppetto.core.model.runtime.VariableNode;
 
-@Service
-public class OBJSimulatorService extends ASimulator{
+/**
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
+ * 
+ *         This visitor sets the variables passed as a list of strings to watched in the simulation tree
+ *         If no list is passed the simulation tree is cleared, i.e. no variables is watched in the simulation tree.
+ */
+public class SetWatchedVariablesVisitor extends DefaultStateVisitor
+{
 
-	@Autowired
-	private SimulatorConfig objSimulatorConfig;
-	
-	@Override
-	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect)
-			throws GeppettoExecutionException {
-		advanceTimeStep(0, aspect);
-		notifyStateTreeUpdated();
-	}
+	private List<String> _watchedVariables;
 
-	@Override
-	public void initialize(List<IModel> models,
-			ISimulatorCallbackListener listener)
-			throws GeppettoInitializationException, GeppettoExecutionException {
-		super.initialize(models, listener);
-	}
-
-	@Override
-	public String getName() {
-		return this.objSimulatorConfig.getSimulatorName();
-	}
-
-	@Override
-	public String getId() {
-		return this.objSimulatorConfig.getSimulatorID();
-	}
-
-	@Override
-	public void registerGeppettoService()
+	public SetWatchedVariablesVisitor()
 	{
-		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
-		modelFormatList.add(ModelFormat.OBJ);
-		ServicesRegistry.registerSimulatorService(this, modelFormatList);
+		super();
 	}
+
+	public SetWatchedVariablesVisitor(List<String> lists)
+	{
+		super();
+		this._watchedVariables = lists;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.geppetto.core.model.state.visitors.DefaultStateVisitor#inAspectNode (org.geppetto.core.model.runtime.AspectNode)
+	 */
+	@Override
+	public boolean inCompositeNode(CompositeNode node)
+	{
+		// we only visit the nodes which belong to the same aspect
+		return super.inCompositeNode(node);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.geppetto.core.model.state.visitors.DefaultStateVisitor#visitVariableNode (org.geppetto.core.model.runtime.VariableNode)
+	 */
+	@Override
+	public boolean visitVariableNode(VariableNode node)
+	{
+		// If watchedVariables is null, clear the simulation tree
+		if(this._watchedVariables.contains(node.getInstancePath()))
+		{
+			node.setWatched(!node.isWatched());
+		}
+		else if(this._watchedVariables == null)
+		{
+			node.setWatched(false);
+		}
+		return super.visitVariableNode(node);
+	}
+
 }
