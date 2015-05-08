@@ -43,14 +43,17 @@ public class LocalSimulatorConfiguration implements ISimulatorConfiguration
 
 	private String simulatorId;
 
+	private String conversionServiceId;
+
 	private String timestep;
 
 	private Map<String, String> parameters;
 
-	public LocalSimulatorConfiguration(long id, String simulatorId, String timestep, Map<String, String> parameters)
+	public LocalSimulatorConfiguration(long id, String simulatorId, String conversionServiceId, String timestep, Map<String, String> parameters)
 	{
 		this.id = id;
 		this.simulatorId = simulatorId;
+		this.conversionServiceId = conversionServiceId;
 		this.timestep = timestep;
 		this.parameters = parameters;
 	}
@@ -68,6 +71,12 @@ public class LocalSimulatorConfiguration implements ISimulatorConfiguration
 	}
 
 	@Override
+	public String getConversionServiceId()
+	{
+		return conversionServiceId;
+	}
+
+	@Override
 	public String getTimestep()
 	{
 		return timestep;
@@ -78,5 +87,4 @@ public class LocalSimulatorConfiguration implements ISimulatorConfiguration
 	{
 		return parameters;
 	}
-
 }

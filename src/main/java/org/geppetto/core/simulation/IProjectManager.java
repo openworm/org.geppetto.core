@@ -32,15 +32,26 @@
  *******************************************************************************/
 package org.geppetto.core.simulation;
 
+import java.net.MalformedURLException;
+
+import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
+import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IUser;
 
-public interface IExperimentRunManager
+public interface IProjectManager
 {
-	void queueExperiment(IUser user, IExperiment experiment);
+	void loadProject(String requestId, IUser user, IGeppettoProject project, ISimulationCallbackListener listener) throws MalformedURLException, GeppettoInitializationException, GeppettoExecutionException;
 
-	boolean checkExperiment(IExperiment experiment);
-	
-	void runExperiment(IExperiment experiment) throws GeppettoInitializationException;
+	void closeProject(String requestId, IUser user, IGeppettoProject project) throws GeppettoExecutionException;
+
+	// TODO: call the methods from the GeppettoServletController
+	void loadExperiment(String requestId, IUser user, IExperiment experiment) throws GeppettoExecutionException;
+
+	void runExperiment(String requestId, IUser user, IExperiment experiment) throws GeppettoInitializationException;
+
+	void deleteExperiment(String requestId, IUser user, IExperiment experiment);
+
+	void persistProject(String requestId, IUser user, IGeppettoProject project);
 }
