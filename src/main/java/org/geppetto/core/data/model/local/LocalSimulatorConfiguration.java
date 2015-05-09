@@ -87,5 +87,4 @@ public class LocalSimulatorConfiguration implements ISimulatorConfiguration
 	{
 		return parameters;
 	}
-
 }

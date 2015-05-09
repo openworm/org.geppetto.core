@@ -71,6 +71,8 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 			scanner.close();
 			collada.wrapModel(ModelFormat.COLLADA, colladaContent);
 			
+			addRecordings(recordings, instancePath, collada);
+			
 			this.addFeature(new ColladaVisualTreeFeature());
 		}
 		catch(IOException e)

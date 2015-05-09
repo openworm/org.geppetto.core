@@ -81,5 +81,4 @@ public class LocalInstancePath implements IInstancePath
 	{
 		return entityInstancePath + "." + aspect + "." + localInstancePath;
 	}
-
 }

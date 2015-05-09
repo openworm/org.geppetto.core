@@ -46,5 +46,4 @@ public interface ISimulatorConfiguration
 	String getTimestep();
 
 	Map<String, String> getParameters();
-
 }

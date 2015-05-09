@@ -44,5 +44,4 @@ public interface IInstancePath
 	String getLocalInstancePath();
 
 	String getInstancePath();
-
 }
