@@ -5,7 +5,7 @@ import java.net.MalformedURLException;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.simulation.IProjectManagerCallbackListener;
+import org.geppetto.core.simulation.IGeppettoManagerCallbackListener;
 
 /**
  * @author matteocantarelli
@@ -24,7 +24,7 @@ public interface IProjectManager
 	 * @throws GeppettoInitializationException
 	 * @throws GeppettoExecutionException
 	 */
-	void loadProject(String requestId, IGeppettoProject project, IProjectManagerCallbackListener listener) throws MalformedURLException, GeppettoInitializationException,
+	void loadProject(String requestId, IGeppettoProject project, IGeppettoManagerCallbackListener listener) throws MalformedURLException, GeppettoInitializationException,
 			GeppettoExecutionException;
 
 	/**

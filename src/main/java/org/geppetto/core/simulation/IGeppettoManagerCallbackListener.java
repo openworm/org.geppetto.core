@@ -35,15 +35,15 @@ package org.geppetto.core.simulation;
 
 import org.geppetto.core.common.GeppettoErrorCodes;
 
-public interface IProjectManagerCallbackListener
+public interface IGeppettoManagerCallbackListener
 {
-	public enum SimulationEvents {
+	public enum GeppettoEvents {
 	    LOAD_PROJECT,
 	    SCENE_UPDATE,
 	    RUN_EXPERIMENT, REPLAY_EXPERIMENT, QUEUE_EXPERIMENT, EXPERIMENT_OVER
 	}
 	
-	void updateReady(SimulationEvents event, String requestID, String sceneUpdate);
+	void updateReady(GeppettoEvents event, String requestID, String sceneUpdate);
 
 	void error(GeppettoErrorCodes error, String classSource, String errorMessage, Exception e);
 
