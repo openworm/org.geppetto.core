@@ -44,6 +44,7 @@ import org.geppetto.core.common.GeppettoInitializationException;
  * @author matteocantarelli
  *
  */
+@Deprecated
 public interface ISimulation {
 
 	/**

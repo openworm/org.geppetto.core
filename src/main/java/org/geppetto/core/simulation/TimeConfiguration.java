@@ -37,6 +37,7 @@ package org.geppetto.core.simulation;
  * @author matteocantarelli
  *
  */
+@Deprecated
 public class TimeConfiguration implements IRunConfiguration {
 
 	private Float _timeStepLength;

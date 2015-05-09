@@ -33,6 +33,7 @@
 
 package org.geppetto.core.simulation;
 
+@Deprecated
 public interface IRunConfiguration {
 
 	
