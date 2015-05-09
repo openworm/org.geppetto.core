@@ -42,7 +42,7 @@ import org.geppetto.core.data.model.IUser;
 
 public interface IProjectManager
 {
-	void loadProject(String requestId, IUser user, IGeppettoProject project, ISimulationCallbackListener listener) throws MalformedURLException, GeppettoInitializationException, GeppettoExecutionException;
+	void loadProject(String requestId, IUser user, IGeppettoProject project, IProjectManagerCallbackListener listener) throws MalformedURLException, GeppettoInitializationException, GeppettoExecutionException;
 
 	void closeProject(String requestId, IUser user, IGeppettoProject project) throws GeppettoExecutionException;
 
