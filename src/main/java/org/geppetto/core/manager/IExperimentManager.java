@@ -22,8 +22,9 @@ public interface IExperimentManager
 	 * @param user
 	 * @param experiment
 	 * @throws GeppettoInitializationException
+	 * @throws GeppettoExecutionException 
 	 */
-	public abstract void runExperiment(String requestId, IExperiment experiment, IGeppettoProject project) throws GeppettoInitializationException;
+	public abstract void runExperiment(String requestId, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
 	/**
 	 * Create a new experiment inside a given project
