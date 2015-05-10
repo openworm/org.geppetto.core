@@ -77,6 +77,7 @@ public class DataManagerServiceCreator
 			{
 				if(!((IGeppettoDataManager) _bc.getService(s)).isDefault())
 				{
+					//TODO Check are we always creating the two of them to decide?
 					service = (IGeppettoDataManager) _bc.getService(s);
 				}
 			}

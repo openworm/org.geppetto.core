@@ -42,6 +42,15 @@ import org.geppetto.core.data.model.IUser;
 
 import com.google.gson.Gson;
 
+/**
+ * This interface contains methods to deal with the persisted data model of Geppetto
+ * this includes fetching stuff from the database (or whatever data source) and adding stuff
+ * to the database
+ * 
+ * @author dandromerecschi
+ * @author matteocantarelli
+ *
+ */
 public interface IGeppettoDataManager
 {
 	String getName();

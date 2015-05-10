@@ -39,7 +39,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -60,10 +59,13 @@ import com.google.gson.JsonParseException;
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
 
-	private static final List<LocalGeppettoProject> PROJECTS = new ArrayList<>();
+	private static final List<LocalGeppettoProject> projects = new ArrayList<>();
+	
+	private static final List<IUser> users=new ArrayList<>();
 
 	static
 	{
+		//TODO Check: the class has a thread scope, this means we'll reload all the projects in memory? Should it be a thread scope? 
 		loadGeppettoProjects();
 	}
 
@@ -79,17 +81,19 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	public LocalUser getCurrentUser()
 	{
-		return new LocalUser(1, "guest", "guest", "guest", PROJECTS, 0, 0);
+		//return new LocalUser(1, "guest", "Guest", "guest", PROJECTS, 0, 0);
+		return null;
 	}
 
 	public IUser getUserByLogin(String login)
 	{
-		return new LocalUser(1, login, login, login, new ArrayList<LocalGeppettoProject>(), 0, 0);
+		IUser user=new LocalUser(1, login, login, login, new ArrayList<LocalGeppettoProject>(), 0, 0);
+		return user;
 	}
 
 	public IGeppettoProject getGeppettoProjectById(long id)
 	{
-		for(IGeppettoProject project : PROJECTS)
+		for(IGeppettoProject project : projects)
 		{
 			if(project.getId() == id)
 			{
@@ -99,19 +103,19 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return null;
 	}
 
-	public List<LocalUser> getAllUsers()
+	public List<IUser> getAllUsers()
 	{
-		return Arrays.asList(new LocalUser[] { getCurrentUser() });
+		return users;
 	}
 
 	public List<LocalGeppettoProject> getAllGeppettoProjects()
 	{
-		return PROJECTS;
+		return projects;
 	}
 
 	public List<LocalGeppettoProject> getGeppettoProjectsForUser(String login)
 	{
-		return PROJECTS;
+		return projects;
 	}
 
 	public List<? extends IExperiment> getExperimentsForProject(long projectId)
@@ -147,7 +151,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
 			LocalGeppettoProject project = gson.fromJson(reader, LocalGeppettoProject.class);
-			PROJECTS.add(project);
+			projects.add(project);
 		}
 	}
 

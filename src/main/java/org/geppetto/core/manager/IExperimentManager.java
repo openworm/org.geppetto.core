@@ -4,7 +4,6 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.data.model.IUser;
 
 public interface IExperimentManager
 {
@@ -14,7 +13,7 @@ public interface IExperimentManager
 	 * @param experiment
 	 * @throws GeppettoExecutionException
 	 */
-	public abstract void loadExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
+	public abstract void loadExperiment(String requestId, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
 	/**
 	 * Run a specified experiment
@@ -24,7 +23,7 @@ public interface IExperimentManager
 	 * @param experiment
 	 * @throws GeppettoInitializationException
 	 */
-	public abstract void runExperiment(String requestId, IUser user, IExperiment experiment) throws GeppettoInitializationException;
+	public abstract void runExperiment(String requestId, IExperiment experiment, IGeppettoProject project) throws GeppettoInitializationException;
 
 	/**
 	 * Create a new experiment inside a given project
@@ -43,7 +42,7 @@ public interface IExperimentManager
 	 * @param user
 	 * @param experiment
 	 */
-	void deleteExperiment(String requestId, IExperiment experiment);
+	void deleteExperiment(String requestId, IExperiment experiment, IGeppettoProject project);
 	
 
 }

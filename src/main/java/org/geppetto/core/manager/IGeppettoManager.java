@@ -32,6 +32,9 @@
  *******************************************************************************/
 package org.geppetto.core.manager;
 
+import org.geppetto.core.data.model.IUser;
+import org.geppetto.core.simulation.IGeppettoManagerCallbackListener;
+
 
 /**
  * @author matteocantarelli
@@ -39,4 +42,8 @@ package org.geppetto.core.manager;
  */
 public interface IGeppettoManager extends IProjectManager, IExperimentManager, IDropBoxManager, IRuntimeTreeManager, IDownloadManager
 {
+	
+	void setUser(IUser user);
+
+	void setCallback(IGeppettoManagerCallbackListener geppettoManagerCallbackListener);
 }

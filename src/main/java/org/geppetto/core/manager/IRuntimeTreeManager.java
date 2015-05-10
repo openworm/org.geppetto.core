@@ -16,7 +16,7 @@ public interface IRuntimeTreeManager
 	 * @param aspectID
 	 * @return
 	 */
-	public abstract String getModelTree(String aspectID);
+	public Map<String, AspectSubTreeNode> getModelTree(String aspectID);
 
 	/**
 	 * Returns the simulation tree corresponding to the specified aspect

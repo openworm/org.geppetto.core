@@ -32,10 +32,19 @@
  *******************************************************************************/
 package org.geppetto.core.data;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.common.GeppettoInitializationException;
 
+/**
+ * @author dandromereschi
+ *
+ */
 public class DataManagerHelper
 {
+	
+	private static Log logger = LogFactory.getLog(DataManagerHelper.class);
+	
 	public static IGeppettoDataManager getDataManager()
 	{
 		try
@@ -44,8 +53,7 @@ public class DataManagerHelper
 		}
 		catch(GeppettoInitializationException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error while retrieving a data manager",e);
 		}
 		return null;
 	}
