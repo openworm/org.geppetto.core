@@ -37,7 +37,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.geppetto.core.beans.SimulatorConfig;
 import org.geppetto.core.common.GeppettoExecutionException;
@@ -54,8 +53,7 @@ import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.simulator.ASimulator;
 import org.geppetto.core.simulator.AVariableWatchFeature;
-import org.geppetto.core.simulator.RecordingVariableListFeature;
-import org.geppetto.core.simulator.FindSimulationTree;
+import org.geppetto.core.simulator.GetAspectsVisitor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,8 +64,7 @@ public class ColladaSimulatorService extends ASimulator{
 	private SimulatorConfig colladaSimulatorConfig;
 	
 	@Override
-	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect)
-			throws GeppettoExecutionException {
+	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect) throws GeppettoExecutionException {
 		advanceTimeStep(0, aspect);
 		RuntimeTreeRoot root;
 		ANode n = aspect.getParent();
@@ -77,23 +74,21 @@ public class ColladaSimulatorService extends ASimulator{
 		
 		root = (RuntimeTreeRoot) n;
 		//traverse scene root to get all simulation trees for all aspects
-		FindSimulationTree mappingVisitor = new FindSimulationTree();
+		GetAspectsVisitor mappingVisitor = new GetAspectsVisitor();
 		root.apply(mappingVisitor);
 		HashMap<String, AspectNode> aspects = 
 				mappingVisitor.getAspects();
 		Iterator it = aspects.entrySet().iterator();
 		while(it.hasNext()){
 			Map.Entry o = (Map.Entry)it.next();
-			AspectNode a = (AspectNode) o.getValue();
+			AspectNode a = (AspectNode)o.getValue();
 			advanceRecordings(a);
 		}
 		notifyStateTreeUpdated();
 	}
 
 	@Override
-	public void initialize(List<IModel> models,
-			ISimulatorCallbackListener listener)
-			throws GeppettoInitializationException, GeppettoExecutionException {
+	public void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException {
 		super.initialize(models, listener);
 
 		//add variable watch feature

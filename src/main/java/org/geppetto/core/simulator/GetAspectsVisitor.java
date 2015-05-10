@@ -56,7 +56,7 @@ import org.geppetto.core.simulation.ISimulationCallbackListener;
  * @author  Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public class FindSimulationTree extends DefaultStateVisitor{
+public class GetAspectsVisitor extends DefaultStateVisitor{
 	
 	//This is not being used at the moment
 	private HashMap<String, AspectNode> _aspects = new HashMap<String,AspectNode>();

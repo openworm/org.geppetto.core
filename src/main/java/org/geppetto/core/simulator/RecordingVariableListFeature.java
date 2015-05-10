@@ -32,22 +32,8 @@
  *******************************************************************************/
 package org.geppetto.core.simulator;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.StringTokenizer;
-
-import ncsa.hdf.hdf5lib.H5;
-import ncsa.hdf.hdf5lib.HDF5Constants;
-import ncsa.hdf.hdf5lib.callbacks.H5L_iterate_cb;
-import ncsa.hdf.hdf5lib.callbacks.H5L_iterate_t;
-import ncsa.hdf.hdf5lib.callbacks.H5O_iterate_cb;
-import ncsa.hdf.hdf5lib.callbacks.H5O_iterate_t;
-import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
-import ncsa.hdf.hdf5lib.structs.H5L_info_t;
-import ncsa.hdf.hdf5lib.structs.H5O_info_t;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -89,8 +75,6 @@ public class RecordingVariableListFeature implements IWatchableVariableListFeatu
 	@Override
 	public boolean listWatchableVariables(AspectNode aspectNode) throws ModelInterpreterException
 	{
-		long start = System.currentTimeMillis();
-
 		boolean modified = true;
 
 		ModelWrapper model = (ModelWrapper) aspectNode.getModel();
@@ -108,7 +92,7 @@ public class RecordingVariableListFeature implements IWatchableVariableListFeatu
 				
 				this.root = (RuntimeTreeRoot) n;
 				//traverse scene root to get all simulation trees for all aspects
-				FindSimulationTree mappingVisitor = new FindSimulationTree();
+				GetAspectsVisitor mappingVisitor = new GetAspectsVisitor();
 				this.root.apply(mappingVisitor);
 			
 				try {
@@ -120,6 +104,7 @@ public class RecordingVariableListFeature implements IWatchableVariableListFeatu
 				}
 			}
 		}
+		
 		return modified;
 	}
 }

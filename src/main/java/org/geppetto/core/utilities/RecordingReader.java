@@ -33,12 +33,29 @@ import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 public class RecordingReader {
 	
 	/**
-	 * Method to traverse HDF5 recording file and populate aspects with all simulation variables
+	 * Method to traverse HDF5 recording file and populate aspects with all visualization variables
 	 * 
 	 * @param file
 	 * @param aspectMap
 	 */
+	public void populateVisualizationVariables(String file, HashMap<String, AspectNode> aspectMap) throws GeppettoExecutionException
+	{
+		this.populateVariablesByTree(file, aspectMap, AspectTreeType.VISUALIZATION_TREE);
+	}
+	
+	/**
+	 * Method to traverse HDF5 recording file and populate aspects with all simulation variables
+	 * 
+	 * @param file
+	 * @param aspectMap
+	 * @throws GeppettoExecutionException 
+	 */
 	public void populateSimulationVariables(String file, HashMap<String, AspectNode> aspectMap) throws GeppettoExecutionException
+	{
+		this.populateVariablesByTree(file, aspectMap, AspectTreeType.SIMULATION_TREE);
+	}
+	
+	private void populateVariablesByTree(String file, HashMap<String, AspectNode> aspectMap, AspectTreeType treeType) throws GeppettoExecutionException
 	{
 		int file_id = -1;
 
@@ -48,12 +65,12 @@ public class RecordingReader {
 
             //Begin iteration using H5Ovisit
             H5O_iterate_t iter_data = this.new H5O_iter_data();
-            H5O_iterate_cb iter_cb = this.new H5O_iter_callback(aspectMap);
+            H5O_iterate_cb iter_cb = this.new H5O_iter_callback(aspectMap, treeType);
             H5.H5Ovisit(file_id, HDF5Constants.H5_INDEX_NAME, HDF5Constants.H5_ITER_NATIVE, iter_cb, iter_data);
             
             //Repeat the same process using H5Lvisit
             H5L_iterate_t iter_data2 = this.new H5L_iter_data();
-            H5L_iterate_cb iter_cb2 = this.new H5L_iter_callback(aspectMap);
+            H5L_iterate_cb iter_cb2 = this.new H5L_iter_callback(aspectMap, treeType);
             H5.H5Lvisit(file_id, HDF5Constants.H5_INDEX_NAME, HDF5Constants.H5_ITER_NATIVE, iter_cb2, iter_data2);
         }
         catch (Exception e) {
@@ -92,9 +109,11 @@ public class RecordingReader {
 
 	private class H5L_iter_callback implements H5L_iterate_cb {
 		private HashMap<String, AspectNode> mapping;
+		private AspectTreeType treeType;
 
-		public H5L_iter_callback(HashMap<String, AspectNode> hashMap) {
+		public H5L_iter_callback(HashMap<String, AspectNode> hashMap, AspectTreeType treeType) {
 			this.mapping = hashMap;
+			this.treeType = treeType;
 		}
 
 		public int callback(int group, String name, H5L_info_t info,
@@ -108,9 +127,8 @@ public class RecordingReader {
 			try {
 				// Get type of the object and display its name and type. The name of
 				// the object is passed to this function by the Library.
-				infobuf = H5.H5Oget_info_by_name(group, name,
-						HDF5Constants.H5P_DEFAULT);
-				H5O_iterate_cb iter_cbO = new H5O_iter_callback(this.mapping);
+				infobuf = H5.H5Oget_info_by_name(group, name, HDF5Constants.H5P_DEFAULT);
+				H5O_iterate_cb iter_cbO = new H5O_iter_callback(this.mapping, this.treeType);
 				H5O_iterate_t iter_dataO = new H5O_iter_data();
 				ret = iter_cbO.callback(group, name, infobuf, iter_dataO);
 			} catch (Exception e) {
@@ -129,11 +147,11 @@ public class RecordingReader {
 
 	private class H5O_iter_callback implements H5O_iterate_cb {
 		private HashMap<String, AspectNode> mapping;
-		private String VISUALIZATION_TREE = "VisualizationTree";
-		private String SIMULATION_TREE = "SimulationTree";
+		private AspectTreeType treeType;
 
-		public H5O_iter_callback(HashMap<String, AspectNode> hashMap) {
+		public H5O_iter_callback(HashMap<String, AspectNode> hashMap, AspectTreeType treeType) {
 			this.mapping = hashMap;
+			this.treeType = treeType;
 		}
 
 		public int callback(int group, String name, H5O_info_t info,
@@ -150,27 +168,30 @@ public class RecordingReader {
 		public void createNodes(String path) {
 			String aspectPath = "";
 			String type = null;
-			// if path contains visualization tree, return, doesn't belong
-			// here in simulation tree populating
-			if (path.contains(VISUALIZATION_TREE)) {
-				aspectPath = path.split("/" + VISUALIZATION_TREE)[0];
-				type = VISUALIZATION_TREE;
+			
+			// if path does not contain the tree we are looking for return
+			boolean contained = path.contains(treeType.toString());
+			if (contained) 
+			{
+				aspectPath = path.split("/" + treeType.toString())[0];
+				type = treeType.toString();
+			}
+			else
+			{
 				return;
-			} else if (path.contains(SIMULATION_TREE)) {
-				aspectPath = path.split("/" + SIMULATION_TREE)[0];
-				type = SIMULATION_TREE;
 			}
 
 			aspectPath = aspectPath.replace("/", ".");
 			AspectNode aspect = this.mapping.get(aspectPath);
-			if (aspect != null) {
+			if (aspect != null) 
+			{
 				ACompositeNode node = null;
 
 				// Check for Visualization tree if it wants to be added
-				if (type.equals(SIMULATION_TREE)) {
-					aspect.getSubTree(AspectTreeType.SIMULATION_TREE).setModified(
-							true);
-					node = aspect.getSubTree(AspectTreeType.SIMULATION_TREE);
+				if (type.equals(treeType.toString())) 
+				{
+					aspect.getSubTree(treeType).setModified(true);
+					node = aspect.getSubTree(treeType);
 				}
 
 				path = path.replace("/", ".");
@@ -182,7 +203,8 @@ public class RecordingReader {
 				StringTokenizer tokenizer = new StringTokenizer(path, "/");
 
 				VariableNode newVariableNode = null;
-				while (tokenizer.hasMoreElements()) {
+				while (tokenizer.hasMoreElements()) 
+				{
 					String current = tokenizer.nextToken();
 					boolean found = false;
 					for (ANode child : node.getChildren()) {
