@@ -72,6 +72,8 @@ public interface IGeppettoDataManager
 	List<? extends IExperiment> getExperimentsForProject(long projectId);
 
 	void createParameter(String name, String value);
+	
+	void addGeppettoProject(IGeppettoProject project);
 
 	Object deleteGeppettoProject(IGeppettoProject project);
 

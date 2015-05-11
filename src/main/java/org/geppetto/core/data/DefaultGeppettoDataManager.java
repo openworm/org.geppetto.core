@@ -127,6 +127,12 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	public void createParameter(String name, String value)
 	{
 	}
+	
+	public void addGeppettoProject(IGeppettoProject project) {
+		if (project instanceof LocalGeppettoProject) {
+			projects.add((LocalGeppettoProject) project);
+		}
+	}
 
 	public Object deleteGeppettoProject(IGeppettoProject project)
 	{
