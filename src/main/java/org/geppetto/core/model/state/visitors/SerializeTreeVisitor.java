@@ -872,9 +872,12 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			// close bracket for array of matrices
 			transformationsString+= "]";
 		}
+		else
+		{
+			transformationsString = "[]";
+		}
 
-		_serialized.append("\"" + name + "\":{\"skeletonTransformations\":" + transformationsString
-				+ "," + commonProperties + "},");
+		_serialized.append("\"" + name + "\":{\"skeletonTransformations\":" + transformationsString + "," + commonProperties + "},");
 
 		return super.visitSkeletonAnimationNode(node);
 	}

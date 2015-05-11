@@ -20,6 +20,7 @@ import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.VariableNode;
+import org.geppetto.core.model.runtime.SkeletonAnimationNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 
 /**
@@ -187,7 +188,6 @@ public class RecordingReader {
 			{
 				ACompositeNode node = null;
 
-				// Check for Visualization tree if it wants to be added
 				if (type.equals(treeType.toString())) 
 				{
 					aspect.getSubTree(treeType).setModified(true);
@@ -195,14 +195,12 @@ public class RecordingReader {
 				}
 
 				path = path.replace("/", ".");
-				String pr = aspect.getInstancePath();
 				path = "/" + path.replace(aspect.getInstancePath() + ".", "");
 				path = path.replace(".", "/");
 				path = path.replace("/" + type + "/", "");
 
 				StringTokenizer tokenizer = new StringTokenizer(path, "/");
 
-				VariableNode newVariableNode = null;
 				while (tokenizer.hasMoreElements()) 
 				{
 					String current = tokenizer.nextToken();
@@ -211,9 +209,6 @@ public class RecordingReader {
 						if (child.getId().equals(current)) {
 							if (child instanceof ACompositeNode) {
 								node = (ACompositeNode) child;
-							}
-							if (child instanceof VariableNode) {
-								newVariableNode = (VariableNode) child;
 							}
 							found = true;
 							break;
@@ -224,14 +219,17 @@ public class RecordingReader {
 					} else {
 						if (tokenizer.hasMoreElements()) {
 							// not a leaf, create a composite state node
-							ACompositeNode newNode = new CompositeNode(current);
-							node.addChild(newNode);
-							node = newNode;
-						} else {
-							// it's a leaf node
-							VariableNode newNode = new VariableNode(current);
-							newVariableNode = newNode;
-							node.addChild(newNode);
+							ACompositeNode newCompNode = new CompositeNode(current);
+							node.addChild(newCompNode);
+							node = newCompNode;
+						} else if (treeType == AspectTreeType.SIMULATION_TREE) {
+							// sim tree leaf node - it's a variable node
+							VariableNode newVarNode = new VariableNode(current);
+							node.addChild(newVarNode);
+						} else if (treeType == AspectTreeType.VISUALIZATION_TREE){
+							// vis tree leaf node - it's a skeleton animation node
+							SkeletonAnimationNode newSkeletonNode = new SkeletonAnimationNode(current);
+							node.addChild(newSkeletonNode);
 						}
 					}
 				}

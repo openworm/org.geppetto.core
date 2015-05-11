@@ -38,6 +38,7 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.runtime.SkeletonAnimationNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.state.visitors.DefaultStateVisitor;
 import org.geppetto.core.model.values.AValue;
@@ -114,6 +115,40 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 		return super.visitVariableNode(node);
 	}
 
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.geppetto.core.model.state.visitors.DefaultStateVisitor#visitSimpleStateNode(org.geppetto.core.model.state.SimpleStateNode)
+	 */
+	@Override
+	public boolean visitSkeletonAnimationNode(SkeletonAnimationNode node)
+	{
+		String variable = node.getInstancePath();
+		H5File file = _recording.getHDF5();
+		String variablePath = "/" + variable.replace(".", "/");
+		Dataset v = (Dataset) FileFormat.findObject(file, variablePath);
+		if(v != null)
+		{
+			Object dataRead;
+			try
+			{
+				dataRead = v.read();
+				
+				// TODO: extract values from whatever format from hell is coming back from the recording
+			}
+			catch (ArrayIndexOutOfBoundsException  e) {
+				_endOfSteps = e.getMessage();
+			}
+			catch(Exception | OutOfMemoryError e)
+			{
+				_errorMessage = e.getMessage();
+			}
+		}
+		
+		return super.visitSkeletonAnimationNode(node);
+	}
+	
 	/**
 	 * @return
 	 */

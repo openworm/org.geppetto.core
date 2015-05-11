@@ -34,10 +34,7 @@
 package org.geppetto.core.simulator;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import ncsa.hdf.object.Dataset;
@@ -46,6 +43,7 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.features.IDynamicVisualTreeFeature;
 import org.geppetto.core.features.IVariableWatchFeature;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelWrapper;
@@ -58,7 +56,6 @@ import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.VariableNode;
-import org.geppetto.core.model.state.visitors.SetWatchedVariablesVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.services.AService;
@@ -178,27 +175,41 @@ public abstract class ASimulator extends AService implements ISimulator
 	protected void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
 	{
 		IVariableWatchFeature watchFeature = ((IVariableWatchFeature) this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
+		
 		if(_recordings != null)
 		{
+			// get trees
 			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.SIMULATION_TREE);
+			AspectSubTreeNode visTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.VISUALIZATION_TREE);
+			
+			// set modified
 			watchTree.setModified(true);
+			visTree.setModified(true);
 			aspect.setModified(true);
 			aspect.getParentEntity().setModified(true);
-
+		
 			if(watchTree.getChildren().isEmpty())
 			{
+				// if the watch tree is empty need to populate it first
 				for(RecordingModel recording : _recordings)
 				{
-					this.readRecording(recording.getHDF5(),watchFeature.getWatchedVariables(), watchTree, false);
+					this.readRecording(recording.getHDF5(), watchFeature.getWatchedVariables(), watchTree, false);
 					_currentRecordingIndex++;
 				}
 			}
 			else
 			{
+				// watch tree is already populated - just update values
 				for(RecordingModel recording : _recordings)
 				{
+					
 					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, watchTree.getInstancePath(), _listener, _currentRecordingIndex++);
+					UpdateRecordingStateTreeVisitor updateVisTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, visTree.getInstancePath(), _listener, _currentRecordingIndex++);
+					
+					// apply visitors
 					watchTree.apply(updateStateTreeVisitor);
+					visTree.apply(updateVisTreeVisitor);
+					
 					if(updateStateTreeVisitor.getError() != null)
 					{
 						_listener.endOfSteps(null);
@@ -209,7 +220,7 @@ public abstract class ASimulator extends AService implements ISimulator
 						_listener.endOfSteps(null);
 					}
 				}
-			}
+			}	
 		}
 	}
 
@@ -247,7 +258,7 @@ public abstract class ASimulator extends AService implements ISimulator
 		return _timeStepUnit;
 	}
 
-	public void readRecording(H5File h5File,List<String> variables, AspectSubTreeNode simulationTree, boolean readAll) throws GeppettoExecutionException
+	public void readRecording(H5File h5File,List<String> variables, AspectSubTreeNode tree, boolean readAll) throws GeppettoExecutionException
 	{
 		try
 		{
@@ -259,13 +270,13 @@ public abstract class ASimulator extends AService implements ISimulator
 		for(String watchedVariable : variables)
 		{
 			// String name = watchedVariable.getName();
-			String path = "/" + watchedVariable.replace(simulationTree.getInstancePath() + ".", "");
+			String path = "/" + watchedVariable.replace(tree.getInstancePath() + ".", "");
 			path = path.replace(".", "/");
 			Dataset v = (Dataset) FileFormat.findObject(h5File, path);
 
 			path = path.replaceFirst("/", "");
 			StringTokenizer tokenizer = new StringTokenizer(path, "/");
-			ACompositeNode node = simulationTree;
+			ACompositeNode node = tree;
 			VariableNode newVariableNode = null;
 			while(tokenizer.hasMoreElements())
 			{
@@ -393,4 +404,5 @@ public abstract class ASimulator extends AService implements ISimulator
 			}
 		}
 	}
+
 }
