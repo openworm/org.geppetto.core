@@ -32,6 +32,12 @@
  *******************************************************************************/
 package org.geppetto.core.simulator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import ncsa.hdf.object.Attribute;
 import ncsa.hdf.object.Dataset;
 import ncsa.hdf.object.FileFormat;
 import ncsa.hdf.object.h5.H5File;
@@ -44,6 +50,7 @@ import org.geppetto.core.model.state.visitors.DefaultStateVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
+import org.geppetto.core.utilities.StringSplitter;
 
 /**
  * @author matteocantarelli
@@ -135,7 +142,74 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 			{
 				dataRead = v.read();
 				
-				// TODO: extract values from whatever format from hell is coming back from the recording
+				// get metadata from recording node
+				List<Attribute> attributes = v.getMetadata();
+				String meta = "";
+				
+				for(Attribute a : attributes){
+					if(a.getName().equals("custom_metadata"))
+						meta = ((String[])a.getValue())[0];
+				}
+				
+				// split into key value pair
+				Map<String, String> metaMap = StringSplitter.keyValueSplit(meta, ";");
+				
+				double[] flatMatrices = null;
+				if(dataRead instanceof double[])
+				{
+					double[] dr = (double[])dataRead;
+					
+					// get items of interest based on matrix dimension and items per step
+					int itemsPerStep = Integer.parseInt(metaMap.get("items_per_step"));
+					int startIndex = _currentIndex*itemsPerStep;
+					int endIndex = startIndex + (itemsPerStep);
+					
+					flatMatrices = Arrays.copyOfRange(dr, startIndex, endIndex);
+				}
+				else
+				{
+					// something went horribly wrong - hide your head in the sand
+					// TODO: throw appropriate exception
+				}
+				
+				// data structures to hold matrices as they get built
+				List<List<List<Double>>> transformations = new ArrayList<List<List<Double>>>();
+				List<List<Double>> matrix = new ArrayList<List<Double>>();
+				List<Double> row = new ArrayList<Double>();
+				int dimension = Integer.parseInt(metaMap.get("dimension"));
+				
+				// build list of matrices
+				for(int i=0; i<flatMatrices.length; i++)
+				{
+					// build rows and add to matrix when completed
+					if(row.size() <dimension)
+					{
+						// add to row
+						row.add((Double)flatMatrices[i]);
+					}
+					
+					// check if row is completed
+					if(row.size() == dimension)
+					{
+						// row completed - add to matrix
+						matrix.add(row);
+						// init new row
+						row = new ArrayList<Double>();
+					}
+					
+					// check if matrix is completed and add to list of matrices
+					if(matrix.size() == dimension)
+					{
+						// matrix is complted - add to list of matrices
+						transformations.add(matrix);
+						// create new matrix
+						matrix = new ArrayList<List<Double>>();
+					}
+					
+				}
+				
+				// set matrices on skeleton animation node
+				node.setSkeletonAnimationMatrices(transformations);
 			}
 			catch (ArrayIndexOutOfBoundsException  e) {
 				_endOfSteps = e.getMessage();

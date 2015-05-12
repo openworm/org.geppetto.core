@@ -203,12 +203,14 @@ public abstract class ASimulator extends AService implements ISimulator
 				for(RecordingModel recording : _recordings)
 				{
 					
-					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, watchTree.getInstancePath(), _listener, _currentRecordingIndex++);
-					UpdateRecordingStateTreeVisitor updateVisTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, visTree.getInstancePath(), _listener, _currentRecordingIndex++);
+					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, watchTree.getInstancePath(), _listener, _currentRecordingIndex);
+					UpdateRecordingStateTreeVisitor updateVisTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, visTree.getInstancePath(), _listener, _currentRecordingIndex);
 					
 					// apply visitors
 					watchTree.apply(updateStateTreeVisitor);
 					visTree.apply(updateVisTreeVisitor);
+					
+					_currentRecordingIndex++;
 					
 					if(updateStateTreeVisitor.getError() != null)
 					{
