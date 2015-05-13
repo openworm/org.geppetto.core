@@ -43,13 +43,11 @@ import org.geppetto.core.data.model.IUser;
 import com.google.gson.Gson;
 
 /**
- * This interface contains methods to deal with the persisted data model of Geppetto
- * this includes fetching stuff from the database (or whatever data source) and adding stuff
- * to the database
+ * This interface contains methods to deal with the persisted data model of Geppetto this includes fetching stuff from the database (or whatever data source) and adding stuff to the database
  * 
  * @author dandromerecschi
  * @author matteocantarelli
- *
+ * 
  */
 public interface IGeppettoDataManager
 {
@@ -62,7 +60,7 @@ public interface IGeppettoDataManager
 	IUser getUserByLogin(String login);
 
 	IGeppettoProject getGeppettoProjectById(long id);
-	
+
 	List<? extends IUser> getAllUsers();
 
 	List<? extends IGeppettoProject> getAllGeppettoProjects();
@@ -72,10 +70,12 @@ public interface IGeppettoDataManager
 	List<? extends IExperiment> getExperimentsForProject(long projectId);
 
 	void createParameter(String name, String value);
-	
+
 	void addGeppettoProject(IGeppettoProject project);
 
 	Object deleteGeppettoProject(IGeppettoProject project);
+
+	Object deleteExperiment(IExperiment experiment);
 
 	IGeppettoProject getProjectFromJson(Gson gson, String json);
 

@@ -60,12 +60,12 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
 
 	private static final List<LocalGeppettoProject> projects = new ArrayList<>();
-	
-	private static final List<IUser> users=new ArrayList<>();
+
+	private static final List<IUser> users = new ArrayList<>();
 
 	static
 	{
-		//TODO Check: the class has a thread scope, this means we'll reload all the projects in memory? Should it be a thread scope? 
+		// TODO Check: the class has a thread scope, this means we'll reload all the projects in memory? Should it be a thread scope?
 		loadGeppettoProjects();
 	}
 
@@ -81,13 +81,13 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	public LocalUser getCurrentUser()
 	{
-		//return new LocalUser(1, "guest", "Guest", "guest", PROJECTS, 0, 0);
+		// return new LocalUser(1, "guest", "Guest", "guest", PROJECTS, 0, 0);
 		return null;
 	}
 
 	public IUser getUserByLogin(String login)
 	{
-		IUser user=new LocalUser(1, login, login, login, new ArrayList<LocalGeppettoProject>(), 0, 0);
+		IUser user = new LocalUser(1, login, login, login, new ArrayList<LocalGeppettoProject>(), 0, 0);
 		return user;
 	}
 
@@ -127,9 +127,11 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	public void createParameter(String name, String value)
 	{
 	}
-	
-	public void addGeppettoProject(IGeppettoProject project) {
-		if (project instanceof LocalGeppettoProject) {
+
+	public void addGeppettoProject(IGeppettoProject project)
+	{
+		if(project instanceof LocalGeppettoProject)
+		{
 			projects.add((LocalGeppettoProject) project);
 		}
 	}
@@ -137,6 +139,11 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	public Object deleteGeppettoProject(IGeppettoProject project)
 	{
 		return new JsonRequestException("Cannot delete project", HttpStatus.BAD_REQUEST);
+	}
+
+	public Object deleteExperiment(IExperiment experiment)
+	{
+		return new JsonRequestException("Cannot delete experiment", HttpStatus.BAD_REQUEST);
 	}
 
 	private static void loadGeppettoProjects()
