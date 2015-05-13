@@ -49,7 +49,6 @@ import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.state.visitors.DefaultStateVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
-import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.utilities.StringSplitter;
 
 /**
@@ -60,7 +59,6 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 {
 
 	private RecordingModel _recording;
-	private String _instancePath;
 	private String _errorMessage = null;
 	private String _endOfSteps = null;
 	private int _currentIndex;
@@ -68,13 +66,11 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 	/**
 	 * @param recording
 	 * @param instancePath
-	 * @param _listener 
 	 * @param currentIndex
 	 */
-	public UpdateRecordingStateTreeVisitor(RecordingModel recording, String instancePath, ISimulatorCallbackListener listener, int currentIndex)
+	public UpdateRecordingStateTreeVisitor(RecordingModel recording, int currentIndex)
 	{
 		_recording = recording;
-		_instancePath = instancePath;
 		_currentIndex = currentIndex;
 	}
 

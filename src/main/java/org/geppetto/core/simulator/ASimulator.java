@@ -202,13 +202,11 @@ public abstract class ASimulator extends AService implements ISimulator
 				// watch tree is already populated - just update values
 				for(RecordingModel recording : _recordings)
 				{
-					
-					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, watchTree.getInstancePath(), _listener, _currentRecordingIndex);
-					UpdateRecordingStateTreeVisitor updateVisTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, visTree.getInstancePath(), _listener, _currentRecordingIndex);
+					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, _currentRecordingIndex);
 					
 					// apply visitors
 					watchTree.apply(updateStateTreeVisitor);
-					visTree.apply(updateVisTreeVisitor);
+					visTree.apply(updateStateTreeVisitor);
 					
 					_currentRecordingIndex++;
 					
