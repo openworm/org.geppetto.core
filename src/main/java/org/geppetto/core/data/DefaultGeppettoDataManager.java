@@ -42,10 +42,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.geppetto.core.data.model.ExperimentStatus;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IUser;
+import org.geppetto.core.data.model.local.LocalAspectConfiguration;
+import org.geppetto.core.data.model.local.LocalExperiment;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
+import org.geppetto.core.data.model.local.LocalSimulationResult;
 import org.geppetto.core.data.model.local.LocalUser;
 import org.springframework.http.HttpStatus;
 
@@ -126,6 +130,12 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	public void createParameter(String name, String value)
 	{
+	}
+
+	public IExperiment newExperiment(String name, String description)
+	{
+		return new LocalExperiment(0, new ArrayList<LocalAspectConfiguration>(), name, description, new Date(), new Date(), ExperimentStatus.DESIGN, new ArrayList<LocalSimulationResult>(),
+				new Date(), new Date());
 	}
 
 	public void addGeppettoProject(IGeppettoProject project)
