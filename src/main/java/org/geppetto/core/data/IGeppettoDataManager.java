@@ -73,6 +73,8 @@ public interface IGeppettoDataManager
 
 	IExperiment newExperiment(String name, String description);
 
+	IUser newUser(String name);
+
 	void addGeppettoProject(IGeppettoProject project);
 
 	Object deleteGeppettoProject(IGeppettoProject project);

@@ -55,7 +55,7 @@
 	<osgi:service id="DataManager" ref="dataManagerService"
 		interface="org.geppetto.core.data.IGeppettoDataManager">
 	</osgi:service>
-	<bean id="dataManagerService" scope="thread" class="org.geppetto.core.data.DefaultGeppettoDataManager">
+	<bean id="dataManagerService" scope="singleton" class="org.geppetto.core.data.DefaultGeppettoDataManager">
 	<aop:scoped-proxy proxy-target-class="false"/>
 	</bean>
 

@@ -43,6 +43,7 @@ import org.geppetto.core.simulation.IGeppettoManagerCallbackListener;
  */
 public interface IGeppettoManager extends IProjectManager, IExperimentManager, IDropBoxManager, IRuntimeTreeManager, IDownloadManager
 {
+	IUser getUser();
 	
 	void setUser(IUser user) throws GeppettoExecutionException;
 

@@ -138,6 +138,11 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 				new Date(), new Date());
 	}
 
+	public IUser newUser(String name)
+	{
+		return new LocalUser(0, name, name, name, projects, 0, 0);
+	}
+
 	public void addGeppettoProject(IGeppettoProject project)
 	{
 		if(project instanceof LocalGeppettoProject)
