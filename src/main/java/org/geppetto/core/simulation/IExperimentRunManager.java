@@ -32,7 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.simulation;
 
-import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IUser;
 
@@ -42,5 +42,5 @@ public interface IExperimentRunManager
 
 	boolean checkExperiment(IExperiment experiment);
 	
-	void runExperiment(IExperiment experiment) throws GeppettoInitializationException;
+	void runExperiment(IExperiment experiment) throws GeppettoExecutionException;
 }
