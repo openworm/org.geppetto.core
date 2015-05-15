@@ -2,6 +2,8 @@ package org.geppetto.core.manager;
 
 import java.io.File;
 
+import org.geppetto.core.data.model.IExperiment;
+import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.simulation.ResultsFormat;
 
@@ -16,12 +18,12 @@ public interface IDownloadManager
 	 * @param format
 	 * @return
 	 */
-	public abstract File downloadModel(String aspectID, IModelFormat format);
+	public abstract File downloadModel(String aspectID, IModelFormat format, IExperiment experiment, IGeppettoProject project);
 
 	/**
 	 * @param resultsFormat
 	 * @return
 	 */
-	public abstract File downloadResults(ResultsFormat resultsFormat);
+	public abstract File downloadResults(ResultsFormat resultsFormat, IExperiment experiment, IGeppettoProject project);
 
 }

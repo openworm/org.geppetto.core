@@ -46,4 +46,10 @@ public interface IExperimentManager
 	void deleteExperiment(String requestId, IExperiment experiment, IGeppettoProject project);
 	
 
+	/**
+	 * @param requestId
+	 * @param experiment
+	 * @param project
+	 */
+	void cancelExperimentRun(String requestId, IExperiment experiment, IGeppettoProject project);
 }
