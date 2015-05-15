@@ -71,48 +71,55 @@ import org.geppetto.core.visualisation.model.Point;
 
 import com.google.gson.JsonObject;
 
-public class SerializeTreeVisitor extends DefaultStateVisitor {
+public class SerializeTreeVisitor extends DefaultStateVisitor
+{
 	private StringBuilder _serialized = new StringBuilder();
 	private Map<ANode, Map<String, Integer>> _arraysLastIndexMap = new HashMap<ANode, Map<String, Integer>>();
 
-	public SerializeTreeVisitor() {
+	public SerializeTreeVisitor()
+	{
 		super();
 	}
 
 	/**
-	 * Method that extracts most common properties of a node used by different
-	 * serialization node methods
+	 * Method that extracts most common properties of a node used by different serialization node methods
 	 * 
 	 * @param node
 	 * @return
 	 */
-	private String commonProperties(ANode node) {
+	private String commonProperties(ANode node)
+	{
 
 		String id = "";
-		if (node.getId() != null) {
+		if(node.getId() != null)
+		{
 			id = "\"id\":" + "\"" + node.getId() + "\",";
 		}
-		
+
 		String name = "";
-		if (node.getName() != null) {
+		if(node.getName() != null)
+		{
 			name = "\"name\":" + "\"" + node.getName() + "\",";
 		}
-		
+
 		String domainType = "";
-		if (node.getDomainType() != null) {
+		if(node.getDomainType() != null)
+		{
 			domainType = "\"domainType\":" + "\"" + node.getDomainType() + "\",";
 		}
 
 		String instancePath = "";
-		if (node.getInstancePath() != null) {
-			if (!node.getInstancePath().equals("")) {
-				instancePath = "\"instancePath\":" + "\""
-						+ node.getInstancePath() + "\",";
+		if(node.getInstancePath() != null)
+		{
+			if(!node.getInstancePath().equals(""))
+			{
+				instancePath = "\"instancePath\":" + "\"" + node.getInstancePath() + "\",";
 			}
 		}
 
 		String metaType = "";
-		if (node.getMetaType() != null) {
+		if(node.getMetaType() != null)
+		{
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 
@@ -120,47 +127,58 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	}
 
 	@Override
-	public boolean inCompositeNode(CompositeNode node) {
+	public boolean inCompositeNode(CompositeNode node)
+	{
 		String id = node.getBaseName();
-		if (node.isArray()) {
+		if(node.isArray())
+		{
 			int index = node.getIndex();
-			Map<String, Integer> indexMap = _arraysLastIndexMap.get(node
-					.getParent());
+			Map<String, Integer> indexMap = _arraysLastIndexMap.get(node.getParent());
 
-			if (indexMap == null) {
-				_arraysLastIndexMap.put(node.getParent(),
-						new HashMap<String, Integer>());
+			if(indexMap == null)
+			{
+				_arraysLastIndexMap.put(node.getParent(), new HashMap<String, Integer>());
 				indexMap = _arraysLastIndexMap.get(node.getParent());
 			}
 
-			if (!indexMap.containsKey(id)) {
+			if(!indexMap.containsKey(id))
+			{
 				// if the object is not in the map we haven't found this array
 				// before
 				_serialized.append("\"" + node.getBaseName() + "\":[");
 				indexMap.put(id, -1);
-			} else {
-				if(index==0){
+			}
+			else
+			{
+				if(index == 0)
+				{
 					_serialized.append("{");
 				}
 			}
-			if (indexMap.containsKey(id) && indexMap.get(id) > index) {
-				throw new RuntimeException(
-						"The tree is not ordered, found surpassed index");
+			if(indexMap.containsKey(id) && indexMap.get(id) > index)
+			{
+				throw new RuntimeException("The tree is not ordered, found surpassed index");
 			}
-			if(node.getChildren().size()==0){
+			if(node.getChildren().size() == 0)
+			{
 				_serialized.append("{");
 			}
-			for (int i = indexMap.get(id); i < index - 1; i++) {
+			for(int i = indexMap.get(id); i < index - 1; i++)
+			{
 				// we fill in the gaps with empty objects so that we generate a
 				// valid JSON array
 				_serialized.append("{},");
 			}
 			indexMap.put(id, index);
-		} else {
+		}
+		else
+		{
 			// add bracket if array and it's at index 0
-			if (node.getParent().isArray()) {
+			if(node.getParent().isArray())
+			{
 				CompositeNode parent = (CompositeNode) node.getParent();
-				if (parent.getChildren().indexOf(node) == 0) {
+				if(parent.getChildren().indexOf(node) == 0)
+				{
 					_serialized.append("{");
 				}
 			}
@@ -175,23 +193,27 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	}
 
 	@Override
-	public boolean outCompositeNode(CompositeNode node) {
+	public boolean outCompositeNode(CompositeNode node)
+	{
 		String commonProperties = this.commonProperties(node);
 		_serialized.append(commonProperties);
 
-		if (node.isArray()) {
+		if(node.isArray())
+		{
 			ANode sibling = node.nextSibling();
-			if (sibling == null
-					|| !(sibling instanceof ACompositeNode)
-					|| !(((ACompositeNode) sibling).getBaseName().equals(node
-							.getBaseName()))) {
+			if(sibling == null || !(sibling instanceof ACompositeNode) || !(((ACompositeNode) sibling).getBaseName().equals(node.getBaseName())))
+			{
 
 				_serialized.append("}],");
 				return _stopVisiting;
-			} else {
+			}
+			else
+			{
 				_serialized.append("},");
 			}
-		} else {
+		}
+		else
+		{
 			_serialized.append("},");
 		}
 
@@ -199,8 +221,10 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	}
 
 	@Override
-	public boolean inAspectNode(AspectNode node) {
-		if (node.isModified()) {
+	public boolean inAspectNode(AspectNode node)
+	{
+		if(node.isModified())
+		{
 			String namePath = "";
 
 			namePath = "\"" + node.getBaseName() + "\":{";
@@ -212,8 +236,10 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	}
 
 	@Override
-	public boolean outAspectNode(AspectNode node) {
-		if (node.isModified()) {
+	public boolean outAspectNode(AspectNode node)
+	{
+		if(node.isModified())
+		{
 			String commonProperties = this.commonProperties(node);
 			_serialized.append(commonProperties + "},");
 
@@ -223,8 +249,10 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	}
 
 	@Override
-	public boolean inEntityNode(EntityNode node) {
-		if (node.isModified()) {
+	public boolean inEntityNode(EntityNode node)
+	{
+		if(node.isModified())
+		{
 			String namePath = "\"" + node.getBaseName() + "\":";
 
 			_serialized.append(namePath + "{");
@@ -234,18 +262,18 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	}
 
 	@Override
-	public boolean outEntityNode(EntityNode node) {
-		if (node.isModified()) {
+	public boolean outEntityNode(EntityNode node)
+	{
+		if(node.isModified())
+		{
 			String commonProperties = this.commonProperties(node);
 
 			Point position = node.getPosition();
 			String positionString = "";
 
-			if (position != null) {
-				positionString = "\"position\":{" + "\"x\":"
-						+ position.getX().toString() + "," + "\"y\":"
-						+ position.getY().toString() + "," + "\"z\":"
-						+ position.getZ().toString() + "},";
+			if(position != null)
+			{
+				positionString = "\"position\":{" + "\"x\":" + position.getX().toString() + "," + "\"y\":" + position.getY().toString() + "," + "\"z\":" + position.getZ().toString() + "},";
 			}
 
 			_serialized.append(positionString + commonProperties + "},");
@@ -255,8 +283,10 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	}
 
 	@Override
-	public boolean inAspectSubTreeNode(AspectSubTreeNode node) {
-		if (node.isModified()) {
+	public boolean inAspectSubTreeNode(AspectSubTreeNode node)
+	{
+		if(node.isModified())
+		{
 			String namePath = "\"" + node.getBaseName() + "\":{";
 
 			_serialized.append(namePath);
@@ -268,10 +298,13 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	}
 
 	@Override
-	public boolean outAspectSubTreeNode(AspectSubTreeNode node) {
-		if (node.isModified()) {
+	public boolean outAspectSubTreeNode(AspectSubTreeNode node)
+	{
+		if(node.isModified())
+		{
 			String type = "";
-			if (node.getType() != null) {
+			if(node.getType() != null)
+			{
 				type = "\"type\":" + "\"" + node.getType() + "\",";
 			}
 
@@ -285,7 +318,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	}
 
 	@Override
-	public boolean inRuntimeTreeRoot(RuntimeTreeRoot node) {
+	public boolean inRuntimeTreeRoot(RuntimeTreeRoot node)
+	{
 		String namePath = "{\"" + node.getBaseName() + "\":{";
 
 		_serialized.append(namePath);
@@ -293,9 +327,11 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	}
 
 	@Override
-	public boolean outRuntimeTreeRoot(RuntimeTreeRoot node) {
+	public boolean outRuntimeTreeRoot(RuntimeTreeRoot node)
+	{
 		String metaType = "";
-		if (node.getMetaType() != null) {
+		if(node.getMetaType() != null)
+		{
 			metaType = "\"_metaType\":" + "\"" + node.getMetaType() + "\"";
 		}
 
@@ -304,8 +340,10 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 	}
 
 	@Override
-	public boolean inConnectionNode(ConnectionNode node) {
-		if(node.isModified()){
+	public boolean inConnectionNode(ConnectionNode node)
+	{
+		if(node.isModified())
+		{
 			String namePath = "\"" + node.getId() + "\":";
 
 			_serialized.append(namePath + "{");
@@ -314,152 +352,169 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 		return this._stopVisiting;
 	}
-	
+
 	@Override
-	public boolean outConnectionNode(ConnectionNode node) {
-		if(node.isModified()){
+	public boolean outConnectionNode(ConnectionNode node)
+	{
+		if(node.isModified())
+		{
 			String commonproperties = this.commonProperties(node);
 
 			String entityId = "";
-			if (node.getEntityInstancePath() != null) {
-				entityId = "\"entityInstancePath\":" + "\"" + node.getEntityInstancePath()+ "\",";
+			if(node.getEntityInstancePath() != null)
+			{
+				entityId = "\"entityInstancePath\":" + "\"" + node.getEntityInstancePath() + "\",";
 			}
 
-			String type = "\"type\":" + "\"" +node.getConnectionType().toString()+ "\",";
+			String type = "\"type\":" + "\"" + node.getConnectionType().toString() + "\",";
 
-			_serialized.append(entityId + type+ commonproperties+ "},");
+			_serialized.append(entityId + type + commonproperties + "},");
 			return super.outConnectionNode(node);
 		}
 		return this._stopVisiting;
 	}
 
 	@Override
-	public boolean inVisualGroupNode(VisualGroupNode node) {
+	public boolean inVisualGroupNode(VisualGroupNode node)
+	{
 		String namePath = "\"" + node.getId() + "\":";
 
 		_serialized.append(namePath + "{");
 		return super.inVisualGroupNode(node);
 
 	}
-	
+
 	@Override
-	public boolean outVisualGroupNode(VisualGroupNode node) {
+	public boolean outVisualGroupNode(VisualGroupNode node)
+	{
 
 		String commonproperties = this.commonProperties(node);
-		
+
 		String highSpectrumColor = "";
-		if (node.getHighSpectrumColor()!=null) {
-			highSpectrumColor = "\"highSpectrumColor\":" + "\"" + node.getHighSpectrumColor()+ "\",";
+		if(node.getHighSpectrumColor() != null)
+		{
+			highSpectrumColor = "\"highSpectrumColor\":" + "\"" + node.getHighSpectrumColor() + "\",";
 		}
-		
+
 		String lowSpectrumColor = "";
-		if (node.getLowSpectrumColor()!=null) {
-			lowSpectrumColor = "\"lowSpectrumColor\":" + "\"" + node.getLowSpectrumColor()+ "\",";
+		if(node.getLowSpectrumColor() != null)
+		{
+			lowSpectrumColor = "\"lowSpectrumColor\":" + "\"" + node.getLowSpectrumColor() + "\",";
 		}
-		
-		String type = "\"type\":" + "\"" +node.getType()+ "\",";
-		
-		_serialized.append(highSpectrumColor+ lowSpectrumColor + type+ commonproperties+ "},");
+
+		String type = "\"type\":" + "\"" + node.getType() + "\",";
+
+		_serialized.append(highSpectrumColor + lowSpectrumColor + type + commonproperties + "},");
 		return super.outVisualGroupNode(node);
 	}
-	
+
 	@Override
-	public boolean visitVisualObjectReferenceNode(VisualObjectReferenceNode node){
-		
-		String aspectInstancePath = "\"aspectInstancePath\":" + "\"" +node.getAspectInstancePath()+ "\",";
-		
-		String visualObjectID = "\"visualObjectID\":" + "\"" +node.getVisualObjectId()+ "\",";
-		
+	public boolean visitVisualObjectReferenceNode(VisualObjectReferenceNode node)
+	{
+
+		String aspectInstancePath = "\"aspectInstancePath\":" + "\"" + node.getAspectInstancePath() + "\",";
+
+		String visualObjectID = "\"visualObjectID\":" + "\"" + node.getVisualObjectId() + "\",";
+
 		String commonProperties = this.commonProperties(node);
-		
-		_serialized.append("\"" + node.getId() + "\":{" +aspectInstancePath + visualObjectID + commonProperties + "},");
-		
+
+		_serialized.append("\"" + node.getId() + "\":{" + aspectInstancePath + visualObjectID + commonProperties + "},");
+
 		return super.visitVisualObjectReferenceNode(node);
 	}
-	
+
 	@Override
-	public boolean visitVisualGroupElementNode(VisualGroupElementNode node){
-		
+	public boolean visitVisualGroupElementNode(VisualGroupElementNode node)
+	{
+
 		String parameter = "";
-		if(node.getParameter()!=null){
-			String param = "value\":" + node.getParameter().getValue().toString() + 
-							",\"scalingFactor\":" + "\"" + node.getParameter().getScalingFactor()+"\"" + 
-							",\"unit\":" + "\"" + node.getParameter().getUnit();
-			parameter = "\"parameter\":{" + "\"" +param+ "\"},";
+		if(node.getParameter() != null)
+		{
+			String param = "value\":" + node.getParameter().getValue().toString() + ",\"scalingFactor\":" + "\"" + node.getParameter().getScalingFactor() + "\"" + ",\"unit\":" + "\""
+					+ node.getParameter().getUnit();
+			parameter = "\"parameter\":{" + "\"" + param + "\"},";
 		}
-		
-		String color = "\"color\":" + "\"" +node.getDefaultColor()+ "\",";
-		
+
+		String color = "\"color\":" + "\"" + node.getDefaultColor() + "\",";
+
 		String commonProperties = this.commonProperties(node);
-		
-		_serialized.append("\"" + node.getId() + "\":{" +parameter + color + commonProperties + "},");
-		
+
+		_serialized.append("\"" + node.getId() + "\":{" + parameter + color + commonProperties + "},");
+
 		return super.visitVisualGroupElementNode(node);
 	}
-	
-	@Override
-	public boolean visitVariableNode(VariableNode node) {
 
-		if (node.getParent().isArray()) {
+	@Override
+	public boolean visitVariableNode(VariableNode node)
+	{
+
+		if(node.getParent().isArray())
+		{
 			CompositeNode parent = (CompositeNode) node.getParent();
-			if (parent.getChildren().indexOf(node) == 0) {
+			if(parent.getChildren().indexOf(node) == 0)
+			{
 				_serialized.append("{");
 			}
 		}
 
 		String commonProperties = this.commonProperties(node);
-		
+
 		String watched = "\"watched\":" + "\"" + node.isWatched() + "\",";
 
-		if(node.getTimeSeries().size()>0){
+		if(node.getTimeSeries().size() > 0)
+		{
 			_serialized.append("\"" + node.getId() + "\":{\"timeSeries\":{");
-			for(int i=0; i<node.getTimeSeries().size();i++){
+			for(int i = 0; i < node.getTimeSeries().size(); i++)
+			{
 				PhysicalQuantity quantity = node.getTimeSeries().get(i);
-				if (quantity != null) {
+				if(quantity != null)
+				{
 					AValue value = quantity.getValue();
 					String unit = null, scale = null;
 
-					if (quantity.getUnit() != null) {
+					if(quantity.getUnit() != null)
+					{
 						unit = "\"" + quantity.getUnit() + "\"";
 					}
-					if (quantity.getScalingFactor() != null) {
+					if(quantity.getScalingFactor() != null)
+					{
 						scale = "\"" + quantity.getScalingFactor() + "\"";
 					}
-					String qName = "quantity"+String.valueOf(i);
-					_serialized.append("\""+ qName +"\":{\"value\":" + value
-							+ ",\"unit\":" + unit + ",\"scale\":" + scale+"},");
+					String qName = "quantity" + String.valueOf(i);
+					_serialized.append("\"" + qName + "\":{\"value\":" + value + ",\"unit\":" + unit + ",\"scale\":" + scale + "},");
 				}
 			}
-			if (_serialized.charAt(_serialized.length() - 1) == ',')
-				_serialized.deleteCharAt(_serialized.lastIndexOf(","));
-			_serialized.append("}," + watched +commonProperties + "},");
+			if(_serialized.charAt(_serialized.length() - 1) == ',') _serialized.deleteCharAt(_serialized.lastIndexOf(","));
+			_serialized.append("}," + watched + commonProperties + "},");
 			node.getTimeSeries().clear();
 		}
-		else{
-			_serialized.append("\"" + node.getId() + "\":{"
-					+ watched
-					+ commonProperties + "},");
+		else
+		{
+			_serialized.append("\"" + node.getId() + "\":{" + watched + commonProperties + "},");
 		}
 		return super.visitVariableNode(node);
 	}
 
 	@Override
-	public boolean visitParameterNode(ParameterNode node) {
+	public boolean visitParameterNode(ParameterNode node)
+	{
 		String commonProperties = this.commonProperties(node);
 
 		String properties = "";
 
-		if (node.getProperties().size() > 0) {
+		if(node.getProperties().size() > 0)
+		{
 			HashMap<String, String> props = node.getProperties();
 
 			properties = ",\"properties\":{";
 
 			Set<String> keys = props.keySet();
 			int index = 0;
-			for (String key : keys) {
-				properties = properties.concat("\"" + key + "\":\""
-						+ props.get(key) + "\"");
-				if (index < (props.size() - 1)) {
+			for(String key : keys)
+			{
+				properties = properties.concat("\"" + key + "\":\"" + props.get(key) + "\"");
+				if(index < (props.size() - 1))
+				{
 					properties = properties.concat(",");
 				}
 				index++;
@@ -467,13 +522,13 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 			properties = properties.concat("},");
 		}
-		_serialized.append("\"" + node.getId() + "\":{" + commonProperties
-				+ properties + "},");
+		_serialized.append("\"" + node.getId() + "\":{" + commonProperties + properties + "},");
 
 		return super.visitParameterNode(node);
 	}
 
-	public boolean visitDynamicsSpecificationNode(DynamicsSpecificationNode node) {
+	public boolean visitDynamicsSpecificationNode(DynamicsSpecificationNode node)
+	{
 		String commonProperties = this.commonProperties(node);
 
 		PhysicalQuantity quantity = node.getInitialConditions();
@@ -481,33 +536,38 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 
 		String specs = "", function = "";
 
-		if (quantity != null) {
+		if(quantity != null)
+		{
 			AValue value = quantity.getValue();
 			String unit = null, scale = null;
 
-			if (quantity.getUnit() != null) {
+			if(quantity.getUnit() != null)
+			{
 				unit = quantity.getUnit();
 			}
-			if (quantity.getScalingFactor() != null) {
+			if(quantity.getScalingFactor() != null)
+			{
 				scale = "\"" + quantity.getScalingFactor() + "\"";
 			}
-			specs = "\"value\":" + "\"" + value + "\",\"unit\":" + "\"" + unit
-					+ "\",\"scale\":" + scale + ",";
+			specs = "\"value\":" + "\"" + value + "\",\"unit\":" + "\"" + unit + "\",\"scale\":" + scale + ",";
 		}
 
-		if (functionNode != null) {
+		if(functionNode != null)
+		{
 
 			String properties = "";
 
-			if (functionNode.getArgument() != null) {
+			if(functionNode.getArgument() != null)
+			{
 				List<String> arguments = functionNode.getArgument();
 
 				properties = "," + "\"arguments\":{";
 
-				for (int index = 0; index < arguments.size(); index++) {
-					properties = properties.concat("\"" + index + "\":\""
-							+ arguments.get(index) + "\"");
-					if (index < (arguments.size() - 1)) {
+				for(int index = 0; index < arguments.size(); index++)
+				{
+					properties = properties.concat("\"" + index + "\":\"" + arguments.get(index) + "\"");
+					if(index < (arguments.size() - 1))
+					{
 						properties = properties.concat(",");
 					}
 				}
@@ -515,77 +575,82 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 				properties = properties.concat("}");
 			}
 
-			function = "\"_function\":{" + "\"expression\":" + "\""
-					+ functionNode.getExpression() + "\"" + properties + "},";
+			function = "\"_function\":{" + "\"expression\":" + "\"" + functionNode.getExpression() + "\"" + properties + "},";
 		}
 
-		_serialized.append("\"" + node.getId() + "\":{" + specs + function
-				+ commonProperties + "},");
+		_serialized.append("\"" + node.getId() + "\":{" + specs + function + commonProperties + "},");
 
 		return super.visitDynamicsSpecificationNode(node);
 	}
 
-	public boolean visitParameterSpecificationNode(
-			ParameterSpecificationNode node) {
+	public boolean visitParameterSpecificationNode(ParameterSpecificationNode node)
+	{
 		String commonProperties = this.commonProperties(node);
 
 		PhysicalQuantity quantity = node.getValue();
 
-		if (quantity != null) {
+		if(quantity != null)
+		{
 			AValue value = quantity.getValue();
 			String unit = null, scale = null;
 
-			if (quantity.getUnit() != null) {
+			if(quantity.getUnit() != null)
+			{
 				unit = "\"" + quantity.getUnit() + "\"";
 			}
-			if (quantity.getScalingFactor() != null) {
+			if(quantity.getScalingFactor() != null)
+			{
 				scale = "\"" + quantity.getScalingFactor() + "\"";
 			}
-			_serialized.append("\"" + node.getId() + "\":{\"value\":" + "\""
-					+ value + "\",\"unit\":" + unit + ",\"scale\":" + scale
-					+ "," + commonProperties + "},");
-		} else {
-			_serialized.append("\"" + node.getId() + "\":{"
-					+ commonProperties + "},");
+			_serialized.append("\"" + node.getId() + "\":{\"value\":" + "\"" + value + "\",\"unit\":" + unit + ",\"scale\":" + scale + "," + commonProperties + "},");
+		}
+		else
+		{
+			_serialized.append("\"" + node.getId() + "\":{" + commonProperties + "},");
 		}
 
 		return super.visitParameterSpecificationNode(node);
 	}
 
-	public boolean visitFunctionNode(FunctionNode node) {
+	public boolean visitFunctionNode(FunctionNode node)
+	{
 		String commonProperties = this.commonProperties(node);
 
 		String properties = "";
 
-		if (node.getArgument() != null) {
+		if(node.getArgument() != null)
+		{
 			List<String> arguments = node.getArgument();
 
 			properties = "\"arguments\":{";
 
-			for (int index = 0; index < arguments.size(); index++) {
-				properties = properties.concat("\"" + index + "\":\""
-						+ arguments.get(index) + "\"");
-				if (index < (arguments.size() - 1)) {
+			for(int index = 0; index < arguments.size(); index++)
+			{
+				properties = properties.concat("\"" + index + "\":\"" + arguments.get(index) + "\"");
+				if(index < (arguments.size() - 1))
+				{
 					properties = properties.concat(",");
 				}
 			}
 
 			properties = properties.concat("},");
 		}
-		
+
 		String plotMetadata = "";
 
-		if (node.getPlotMetadata().size() > 0) {
+		if(node.getPlotMetadata().size() > 0)
+		{
 			HashMap<String, String> props = node.getPlotMetadata();
 
 			plotMetadata = "\"plotMetadata\":{";
 
 			Set<String> keys = props.keySet();
 			int index = 0;
-			for (String key : keys) {
-				plotMetadata = plotMetadata.concat("\"" + key + "\":\""
-						+ props.get(key) + "\"");
-				if (index < (props.size() - 1)) {
+			for(String key : keys)
+			{
+				plotMetadata = plotMetadata.concat("\"" + key + "\":\"" + props.get(key) + "\"");
+				if(index < (props.size() - 1))
+				{
 					plotMetadata = plotMetadata.concat(",");
 				}
 				index++;
@@ -594,220 +659,222 @@ public class SerializeTreeVisitor extends DefaultStateVisitor {
 			plotMetadata = plotMetadata.concat("},");
 		}
 
-		_serialized.append("\"" + node.getId() + "\":{" + "\"expression\":"
-				+ "\"" + node.getExpression() + "\"," + properties
-				+ plotMetadata + commonProperties + "},");
+		_serialized.append("\"" + node.getId() + "\":{" + "\"expression\":" + "\"" + node.getExpression() + "\"," + properties + plotMetadata + commonProperties + "},");
 
 		return super.visitFunctionNode(node);
 	}
 
 	@Override
-	public boolean visitTextMetadataNode(TextMetadataNode node) {
+	public boolean visitTextMetadataNode(TextMetadataNode node)
+	{
 		String commonProperties = this.commonProperties(node);
 		String valueString = "";
-		if (node.getValue() != null){
+		if(node.getValue() != null)
+		{
 			AValue value = node.getValue();
 			valueString = "\"value\":" + "\"" + value + "\",";
 		}
-		
-		_serialized.append("\"" + node.getId() + "\":{" + valueString.replaceAll("[\n\r]", "") + commonProperties+ "},");
+
+		_serialized.append("\"" + node.getId() + "\":{" + valueString.replaceAll("[\n\r]", "") + commonProperties + "},");
 
 		return super.visitTextMetadataNode(node);
 	}
 
 	@Override
-	public boolean visitURLMetadataNode(URLMetadataNode node) {
+	public boolean visitURLMetadataNode(URLMetadataNode node)
+	{
 		String commonProperties = this.commonProperties(node);
-		
+
 		String url = "";
-		if(node.getURL()!=null){
-			url = "\"url\":" + "\"" + node.getURL()+ "\",";
+		if(node.getURL() != null)
+		{
+			url = "\"url\":" + "\"" + node.getURL() + "\",";
 		}
 
-		_serialized.append("\"" + node.getId() + "\":{" + url +commonProperties + "},");
+		_serialized.append("\"" + node.getId() + "\":{" + url + commonProperties + "},");
 
 		return super.visitURLMetadataNode(node);
 	}
 
 	@Override
-	public boolean visitSphereNode(SphereNode node) {
+	public boolean visitSphereNode(SphereNode node)
+	{
 		String commonProperties = this.commonProperties(node);
 
 		Point position = node.getPosition();
 		String name = node.getId();
 		String positionString = "";
 
-		if (position != null) {
-			positionString = "\"x\":" + position.getX().toString() + ","
-					+ "\"y\":" + position.getY().toString() + "," + "\"z\":"
-					+ position.getZ().toString() + "";
+		if(position != null)
+		{
+			positionString = "\"x\":" + position.getX().toString() + "," + "\"y\":" + position.getY().toString() + "," + "\"z\":" + position.getZ().toString() + "";
 		}
 
 		Double radius = node.getRadius();
 		String radiusString = null;
-		if (radius != null) {
+		if(radius != null)
+		{
 			radiusString = "\"" + radius.toString() + "\"";
 		}
-		
+
 		List<String> map = node.getGroupElementsMap();
 
 		String groups = "\"groups\":{";
 
-		for (int index = 0; index < map.size(); index++) {
-			groups = groups.concat("\"" + index + "\":\""
-					+ map.get(index) + "\"");
-			if (index < (map.size() - 1)) {
+		for(int index = 0; index < map.size(); index++)
+		{
+			groups = groups.concat("\"" + index + "\":\"" + map.get(index) + "\"");
+			if(index < (map.size() - 1))
+			{
 				groups = groups.concat(",");
 			}
 		}
 
 		groups = groups.concat("},");
 
-		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
-				+ "}," + groups + "\"radius\":" + radiusString + ","+ commonProperties
-				+ "},");
+		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," + groups + "\"radius\":" + radiusString + "," + commonProperties + "},");
 
 		return super.visitSphereNode(node);
 	}
 
 	@Override
-	public boolean visitCylinderNode(CylinderNode node) {
+	public boolean visitCylinderNode(CylinderNode node)
+	{
 		String commonProperties = this.commonProperties(node);
 
 		Point position = node.getPosition();
 		String name = node.getId();
 		String positionString = "";
 
-		if (position != null) {
-			positionString = "\"x\":" + position.getX().toString() + ","
-					+ "\"y\":" + position.getY().toString() + "," + "\"z\":"
-					+ position.getZ().toString() + "";
+		if(position != null)
+		{
+			positionString = "\"x\":" + position.getX().toString() + "," + "\"y\":" + position.getY().toString() + "," + "\"z\":" + position.getZ().toString() + "";
 		}
 
 		Point distal = node.getDistal();
 		String distalString = "";
 
-		if (distal != null) {
-			distalString = "\"x\":" + distal.getX().toString() + "," + "\"y\":"
-					+ distal.getY().toString() + "," + "\"z\":"
-					+ distal.getZ().toString() + "";
+		if(distal != null)
+		{
+			distalString = "\"x\":" + distal.getX().toString() + "," + "\"y\":" + distal.getY().toString() + "," + "\"z\":" + distal.getZ().toString() + "";
 		}
 
 		Double radiusBottom = node.getRadiusBottom();
 		String radiusBottomString = "";
-		if (radiusBottom != null) {
+		if(radiusBottom != null)
+		{
 			radiusBottomString = "\"" + radiusBottom.toString() + "\"";
 		}
 
 		Double radiusTop = node.getRadiusTop();
 		String radiusTopString = "";
-		if (radiusTop != null) {
+		if(radiusTop != null)
+		{
 			radiusTopString = "\"" + radiusTop.toString() + "\"";
 		}
-		
+
 		List<String> map = node.getGroupElementsMap();
 
 		String groups = "\"groups\":{";
 
-		for (int index = 0; index < map.size(); index++) {
-			groups = groups.concat("\"" + index + "\":\""
-					+ map.get(index) + "\"");
-			if (index < (map.size() - 1)) {
+		for(int index = 0; index < map.size(); index++)
+		{
+			groups = groups.concat("\"" + index + "\":\"" + map.get(index) + "\"");
+			if(index < (map.size() - 1))
+			{
 				groups = groups.concat(",");
 			}
 		}
 
 		groups = groups.concat("},");
 
-		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
-				+ "}," + "\"distal\":{" + distalString + "},"
-				+ groups
-				+ "\"radiusBottom\":" + radiusBottomString + ","
-				+ "\"radiusTop\":" + radiusTopString + "," + commonProperties
-				+ "},");
+		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," + "\"distal\":{" + distalString + "}," + groups + "\"radiusBottom\":" + radiusBottomString + ","
+				+ "\"radiusTop\":" + radiusTopString + "," + commonProperties + "},");
 
 		return super.visitCylinderNode(node);
 	}
 
 	@Override
-	public boolean visitParticleNode(ParticleNode node) {
+	public boolean visitParticleNode(ParticleNode node)
+	{
 		String commonProperties = this.commonProperties(node);
 
 		Point position = node.getPosition();
 		String name = node.getId();
 		String positionString = "";
 
-		if (position != null) {
-			positionString = "\"x\":" + position.getX().toString() + ","
-					+ "\"y\":" + position.getY().toString() + "," + "\"z\":"
-					+ position.getZ().toString() + "";
+		if(position != null)
+		{
+			positionString = "\"x\":" + position.getX().toString() + "," + "\"y\":" + position.getY().toString() + "," + "\"z\":" + position.getZ().toString() + "";
 		}
 
-		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
-				+ "}," + commonProperties + "},");
+		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," + commonProperties + "},");
 
 		return super.visitParticleNode(node);
 	}
 
 	@Override
-	public boolean visitColladaNode(ColladaNode node) {
+	public boolean visitColladaNode(ColladaNode node)
+	{
 		String commonProperties = this.commonProperties(node);
 
 		Point position = node.getPosition();
 		String name = node.getId();
 		String positionString = "";
 
-		if (position != null) {
-			positionString = "\"x\":" + position.getX().toString() + ","
-					+ "\"y\":" + position.getY().toString() + "," + "\"z\":"
-					+ position.getZ().toString() + "";
+		if(position != null)
+		{
+			positionString = "\"x\":" + position.getX().toString() + "," + "\"y\":" + position.getY().toString() + "," + "\"z\":" + position.getZ().toString() + "";
 		}
 
 		String model = "";
-		if (node.getModel() != null) {
+		if(node.getModel() != null)
+		{
 			JsonObject obj = new JsonObject();
 			obj.addProperty("data", node.getModel());
 			model = "\"model\":" + obj.toString() + ",";
 		}
-		
-		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
-				+ "}," + model + commonProperties + "},");
+
+		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," + model + commonProperties + "},");
 
 		return super.visitColladaNode(node);
 	}
 
 	@Override
-	public boolean visitObjNode(OBJNode node) {
+	public boolean visitObjNode(OBJNode node)
+	{
 		String commonProperties = this.commonProperties(node);
-		
+
 		Point position = node.getPosition();
 		String name = node.getId();
 		String positionString = "";
 
-		if (position != null) {
-			positionString = "\"x\":" + position.getX().toString() + ","
-					+ "\"y\":" + position.getY().toString() + "," + "\"z\":"
-					+ position.getZ().toString() + "";
+		if(position != null)
+		{
+			positionString = "\"x\":" + position.getX().toString() + "," + "\"y\":" + position.getY().toString() + "," + "\"z\":" + position.getZ().toString() + "";
 		}
 
 		String model = "";
-		if (node.getModel() != null) {
+		if(node.getModel() != null)
+		{
 			JsonObject obj = new JsonObject();
 			obj.addProperty("data", node.getModel());
 			model = "\"model\":" + obj.toString() + ",";
 		}
 
-		_serialized.append("\"" + name + "\":{\"position\":{" + positionString
-				+ "}," + model + commonProperties + "},");
+		_serialized.append("\"" + name + "\":{\"position\":{" + positionString + "}," + model + commonProperties + "},");
 
 		return super.visitObjNode(node);
 	}
 
-	public String getSerializedTree() {
-		if (_serialized.length() != 0){
-			if (_serialized.charAt(_serialized.length() - 1) == ',')
-				_serialized.deleteCharAt(_serialized.lastIndexOf(","));
-			return _serialized.toString();
+	public String getSerializedTree()
+	{
+
+		if(_serialized.length() != 0)
+		{
+			if(_serialized.charAt(_serialized.length() - 1) == ',') _serialized.deleteCharAt(_serialized.lastIndexOf(","));
+			String sceneUpdate = "{" + _serialized.toString().substring(1, _serialized.toString().length() - 1) + "}";
+			return sceneUpdate;
 		}
 		return "";
 	}

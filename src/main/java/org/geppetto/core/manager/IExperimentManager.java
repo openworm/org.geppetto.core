@@ -4,6 +4,7 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.model.runtime.RuntimeTreeRoot;
 
 public interface IExperimentManager
 {
@@ -11,9 +12,10 @@ public interface IExperimentManager
 	/**
 	 * @param requestId
 	 * @param experiment
+	 * @return 
 	 * @throws GeppettoExecutionException
 	 */
-	public abstract void loadExperiment(String requestId, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
+	public abstract RuntimeTreeRoot loadExperiment(String requestId, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
 	/**
 	 * Run a specified experiment
