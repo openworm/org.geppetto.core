@@ -55,16 +55,10 @@
 	<osgi:service id="DataManager" ref="dataManagerService"
 		interface="org.geppetto.core.data.IGeppettoDataManager">
 	</osgi:service>
-	<osgi:service id="S3Manager" ref="s3ManagerService"
-		interface="org.geppetto.core.data.IGeppettoS3Manager">
-	</osgi:service>
 	<bean id="dataManagerService" scope="singleton" class="org.geppetto.core.data.DefaultGeppettoDataManager">
 	<aop:scoped-proxy proxy-target-class="false"/>
 	</bean>
 
-	<osgi:service id="AuthService" ref="authService"
-		interface="org.geppetto.core.auth.IAuthService">
-	</osgi:service>
 	<bean id="authService" scope="thread" class="org.geppetto.core.auth.DefaultAuthService">
 	<aop:scoped-proxy proxy-target-class="false"/>
 	</bean>
