@@ -872,9 +872,15 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 		if(_serialized.length() != 0)
 		{
-			if(_serialized.charAt(_serialized.length() - 1) == ',') _serialized.deleteCharAt(_serialized.lastIndexOf(","));
-			String sceneUpdate = "{" + _serialized.toString().substring(1, _serialized.toString().length() - 1) + "}";
-			return sceneUpdate;
+			if(_serialized.charAt(_serialized.length() - 1) == ',')
+			{
+				_serialized.deleteCharAt(_serialized.lastIndexOf(","));
+			}
+			if(_serialized.charAt(0) != '{')
+			{
+				return "{" + _serialized.toString() + "}";
+			}
+			return _serialized.toString();
 		}
 		return "";
 	}

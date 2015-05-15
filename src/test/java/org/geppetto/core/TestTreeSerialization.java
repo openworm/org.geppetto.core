@@ -632,7 +632,7 @@ public class TestTreeSerialization {
 
 		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
 		model.apply(visitor);
-		String serialized = "{" + visitor.getSerializedTree() + "}";
+		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -710,7 +710,7 @@ public class TestTreeSerialization {
 		
 		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
 		model.apply(visitor);
-		String serialized = "{" + visitor.getSerializedTree() + "}";
+		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
