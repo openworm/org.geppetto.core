@@ -55,6 +55,9 @@
 	<osgi:service id="DataManager" ref="dataManagerService"
 		interface="org.geppetto.core.data.IGeppettoDataManager">
 	</osgi:service>
+	<osgi:service id="S3Manager" ref="s3ManagerService"
+		interface="org.geppetto.core.data.IGeppettoS3Manager">
+	</osgi:service>
 	<bean id="dataManagerService" scope="singleton" class="org.geppetto.core.data.DefaultGeppettoDataManager">
 	<aop:scoped-proxy proxy-target-class="false"/>
 	</bean>
