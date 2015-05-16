@@ -52,7 +52,7 @@
         simulatorConfiguration: {
           id: 1,
           simulatorId: "simulatorId",
-          timestep: "timestep",
+          timestep: 0.01,
           parameters: {
             key: "value"
           }
@@ -132,7 +132,7 @@
         simulatorConfiguration: {
           id: 2,
           simulatorId: "simulatorId",
-          timestep: "timestep",
+          timestep: 0.01,
           parameters: {
             key: "value"
           }
