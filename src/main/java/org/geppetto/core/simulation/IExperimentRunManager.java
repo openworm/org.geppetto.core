@@ -34,13 +34,19 @@ package org.geppetto.core.simulation;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IExperiment;
+import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IUser;
 
 public interface IExperimentRunManager
 {
-	void queueExperiment(IUser user, IExperiment experiment);
+	/**
+	 * @param user the user which owns the project
+	 * @param experiment
+	 * @param project
+	 */
+	void queueExperiment(IUser user, IExperiment experiment, IGeppettoProject project);
 
-	boolean checkExperiment(IExperiment experiment);
+	boolean checkExperiment(IExperiment experiment, IGeppettoProject project);
 	
-	void runExperiment(IExperiment experiment) throws GeppettoExecutionException;
+	void runExperiment(IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 }

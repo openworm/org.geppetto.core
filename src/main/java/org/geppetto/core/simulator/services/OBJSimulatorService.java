@@ -38,44 +38,46 @@ import java.util.List;
 import org.geppetto.core.beans.SimulatorConfig;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
-import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.simulator.ASimulator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OBJSimulatorService extends ASimulator{
+public class OBJSimulatorService extends ASimulator
+{
 
 	@Autowired
 	private SimulatorConfig objSimulatorConfig;
-	
+
 	@Override
-	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect)
-			throws GeppettoExecutionException {
+	public void simulate(IAspectConfiguration aspectConfiguration, AspectNode aspect) throws GeppettoExecutionException
+	{
 		advanceTimeStep(0, aspect);
 		notifyStateTreeUpdated();
 	}
 
 	@Override
-	public void initialize(List<IModel> models,
-			ISimulatorCallbackListener listener)
-			throws GeppettoInitializationException, GeppettoExecutionException {
+	public void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
+	{
 		super.initialize(models, listener);
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return this.objSimulatorConfig.getSimulatorName();
 	}
 
 	@Override
-	public String getId() {
+	public String getId()
+	{
 		return this.objSimulatorConfig.getSimulatorID();
 	}
 

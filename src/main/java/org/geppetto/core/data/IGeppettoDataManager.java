@@ -36,6 +36,7 @@ package org.geppetto.core.data;
 import java.io.Reader;
 import java.util.List;
 
+import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IUser;
@@ -55,8 +56,6 @@ public interface IGeppettoDataManager
 
 	boolean isDefault();
 
-	IUser getCurrentUser();
-
 	IUser getUserByLogin(String login);
 
 	IGeppettoProject getGeppettoProjectById(long id);
@@ -66,22 +65,27 @@ public interface IGeppettoDataManager
 	List<? extends IGeppettoProject> getAllGeppettoProjects();
 
 	List<? extends IGeppettoProject> getGeppettoProjectsForUser(String login);
+	
+	IGeppettoProject getProjectFromJson(Gson gson, String json);
+
+	IGeppettoProject getProjectFromJson(Gson gson, Reader json);
 
 	List<? extends IExperiment> getExperimentsForProject(long projectId);
-
+	
+	
 	void createParameter(String name, String value);
 
+	void addGeppettoProject(IGeppettoProject project);
+	
 	IExperiment newExperiment(String name, String description);
 
 	IUser newUser(String name);
 
-	void addGeppettoProject(IGeppettoProject project);
 
 	Object deleteGeppettoProject(IGeppettoProject project);
 
 	Object deleteExperiment(IExperiment experiment);
 
-	IGeppettoProject getProjectFromJson(Gson gson, String json);
 
-	IGeppettoProject getProjectFromJson(Gson gson, Reader json);
+	void clearWatchedVariables(IAspectConfiguration aspectConfig);
 }

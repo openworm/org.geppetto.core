@@ -43,7 +43,7 @@ public interface ISimulatorConfiguration
 
 	String getConversionServiceId();
 
-	String getTimestep();
+	float getTimestep();
 
 	Map<String, String> getParameters();
 }

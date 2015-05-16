@@ -34,13 +34,16 @@
 package org.geppetto.core.simulation;
 
 import org.geppetto.core.common.GeppettoErrorCodes;
+import org.geppetto.core.model.runtime.RuntimeTreeRoot;
 
 public interface IGeppettoManagerCallbackListener
 {
 	public enum GeppettoEvents {
-	    LOAD_PROJECT,
-	    SCENE_UPDATE,
-	    RUN_EXPERIMENT, REPLAY_EXPERIMENT, QUEUE_EXPERIMENT, EXPERIMENT_OVER
+	    PROJECT_LOADED,
+	    EXPERIMENT_QUEUED,
+	    EXPERIMENT_RUNNING,  
+	    EXPERIMENT_UPDATE,  
+	    EXPERIMENT_COMPLETED 
 	}
 	
 	void updateReady(GeppettoEvents event, String requestID, String sceneUpdate);
@@ -48,4 +51,6 @@ public interface IGeppettoManagerCallbackListener
 	void error(GeppettoErrorCodes error, String classSource, String errorMessage, Exception e);
 
 	void message(String message);
+
+	void updateReady(GeppettoEvents event, RuntimeTreeRoot runtimeTree);
 }
