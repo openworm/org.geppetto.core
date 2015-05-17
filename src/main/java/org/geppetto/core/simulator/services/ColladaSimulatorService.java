@@ -66,24 +66,9 @@ public class ColladaSimulatorService extends ASimulator{
 	@Override
 	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect) throws GeppettoExecutionException {
 		advanceTimeStep(0, aspect);
-		RuntimeTreeRoot root;
-		ANode n = aspect.getParent();
-		while(n.getParent()!=null){
-			n  = n.getParent();
-		}
 		
-		root = (RuntimeTreeRoot) n;
-		//traverse scene root to get all simulation trees for all aspects
-		GetAspectsVisitor mappingVisitor = new GetAspectsVisitor();
-		root.apply(mappingVisitor);
-		HashMap<String, AspectNode> aspects = 
-				mappingVisitor.getAspects();
-		Iterator it = aspects.entrySet().iterator();
-		while(it.hasNext()){
-			Map.Entry o = (Map.Entry)it.next();
-			AspectNode a = (AspectNode)o.getValue();
-			advanceRecordings(a);
-		}
+		advanceRecordings(aspect);
+
 		notifyStateTreeUpdated();
 	}
 

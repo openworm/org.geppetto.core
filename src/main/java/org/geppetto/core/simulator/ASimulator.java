@@ -34,7 +34,10 @@
 package org.geppetto.core.simulator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import ncsa.hdf.object.Dataset;
@@ -82,6 +85,8 @@ public abstract class ASimulator extends AService implements ISimulator
 	protected int _currentRecordingIndex = 0;
 
 	protected List<RecordingModel> _recordings = new ArrayList<RecordingModel>();
+	
+	protected boolean _recordingsOpened = false;
 
 	private double _runtime;
 
@@ -101,8 +106,7 @@ public abstract class ASimulator extends AService implements ISimulator
 		// initialize recordings
 		for(IModel model : models)
 		{
-			// for each IModel passed to this simulator which is a RecordingModel
-			// we add it to a list
+			// for each IModel passed to this simulator which is a RecordingModel we add it to a list
 			if(model instanceof ModelWrapper)
 			{
 				for(Object wrappedModel : ((ModelWrapper) model).getModels())
@@ -174,53 +178,73 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	protected void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
 	{
-		IVariableWatchFeature watchFeature = ((IVariableWatchFeature) this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
-		
-		if(_recordings != null)
+		if(_recordings == null)
 		{
+			// no recordings = nothing to advance
+			return;
+		}
+		
+		IVariableWatchFeature watchFeature = ((IVariableWatchFeature) this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
+		UpdateRecordingStateTreeVisitor updateStateTreeVisitor = null;
+		
+		//traverse scene root to get all simulation trees for all *CHILDREN* aspects
+		ANode parentEntity = aspect.getParent();
+		
+		// find all children aspects
+		GetAspectsVisitor mappingVisitor = new GetAspectsVisitor();
+		parentEntity.apply(mappingVisitor);
+		HashMap<String, AspectNode> aspects = mappingVisitor.getAspects();
+		
+		// iterate through children aspects
+		Iterator it = aspects.entrySet().iterator();
+		boolean updated = false;
+		while(it.hasNext())
+		{
+			Map.Entry o = (Map.Entry)it.next();
+			AspectNode a = (AspectNode)o.getValue();
+			
 			// get trees
-			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.SIMULATION_TREE);
-			AspectSubTreeNode visTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.VISUALIZATION_TREE);
+			AspectSubTreeNode simulationTree = (AspectSubTreeNode) a.getSubTree(AspectTreeType.SIMULATION_TREE);
+			AspectSubTreeNode visTree = (AspectSubTreeNode) a.getSubTree(AspectTreeType.VISUALIZATION_TREE);
 			
 			// set modified
-			watchTree.setModified(true);
+			simulationTree.setModified(true);
 			visTree.setModified(true);
-			aspect.setModified(true);
-			aspect.getParentEntity().setModified(true);
+			a.setModified(true);
+			a.getParentEntity().setModified(true);
 		
-			if(watchTree.getChildren().isEmpty())
+			for(RecordingModel recording : _recordings)
 			{
-				// if the watch tree is empty need to populate it first
-				for(RecordingModel recording : _recordings)
+				if(!this._recordingsOpened)
 				{
-					this.readRecording(recording.getHDF5(), watchFeature.getWatchedVariables(), watchTree, false);
-					_currentRecordingIndex++;
+					this.openRecordingsForReading();
 				}
+				
+				updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, _currentRecordingIndex);
+				
+				// apply visitors
+				simulationTree.apply(updateStateTreeVisitor);
+				visTree.apply(updateStateTreeVisitor);
+				
+				updated = true;
 			}
-			else
-			{
-				// watch tree is already populated - just update values
-				for(RecordingModel recording : _recordings)
-				{
-					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, _currentRecordingIndex);
-					
-					// apply visitors
-					watchTree.apply(updateStateTreeVisitor);
-					visTree.apply(updateStateTreeVisitor);
-					
-					_currentRecordingIndex++;
-					
-					if(updateStateTreeVisitor.getError() != null)
-					{
-						_listener.endOfSteps(null);
-						throw new GeppettoExecutionException(updateStateTreeVisitor.getError());
-					}
-					else if(updateStateTreeVisitor.getRange() != null)
-					{
-						_listener.endOfSteps(null);
-					}
-				}
-			}	
+		}
+		
+		if(updated)
+		{
+			_currentRecordingIndex++;
+		}
+		
+		if(updateStateTreeVisitor.getError() != null)
+		{
+			_listener.endOfSteps(null);
+			closeRecordings();
+			throw new GeppettoExecutionException(updateStateTreeVisitor.getError());
+		}
+		else if(updateStateTreeVisitor.getRange() != null)
+		{
+			_listener.endOfSteps(null);
+			closeRecordings();
 		}
 	}
 
@@ -403,6 +427,38 @@ public abstract class ASimulator extends AService implements ISimulator
 				}
 			}
 		}
+	}
+	
+	private void openRecordingsForReading() throws GeppettoExecutionException {
+		// loop through recordings and open them for reading
+		for(RecordingModel recording : _recordings)
+		{
+			try
+			{
+				H5File h5file = recording.getHDF5();
+				h5file.open();
+			} catch (Exception e1) {
+				throw new GeppettoExecutionException(e1);
+			}
+		}
+		
+		this._recordingsOpened = true;
+	}
+	
+	private void closeRecordings() throws GeppettoExecutionException {
+		// loop through recordings and open them for reading
+		for(RecordingModel recording : _recordings)
+		{
+			try
+			{
+				H5File h5file = recording.getHDF5();
+				h5file.close();
+			} catch (Exception e1) {
+				throw new GeppettoExecutionException(e1);
+			}
+		}
+		
+		this._recordingsOpened = false;
 	}
 
 }
