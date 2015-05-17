@@ -237,14 +237,17 @@ public abstract class ASimulator extends AService implements ISimulator
 		
 		if(updateStateTreeVisitor.getError() != null)
 		{
+			// something went wrong - notify recording is stopped, reset and throw exception
 			_listener.endOfSteps(null);
-			closeRecordings();
+			resetRecordings();
+		
 			throw new GeppettoExecutionException(updateStateTreeVisitor.getError());
 		}
 		else if(updateStateTreeVisitor.getRange() != null)
 		{
+			// recording reached the end - notify and reset
 			_listener.endOfSteps(null);
-			closeRecordings();
+			resetRecordings();
 		}
 	}
 
@@ -446,19 +449,29 @@ public abstract class ASimulator extends AService implements ISimulator
 	}
 	
 	private void closeRecordings() throws GeppettoExecutionException {
-		// loop through recordings and open them for reading
-		for(RecordingModel recording : _recordings)
-		{
-			try
-			{
-				H5File h5file = recording.getHDF5();
-				h5file.close();
-			} catch (Exception e1) {
-				throw new GeppettoExecutionException(e1);
-			}
-		}
 		
-		this._recordingsOpened = false;
+		if(this._recordingsOpened)
+		{
+			// loop through recordings and open them for reading
+			for(RecordingModel recording : _recordings)
+			{
+				try
+				{
+					H5File h5file = recording.getHDF5();
+					h5file.close();
+				} catch (Exception e1) {
+					throw new GeppettoExecutionException(e1);
+				}
+			}
+			
+			this._recordingsOpened = false;
+		}
+	}
+	
+	private void resetRecordings() throws GeppettoExecutionException
+	{
+		closeRecordings();
+		this._currentRecordingIndex = 0;
 	}
 
 }
