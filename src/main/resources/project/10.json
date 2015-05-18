@@ -85,18 +85,14 @@
               localInstancePath: "SimulationTree.hhpop[0].v"
             }
           ],
-        simulatorConfiguration: [{
+        simulatorConfiguration: 
+        {
           id: 2,
           simulatorId: "neuronSimulator",
-          timestep: 0.01,
-          parameters: {
-            key: "value"
-          }},
-          {
-          id: 3,
-          simulatorId: "lemsConversion"
-          }]
-      }
+          conversionServiceId: "lemsConversion",
+          timestep: 0.01          
+      	}
+      	}
     ],
       name: "experiment 2",
       description: "experiment description",
