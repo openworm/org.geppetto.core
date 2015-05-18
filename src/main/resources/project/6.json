@@ -4,7 +4,7 @@
   experiments: [ ],
   geppettoModel: {
     id: 6,
-    url: "https://raw.githubusercontent.com/openworm/org.geppetto.samples/master/LEMS/C302/GEPPETTO.xml",
+    url: "https://raw.githubusercontent.com/openworm/org.geppetto.samples/datamanager/LEMS/C302/GEPPETTO.xml",
     type: "GEPPETTO_PROJECT"
   }
 }

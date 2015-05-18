@@ -4,7 +4,7 @@
   experiments: [ ],
   geppettoModel: {
     id: 7,
-    url: "https://raw.github.com/openworm/org.geppetto.samples/master/NeuroML/Purkinje/GEPPETTO.xml",
+    url: "https://raw.github.com/openworm/org.geppetto.samples/datamanager/NeuroML/Purkinje/GEPPETTO.xml",
     type: "GEPPETTO_PROJECT"
   }
 }

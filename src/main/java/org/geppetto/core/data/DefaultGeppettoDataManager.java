@@ -33,11 +33,12 @@
 
 package org.geppetto.core.data;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.Reader;
-import java.lang.reflect.Type;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,25 +56,34 @@ import org.geppetto.core.data.model.local.LocalUser;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
 
-	private static final List<LocalGeppettoProject> projects = new ArrayList<>();
+	private List<LocalGeppettoProject> projects = new ArrayList<>();
 
-	private static final List<IUser> users = new ArrayList<>();
+	private List<IUser> users = new ArrayList<>();
 
-	static
+	public DefaultGeppettoDataManager()
 	{
-		loadGeppettoProjects();
+		super();
+		try
+		{
+			loadGeppettoProjects();
+		}
+		catch(IOException e)
+		{
+			new RuntimeException(e);
+		}
+		catch(URISyntaxException e)
+		{
+			new RuntimeException(e);
+		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#getName()
 	 */
 	@Override
@@ -82,7 +92,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return "Default data manager";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#isDefault()
 	 */
 	@Override
@@ -91,7 +103,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#getUserByLogin(java.lang.String)
 	 */
 	@Override
@@ -101,7 +115,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return user;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#getGeppettoProjectById(long)
 	 */
 	@Override
@@ -117,7 +133,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#getAllUsers()
 	 */
 	@Override
@@ -126,7 +144,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return users;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#getAllGeppettoProjects()
 	 */
 	@Override
@@ -135,7 +155,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return projects;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#getGeppettoProjectsForUser(java.lang.String)
 	 */
 	@Override
@@ -144,7 +166,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return projects;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#getExperimentsForProject(long)
 	 */
 	@Override
@@ -154,16 +178,20 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return project.getExperiments();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#createParameter(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public void createParameter(String name, String value)
 	{
-		//TODO
+		// TODO
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#newExperiment(java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -173,7 +201,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 				new Date(), new Date());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#newUser(java.lang.String)
 	 */
 	@Override
@@ -181,8 +211,10 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	{
 		return new LocalUser(0, name, name, name, projects, 0, 0);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#addGeppettoProject(org.geppetto.core.data.model.IGeppettoProject)
 	 */
 	@Override
@@ -194,7 +226,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#deleteGeppettoProject(org.geppetto.core.data.model.IGeppettoProject)
 	 */
 	@Override
@@ -203,7 +237,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return new JsonRequestException("Cannot delete project", HttpStatus.BAD_REQUEST);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#deleteExperiment(org.geppetto.core.data.model.IExperiment)
 	 */
 	@Override
@@ -213,31 +249,22 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	}
 
 	/**
+	 * @throws URISyntaxException
+	 * @throws IOException
 	 * 
 	 */
-	private static void loadGeppettoProjects()
+	private void loadGeppettoProjects() throws IOException, URISyntaxException
 	{
-		GsonBuilder builder = new GsonBuilder();
-		builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>()
-		{
-			@Override
-			public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
-			{
-				return new Date(json.getAsJsonPrimitive().getAsLong());
-			}
-		});
-		Gson gson = builder.create();
-		for(int i = 1; i <= 10; i++)
-		{
-			InputStream stream = DefaultGeppettoDataManager.class.getResourceAsStream("/project/" + i + ".json");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
-			LocalGeppettoProject project = gson.fromJson(reader, LocalGeppettoProject.class);
-			projects.add(project);
-		}
+		URL projectFolder = DefaultGeppettoDataManager.class.getResource("/project/");
+		FindProjectsVisitor findProjectsVisitor = new FindProjectsVisitor(projects);
+		Files.walkFileTree(Paths.get(projectFolder.toURI()), findProjectsVisitor);
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#getProjectFromJson(com.google.gson.Gson, java.lang.String)
 	 */
 	@Override
@@ -246,7 +273,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return gson.fromJson(json, LocalGeppettoProject.class);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#getProjectFromJson(com.google.gson.Gson, java.io.Reader)
 	 */
 	@Override
@@ -255,14 +284,16 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return gson.fromJson(json, LocalGeppettoProject.class);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#clearWatchedVariables(org.geppetto.core.data.model.IAspectConfiguration)
 	 */
 	@Override
 	public void clearWatchedVariables(IAspectConfiguration aspectConfig)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
