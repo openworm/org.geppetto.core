@@ -59,27 +59,11 @@
         }
       }
     ],
-      name: "experiment ",
+      name: "experiment 1",
       description: "experiment description",
       creationDate: 1428074375937,
       lastModified: 1428074375937,
-      status: "QUEUED",
-      simulationResults: [
-        {
-          id: 1,
-          aspect: {
-            id: 1,
-            entityInstancePath: "entityInstancePathAspect",
-            aspect: "aspectAspect",
-            localInstancePath: "localInstancePathAspect"
-          },
-          result: {
-            id: 1,
-            url: "some url",
-            type: "GEPPETTO_PROJECT"
-          }
-        }
-      ],
+      status: "DESIGN",
       startDate: 1428074375937,
       endDate: 1428074375937  	  
      }, {
@@ -89,61 +73,36 @@
           id: 2,
           aspect: {
             id: 2,
-            entityInstancePath: "entityInstancePathAspect",
-            aspect: "aspectAspect",
-            localInstancePath: "localInstancePathAspect"
+            entityInstancePath: "hhcell",
+            aspect: "electrical",
+            localInstancePath: ""
           },
           watchedVariables: [
             {
               id: 3,
-              entityInstancePath: "entityInstancePath",
-              aspect: "aspect",
-              localInstancePath: "localInstancePath"
-            },
-            {
-              id: 4,
-              entityInstancePath: "entityInstancePath2",
-              aspect: "aspect2",
-              localInstancePath: "localInstancePath2"
+              entityInstancePath: "hhcell",
+              aspect: "electrical",
+              localInstancePath: "SimulationTree.hhpop[0].v"
             }
           ],
-          modelParameter: [
-            {
-              id: 3,
-              variable: {
-              id: 3,
-              entityInstancePath: "entityInstancePath",
-              aspect: "aspect",
-              localInstancePath: "localInstancePath"
-            },
-            value: "value "
-          },
-          {
-            id: 4,
-            variable: {
-              id: 4,
-              entityInstancePath: "entityInstancePath2",
-              aspect: "aspect2",
-              localInstancePath: "localInstancePath2"
-            },
-            value: "value2 "
-          }
-        ],
-        simulatorConfiguration: {
+        simulatorConfiguration: [{
           id: 2,
-          simulatorId: "simulatorId",
+          simulatorId: "neuronSimulator",
           timestep: 0.01,
           parameters: {
             key: "value"
-          }
-        }
+          }},
+          {
+          id: 3,
+          simulatorId: "lemsConversion"
+          }]
       }
     ],
       name: "experiment 2",
       description: "experiment description",
       creationDate: 1428074375937,
       lastModified: 1428074375937,
-      status: "RUNNING",
+      status: "DESIGN",
       simulationResults: [
         {
           id: 2,
