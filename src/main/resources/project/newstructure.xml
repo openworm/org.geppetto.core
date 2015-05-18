@@ -5,9 +5,13 @@
 		<tns:id>hhcell</tns:id>
 		<tns:aspect>
 			<tns:id>electrical</tns:id>
+			<tns:simulator>
+				<tns:simulatorId>neuronSimulator</tns:simulatorId>
+				<tns:conversionServiceId>lemsConversion</tns:conversionServiceId>
+			</tns:simulator>
 			<tns:model>
     				<tns:modelInterpreterId>lemsModelInterpreter</tns:modelInterpreterId>
-    				<tns:modelURL>https://raw.github.com/openworm/org.geppetto.samples/master/LEMS/SingleComponentHH/LEMS_NML2_Ex5_DetCell.xml</tns:modelURL>
+    				<tns:modelURL>https://raw.github.com/openworm/org.geppetto.samples/conversionServices/LEMS/SingleComponentHH/LEMS_NML2_Ex5_DetCell.xml</tns:modelURL>
 			</tns:model>
 		</tns:aspect>		
 	</tns:entity>
