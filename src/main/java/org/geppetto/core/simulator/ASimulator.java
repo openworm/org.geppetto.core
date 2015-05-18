@@ -184,9 +184,6 @@ public abstract class ASimulator extends AService implements ISimulator
 			return;
 		}
 		
-		IVariableWatchFeature watchFeature = ((IVariableWatchFeature) this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
-		UpdateRecordingStateTreeVisitor updateStateTreeVisitor = null;
-		
 		//traverse scene root to get all simulation trees for all *CHILDREN* aspects
 		ANode parentEntity = aspect.getParent();
 		
@@ -198,6 +195,7 @@ public abstract class ASimulator extends AService implements ISimulator
 		// iterate through children aspects
 		Iterator it = aspects.entrySet().iterator();
 		boolean updated = false;
+		boolean endOfStepsReached = false;
 		while(it.hasNext())
 		{
 			Map.Entry o = (Map.Entry)it.next();
@@ -220,34 +218,50 @@ public abstract class ASimulator extends AService implements ISimulator
 					this.openRecordingsForReading();
 				}
 				
-				updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, _currentRecordingIndex);
+				UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, _currentRecordingIndex);
+				UpdateRecordingStateTreeVisitor updateVisTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, _currentRecordingIndex);
 				
 				// apply visitors
+				// TODO: improvement --> only visit is there's nodes populated in the tree otherwise we are traversing for nothing
 				simulationTree.apply(updateStateTreeVisitor);
-				visTree.apply(updateStateTreeVisitor);
+				visTree.apply(updateVisTreeVisitor);
 				
-				updated = true;
+				if(updateStateTreeVisitor.getError() != null || updateVisTreeVisitor.getError() != null)
+				{
+					// something went wrong - notify recording is stopped and close recording files
+					_listener.endOfSteps(null);
+					closeRecordings();
+					
+					// bubble up exception with errors
+					String errorMsg = String.format("Simulation tree: %s | Visualization tree: %s", updateStateTreeVisitor.getError(), updateVisTreeVisitor.getError());
+					throw new GeppettoExecutionException(errorMsg);
+				}
+				else if(updateStateTreeVisitor.getRange() != null || updateVisTreeVisitor.getRange() != null)
+				{
+					// recording reached the end - notify listener
+					_listener.endOfSteps(null);
+					
+					// set end of steps flag reached
+					// NOTE: cannot break the loop here because more than one aspect might be reading the last step
+					endOfStepsReached = true;
+				}
+				else
+				{
+					// if none of the above trees have been updated
+					updated = true;
+				}
 			}
 		}
 		
+		// NOTE: we cannot increase counter inside the loop above otherwise it would increase per each aspect
+		// NOTE: recordings steps would be skipped if the same recording is applied from parent to children aspects
 		if(updated)
 		{
 			_currentRecordingIndex++;
 		}
 		
-		if(updateStateTreeVisitor.getError() != null)
-		{
-			// something went wrong - notify recording is stopped, reset and throw exception
-			_listener.endOfSteps(null);
-			resetRecordings();
-		
-			throw new GeppettoExecutionException(updateStateTreeVisitor.getError());
-		}
-		else if(updateStateTreeVisitor.getRange() != null)
-		{
-			// recording reached the end - notify and reset
-			_listener.endOfSteps(null);
-			resetRecordings();
+		if(endOfStepsReached){
+			resetAndCloseRecordings();
 		}
 	}
 
@@ -468,7 +482,7 @@ public abstract class ASimulator extends AService implements ISimulator
 		}
 	}
 	
-	private void resetRecordings() throws GeppettoExecutionException
+	private void resetAndCloseRecordings() throws GeppettoExecutionException
 	{
 		closeRecordings();
 		this._currentRecordingIndex = 0;

@@ -160,12 +160,14 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 					int startIndex = _currentIndex*itemsPerStep;
 					int endIndex = startIndex + (itemsPerStep);
 					
-					flatMatrices = Arrays.copyOfRange(dr, startIndex, endIndex);
-				}
-				else
-				{
-					// something went horribly wrong - hide your head in the sand
-					// TODO: throw appropriate exception
+					if(endIndex <= dr.length)
+					{
+						flatMatrices = Arrays.copyOfRange(dr, startIndex, endIndex);
+					}
+					else
+					{
+						throw new ArrayIndexOutOfBoundsException("ArrayIndexOutOfBounds");
+					}
 				}
 				
 				// data structures to hold matrices as they get built
