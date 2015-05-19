@@ -9,22 +9,22 @@
           id: 1,
           aspect: {
             id: 1,
-            entityInstancePath: "entityInstancePathAspect",
-            aspect: "aspectAspect",
-            localInstancePath: "localInstancePathAspect"
+            entityInstancePath: "hhcell",
+            aspect: "electrical",
+            localInstancePath: ""
           },
           watchedVariables: [
             {
               id: 1,
-              entityInstancePath: "entityInstancePath",
-              aspect: "aspect",
-              localInstancePath: "localInstancePath"
+              entityInstancePath: "hhcell",
+              aspect: "electrical",
+              localInstancePath: ""
             },
             {
               id: 2,
-              entityInstancePath: "entityInstancePath2",
-              aspect: "aspect2",
-              localInstancePath: "localInstancePath2"
+              entityInstancePath: "hhcell",
+              aspect: "electrical",
+              localInstancePath: ""
             }
           ],
           modelParameter: [
@@ -32,9 +32,9 @@
               id: 1,
               variable: {
               id: 1,
-              entityInstancePath: "entityInstancePath",
-              aspect: "aspect",
-              localInstancePath: "localInstancePath"
+              entityInstancePath: "hhcell",
+              aspect: "electrical",
+              localInstancePath: ""
             },
             value: "value "
           },
@@ -42,9 +42,9 @@
             id: 2,
             variable: {
               id: 2,
-              entityInstancePath: "entityInstancePath2",
-              aspect: "aspect2",
-              localInstancePath: "localInstancePath2"
+              entityInstancePath: "hhcell",
+              aspect: "electrical",
+              localInstancePath: ""
             },
             value: "value2 "
           }
@@ -91,8 +91,7 @@
           simulatorId: "neuronSimulator",
           conversionServiceId: "lemsConversion",
           timestep: 0.01          
-      	}
-      	}
+      	}}
     ],
       name: "experiment 2",
       description: "experiment description",
@@ -104,9 +103,9 @@
           id: 2,
           aspect: {
             id: 2,
-            entityInstancePath: "entityInstancePathAspect",
-            aspect: "aspectAspect",
-            localInstancePath: "localInstancePathAspect"
+            entityInstancePath: "hhcell",
+            aspect: "electrical",
+            localInstancePath: ""
           },
           result: {
             id: 2,
