@@ -82,7 +82,7 @@ public class FindProjectsVisitor extends SimpleFileVisitor<Path>
 				}
 			});
 			Gson gson = builder.create();
-			String projectPath=File.pathSeparator+"project"+File.pathSeparator;
+			String projectPath=File.separator+"project"+File.separator;
 			String localString=file.toString().substring(file.toString().indexOf(projectPath));
 			InputStream stream = DefaultGeppettoDataManager.class.getResourceAsStream(localString);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
