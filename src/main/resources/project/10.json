@@ -18,44 +18,20 @@
               id: 1,
               entityInstancePath: "hhcell",
               aspect: "electrical",
-              localInstancePath: ""
+              localInstancePath: "SimulationTree.hhpop[0].v"
             },
             {
               id: 2,
               entityInstancePath: "hhcell",
               aspect: "electrical",
-              localInstancePath: ""
+              localInstancePath: "SimulationTree.hhpop[0].v"
             }
           ],
-          modelParameter: [
-            {
-              id: 1,
-              variable: {
-              id: 1,
-              entityInstancePath: "hhcell",
-              aspect: "electrical",
-              localInstancePath: ""
-            },
-            value: "value "
-          },
-          {
-            id: 2,
-            variable: {
-              id: 2,
-              entityInstancePath: "hhcell",
-              aspect: "electrical",
-              localInstancePath: ""
-            },
-            value: "value2 "
-          }
-        ],
         simulatorConfiguration: {
           id: 1,
-          simulatorId: "simulatorId",
-          timestep: 0.01,
-          parameters: {
-            key: "value"
-          }
+          simulatorId: "neuronSimulator",
+          conversionServiceId: "lemsConversion",
+          timestep: 0.01 
         }
       }
     ],

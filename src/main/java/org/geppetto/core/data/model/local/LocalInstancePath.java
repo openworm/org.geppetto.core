@@ -79,6 +79,12 @@ public class LocalInstancePath implements IInstancePath
 
 	public String getInstancePath()
 	{
-		return entityInstancePath + "." + aspect + "." + localInstancePath;
+		String path = "";
+		if(localInstancePath.equals("")){
+			path = entityInstancePath + "." + aspect;
+		}else{
+			path =entityInstancePath + "." + aspect + "." + localInstancePath;
+		}
+		return path;
 	}
 }
