@@ -33,6 +33,8 @@
 
 package org.geppetto.core.simulation;
 
+import java.io.File;
+
 import org.geppetto.core.common.GeppettoExecutionException;
 
 /**
@@ -42,7 +44,7 @@ import org.geppetto.core.common.GeppettoExecutionException;
 public interface ISimulatorCallbackListener
 {
 
-	void endOfSteps(String message);
+	void endOfSteps(String message, File hdf5File);
 	
 	void stateTreeUpdated() throws GeppettoExecutionException;
 }

@@ -201,12 +201,12 @@ public abstract class ASimulator extends AService implements ISimulator
 					watchTree.apply(updateStateTreeVisitor);
 					if(updateStateTreeVisitor.getError() != null)
 					{
-						_listener.endOfSteps(null);
+						_listener.endOfSteps(null,null);
 						throw new GeppettoExecutionException(updateStateTreeVisitor.getError());
 					}
 					else if(updateStateTreeVisitor.getRange() != null)
 					{
-						_listener.endOfSteps(null);
+						_listener.endOfSteps(null,null);
 					}
 				}
 			}
