@@ -1,10 +1,30 @@
 {
   id: 12,
   name: "LEMS Sample Hodgkin-Huxley Neuron",
-  experiments: [ ],
   geppettoModel: {
     id: 1,
     url: "/project/geppettoModels/SingleComponentHH/GEPPETTO.xml",
     type: "GEPPETTO_PROJECT"
+  },
+  experiments: [ 
+  {
+  	id:1,      
+  	aspectConfigurations: [
+    {
+  		id:1,
+  		aspect: {
+            id: 1,
+            entityInstancePath: "hhcell",
+            aspect: "electrical",
+            localInstancePath: ""
+        },
+        simulatorConfiguration: {
+          id: 1,
+          simulatorId: "neuronSimulator",
+          conversionServiceId: "lemsConversion"
+        }
+  	}
+  	]
   }
+  ]
 }

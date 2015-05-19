@@ -11,6 +11,9 @@ import java.net.URLConnection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.data.DataManagerHelper;
+import org.geppetto.core.data.DefaultGeppettoDataManager;
 
 /**
  * @author matteocantarelli
@@ -20,11 +23,34 @@ public class URLReader
 {
 
 	private static Log _logger = LogFactory.getLog(URLReader.class);
-	
+
+	/**
+	 * @param urlString
+	 * @return
+	 * @throws IOException
+	 */
+	public static URL getURL(String urlString) throws IOException
+	{
+		URL url = null;
+		if(urlString.startsWith("https://") || urlString.startsWith("http://") || urlString.startsWith("file://"))
+		{
+			url = new URL(urlString);
+		}
+		else if(DataManagerHelper.getDataManager().isDefault())
+		{
+			url = DefaultGeppettoDataManager.class.getResource(urlString);
+		}
+		else
+		{
+			throw new IOException("Can't find the Geppetto model at " + urlString);
+		}
+		return url;
+	}
+
 	public static String readStringFromURL(URL url) throws IOException
 	{
 		long startRead = System.currentTimeMillis();
-		
+
 		StringBuilder content = new StringBuilder();
 
 		// many of these calls can throw exceptions, so i've just
@@ -46,12 +72,12 @@ public class URLReader
 				content.append(line + "\n");
 			}
 			bufferedReader.close();
-			
+
 			_logger.info("Reading of " + url.toString() + " took " + (System.currentTimeMillis() - startRead) + "ms");
 		}
 		catch(Exception e)
 		{
-			//e.printStackTrace();
+			// e.printStackTrace();
 			_logger.warn("File at " + url + " not found");
 		}
 		return content.toString();

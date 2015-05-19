@@ -33,6 +33,7 @@
 package org.geppetto.core.data;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -81,7 +82,8 @@ public class FindProjectsVisitor extends SimpleFileVisitor<Path>
 				}
 			});
 			Gson gson = builder.create();
-			String localString=file.toString().substring(file.toString().indexOf("/project/"));
+			String projectPath=File.pathSeparator+"project"+File.pathSeparator;
+			String localString=file.toString().substring(file.toString().indexOf(projectPath));
 			InputStream stream = DefaultGeppettoDataManager.class.getResourceAsStream(localString);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 

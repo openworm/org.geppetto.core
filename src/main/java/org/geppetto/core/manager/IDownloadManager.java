@@ -14,11 +14,11 @@ public interface IDownloadManager
 	 * Writes the model enclosed in a given aspect for a specified format supported
 	 * by a converter service to a string.
 	 * 
-	 * @param aspectID
+	 * @param aspectInstancePath
 	 * @param format
 	 * @return
 	 */
-	public abstract File downloadModel(String aspectID, IModelFormat format, IExperiment experiment, IGeppettoProject project);
+	public abstract File downloadModel(String aspectInstancePath, IModelFormat format, IExperiment experiment, IGeppettoProject project);
 
 	/**
 	 * @param resultsFormat
