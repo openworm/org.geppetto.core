@@ -9,6 +9,7 @@
   experiments: [ 
   {
   	id:1,      
+  	status: "DESIGN",
   	aspectConfigurations: [
     {
   		id:1,
