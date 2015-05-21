@@ -44,6 +44,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Date;
 import java.util.List;
 
+import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
 
 import com.google.gson.Gson;
@@ -57,12 +58,12 @@ import com.google.gson.JsonParseException;
  * @author matteocantarelli
  *
  */
-public class FindProjectsVisitor extends SimpleFileVisitor<Path>
+public class FindLocalProjectsVisitor extends SimpleFileVisitor<Path>
 {
 
 	private List<LocalGeppettoProject> projects;
 
-	public FindProjectsVisitor(List<LocalGeppettoProject> projects)
+	public FindLocalProjectsVisitor(List<LocalGeppettoProject> projects)
 	{
 		this.projects=projects;
 	}
@@ -88,6 +89,10 @@ public class FindProjectsVisitor extends SimpleFileVisitor<Path>
 			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
 			LocalGeppettoProject project = gson.fromJson(reader, LocalGeppettoProject.class);
+			for(IExperiment e:project.getExperiments())
+			{
+				e.setParentProject(project);
+			}
 			projects.add(project);
 		}
 		return FileVisitResult.CONTINUE;

@@ -60,5 +60,9 @@ public interface IExperiment
 	Date getStartDate();
 
 	Date getEndDate();
+	
+	IGeppettoProject getParentProject();
+
+	void setParentProject(IGeppettoProject project);
 
 }

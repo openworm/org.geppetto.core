@@ -38,6 +38,7 @@ import java.util.List;
 
 import org.geppetto.core.data.model.ExperimentStatus;
 import org.geppetto.core.data.model.IExperiment;
+import org.geppetto.core.data.model.IGeppettoProject;
 
 public class LocalExperiment implements IExperiment
 {
@@ -61,8 +62,10 @@ public class LocalExperiment implements IExperiment
 
 	private Date endDate;
 
+	private transient IGeppettoProject project;
+
 	public LocalExperiment(long id, List<LocalAspectConfiguration> aspectConfigurations, String name, String description, Date creationDate, Date lastModified, ExperimentStatus status,
-			List<LocalSimulationResult> simulationResults, Date startDate, Date endDate)
+			List<LocalSimulationResult> simulationResults, Date startDate, Date endDate, IGeppettoProject project)
 	{
 		this.id = id;
 		this.aspectConfigurations = aspectConfigurations;
@@ -74,6 +77,7 @@ public class LocalExperiment implements IExperiment
 		this.simulationResults = simulationResults;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.project = project;
 	}
 
 	@Override
@@ -140,5 +144,18 @@ public class LocalExperiment implements IExperiment
 	public Date getEndDate()
 	{
 		return endDate;
+	}
+
+	@Override
+	public IGeppettoProject getParentProject()
+	{
+		return project;
+	}
+
+	@Override
+	public void setParentProject(IGeppettoProject project)
+	{
+		this.project = project;
+
 	}
 }

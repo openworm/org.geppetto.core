@@ -195,10 +195,10 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	 * @see org.geppetto.core.data.IGeppettoDataManager#newExperiment(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public IExperiment newExperiment(String name, String description)
+	public IExperiment newExperiment(String name, String description, IGeppettoProject project)
 	{
 		return new LocalExperiment(0, new ArrayList<LocalAspectConfiguration>(), name, description, new Date(), new Date(), ExperimentStatus.DESIGN, new ArrayList<LocalSimulationResult>(),
-				new Date(), new Date());
+				new Date(), new Date(), project);
 	}
 
 	/*
@@ -257,7 +257,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	{
 
 		URL projectFolder = DefaultGeppettoDataManager.class.getResource("/project/");
-		FindProjectsVisitor findProjectsVisitor = new FindProjectsVisitor(projects);
+		FindLocalProjectsVisitor findProjectsVisitor = new FindLocalProjectsVisitor(projects);
 		Files.walkFileTree(Paths.get(projectFolder.toURI()), findProjectsVisitor);
 
 	}

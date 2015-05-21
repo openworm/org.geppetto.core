@@ -15,7 +15,7 @@ public interface IExperimentManager
 	 * @return 
 	 * @throws GeppettoExecutionException
 	 */
-	public abstract RuntimeTreeRoot loadExperiment(String requestId, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
+	public abstract RuntimeTreeRoot loadExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
 
 	/**
 	 * Run a specified experiment
@@ -26,7 +26,7 @@ public interface IExperimentManager
 	 * @throws GeppettoInitializationException
 	 * @throws GeppettoExecutionException 
 	 */
-	public abstract void runExperiment(String requestId, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
+	public abstract void runExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
 
 	/**
 	 * Create a new experiment inside a given project
@@ -45,7 +45,7 @@ public interface IExperimentManager
 	 * @param user
 	 * @param experiment
 	 */
-	void deleteExperiment(String requestId, IExperiment experiment, IGeppettoProject project);
+	void deleteExperiment(String requestId, IExperiment experiment);
 	
 
 	/**
@@ -53,5 +53,5 @@ public interface IExperimentManager
 	 * @param experiment
 	 * @param project
 	 */
-	void cancelExperimentRun(String requestId, IExperiment experiment, IGeppettoProject project);
+	void cancelExperimentRun(String requestId, IExperiment experiment);
 }
