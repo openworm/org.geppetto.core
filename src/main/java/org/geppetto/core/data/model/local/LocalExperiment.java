@@ -40,6 +40,10 @@ import org.geppetto.core.data.model.ExperimentStatus;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"parentProject"})
 public class LocalExperiment implements IExperiment
 {
 	private long id;
@@ -62,7 +66,8 @@ public class LocalExperiment implements IExperiment
 
 	private Date endDate;
 
-	private transient IGeppettoProject project;
+	@JsonIgnore
+	private transient IGeppettoProject parentProject;
 
 	public LocalExperiment(long id, List<LocalAspectConfiguration> aspectConfigurations, String name, String description, Date creationDate, Date lastModified, ExperimentStatus status,
 			List<LocalSimulationResult> simulationResults, Date startDate, Date endDate, IGeppettoProject project)
@@ -77,7 +82,7 @@ public class LocalExperiment implements IExperiment
 		this.simulationResults = simulationResults;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.project = project;
+		this.parentProject = project;
 	}
 
 	@Override
@@ -147,15 +152,17 @@ public class LocalExperiment implements IExperiment
 	}
 
 	@Override
+	@JsonIgnore
 	public IGeppettoProject getParentProject()
 	{
-		return project;
+		return parentProject;
 	}
 
 	@Override
+	@JsonIgnore
 	public void setParentProject(IGeppettoProject project)
 	{
-		this.project = project;
+		this.parentProject = project;
 
 	}
 }

@@ -36,6 +36,8 @@ package org.geppetto.core.data.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public interface IExperiment
 {
 
@@ -61,8 +63,10 @@ public interface IExperiment
 
 	Date getEndDate();
 	
+	@JsonIgnore
 	IGeppettoProject getParentProject();
 
+	@JsonIgnore
 	void setParentProject(IGeppettoProject project);
 
 }
