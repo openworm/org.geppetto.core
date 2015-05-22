@@ -9,6 +9,7 @@
   experiments: [ 
   {
   	id:1,      
+  	name: "Experiment ready to execute",
   	status: "DESIGN",
   	aspectConfigurations: [
     {
@@ -25,6 +26,43 @@
           conversionServiceId: "lemsConversion"
         }
   	}
+  	]
+  },
+  {
+  	id:2,      
+  	name: "Executed experiment",
+  	status: "COMPLETED",
+  	aspectConfigurations: [
+    {
+  		id:1,
+  		aspect: {
+            id: 1,
+            entityInstancePath: "hhcell",
+            aspect: "electrical",
+            localInstancePath: ""
+        },
+        simulatorConfiguration: {
+          id: 1,
+          simulatorId: "neuronSimulator",
+          conversionServiceId: "lemsConversion"
+        }
+  	}
+  	],
+  	simulationResult: [
+  	{
+  		id:1,
+  		aspect: {
+            id: 1,
+            entityInstancePath: "hhcell",
+            aspect: "electrical",
+            localInstancePath: ""
+        },
+        result: {
+          id: 1,
+          url: "/project/geppettoModels/SingleComponentHH/results.h5",
+          type: "RECORDING"
+        }
+  	} 
   	]
   }
   ]

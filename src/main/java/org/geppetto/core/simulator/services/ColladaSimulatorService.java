@@ -63,7 +63,7 @@ public class ColladaSimulatorService extends ASimulator
 	{
 		advanceTimeStep(0, aspect);
 		advanceRecordings(aspect);
-		notifyStateTreeUpdated();
+		notifySimulatorHasStepped(aspect);
 	}
 
 	@Override

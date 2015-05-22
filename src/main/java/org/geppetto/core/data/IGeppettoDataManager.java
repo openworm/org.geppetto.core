@@ -39,6 +39,7 @@ import java.util.List;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.IUser;
 
 import com.google.gson.Gson;
@@ -88,4 +89,5 @@ public interface IGeppettoDataManager
 
 
 	void clearWatchedVariables(IAspectConfiguration aspectConfig);
+
 }

@@ -134,7 +134,7 @@ public class LocalExperiment implements IExperiment
 	}
 
 	@Override
-	public void setStatus(ExperimentStatus status)
+	public synchronized void setStatus(ExperimentStatus status)
 	{
 		this.status = status;
 	}

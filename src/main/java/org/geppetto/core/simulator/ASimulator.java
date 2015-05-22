@@ -34,10 +34,7 @@
 package org.geppetto.core.simulator;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import ncsa.hdf.object.Dataset;
@@ -58,7 +55,6 @@ import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.VariableNode;
-import org.geppetto.core.model.state.visitors.SetWatchedVariablesVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.services.AService;
@@ -232,9 +228,9 @@ public abstract class ASimulator extends AService implements ISimulator
 	/**
 	 * @throws GeppettoExecutionException
 	 */
-	protected void notifyStateTreeUpdated() throws GeppettoExecutionException
+	protected void notifySimulatorHasStepped(AspectNode aspect) throws GeppettoExecutionException
 	{
-		getListener().stateTreeUpdated();
+		getListener().stepped(aspect);
 	}
 	
 	@Override

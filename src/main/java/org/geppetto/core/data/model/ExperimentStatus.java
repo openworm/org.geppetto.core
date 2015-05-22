@@ -35,5 +35,5 @@ package org.geppetto.core.data.model;
 
 public enum ExperimentStatus
 {
-	DESIGN, QUEUED, RUNNING, ERROR, COMPLETED, DELETED
+	DESIGN, QUEUED, RUNNING, ERROR, COMPLETED, DELETED, CANCELED
 }

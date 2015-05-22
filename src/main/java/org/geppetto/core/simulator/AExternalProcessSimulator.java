@@ -16,6 +16,9 @@ import org.geppetto.core.simulation.IExternalSimulatorCallbackListener;
 public abstract class AExternalProcessSimulator extends ASimulator implements IExternalSimulatorCallbackListener
 {
 
+	//the instance path of the aspect that is being simulated
+	protected String instancePath;
+
 	Map<String[], ExternalProcess> externalProcesses = new HashMap<String[], ExternalProcess>();
 
 	public void runExternalProcess(String[] command, String directoryToExecuteFrom, String fileToExecute)
@@ -26,6 +29,7 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 
 		externalProcesses.put(command, process);
 	}
+	
 
 	public Map<String[], ExternalProcess> getExternalProccesses()
 	{
