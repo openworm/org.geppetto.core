@@ -72,7 +72,6 @@ public class RecordingReader
 		
 		for(String watchedVariable : variables)
 		{
-			// String name = watchedVariable.getName();
 			String path = "/" + watchedVariable.replace(simulationTree.getInstancePath() + ".", "");
 			path = path.replace(".", "/");
 			Dataset v = (Dataset) FileFormat.findObject(h5File, path);

@@ -45,10 +45,36 @@
           id: 1,
           simulatorId: "neuronSimulator",
           conversionServiceId: "lemsConversion"
-        }
+        },
+        watchedVariables:[
+	        {
+	            id: 1,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].v"
+	        },
+	       	{
+	            id: 2,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q"
+	        },
+			{
+	            id: 3,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.h.q"
+	        },
+	       	{
+	            id: 4,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.kChans.k.n.q"
+	        }
+        ]
   	}
   	],
-  	simulationResult: [
+  	simulationResults: [
   	{
   		id:1,
   		aspect: {
