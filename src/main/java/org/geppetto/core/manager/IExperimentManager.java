@@ -1,9 +1,12 @@
 package org.geppetto.core.manager;
 
+import java.util.Map;
+
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
 
 public interface IExperimentManager
@@ -28,6 +31,14 @@ public interface IExperimentManager
 	 */
 	public abstract void runExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
 
+	
+	/**
+	 * @param requestId
+	 * @param experiment
+	 * @return 
+	 */
+	Map<String, AspectSubTreeNode> playExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
+	
 	/**
 	 * Create a new experiment inside a given project
 	 * 
