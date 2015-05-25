@@ -47,6 +47,7 @@ import org.geppetto.core.data.model.ExperimentStatus;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.data.model.local.LocalAspectConfiguration;
 import org.geppetto.core.data.model.local.LocalExperiment;
@@ -176,6 +177,11 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	{
 		IGeppettoProject project = getGeppettoProjectById(projectId);
 		return project.getExperiments();
+	}
+
+	public ISimulationResult newSimulationResult()
+	{
+		return new LocalSimulationResult(0, null, null);
 	}
 
 	/*

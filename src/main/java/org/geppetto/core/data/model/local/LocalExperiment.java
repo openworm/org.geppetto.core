@@ -39,11 +39,12 @@ import java.util.List;
 import org.geppetto.core.data.model.ExperimentStatus;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.data.model.ISimulationResult;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties({"parentProject"})
+@JsonIgnoreProperties({ "parentProject" })
 public class LocalExperiment implements IExperiment
 {
 	private long id;
@@ -119,6 +120,14 @@ public class LocalExperiment implements IExperiment
 	public Date getLastModified()
 	{
 		return lastModified;
+	}
+
+	public void addSimulationResult(ISimulationResult result)
+	{
+		if(result instanceof ISimulationResult)
+		{
+			simulationResults.add((LocalSimulationResult) result);
+		}
 	}
 
 	@Override

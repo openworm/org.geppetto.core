@@ -72,7 +72,9 @@ public interface IGeppettoDataManager
 	IGeppettoProject getProjectFromJson(Gson gson, Reader json);
 
 	List<? extends IExperiment> getExperimentsForProject(long projectId);
+
 	
+	<T extends ISimulationResult> T newSimulationResult();
 	
 	void createParameter(String name, String value);
 

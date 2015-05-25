@@ -57,6 +57,8 @@ public interface IExperiment
 	
 	void setStatus(ExperimentStatus status);
 	
+	void addSimulationResult(ISimulationResult result);
+	
 	List<? extends ISimulationResult> getSimulationResults();
 
 	Date getStartDate();
