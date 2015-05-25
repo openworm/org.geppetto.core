@@ -91,5 +91,75 @@
   	} 
   	]
   }
+  ,
+  {
+  	id:3,      
+  	name: "Experiment with parameters",
+  	status: "DESIGN",
+  	aspectConfigurations: [
+    {
+  		id:1,
+  		aspect: {
+            id: 1,
+            entityInstancePath: "hhcell",
+            aspect: "electrical",
+            localInstancePath: ""
+        },
+        simulatorConfiguration: {
+          id: 1,
+          simulatorId: "neuronSimulator",
+          conversionServiceId: "lemsConversion"
+        },
+        modelParameter:[
+        	{
+        		id: 1,
+        		variable:{
+        			id: 1,
+		            entityInstancePath: "hhcell",
+		            aspect: "electrical",
+		            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q"
+        		},
+        		value: "0"
+        	},
+			{
+        		id: 2,
+        		variable:{
+        			id: 1,
+		            entityInstancePath: "hhcell",
+		            aspect: "electrical",
+		            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.h.q"
+        		},
+        		value: "0"
+        	}
+        ],
+        watchedVariables:[
+	        {
+	            id: 1,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].v"
+	        },
+	       	{
+	            id: 2,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q"
+	        },
+			{
+	            id: 3,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.h.q"
+	        },
+	       	{
+	            id: 4,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.kChans.k.n.q"
+	        }
+        ]
+  	}
+  	]
+  }
   ]
 }
