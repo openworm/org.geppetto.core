@@ -41,6 +41,11 @@ import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.IService;
 
+/**
+ * @author matteocantarelli
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
+ * 
+ */
 public interface IModelInterpreter extends IService
 {
 
@@ -51,6 +56,8 @@ public interface IModelInterpreter extends IService
 	boolean populateRuntimeTree(AspectNode aspectNode) throws ModelInterpreterException;
 
 	File downloadModel(AspectNode aspectNode, IModelFormat format) throws ModelInterpreterException;
+	
+	List<IModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException;
 
 	String getName();
 }

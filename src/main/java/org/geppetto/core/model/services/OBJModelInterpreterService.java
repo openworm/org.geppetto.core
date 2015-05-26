@@ -118,4 +118,11 @@ public class OBJModelInterpreterService extends AModelInterpreter
 		return null;
 	}
 
+	@Override
+	public List<IModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
