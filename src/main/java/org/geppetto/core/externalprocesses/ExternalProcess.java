@@ -7,7 +7,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.simulation.IExternalSimulatorCallbackListener;
 
 /**
@@ -16,76 +15,91 @@ import org.geppetto.core.simulation.IExternalSimulatorCallbackListener;
  * @author Jesus R Martinez (jesus@metacell.us)
  *
  */
-public class ExternalProcess extends Thread{
-	
+public class ExternalProcess extends Thread
+{
+
 	private static Log _logger = LogFactory.getLog(ExternalProcess.class);
 	private String[] _commands;
 	private String _directoryToExecuteFrom;
 	public volatile boolean run = true;
 	private IExternalSimulatorCallbackListener _callback;
 	private String _fileToExecute;
-	
-	public ExternalProcess(String[] commands, String directoryToExecuteFrom, 
-			String fileToExecute, IExternalSimulatorCallbackListener callback){
+
+	public ExternalProcess(String[] commands, String directoryToExecuteFrom, String fileToExecute, IExternalSimulatorCallbackListener callback)
+	{
 		this._commands = commands;
 		this._directoryToExecuteFrom = directoryToExecuteFrom;
 		this._callback = callback;
 		this._fileToExecute = fileToExecute;
 	}
+
 	@Override
-	public void run(){
-		if(run){
+	public void run()
+	{
+		if(run)
+		{
 			run = false;
-			try {
+			try
+			{
 				compile();
-			} catch (GeppettoExecutionException e) {
+			}
+			catch(GeppettoExecutionException e)
+			{
 				_logger.error("Geppetto Execution Exception error : " + e.getMessage());
+				throw new RuntimeException(e);
 			}
 		}
 	}
-	
+
 	/**
-     * Runs a process specified by the command passed in as a parameter
-     */
-	public boolean compile() throws GeppettoExecutionException {
-		try{
+	 * Runs a process specified by the command passed in as a parameter
+	 */
+	public boolean compile() throws GeppettoExecutionException
+	{
+		try
+		{
 			_logger.info("Going to execute command: " + StringUtils.join(_commands, ",") + ", from directory: " + _directoryToExecuteFrom);
 			Runtime runtime = Runtime.getRuntime();
 
-			//Process currentProcess = runtime.exec(StringUtils.join(_command, ";"), null, new File(_directoryToExecuteFrom));
-			for (String command : _commands){
+			// Process currentProcess = runtime.exec(StringUtils.join(_command, ";"), null, new File(_directoryToExecuteFrom));
+			for(String command : _commands)
+			{
 				Process currentProcess = runtime.exec(command, null, new File(_directoryToExecuteFrom));
-				ExternalProcessWatcher procOutputMain = new ExternalProcessWatcher(currentProcess.getInputStream(),  "Success : ");
+				ExternalProcessWatcher procOutputMain = new ExternalProcessWatcher(currentProcess.getInputStream(), "Success : ");
 				procOutputMain.start();
-				
+
 				ExternalProcessWatcher procOutputError = new ExternalProcessWatcher(currentProcess.getErrorStream(), "Error   : ");
 				procOutputError.start();
-				
+
 				_logger.info("Successfully executed command: " + command);
-				
+
 				currentProcess.waitFor();
 			}
-						
-			_logger.info("Proccess done for command "+_commands + " done");
-			
+
+			_logger.info("Proccess done for command " + _commands + " done");
+
 			_callback.processDone(this._commands);
 		}
-		catch(IOException | InterruptedException e){
+		catch(IOException | InterruptedException e)
+		{
 			_logger.error("Unable to execute command: " + _commands);
 			throw new GeppettoExecutionException(e);
 		}
 		return true;
-    }
-	
-	public String[] getCommand(){
+	}
+
+	public String[] getCommand()
+	{
 		return this._commands;
 	}
-	
-	public String getExecutionDirectoryPath(){
+
+	public String getExecutionDirectoryPath()
+	{
 		return this._directoryToExecuteFrom;
 	}
-	
-	public String getFileToExecute(){
+
+	public String getFileToExecute()
+	{
 		return this._fileToExecute;
 	}
 }

@@ -60,7 +60,7 @@ public class OBJSimulatorService extends ASimulator
 	public void simulate(IAspectConfiguration aspectConfiguration, AspectNode aspect) throws GeppettoExecutionException
 	{
 		advanceTimeStep(0, aspect);
-		notifyStateTreeUpdated();
+		notifySimulatorHasStepped(aspect);
 	}
 
 	@Override

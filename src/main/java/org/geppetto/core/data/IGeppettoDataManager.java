@@ -39,6 +39,7 @@ import java.util.List;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.IUser;
 
 import com.google.gson.Gson;
@@ -71,7 +72,9 @@ public interface IGeppettoDataManager
 	IGeppettoProject getProjectFromJson(Gson gson, Reader json);
 
 	List<? extends IExperiment> getExperimentsForProject(long projectId);
+
 	
+	<T extends ISimulationResult> T newSimulationResult();
 	
 	void createParameter(String name, String value);
 
@@ -88,4 +91,5 @@ public interface IGeppettoDataManager
 
 
 	void clearWatchedVariables(IAspectConfiguration aspectConfig);
+
 }

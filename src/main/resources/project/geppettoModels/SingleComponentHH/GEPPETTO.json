@@ -9,6 +9,7 @@
   experiments: [ 
   {
   	id:1,      
+  	name: "Experiment ready to execute",
   	status: "DESIGN",
   	aspectConfigurations: [
     {
@@ -24,6 +25,139 @@
           simulatorId: "neuronSimulator",
           conversionServiceId: "lemsConversion"
         }
+  	}
+  	]
+  },
+  {
+  	id:2,      
+  	name: "Executed experiment",
+  	status: "COMPLETED",
+  	aspectConfigurations: [
+    {
+  		id:1,
+  		aspect: {
+            id: 1,
+            entityInstancePath: "hhcell",
+            aspect: "electrical",
+            localInstancePath: ""
+        },
+        simulatorConfiguration: {
+          id: 1,
+          simulatorId: "neuronSimulator",
+          conversionServiceId: "lemsConversion"
+        },
+        watchedVariables:[
+	        {
+	            id: 1,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].v"
+	        },
+	       	{
+	            id: 2,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q"
+	        },
+			{
+	            id: 3,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.h.q"
+	        },
+	       	{
+	            id: 4,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.kChans.k.n.q"
+	        }
+        ]
+  	}
+  	],
+  	simulationResults: [
+  	{
+  		id:1,
+  		aspect: {
+            id: 1,
+            entityInstancePath: "hhcell",
+            aspect: "electrical",
+            localInstancePath: ""
+        },
+        result: {
+          id: 1,
+          url: "/project/geppettoModels/SingleComponentHH/results.h5",
+          type: "RECORDING"
+        }
+  	} 
+  	]
+  }
+  ,
+  {
+  	id:3,      
+  	name: "Experiment with parameters",
+  	status: "DESIGN",
+  	aspectConfigurations: [
+    {
+  		id:1,
+  		aspect: {
+            id: 1,
+            entityInstancePath: "hhcell",
+            aspect: "electrical",
+            localInstancePath: ""
+        },
+        simulatorConfiguration: {
+          id: 1,
+          simulatorId: "neuronSimulator",
+          conversionServiceId: "lemsConversion"
+        },
+        modelParameter:[
+        	{
+        		id: 1,
+        		variable:{
+        			id: 1,
+		            entityInstancePath: "hhcell",
+		            aspect: "electrical",
+		            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q"
+        		},
+        		value: "0"
+        	},
+			{
+        		id: 2,
+        		variable:{
+        			id: 1,
+		            entityInstancePath: "hhcell",
+		            aspect: "electrical",
+		            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.h.q"
+        		},
+        		value: "0"
+        	}
+        ],
+        watchedVariables:[
+	        {
+	            id: 1,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].v"
+	        },
+	       	{
+	            id: 2,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q"
+	        },
+			{
+	            id: 3,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.h.q"
+	        },
+	       	{
+	            id: 4,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical",
+	            localInstancePath: "SimulationTree.hhpop[0].bioPhys1.membraneProperties.kChans.k.n.q"
+	        }
+        ]
   	}
   	]
   }
