@@ -2,6 +2,7 @@ package org.geppetto.core.manager;
 
 import java.io.File;
 
+import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.services.IModelFormat;
@@ -18,7 +19,7 @@ public interface IDownloadManager
 	 * @param format
 	 * @return
 	 */
-	public abstract File downloadModel(String aspectInstancePath, IModelFormat format, IExperiment experiment, IGeppettoProject project);
+	public abstract File downloadModel(String aspectInstancePath, IModelFormat format, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
 	/**
 	 * @param resultsFormat

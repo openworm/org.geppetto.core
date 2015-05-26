@@ -33,6 +33,7 @@
 
 package org.geppetto.core.model.services;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -41,7 +42,6 @@ import java.util.Scanner;
 
 import org.geppetto.core.model.AModelInterpreter;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.AspectNode;
@@ -69,7 +69,7 @@ public class OBJModelInterpreterService extends AModelInterpreter
 			String objContent = scanner.useDelimiter("\\A").next();
 			scanner.close();
 			collada.wrapModel(ModelFormat.OBJ, objContent);
-			
+
 			this.addFeature(new OBJVisualTreeFeature());
 		}
 		catch(IOException e)
@@ -81,13 +81,15 @@ public class OBJModelInterpreterService extends AModelInterpreter
 	}
 
 	@Override
-	public boolean populateModelTree(AspectNode aspectNode) {
+	public boolean populateModelTree(AspectNode aspectNode)
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean populateRuntimeTree(AspectNode aspectNode) {
+	public boolean populateRuntimeTree(AspectNode aspectNode)
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -95,16 +97,25 @@ public class OBJModelInterpreterService extends AModelInterpreter
 	@Override
 	public String getName()
 	{
-		//TODO: Create spring bean with name of interpreter to retrieve it from there. 
-		//Move this to own bundle?
+		// TODO: Create spring bean with name of interpreter to retrieve it from
+		// there.
+		// Move this to own bundle?
 		return "Obj Model Interpreter";
 	}
-	
+
 	@Override
-	public void registerGeppettoService() {
+	public void registerGeppettoService()
+	{
 		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
 		modelFormatList.add(ModelFormat.OBJ);
 		ServicesRegistry.registerModelInterpreterService(this, modelFormatList);
+	}
+
+	@Override
+	public File downloadModel(AspectNode aspectNode, IModelFormat format) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

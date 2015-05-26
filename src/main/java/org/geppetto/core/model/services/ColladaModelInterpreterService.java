@@ -33,6 +33,7 @@
 
 package org.geppetto.core.model.services;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -41,11 +42,9 @@ import java.util.Scanner;
 
 import org.geppetto.core.model.AModelInterpreter;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.services.AService;
 import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
@@ -70,9 +69,9 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 			String colladaContent = scanner.useDelimiter("\\A").next();
 			scanner.close();
 			collada.wrapModel(ModelFormat.COLLADA, colladaContent);
-			
+
 			addRecordings(recordings, instancePath, collada);
-			
+
 			this.addFeature(new ColladaVisualTreeFeature());
 		}
 		catch(IOException e)
@@ -84,13 +83,15 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 	}
 
 	@Override
-	public boolean populateModelTree(AspectNode aspectNode) {
+	public boolean populateModelTree(AspectNode aspectNode)
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean populateRuntimeTree(AspectNode aspectNode) {
+	public boolean populateRuntimeTree(AspectNode aspectNode)
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -98,16 +99,24 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 	@Override
 	public String getName()
 	{
-		//TODO: Create spring bean with name of interpreter to retrieve it from there. 
-		//Move this to own bundle?
+		// TODO: Create spring bean with name of interpreter to retrieve it from there.
+		// Move this to own bundle?
 		return "Collada Model Interpreter";
 	}
-	
+
 	@Override
-	public void registerGeppettoService() {
+	public void registerGeppettoService()
+	{
 		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
 		modelFormatList.add(ModelFormat.COLLADA);
 		ServicesRegistry.registerModelInterpreterService(this, modelFormatList);
+	}
+
+	@Override
+	public File downloadModel(AspectNode aspectNode, IModelFormat format) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
