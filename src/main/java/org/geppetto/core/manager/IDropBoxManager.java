@@ -2,7 +2,7 @@ package org.geppetto.core.manager;
 
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.services.IModelFormat;
+import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.simulation.ResultsFormat;
 
 public interface IDropBoxManager
@@ -18,7 +18,7 @@ public interface IDropBoxManager
 	 * @param aspectID
 	 * @param format
 	 */
-	public abstract void uploadModelToDropBox(String aspectID, IExperiment experiment, IGeppettoProject project, IModelFormat format);
+	public abstract void uploadModelToDropBox(String aspectID, IExperiment experiment, IGeppettoProject project, ModelFormat format);
 
 	/**
 	 * @param aspectID

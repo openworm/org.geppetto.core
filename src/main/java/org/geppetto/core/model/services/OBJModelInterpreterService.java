@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -45,7 +46,6 @@ import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.core.simulator.services.OBJVisualTreeFeature;
@@ -68,7 +68,7 @@ public class OBJModelInterpreterService extends AModelInterpreter
 			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
 			String objContent = scanner.useDelimiter("\\A").next();
 			scanner.close();
-			collada.wrapModel(ModelFormat.OBJ, objContent);
+			collada.wrapModel(ServicesRegistry.getModelFormat("OBJ"), objContent);
 
 			this.addFeature(new OBJVisualTreeFeature());
 		}
@@ -106,20 +106,19 @@ public class OBJModelInterpreterService extends AModelInterpreter
 	@Override
 	public void registerGeppettoService()
 	{
-		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
-		modelFormatList.add(ModelFormat.OBJ);
-		ServicesRegistry.registerModelInterpreterService(this, modelFormatList);
+		List<ModelFormat> modelFormats = new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.registerModelFormat("OBJ")));
+		ServicesRegistry.registerModelInterpreterService(this, modelFormats);
 	}
 
 	@Override
-	public File downloadModel(AspectNode aspectNode, IModelFormat format) throws ModelInterpreterException
+	public File downloadModel(AspectNode aspectNode, ModelFormat format) throws ModelInterpreterException
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<IModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException
+	public List<ModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException
 	{
 		// TODO Auto-generated method stub
 		return null;

@@ -33,13 +33,13 @@
 package org.geppetto.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.geppetto.core.conversion.AConversion;
 import org.geppetto.core.conversion.ConversionException;
-import org.geppetto.core.conversion.IConversion;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.services.IModelFormat;
+import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 
 /**
@@ -52,35 +52,35 @@ public class TestConversion2 extends AConversion
 	@Override
 	public void registerGeppettoService()
 	{
-		ServicesRegistry.registerConversionService(this, getSupportedInputs(), getSupportedOutputs());
+		//Input Model Format
+		List<ModelFormat> inputModelFormats = new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.registerModelFormat("TEST2")));
+		
+		//Output Model Format
+		List<ModelFormat> outputModelFormats = new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.registerModelFormat("TEST")));
+		
+		ServicesRegistry.registerConversionService(this, inputModelFormats, outputModelFormats);
 	}
 
 	@Override
-	public List<IModelFormat> getSupportedOutputs(IModel model, IModelFormat input) throws ConversionException
+	public List<ModelFormat> getSupportedOutputs(IModel model, ModelFormat input) throws ConversionException
 	{
-		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
-		modelFormatList.add(ModelFormat.TEST);
-		return modelFormatList;
+		return new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.getModelFormat("TEST")));
 	}
 
 	@Override
-	public List<IModelFormat> getSupportedOutputs()
+	public List<ModelFormat> getSupportedOutputs()
 	{
-		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
-		modelFormatList.add(ModelFormat.TEST);
-		return modelFormatList;
+		return new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.getModelFormat("TEST")));
 	}
 
 	@Override
-	public List<IModelFormat> getSupportedInputs()
+	public List<ModelFormat> getSupportedInputs()
 	{
-		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
-		modelFormatList.add(ModelFormat.TEST2);
-		return modelFormatList;
+		return new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.getModelFormat("TEST2")));
 	}
 
 	@Override
-	public IModel convert(IModel model, IModelFormat input, IModelFormat output) throws ConversionException
+	public IModel convert(IModel model, ModelFormat input, ModelFormat output) throws ConversionException
 	{
 		// TODO Auto-generated method stub
 		return null;

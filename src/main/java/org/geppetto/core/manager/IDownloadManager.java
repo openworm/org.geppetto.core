@@ -6,7 +6,7 @@ import java.util.List;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.services.IModelFormat;
+import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.simulation.ResultsFormat;
 
 public interface IDownloadManager
@@ -19,7 +19,7 @@ public interface IDownloadManager
 	 * @param format
 	 * @return
 	 */
-	public abstract File downloadModel(String aspectInstancePath, IModelFormat format, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
+	public abstract File downloadModel(String aspectInstancePath, ModelFormat format, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
 	/**
 	 * Writes the model enclosed in a given aspect for a specified format supported by a converter service to a string.
@@ -27,7 +27,7 @@ public interface IDownloadManager
 	 * @param aspectInstancePath
 	 * @return
 	 */
-	public abstract List<IModelFormat> getSupportedOuputs(String aspectInstancePath, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
+	public abstract List<ModelFormat> getSupportedOuputs(String aspectInstancePath, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
 	
 	/**

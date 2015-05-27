@@ -33,6 +33,7 @@
 package org.geppetto.core.simulator.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.geppetto.core.beans.SimulatorConfig;
@@ -42,7 +43,6 @@ import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.services.GeppettoFeature;
-import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
@@ -93,8 +93,7 @@ public class ColladaSimulatorService extends ASimulator
 	@Override
 	public void registerGeppettoService()
 	{
-		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
-		modelFormatList.add(ModelFormat.COLLADA);
-		ServicesRegistry.registerSimulatorService(this, modelFormatList);
+		List<ModelFormat> modelFormats = new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.registerModelFormat("COLLADA")));
+		ServicesRegistry.registerSimulatorService(this, modelFormats);
 	}
 }

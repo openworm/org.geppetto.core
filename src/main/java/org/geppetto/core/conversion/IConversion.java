@@ -34,9 +34,10 @@
 package org.geppetto.core.conversion;
 
 import java.util.List;
+
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.services.IModelFormat;
 import org.geppetto.core.services.IService;
+import org.geppetto.core.services.ModelFormat;
 
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
@@ -44,12 +45,12 @@ import org.geppetto.core.services.IService;
  */
 public interface IConversion extends IService{
 	
-	List<IModelFormat> getSupportedOutputs(IModel model, IModelFormat input) throws ConversionException;
+	List<ModelFormat> getSupportedOutputs(IModel model, ModelFormat input) throws ConversionException;
 	
-	List<IModelFormat> getSupportedOutputs() throws ConversionException;
+	List<ModelFormat> getSupportedOutputs() throws ConversionException;
 	
-	List<IModelFormat> getSupportedInputs() throws ConversionException;
+	List<ModelFormat> getSupportedInputs() throws ConversionException;
 	
-	IModel convert(IModel model, IModelFormat input, IModelFormat output) throws ConversionException;
+	IModel convert(IModel model, ModelFormat input, ModelFormat output) throws ConversionException;
 		
 }
