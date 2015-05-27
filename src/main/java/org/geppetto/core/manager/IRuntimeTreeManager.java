@@ -53,8 +53,9 @@ public interface IRuntimeTreeManager
 
 	
 	/**
+	 * @throws GeppettoExecutionException 
 	 * 
 	 */
-	public abstract void clearWatchLists(IExperiment experiment, IGeppettoProject project);
+	public abstract void clearWatchLists(IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
 }
