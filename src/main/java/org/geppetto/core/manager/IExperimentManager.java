@@ -55,8 +55,9 @@ public interface IExperimentManager
 	 * @param requestId
 	 * @param user
 	 * @param experiment
+	 * @throws GeppettoExecutionException 
 	 */
-	void deleteExperiment(String requestId, IExperiment experiment);
+	void deleteExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
 	
 
 	/**
@@ -65,4 +66,6 @@ public interface IExperimentManager
 	 * @param project
 	 */
 	void cancelExperimentRun(String requestId, IExperiment experiment);
+	
+
 }

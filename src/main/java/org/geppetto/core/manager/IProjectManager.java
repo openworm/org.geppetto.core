@@ -1,9 +1,11 @@
 package org.geppetto.core.manager;
 
 import java.net.MalformedURLException;
+import java.util.List;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 
 /**
@@ -49,5 +51,12 @@ public interface IProjectManager
 	 * @param project
 	 */
 	void persistProject(String requestId, IGeppettoProject project);
+	
+	/**
+	 * @param requestId
+	 * @param project
+	 * @return 
+	 */
+	List<? extends IExperiment> checkExperimentsStatus(String requestId, IGeppettoProject project);	
 
 }

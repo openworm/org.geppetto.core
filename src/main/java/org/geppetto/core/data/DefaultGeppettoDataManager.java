@@ -240,7 +240,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public Object deleteGeppettoProject(IGeppettoProject project)
 	{
-		return new JsonRequestException("Cannot delete project", HttpStatus.BAD_REQUEST);
+		return new JsonRequestException("Cannot delete a sample project", HttpStatus.BAD_REQUEST);
 	}
 
 	/*
@@ -251,7 +251,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public Object deleteExperiment(IExperiment experiment)
 	{
-		return new JsonRequestException("Cannot delete experiment", HttpStatus.BAD_REQUEST);
+		return new JsonRequestException("Cannot delete experiment from a sample", HttpStatus.BAD_REQUEST);
 	}
 
 	/**

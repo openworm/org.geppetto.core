@@ -12,6 +12,11 @@ public interface IDropBoxManager
 	 * Link the user dropbox account with the geppetto account
 	 */
 	public abstract void linkDropBoxAccount();
+	
+	/**
+	 * Unlink the user dropbox account from the geppetto account
+	 */
+	public abstract void unlinkDropBoxAccount();
 
 	/**
 	 * Upload the model associated with the given aspect of the active experiment to the dropbox folder
