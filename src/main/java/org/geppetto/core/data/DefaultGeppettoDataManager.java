@@ -238,7 +238,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	 * @see org.geppetto.core.data.IGeppettoDataManager#deleteGeppettoProject(org.geppetto.core.data.model.IGeppettoProject)
 	 */
 	@Override
-	public Object deleteGeppettoProject(IGeppettoProject project)
+	public Object deleteGeppettoProject(long id, IUser user)
 	{
 		return new JsonRequestException("Cannot delete a sample project", HttpStatus.BAD_REQUEST);
 	}

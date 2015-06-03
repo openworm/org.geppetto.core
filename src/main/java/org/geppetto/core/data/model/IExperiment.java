@@ -38,10 +38,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public interface IExperiment
+public interface IExperiment extends IEntity
 {
-
-	long getId();
 
 	List<? extends IAspectConfiguration> getAspectConfigurations();
 

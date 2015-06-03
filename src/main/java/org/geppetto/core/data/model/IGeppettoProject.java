@@ -35,11 +35,8 @@ package org.geppetto.core.data.model;
 
 import java.util.List;
 
-public interface IGeppettoProject
+public interface IGeppettoProject extends IEntity
 {
-
-	long getId();
-
 	String getName();
 
 	List<? extends IExperiment> getExperiments();

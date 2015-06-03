@@ -31,65 +31,9 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.data;
+package org.geppetto.core.data.model;
 
-import java.io.Reader;
-import java.util.List;
-
-import org.geppetto.core.data.model.IAspectConfiguration;
-import org.geppetto.core.data.model.IExperiment;
-import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.data.model.ISimulationResult;
-import org.geppetto.core.data.model.IUser;
-
-import com.google.gson.Gson;
-
-/**
- * This interface contains methods to deal with the persisted data model of Geppetto this includes fetching stuff from the database (or whatever data source) and adding stuff to the database
- * 
- * @author dandromerecschi
- * @author matteocantarelli
- * 
- */
-public interface IGeppettoDataManager
+public interface IEntity
 {
-	String getName();
-
-	boolean isDefault();
-
-	IUser getUserByLogin(String login);
-
-	IGeppettoProject getGeppettoProjectById(long id);
-
-	List<? extends IUser> getAllUsers();
-
-	List<? extends IGeppettoProject> getAllGeppettoProjects();
-
-	List<? extends IGeppettoProject> getGeppettoProjectsForUser(String login);
-	
-	IGeppettoProject getProjectFromJson(Gson gson, String json);
-
-	IGeppettoProject getProjectFromJson(Gson gson, Reader json);
-
-	List<? extends IExperiment> getExperimentsForProject(long projectId);
-
-	
-	<T extends ISimulationResult> T newSimulationResult();
-	
-	void createParameter(String name, String value);
-
-	void addGeppettoProject(IGeppettoProject project);
-	
-	IExperiment newExperiment(String name, String description, IGeppettoProject project);
-
-	IUser newUser(String name);
-
-
-	Object deleteGeppettoProject(long id, IUser user);
-
-	Object deleteExperiment(IExperiment experiment);
-
-
-	void clearWatchedVariables(IAspectConfiguration aspectConfig);
-
+	long getId();
 }
