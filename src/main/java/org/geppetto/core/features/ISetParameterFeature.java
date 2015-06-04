@@ -2,6 +2,7 @@ package org.geppetto.core.features;
 
 import java.util.Map;
 
+import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
 
 /**
@@ -14,5 +15,5 @@ import org.geppetto.core.model.ModelInterpreterException;
  */
 public interface ISetParameterFeature extends IFeature
 {
-	void setParameter(Map<String,String> parameters) throws ModelInterpreterException;
+	void setParameter(Map<String,String> parameters, IModel model) throws ModelInterpreterException;
 }
