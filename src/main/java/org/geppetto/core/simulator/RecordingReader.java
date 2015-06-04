@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import ncsa.hdf.object.Attribute;
 import ncsa.hdf.object.Dataset;
 import ncsa.hdf.object.FileFormat;
 import ncsa.hdf.object.h5.H5File;
@@ -76,6 +77,16 @@ public class RecordingReader
 			path = path.replace(".", "/");
 			Dataset v = (Dataset) FileFormat.findObject(h5File, path);
 
+			String unit = "";
+			try {
+				List metaData = v.getMetadata();
+				Attribute unitAttr = (Attribute)metaData.get(1);
+				unit = ((String[])unitAttr.getValue())[0];
+			} catch (Exception e1) {
+				
+			}
+
+			
 			path = path.replaceFirst("/", "");
 			StringTokenizer tokenizer = new StringTokenizer(path, "/");
 			ACompositeNode node = simulationTree;
@@ -140,6 +151,7 @@ public class RecordingReader
 							}
 
 							quantity.setValue(readValue);
+							quantity.setUnit(unit);
 							newNode.addPhysicalQuantity(quantity);
 							newVariableNode = newNode;
 							node.addChild(newNode);
@@ -169,6 +181,7 @@ public class RecordingReader
 							PhysicalQuantity quantity = new PhysicalQuantity();
 							readValue = ValuesFactory.getDoubleValue(dr[i]);
 							quantity.setValue(readValue);
+							quantity.setUnit(unit);
 							newVariableNode.addPhysicalQuantity(quantity);
 						}
 					}
@@ -180,6 +193,7 @@ public class RecordingReader
 							PhysicalQuantity quantity = new PhysicalQuantity();
 							readValue = ValuesFactory.getDoubleValue(fr[i]);
 							quantity.setValue(readValue);
+							quantity.setUnit(unit);
 							newVariableNode.addPhysicalQuantity(quantity);
 						}
 					}
@@ -191,6 +205,7 @@ public class RecordingReader
 							PhysicalQuantity quantity = new PhysicalQuantity();
 							readValue = ValuesFactory.getDoubleValue(ir[i]);
 							quantity.setValue(readValue);
+							quantity.setUnit(unit);
 							newVariableNode.addPhysicalQuantity(quantity);
 						}
 					}
