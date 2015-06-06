@@ -15,5 +15,5 @@ import org.geppetto.core.model.ModelInterpreterException;
  */
 public interface ISetParameterFeature extends IFeature
 {
-	void setParameter(Map<String,String> parameters, IModel model) throws ModelInterpreterException;
+	void setParameter(Map<String,String> parameter) throws ModelInterpreterException;
 }
