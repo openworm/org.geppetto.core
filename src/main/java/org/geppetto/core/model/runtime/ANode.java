@@ -186,7 +186,7 @@ public abstract class ANode implements IVisitable
 	{
 		StringBuffer fullName = new StringBuffer(this._id);
 		ANode iterateState = this._parent;
-		while(iterateState != null)
+		while(iterateState != null && !(iterateState instanceof RuntimeTreeRoot))
 		{
 			if(!fullName.toString().isEmpty())
 			{
