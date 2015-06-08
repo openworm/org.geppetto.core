@@ -40,11 +40,11 @@ public class LocalParameter implements IParameter
 {
 	private long id;
 
-	private IInstancePath variable;
+	private LocalInstancePath variable;
 
 	private String value;
 
-	public LocalParameter(long id, IInstancePath variable, String value)
+	public LocalParameter(long id, LocalInstancePath variable, String value)
 	{
 		this.id = id;
 		this.variable = variable;

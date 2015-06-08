@@ -116,7 +116,7 @@
           simulatorId: "neuronSimulator",
           conversionServiceId: "lemsConversion"
         },
-        modelParameter:[
+        modelParameters:[
         	{
         		id: 1,
         		variable:{
