@@ -36,6 +36,7 @@ package org.geppetto.core.data.model.local;
 import java.util.List;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
+import org.geppetto.core.data.model.IParameter;
 
 public class LocalAspectConfiguration implements IAspectConfiguration
 {
@@ -45,7 +46,7 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 
 	private List<LocalInstancePath> watchedVariables;
 
-	private List<LocalParameter> modelParameter;
+	private List<LocalParameter> modelParameters;
 
 	private LocalSimulatorConfiguration simulatorConfiguration;
 
@@ -54,7 +55,7 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 		this.id = id;
 		this.aspect = aspect;
 		this.watchedVariables = watchedVariables;
-		this.modelParameter = modelParameter;
+		this.modelParameters = modelParameter;
 		this.simulatorConfiguration = simulatorConfiguration;
 	}
 
@@ -79,13 +80,22 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 	@Override
 	public List<LocalParameter> getModelParameter()
 	{
-		return modelParameter;
+		return modelParameters;
 	}
 
 	@Override
 	public LocalSimulatorConfiguration getSimulatorConfiguration()
 	{
 		return simulatorConfiguration;
+	}
+
+	@Override
+	public void addModelParameter(IParameter modelParameter)
+	{
+		if(modelParameter instanceof LocalParameter)
+		{
+			modelParameters.add((LocalParameter) modelParameter);
+		}
 	}
 
 }

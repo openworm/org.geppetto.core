@@ -39,6 +39,8 @@ import java.util.List;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.data.model.IInstancePath;
+import org.geppetto.core.data.model.IParameter;
 import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.IUser;
 
@@ -74,16 +76,19 @@ public interface IGeppettoDataManager
 	List<? extends IExperiment> getExperimentsForProject(long projectId);
 
 	
-	<T extends ISimulationResult> T newSimulationResult();
+	ISimulationResult newSimulationResult();
 	
-	void createParameter(String name, String value);
+	IParameter newParameter(IInstancePath parameterPath, String value);
+	
+	IInstancePath newInstancePath(String entityPath, String aspectPath, String localPath);
 
+	IExperiment newExperiment(String name, String description, IGeppettoProject project);
+	
+	IUser newUser(String name);
+	
+	
 	void addGeppettoProject(IGeppettoProject project);
 	
-	IExperiment newExperiment(String name, String description, IGeppettoProject project);
-
-	IUser newUser(String name);
-
 
 	Object deleteGeppettoProject(long id, IUser user);
 
@@ -91,5 +96,6 @@ public interface IGeppettoDataManager
 
 
 	void clearWatchedVariables(IAspectConfiguration aspectConfig);
+
 
 }

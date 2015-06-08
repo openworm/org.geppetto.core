@@ -124,7 +124,7 @@ public class LocalExperiment implements IExperiment
 
 	public void addSimulationResult(ISimulationResult result)
 	{
-		if(result instanceof ISimulationResult)
+		if(result instanceof LocalSimulationResult)
 		{
 			simulationResults.add((LocalSimulationResult) result);
 		}

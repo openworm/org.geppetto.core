@@ -120,20 +120,79 @@ public abstract class ANode implements IVisitable
 		return _id.contains("[");
 	}
 	
+	/**
+	 * @return
+	 */
+	public String getEntityInstancePath()
+	{
+		ANode current=this;
+		while(current!=null && !(current instanceof EntityNode))
+		{
+			current=current.getParent();
+		}
+		if(current!=null && current instanceof EntityNode)
+		{
+			return current.getInstancePath();
+		}
+		else
+		{
+			return "";
+		}
+	}
+	
+	/**
+	 * @return
+	 */
+	public String getAspectInstancePath()
+	{
+		ANode current=this;
+		if(current instanceof AspectNode)
+		{
+			return current.getId();
+		}
+		while(current!=null && !(current instanceof AspectSubTreeNode))
+		{
+			current=current.getParent();
+		}
+		if(current!=null && current instanceof AspectSubTreeNode)
+		{
+			return current.getParent().getId()+"."+current.getId();
+		}
+		else
+		{
+			return "";
+		}
+	}
+	
+	/**
+	 * @return
+	 */
+	public String getLocalInstancePath()
+	{
+		String instancePath=getInstancePath();
+		String aspectPath=getAspectInstancePath();
+		String prePath=getEntityInstancePath();
+		if(aspectPath!="")
+		{
+			prePath+="."+aspectPath+".";
+		}	
+		return instancePath.substring(instancePath.indexOf(prePath)+prePath.length());
+	}
+	
+	/**
+	 * @return
+	 */
 	public String getInstancePath()
 	{
-		StringBuffer fullName = new StringBuffer();
-		ANode iterateState = this;
+		StringBuffer fullName = new StringBuffer(this._id);
+		ANode iterateState = this._parent;
 		while(iterateState != null)
 		{
-			if(iterateState._parent != null)
+			if(!fullName.toString().isEmpty())
 			{
-				if(!fullName.toString().isEmpty())
-				{
-					fullName.insert(0, ".");
-				}
-				fullName.insert(0, iterateState._id);
+				fullName.insert(0, ".");
 			}
+			fullName.insert(0, iterateState._id);
 			iterateState = iterateState._parent;
 		}
 		return fullName.toString();

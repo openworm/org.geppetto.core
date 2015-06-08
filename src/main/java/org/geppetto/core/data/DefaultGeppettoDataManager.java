@@ -47,11 +47,15 @@ import org.geppetto.core.data.model.ExperimentStatus;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.data.model.IInstancePath;
+import org.geppetto.core.data.model.IParameter;
 import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.data.model.local.LocalAspectConfiguration;
 import org.geppetto.core.data.model.local.LocalExperiment;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
+import org.geppetto.core.data.model.local.LocalInstancePath;
+import org.geppetto.core.data.model.local.LocalParameter;
 import org.geppetto.core.data.model.local.LocalSimulationResult;
 import org.geppetto.core.data.model.local.LocalUser;
 import org.springframework.http.HttpStatus;
@@ -179,20 +183,34 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return project.getExperiments();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.geppetto.core.data.IGeppettoDataManager#newSimulationResult()
+	 */
+	@Override
 	public ISimulationResult newSimulationResult()
 	{
 		return new LocalSimulationResult(0, null, null);
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see org.geppetto.core.data.IGeppettoDataManager#newInstancePath(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public IInstancePath newInstancePath(String entityPath, String aspectPath, String localPath)
+	{
+		return new LocalInstancePath(0, entityPath, aspectPath, localPath);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#createParameter(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void createParameter(String name, String value)
+	public IParameter newParameter(IInstancePath parameterInstancePath, String value)
 	{
-		// TODO
+		return new LocalParameter(0, parameterInstancePath, value);
 	}
 
 	/*
@@ -301,5 +319,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		// TODO Auto-generated method stub
 
 	}
+
+
 
 }

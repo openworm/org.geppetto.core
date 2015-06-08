@@ -46,5 +46,7 @@ public interface IAspectConfiguration
 	List<? extends IParameter> getModelParameter();
 
 	ISimulatorConfiguration getSimulatorConfiguration();
+	
+	void addModelParameter(IParameter modelParameter);
 
 }
