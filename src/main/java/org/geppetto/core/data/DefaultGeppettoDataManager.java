@@ -210,7 +210,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IParameter newParameter(IInstancePath parameterInstancePath, String value)
 	{
-		return new LocalParameter(0, parameterInstancePath, value);
+		return new LocalParameter(0, (LocalInstancePath) parameterInstancePath, value);
 	}
 
 	/*
