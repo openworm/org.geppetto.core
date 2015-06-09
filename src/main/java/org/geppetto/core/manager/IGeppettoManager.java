@@ -49,4 +49,6 @@ public interface IGeppettoManager extends IProjectManager, IExperimentManager, I
 
 	void setCallback(IGeppettoManagerCallbackListener geppettoManagerCallbackListener);
 
+	void uploadResults(String type);
+
 }
