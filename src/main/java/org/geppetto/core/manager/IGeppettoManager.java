@@ -33,6 +33,8 @@
 package org.geppetto.core.manager;
 
 import org.geppetto.core.common.GeppettoExecutionException;
+import org.geppetto.core.data.model.IExperiment;
+import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.simulation.IGeppettoManagerCallbackListener;
 
@@ -49,6 +51,6 @@ public interface IGeppettoManager extends IProjectManager, IExperimentManager, I
 
 	void setCallback(IGeppettoManagerCallbackListener geppettoManagerCallbackListener);
 
-	void uploadResults(String type);
+	void uploadResults(IGeppettoProject project,IExperiment experiment, String type);
 
 }
