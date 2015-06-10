@@ -44,7 +44,9 @@ public class LocalUser implements IUser
 	private String login;
 
 	private String name;
-	
+
+	private String password;
+
 	private String token;
 
 	private long spaceAllowance;
@@ -53,10 +55,11 @@ public class LocalUser implements IUser
 
 	private List<LocalGeppettoProject> geppettoProjects;
 
-	public LocalUser(long id, String login, String name, String token, List<LocalGeppettoProject> geppettoProjects, long spaceAllowance, long simulationTimeAllowance)
+	public LocalUser(long id, String login, String password, String name, String token, List<LocalGeppettoProject> geppettoProjects, long spaceAllowance, long simulationTimeAllowance)
 	{
 		this.id = id;
 		this.login = login;
+		this.password = password;
 		this.name = name;
 		this.token = token;
 		this.geppettoProjects = geppettoProjects;
@@ -77,12 +80,19 @@ public class LocalUser implements IUser
 	}
 
 	@Override
+	public String getPassword()
+	{
+		return password;
+	}
+
+	@Override
 	public String getName()
 	{
 		return name;
 	}
-	
-	public String getToken() {
+
+	public String getToken()
+	{
 		return token;
 	}
 

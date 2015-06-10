@@ -116,7 +116,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IUser getUserByLogin(String login)
 	{
-		IUser user = new LocalUser(1, login, login, login, new ArrayList<LocalGeppettoProject>(), 0, 0);
+		IUser user = new LocalUser(1, login, login, login, login, new ArrayList<LocalGeppettoProject>(), 0, 0);
 		return user;
 	}
 
@@ -233,7 +233,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IUser newUser(String name)
 	{
-		return new LocalUser(0, name, name, name, projects, 0, 0);
+		return new LocalUser(0, name, name, name, name, projects, 0, 0);
 	}
 
 	/*

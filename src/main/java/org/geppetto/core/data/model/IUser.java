@@ -41,6 +41,8 @@ public interface IUser
 	long getId();
 
 	String getLogin();
+	
+	String getPassword();
 
 	String getName();
 
