@@ -38,6 +38,7 @@ import java.util.List;
 
 import org.geppetto.core.conversion.AConversion;
 import org.geppetto.core.conversion.ConversionException;
+import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
@@ -80,7 +81,7 @@ public class TestConversion extends AConversion
 	}
 
 	@Override
-	public IModel convert(IModel model, ModelFormat input, ModelFormat output) throws ConversionException
+	public IModel convert(IModel model, ModelFormat input, ModelFormat output, IAspectConfiguration aspectConfig) throws ConversionException
 	{
 		// TODO Auto-generated method stub
 		return null;
