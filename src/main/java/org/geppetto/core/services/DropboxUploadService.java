@@ -71,7 +71,7 @@ public class DropboxUploadService implements IExternalUploadService{
 	}
 
 	@Override
-	public void link(String code) throws DbxException {
+	public void link(String code) throws Exception {
 		try {
 			DbxAuthFinish authFinish = webAuth.finish(code);
 
@@ -81,7 +81,7 @@ public class DropboxUploadService implements IExternalUploadService{
 
 			logger.info("Linked account: " + client.getAccountInfo().displayName);
 		} catch (DbxException e) {
-			throw new DbxException(e.getMessage());
+			throw new Exception(e.getMessage());
 		}   
 	}
 

@@ -6,8 +6,6 @@ import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.simulation.ResultsFormat;
 
-import com.dropbox.core.DbxException;
-
 public interface IDropBoxManager
 {
 
@@ -16,13 +14,13 @@ public interface IDropBoxManager
 	 * @throws GeppettoExecutionException 
 	 * @throws DbxException 
 	 */
-	public abstract void linkDropBoxAccount(String key) throws DbxException;
+	public abstract void linkDropBoxAccount(String key) throws Exception;
 	
 	/**
 	 * Unlink the user dropbox account from the geppetto account
 	 * @throws GeppettoExecutionException 
 	 */
-	public abstract void unlinkDropBoxAccount(String key) throws DbxException;
+	public abstract void unlinkDropBoxAccount(String key) throws Exception;
 
 	/**
 	 * Upload the model associated with the given aspect of the active experiment to the dropbox folder
