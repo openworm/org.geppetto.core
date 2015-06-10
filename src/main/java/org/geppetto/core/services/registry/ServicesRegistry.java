@@ -45,6 +45,7 @@ import org.geppetto.core.conversion.IConversion;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.services.ModelFormat;
+import org.geppetto.core.simulation.ResultsFormat;
 import org.geppetto.core.simulator.ISimulator;
 import org.springframework.aop.TargetClassAware;
 
@@ -71,6 +72,14 @@ public class ServicesRegistry {
 		for (ModelFormat modelFormat : registeredModelFormats){
 			if (modelFormat.getModelFormat().equals(format))
 				return modelFormat;
+		}
+		return null;
+	}
+	
+	public static ResultsFormat getResultsFormat(String format){
+		for (ResultsFormat resultsFormat : ResultsFormat.values()){
+			if (resultsFormat.toString().equals(format))
+				return resultsFormat;
 		}
 		return null;
 	}
