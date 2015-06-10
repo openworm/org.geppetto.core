@@ -36,14 +36,18 @@ public class ZipDirectory
 
 	public static void getAllFiles(File dir, List<File> fileList)
 	{
-		File[] files = dir.listFiles();
-		for(File file : files)
-		{
-			fileList.add(file);
-			if(file.isDirectory())
+		if(dir.isDirectory()){
+			File[] files = dir.listFiles();
+			for(File file : files)
 			{
-				getAllFiles(file, fileList);
+				fileList.add(file);
+				if(file.isDirectory())
+				{
+					getAllFiles(file, fileList);
+				}
 			}
+		}else{
+			fileList.add(dir);
 		}
 	}
 
@@ -53,19 +57,35 @@ public class ZipDirectory
 		try
 		{
 			logger.info("Creating zip file " + outputFileName);
-			FileOutputStream fos = new FileOutputStream(directoryToZip + "/" + outputFileName);
-			ZipOutputStream zos = new ZipOutputStream(fos);
+			if(directoryToZip.isDirectory()){
+				FileOutputStream fos = new FileOutputStream(directoryToZip + "/" + outputFileName);
+				ZipOutputStream zos = new ZipOutputStream(fos);
 
-			for(File file : fileList)
-			{
-				if(!file.isDirectory())
-				{ // we only zip files, not directories
-					addToZip(directoryToZip, file, zos);
+				for(File file : fileList)
+				{
+					if(!file.isDirectory())
+					{ // we only zip files, not directories
+						addToZip(directoryToZip, file, zos);
+					}
 				}
-			}
 
-			zos.close();
-			fos.close();
+				zos.close();
+				fos.close();
+			}else{
+				FileOutputStream fos = new FileOutputStream(directoryToZip);
+				ZipOutputStream zos = new ZipOutputStream(fos);
+
+				for(File file : fileList)
+				{
+					if(!file.isDirectory())
+					{ // we only zip files, not directories
+						addToZip(directoryToZip, file, zos);
+					}
+				}
+
+				zos.close();
+				fos.close();
+			}
 		}
 		catch(FileNotFoundException e)
 		{

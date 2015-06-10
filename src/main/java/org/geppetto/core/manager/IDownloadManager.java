@@ -31,9 +31,11 @@ public interface IDownloadManager
 
 	
 	/**
+	 * @param aspectPath 
 	 * @param resultsFormat
 	 * @return
+	 * @throws GeppettoExecutionException 
 	 */
-	public abstract File downloadResults(ResultsFormat resultsFormat, IExperiment experiment, IGeppettoProject project);
+	public abstract File downloadResults(String aspectPath, ResultsFormat resultsFormat, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
 }
