@@ -50,7 +50,4 @@ public interface IGeppettoManager extends IProjectManager, IExperimentManager, I
 	void setUser(IUser user) throws GeppettoExecutionException;
 
 	void setCallback(IGeppettoManagerCallbackListener geppettoManagerCallbackListener);
-
-	void uploadResults(IGeppettoProject project,IExperiment experiment, String type);
-
 }

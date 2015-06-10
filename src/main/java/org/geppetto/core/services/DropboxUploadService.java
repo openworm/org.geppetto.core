@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.geppetto.core.common.GeppettoExecutionException;
 
 import com.dropbox.core.*;
 
@@ -18,8 +19,8 @@ import com.dropbox.core.*;
  */
 public class DropboxUploadService implements IExternalUploadService{
 
-	final String APP_KEY = "";
-    final String APP_SECRET = "";
+	final String APP_KEY = "kbved8e6wnglk4h";
+    final String APP_SECRET = "3vfszva2y4ax7j5";
     private String authorizeURL = null;
     private DbxWebAuthNoRedirect webAuth = null;
     private boolean authorized = false;
@@ -70,7 +71,7 @@ public class DropboxUploadService implements IExternalUploadService{
 	}
 
 	@Override
-	public void link(String code) throws Exception {
+	public void link(String code) throws DbxException {
 		try {
 			DbxAuthFinish authFinish = webAuth.finish(code);
 
@@ -80,7 +81,7 @@ public class DropboxUploadService implements IExternalUploadService{
 
 			logger.info("Linked account: " + client.getAccountInfo().displayName);
 		} catch (DbxException e) {
-			throw new Exception(e);
+			throw new DbxException(e.getMessage());
 		}   
 	}
 
