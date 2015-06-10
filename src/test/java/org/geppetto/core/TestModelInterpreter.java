@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.AModelInterpreter;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
@@ -90,7 +91,7 @@ public class TestModelInterpreter extends AModelInterpreter
 	}
 
 	@Override
-	public File downloadModel(AspectNode aspectNode, ModelFormat format) throws ModelInterpreterException
+	public File downloadModel(AspectNode aspectNode, ModelFormat format, List<? extends IAspectConfiguration> aspectConfigurations) throws ModelInterpreterException
 	{
 		// TODO Auto-generated method stub
 		return null;

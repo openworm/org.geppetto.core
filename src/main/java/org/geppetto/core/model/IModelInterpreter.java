@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.services.IService;
 import org.geppetto.core.services.ModelFormat;
@@ -57,7 +58,7 @@ public interface IModelInterpreter extends IService
 
 	boolean populateRuntimeTree(AspectNode aspectNode) throws ModelInterpreterException;
 
-	File downloadModel(AspectNode aspectNode, ModelFormat format) throws ModelInterpreterException;
+	File downloadModel(AspectNode aspectNode, ModelFormat format, List<? extends IAspectConfiguration> aspectConfigurations) throws ModelInterpreterException;
 	
 	List<ModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException;
 
