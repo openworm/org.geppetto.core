@@ -71,12 +71,6 @@
 	            aspect: "electrical.SimulationTree",
 	            localInstancePath: "hhpop[0].bioPhys1.membraneProperties.kChans.k.n.q"
 	        },
-	        {
-	            id: 5,
-	            entityInstancePath: "hhcell",
-	            aspect: "electrical.SimulationTree",
-	            localInstancePath: "time"
-	        }
         ]
   	}
   	],
