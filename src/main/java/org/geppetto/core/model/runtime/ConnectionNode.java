@@ -16,9 +16,8 @@ public class ConnectionNode extends ANode{
 	private String _entityInstancePath;
 	private ConnectionType _type;
 	private List<ANode> _customNodes = new ArrayList<ANode>();
-	private List<VisualObjectReferenceNode> _visualReferences
-									 = new ArrayList<VisualObjectReferenceNode>();
-	private boolean _modified = true;;
+	private List<VisualObjectReferenceNode> _visualReferences = new ArrayList<VisualObjectReferenceNode>();
+	private boolean _modified = true;
 	
 	public List<VisualObjectReferenceNode> getVisualReferences() {
 		return _visualReferences;
