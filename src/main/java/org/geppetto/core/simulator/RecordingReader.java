@@ -76,158 +76,164 @@ public class RecordingReader
 		{
 			String path = "/" + watchedVariable.replace(simulationTree.getInstancePath() + ".", "");
 			path = path.replace(".", "/");
-			Dataset v = (Dataset) FileFormat.findObject(h5File, path);
-
-			String unit = "";
-			try {
-				List metaData = v.getMetadata();
-				Attribute unitAttr = (Attribute)metaData.get(1);
-				unit = ((String[])unitAttr.getValue())[0];
-			} catch (Exception e1) {
-				
-			}
-
 			
-			path = path.replaceFirst("/", "");
-			StringTokenizer tokenizer = new StringTokenizer(path, "/");
-			ACompositeNode node = simulationTree;
-			VariableNode newVariableNode = null;
-			while(tokenizer.hasMoreElements())
-			{
-				String current = tokenizer.nextToken();
-				boolean found = false;
-				for(ANode child : node.getChildren())
-				{
-					if(child.getId().equals(current))
-					{
-						if(child instanceof ACompositeNode)
-						{
-							node = (ACompositeNode) child;
-						}
-						if(child instanceof VariableNode)
-						{
-							newVariableNode = (VariableNode) child;
-						}
-						found = true;
-						break;
-					}
-				}
-				if(found)
-				{
-					continue;
-				}
-				else
-				{
-					if(tokenizer.hasMoreElements())
-					{
-						// not a leaf, create a composite state node
-						ACompositeNode newNode = new CompositeNode(current);
-						node.addChild(newNode);
-						node = newNode;
-					}
-					else
-					{
-						// it's a leaf node
-						VariableNode newNode = new VariableNode(current);
-						Object dataRead;
-						try
-						{
-							dataRead = v.read();
-							PhysicalQuantity quantity = new PhysicalQuantity();
-							AValue readValue = null;
-							if(dataRead instanceof double[])
-							{
-								double[] dr = (double[]) dataRead;
-								readValue = ValuesFactory.getDoubleValue(dr[currentRecordingIndex]);
-							}
-							else if(dataRead instanceof float[])
-							{
-								float[] fr = (float[]) dataRead;
-								readValue = ValuesFactory.getFloatValue(fr[currentRecordingIndex]);
-							}
-							else if(dataRead instanceof int[])
-							{
-								int[] ir = (int[]) dataRead;
-								readValue = ValuesFactory.getIntValue(ir[currentRecordingIndex]);
-							}
-
-							quantity.setValue(readValue);
-							quantity.setUnit(new Unit(unit));
-							newNode.addPhysicalQuantity(quantity);
-							newVariableNode = newNode;
-							node.addChild(newNode);
-						}
-
-						catch(Exception | OutOfMemoryError e)
-						{
-							throw new GeppettoExecutionException(e);
-						}
-					}
-				}
-			}
-			if(readAll)
-			{
-				Object dataRead;
-				try
-				{
-					dataRead = v.read();
-
-					AValue readValue = null;
-
-					if(dataRead instanceof double[])
-					{
-						double[] dr = (double[]) dataRead;
-						for(int i = 0; i < dr.length; i++)
-						{
-							PhysicalQuantity quantity = new PhysicalQuantity();
-							readValue = ValuesFactory.getDoubleValue(dr[i]);
-							quantity.setValue(readValue);
-							quantity.setUnit(new Unit(unit));
-							newVariableNode.addPhysicalQuantity(quantity);
-						}
-					}
-					else if(dataRead instanceof float[])
-					{
-						float[] fr = (float[]) dataRead;
-						for(int i = 0; i < fr.length; i++)
-						{
-							PhysicalQuantity quantity = new PhysicalQuantity();
-							readValue = ValuesFactory.getDoubleValue(fr[i]);
-							quantity.setValue(readValue);
-							quantity.setUnit(new Unit(unit));
-							newVariableNode.addPhysicalQuantity(quantity);
-						}
-					}
-					else if(dataRead instanceof int[])
-					{
-						int[] ir = (int[]) dataRead;
-						for(int i = 0; i < ir.length; i++)
-						{
-							PhysicalQuantity quantity = new PhysicalQuantity();
-							readValue = ValuesFactory.getDoubleValue(ir[i]);
-							quantity.setValue(readValue);
-							quantity.setUnit(new Unit(unit));
-							newVariableNode.addPhysicalQuantity(quantity);
-						}
-					}
-				}
-				catch(ArrayIndexOutOfBoundsException e)
-				{
-					throw new GeppettoExecutionException(e);
-				}
-				catch(Exception | OutOfMemoryError e)
-				{
-					throw new GeppettoExecutionException(e);
-				}
-			}
+			this.readVariable(path, h5File, simulationTree, readAll);
 		}
+		
+		this.readVariable("/time", h5File, simulationTree, readAll);
+		
 		currentRecordingIndex++;
 	}
-
+	
+	
 	public int getAndIncrementCurrentIndex()
 	{
 		return currentRecordingIndex++;
 	}
 
+	public void readVariable(String path, H5File h5File, ACompositeNode parent, boolean readAll) throws GeppettoExecutionException{
+		Dataset v = (Dataset) FileFormat.findObject(h5File, path);
 
+		String unit = "";
+		try {
+			List metaData = v.getMetadata();
+			Attribute unitAttr = (Attribute)metaData.get(1);
+			unit = ((String[])unitAttr.getValue())[0];
+		} catch (Exception e1) {
+			
+		}
+
+		
+		path = path.replaceFirst("/", "");
+		StringTokenizer tokenizer = new StringTokenizer(path, "/");
+		VariableNode newVariableNode = null;
+		while(tokenizer.hasMoreElements())
+		{
+			String current = tokenizer.nextToken();
+			boolean found = false;
+			for(ANode child : parent.getChildren())
+			{
+				if(child.getId().equals(current))
+				{
+					if(child instanceof ACompositeNode)
+					{
+						parent = (ACompositeNode) child;
+					}
+					if(child instanceof VariableNode)
+					{
+						newVariableNode = (VariableNode) child;
+					}
+					found = true;
+					break;
+				}
+			}
+			if(found)
+			{
+				continue;
+			}
+			else
+			{
+				if(tokenizer.hasMoreElements())
+				{
+					// not a leaf, create a composite state node
+					ACompositeNode newNode = new CompositeNode(current);
+					parent.addChild(newNode);
+					parent = newNode;
+				}
+				else
+				{
+					// it's a leaf node
+					VariableNode newNode = new VariableNode(current);
+					Object dataRead;
+					try
+					{
+						dataRead = v.read();
+						PhysicalQuantity quantity = new PhysicalQuantity();
+						AValue readValue = null;
+						if(dataRead instanceof double[])
+						{
+							double[] dr = (double[]) dataRead;
+							readValue = ValuesFactory.getDoubleValue(dr[currentRecordingIndex]);
+						}
+						else if(dataRead instanceof float[])
+						{
+							float[] fr = (float[]) dataRead;
+							readValue = ValuesFactory.getFloatValue(fr[currentRecordingIndex]);
+						}
+						else if(dataRead instanceof int[])
+						{
+							int[] ir = (int[]) dataRead;
+							readValue = ValuesFactory.getIntValue(ir[currentRecordingIndex]);
+						}
+
+						quantity.setValue(readValue);
+						quantity.setUnit(unit);
+						newNode.addPhysicalQuantity(quantity);
+						newVariableNode = newNode;
+						parent.addChild(newNode);
+					}
+
+					catch(Exception | OutOfMemoryError e)
+					{
+						throw new GeppettoExecutionException(e);
+					}
+				}
+			}
+		}
+		if(readAll)
+		{
+			Object dataRead;
+			try
+			{
+				dataRead = v.read();
+
+				AValue readValue = null;
+
+				if(dataRead instanceof double[])
+				{
+					double[] dr = (double[]) dataRead;
+					for(int i = 0; i < dr.length; i++)
+					{
+						PhysicalQuantity quantity = new PhysicalQuantity();
+						readValue = ValuesFactory.getDoubleValue(dr[i]);
+						quantity.setValue(readValue);
+						quantity.setUnit(unit);
+						newVariableNode.addPhysicalQuantity(quantity);
+					}
+				}
+				else if(dataRead instanceof float[])
+				{
+					float[] fr = (float[]) dataRead;
+					for(int i = 0; i < fr.length; i++)
+					{
+						PhysicalQuantity quantity = new PhysicalQuantity();
+						readValue = ValuesFactory.getDoubleValue(fr[i]);
+						quantity.setValue(readValue);
+						quantity.setUnit(unit);
+						newVariableNode.addPhysicalQuantity(quantity);
+					}
+				}
+				else if(dataRead instanceof int[])
+				{
+					int[] ir = (int[]) dataRead;
+					for(int i = 0; i < ir.length; i++)
+					{
+						PhysicalQuantity quantity = new PhysicalQuantity();
+						readValue = ValuesFactory.getDoubleValue(ir[i]);
+						quantity.setValue(readValue);
+						quantity.setUnit(unit);
+						newVariableNode.addPhysicalQuantity(quantity);
+					}
+				}
+			}
+			catch(ArrayIndexOutOfBoundsException e)
+			{
+				throw new GeppettoExecutionException(e);
+			}
+			catch(Exception | OutOfMemoryError e)
+			{
+				throw new GeppettoExecutionException(e);
+			}
+		}
+	}
 }
