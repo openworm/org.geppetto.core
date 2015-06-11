@@ -31,7 +31,6 @@ public class ZipDirectory
 		getAllFiles(sourceFolder, fileList);
 		writeZipFile(sourceFolder, outputFileName, fileList);
 		return Paths.get(sourceFolder.getAbsolutePath() + System.getProperty("file.separator") + outputFileName);
-
 	}
 
 	public static void getAllFiles(File dir, List<File> fileList)
@@ -82,7 +81,7 @@ public class ZipDirectory
 
 		FileInputStream fis = new FileInputStream(file);
 
-		String zipFilePath = file.getCanonicalPath().substring(directoryToZip.getCanonicalPath().length() + 1, file.getCanonicalPath().length());
+		String zipFilePath = file.getName();
 		logger.info("Writing '" + zipFilePath + "' to zip file");
 		ZipEntry zipEntry = new ZipEntry(zipFilePath);
 		zos.putNextEntry(zipEntry);
@@ -96,6 +95,16 @@ public class ZipDirectory
 
 		zos.closeEntry();
 		fis.close();
+	}
+
+	public static Path getZipFromFile(File file) {
+		List<File> fileList = new ArrayList<File>();
+		fileList.add(file);
+		File sourceFolder = new File(System.getProperty("user.dir")+"/geppettoTmp");
+		String outputName = file.getName()+".zip";
+		writeZipFile(sourceFolder, outputName, fileList);
+		String path = sourceFolder.getAbsolutePath() + File.separator + outputName;
+		return Paths.get(path);
 	}
 
 }
