@@ -84,7 +84,7 @@ public interface IGeppettoDataManager
 
 	IExperiment newExperiment(String name, String description, IGeppettoProject project);
 	
-	IUser newUser(String name);
+	IUser newUser(String name, String password, boolean persistent);
 	
 	
 	void addGeppettoProject(IGeppettoProject project);

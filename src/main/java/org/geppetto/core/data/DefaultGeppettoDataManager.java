@@ -183,7 +183,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return project.getExperiments();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#newSimulationResult()
 	 */
 	@Override
@@ -192,8 +194,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return new LocalSimulationResult(0, null, null);
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#newInstancePath(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -201,7 +204,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	{
 		return new LocalInstancePath(0, entityPath, aspectPath, localPath);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -231,9 +234,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	 * @see org.geppetto.core.data.IGeppettoDataManager#newUser(java.lang.String)
 	 */
 	@Override
-	public IUser newUser(String name)
+	public IUser newUser(String name, String password, boolean persistent)
 	{
-		return new LocalUser(0, name, name, name, name, projects, 0, 0);
+		return new LocalUser(0, name, password, name, name, projects, 0, 0);
 	}
 
 	/*
@@ -319,7 +322,5 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		// TODO Auto-generated method stub
 
 	}
-
-
 
 }
