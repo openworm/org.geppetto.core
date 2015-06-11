@@ -33,7 +33,9 @@
 package org.geppetto.core.model.runtime;
 
 import java.util.HashMap;
+import java.util.List;
 
+import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
@@ -50,6 +52,9 @@ public class ParameterNode extends ATimeSeriesNode {
 	
 	public ParameterNode(String id) {
 		super(id);
+	}
+	
+	public void setTimeSeries(List<Quantity> series){
 	}
 		
 	@Override

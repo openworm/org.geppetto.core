@@ -45,6 +45,7 @@ import ncsa.hdf.object.h5.H5File;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.quantities.Unit;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
@@ -151,7 +152,7 @@ public class RecordingReader
 							}
 
 							quantity.setValue(readValue);
-							quantity.setUnit(unit);
+							quantity.setUnit(new Unit(unit));
 							newNode.addPhysicalQuantity(quantity);
 							newVariableNode = newNode;
 							node.addChild(newNode);
@@ -181,7 +182,7 @@ public class RecordingReader
 							PhysicalQuantity quantity = new PhysicalQuantity();
 							readValue = ValuesFactory.getDoubleValue(dr[i]);
 							quantity.setValue(readValue);
-							quantity.setUnit(unit);
+							quantity.setUnit(new Unit(unit));
 							newVariableNode.addPhysicalQuantity(quantity);
 						}
 					}
@@ -193,7 +194,7 @@ public class RecordingReader
 							PhysicalQuantity quantity = new PhysicalQuantity();
 							readValue = ValuesFactory.getDoubleValue(fr[i]);
 							quantity.setValue(readValue);
-							quantity.setUnit(unit);
+							quantity.setUnit(new Unit(unit));
 							newVariableNode.addPhysicalQuantity(quantity);
 						}
 					}
@@ -205,7 +206,7 @@ public class RecordingReader
 							PhysicalQuantity quantity = new PhysicalQuantity();
 							readValue = ValuesFactory.getDoubleValue(ir[i]);
 							quantity.setValue(readValue);
-							quantity.setUnit(unit);
+							quantity.setUnit(new Unit(unit));
 							newVariableNode.addPhysicalQuantity(quantity);
 						}
 					}

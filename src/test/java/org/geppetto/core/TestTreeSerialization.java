@@ -43,6 +43,7 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.quantities.Unit;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
@@ -81,24 +82,24 @@ public class TestTreeSerialization {
 		VariableNode dummyNode = new VariableNode("dummyFloat");
 		PhysicalQuantity quantity = new PhysicalQuantity();
 		quantity.setValue(ValuesFactory.getDoubleValue(50d));
-		quantity.setUnit("ms");
+		quantity.setUnit(new Unit("ms"));
 		dummyNode.addPhysicalQuantity(quantity);
 
 		PhysicalQuantity quantity2 = new PhysicalQuantity();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
-		quantity2.setUnit("ms");
+		quantity2.setUnit(new Unit("ms"));
 		dummyNode.addPhysicalQuantity(quantity2);
 
 		VariableNode anotherDummyNode = new VariableNode("dummyDouble");
 
 		PhysicalQuantity quantity3 = new PhysicalQuantity();
 		quantity3.setValue(ValuesFactory.getDoubleValue(20d));
-		quantity3.setUnit("ms");
+		quantity3.setUnit(new Unit("ms"));
 		anotherDummyNode.addPhysicalQuantity(quantity3);
 
 		PhysicalQuantity quantity4 = new PhysicalQuantity();
 		quantity4.setValue(ValuesFactory.getDoubleValue(100d));
-		quantity4.setUnit("ms");
+		quantity4.setUnit(new Unit("ms"));
 		anotherDummyNode.addPhysicalQuantity(quantity4);
 
 		runtime.addChild(entity_A);
@@ -142,14 +143,14 @@ public class TestTreeSerialization {
 		VariableNode dummyNode = new VariableNode("dummyFloat");
 		PhysicalQuantity quantity = new PhysicalQuantity();
 		quantity.setValue(ValuesFactory.getDoubleValue(50d));
-		quantity.setUnit("ms");
+		quantity.setUnit(new Unit("ms"));
 		dummyNode.addPhysicalQuantity(quantity);
 
 		VariableNode anotherDummyNode = new VariableNode("dummyDouble");
 
 		PhysicalQuantity quantity3 = new PhysicalQuantity();
 		quantity3.setValue(ValuesFactory.getDoubleValue(20d));
-		quantity3.setUnit("ms");
+		quantity3.setUnit(new Unit("ms"));
 		anotherDummyNode.addPhysicalQuantity(quantity3);
 
 		runtime.addChild(entity_A);
@@ -194,7 +195,7 @@ public class TestTreeSerialization {
 
 		PhysicalQuantity quantity = new PhysicalQuantity();
 		quantity.setValue(val);
-		quantity.setUnit("V");
+		quantity.setUnit(new Unit("V"));
 		quantity.setScalingFactor("1.E3");
 
 		VariableNode dummyNode = new VariableNode("dummyFloat");
@@ -206,7 +207,7 @@ public class TestTreeSerialization {
 
 		PhysicalQuantity quantity3 = new PhysicalQuantity();
 		quantity3.setValue(val3);
-		quantity3.setUnit("mV");
+		quantity3.setUnit(new Unit("mV"));
 		quantity3.setScalingFactor("1.E3");
 
 		anotherDummyNode.addPhysicalQuantity(quantity3);
@@ -597,7 +598,7 @@ public class TestTreeSerialization {
 
 		PhysicalQuantity value = new PhysicalQuantity();
 		value.setScalingFactor("10");
-		value.setUnit("ms");
+		value.setUnit(new Unit("ms"));
 		value.setValue(new DoubleValue(10));
 		dynamics.setInitialConditions(value);
 
@@ -615,7 +616,7 @@ public class TestTreeSerialization {
 
 		PhysicalQuantity value1 = new PhysicalQuantity();
 		value1.setScalingFactor("10");
-		value1.setUnit("ms");
+		value1.setUnit(new Unit("ms"));
 		value1.setValue(new DoubleValue(10));
 
 		parameter.setValue(value1);
@@ -666,7 +667,7 @@ public class TestTreeSerialization {
 
 		PhysicalQuantity value = new PhysicalQuantity();
 		value.setScalingFactor("10");
-		value.setUnit("ms");
+		value.setUnit(new Unit("ms"));
 		value.setValue(new DoubleValue(10));
 		dynamics.setInitialConditions(value);
 
@@ -687,7 +688,7 @@ public class TestTreeSerialization {
 
 		PhysicalQuantity value1 = new PhysicalQuantity();
 		value1.setScalingFactor("10");
-		value1.setUnit("ms");
+		value1.setUnit(new Unit("ms"));
 		value1.setValue(new DoubleValue(10));
 
 		parameter.setValue(value1);

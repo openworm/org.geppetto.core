@@ -33,6 +33,7 @@
 package org.geppetto.core.model.runtime;
 
 import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.quantities.Unit;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 import org.geppetto.core.model.values.AValue;
 
@@ -62,7 +63,7 @@ public class ParameterSpecificationNode extends ANode
 		this._name = name;
 		
 		if (value != null){
-			this._value = new PhysicalQuantity(value, unit);
+			this._value = new PhysicalQuantity(value, new Unit(unit));
 		}
 	}
 	

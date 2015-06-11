@@ -30,33 +30,33 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.runtime;
+package org.geppetto.core.model.quantities;
 
-import java.util.List;
+public class Unit
+{
+	private String unit;
 
-import org.geppetto.core.model.quantities.Quantity;
-import org.geppetto.core.model.state.visitors.IStateVisitor;
-
-/**
- * Node use for storing state variable values and serialization of them.
- * A state variable has intrinsic dynamics that allow for it to change as
- * part of the evolution of the model.
- * 
- * @author  Jesus R. Martinez (jesus@metacell.us)
- *
- */
-public class VariableNode extends ATimeSeriesNode{
-
-	public VariableNode(String id) {
-		super(id);
+	public Unit(){
+		super();
 	}
 	
-	public void setTimeSeries(List<Quantity> series){
+	public Unit(String unit) {
+		super();
+		this.unit = unit;
+	}
+
+	public void setUnit(String unit){
+		this.unit = unit;
+	}
+	
+	public String getUnit(){
+		return this.unit;
 	}
 
 	@Override
-	public boolean apply(IStateVisitor visitor)
+	public String toString()
 	{
-		return visitor.visitVariableNode(this);
+		return unit;
 	}
+	
 }

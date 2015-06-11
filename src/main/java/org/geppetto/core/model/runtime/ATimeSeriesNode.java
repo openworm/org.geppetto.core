@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.quantities.Quantity;
+import org.geppetto.core.model.quantities.Unit;
 
 /**
  * Abstract node used for nodes that don't have other nodes as children, a leaf node.
@@ -47,7 +49,8 @@ import org.geppetto.core.model.quantities.PhysicalQuantity;
 public abstract class ATimeSeriesNode extends ANode
 {
 	//A state variable has intrinsic dynamics that allow for it to change as part of the evolution of the model.
-	private List<PhysicalQuantity> _timeSeries = new ArrayList<PhysicalQuantity>();
+	private List<Quantity> _timeSeries = new ArrayList<Quantity>();
+	private Unit unit;
 	private boolean watched;
 
 	public ATimeSeriesNode(String name)
@@ -55,10 +58,20 @@ public abstract class ATimeSeriesNode extends ANode
 		super(name);
 	}
 	
+	public Unit getUnit()
+	{
+		return unit;
+	}
+
+	public void setUnit(Unit unit)
+	{
+		this.unit = unit;
+	}
+
 	@Override
 	public String toString()
 	{
-		return _name + "[" + _timeSeries + "]";
+		return _name + "[unit=" + unit + "_timeSeries=" + _timeSeries + "]";
 	}
 
 	public void addPhysicalQuantity(PhysicalQuantity value)
@@ -66,18 +79,18 @@ public abstract class ATimeSeriesNode extends ANode
 		_timeSeries.add(value);
 	}
 
-	public List<PhysicalQuantity> getTimeSeries()
+	public List<Quantity> getTimeSeries()
 	{
 		return _timeSeries;
 	}
 
-	public PhysicalQuantity consumeFirstValue()
+	public Quantity consumeFirstValue()
 	{
 		if(_timeSeries.size() == 0)
 		{
 			return null;
 		}
-		PhysicalQuantity first = _timeSeries.get(0);
+		Quantity first = _timeSeries.get(0);
 		_timeSeries.remove(0);
 		return first;
 	}

@@ -43,6 +43,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.quantities.Quantity;
+import org.geppetto.core.model.quantities.Unit;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.AspectNode;
@@ -461,21 +463,20 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 		String watched = "\"watched\":" + "\"" + node.isWatched() + "\",";
 
+		String unit = "\"unit\":" + "\"" + node.getUnit() + "\",";
+		
 		if(node.getTimeSeries().size() > 0)
 		{
 			_serialized.append("\"" + node.getId() + "\":{\"timeSeries\":{");
 			for(int i = 0; i < node.getTimeSeries().size(); i++)
 			{
-				PhysicalQuantity quantity = node.getTimeSeries().get(i);
+				Quantity quantity = node.getTimeSeries().get(i);
 				if(quantity != null)
 				{
 					AValue value = quantity.getValue();
-					String unit = null, scale = null;
+					String scale = null;
 
-					if(quantity.getUnit() != null)
-					{
-						unit = "\"" + quantity.getUnit() + "\"";
-					}
+					
 					if(quantity.getScalingFactor() != null)
 					{
 						scale = "\"" + quantity.getScalingFactor() + "\"";
@@ -485,12 +486,12 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				}
 			}
 			if(_serialized.charAt(_serialized.length() - 1) == ',') _serialized.deleteCharAt(_serialized.lastIndexOf(","));
-			_serialized.append("}," + watched + commonProperties + "},");
+			_serialized.append("}," + watched + unit + commonProperties + "},");
 			node.getTimeSeries().clear();
 		}
 		else
 		{
-			_serialized.append("\"" + node.getId() + "\":{" + watched + commonProperties + "},");
+			_serialized.append("\"" + node.getId() + "\":{" + watched + unit + commonProperties + "},");
 		}
 		return super.visitVariableNode(node);
 	}
@@ -501,6 +502,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		String commonProperties = this.commonProperties(node);
 
 		String properties = "";
+		
+		String unit = "\"unit\":" + "\"" + node.getUnit() + "\",";
 
 		if(node.getProperties().size() > 0)
 		{
@@ -522,7 +525,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 			properties = properties.concat("},");
 		}
-		_serialized.append("\"" + node.getId() + "\":{" + commonProperties + properties + "},");
+		_serialized.append("\"" + node.getId() + "\":{" + unit + commonProperties + properties + "},");
 
 		return super.visitParameterNode(node);
 	}
@@ -539,7 +542,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		if(quantity != null)
 		{
 			AValue value = quantity.getValue();
-			String unit = null, scale = null;
+			Unit unit = null;
+			String scale = null;
 
 			if(quantity.getUnit() != null)
 			{
