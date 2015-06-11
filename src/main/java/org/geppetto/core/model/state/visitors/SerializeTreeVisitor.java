@@ -463,8 +463,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 		String watched = "\"watched\":" + "\"" + node.isWatched() + "\",";
 
-		String unit = "\"unit\":" + "\"" + node.getUnit() + "\",";
-		
+		String unit = "\"unit\":" + ((node.getUnit() != null) ? "\"" + node.getUnit() + "\"" : null) + ",";
+
 		if(node.getTimeSeries().size() > 0)
 		{
 			_serialized.append("\"" + node.getId() + "\":{\"timeSeries\":{");
@@ -476,13 +476,12 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 					AValue value = quantity.getValue();
 					String scale = null;
 
-					
 					if(quantity.getScalingFactor() != null)
 					{
 						scale = "\"" + quantity.getScalingFactor() + "\"";
 					}
 					String qName = "quantity" + String.valueOf(i);
-					_serialized.append("\"" + qName + "\":{\"value\":" + value + ",\"unit\":" + unit + ",\"scale\":" + scale + "},");
+					_serialized.append("\"" + qName + "\":{\"value\":" + value + ",\"scale\":" + scale + "},");
 				}
 			}
 			if(_serialized.charAt(_serialized.length() - 1) == ',') _serialized.deleteCharAt(_serialized.lastIndexOf(","));
@@ -502,8 +501,8 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		String commonProperties = this.commonProperties(node);
 
 		String properties = "";
-		
-		String unit = "\"unit\":" + "\"" + node.getUnit() + "\",";
+
+		String unit = "\"unit\":" + ((node.getUnit() != null) ? "\"" + node.getUnit() + "\"" : null) + ",";
 
 		if(node.getProperties().size() > 0)
 		{

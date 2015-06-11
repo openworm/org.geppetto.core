@@ -167,8 +167,8 @@ public class RecordingReader
 						}
 
 						quantity.setValue(readValue);
-						quantity.setUnit(unit);
-						newNode.addPhysicalQuantity(quantity);
+						quantity.setUnit(new Unit(unit));
+						newNode.addQuantity(quantity);
 						newVariableNode = newNode;
 						parent.addChild(newNode);
 					}
@@ -197,8 +197,8 @@ public class RecordingReader
 						PhysicalQuantity quantity = new PhysicalQuantity();
 						readValue = ValuesFactory.getDoubleValue(dr[i]);
 						quantity.setValue(readValue);
-						quantity.setUnit(unit);
-						newVariableNode.addPhysicalQuantity(quantity);
+						quantity.setUnit(new Unit(unit));
+						newVariableNode.addQuantity(quantity);
 					}
 				}
 				else if(dataRead instanceof float[])
@@ -209,8 +209,8 @@ public class RecordingReader
 						PhysicalQuantity quantity = new PhysicalQuantity();
 						readValue = ValuesFactory.getDoubleValue(fr[i]);
 						quantity.setValue(readValue);
-						quantity.setUnit(unit);
-						newVariableNode.addPhysicalQuantity(quantity);
+						quantity.setUnit(new Unit(unit));
+						newVariableNode.addQuantity(quantity);
 					}
 				}
 				else if(dataRead instanceof int[])
@@ -221,8 +221,8 @@ public class RecordingReader
 						PhysicalQuantity quantity = new PhysicalQuantity();
 						readValue = ValuesFactory.getDoubleValue(ir[i]);
 						quantity.setValue(readValue);
-						quantity.setUnit(unit);
-						newVariableNode.addPhysicalQuantity(quantity);
+						quantity.setUnit(new Unit(unit));
+						newVariableNode.addQuantity(quantity);
 					}
 				}
 			}

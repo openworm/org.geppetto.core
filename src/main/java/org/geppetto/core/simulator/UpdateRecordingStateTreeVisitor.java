@@ -105,7 +105,7 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 					readValue = ValuesFactory.getIntValue(ir[_currentIndex]);
 				}
 				quantity.setValue(readValue);
-				node.addPhysicalQuantity(quantity);
+				node.addQuantity(quantity);
 			}
 			catch (ArrayIndexOutOfBoundsException  e) {
 				_endOfSteps = e.getMessage();

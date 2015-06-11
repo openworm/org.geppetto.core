@@ -43,6 +43,7 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.quantities.Unit;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
@@ -356,14 +357,14 @@ public class TestNetworkSerialization {
 		CompositeNode hhpop = new CompositeNode("hhpop[0]");
 
 		VariableNode v = new VariableNode("v");
-		PhysicalQuantity quantity = new PhysicalQuantity();
+		Quantity quantity = new Quantity();
 		quantity.setValue(ValuesFactory.getDoubleValue(20d));
 
-		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		Quantity quantity2 = new Quantity();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
 
-		v.addPhysicalQuantity(quantity);
-		v.addPhysicalQuantity(quantity2);
+		v.addQuantity(quantity);
+		v.addQuantity(quantity2);
 
 		ParameterNode a1 = new ParameterNode("a");
 
@@ -558,14 +559,14 @@ public class TestNetworkSerialization {
 		CompositeNode hhpop = new CompositeNode("hhpop[0]");
 
 		VariableNode v = new VariableNode("v");
-		PhysicalQuantity quantity = new PhysicalQuantity();
+		Quantity quantity = new Quantity();
 		quantity.setValue(ValuesFactory.getDoubleValue(20d));
 
-		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		Quantity quantity2 = new Quantity();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
 
-		v.addPhysicalQuantity(quantity);
-		v.addPhysicalQuantity(quantity2);
+		v.addQuantity(quantity);
+		v.addQuantity(quantity2);
 
 		ParameterNode a1 = new ParameterNode("a");
 
@@ -753,14 +754,14 @@ public class TestNetworkSerialization {
 		CompositeNode hhpop = new CompositeNode("hhpop[0]");
 
 		VariableNode v = new VariableNode("v");
-		PhysicalQuantity quantity = new PhysicalQuantity();
+		Quantity quantity = new Quantity();
 		quantity.setValue(ValuesFactory.getDoubleValue(20d));
 
-		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		Quantity quantity2 = new Quantity();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
 
-		v.addPhysicalQuantity(quantity);
-		v.addPhysicalQuantity(quantity2);
+		v.addQuantity(quantity);
+		v.addQuantity(quantity2);
 
 		ParameterNode a1 = new ParameterNode("a");
 

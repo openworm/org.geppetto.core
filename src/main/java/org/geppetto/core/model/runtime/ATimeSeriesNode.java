@@ -35,7 +35,6 @@ package org.geppetto.core.model.runtime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.quantities.Unit;
 
@@ -74,7 +73,7 @@ public abstract class ATimeSeriesNode extends ANode
 		return _name + "[unit=" + unit + "_timeSeries=" + _timeSeries + "]";
 	}
 
-	public void addPhysicalQuantity(PhysicalQuantity value)
+	public void addQuantity(Quantity value)
 	{
 		_timeSeries.add(value);
 	}
