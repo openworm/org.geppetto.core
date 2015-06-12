@@ -4,14 +4,16 @@
 package org.geppetto.core.utilities;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.DataManagerHelper;
 import org.geppetto.core.data.DefaultGeppettoDataManager;
 
@@ -82,5 +84,33 @@ public class URLReader
 		}
 		return content.toString();
 
+	}
+
+	/**
+	 * This method copies the file pointed by the remote URL locally to the server
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 */
+	public static URL createLocalCopy(URL url) throws IOException
+	{
+		String directory = System.getProperty("user.dir");
+		File outputFile = new File(directory+File.separator+"tmp"+url.getPath().substring(0, url.getPath().lastIndexOf(File.separator)));
+		outputFile.mkdirs();
+		outputFile=new File(outputFile.getAbsolutePath()+File.separator+url.getPath().substring(url.getPath().lastIndexOf(File.separator)));
+		URLConnection uc = url.openConnection();
+		uc.connect();
+		InputStream in = uc.getInputStream();
+		FileOutputStream out = new FileOutputStream(outputFile);
+		final int BUF_SIZE = 1 << 8;
+		byte[] buffer = new byte[BUF_SIZE];
+		int bytesRead = -1;
+		while((bytesRead = in.read(buffer)) > -1)
+		{
+			out.write(buffer, 0, bytesRead);
+		}
+		in.close();
+		out.close();
+		return outputFile.toURI().toURL();
 	}
 }
