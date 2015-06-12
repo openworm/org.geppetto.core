@@ -44,8 +44,6 @@ import org.geppetto.core.model.values.AValue;
  */
 public class TextMetadataNode extends AMetadataNode{
 
-	private boolean _modified = true;
-
 	public TextMetadataNode(String id){
 		super(id);
 	}
@@ -54,14 +52,6 @@ public class TextMetadataNode extends AMetadataNode{
 		super(id);
 		this._name = name;
 		setValue(value);
-	}
-
-	public void setModified(boolean mode) {
-		this._modified = mode;
-	}
-	
-	public boolean isModified(){
-		return this._modified;
 	}
 	
 	@Override

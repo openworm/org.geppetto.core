@@ -50,7 +50,6 @@ public class AspectNode extends ACompositeNode {
 	private IModelInterpreter _modelInterpreter;
 	private ISimulator _simulator;
 	private IModel _model;
-	private boolean _modified = true;
 
 	public AspectNode(String id) {
 		super(id);
@@ -66,14 +65,6 @@ public class AspectNode extends ACompositeNode {
 		if(!this.getChildren().contains(_time)){
 			this.getChildren().add(_time);
 		}
-	}
-
-	public boolean isModified() {
-		return this._modified;
-	}
-
-	public void setModified(boolean mode) {
-		this._modified = mode;
 	}
 
 	public IModelInterpreter getModelInterpreter() {

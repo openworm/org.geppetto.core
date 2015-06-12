@@ -132,94 +132,99 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean inCompositeNode(CompositeNode node)
 	{
-		String id = node.getBaseName();
-		if(node.isArray())
+		if(node.isModified())
 		{
-			int index = node.getIndex();
-			Map<String, Integer> indexMap = _arraysLastIndexMap.get(node.getParent());
-
-			if(indexMap == null)
+			String id = node.getBaseName();
+			if(node.isArray())
 			{
-				_arraysLastIndexMap.put(node.getParent(), new HashMap<String, Integer>());
-				indexMap = _arraysLastIndexMap.get(node.getParent());
-			}
+				int index = node.getIndex();
+				Map<String, Integer> indexMap = _arraysLastIndexMap.get(node.getParent());
 
-			if(!indexMap.containsKey(id))
-			{
-				// if the object is not in the map we haven't found this array
-				// before
-				_serialized.append("\"" + node.getBaseName() + "\":[");
-				indexMap.put(id, -1);
+				if(indexMap == null)
+				{
+					_arraysLastIndexMap.put(node.getParent(), new HashMap<String, Integer>());
+					indexMap = _arraysLastIndexMap.get(node.getParent());
+				}
+
+				if(!indexMap.containsKey(id))
+				{
+					// if the object is not in the map we haven't found this array
+					// before
+					_serialized.append("\"" + node.getBaseName() + "\":[");
+					indexMap.put(id, -1);
+				}
+				else
+				{
+					if(index == 0)
+					{
+						_serialized.append("{");
+					}
+				}
+				if(indexMap.containsKey(id) && indexMap.get(id) > index)
+				{
+					throw new RuntimeException("The tree is not ordered, found surpassed index");
+				}
+				if(node.getChildren().size() == 0)
+				{
+					_serialized.append("{");
+				}
+				for(int i = indexMap.get(id); i < index - 1; i++)
+				{
+					// we fill in the gaps with empty objects so that we generate a
+					// valid JSON array
+					_serialized.append("{},");
+				}
+				indexMap.put(id, index);
 			}
 			else
 			{
-				if(index == 0)
+				// add bracket if array and it's at index 0
+				if(node.getParent().isArray())
 				{
-					_serialized.append("{");
+					CompositeNode parent = (CompositeNode) node.getParent();
+					if(parent.getChildren().indexOf(node) == 0)
+					{
+						_serialized.append("{");
+					}
 				}
+
+				String namePath = "\"" + node.getBaseName() + "\":{";
+
+				_serialized.append(namePath);
+
 			}
-			if(indexMap.containsKey(id) && indexMap.get(id) > index)
-			{
-				throw new RuntimeException("The tree is not ordered, found surpassed index");
-			}
-			if(node.getChildren().size() == 0)
-			{
-				_serialized.append("{");
-			}
-			for(int i = indexMap.get(id); i < index - 1; i++)
-			{
-				// we fill in the gaps with empty objects so that we generate a
-				// valid JSON array
-				_serialized.append("{},");
-			}
-			indexMap.put(id, index);
+			_arraysLastIndexMap.put(node, new HashMap<String, Integer>());
 		}
-		else
-		{
-			// add bracket if array and it's at index 0
-			if(node.getParent().isArray())
-			{
-				CompositeNode parent = (CompositeNode) node.getParent();
-				if(parent.getChildren().indexOf(node) == 0)
-				{
-					_serialized.append("{");
-				}
-			}
-
-			String namePath = "\"" + node.getBaseName() + "\":{";
-
-			_serialized.append(namePath);
-
-		}
-		_arraysLastIndexMap.put(node, new HashMap<String, Integer>());
 		return super.inCompositeNode(node);
 	}
 
 	@Override
 	public boolean outCompositeNode(CompositeNode node)
 	{
-		String commonProperties = this.commonProperties(node);
-		_serialized.append(commonProperties);
-
-		if(node.isArray())
+		if(node.isModified())
 		{
-			ANode sibling = node.nextSibling();
-			if(sibling == null || !(sibling instanceof ACompositeNode) || !(((ACompositeNode) sibling).getBaseName().equals(node.getBaseName())))
-			{
+			String commonProperties = this.commonProperties(node);
+			_serialized.append(commonProperties);
 
-				_serialized.append("}],");
-				return _stopVisiting;
+			if(node.isArray())
+			{
+				ANode sibling = node.nextSibling();
+				if(sibling == null || !(sibling instanceof ACompositeNode) || !(((ACompositeNode) sibling).getBaseName().equals(node.getBaseName())))
+				{
+
+					_serialized.append("}],");
+					return _stopVisiting;
+				}
+				else
+				{
+					_serialized.append("},");
+				}
 			}
 			else
 			{
 				_serialized.append("},");
 			}
 		}
-		else
-		{
-			_serialized.append("},");
-		}
-
 		return super.outCompositeNode(node);
 	}
 
@@ -450,14 +455,20 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitVariableNode(VariableNode node)
 	{
-		timeSeries(node);
+		if(node.isModified())
+		{
+			timeSeries(node);
+		}
 		return super.visitVariableNode(node);
 	}
 	
 	@Override
 	public boolean visitParameterNode(ParameterNode node)
 	{
-		timeSeries(node);
+		if(node.isModified())
+		{
+			timeSeries(node);
+		}
 		return super.visitParameterNode(node);
 	}
 	
@@ -508,58 +519,60 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 	public boolean visitDynamicsSpecificationNode(DynamicsSpecificationNode node)
 	{
-		String commonProperties = this.commonProperties(node);
-
-		PhysicalQuantity quantity = node.getInitialConditions();
-		FunctionNode functionNode = node.getDynamics();
-
-		String specs = "", function = "";
-
-		if(quantity != null)
+		if(node.isModified())
 		{
-			AValue value = quantity.getValue();
-			Unit unit = null;
-			String scale = null;
+			String commonProperties = this.commonProperties(node);
 
-			if(quantity.getUnit() != null)
+			PhysicalQuantity quantity = node.getInitialConditions();
+			FunctionNode functionNode = node.getDynamics();
+
+			String specs = "", function = "";
+
+			if(quantity != null)
 			{
-				unit = quantity.getUnit();
-			}
-			if(quantity.getScalingFactor() != null)
-			{
-				scale = "\"" + quantity.getScalingFactor() + "\"";
-			}
-			specs = "\"value\":" + "\"" + value + "\",\"unit\":" + "\"" + unit + "\",\"scale\":" + scale + ",";
-		}
+				AValue value = quantity.getValue();
+				Unit unit = null;
+				String scale = null;
 
-		if(functionNode != null)
-		{
-
-			String properties = "";
-
-			if(functionNode.getArgument() != null)
-			{
-				List<String> arguments = functionNode.getArgument();
-
-				properties = "," + "\"arguments\":{";
-
-				for(int index = 0; index < arguments.size(); index++)
+				if(quantity.getUnit() != null)
 				{
-					properties = properties.concat("\"" + index + "\":\"" + arguments.get(index) + "\"");
-					if(index < (arguments.size() - 1))
+					unit = quantity.getUnit();
+				}
+				if(quantity.getScalingFactor() != null)
+				{
+					scale = "\"" + quantity.getScalingFactor() + "\"";
+				}
+				specs = "\"value\":" + "\"" + value + "\",\"unit\":" + "\"" + unit + "\",\"scale\":" + scale + ",";
+			}
+
+			if(functionNode != null)
+			{
+
+				String properties = "";
+
+				if(functionNode.getArgument() != null)
+				{
+					List<String> arguments = functionNode.getArgument();
+
+					properties = "," + "\"arguments\":{";
+
+					for(int index = 0; index < arguments.size(); index++)
 					{
-						properties = properties.concat(",");
+						properties = properties.concat("\"" + index + "\":\"" + arguments.get(index) + "\"");
+						if(index < (arguments.size() - 1))
+						{
+							properties = properties.concat(",");
+						}
 					}
+
+					properties = properties.concat("}");
 				}
 
-				properties = properties.concat("}");
+				function = "\"_function\":{" + "\"expression\":" + "\"" + functionNode.getExpression() + "\"" + properties + "},";
 			}
 
-			function = "\"_function\":{" + "\"expression\":" + "\"" + functionNode.getExpression() + "\"" + properties + "},";
+			_serialized.append("\"" + node.getId() + "\":{" + specs + function + commonProperties + "},");
 		}
-
-		_serialized.append("\"" + node.getId() + "\":{" + specs + function + commonProperties + "},");
-
 		return super.visitDynamicsSpecificationNode(node);
 	}
 
@@ -596,53 +609,54 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 	public boolean visitFunctionNode(FunctionNode node)
 	{
-		String commonProperties = this.commonProperties(node);
+		if(node.isModified()){
+			String commonProperties = this.commonProperties(node);
 
-		String properties = "";
+			String properties = "";
 
-		if(node.getArgument() != null)
-		{
-			List<String> arguments = node.getArgument();
-
-			properties = "\"arguments\":{";
-
-			for(int index = 0; index < arguments.size(); index++)
+			if(node.getArgument() != null)
 			{
-				properties = properties.concat("\"" + index + "\":\"" + arguments.get(index) + "\"");
-				if(index < (arguments.size() - 1))
+				List<String> arguments = node.getArgument();
+
+				properties = "\"arguments\":{";
+
+				for(int index = 0; index < arguments.size(); index++)
 				{
-					properties = properties.concat(",");
+					properties = properties.concat("\"" + index + "\":\"" + arguments.get(index) + "\"");
+					if(index < (arguments.size() - 1))
+					{
+						properties = properties.concat(",");
+					}
 				}
+
+				properties = properties.concat("},");
 			}
 
-			properties = properties.concat("},");
-		}
+			String plotMetadata = "";
 
-		String plotMetadata = "";
-
-		if(node.getPlotMetadata().size() > 0)
-		{
-			HashMap<String, String> props = node.getPlotMetadata();
-
-			plotMetadata = "\"plotMetadata\":{";
-
-			Set<String> keys = props.keySet();
-			int index = 0;
-			for(String key : keys)
+			if(node.getPlotMetadata().size() > 0)
 			{
-				plotMetadata = plotMetadata.concat("\"" + key + "\":\"" + props.get(key) + "\"");
-				if(index < (props.size() - 1))
+				HashMap<String, String> props = node.getPlotMetadata();
+
+				plotMetadata = "\"plotMetadata\":{";
+
+				Set<String> keys = props.keySet();
+				int index = 0;
+				for(String key : keys)
 				{
-					plotMetadata = plotMetadata.concat(",");
+					plotMetadata = plotMetadata.concat("\"" + key + "\":\"" + props.get(key) + "\"");
+					if(index < (props.size() - 1))
+					{
+						plotMetadata = plotMetadata.concat(",");
+					}
+					index++;
 				}
-				index++;
+
+				plotMetadata = plotMetadata.concat("},");
 			}
 
-			plotMetadata = plotMetadata.concat("},");
+			_serialized.append("\"" + node.getId() + "\":{" + "\"expression\":" + "\"" + node.getExpression() + "\"," + properties + plotMetadata + commonProperties + "},");
 		}
-
-		_serialized.append("\"" + node.getId() + "\":{" + "\"expression\":" + "\"" + node.getExpression() + "\"," + properties + plotMetadata + commonProperties + "},");
-
 		return super.visitFunctionNode(node);
 	}
 

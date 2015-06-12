@@ -46,6 +46,7 @@ public abstract class ANode implements IVisitable
 	protected String _name;
 	protected String _id;
 	protected String _domainType;
+	private boolean _modified = true;
 
 	public String getMetaType(){
 		return this.getClass().getSimpleName();
@@ -56,6 +57,14 @@ public abstract class ANode implements IVisitable
 		super();
 		_id = id;
 		_parent = null;
+	}
+	
+	public boolean isModified() {
+		return this._modified;
+	}
+
+	public void setModified(boolean mode) {
+		this._modified = mode;
 	}
 	
 	public void setDomainType(String domainType){
