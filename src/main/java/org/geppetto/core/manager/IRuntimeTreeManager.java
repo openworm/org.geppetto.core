@@ -34,7 +34,7 @@ public interface IRuntimeTreeManager
 	 * @param aspectInstancePath
 	 * @param parameters
 	 */
-	public abstract boolean setModelParameters(String aspectInstancePath, Map<String, String> parameters, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;;
+	public abstract AspectSubTreeNode setModelParameters(String aspectInstancePath, Map<String, String> parameters, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;;
 
 	/**
 	 * Changes the parameters of the model 

@@ -565,30 +565,32 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 
 	public boolean visitParameterSpecificationNode(ParameterSpecificationNode node)
 	{
-		String commonProperties = this.commonProperties(node);
+		if(node.isModified()){
+			String commonProperties = this.commonProperties(node);
 
-		PhysicalQuantity quantity = node.getValue();
+			PhysicalQuantity quantity = node.getValue();
 
-		if(quantity != null)
-		{
-			AValue value = quantity.getValue();
-			String unit = null, scale = null;
-
-			if(quantity.getUnit() != null)
+			if(quantity != null)
 			{
-				unit = "\"" + quantity.getUnit() + "\"";
-			}
-			if(quantity.getScalingFactor() != null)
-			{
-				scale = "\"" + quantity.getScalingFactor() + "\"";
-			}
-			_serialized.append("\"" + node.getId() + "\":{\"value\":" + "\"" + value + "\",\"unit\":" + unit + ",\"scale\":" + scale + "," + commonProperties + "},");
-		}
-		else
-		{
-			_serialized.append("\"" + node.getId() + "\":{" + commonProperties + "},");
-		}
+				AValue value = quantity.getValue();
+				String unit = null, scale = null;
 
+				if(quantity.getUnit() != null)
+				{
+					unit = "\"" + quantity.getUnit() + "\"";
+				}
+				if(quantity.getScalingFactor() != null)
+				{
+					scale = "\"" + quantity.getScalingFactor() + "\"";
+				}
+				_serialized.append("\"" + node.getId() + "\":{\"value\":" + "\"" + value + "\",\"unit\":" + unit + ",\"scale\":" + scale + "," + commonProperties + "},");
+			}
+			else
+			{
+				_serialized.append("\"" + node.getId() + "\":{" + commonProperties + "},");
+			}
+
+		}
 		return super.visitParameterSpecificationNode(node);
 	}
 
@@ -647,16 +649,18 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitTextMetadataNode(TextMetadataNode node)
 	{
-		String commonProperties = this.commonProperties(node);
-		String valueString = "";
-		if(node.getValue() != null)
+		if(node.isModified())
 		{
-			AValue value = node.getValue();
-			valueString = "\"value\":" + "\"" + value + "\",";
+			String commonProperties = this.commonProperties(node);
+			String valueString = "";
+			if(node.getValue() != null)
+			{
+				AValue value = node.getValue();
+				valueString = "\"value\":" + "\"" + value + "\",";
+			}
+
+			_serialized.append("\"" + node.getId() + "\":{" + valueString.replaceAll("[\n\r]", "") + commonProperties + "},");
 		}
-
-		_serialized.append("\"" + node.getId() + "\":{" + valueString.replaceAll("[\n\r]", "") + commonProperties + "},");
-
 		return super.visitTextMetadataNode(node);
 	}
 

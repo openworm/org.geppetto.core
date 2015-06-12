@@ -49,6 +49,8 @@ public class ParameterSpecificationNode extends ANode
 	
 	private PhysicalQuantity _value;
 
+	private boolean _modified = true;
+
 	public ParameterSpecificationNode(String id){
 		super(id);
 	}
@@ -65,6 +67,14 @@ public class ParameterSpecificationNode extends ANode
 		if (value != null){
 			this._value = new PhysicalQuantity(value, new Unit(unit));
 		}
+	}
+
+	public boolean isModified() {
+		return this._modified;
+	}
+
+	public void setModified(boolean mode) {
+		this._modified = mode;
 	}
 	
 	public void setValue(PhysicalQuantity value){
