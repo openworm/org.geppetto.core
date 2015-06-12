@@ -33,6 +33,7 @@
 
 package org.geppetto.core.data.model.local;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
@@ -42,13 +43,13 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 {
 	private long id;
 
-	private LocalInstancePath aspect;
+	private LocalInstancePath aspect = new LocalInstancePath(id, null, null, null);
 
-	private List<LocalInstancePath> watchedVariables;
+	private List<LocalInstancePath> watchedVariables = new ArrayList<LocalInstancePath>();
 
-	private List<LocalParameter> modelParameters;
+	private List<LocalParameter> modelParameters = new ArrayList<LocalParameter>();
 
-	private LocalSimulatorConfiguration simulatorConfiguration;
+	private LocalSimulatorConfiguration simulatorConfiguration = new LocalSimulatorConfiguration(id, null, null, id, null);
 
 	public LocalAspectConfiguration(long id, LocalInstancePath aspect, List<LocalInstancePath> watchedVariables, List<LocalParameter> modelParameter, LocalSimulatorConfiguration simulatorConfiguration)
 	{
