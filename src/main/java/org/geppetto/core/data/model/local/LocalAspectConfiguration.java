@@ -93,6 +93,9 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 	@Override
 	public void addModelParameter(IParameter modelParameter)
 	{
+		if(modelParameters==null){
+			modelParameters =new ArrayList<LocalParameter>();
+		}
 		if(modelParameter instanceof LocalParameter)
 		{
 			modelParameters.add((LocalParameter) modelParameter);
