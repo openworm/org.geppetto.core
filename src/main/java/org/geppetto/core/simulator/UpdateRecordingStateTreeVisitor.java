@@ -37,7 +37,7 @@ import ncsa.hdf.object.FileFormat;
 import ncsa.hdf.object.h5.H5File;
 
 import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.state.visitors.DefaultStateVisitor;
 import org.geppetto.core.model.values.AValue;
@@ -92,7 +92,7 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 			try
 			{
 				dataRead = v.read();
-				PhysicalQuantity quantity = new PhysicalQuantity();
+				Quantity quantity = new Quantity();
 				AValue readValue = null;
 				if(dataRead instanceof double[]){
 					double[] dr = (double[])dataRead;

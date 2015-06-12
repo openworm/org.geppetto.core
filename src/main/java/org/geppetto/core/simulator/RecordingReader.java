@@ -32,8 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.simulator;
 
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -43,9 +41,7 @@ import ncsa.hdf.object.FileFormat;
 import ncsa.hdf.object.h5.H5File;
 
 import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.data.model.IInstancePath;
-import org.geppetto.core.model.quantities.PhysicalQuantity;
-import org.geppetto.core.model.quantities.Unit;
+import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
@@ -148,7 +144,7 @@ public class RecordingReader
 					try
 					{
 						dataRead = v.read();
-						PhysicalQuantity quantity = new PhysicalQuantity();
+						Quantity quantity = new Quantity();
 						AValue readValue = null;
 						if(dataRead instanceof double[])
 						{
@@ -167,7 +163,6 @@ public class RecordingReader
 						}
 
 						quantity.setValue(readValue);
-						quantity.setUnit(new Unit(unit));
 						newNode.addQuantity(quantity);
 						newVariableNode = newNode;
 						parent.addChild(newNode);
@@ -194,10 +189,9 @@ public class RecordingReader
 					double[] dr = (double[]) dataRead;
 					for(int i = 0; i < dr.length; i++)
 					{
-						PhysicalQuantity quantity = new PhysicalQuantity();
+						Quantity quantity = new Quantity();
 						readValue = ValuesFactory.getDoubleValue(dr[i]);
 						quantity.setValue(readValue);
-						quantity.setUnit(new Unit(unit));
 						newVariableNode.addQuantity(quantity);
 					}
 				}
@@ -206,10 +200,9 @@ public class RecordingReader
 					float[] fr = (float[]) dataRead;
 					for(int i = 0; i < fr.length; i++)
 					{
-						PhysicalQuantity quantity = new PhysicalQuantity();
+						Quantity quantity = new Quantity();
 						readValue = ValuesFactory.getDoubleValue(fr[i]);
 						quantity.setValue(readValue);
-						quantity.setUnit(new Unit(unit));
 						newVariableNode.addQuantity(quantity);
 					}
 				}
@@ -218,10 +211,9 @@ public class RecordingReader
 					int[] ir = (int[]) dataRead;
 					for(int i = 0; i < ir.length; i++)
 					{
-						PhysicalQuantity quantity = new PhysicalQuantity();
+						Quantity quantity = new Quantity();
 						readValue = ValuesFactory.getDoubleValue(ir[i]);
 						quantity.setValue(readValue);
-						quantity.setUnit(new Unit(unit));
 						newVariableNode.addQuantity(quantity);
 					}
 				}

@@ -38,20 +38,21 @@ import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
- * Node use for storing state variable values and serialization of them.
- * A state variable has intrinsic dynamics that allow for it to change as
- * part of the evolution of the model.
+ * Node use for storing state variable values and serialization of them. A state variable has intrinsic dynamics that allow for it to change as part of the evolution of the model.
  * 
- * @author  Jesus R. Martinez (jesus@metacell.us)
+ * @author Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class VariableNode extends ATimeSeriesNode{
+public class VariableNode extends ATimeSeriesNode
+{
 
-	public VariableNode(String id) {
+	public VariableNode(String id)
+	{
 		super(id);
 	}
-	
-	public void setTimeSeries(List<Quantity> series){
+
+	public void setTimeSeries(List<Quantity> series)
+	{
 	}
 
 	@Override

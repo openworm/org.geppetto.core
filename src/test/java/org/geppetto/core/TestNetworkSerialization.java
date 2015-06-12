@@ -110,14 +110,14 @@ public class TestNetworkSerialization {
 		VisualGroupElementNode soma = new VisualGroupElementNode("soma");
 		soma.setDefaultColor("orange");
 		PhysicalQuantity quantity = new PhysicalQuantity();
-		quantity.setScalingFactor("ms");
+		quantity.setScalingFactor("10");
 		quantity.setValue(new DoubleValue(12));
 		soma.setParameter(quantity);
 		
 		VisualGroupElementNode synapse = new VisualGroupElementNode("synapse");
 		synapse.setDefaultColor("orange");
 		PhysicalQuantity quantity2 = new PhysicalQuantity();
-		quantity2.setScalingFactor("ms");
+		quantity2.setScalingFactor("100");
 		quantity2.setValue(new DoubleValue(12));
 		synapse.setParameter(quantity2);
 		

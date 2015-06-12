@@ -47,6 +47,7 @@ import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.quantities.Unit;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
+import org.geppetto.core.model.runtime.ATimeSeriesNode;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
@@ -449,7 +450,18 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 	@Override
 	public boolean visitVariableNode(VariableNode node)
 	{
-
+		timeSeries(node);
+		return super.visitVariableNode(node);
+	}
+	
+	@Override
+	public boolean visitParameterNode(ParameterNode node)
+	{
+		timeSeries(node);
+		return super.visitParameterNode(node);
+	}
+	
+	private void timeSeries(ATimeSeriesNode node){
 		if(node.getParent().isArray())
 		{
 			CompositeNode parent = (CompositeNode) node.getParent();
@@ -492,41 +504,6 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 		{
 			_serialized.append("\"" + node.getId() + "\":{" + watched + unit + commonProperties + "},");
 		}
-		return super.visitVariableNode(node);
-	}
-
-	@Override
-	public boolean visitParameterNode(ParameterNode node)
-	{
-		String commonProperties = this.commonProperties(node);
-
-		String properties = "";
-
-		String unit = "\"unit\":" + ((node.getUnit() != null) ? "\"" + node.getUnit() + "\"" : null) + ",";
-
-		if(node.getProperties().size() > 0)
-		{
-			HashMap<String, String> props = node.getProperties();
-
-			properties = ",\"properties\":{";
-
-			Set<String> keys = props.keySet();
-			int index = 0;
-			for(String key : keys)
-			{
-				properties = properties.concat("\"" + key + "\":\"" + props.get(key) + "\"");
-				if(index < (props.size() - 1))
-				{
-					properties = properties.concat(",");
-				}
-				index++;
-			}
-
-			properties = properties.concat("},");
-		}
-		_serialized.append("\"" + node.getId() + "\":{" + unit + commonProperties + properties + "},");
-
-		return super.visitParameterNode(node);
 	}
 
 	public boolean visitDynamicsSpecificationNode(DynamicsSpecificationNode node)
