@@ -39,7 +39,7 @@ public class PhysicalQuantity extends Quantity
 	private Unit unit;
 
 	public PhysicalQuantity(){
-		super();
+		super(); 
 	}
 	
 	public PhysicalQuantity(AValue value, Unit unit) {

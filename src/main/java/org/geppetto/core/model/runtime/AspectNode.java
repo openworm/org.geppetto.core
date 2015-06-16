@@ -46,7 +46,7 @@ import org.geppetto.core.simulator.ISimulator;
  */
 public class AspectNode extends ACompositeNode {
 
-	private VariableNode _time;
+	private VariableNode _time; 
 	private IModelInterpreter _modelInterpreter;
 	private ISimulator _simulator;
 	private IModel _model;

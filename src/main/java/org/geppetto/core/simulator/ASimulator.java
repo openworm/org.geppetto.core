@@ -36,19 +36,13 @@ package org.geppetto.core.simulator;
 import java.util.ArrayList;
 import java.util.List;
 
-import ncsa.hdf.object.h5.H5File;
-
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.features.IVariableWatchFeature;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.services.AService;
-import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 
 /**
@@ -60,7 +54,7 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	protected List<IModel> _models;
 
-	private ISimulatorCallbackListener _listener;
+	private ISimulatorCallbackListener listener;
 
 	private boolean _initialized = false;
 
@@ -68,11 +62,9 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	private String _timeStepUnit = "ms";
 
-	protected List<RecordingModel> _recordings = new ArrayList<RecordingModel>();
+	protected List<RecordingReader> recordingReaders = new ArrayList<RecordingReader>();
 
 	private double _runtime;
-
-	private RecordingReader recordingReader;
 
 	public ASimulator()
 	{
@@ -88,26 +80,24 @@ public abstract class ASimulator extends AService implements ISimulator
 	{
 		setListener(listener);
 		_models = models;
-		recordingReader = new RecordingReader();
 
 		// initialize recordings
 		for(IModel model : models)
 		{
-			// for each IModel passed to this simulator which is a RecordingModel
-			// we add it to a list
+			// for each IModel passed to this simulator which is a RecordingModel we add it to a list
 			if(model instanceof ModelWrapper)
 			{
 				for(Object wrappedModel : ((ModelWrapper) model).getModels())
 				{
 					if(wrappedModel instanceof RecordingModel)
 					{
-						_recordings.add((RecordingModel) wrappedModel);
+						recordingReaders.add(new RecordingReader((RecordingModel) wrappedModel));
 					}
 				}
 			}
 			else if(model instanceof RecordingModel)
 			{
-				_recordings.add((RecordingModel) model);
+				recordingReaders.add(new RecordingReader((RecordingModel) model));
 			}
 		}
 
@@ -120,7 +110,7 @@ public abstract class ASimulator extends AService implements ISimulator
 	 */
 	public ISimulatorCallbackListener getListener()
 	{
-		return _listener;
+		return listener;
 	}
 
 	/*
@@ -140,11 +130,11 @@ public abstract class ASimulator extends AService implements ISimulator
 	}
 
 	/**
-	 * @param _listener
+	 * @param listener
 	 */
 	public void setListener(ISimulatorCallbackListener listener)
 	{
-		this._listener = listener;
+		this.listener = listener;
 	}
 
 	/**
@@ -163,54 +153,16 @@ public abstract class ASimulator extends AService implements ISimulator
 	{
 		_runtime += timestep;
 	}
-	
+
 	/**
-	 * @param h5File
-	 * @param variables
-	 * @param simulationTree
-	 * @param readAll
+	 * @param aspect
 	 * @throws GeppettoExecutionException
 	 */
-	public void readRecording(H5File h5File,List<String> variables, AspectSubTreeNode simulationTree, boolean readAll) throws GeppettoExecutionException
-	{
-		recordingReader.readRecording(h5File, variables, simulationTree, readAll);
-	}
-
 	protected void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
 	{
-		IVariableWatchFeature watchFeature = ((IVariableWatchFeature) this.getFeature(GeppettoFeature.VARIABLE_WATCH_FEATURE));
-		if(_recordings != null)
+		for(RecordingReader reader : recordingReaders)
 		{
-			AspectSubTreeNode watchTree = (AspectSubTreeNode) aspect.getSubTree(AspectTreeType.SIMULATION_TREE);
-			watchTree.setModified(true);
-			aspect.setModified(true);
-			aspect.getParentEntity().setModified(true);
-
-			if(watchTree.getChildren().isEmpty())
-			{
-				for(RecordingModel recording : _recordings)
-				{
-					recordingReader.readRecording(recording.getHDF5(), watchFeature.getWatchedVariables(), watchTree, false);
-
-				}
-			}
-			else
-			{
-				for(RecordingModel recording : _recordings)
-				{
-					UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, watchTree.getInstancePath(), _listener, recordingReader.getAndIncrementCurrentIndex());
-					watchTree.apply(updateStateTreeVisitor);
-					if(updateStateTreeVisitor.getError() != null)
-					{
-						_listener.endOfSteps(null, null);
-						throw new GeppettoExecutionException(updateStateTreeVisitor.getError());
-					}
-					else if(updateStateTreeVisitor.getRange() != null)
-					{
-						_listener.endOfSteps(null, null);
-					}
-				}
-			}
+			reader.advanceRecordings(aspect);
 		}
 	}
 
@@ -249,5 +201,4 @@ public abstract class ASimulator extends AService implements ISimulator
 	{
 		return _timeStepUnit;
 	}
-
 }

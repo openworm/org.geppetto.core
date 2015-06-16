@@ -42,7 +42,7 @@ import org.geppetto.core.model.values.AValue;
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public class TextMetadataNode extends AMetadataNode{
+public class TextMetadataNode extends AMetadataNode{ 
 
 	public TextMetadataNode(String id){
 		super(id);

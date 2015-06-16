@@ -84,10 +84,12 @@ public class EntityNode extends ACompositeNode {
 	}
 
 	public Point getPosition() {
-		return this._position;
+		return this._position; 
 	}
 
 	public void updateParentEntitiesFlags(boolean mode) {
+		//TODO Check this with samples with nested entities (e.g. C302), is this part sitll needed?
+		//this._modified = mode;
 		EntityNode parentEntity = null;
 		if (this.getParent().getMetaType().equals("EntityNode")) {
 			parentEntity = (EntityNode) this.getParent();

@@ -61,7 +61,7 @@ public class ParameterSpecificationNode extends ANode
 	public ParameterSpecificationNode(String id, String name, AValue value, String unit){
 		super(id);
 		this._name = name;
-		
+		 
 		if (value != null){
 			this._value = new PhysicalQuantity(value, new Unit(unit));
 		}

@@ -32,7 +32,10 @@
  *******************************************************************************/
 package org.geppetto.core.simulator;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import ncsa.hdf.object.Attribute;
@@ -41,10 +44,13 @@ import ncsa.hdf.object.FileFormat;
 import ncsa.hdf.object.h5.H5File;
 
 import org.geppetto.core.common.GeppettoExecutionException;
+import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
+import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.values.AValue;
@@ -56,50 +62,72 @@ import org.geppetto.core.model.values.ValuesFactory;
  */
 public class RecordingReader
 {
-	
-	protected int currentRecordingIndex = 0;
-	
-	public void readRecording(H5File h5File,List<String> variables, AspectSubTreeNode simulationTree, boolean readAll) throws GeppettoExecutionException
+	private int currentRecordingIndex = 0;
+
+	private RecordingModel recording;
+
+	private boolean recordingOpened = false;
+
+	public RecordingReader(RecordingModel recording)
 	{
-		try
-		{
-			h5File.open();
-		} catch (Exception e1) {
-			throw new GeppettoExecutionException(e1);
-		}
-		
+		super();
+		this.recording = recording;
+	}
+
+	/**
+	 * @param variables
+	 * @param simulationTree
+	 * @param readAll
+	 * @throws GeppettoExecutionException
+	 */
+	public void readRecording(List<String> variables, AspectSubTreeNode simulationTree, boolean readAll) throws GeppettoExecutionException
+	{
+		openRecording();
+
 		for(String watchedVariable : variables)
 		{
 			String path = "/" + watchedVariable.replace(simulationTree.getInstancePath() + ".", "");
 			path = path.replace(".", "/");
-			
-			this.readVariable(path, h5File, simulationTree, readAll);
+
+			this.readVariable(path, recording.getHDF5(), simulationTree, readAll);
 		}
-		
-		this.readVariable("/time", h5File, simulationTree, readAll);
-		
+
+		this.readVariable("/time", recording.getHDF5(), simulationTree, readAll);
+
 		currentRecordingIndex++;
 	}
-	
-	
+
+	/**
+	 * @return
+	 */
 	public int getAndIncrementCurrentIndex()
 	{
 		return currentRecordingIndex++;
 	}
 
-	public void readVariable(String path, H5File h5File, ACompositeNode parent, boolean readAll) throws GeppettoExecutionException{
+	/**
+	 * @param path
+	 * @param h5File
+	 * @param parent
+	 * @param readAll
+	 * @throws GeppettoExecutionException
+	 */
+	public void readVariable(String path, H5File h5File, ACompositeNode parent, boolean readAll) throws GeppettoExecutionException
+	{
 		Dataset v = (Dataset) FileFormat.findObject(h5File, path);
 
 		String unit = "";
-		try {
+		try
+		{
 			List metaData = v.getMetadata();
-			Attribute unitAttr = (Attribute)metaData.get(1);
-			unit = ((String[])unitAttr.getValue())[0];
-		} catch (Exception e1) {
-			
+			Attribute unitAttr = (Attribute) metaData.get(1);
+			unit = ((String[]) unitAttr.getValue())[0];
+		}
+		catch(Exception e1)
+		{
+
 		}
 
-		
 		path = path.replaceFirst("/", "");
 		StringTokenizer tokenizer = new StringTokenizer(path, "/");
 		VariableNode newVariableNode = null;
@@ -227,5 +255,158 @@ public class RecordingReader
 				throw new GeppettoExecutionException(e);
 			}
 		}
+	}
+
+	/**
+	 * @return
+	 */
+	public int getRecordingIndex()
+	{
+		return currentRecordingIndex;
+	}
+
+	/**
+	 * 
+	 */
+	public void resetRecordingIndex()
+	{
+		currentRecordingIndex = 0;
+	}
+
+	/**
+	 * @param aspect
+	 * @throws GeppettoExecutionException
+	 */
+	public void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
+	{
+		if(recording == null)
+		{
+			// no recordings = nothing to advance
+			return;
+		}
+
+		// traverse scene root to get all simulation trees for all *CHILDREN* aspects
+		ANode parentEntity = aspect.getParent();
+
+		// find all children aspects
+		GetAspectsVisitor mappingVisitor = new GetAspectsVisitor();
+		parentEntity.apply(mappingVisitor);
+		HashMap<String, AspectNode> aspects = mappingVisitor.getAspects();
+
+		// iterate through children aspects
+		Iterator it = aspects.entrySet().iterator();
+		boolean updated = false;
+		boolean endOfStepsReached = false;
+		while(it.hasNext())
+		{
+			Map.Entry o = (Map.Entry) it.next();
+			AspectNode a = (AspectNode) o.getValue();
+
+			// get trees
+			AspectSubTreeNode simulationTree = (AspectSubTreeNode) a.getSubTree(AspectTreeType.SIMULATION_TREE);
+			AspectSubTreeNode visTree = (AspectSubTreeNode) a.getSubTree(AspectTreeType.VISUALIZATION_TREE);
+
+			// set modified
+			simulationTree.setModified(true);
+			visTree.setModified(true);
+			a.setModified(true);
+			a.getParentEntity().setModified(true);
+
+			if(!this.recordingOpened)
+			{
+				this.openRecording();
+			}
+
+			UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, getRecordingIndex());
+			UpdateRecordingStateTreeVisitor updateVisTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, getRecordingIndex());
+
+			// apply visitors
+			// TODO: improvement --> only visit is there's nodes populated in the tree otherwise we are traversing for nothing
+			simulationTree.apply(updateStateTreeVisitor);
+			visTree.apply(updateVisTreeVisitor);
+
+			if(updateStateTreeVisitor.getError() != null || updateVisTreeVisitor.getError() != null)
+			{
+				// something went wrong - notify recording is stopped and close recording files
+				// TODO Review this
+				// listener.endOfSteps(null,null);
+				closeRecording();
+
+				// bubble up exception with errors
+				String errorMsg = String.format("Simulation tree: %s | Visualization tree: %s", updateStateTreeVisitor.getError(), updateVisTreeVisitor.getError());
+				throw new GeppettoExecutionException(errorMsg);
+			}
+			else if(updateStateTreeVisitor.getRange() != null || updateVisTreeVisitor.getRange() != null)
+			{
+				// recording reached the end - notify listener
+				// TODO Review this
+				//listener.endOfSteps(null,null);
+
+				// set end of steps flag reached
+				// NOTE: cannot break the loop here because more than one aspect might be reading the last step
+				endOfStepsReached = true;
+			}
+			else
+			{
+				// if none of the above trees have been updated
+				updated = true;
+			}
+		}
+
+		// NOTE: we cannot increase counter inside the loop above otherwise it would increase per each aspect
+		// NOTE: recordings steps would be skipped if the same recording is applied from parent to children aspects
+		if(updated)
+		{
+			getAndIncrementCurrentIndex();
+		}
+
+		if(endOfStepsReached)
+		{
+			resetAndCloseRecordings();
+		}
+	}
+
+	private void openRecording() throws GeppettoExecutionException
+	{
+		// loop through recordings and open them for reading
+
+		try
+		{
+			H5File h5file = recording.getHDF5();
+			h5file.open();
+		}
+		catch(Exception e1)
+		{
+			throw new GeppettoExecutionException(e1);
+		}
+
+		this.recordingOpened = true;
+	}
+
+	private void closeRecording() throws GeppettoExecutionException
+	{
+
+		if(this.recordingOpened)
+		{
+			// loop through recordings and open them for reading
+
+			try
+			{
+				H5File h5file = recording.getHDF5();
+				h5file.close();
+			}
+			catch(Exception e1)
+			{
+				throw new GeppettoExecutionException(e1);
+			}
+
+			this.recordingOpened = false;
+		}
+	}
+
+	private void resetAndCloseRecordings() throws GeppettoExecutionException
+	{
+		closeRecording();
+		currentRecordingIndex = 0;
 	}
 }

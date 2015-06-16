@@ -56,7 +56,7 @@ public class HDF5Reader
 	{
 		try
 		{
-			// retrieve an instance of H5File
+			// retrieve an instance of H5File 
 			FileFormat fileFormat = FileFormat.getFileFormat(FileFormat.FILE_TYPE_HDF5);
 
 			// open the file with read and write access

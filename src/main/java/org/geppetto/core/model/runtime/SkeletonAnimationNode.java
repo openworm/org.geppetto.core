@@ -34,32 +34,37 @@ package org.geppetto.core.model.runtime;
 
 import java.util.List;
 
-import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
- * Node used to store static values that aren't going to change through simulation . A parameter can be considered as the input of a model and it does not contain any intrinsic dyamics. If a parameter
- * changes its value over time is as result of the user changing it.
+ * A node that stores skeleton animations.
  * 
- * @author Jesus R. Martinez (jesus@metacell.us) 
+ * @author  Giovanni Idili (giovanni@openworm.org)
  *
  */
-public class ParameterNode extends ATimeSeriesNode
-{
-
-	public ParameterNode(String id)
-	{
+public class SkeletonAnimationNode extends ANode {
+	
+	/**
+	 * _skeletonAnimationMatrices stores a list of bidimensional matrices with skeleton animation info.
+	 * 
+	 * TODO: Look into refactoring this into a generic MatrixValue, same as the other AValue derived classes we have.
+	 */
+	private List<List<List<Double>>> _skeletonAnimationMatrices;
+	
+	public SkeletonAnimationNode(String id) {
 		super(id);
 	}
 
-	public void setTimeSeries(List<Quantity> series)
-	{
-	}
-
 	@Override
-	public boolean apply(IStateVisitor visitor)
-	{
-		return visitor.visitParameterNode(this);
+	public boolean apply(IStateVisitor visitor) {
+		return visitor.visitSkeletonAnimationNode(this);
 	}
 
+	public List<List<List<Double>>> getSkeletonAnimationMatrices() {
+		return _skeletonAnimationMatrices;
+	}
+
+	public void setSkeletonAnimationMatrices(List<List<List<Double>>> _skeletonAnimationMatrices) {
+		this._skeletonAnimationMatrices = _skeletonAnimationMatrices;
+	}
 }

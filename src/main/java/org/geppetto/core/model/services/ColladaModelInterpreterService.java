@@ -47,8 +47,12 @@ import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
+import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
+import org.geppetto.core.simulator.RecordingVariableListFeature;
 import org.geppetto.core.simulator.services.ColladaVisualTreeFeature;
 import org.springframework.stereotype.Service;
 
@@ -73,7 +77,12 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 
 			addRecordings(recordings, instancePath, collada);
 
+			if(this.getFeature(GeppettoFeature.VISUAL_TREE_FEATURE)==null){
 			this.addFeature(new ColladaVisualTreeFeature());
+		}
+			if(this.getFeature(GeppettoFeature.WATCHABLE_VARIABLE_LIST_FEATURE)==null){
+				this.addFeature(new RecordingVariableListFeature());
+			}
 		}
 		catch(IOException e)
 		{
@@ -93,8 +102,15 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 	@Override
 	public boolean populateRuntimeTree(AspectNode aspectNode)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		AspectSubTreeNode modelTree = (AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.MODEL_TREE);
+		AspectSubTreeNode visualizationTree = (AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.VISUALIZATION_TREE);
+		AspectSubTreeNode simulationTree = (AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.SIMULATION_TREE);
+
+		modelTree.setId(AspectTreeType.MODEL_TREE.toString());
+		visualizationTree.setId(AspectTreeType.VISUALIZATION_TREE.toString());
+		simulationTree.setId(AspectTreeType.SIMULATION_TREE.toString());
+		
+		return true;
 	}
 
 	@Override
@@ -111,7 +127,7 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 		List<ModelFormat> modelFormats = new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.registerModelFormat("COLLADA")));
 		ServicesRegistry.registerModelInterpreterService(this, modelFormats);
 	}
-
+ 
 	@Override
 	public File downloadModel(AspectNode aspectNode, ModelFormat format, List<? extends IAspectConfiguration> aspectConfigurations) throws ModelInterpreterException
 	{
