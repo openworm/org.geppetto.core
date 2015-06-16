@@ -99,7 +99,7 @@ public class AspectNode extends ACompositeNode {
 			}
 		}
 	}
-
+	
 	/**
 	 * @param modelTree
 	 * @return

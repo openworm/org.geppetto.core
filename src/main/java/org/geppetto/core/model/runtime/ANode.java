@@ -35,7 +35,7 @@ package org.geppetto.core.model.runtime;
 import org.geppetto.core.model.state.visitors.IVisitable;
 
 /**
- * Parent Node, use for serialization. 
+ * Parent Node, use for serialization.
  * 
  * @author matteocantarelli
  * 
@@ -48,7 +48,8 @@ public abstract class ANode implements IVisitable
 	protected String _domainType;
 	private boolean _modified = true;
 
-	public String getMetaType(){
+	public String getMetaType()
+	{
 		return this.getClass().getSimpleName();
 	};
 
@@ -58,40 +59,47 @@ public abstract class ANode implements IVisitable
 		_id = id;
 		_parent = null;
 	}
-	
-	public boolean isModified() {
+
+	public boolean isModified()
+	{
 		return this._modified;
 	}
 
-	public void setModified(boolean mode) {
+	public void setModified(boolean mode)
+	{
 		this._modified = mode;
 	}
-	
-	public void setDomainType(String domainType){
-		this._domainType=domainType;
+
+	public void setDomainType(String domainType)
+	{
+		this._domainType = domainType;
 	}
-	
-	public String getDomainType(){
+
+	public String getDomainType()
+	{
 		return this._domainType;
 	}
 
-	public void setName(String name){
+	public void setName(String name)
+	{
 		this._name = name;
 	}
-	
+
 	public String getName()
 	{
 		return _name;
 	}
 
-	public void setId(String id){
+	public void setId(String id)
+	{
 		this._id = id;
 	}
-	
-	public String getId() {
+
+	public String getId()
+	{
 		return this._id;
 	}
-	
+
 	/**
 	 * @return the next sibling of this node
 	 */
@@ -119,8 +127,9 @@ public abstract class ANode implements IVisitable
 	{
 		return _parent;
 	}
-	
-	public void setParent(ANode parent){
+
+	public void setParent(ANode parent)
+	{
 		this._parent = parent;
 	}
 
@@ -128,18 +137,18 @@ public abstract class ANode implements IVisitable
 	{
 		return _id.contains("[");
 	}
-	
+
 	/**
 	 * @return
 	 */
 	public String getEntityInstancePath()
 	{
-		ANode current=this;
-		while(current!=null && !(current instanceof EntityNode))
+		ANode current = this;
+		while(current != null && !(current instanceof EntityNode))
 		{
-			current=current.getParent();
+			current = current.getParent();
 		}
-		if(current!=null && current instanceof EntityNode)
+		if(current != null && current instanceof EntityNode)
 		{
 			return current.getInstancePath();
 		}
@@ -148,46 +157,46 @@ public abstract class ANode implements IVisitable
 			return "";
 		}
 	}
-	
+
 	/**
 	 * @return
 	 */
 	public String getAspectInstancePath()
 	{
-		ANode current=this;
+		ANode current = this;
 		if(current instanceof AspectNode)
 		{
 			return current.getId();
 		}
-		while(current!=null && !(current instanceof AspectSubTreeNode))
+		while(current != null && !(current instanceof AspectSubTreeNode))
 		{
-			current=current.getParent();
+			current = current.getParent();
 		}
-		if(current!=null && current instanceof AspectSubTreeNode)
+		if(current != null && current.getParent() != null && current instanceof AspectSubTreeNode)
 		{
-			return current.getParent().getId()+"."+current.getId();
+			return current.getParent().getId() + "." + current.getId();
 		}
 		else
 		{
 			return "";
 		}
 	}
-	
+
 	/**
 	 * @return
 	 */
 	public String getLocalInstancePath()
 	{
-		String instancePath=getInstancePath();
-		String aspectPath=getAspectInstancePath();
-		String prePath=getEntityInstancePath();
-		if(aspectPath!="")
+		String instancePath = getInstancePath();
+		String aspectPath = getAspectInstancePath();
+		String prePath = getEntityInstancePath();
+		if(aspectPath != "")
 		{
-			prePath+="."+aspectPath+".";
-		}	
-		return instancePath.substring(instancePath.indexOf(prePath)+prePath.length());
+			prePath += "." + aspectPath + ".";
+		}
+		return instancePath.substring(instancePath.indexOf(prePath) + prePath.length());
 	}
-	
+
 	/**
 	 * @return
 	 */

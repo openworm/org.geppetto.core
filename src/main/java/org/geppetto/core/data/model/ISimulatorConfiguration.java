@@ -44,6 +44,8 @@ public interface ISimulatorConfiguration
 	String getConversionServiceId();
 
 	float getTimestep();
+	
+	float getLength();
 
 	Map<String, String> getParameters();
 }

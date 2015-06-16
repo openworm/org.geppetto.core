@@ -49,7 +49,7 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 
 	private List<LocalParameter> modelParameters = new ArrayList<LocalParameter>();
 
-	private LocalSimulatorConfiguration simulatorConfiguration = new LocalSimulatorConfiguration(id, null, null, id, null);
+	private LocalSimulatorConfiguration simulatorConfiguration = new LocalSimulatorConfiguration(id, null, null, id, id, null);
 
 	public LocalAspectConfiguration(long id, LocalInstancePath aspect, List<LocalInstancePath> watchedVariables, List<LocalParameter> modelParameter, LocalSimulatorConfiguration simulatorConfiguration)
 	{

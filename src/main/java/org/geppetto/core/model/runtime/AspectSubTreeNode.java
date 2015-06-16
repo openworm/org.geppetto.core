@@ -102,22 +102,6 @@ public class AspectSubTreeNode extends ACompositeNode
 	}
 	
 	/**
-	 * @param tree
-	 */
-	public void flushSubTree(AspectTreeType tree)
-	{
-		for(ANode node : _children)
-		{
-			if(node.getName().equals(tree.toString()))
-			{
-				// re-assign to empty node
-				node = new CompositeNode(tree.toString());
-				break;
-			}
-		}
-	}
-
-	/**
 	 * @param modelTree
 	 * @return
 	 */
