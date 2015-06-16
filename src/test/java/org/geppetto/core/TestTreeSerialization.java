@@ -766,7 +766,7 @@ public class TestTreeSerialization
 		
 		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
 		visualization.apply(visitor);
-		String serialized = "{" + visitor.getSerializedTree() + "}";
+		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -776,6 +776,6 @@ public class TestTreeSerialization
 
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals("{\"VisualizationTree\":{\"Composite_XXX\":{\"Skeleton_XXX\":{\"skeletonTransformations\":[[[1.0,2.0,3.0],[4.0,5.0,6.0],[7.0,8.0,9.0]],[[10.0,11.0,12.0],[13.0,14.0,15.0],[16.0,17.0,18.0]],[[19.0,20.0,21.0],[22.0,23.0,24.0],[25.0,26.0,27.0]]],\"id\":\"Skeleton_XXX\",\"instancePath\":\"Composite_XXX.Skeleton_XXX\",\"_metaType\":\"SkeletonAnimationNode\"},\"id\":\"Composite_XXX\",\"instancePath\":\"Composite_XXX\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"_metaType\":\"AspectSubTreeNode\"}}", serialized);		
+		Assert.assertEquals("{\"VisualizationTree\":{\"Composite_XXX\":{\"Skeleton_XXX\":{\"skeletonTransformations\":[[[1.0,2.0,3.0],[4.0,5.0,6.0],[7.0,8.0,9.0]],[[10.0,11.0,12.0],[13.0,14.0,15.0],[16.0,17.0,18.0]],[[19.0,20.0,21.0],[22.0,23.0,24.0],[25.0,26.0,27.0]]],\"id\":\"Skeleton_XXX\",\"instancePath\":\"VisualizationTree.Composite_XXX.Skeleton_XXX\",\"_metaType\":\"SkeletonAnimationNode\"},\"id\":\"Composite_XXX\",\"instancePath\":\"VisualizationTree.Composite_XXX\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"instancePath\":\"VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"}}", serialized);		
 	}
 }
