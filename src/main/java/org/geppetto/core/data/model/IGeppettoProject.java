@@ -38,6 +38,9 @@ import java.util.List;
 public interface IGeppettoProject extends IEntity
 {
 	String getName();
+	
+	void setName(String name);
+	
 
 	List<? extends IExperiment> getExperiments();
 

@@ -323,4 +323,22 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.geppetto.core.data.IGeppettoDataManager#saveProject(org.geppetto.core.data.model.IGeppettoProject)
+	 */
+	@Override
+	public void saveProject(IGeppettoProject project)
+	{
+		// Nothing to do
+	}
+
+	/* (non-Javadoc)
+	 * @see org.geppetto.core.data.IGeppettoDataManager#saveExperiment(org.geppetto.core.data.model.IExperiment)
+	 */
+	@Override
+	public void saveExperiment(IExperiment experiment)
+	{
+		// Nothing to do
+	}
+
 }

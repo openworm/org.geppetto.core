@@ -97,4 +97,28 @@ public class LocalSimulatorConfiguration implements ISimulatorConfiguration
 		return parameters;
 	}
 
+	@Override
+	public void setLength(float length)
+	{
+		this.length=length;
+	}
+
+	@Override
+	public void setTimestep(float timestep)
+	{
+		this.timestep=timestep;
+	}
+
+	@Override
+	public void setSimulatorId(String simulatorId)
+	{
+		this.simulatorId=simulatorId;
+	}
+
+	@Override
+	public void setConversionServiceId(String conversionServiceId)
+	{
+		this.conversionServiceId=conversionServiceId;
+	}
+
 }

@@ -174,4 +174,16 @@ public class LocalExperiment implements IExperiment
 		this.parentProject = project;
 
 	}
+
+	@Override
+	public void setName(String name)
+	{
+		this.name=name;
+	}
+
+	@Override
+	public void setDescription(String description)
+	{
+		this.description=description;
+	}
 }

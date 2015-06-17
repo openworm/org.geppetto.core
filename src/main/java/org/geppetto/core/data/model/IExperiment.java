@@ -53,6 +53,10 @@ public interface IExperiment extends IEntity
 
 	ExperimentStatus getStatus();
 	
+	void setName(String name);
+	
+	void setDescription(String description);
+	
 	void setStatus(ExperimentStatus status);
 	
 	void addSimulationResult(ISimulationResult result);

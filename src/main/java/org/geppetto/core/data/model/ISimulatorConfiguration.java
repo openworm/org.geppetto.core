@@ -46,6 +46,14 @@ public interface ISimulatorConfiguration
 	float getTimestep();
 	
 	float getLength();
+	
+	void setLength(float length);
+	
+	void setTimestep(float timestep);
+	
+	void setSimulatorId(String simulatorId);
+	
+	void setConversionServiceId(String conversionServiceId);
 
 	Map<String, String> getParameters();
 }
