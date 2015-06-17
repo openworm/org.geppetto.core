@@ -46,6 +46,7 @@ import ncsa.hdf.object.h5.H5File;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.quantities.Quantity;
+import org.geppetto.core.model.quantities.Unit;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.AspectNode;
@@ -192,6 +193,7 @@ public class RecordingReader
 
 						quantity.setValue(readValue);
 						newNode.addQuantity(quantity);
+						newNode.setUnit(new Unit(unit));
 						newVariableNode = newNode;
 						parent.addChild(newNode);
 					}
@@ -245,6 +247,7 @@ public class RecordingReader
 						newVariableNode.addQuantity(quantity);
 					}
 				}
+				newVariableNode.setUnit(new Unit(unit));
 			}
 			catch(ArrayIndexOutOfBoundsException e)
 			{
