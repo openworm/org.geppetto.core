@@ -35,13 +35,16 @@ package org.geppetto.core.data.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public interface IUser
 {
 
 	long getId();
 
 	String getLogin();
-	
+
+	@JsonIgnore
 	String getPassword();
 
 	String getName();
