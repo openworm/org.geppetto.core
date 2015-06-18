@@ -47,7 +47,10 @@
         simulatorConfiguration: {
           id: 1,
           simulatorId: "neuronSimulator",
-          conversionServiceId: "lemsConversion"
+          conversionServiceId: "lemsConversion",
+          timestep: 0.00005,
+          length: 0.3,
+          parameters: {target: "net1"}
         },
         watchedVariables:[
 	        {
