@@ -34,10 +34,8 @@ package org.geppetto.core.data.model;
 
 import java.util.Map;
 
-public interface ISimulatorConfiguration
+public interface ISimulatorConfiguration extends IEntity
 {
-
-	long getId();
 
 	String getSimulatorId();
 
@@ -56,4 +54,6 @@ public interface ISimulatorConfiguration
 	void setConversionServiceId(String conversionServiceId);
 
 	Map<String, String> getParameters();
+	
+	void setParameters(Map<String, String> parameters);
 }

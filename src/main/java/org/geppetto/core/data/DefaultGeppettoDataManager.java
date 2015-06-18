@@ -45,6 +45,7 @@ import java.util.List;
 
 import org.geppetto.core.data.model.ExperimentStatus;
 import org.geppetto.core.data.model.IAspectConfiguration;
+import org.geppetto.core.data.model.IEntity;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IInstancePath;
@@ -323,22 +324,11 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	}
 
-	/* (non-Javadoc)
-	 * @see org.geppetto.core.data.IGeppettoDataManager#saveProject(org.geppetto.core.data.model.IGeppettoProject)
-	 */
 	@Override
-	public void saveProject(IGeppettoProject project)
+	public void saveEntity(Object entity)
 	{
-		// Nothing to do
-	}
-
-	/* (non-Javadoc)
-	 * @see org.geppetto.core.data.IGeppettoDataManager#saveExperiment(org.geppetto.core.data.model.IExperiment)
-	 */
-	@Override
-	public void saveExperiment(IExperiment experiment)
-	{
-		// Nothing to do
+		// Nothing to do, no DB here
+		
 	}
 
 }

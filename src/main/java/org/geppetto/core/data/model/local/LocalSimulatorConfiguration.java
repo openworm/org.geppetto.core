@@ -121,4 +121,10 @@ public class LocalSimulatorConfiguration implements ISimulatorConfiguration
 		this.conversionServiceId=conversionServiceId;
 	}
 
+	@Override
+	public void setParameters(Map<String, String> parameters)
+	{
+		this.parameters=parameters;
+	}
+
 }

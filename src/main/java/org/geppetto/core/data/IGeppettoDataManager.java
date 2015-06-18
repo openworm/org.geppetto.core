@@ -97,9 +97,8 @@ public interface IGeppettoDataManager
 
 	void clearWatchedVariables(IAspectConfiguration aspectConfig);
 	
-		void saveProject(IGeppettoProject project);
-	
-	void saveExperiment(IExperiment experiment);
+
+	void saveEntity(Object entity);
 
 
 }
