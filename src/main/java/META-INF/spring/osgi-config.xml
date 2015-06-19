@@ -59,7 +59,10 @@
 	<aop:scoped-proxy proxy-target-class="false"/>
 	</bean>
 
-	<bean id="authService" scope="thread" class="org.geppetto.core.auth.DefaultAuthService">
+	<osgi:service id="DefaultAuthentication" ref="authService"
+		interface="org.geppetto.core.auth.IAuthService">
+	</osgi:service>
+	<bean id="authService" scope="singleton" class="org.geppetto.core.auth.DefaultAuthService">
 	<aop:scoped-proxy proxy-target-class="false"/>
 	</bean>
 
