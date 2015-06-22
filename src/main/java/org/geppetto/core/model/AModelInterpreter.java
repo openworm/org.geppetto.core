@@ -4,6 +4,7 @@
 package org.geppetto.core.model;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import ncsa.hdf.object.h5.H5File;
@@ -19,6 +20,8 @@ public abstract class AModelInterpreter extends AService implements IModelInterp
 {
 
 	private static final String ID = "RECORDING_";
+	
+	protected List<URL> dependentModels = new ArrayList<URL>();
 	
 	protected void addRecordings(List<URL> recordings, String instancePath, ModelWrapper modelWrapper) throws ModelInterpreterException
 	{
@@ -42,4 +45,10 @@ public abstract class AModelInterpreter extends AService implements IModelInterp
 		}
 	}
 
+	
+	@Override
+	public List<URL> getDependentModels()
+	{
+		return dependentModels;
+	}
 }

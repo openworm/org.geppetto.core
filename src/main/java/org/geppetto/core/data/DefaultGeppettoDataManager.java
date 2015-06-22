@@ -40,12 +40,15 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.geppetto.core.data.model.ExperimentStatus;
 import org.geppetto.core.data.model.IAspectConfiguration;
-import org.geppetto.core.data.model.IEntity;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IInstancePath;
@@ -66,7 +69,7 @@ import com.google.gson.Gson;
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
 
-	private List<LocalGeppettoProject> projects = new ArrayList<>();
+	Map<Long,LocalGeppettoProject> projects=new ConcurrentHashMap<Long,LocalGeppettoProject>();
 
 	private List<IUser> users = new ArrayList<>();
 
@@ -129,12 +132,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IGeppettoProject getGeppettoProjectById(long id)
 	{
-		for(IGeppettoProject project : projects)
+		if(projects.containsKey(id))
 		{
-			if(project.getId() == id)
-			{
-				return project;
-			}
+			return projects.get(id);
 		}
 		return null;
 	}
@@ -156,9 +156,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	 * @see org.geppetto.core.data.IGeppettoDataManager#getAllGeppettoProjects()
 	 */
 	@Override
-	public List<LocalGeppettoProject> getAllGeppettoProjects()
+	public Collection<LocalGeppettoProject> getAllGeppettoProjects()
 	{
-		return projects;
+		return projects.values();
 	}
 
 	/*
@@ -167,9 +167,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	 * @see org.geppetto.core.data.IGeppettoDataManager#getGeppettoProjectsForUser(java.lang.String)
 	 */
 	@Override
-	public List<LocalGeppettoProject> getGeppettoProjectsForUser(String login)
+	public Collection<LocalGeppettoProject> getGeppettoProjectsForUser(String login)
 	{
-		return projects;
+		return projects.values();
 	}
 
 	/*
@@ -237,7 +237,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IUser newUser(String name, String password, boolean persistent)
 	{
-		return new LocalUser(0, name, password, name, name, projects, 0, 0);
+		return new LocalUser(0, name, password, name, name, projects.values(), 0, 0);
 	}
 
 	/*
@@ -250,7 +250,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	{
 		if(project instanceof LocalGeppettoProject)
 		{
-			projects.add((LocalGeppettoProject) project);
+			projects.put(project.getId(),(LocalGeppettoProject) project);
 		}
 	}
 
@@ -298,7 +298,11 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IGeppettoProject getProjectFromJson(Gson gson, String json)
 	{
-		return gson.fromJson(json, LocalGeppettoProject.class);
+		LocalGeppettoProject project= gson.fromJson(json, LocalGeppettoProject.class);
+		project.setId(UUID.randomUUID().getLeastSignificantBits());
+		project.setVolatile(true);
+		projects.put(project.getId(), project);
+		return project;
 	}
 
 	/*
@@ -309,7 +313,11 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IGeppettoProject getProjectFromJson(Gson gson, Reader json)
 	{
-		return gson.fromJson(json, LocalGeppettoProject.class);
+		LocalGeppettoProject project= gson.fromJson(json, LocalGeppettoProject.class);
+		project.setId(UUID.randomUUID().getLeastSignificantBits());
+		project.setVolatile(true);
+		projects.put(project.getId(), project);
+		return project;
 	}
 
 	/*

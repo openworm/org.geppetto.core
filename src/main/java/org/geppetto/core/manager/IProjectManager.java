@@ -49,8 +49,9 @@ public interface IProjectManager
 	 * @param requestId
 	 * @param user
 	 * @param project
+	 * @throws GeppettoExecutionException 
 	 */
-	void persistProject(String requestId, IGeppettoProject project);
+	void persistProject(String requestId, IGeppettoProject project) throws GeppettoExecutionException;
 	
 	/**
 	 * @param requestId

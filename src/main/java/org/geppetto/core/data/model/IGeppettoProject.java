@@ -40,10 +40,13 @@ public interface IGeppettoProject extends IEntity
 	String getName();
 	
 	void setName(String name);
-	
 
 	List<? extends IExperiment> getExperiments();
 
 	IPersistedData getGeppettoModel();
+	
+	boolean isVolatile();
+	
+	void setVolatile(boolean volatileProject);
 
 }

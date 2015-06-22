@@ -35,9 +35,7 @@ package org.geppetto.core.model;
 
 import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.runtime.AspectNode;
@@ -63,4 +61,6 @@ public interface IModelInterpreter extends IService
 	List<ModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException;
 
 	String getName();
+
+	List<URL> getDependentModels();
 }

@@ -41,8 +41,9 @@ import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
@@ -61,9 +62,9 @@ import com.google.gson.JsonParseException;
 public class FindLocalProjectsVisitor extends SimpleFileVisitor<Path>
 {
 
-	private List<LocalGeppettoProject> projects;
+	private Map<Long, LocalGeppettoProject> projects;
 
-	public FindLocalProjectsVisitor(List<LocalGeppettoProject> projects)
+	public FindLocalProjectsVisitor(Map<Long, LocalGeppettoProject> projects)
 	{
 		this.projects=projects;
 	}
@@ -93,7 +94,7 @@ public class FindLocalProjectsVisitor extends SimpleFileVisitor<Path>
 			{
 				e.setParentProject(project);
 			}
-			projects.add(project);
+			projects.put(project.getId(),project);
 		}
 		return FileVisitResult.CONTINUE;
 	}

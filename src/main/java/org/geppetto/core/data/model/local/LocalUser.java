@@ -33,7 +33,7 @@
 
 package org.geppetto.core.data.model.local;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.geppetto.core.data.model.IUser;
 
@@ -53,9 +53,9 @@ public class LocalUser implements IUser
 
 	private long simulationTimeAllowance;
 
-	private List<LocalGeppettoProject> geppettoProjects;
+	private Collection<LocalGeppettoProject> geppettoProjects;
 
-	public LocalUser(long id, String login, String password, String name, String token, List<LocalGeppettoProject> geppettoProjects, long spaceAllowance, long simulationTimeAllowance)
+	public LocalUser(long id, String login, String password, String name, String token, Collection<LocalGeppettoProject> geppettoProjects, long spaceAllowance, long simulationTimeAllowance)
 	{
 		this.id = id;
 		this.login = login;
@@ -97,7 +97,7 @@ public class LocalUser implements IUser
 	}
 
 	@Override
-	public List<LocalGeppettoProject> getGeppettoProjects()
+	public Collection<LocalGeppettoProject> getGeppettoProjects()
 	{
 		return geppettoProjects;
 	}

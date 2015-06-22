@@ -34,6 +34,7 @@
 package org.geppetto.core.data;
 
 import java.io.Reader;
+import java.util.Collection;
 import java.util.List;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
@@ -60,14 +61,14 @@ public interface IGeppettoDataManager
 	boolean isDefault();
 
 	IUser getUserByLogin(String login);
-
+	
 	IGeppettoProject getGeppettoProjectById(long id);
 
 	List<? extends IUser> getAllUsers();
 
-	List<? extends IGeppettoProject> getAllGeppettoProjects();
+	Collection<? extends IGeppettoProject> getAllGeppettoProjects();
 
-	List<? extends IGeppettoProject> getGeppettoProjectsForUser(String login);
+	Collection<? extends IGeppettoProject> getGeppettoProjectsForUser(String login);
 	
 	IGeppettoProject getProjectFromJson(Gson gson, String json);
 

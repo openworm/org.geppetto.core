@@ -37,6 +37,8 @@ import java.util.List;
 
 import org.geppetto.core.data.model.IGeppettoProject;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class LocalGeppettoProject implements IGeppettoProject
 {
 	private long id;
@@ -46,6 +48,9 @@ public class LocalGeppettoProject implements IGeppettoProject
 	private List<LocalExperiment> experiments;
 
 	private LocalPersistedData geppettoModel;
+
+	@JsonIgnore
+	private transient boolean volatileProject;
 
 	public LocalGeppettoProject(long id, String name, List<LocalExperiment> experiments, LocalPersistedData geppettoModel)
 	{
@@ -61,6 +66,11 @@ public class LocalGeppettoProject implements IGeppettoProject
 		return id;
 	}
 
+	public void setId(long id)
+	{
+		this.id=id;
+	}
+	
 	@Override
 	public String getName()
 	{
@@ -94,5 +104,17 @@ public class LocalGeppettoProject implements IGeppettoProject
 	public int hashCode()
 	{
 		return name.hashCode();
+	}
+
+	@Override
+	public boolean isVolatile()
+	{
+		return this.volatileProject;
+	}
+	
+	@Override
+	public void setVolatile(boolean volatileProject)
+	{
+		this.volatileProject=volatileProject;
 	}
 }
