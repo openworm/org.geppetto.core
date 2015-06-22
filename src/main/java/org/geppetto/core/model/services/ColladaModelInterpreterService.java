@@ -78,8 +78,9 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 			addRecordings(recordings, instancePath, collada);
 
 			if(this.getFeature(GeppettoFeature.VISUAL_TREE_FEATURE)==null){
-			this.addFeature(new ColladaVisualTreeFeature());
-		}
+				this.addFeature(new ColladaVisualTreeFeature());
+			}
+			
 			if(this.getFeature(GeppettoFeature.WATCHABLE_VARIABLE_LIST_FEATURE)==null){
 				this.addFeature(new RecordingVariableListFeature());
 			}

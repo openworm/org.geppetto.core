@@ -371,8 +371,6 @@ public class RecordingReader
 
 	private void openRecording() throws GeppettoExecutionException
 	{
-		// loop through recordings and open them for reading
-
 		try
 		{
 			H5File h5file = recording.getHDF5();
@@ -388,11 +386,8 @@ public class RecordingReader
 
 	private void closeRecording() throws GeppettoExecutionException
 	{
-
 		if(this.recordingOpened)
 		{
-			// loop through recordings and open them for reading
-
 			try
 			{
 				H5File h5file = recording.getHDF5();
