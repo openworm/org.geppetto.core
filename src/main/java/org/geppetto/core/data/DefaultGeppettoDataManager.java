@@ -44,6 +44,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -299,10 +300,16 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	public IGeppettoProject getProjectFromJson(Gson gson, String json)
 	{
 		LocalGeppettoProject project= gson.fromJson(json, LocalGeppettoProject.class);
-		project.setId(UUID.randomUUID().getLeastSignificantBits());
+		project.setId(getRandomId());
 		project.setVolatile(true);
 		projects.put(project.getId(), project);
 		return project;
+	}
+
+	private long getRandomId()
+	{
+		Random rnd=new Random();
+		return (long) rnd.nextInt();
 	}
 
 	/*
@@ -314,7 +321,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	public IGeppettoProject getProjectFromJson(Gson gson, Reader json)
 	{
 		LocalGeppettoProject project= gson.fromJson(json, LocalGeppettoProject.class);
-		project.setId(UUID.randomUUID().getLeastSignificantBits());
+		project.setId(getRandomId());
 		project.setVolatile(true);
 		projects.put(project.getId(), project);
 		return project;
