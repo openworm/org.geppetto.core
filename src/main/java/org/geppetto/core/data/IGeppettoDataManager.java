@@ -88,9 +88,8 @@ public interface IGeppettoDataManager
 	IUser newUser(String name, String password, boolean persistent);
 	
 	
-	void addGeppettoProject(IGeppettoProject project);
+	void addGeppettoProject(IGeppettoProject project, IUser user);
 	
-
 	Object deleteGeppettoProject(long id, IUser user);
 
 	Object deleteExperiment(IExperiment experiment);

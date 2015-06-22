@@ -45,7 +45,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.geppetto.core.data.model.ExperimentStatus;
@@ -238,7 +237,8 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IUser newUser(String name, String password, boolean persistent)
 	{
-		return new LocalUser(0, name, password, name, name, projects.values(), 0, 0);
+		List<LocalGeppettoProject> list = new ArrayList<LocalGeppettoProject>(projects.values());
+		return new LocalUser(0, name, password, name, name, list, 0, 0);
 	}
 
 	/*
@@ -247,7 +247,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	 * @see org.geppetto.core.data.IGeppettoDataManager#addGeppettoProject(org.geppetto.core.data.model.IGeppettoProject)
 	 */
 	@Override
-	public void addGeppettoProject(IGeppettoProject project)
+	public void addGeppettoProject(IGeppettoProject project, IUser user)
 	{
 		if(project instanceof LocalGeppettoProject)
 		{

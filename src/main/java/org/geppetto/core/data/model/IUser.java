@@ -33,7 +33,7 @@
 
 package org.geppetto.core.data.model;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -49,7 +49,7 @@ public interface IUser
 
 	String getName();
 
-	Collection<? extends IGeppettoProject> getGeppettoProjects();
+	List<? extends IGeppettoProject> getGeppettoProjects();
 
 	long getSpaceAllowance();
 
