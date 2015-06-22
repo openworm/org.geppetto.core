@@ -33,7 +33,6 @@
 
 package org.geppetto.core.conversion;
 
-import org.geppetto.core.beans.PathConfig;
 import org.geppetto.core.services.AService;
 import org.geppetto.core.services.ModelFormat;
 
@@ -43,8 +42,6 @@ import org.geppetto.core.services.ModelFormat;
  */
 public abstract class AConversion extends AService implements IConversion
 {
-	private PathConfig pathConfig = new PathConfig();
-
 	public void checkSupportedFormat(ModelFormat input) throws ConversionException
 	{
 		if(!this.getSupportedInputs().contains(input))
@@ -55,9 +52,7 @@ public abstract class AConversion extends AService implements IConversion
 
 	public String getConvertedResultsPath()
 	{
-		return this.pathConfig.getConvertedResultsPath();
+		return getPathConfiguration().getConvertedResultsPath();
 	}
-	
-	
 
 }

@@ -44,20 +44,20 @@ import org.apache.commons.logging.LogFactory;
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  * 
  */
-public class PathConfig
+public class PathConfiguration
 {
-	private static Log _logger = LogFactory.getLog(PathConfig.class);
+	private static Log _logger = LogFactory.getLog(PathConfiguration.class);
 
 	private String convertedResultsPath;
 	private String rawResultsPath;
 
-	public PathConfig()
+	public PathConfiguration()
 	{
 		super();
 		Properties prop = new Properties();
 		try
 		{
-			prop.load(PathConfig.class.getResourceAsStream("/Geppetto.properties"));
+			prop.load(PathConfiguration.class.getResourceAsStream("/Geppetto.properties"));
 			convertedResultsPath = prop.getProperty("convertedResultsPath");
 			rawResultsPath = prop.getProperty("rawResultsPath");
 		}

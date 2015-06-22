@@ -2,6 +2,8 @@ package org.geppetto.core.services;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.geppetto.core.beans.PathConfiguration;
 import org.geppetto.core.features.IFeature;
 
 /**
@@ -14,6 +16,8 @@ import org.geppetto.core.features.IFeature;
 public abstract class AService implements IService
 {
 
+	private PathConfiguration pathConfig = new PathConfiguration();
+	
 	protected Map<GeppettoFeature, IFeature> features = new HashMap<GeppettoFeature, IFeature>();
 
 	/* (non-Javadoc)
@@ -41,5 +45,13 @@ public abstract class AService implements IService
 	public void addFeature(IFeature feature)
 	{
 		features.put(feature.getType(), feature);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.geppetto.core.services.IService#addFeature(org.geppetto.core.features.IFeature)
+	 */
+	@Override
+	public PathConfiguration getPathConfiguration(){
+		return pathConfig;
 	}
 }

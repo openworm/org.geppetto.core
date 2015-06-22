@@ -41,11 +41,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.data.DataManagerHelper;
 import org.geppetto.core.data.DefaultGeppettoDataManager;
+import org.geppetto.core.services.ModelFormat;
 
 /**
  * @author matteocantarelli
@@ -142,5 +145,13 @@ public class URLReader
 		in.close();
 		out.close();
 		return outputFile.toURI().toURL();
+	}
+	
+	public static File createProjectFolder(ModelFormat output, String path)
+	{
+		String tmpFolder = output.getModelFormat() + new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
+		File outputFolder = new File(path, tmpFolder);
+		if(!outputFolder.exists()) outputFolder.mkdirs();
+		return outputFolder;
 	}
 }
