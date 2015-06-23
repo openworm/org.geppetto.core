@@ -97,11 +97,11 @@ public class ZipDirectory
 		fis.close();
 	}
 
-	public static Path getZipFromFile(File file) {
+	public static Path getZipFromFile(String aspectPath, File file) {
 		List<File> fileList = new ArrayList<File>();
 		fileList.add(file);
 		File sourceFolder = new File(System.getProperty("user.dir")+"/geppettoTmp");
-		String outputName = file.getName()+".zip";
+		String outputName = aspectPath + "-"+file.getName()+".zip";
 		writeZipFile(sourceFolder, outputName, fileList);
 		String path = sourceFolder.getAbsolutePath() + File.separator + outputName;
 		return Paths.get(path);
