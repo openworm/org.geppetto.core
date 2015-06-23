@@ -46,10 +46,10 @@ public interface ISimulatorCallbackListener
 {
 
 	/**
-	 * @param instancePath The instance path of the aspect that was simulated
+	 * @param aspectNode The aspect that was simulated
 	 * @param results The file containing the results of the simulation in the Geppetto HDF5 recording format
 	 */
-	void endOfSteps(String instancePath, File results);
+	void endOfSteps(AspectNode aspectNode, File results) throws GeppettoExecutionException;
 	
 	void stepped(AspectNode aspect) throws GeppettoExecutionException;
 }

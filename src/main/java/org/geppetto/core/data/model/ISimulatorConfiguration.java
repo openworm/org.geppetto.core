@@ -34,7 +34,7 @@ package org.geppetto.core.data.model;
 
 import java.util.Map;
 
-public interface ISimulatorConfiguration extends IEntity
+public interface ISimulatorConfiguration extends IDataEntity
 {
 
 	String getSimulatorId();

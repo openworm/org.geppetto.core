@@ -33,10 +33,8 @@
 
 package org.geppetto.core.data.model;
 
-public interface IPersistedData
+public interface IPersistedData extends IDataEntity
 {
-
-	long getId();
 
 	String getUrl();
 

@@ -53,15 +53,19 @@ import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.data.model.IParameter;
+import org.geppetto.core.data.model.IPersistedData;
 import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.IUser;
+import org.geppetto.core.data.model.PersistedDataType;
 import org.geppetto.core.data.model.local.LocalAspectConfiguration;
 import org.geppetto.core.data.model.local.LocalExperiment;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
 import org.geppetto.core.data.model.local.LocalInstancePath;
 import org.geppetto.core.data.model.local.LocalParameter;
+import org.geppetto.core.data.model.local.LocalPersistedData;
 import org.geppetto.core.data.model.local.LocalSimulationResult;
 import org.geppetto.core.data.model.local.LocalUser;
+import org.geppetto.core.model.runtime.ANode;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
@@ -69,7 +73,7 @@ import com.google.gson.Gson;
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
 
-	Map<Long,LocalGeppettoProject> projects=new ConcurrentHashMap<Long,LocalGeppettoProject>();
+	Map<Long, LocalGeppettoProject> projects = new ConcurrentHashMap<Long, LocalGeppettoProject>();
 
 	private List<IUser> users = new ArrayList<>();
 
@@ -187,17 +191,6 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.geppetto.core.data.IGeppettoDataManager#newSimulationResult()
-	 */
-	@Override
-	public ISimulationResult newSimulationResult()
-	{
-		return new LocalSimulationResult(0, null, null);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#newInstancePath(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -251,7 +244,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	{
 		if(project instanceof LocalGeppettoProject)
 		{
-			projects.put(project.getId(),(LocalGeppettoProject) project);
+			projects.put(project.getId(), (LocalGeppettoProject) project);
 		}
 	}
 
@@ -299,7 +292,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IGeppettoProject getProjectFromJson(Gson gson, String json)
 	{
-		LocalGeppettoProject project= gson.fromJson(json, LocalGeppettoProject.class);
+		LocalGeppettoProject project = gson.fromJson(json, LocalGeppettoProject.class);
 		project.setId(getRandomId());
 		project.setVolatile(true);
 		projects.put(project.getId(), project);
@@ -308,7 +301,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	private long getRandomId()
 	{
-		Random rnd=new Random();
+		Random rnd = new Random();
 		return (long) rnd.nextInt();
 	}
 
@@ -320,7 +313,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IGeppettoProject getProjectFromJson(Gson gson, Reader json)
 	{
-		LocalGeppettoProject project= gson.fromJson(json, LocalGeppettoProject.class);
+		LocalGeppettoProject project = gson.fromJson(json, LocalGeppettoProject.class);
 		project.setId(getRandomId());
 		project.setVolatile(true);
 		projects.put(project.getId(), project);
@@ -343,7 +336,24 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	public void saveEntity(Object entity)
 	{
 		// Nothing to do, no DB here
-		
+	}
+
+	@Override
+	public ISimulationResult newSimulationResult(IInstancePath parameterPath, IPersistedData results)
+	{
+		return new LocalSimulationResult(0, (LocalInstancePath) parameterPath, (LocalPersistedData) results);
+	}
+
+	@Override
+	public IInstancePath newInstancePath(ANode node)
+	{
+		return newInstancePath(node.getEntityInstancePath(), node.getAspectInstancePath(), node.getLocalInstancePath());
+	}
+
+	@Override
+	public IPersistedData newPersistedData(URL url, PersistedDataType type)
+	{
+		return new LocalPersistedData(0, url.toString(), type);
 	}
 
 }

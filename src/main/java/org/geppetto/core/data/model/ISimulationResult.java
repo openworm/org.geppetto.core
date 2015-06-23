@@ -32,10 +32,8 @@
  *******************************************************************************/
 package org.geppetto.core.data.model;
 
-public interface ISimulationResult
+public interface ISimulationResult extends IDataEntity
 {
-
-	long getId();
 
 	IPersistedData getResult();
 

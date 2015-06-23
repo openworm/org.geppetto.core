@@ -68,4 +68,10 @@ public class LocalSimulationResult implements ISimulationResult
 		return aspect;
 	}
 
+	@Override
+	public void setId(long id)
+	{
+		this.id = id;
+	}
+
 }

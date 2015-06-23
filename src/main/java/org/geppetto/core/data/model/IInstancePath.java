@@ -32,10 +32,8 @@
  *******************************************************************************/
 package org.geppetto.core.data.model;
 
-public interface IInstancePath
+public interface IInstancePath extends IDataEntity
 {
-
-	long getId();
 
 	String getEntityInstancePath();
 

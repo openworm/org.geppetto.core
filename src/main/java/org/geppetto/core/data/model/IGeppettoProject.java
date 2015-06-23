@@ -35,7 +35,7 @@ package org.geppetto.core.data.model;
 
 import java.util.List;
 
-public interface IGeppettoProject extends IEntity
+public interface IGeppettoProject extends IDataEntity
 {
 	String getName();
 	

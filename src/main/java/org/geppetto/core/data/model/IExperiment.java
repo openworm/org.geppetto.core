@@ -38,7 +38,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public interface IExperiment extends IEntity
+public interface IExperiment extends IDataEntity
 {
 
 	List<? extends IAspectConfiguration> getAspectConfigurations();

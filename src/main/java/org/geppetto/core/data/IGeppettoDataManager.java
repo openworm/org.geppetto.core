@@ -34,6 +34,7 @@
 package org.geppetto.core.data;
 
 import java.io.Reader;
+import java.net.URL;
 import java.util.Collection;
 import java.util.List;
 
@@ -42,8 +43,11 @@ import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.data.model.IParameter;
+import org.geppetto.core.data.model.IPersistedData;
 import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.IUser;
+import org.geppetto.core.data.model.PersistedDataType;
+import org.geppetto.core.model.runtime.ANode;
 
 import com.google.gson.Gson;
 
@@ -77,8 +81,12 @@ public interface IGeppettoDataManager
 	List<? extends IExperiment> getExperimentsForProject(long projectId);
 
 	
-	ISimulationResult newSimulationResult();
+	ISimulationResult newSimulationResult(IInstancePath parameterPath, IPersistedData results);
 	
+	IInstancePath newInstancePath(ANode aspectNode);
+
+	IPersistedData newPersistedData(URL url, PersistedDataType type);
+
 	IParameter newParameter(IInstancePath parameterPath, String value);
 	
 	IInstancePath newInstancePath(String entityPath, String aspectPath, String localPath);
@@ -99,6 +107,7 @@ public interface IGeppettoDataManager
 	
 
 	void saveEntity(Object entity);
+
 
 
 }

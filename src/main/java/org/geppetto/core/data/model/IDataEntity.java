@@ -33,7 +33,7 @@
 
 package org.geppetto.core.data.model;
 
-public interface IEntity
+public interface IDataEntity
 {
 	long getId();
 	

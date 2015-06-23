@@ -69,4 +69,10 @@ public class LocalPersistedData implements IPersistedData
 		return type;
 	}
 
+	@Override
+	public void setId(long id)
+	{
+		this.id = id;
+	}
+
 }

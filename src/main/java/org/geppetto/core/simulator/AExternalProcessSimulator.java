@@ -53,8 +53,8 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 		this.aspectNode = aspect;
 	}
 	
-	public String getInstancePath(){
-		return this.aspectNode.getInstancePath();
+	public AspectNode getAspectNode(){
+		return this.aspectNode;
 	}
 	
 }
