@@ -98,8 +98,11 @@ public class RecordingReader
 		}
 
 		this.readVariable("/time", recording.getHDF5(), tree, readAll);
-
-		currentRecordingIndex++;
+		
+		if (!readAll)
+		{
+			currentRecordingIndex++;
+		}
 	}
 
 	/**
