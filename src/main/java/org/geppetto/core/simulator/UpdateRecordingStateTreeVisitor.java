@@ -42,6 +42,7 @@ import ncsa.hdf.object.Dataset;
 import ncsa.hdf.object.FileFormat;
 import ncsa.hdf.object.h5.H5File;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.runtime.SkeletonAnimationNode;
@@ -169,45 +170,9 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 						throw new ArrayIndexOutOfBoundsException("ArrayIndexOutOfBounds");
 					}
 				}
-				
-				// data structures to hold matrices as they get built
-				List<List<List<Double>>> transformations = new ArrayList<List<List<Double>>>();
-				List<List<Double>> matrix = new ArrayList<List<Double>>();
-				List<Double> row = new ArrayList<Double>();
-				int dimension = Integer.parseInt(metaMap.get("dimension"));
-				
-				// build list of matrices
-				for(int i=0; i<flatMatrices.length; i++)
-				{
-					// build rows and add to matrix when completed
-					if(row.size() <dimension)
-					{
-						// add to row
-						row.add((Double)flatMatrices[i]);
-					}
-					
-					// check if row is completed
-					if(row.size() == dimension)
-					{
-						// row completed - add to matrix
-						matrix.add(row);
-						// init new row
-						row = new ArrayList<Double>();
-					}
-					
-					// check if matrix is completed and add to list of matrices
-					if(matrix.size() == dimension)
-					{
-						// matrix is complted - add to list of matrices
-						transformations.add(matrix);
-						// create new matrix
-						matrix = new ArrayList<List<Double>>();
-					}
-					
-				}
-				
+
 				// set matrices on skeleton animation node
-				node.setSkeletonAnimationMatrices(transformations);
+				node.addSkeletonTransformation(Arrays.asList(ArrayUtils.toObject(flatMatrices)));
 			}
 			catch (ArrayIndexOutOfBoundsException  e) {
 				_endOfSteps = e.getMessage();

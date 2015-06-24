@@ -32,6 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.simulator;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -43,6 +44,7 @@ import ncsa.hdf.object.Dataset;
 import ncsa.hdf.object.FileFormat;
 import ncsa.hdf.object.h5.H5File;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.quantities.Quantity;
@@ -53,6 +55,7 @@ import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.runtime.CompositeNode;
+import org.geppetto.core.model.runtime.SkeletonAnimationNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
@@ -60,7 +63,7 @@ import org.geppetto.core.utilities.StringSplitter;
 
 /**
  * @author matteocantarelli
- *
+ * @author giovanniidili
  */
 public class RecordingReader
 {
@@ -148,12 +151,13 @@ public class RecordingReader
 		}
 		catch(Exception e1)
 		{
-			// TODO: handle this
+			throw new GeppettoExecutionException(e1);
 		}
 
 		path = path.replaceFirst("/", "");
 		StringTokenizer tokenizer = new StringTokenizer(path, "/");
 		VariableNode newVariableNode = null;
+		SkeletonAnimationNode newSkeletonAnimationNode = null;
 		while(tokenizer.hasMoreElements())
 		{
 			String current = tokenizer.nextToken();
@@ -169,6 +173,10 @@ public class RecordingReader
 					if(child instanceof VariableNode)
 					{
 						newVariableNode = (VariableNode) child;
+					}
+					if(child instanceof SkeletonAnimationNode)
+					{
+						newSkeletonAnimationNode = (SkeletonAnimationNode) child;
 					}
 					found = true;
 					break;
@@ -190,34 +198,67 @@ public class RecordingReader
 				else
 				{
 					// it's a leaf node
-					VariableNode newNode = new VariableNode(current);
 					Object dataRead;
 					try
 					{
 						dataRead = v.read();
-						Quantity quantity = new Quantity();
-						AValue readValue = null;
-						if(dataRead instanceof double[])
+						
+						if(metaType.equals("VariableNode"))
 						{
-							double[] dr = (double[]) dataRead;
-							readValue = ValuesFactory.getDoubleValue(dr[currentRecordingIndex]);
+							VariableNode newNode = new VariableNode(current);
+							Quantity quantity = new Quantity();
+							AValue readValue = null;
+							if(dataRead instanceof double[])
+							{
+								double[] dr = (double[]) dataRead;
+								readValue = ValuesFactory.getDoubleValue(dr[currentRecordingIndex]);
+							}
+							else if(dataRead instanceof float[])
+							{
+								float[] fr = (float[]) dataRead;
+								readValue = ValuesFactory.getFloatValue(fr[currentRecordingIndex]);
+							}
+							else if(dataRead instanceof int[])
+							{
+								int[] ir = (int[]) dataRead;
+								readValue = ValuesFactory.getIntValue(ir[currentRecordingIndex]);
+							}
+	
+							quantity.setValue(readValue);
+							newNode.addQuantity(quantity);
+							newNode.setUnit(new Unit(unit));
+							newVariableNode = (VariableNode)newNode;
+							parent.addChild(newNode);
 						}
-						else if(dataRead instanceof float[])
+						else if(metaType.equals("SkeletonAnimationNode"))
 						{
-							float[] fr = (float[]) dataRead;
-							readValue = ValuesFactory.getFloatValue(fr[currentRecordingIndex]);
+							SkeletonAnimationNode newNode = new SkeletonAnimationNode(current);
+							double[] flatMatrices = null;
+							if(dataRead instanceof double[])
+							{
+								double[] dr = (double[])dataRead;
+								
+								// get items of interest based on matrix dimension and items per step
+								int itemsPerStep = Integer.parseInt(custom.get("items_per_step"));
+								int startIndex = currentRecordingIndex*itemsPerStep;
+								int endIndex = startIndex + (itemsPerStep);
+								
+								if(endIndex <= dr.length)
+								{
+									flatMatrices = Arrays.copyOfRange(dr, startIndex, endIndex);
+								}
+								else
+								{
+									throw new ArrayIndexOutOfBoundsException("ArrayIndexOutOfBounds");
+								}
+							}
+							
+							// set matrices on skeleton animation node
+							newNode.addSkeletonTransformation(Arrays.asList(ArrayUtils.toObject(flatMatrices)));
+							
+							newSkeletonAnimationNode = (SkeletonAnimationNode)newNode;
+							parent.addChild(newNode);
 						}
-						else if(dataRead instanceof int[])
-						{
-							int[] ir = (int[]) dataRead;
-							readValue = ValuesFactory.getIntValue(ir[currentRecordingIndex]);
-						}
-
-						quantity.setValue(readValue);
-						newNode.addQuantity(quantity);
-						newNode.setUnit(new Unit(unit));
-						newVariableNode = newNode;
-						parent.addChild(newNode);
 					}
 
 					catch(Exception | OutOfMemoryError e)
@@ -233,43 +274,75 @@ public class RecordingReader
 			try
 			{
 				dataRead = v.read();
-
-				AValue readValue = null;
-
-				if(dataRead instanceof double[])
+				
+				if(metaType.equals("VariableNode"))
 				{
-					double[] dr = (double[]) dataRead;
-					for(int i = 0; i < dr.length; i++)
+					AValue readValue = null;
+	
+					if(dataRead instanceof double[])
 					{
-						Quantity quantity = new Quantity();
-						readValue = ValuesFactory.getDoubleValue(dr[i]);
-						quantity.setValue(readValue);
-						newVariableNode.addQuantity(quantity);
+						double[] dr = (double[]) dataRead;
+						for(int i = 0; i < dr.length; i++)
+						{
+							Quantity quantity = new Quantity();
+							readValue = ValuesFactory.getDoubleValue(dr[i]);
+							quantity.setValue(readValue);
+							newVariableNode.addQuantity(quantity);
+						}
+					}
+					else if(dataRead instanceof float[])
+					{
+						float[] fr = (float[]) dataRead;
+						for(int i = 0; i < fr.length; i++)
+						{
+							Quantity quantity = new Quantity();
+							readValue = ValuesFactory.getDoubleValue(fr[i]);
+							quantity.setValue(readValue);
+							newVariableNode.addQuantity(quantity);
+						}
+					}
+					else if(dataRead instanceof int[])
+					{
+						int[] ir = (int[]) dataRead;
+						for(int i = 0; i < ir.length; i++)
+						{
+							Quantity quantity = new Quantity();
+							readValue = ValuesFactory.getDoubleValue(ir[i]);
+							quantity.setValue(readValue);
+							newVariableNode.addQuantity(quantity);
+						}
+					}
+					newVariableNode.setUnit(new Unit(unit));
+				}
+				else if(metaType.equals("SkeletonAnimationNode"))
+				{
+					if(dataRead instanceof double[])
+					{
+						double[] dr = (double[]) dataRead;
+						// get items of interest based on matrix dimension and items per step
+						int itemsPerStep = Integer.parseInt(custom.get("items_per_step"));
+						int totalSteps = dr.length / itemsPerStep;
+						
+						for(int i = 0; i < totalSteps; i++)
+						{
+							double[] flatMatrices = null;
+							
+							int startIndex = i*itemsPerStep;
+							int endIndex = startIndex + (itemsPerStep);
+							
+							if(endIndex <= dr.length)
+							{
+								flatMatrices = Arrays.copyOfRange(dr, startIndex, endIndex);
+							}
+							else
+							{
+								throw new ArrayIndexOutOfBoundsException("ArrayIndexOutOfBounds");
+							}
+							
+							newSkeletonAnimationNode.addSkeletonTransformation(Arrays.asList(ArrayUtils.toObject(flatMatrices)));
+						}
 					}
 				}
-				else if(dataRead instanceof float[])
-				{
-					float[] fr = (float[]) dataRead;
-					for(int i = 0; i < fr.length; i++)
-					{
-						Quantity quantity = new Quantity();
-						readValue = ValuesFactory.getDoubleValue(fr[i]);
-						quantity.setValue(readValue);
-						newVariableNode.addQuantity(quantity);
-					}
-				}
-				else if(dataRead instanceof int[])
-				{
-					int[] ir = (int[]) dataRead;
-					for(int i = 0; i < ir.length; i++)
-					{
-						Quantity quantity = new Quantity();
-						readValue = ValuesFactory.getDoubleValue(ir[i]);
-						quantity.setValue(readValue);
-						newVariableNode.addQuantity(quantity);
-					}
-				}
-				newVariableNode.setUnit(new Unit(unit));
 			}
 			catch(ArrayIndexOutOfBoundsException e)
 			{
