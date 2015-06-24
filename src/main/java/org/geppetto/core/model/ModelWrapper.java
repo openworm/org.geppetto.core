@@ -57,9 +57,9 @@ public class ModelWrapper extends AModel
 
 	public Object getModel(ModelFormat format)
 	{
-		if(_models.containsKey(format.toString()))
+		if(_models.containsKey(format.getModelFormat()))
 		{
-			return _models.get(format.toString());
+			return _models.get(format.getModelFormat());
 		}
 		return null;
 	}
@@ -80,7 +80,7 @@ public class ModelWrapper extends AModel
 	
 	public void wrapModel(ModelFormat format, Object model)
 	{
-		_models.put(format.toString(), model);
+		_models.put(format.getModelFormat(), model);
 	}
 	
 	public Collection<Object> getModels()
