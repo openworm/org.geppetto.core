@@ -27,7 +27,33 @@
           timestep: 0.00005,
           length: 0.3,
           parameters: {target: "net1"}
-        }
+        },
+        watchedVariables:[
+	        {
+	            id: 1,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical.SimulationTree",
+	            localInstancePath: "hhpop[0].v"
+	        },
+	       	{
+	            id: 2,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical.SimulationTree",
+	            localInstancePath: "hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q"
+	        },
+			{
+	            id: 3,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical.SimulationTree",
+	            localInstancePath: "hhpop[0].bioPhys1.membraneProperties.naChans.na.h.q"
+	        },
+	       	{
+	            id: 4,
+	            entityInstancePath: "hhcell",
+	            aspect: "electrical.SimulationTree",
+	            localInstancePath: "hhpop[0].bioPhys1.membraneProperties.kChans.k.n.q"
+	        }
+        ]
   	}
   	]
   },
