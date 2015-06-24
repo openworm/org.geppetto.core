@@ -56,6 +56,7 @@ import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
+import org.geppetto.core.utilities.StringSplitter;
 
 /**
  * @author matteocantarelli
@@ -77,23 +78,23 @@ public class RecordingReader
 
 	/**
 	 * @param variables
-	 * @param simulationTree
+	 * @param tree
 	 * @param readAll
 	 * @throws GeppettoExecutionException
 	 */
-	public void readRecording(List<String> variables, AspectSubTreeNode simulationTree, boolean readAll) throws GeppettoExecutionException
+	public void readRecording(List<String> variables, AspectSubTreeNode tree, boolean readAll) throws GeppettoExecutionException
 	{
 		openRecording();
 
 		for(String watchedVariable : variables)
 		{
-			String path = "/" + watchedVariable.replace(simulationTree.getInstancePath() + ".", "");
+			String path = "/" + watchedVariable.replace(tree.getInstancePath() + ".", "");
 			path = path.replace(".", "/");
 
-			this.readVariable(path, recording.getHDF5(), simulationTree, readAll);
+			this.readVariable(path, recording.getHDF5(), tree, readAll);
 		}
 
-		this.readVariable("/time", recording.getHDF5(), simulationTree, readAll);
+		this.readVariable("/time", recording.getHDF5(), tree, readAll);
 
 		currentRecordingIndex++;
 	}
@@ -118,15 +119,36 @@ public class RecordingReader
 		Dataset v = (Dataset) FileFormat.findObject(h5File, path);
 
 		String unit = "";
+		String metaType = "";
+		Map<String, String> custom = null;
+		
 		try
 		{
-			List metaData = v.getMetadata();
-			Attribute unitAttr = (Attribute) metaData.get(1);
-			unit = ((String[]) unitAttr.getValue())[0];
+			// get metadata from recording node
+			List<Attribute> attributes = v.getMetadata();
+			
+			for(Attribute a : attributes){
+				if(a.getName().toLowerCase().equals("unit"))
+				{
+					unit = ((String[])a.getValue())[0];
+				}
+				
+				if(a.getName().toLowerCase().equals("meta_type") || a.getName().toLowerCase().equals("metatype"))
+				{
+					metaType = ((String[])a.getValue())[0];
+				}
+				
+				if(a.getName().toLowerCase().equals("custom_metadata"))
+				{
+					String customStr = ((String[])a.getValue())[0];
+					custom = StringSplitter.keyValueSplit(customStr, ";");
+				}
+				
+			}
 		}
 		catch(Exception e1)
 		{
-
+			// TODO: handle this
 		}
 
 		path = path.replaceFirst("/", "");
