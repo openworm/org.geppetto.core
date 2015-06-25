@@ -206,7 +206,7 @@ public class RecordingReader
 					{
 						dataRead = v.read();
 						
-						if(metaType.equals("VariableNode"))
+						if(metaType.contains("VariableNode") || metaType.contains("STATE_VARIABLE"))
 						{
 							VariableNode newNode = new VariableNode(current);
 							Quantity quantity = new Quantity();
@@ -233,7 +233,7 @@ public class RecordingReader
 							newVariableNode = (VariableNode)newNode;
 							parent.addChild(newNode);
 						}
-						else if(metaType.equals("SkeletonAnimationNode"))
+						else if(metaType.contains("VISUAL_TRANSFORMATION"))
 						{
 							SkeletonAnimationNode newNode = new SkeletonAnimationNode(current);
 							double[] flatMatrices = null;
@@ -278,7 +278,7 @@ public class RecordingReader
 			{
 				dataRead = v.read();
 				
-				if(metaType.equals("VariableNode"))
+				if(metaType.contains("VariableNode") || metaType.contains("STATE_VARIABLE"))
 				{
 					AValue readValue = null;
 	
@@ -317,7 +317,7 @@ public class RecordingReader
 					}
 					newVariableNode.setUnit(new Unit(unit));
 				}
-				else if(metaType.equals("SkeletonAnimationNode"))
+				else if(metaType.contains("VISUAL_TRANSFORMATION"))
 				{
 					if(dataRead instanceof double[])
 					{
