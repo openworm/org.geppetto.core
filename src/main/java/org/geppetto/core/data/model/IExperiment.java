@@ -73,4 +73,6 @@ public interface IExperiment extends IDataEntity
 	@JsonIgnore
 	void setParentProject(IGeppettoProject project);
 
+	void updateLastModified();
+
 }

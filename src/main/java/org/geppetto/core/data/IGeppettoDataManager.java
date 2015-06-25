@@ -45,6 +45,7 @@ import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.data.model.IParameter;
 import org.geppetto.core.data.model.IPersistedData;
 import org.geppetto.core.data.model.ISimulationResult;
+import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.data.model.PersistedDataType;
 import org.geppetto.core.model.runtime.ANode;
@@ -95,6 +96,9 @@ public interface IGeppettoDataManager
 	
 	IUser newUser(String name, String password, boolean persistent);
 	
+	IAspectConfiguration newAspectConfiguration(IExperiment experiment, IInstancePath instancePath, ISimulatorConfiguration simulatorConfiguration);
+
+	ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, long timestep, long length);
 	
 	void addGeppettoProject(IGeppettoProject project, IUser user);
 	
@@ -107,6 +111,11 @@ public interface IGeppettoDataManager
 	
 
 	void saveEntity(Object entity);
+
+	void saveEntity(IExperiment entity);
+
+	void saveEntity(IGeppettoProject entity);
+
 
 
 

@@ -35,6 +35,7 @@ package org.geppetto.core.data.model.local;
 
 import java.util.List;
 
+import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -49,6 +50,8 @@ public class LocalGeppettoProject implements IGeppettoProject
 
 	private LocalPersistedData geppettoModel;
 
+	private LocalExperiment activeExperiment;
+	
 	@JsonIgnore
 	private transient boolean volatileProject;
 
@@ -116,5 +119,17 @@ public class LocalGeppettoProject implements IGeppettoProject
 	public void setVolatile(boolean volatileProject)
 	{
 		this.volatileProject=volatileProject;
+	}
+	
+	@Override
+	public IExperiment getActiveExperiment()
+	{
+		return this.activeExperiment;
+	}
+
+	@Override
+	public void setActiveExperiment(IExperiment experiment)
+	{
+		this.activeExperiment=(LocalExperiment)experiment;
 	}
 }

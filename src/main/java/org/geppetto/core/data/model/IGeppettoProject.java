@@ -38,15 +38,19 @@ import java.util.List;
 public interface IGeppettoProject extends IDataEntity
 {
 	String getName();
-	
+
 	void setName(String name);
 
 	List<? extends IExperiment> getExperiments();
 
+	IExperiment getActiveExperiment();
+
+	void setActiveExperiment(IExperiment experiment);
+
 	IPersistedData getGeppettoModel();
-	
+
 	boolean isVolatile();
-	
+
 	void setVolatile(boolean volatileProject);
 
 }

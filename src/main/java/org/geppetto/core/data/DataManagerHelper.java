@@ -42,20 +42,25 @@ import org.geppetto.core.common.GeppettoInitializationException;
  */
 public class DataManagerHelper
 {
-	
+
 	private static Log logger = LogFactory.getLog(DataManagerHelper.class);
-	
+
+	private static IGeppettoDataManager dataManager = null;
+
 	public static IGeppettoDataManager getDataManager()
 	{
-		try
+		if(dataManager == null)
 		{
-			return new DataManagerServiceCreator(IGeppettoDataManager.class.getName()).getService();
+			try
+			{
+				dataManager = new DataManagerServiceCreator(IGeppettoDataManager.class.getName()).getService();
+			}
+			catch(GeppettoInitializationException e)
+			{
+				logger.error("Error while retrieving a data manager", e);
+			}
 		}
-		catch(GeppettoInitializationException e)
-		{
-			logger.error("Error while retrieving a data manager",e);
-		}
-		return null;
+		return dataManager;
 	}
 
 }

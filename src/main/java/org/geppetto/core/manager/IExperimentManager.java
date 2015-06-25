@@ -45,8 +45,9 @@ public interface IExperimentManager
 	 * @param requestId
 	 * @param project
 	 * @return
+	 * @throws GeppettoExecutionException 
 	 */
-	public abstract IExperiment newExperiment(String requestId, IGeppettoProject project);
+	public abstract IExperiment newExperiment(String requestId, IGeppettoProject project) throws GeppettoExecutionException;
 	
 	
 	/**

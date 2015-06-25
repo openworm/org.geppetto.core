@@ -42,6 +42,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -55,6 +56,7 @@ import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.data.model.IParameter;
 import org.geppetto.core.data.model.IPersistedData;
 import org.geppetto.core.data.model.ISimulationResult;
+import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.data.model.PersistedDataType;
 import org.geppetto.core.data.model.local.LocalAspectConfiguration;
@@ -64,6 +66,7 @@ import org.geppetto.core.data.model.local.LocalInstancePath;
 import org.geppetto.core.data.model.local.LocalParameter;
 import org.geppetto.core.data.model.local.LocalPersistedData;
 import org.geppetto.core.data.model.local.LocalSimulationResult;
+import org.geppetto.core.data.model.local.LocalSimulatorConfiguration;
 import org.geppetto.core.data.model.local.LocalUser;
 import org.geppetto.core.model.runtime.ANode;
 import org.springframework.http.HttpStatus;
@@ -354,6 +357,30 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	public IPersistedData newPersistedData(URL url, PersistedDataType type)
 	{
 		return new LocalPersistedData(0, url.toString(), type);
+	}
+
+	@Override
+	public void saveEntity(IExperiment entity)
+	{
+		// Nothing to do, no DB here
+	}
+
+	@Override
+	public void saveEntity(IGeppettoProject entity)
+	{
+		// Nothing to do, no DB here
+	}
+
+	@Override
+	public IAspectConfiguration newAspectConfiguration(IExperiment experiment, IInstancePath instancePath, ISimulatorConfiguration simulatorConfiguration)
+	{
+		return new LocalAspectConfiguration(0l,(LocalInstancePath)instancePath,new ArrayList<LocalInstancePath>(),new ArrayList<LocalParameter>(),(LocalSimulatorConfiguration)simulatorConfiguration);
+	}
+
+	@Override
+	public ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, long timestep, long length)
+	{
+		return new LocalSimulatorConfiguration(0l, simulator, conversionService, timestep, length, new HashMap<String, String>());
 	}
 
 }

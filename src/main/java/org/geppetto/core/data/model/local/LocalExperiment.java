@@ -192,4 +192,10 @@ public class LocalExperiment implements IExperiment
 	{
 		this.id=id;
 	}
+
+	@Override
+	public void updateLastModified()
+	{
+		this.lastModified=new Date();
+	}
 }
