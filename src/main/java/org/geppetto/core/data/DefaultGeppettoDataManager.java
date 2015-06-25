@@ -298,6 +298,13 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		LocalGeppettoProject project = gson.fromJson(json, LocalGeppettoProject.class);
 		project.setId(getRandomId());
 		project.setVolatile(true);
+		
+		// set project as parent for experiments
+		for(IExperiment e:project.getExperiments())
+		{
+			e.setParentProject(project);
+		}
+		
 		projects.put(project.getId(), project);
 		return project;
 	}
@@ -319,6 +326,13 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		LocalGeppettoProject project = gson.fromJson(json, LocalGeppettoProject.class);
 		project.setId(getRandomId());
 		project.setVolatile(true);
+		
+		// set project as parent for experiments
+		for(IExperiment e:project.getExperiments())
+		{
+			e.setParentProject(project);
+		}
+		
 		projects.put(project.getId(), project);
 		return project;
 	}

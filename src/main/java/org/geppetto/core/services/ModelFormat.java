@@ -32,7 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.services;
 
-
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
@@ -41,8 +40,6 @@ public class ModelFormat
 {
 
 	private String _modelFormat;
-	
-	
 
 	public ModelFormat(String _modelFormat)
 	{
@@ -50,14 +47,10 @@ public class ModelFormat
 		this._modelFormat = _modelFormat;
 	}
 
-
-
 	public String getModelFormat()
 	{
 		return _modelFormat;
 	}
-
-
 
 	@Override
 	public int hashCode()
@@ -67,8 +60,6 @@ public class ModelFormat
 		result = prime * result + ((_modelFormat == null) ? 0 : _modelFormat.hashCode());
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj)
@@ -84,7 +75,5 @@ public class ModelFormat
 		else if(!_modelFormat.equals(other._modelFormat)) return false;
 		return true;
 	}
-	
-	
-	
+
 }

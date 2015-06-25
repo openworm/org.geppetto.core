@@ -743,22 +743,16 @@ public class TestTreeSerialization
 		SkeletonAnimationNode skeletonNode = new SkeletonAnimationNode("SkeletonAnimation");
 		skeletonNode.setId("Skeleton_XXX");
 		
-		List<List<Double>> matrix1 = new ArrayList<List<Double>>();
-		matrix1.add(Arrays.asList(1.0, 2.0, 3.0));
-		matrix1.add(Arrays.asList(4.0, 5.0, 6.0));
-		matrix1.add(Arrays.asList(7.0, 8.0, 9.0));
+		List<Double> matrix1 = new ArrayList<Double>();
+		matrix1.addAll(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0));
 		
-		List<List<Double>> matrix2 = new ArrayList<List<Double>>();
-		matrix2.add(Arrays.asList(10.0, 11.0, 12.0));
-		matrix2.add(Arrays.asList(13.0, 14.0, 15.0));
-		matrix2.add(Arrays.asList(16.0, 17.0, 18.0));
+		List<Double> matrix2 = new ArrayList<Double>();
+		matrix2.addAll(Arrays.asList(10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0));
 		
-		List<List<Double>> matrix3 = new ArrayList<List<Double>>();
-		matrix3.add(Arrays.asList(19.0, 20.0, 21.0));
-		matrix3.add(Arrays.asList(22.0, 23.0, 24.0));
-		matrix3.add(Arrays.asList(25.0, 26.0, 27.0));
+		List<Double> matrix3 = new ArrayList<Double>();
+		matrix3.addAll(Arrays.asList(19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0));
 		
-		skeletonNode.setSkeletonAnimationMatrices(Arrays.asList(matrix1, matrix2, matrix3));
+		skeletonNode.setSkeletonTransformationSeries(Arrays.asList(matrix1, matrix2, matrix3));
 		
 		// build tree
 		first.addChild(skeletonNode);
@@ -776,6 +770,6 @@ public class TestTreeSerialization
 
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals("{\"VisualizationTree\":{\"Composite_XXX\":{\"Skeleton_XXX\":{\"skeletonTransformations\":[[[1.0,2.0,3.0],[4.0,5.0,6.0],[7.0,8.0,9.0]],[[10.0,11.0,12.0],[13.0,14.0,15.0],[16.0,17.0,18.0]],[[19.0,20.0,21.0],[22.0,23.0,24.0],[25.0,26.0,27.0]]],\"id\":\"Skeleton_XXX\",\"instancePath\":\"VisualizationTree.Composite_XXX.Skeleton_XXX\",\"_metaType\":\"SkeletonAnimationNode\"},\"id\":\"Composite_XXX\",\"instancePath\":\"VisualizationTree.Composite_XXX\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"instancePath\":\"VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"}}", serialized);		
+		Assert.assertEquals("{\"VisualizationTree\":{\"Composite_XXX\":{\"Skeleton_XXX\":{\"skeletonTransformations\":[[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0],[10.0,11.0,12.0,13.0,14.0,15.0,16.0,17.0,18.0],[19.0,20.0,21.0,22.0,23.0,24.0,25.0,26.0,27.0]],\"id\":\"Skeleton_XXX\",\"instancePath\":\"VisualizationTree.Composite_XXX.Skeleton_XXX\",\"_metaType\":\"SkeletonAnimationNode\"},\"id\":\"Composite_XXX\",\"instancePath\":\"VisualizationTree.Composite_XXX\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"instancePath\":\"VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"}}", serialized);		
 	}
 }
