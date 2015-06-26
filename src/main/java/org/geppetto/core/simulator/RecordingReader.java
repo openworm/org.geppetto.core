@@ -46,6 +46,7 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.geppetto.core.common.GeppettoExecutionException;
+import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.quantities.Unit;
@@ -85,17 +86,15 @@ public class RecordingReader
 	 * @param readAll
 	 * @throws GeppettoExecutionException
 	 */
-	public void readRecording(List<String> variables, AspectSubTreeNode tree, boolean readAll) throws GeppettoExecutionException
+	public void readRecording(IInstancePath variable, AspectSubTreeNode tree, boolean readAll) throws GeppettoExecutionException
 	{
 		openRecording();
 
-		for(String watchedVariable : variables)
-		{
-			String path = "/" + watchedVariable.replace(tree.getInstancePath() + ".", "");
-			path = path.replace(".", "/");
+		String varFullInstancePath = variable.getInstancePath();
+		String path = "/" + varFullInstancePath.replace(tree.getInstancePath() + ".", "");
+		path = path.replace(".", "/");
 
-			this.readVariable(path, recording.getHDF5(), tree, readAll);
-		}
+		this.readVariable(path, recording.getHDF5(), tree, readAll);
 
 		this.readVariable("/time", recording.getHDF5(), tree, readAll);
 		
