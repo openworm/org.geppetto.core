@@ -1,6 +1,7 @@
 package org.geppetto.core.manager;
 
 import java.io.File;
+import java.net.URL;
 import java.util.List;
 
 import org.geppetto.core.common.GeppettoExecutionException;
@@ -36,6 +37,6 @@ public interface IDownloadManager
 	 * @return
 	 * @throws GeppettoExecutionException 
 	 */
-	public abstract File downloadResults(String aspectPath, ResultsFormat resultsFormat, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
+	public abstract URL downloadResults(String aspectPath, ResultsFormat resultsFormat, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
 }

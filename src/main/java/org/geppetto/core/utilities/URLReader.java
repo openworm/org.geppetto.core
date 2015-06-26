@@ -154,4 +154,9 @@ public class URLReader
 		if(!outputFolder.exists()) outputFolder.mkdirs();
 		return outputFolder;
 	}
+
+	public static String getFileName(URL url)
+	{
+		return url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
+	}
 }
