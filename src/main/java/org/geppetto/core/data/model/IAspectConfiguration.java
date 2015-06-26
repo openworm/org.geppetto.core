@@ -34,10 +34,8 @@ package org.geppetto.core.data.model;
 
 import java.util.List;
 
-public interface IAspectConfiguration
+public interface IAspectConfiguration extends IDataEntity
 {
-
-	long getId();
 
 	IInstancePath getAspect();
 

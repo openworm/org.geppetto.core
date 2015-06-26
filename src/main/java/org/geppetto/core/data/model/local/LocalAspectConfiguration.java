@@ -102,4 +102,10 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 		}
 	}
 
+	@Override
+	public void setId(long id)
+	{
+		id=id;
+	}
+
 }
