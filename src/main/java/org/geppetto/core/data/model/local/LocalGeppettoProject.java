@@ -35,7 +35,6 @@ package org.geppetto.core.data.model.local;
 
 import java.util.List;
 
-import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -50,10 +49,12 @@ public class LocalGeppettoProject implements IGeppettoProject
 
 	private LocalPersistedData geppettoModel;
 
-	private LocalExperiment activeExperiment;
+	private long activeExperimentId;
 	
 	@JsonIgnore
 	private transient boolean volatileProject;
+
+	private List<String> modelReferences;
 
 	public LocalGeppettoProject(long id, String name, List<LocalExperiment> experiments, LocalPersistedData geppettoModel)
 	{
@@ -61,6 +62,7 @@ public class LocalGeppettoProject implements IGeppettoProject
 		this.name = name;
 		this.experiments = experiments;
 		this.geppettoModel = geppettoModel;
+		this.activeExperimentId=-1;
 	}
 
 	@Override
@@ -122,14 +124,15 @@ public class LocalGeppettoProject implements IGeppettoProject
 	}
 	
 	@Override
-	public IExperiment getActiveExperiment()
+	public long getActiveExperimentId()
 	{
-		return this.activeExperiment;
+		return this.activeExperimentId;
 	}
 
 	@Override
-	public void setActiveExperiment(IExperiment experiment)
+	public void setActiveExperimentId(long experimentId)
 	{
-		this.activeExperiment=(LocalExperiment)experiment;
+		this.activeExperimentId=experimentId;
 	}
+
 }

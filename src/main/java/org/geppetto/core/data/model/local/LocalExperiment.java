@@ -70,6 +70,8 @@ public class LocalExperiment implements IExperiment
 	@JsonIgnore
 	private transient IGeppettoProject parentProject;
 
+	private String script;
+
 	public LocalExperiment(long id, List<LocalAspectConfiguration> aspectConfigurations, String name, String description, Date creationDate, Date lastModified, ExperimentStatus status,
 			List<LocalSimulationResult> simulationResults, Date startDate, Date endDate, IGeppettoProject project)
 	{
@@ -197,5 +199,17 @@ public class LocalExperiment implements IExperiment
 	public void updateLastModified()
 	{
 		this.lastModified=new Date();
+	}
+
+	@Override
+	public String getScript()
+	{
+		return script;
+	}
+
+	@Override
+	public void setScript(String script)
+	{
+		this.script=script;
 	}
 }

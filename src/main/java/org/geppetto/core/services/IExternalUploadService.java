@@ -44,6 +44,8 @@ import java.io.File;
 public interface IExternalUploadService {
 
 	void upload(File file) throws Exception;
-	void link(String code) throws Exception;
+	
+	String link(String code) throws Exception;
+	
 	void unlink(String code);
 }

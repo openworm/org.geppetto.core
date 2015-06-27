@@ -55,6 +55,8 @@ public class LocalUser implements IUser
 
 	private List<LocalGeppettoProject> geppettoProjects;
 
+	private String dropboxToken;
+
 	public LocalUser(long id, String login, String password, String name, String token, List<LocalGeppettoProject> geppettoProjects, long spaceAllowance, long simulationTimeAllowance)
 	{
 		this.id = id;
@@ -113,4 +115,17 @@ public class LocalUser implements IUser
 	{
 		return simulationTimeAllowance;
 	}
+
+	@Override
+	public String getDropboxToken()
+	{
+		return this.dropboxToken;
+	}
+
+	@Override
+	public void setDropboxToken(String token)
+	{
+		this.dropboxToken=token;
+	}
+
 }

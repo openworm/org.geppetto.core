@@ -43,14 +43,14 @@ public interface IGeppettoProject extends IDataEntity
 
 	List<? extends IExperiment> getExperiments();
 
-	IExperiment getActiveExperiment();
+	long getActiveExperimentId();
 
-	void setActiveExperiment(IExperiment experiment);
+	void setActiveExperimentId(long experimentId);
 
 	IPersistedData getGeppettoModel();
 
 	boolean isVolatile();
 
 	void setVolatile(boolean volatileProject);
-
+	
 }

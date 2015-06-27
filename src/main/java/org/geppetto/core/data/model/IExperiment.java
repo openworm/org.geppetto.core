@@ -61,6 +61,10 @@ public interface IExperiment extends IDataEntity
 	
 	void addSimulationResult(ISimulationResult result);
 	
+	String getScript();
+	
+	void setScript(String script);
+	
 	List<? extends ISimulationResult> getSimulationResults();
 
 	Date getStartDate();
