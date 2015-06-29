@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:geppettoModel xmlns:tns="http://www.openworm.org/simulationSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openworm.org/simulationSchema ../../main/resources/schema/simulation/simulationSchema.xsd">
+	<tns:entity>
+		<tns:id>net</tns:id>
+		<tns:aspect>
+			<tns:id>electrical</tns:id>
+			<tns:model>
+				<tns:modelInterpreterId>lemsModelInterpreter</tns:modelInterpreterId>
+				<tns:modelURL>/projects/CElegansMuscleModel/LEMS_NeuronMuscle.xml</tns:modelURL>
+			</tns:model>
+		</tns:aspect>
+	</tns:entity>
+</tns:geppettoModel>

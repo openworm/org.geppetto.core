@@ -1,10 +1,75 @@
 {
-  id: 4,
-  name: "OpenWorm C.elegans muscle model",
-  experiments: [ ],
-  geppettoModel: {
-    id: 4,
-    url: "https://raw.githubusercontent.com/openworm/org.geppetto.samples/development/LEMS/MuscleModel/GEPPETTO.xml",
-    type: "GEPPETTO_PROJECT"
-  }
+    "id": 4,
+    "name": "OpenWorm C.elegans muscle model",
+    "experiments": [
+        {
+            "id": 1,
+            "name": "OpenWorm C.elegans muscle model",
+            "status": "COMPLETED",
+            "script": "/projects/CElegansMuscleModel/script.js",
+            "aspectConfigurations": [
+                {
+                    "id": 1,
+                    "aspect": {
+                        "id": 1,
+                        "entityInstancePath": "net.neuron_0",
+                        "aspect": "electrical",
+                        "localInstancePath": ""
+                    },
+                    "watchedVariables": [
+                        {
+                            "id": 1,
+                            "entityInstancePath": "net.neuron_0",
+                            "aspect": "electrical.SimulationTree",
+                            "localInstancePath": "generic_iaf_cell.v"
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "aspect": {
+                        "id": 1,
+                        "entityInstancePath": "net.muscle_0",
+                        "aspect": "electrical",
+                        "localInstancePath": ""
+                    },
+                    "watchedVariables": [
+                        {
+                            "id": 1,
+                            "entityInstancePath": "wormsim.muscle_0",
+                            "aspect": "electrical.SimulationTree",
+                            "localInstancePath": "SingleCompMuscleCell.v"
+                        },
+                        {
+                            "id": 2,
+                            "entityInstancePath": "wormsim.muscle_0",
+                            "aspect": "electrical.SimulationTree",
+                            "localInstancePath": "SingleCompMuscleCell.caConc"
+                        }
+                    ]
+                }
+            ],
+            "simulationResults": [
+                {
+                    "id": 1,
+                    "aspect": {
+                        "id": 1,
+                        "entityInstancePath": "net",
+                        "aspect": "electrical",
+                        "localInstancePath": ""
+                    },
+                    "result": {
+                        "id": 1,
+                        "url": "/projects/CElegansMuscleModel/results.h5",
+                        "type": "RECORDING"
+                    }
+                }
+            ]
+        }
+    ],
+    "geppettoModel": {
+        "id": 4,
+        "url": "/projects/CElegansMuscleModel/GEPPETTO.xml",
+        "type": "GEPPETTO_PROJECT"
+    }
 }
