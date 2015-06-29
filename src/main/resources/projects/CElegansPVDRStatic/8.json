@@ -1,10 +1,18 @@
 {
-  id: 8,
-  name: "NeuroML C.elegans PVDR Neuron (No Simulation)",
-  experiments: [ ],
-  geppettoModel: {
-    id: 8,
-    url: "https://raw.github.com/openworm/org.geppetto.samples/datamanager/NeuroML/PVDR/GEPPETTO.xml",
-    type: "GEPPETTO_PROJECT"
-  }
+  	"id": 8,
+  	"name": "NeuroML C.elegans PVDR Neuron",
+    "activeExperimentId": 1,
+    "experiments": [
+        {
+            "id": 1,
+            "name": "NeuroML C.elegans PVDR Neuron",
+            "status": "COMPLETED",
+            "aspectConfigurations": []
+        }
+    ],
+    "geppettoModel": {
+        "id": 9,
+        "url": "/projects/CElegansPVDRStatic/GEPPETTO.xml",
+        "type": "GEPPETTO_PROJECT"
+    }
 }

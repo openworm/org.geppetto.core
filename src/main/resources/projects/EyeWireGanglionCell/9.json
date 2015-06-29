@@ -1,11 +1,11 @@
 {
     "id": 9,
-    "name": "EyeWire Ganglion Cell (No Simulation)",
+    "name": "EyeWire Ganglion Cell",
     "activeExperimentId": 1,
     "experiments": [
         {
             "id": 1,
-            "name": "Executed experiment",
+            "name": "EyeWire Ganglion Cell",
             "status": "COMPLETED",
             "script": "/projects/EyeWireGanglionCell/script.js",
             "aspectConfigurations": []
