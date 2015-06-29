@@ -1,10 +1,19 @@
 {
-  id: 2,
-  name: "PCISPH Small Liquid Scene",
-  experiments: [ ],
-  geppettoModel: {
-    id: 2,
-    url: "https://raw.github.com/openworm/org.geppetto.samples/datamanager/SPH/LiquidSmall/GEPPETTO.xml",
-    type: "GEPPETTO_PROJECT"
-  }
+    "id": 2,
+    "name": "PCISPH Small Liquid Scene",
+    "activeExperimentId": 1,
+    "experiments": [
+        {
+            "id": 1,
+            "name": "PCISPH Small Liquid Scene",
+            "status": "COMPLETED",
+            "script": "/projects/SPHLiquidSmall/script.js",
+            "aspectConfigurations": []
+        }
+    ],
+    "geppettoModel": {
+        "id": 2,
+        "url": "/projects/SPHLiquidSmall/GEPPETTO.xml",
+        "type": "GEPPETTO_PROJECT"
+    }
 }
