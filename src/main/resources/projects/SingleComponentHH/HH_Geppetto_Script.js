@@ -31,3 +31,5 @@ Popup1.setSize(160,465)
 
 G.addBrightnessFunction(hhcell.electrical, hhcell.electrical.SimulationTree.hhpop[0].v, function(x){return (x+0.07)/0.1;});
 
+Project.getActiveExperiment().play({step:1});
+
