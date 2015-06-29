@@ -6,7 +6,7 @@
 			<tns:id>electrical</tns:id>
 			<tns:model>
     				<tns:modelInterpreterId>lemsModelInterpreter</tns:modelInterpreterId>
-    				<tns:modelURL>/project/geppettoModels/SingleComponentHH/LEMS_NML2_Ex5_DetCell.xml</tns:modelURL>
+    				<tns:modelURL>/projects/SingleComponentHH/LEMS_NML2_Ex5_DetCell.xml</tns:modelURL>
 			</tns:model>
 		</tns:aspect>		
 	</tns:entity>

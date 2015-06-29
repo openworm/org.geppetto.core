@@ -281,7 +281,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	private void loadGeppettoProjects() throws IOException, URISyntaxException
 	{
 
-		URL projectFolder = DefaultGeppettoDataManager.class.getResource("/project/");
+		URL projectFolder = DefaultGeppettoDataManager.class.getResource("/projects/");
 		FindLocalProjectsVisitor findProjectsVisitor = new FindLocalProjectsVisitor(projects);
 		Files.walkFileTree(Paths.get(projectFolder.toURI()), findProjectsVisitor);
 
