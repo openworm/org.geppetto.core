@@ -128,7 +128,7 @@ public class URLReader
 	public static URL createLocalCopy(URL url) throws IOException
 	{
 		String directory = System.getProperty("user.dir");
-		File outputFile = new File(directory+File.separator+"tmp"+url.getPath().substring(0, url.getPath().lastIndexOf("/")));
+		File outputFile = new File(directory+File.separator+"/tmp"+url.getPath().substring(0, url.getPath().lastIndexOf("/")));
 		outputFile.mkdirs();
 		outputFile=new File(outputFile.getAbsolutePath()+File.separator+url.getPath().substring(url.getPath().lastIndexOf("/")));
 		URLConnection uc = url.openConnection();

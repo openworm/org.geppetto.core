@@ -28,20 +28,21 @@ public class Zipper
 	private static Log logger = LogFactory.getLog(Zipper.class);
 	
 	
+
+	
 	/**
 	 * @param aspectPath
 	 * @param file
 	 * @return
 	 * @throws IOException
 	 */
-	public Path getZipFromFile(String aspectPath, URL file) throws IOException
+	public Path getZipFromFile(String destinationfilePath, URL file) throws IOException
 	{
 		List<URL> fileList = new ArrayList<URL>();
 		fileList.add(file);
 		File sourceFolder = new File(System.getProperty("user.dir") + "/geppettoTmp");
-		String outputName = aspectPath + "-" + URLReader.getFileName(file) + ".zip";
-		writeZipFile(sourceFolder, outputName, fileList);
-		String path = sourceFolder.getAbsolutePath() + File.separator + outputName;
+		writeZipFile(sourceFolder, destinationfilePath, fileList);
+		String path = sourceFolder.getAbsolutePath() + File.separator + destinationfilePath;
 		return Paths.get(path);
 	}
 
