@@ -42,4 +42,6 @@ public interface IParameter
 
 	String getValue();
 
+	void setValue(String string);
+
 }

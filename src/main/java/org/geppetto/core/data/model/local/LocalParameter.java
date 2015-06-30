@@ -69,4 +69,10 @@ public class LocalParameter implements IParameter
 		return variable;
 	}
 
+	@Override
+	public void setValue(String value)
+	{
+		this.value=value;
+	}
+
 }
