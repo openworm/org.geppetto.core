@@ -3,8 +3,8 @@ package org.geppetto.core.manager;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.services.ModelFormat;
-import org.geppetto.core.simulation.ResultsFormat;
 
 public interface IDropBoxManager
 {

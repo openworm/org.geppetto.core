@@ -34,6 +34,7 @@
 package org.geppetto.core.data.model.local;
 
 import org.geppetto.core.data.model.ISimulationResult;
+import org.geppetto.core.data.model.ResultsFormat;
 
 public class LocalSimulationResult implements ISimulationResult
 {
@@ -43,11 +44,14 @@ public class LocalSimulationResult implements ISimulationResult
 
 	private LocalPersistedData result;
 
-	public LocalSimulationResult(long id, LocalInstancePath aspect, LocalPersistedData result)
+	private ResultsFormat format;
+
+	public LocalSimulationResult(long id, LocalInstancePath aspect, LocalPersistedData result, ResultsFormat format)
 	{
 		this.id = id;
 		this.aspect = aspect;
 		this.result = result;
+		this.format=format;
 	}
 
 	@Override
@@ -72,6 +76,12 @@ public class LocalSimulationResult implements ISimulationResult
 	public void setId(long id)
 	{
 		this.id = id;
+	}
+
+	@Override
+	public ResultsFormat getFormat()
+	{
+		return this.format;
 	}
 
 }

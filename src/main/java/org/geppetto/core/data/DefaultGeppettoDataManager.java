@@ -59,6 +59,7 @@ import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.data.model.PersistedDataType;
+import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.data.model.local.LocalAspectConfiguration;
 import org.geppetto.core.data.model.local.LocalExperiment;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
@@ -356,9 +357,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	}
 
 	@Override
-	public ISimulationResult newSimulationResult(IInstancePath parameterPath, IPersistedData results)
+	public ISimulationResult newSimulationResult(IInstancePath parameterPath, IPersistedData results, ResultsFormat format)
 	{
-		return new LocalSimulationResult(0, (LocalInstancePath) parameterPath, (LocalPersistedData) results);
+		return new LocalSimulationResult(0, (LocalInstancePath) parameterPath, (LocalPersistedData) results, format);
 	}
 
 	@Override

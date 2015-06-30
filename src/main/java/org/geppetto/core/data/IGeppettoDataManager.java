@@ -48,6 +48,7 @@ import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.data.model.PersistedDataType;
+import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.model.runtime.ANode;
 
 import com.google.gson.Gson;
@@ -82,7 +83,7 @@ public interface IGeppettoDataManager
 	List<? extends IExperiment> getExperimentsForProject(long projectId);
 
 	
-	ISimulationResult newSimulationResult(IInstancePath parameterPath, IPersistedData results);
+	ISimulationResult newSimulationResult(IInstancePath parameterPath, IPersistedData results, ResultsFormat format);
 	
 	void addWatchedVariable(IAspectConfiguration found, IInstancePath instancePath);
 	

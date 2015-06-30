@@ -42,10 +42,10 @@ import java.util.Set;
 
 import org.geppetto.core.conversion.ConversionException;
 import org.geppetto.core.conversion.IConversion;
+import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.services.ModelFormat;
-import org.geppetto.core.simulation.ResultsFormat;
 import org.geppetto.core.simulator.ISimulator;
 import org.springframework.aop.TargetClassAware;
 

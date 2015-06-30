@@ -30,7 +30,7 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.simulation;
+package org.geppetto.core.data.model;
 
 /**
  * @author matteocantarelli
@@ -38,23 +38,26 @@ package org.geppetto.core.simulation;
  */
 public enum ResultsFormat
 {
-	GEPPETTO_RECORDING("RECORDING"),
-	RAW("RAW");
-	
+	GEPPETTO_RECORDING("RECORDING"), RAW("RAW");
+
 	private final String text;
 
-    /**
-     * @param text
-     */
-    private ResultsFormat(final String text) {
-        this.text = text;
-    }
+	/**
+	 * @param text
+	 */
+	private ResultsFormat(final String text)
+	{
+		this.text = text;
+	}
 
-    /* (non-Javadoc)
-     * @see java.lang.Enum#toString()
-     */
-    @Override
-    public String toString() {
-        return text;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Enum#toString()
+	 */
+	@Override
+	public String toString()
+	{
+		return text;
+	}
 }

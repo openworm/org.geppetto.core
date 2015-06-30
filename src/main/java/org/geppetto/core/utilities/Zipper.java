@@ -26,24 +26,28 @@ public class Zipper
 {
 
 	private static Log logger = LogFactory.getLog(Zipper.class);
-	
-	
+	private FileOutputStream fos;
+	private ZipOutputStream zos;
+	private String fullPathToZipToCreate;
 
-	
+	public Zipper(String fullPathToZipToCreate) throws FileNotFoundException
+	{
+		super();
+		fos = new FileOutputStream(fullPathToZipToCreate);
+		zos = new ZipOutputStream(fos);
+		this.fullPathToZipToCreate = fullPathToZipToCreate;
+	}
+
 	/**
 	 * @param aspectPath
 	 * @param file
 	 * @return
 	 * @throws IOException
 	 */
-	public Path getZipFromFile(String destinationfilePath, URL file) throws IOException
+	public Path getZipFromFile(URL file) throws IOException
 	{
-		List<URL> fileList = new ArrayList<URL>();
-		fileList.add(file);
-		File sourceFolder = new File(System.getProperty("user.dir") + "/geppettoTmp");
-		writeZipFile(sourceFolder, destinationfilePath, fileList);
-		String path = sourceFolder.getAbsolutePath() + File.separator + destinationfilePath;
-		return Paths.get(path);
+		addToZip(file);
+		return processAddedFilesAndZip();
 	}
 
 	/**
@@ -64,10 +68,13 @@ public class Zipper
 	 */
 	private Path getZipFromDirectory(File sourceFolder, String outputFileName) throws IOException
 	{
-		List<URL> fileList = new ArrayList<URL>();
-		getAllFiles(sourceFolder, fileList);
-		writeZipFile(sourceFolder, outputFileName, fileList);
-		return Paths.get(sourceFolder.getAbsolutePath() + System.getProperty("file.separator") + outputFileName);
+		List<URL> files = new ArrayList<URL>();
+		getAllFiles(sourceFolder, files);
+		for(URL file : files)
+		{
+			addToZip(file);
+		}
+		return processAddedFilesAndZip();
 	}
 
 	/**
@@ -94,34 +101,22 @@ public class Zipper
 	 * @param fileList
 	 * @throws IOException
 	 */
-	private void writeZipFile(File directoryToZip, String outputFileName, List<URL> fileList) throws IOException
+	public Path processAddedFilesAndZip() throws IOException
 	{
-		logger.info("Creating zip file " + outputFileName);
-		FileOutputStream fos = new FileOutputStream(directoryToZip + "/" + outputFileName);
-		ZipOutputStream zos = new ZipOutputStream(fos);
-
-		for(URL file : fileList)
-		{
-			// if(!file.isDirectory())
-			{ // we only zip files, not directories
-				addToZip(directoryToZip, file, zos);
-			}
-		}
-
+		logger.info("Creating zip file " + fullPathToZipToCreate);
 		zos.close();
 		fos.close();
+		return Paths.get(fullPathToZipToCreate);
 	}
 
 	/**
-	 * @param directoryToZip
 	 * @param file
 	 * @param zos
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	private void addToZip(File directoryToZip, URL file, ZipOutputStream zos) throws FileNotFoundException, IOException
+	public void addToZip(URL file) throws FileNotFoundException, IOException
 	{
-
 		InputStream fis = file.openStream();
 
 		String zipFilePath = URLReader.getFileName(file);
