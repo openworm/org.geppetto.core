@@ -181,6 +181,27 @@ public abstract class ANode implements IVisitable
 			return "";
 		}
 	}
+	
+	/**
+	 * @return
+	 */
+	public AspectNode getAspectNode()
+	{
+		ANode current = this;
+		if(current instanceof AspectNode)
+		{
+			return (AspectNode) current;
+		}
+		while(current != null && !(current instanceof AspectNode))
+		{
+			current = current.getParent();
+		}
+		if(current != null && current instanceof AspectNode)
+		{
+			return (AspectNode) current;
+		}
+		return null;
+	}
 
 	/**
 	 * @return
