@@ -1,6 +1,6 @@
 G.addWidget(6);
 Connectivity1.setName("Connectivity matrix");
-Connectivity1.setData(acnet2);
+Connectivity1.setData(acnet2,{linkType:function(c){return c.getSubNodesOfDomainType('Synapse')[0].id}});
 G.addWidget(1);
 Popup1.setMessage("Network model of primary auditory cortex in rodents. David Beeman, University of Colorado, Boulder. For more information see http://opensourcebrain.org/projects/acnet2.");
 Popup1.setName("Description");
