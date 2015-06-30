@@ -397,4 +397,10 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return new LocalSimulatorConfiguration(0l, simulator, conversionService, timestep, length, new HashMap<String, String>());
 	}
 
+	@Override
+	public void addWatchedVariable(IAspectConfiguration aspectConfiguration, IInstancePath instancePath)
+	{
+		((LocalAspectConfiguration)aspectConfiguration).getWatchedVariables().add((LocalInstancePath)instancePath);
+	}
+
 }
