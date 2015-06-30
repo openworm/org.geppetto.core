@@ -1,6 +1,7 @@
 {
     "id": 4,
     "name": "OpenWorm C.elegans muscle model",
+    "activeExperimentId": 1,
     "experiments": [
         {
             "id": 1,

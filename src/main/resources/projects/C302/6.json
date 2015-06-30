@@ -1,6 +1,7 @@
 {
     "id": 6,
     "name": "C302 Experimental network of integrate and fire neurons",
+    "activeExperimentId": 1,
     "experiments": [
         {
             "id": 1,
