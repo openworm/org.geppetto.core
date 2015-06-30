@@ -84,6 +84,8 @@ public interface IGeppettoDataManager
 	
 	ISimulationResult newSimulationResult(IInstancePath parameterPath, IPersistedData results);
 	
+	void addWatchedVariable(IAspectConfiguration found, IInstancePath instancePath);
+	
 	IInstancePath newInstancePath(ANode aspectNode);
 
 	IPersistedData newPersistedData(URL url, PersistedDataType type);
@@ -115,7 +117,6 @@ public interface IGeppettoDataManager
 	void saveEntity(IExperiment entity);
 
 	void saveEntity(IGeppettoProject entity);
-
 
 
 

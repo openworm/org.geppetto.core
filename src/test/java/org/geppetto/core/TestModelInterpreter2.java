@@ -92,7 +92,7 @@ public class TestModelInterpreter2 extends AModelInterpreter
 	}
 
 	@Override
-	public File downloadModel(AspectNode aspectNode, ModelFormat format, List<? extends IAspectConfiguration> aspectConfigurations) throws ModelInterpreterException
+	public File downloadModel(AspectNode aspectNode, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
 	{
 		// TODO Auto-generated method stub
 		return null;

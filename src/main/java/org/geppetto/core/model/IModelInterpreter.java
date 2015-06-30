@@ -56,7 +56,7 @@ public interface IModelInterpreter extends IService
 
 	boolean populateRuntimeTree(AspectNode aspectNode) throws ModelInterpreterException;
 
-	File downloadModel(AspectNode aspectNode, ModelFormat format, List<? extends IAspectConfiguration> aspectConfigurations) throws ModelInterpreterException;
+	File downloadModel(AspectNode aspectNode, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException;
 	
 	List<ModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException;
 

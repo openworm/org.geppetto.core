@@ -34,28 +34,35 @@ package org.geppetto.core.model.state.visitors;
 
 import java.util.List;
 
+import org.geppetto.core.data.DataManagerHelper;
+import org.geppetto.core.data.model.IAspectConfiguration;
+import org.geppetto.core.data.model.IExperiment;
+import org.geppetto.core.data.model.IInstancePath;
+import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.VariableNode;
 
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  * 
- *         This visitor sets the variables passed as a list of strings to watched in the simulation tree
- *         If no list is passed the simulation tree is cleared, i.e. no variables is watched in the simulation tree.
+ *         This visitor sets the variables passed as a list of strings to watched in the simulation tree If no list is passed the simulation tree is cleared, i.e. no variables is watched in the
+ *         simulation tree.
  */
 public class SetWatchedVariablesVisitor extends DefaultStateVisitor
 {
 
 	private List<String> _watchedVariables;
+	private IExperiment experiment;
 
 	public SetWatchedVariablesVisitor()
 	{
 		super();
 	}
 
-	public SetWatchedVariablesVisitor(List<String> lists)
+	public SetWatchedVariablesVisitor(IExperiment experiment, List<String> lists)
 	{
 		super();
+		this.experiment = experiment;
 		this._watchedVariables = lists;
 	}
 
@@ -83,10 +90,37 @@ public class SetWatchedVariablesVisitor extends DefaultStateVisitor
 		if(this._watchedVariables.contains(node.getInstancePath()))
 		{
 			node.setWatched(!node.isWatched());
+			String aspectPath = node.getAspectNode().getInstancePath();
+			IAspectConfiguration found = null;
+			if(experiment.getAspectConfigurations() != null)
+			{
+				for(IAspectConfiguration ac : experiment.getAspectConfigurations())
+				{
+					if(ac.getAspect().getInstancePath().equals(aspectPath))
+					{
+						found = ac;
+						break;
+					}
+				}
+			}
+			if(found==null)
+			{
+				IInstancePath instancePath=DataManagerHelper.getDataManager().newInstancePath(node.getAspectNode());
+				ISimulatorConfiguration simulatorConfiguration=DataManagerHelper.getDataManager().newSimulatorConfiguration("","",0l,0l);
+				found=DataManagerHelper.getDataManager().newAspectConfiguration(experiment, instancePath, simulatorConfiguration);
+			}
+			else
+			{
+				IInstancePath instancePath=DataManagerHelper.getDataManager().newInstancePath(node);
+				DataManagerHelper.getDataManager().addWatchedVariable(found,instancePath);
+			}
+
 		}
 		else if(this._watchedVariables == null)
 		{
 			node.setWatched(false);
+			
+			//TODO Remove from the project too
 		}
 		return super.visitVariableNode(node);
 	}

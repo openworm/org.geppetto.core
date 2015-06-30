@@ -32,6 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.features;
 
+import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.runtime.AspectNode;
 
@@ -42,5 +43,5 @@ import org.geppetto.core.model.runtime.AspectNode;
  *
  */
 public interface IWatchableVariableListFeature extends IFeature{
-	boolean listWatchableVariables(AspectNode aspectNode) throws ModelInterpreterException;
+	boolean listWatchableVariables(AspectNode aspectNode, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException;
 }
