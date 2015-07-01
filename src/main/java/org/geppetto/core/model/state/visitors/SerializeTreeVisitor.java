@@ -165,7 +165,7 @@ public class SerializeTreeVisitor extends DefaultStateVisitor
 				{
 					throw new RuntimeException("The tree is not ordered, found surpassed index");
 				}
-				if(node.getChildren().size() == 0)
+				if(node.getChildren().size() == 0 || node.getChildren().get(0).isArray())
 				{
 					_serialized.append("{");
 				}
