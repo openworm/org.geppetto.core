@@ -48,7 +48,7 @@ import org.geppetto.core.model.runtime.VariableNode;
  *         This visitor sets the variables passed as a list of strings to watched in the simulation tree If no list is passed the simulation tree is cleared, i.e. no variables is watched in the
  *         simulation tree.
  */
-public class SetWatchedVariablesVisitor extends DefaultStateVisitor
+public class SetWatchedVariablesVisitor extends RuntimeTreeVisitor
 {
 
 	private List<String> _watchedVariables;

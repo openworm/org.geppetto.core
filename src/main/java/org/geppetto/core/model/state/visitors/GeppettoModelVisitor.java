@@ -30,21 +30,33 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.manager;
+package org.geppetto.core.model.state.visitors;
 
 import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.data.model.IUser;
-
+import org.geppetto.core.model.simulation.visitor.BaseVisitor;
+import org.geppetto.core.model.simulation.visitor.TraversingVisitor;
 
 /**
+ * Pattern to use: fill the exception field if the visitor throws an exception
+ * 
  * @author matteocantarelli
  *
  */
-public interface IGeppettoManager extends IProjectManager, IExperimentManager, IDropBoxManager, IRuntimeTreeManager, IDownloadManager
+public class GeppettoModelVisitor extends TraversingVisitor
 {
-	
-	IUser getUser();
-	
-	void setUser(IUser user) throws GeppettoExecutionException;
 
+	protected GeppettoExecutionException exception = null;
+
+	public GeppettoModelVisitor()
+	{
+		super(new DepthFirstTraverserEntitiesFirst(), new BaseVisitor());
+	}
+
+	public void postProcessVisit() throws GeppettoExecutionException
+	{
+		if(exception != null)
+		{
+			throw new GeppettoExecutionException(exception);
+		}
+	}
 }

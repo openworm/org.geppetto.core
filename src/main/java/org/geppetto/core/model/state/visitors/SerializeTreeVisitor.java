@@ -75,7 +75,7 @@ import org.geppetto.core.visualisation.model.Point;
 
 import com.google.gson.JsonObject;
 
-public class SerializeTreeVisitor extends DefaultStateVisitor
+public class SerializeTreeVisitor extends RuntimeTreeVisitor
 {
 	private StringBuilder _serialized = new StringBuilder();
 	private Map<ANode, Map<String, Integer>> _arraysLastIndexMap = new HashMap<ANode, Map<String, Integer>>();

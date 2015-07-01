@@ -35,14 +35,14 @@ package org.geppetto.core.simulator;
 import java.util.HashMap;
 
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.state.visitors.DefaultStateVisitor;
+import org.geppetto.core.model.state.visitors.RuntimeTreeVisitor;
 
 /**
  * Visitor used for retrieving all aspects within entity
  * @author  Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public class GetAspectsVisitor extends DefaultStateVisitor{
+public class GetAspectsVisitor extends RuntimeTreeVisitor{
 	
 	//This is not being used at the moment
 	private HashMap<String, AspectNode> _aspects = new HashMap<String,AspectNode>();

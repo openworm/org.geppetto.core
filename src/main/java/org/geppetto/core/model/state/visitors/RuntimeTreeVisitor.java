@@ -32,6 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.model.state.visitors;
 
+import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
@@ -59,10 +60,12 @@ import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
  * @author matteocantarelli
  *
  */
-public class DefaultStateVisitor implements IStateVisitor
+public class RuntimeTreeVisitor implements IStateVisitor
 {
 
 	boolean _stopVisiting=false;
+	
+	protected GeppettoExecutionException exception = null;
 	
 	
 	@Override
@@ -221,5 +224,13 @@ public class DefaultStateVisitor implements IStateVisitor
 	@Override
 	public boolean visitSkeletonAnimationNode(SkeletonAnimationNode node) {
 		return !_stopVisiting;
+	}
+	
+	public void postProcessVisit() throws GeppettoExecutionException
+	{
+		if(exception != null)
+		{
+			throw new GeppettoExecutionException(exception);
+		}
 	}
 }

@@ -38,7 +38,7 @@ import org.geppetto.core.model.runtime.VariableNode;
  * @author matteocantarelli
  *
  */
-public class CountTimeStepsVisitor extends DefaultStateVisitor
+public class CountTimeStepsVisitor extends RuntimeTreeVisitor
 {
 
 	private int _numStates;

@@ -98,7 +98,7 @@ public class S3Manager implements IGeppettoS3Manager
 	 * @param file
 	 * @param path
 	 */
-	public void saveFileToS3(File file, String path)
+	public synchronized void saveFileToS3(File file, String path)
 	{
 		AmazonS3 s3 = getS3Connection();
 		s3.putObject(Settings.BUCKET_NAME, path, file);

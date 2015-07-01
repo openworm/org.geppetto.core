@@ -30,22 +30,23 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.simulation;
+package org.geppetto.core.services;
 
-import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.data.model.IExperiment;
-import org.geppetto.core.data.model.IUser;
+import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.services.registry.ApplicationListenerBean;
 
-public interface IExperimentRunManager
+/**
+ * This class creates a service using the application context.
+ *  
+ * @author matteocantarelli
+ *
+ */
+public class ServiceCreator 
 {
-	/**
-	 * @param user the user which owns the project
-	 * @param experiment
-	 * @param project
-	 */
-	void queueExperiment(IUser user, IExperiment experiment);
 
-	boolean checkExperiment(IExperiment experiment);
-	
-	void runExperiment(IExperiment experiment) throws GeppettoExecutionException;
+	public static Object getNewServiceInstance(String discoveryId) throws GeppettoInitializationException
+	{
+		return ApplicationListenerBean.getApplicationContext(discoveryId).getBean("scopedTarget." + discoveryId);
+	}
+
 }

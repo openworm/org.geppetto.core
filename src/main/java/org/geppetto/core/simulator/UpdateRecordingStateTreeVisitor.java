@@ -47,7 +47,7 @@ import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.runtime.SkeletonAnimationNode;
 import org.geppetto.core.model.runtime.VariableNode;
-import org.geppetto.core.model.state.visitors.DefaultStateVisitor;
+import org.geppetto.core.model.state.visitors.RuntimeTreeVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.utilities.StringSplitter;
@@ -56,7 +56,7 @@ import org.geppetto.core.utilities.StringSplitter;
  * @author matteocantarelli
  * 
  */
-public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
+public class UpdateRecordingStateTreeVisitor extends RuntimeTreeVisitor
 {
 
 	private RecordingModel _recording;
