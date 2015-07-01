@@ -38,7 +38,7 @@ package org.geppetto.core.data.model;
  */
 public enum ResultsFormat
 {
-	GEPPETTO_RECORDING("RECORDING"), RAW("RAW");
+	GEPPETTO_RECORDING("GEPPETTO_RECORDING"), RAW("RAW");
 
 	private final String text;
 

@@ -61,6 +61,7 @@
   	simulationResults: [
   	{
   		id:1,
+  		format: "GEPPETTO_RECORDING",
   		aspect: {
             id: 1,
             entityInstancePath: "hhcell",
