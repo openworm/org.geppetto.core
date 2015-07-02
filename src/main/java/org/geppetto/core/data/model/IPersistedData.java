@@ -40,4 +40,6 @@ public interface IPersistedData extends IDataEntity
 
 	PersistedDataType getType();
 
+	void setURL(String string);
+
 }
