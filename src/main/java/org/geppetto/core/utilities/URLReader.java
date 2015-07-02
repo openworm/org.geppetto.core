@@ -39,6 +39,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
@@ -58,6 +59,7 @@ public class URLReader
 {
 
 	private static Log _logger = LogFactory.getLog(URLReader.class);
+	private static final String SERVER_ROOT_TOKEN = "%SERVER_ROOT%";
 
 	/**
 	 * @param urlString
@@ -71,6 +73,11 @@ public class URLReader
 		{
 			url = new URL(urlString);
 		}
+		else if(urlString.startsWith(SERVER_ROOT_TOKEN))
+		{
+			urlString = urlString.replace(SERVER_ROOT_TOKEN, "");
+			url = getServerRootURL(urlString);
+		}
 		else if(DataManagerHelper.getDataManager().isDefault())
 		{
 			url = DefaultGeppettoDataManager.class.getResource(urlString);
@@ -79,6 +86,7 @@ public class URLReader
 		{
 			throw new IOException("Can't find the Geppetto model at " + urlString);
 		}
+		
 		return url;
 	}
 
@@ -158,5 +166,11 @@ public class URLReader
 	public static String getFileName(URL url)
 	{
 		return url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
+	}
+	
+	public static URL getServerRootURL(String localPath) throws MalformedURLException
+	{
+		File catalinaBase = new File(System.getProperty("catalina.home")).getAbsoluteFile();
+		return new File(catalinaBase, localPath).toURI().toURL();
 	}
 }
