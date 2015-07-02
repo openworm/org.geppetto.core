@@ -42,6 +42,9 @@ import org.geppetto.core.services.ModelFormat;
  */
 public abstract class AConversion extends AService implements IConversion
 {
+
+	protected boolean convertModel = true;
+
 	public void checkSupportedFormat(ModelFormat input) throws ConversionException
 	{
 		if(!this.getSupportedInputs().contains(input))
@@ -53,6 +56,11 @@ public abstract class AConversion extends AService implements IConversion
 	public String getConvertedResultsPath()
 	{
 		return getPathConfiguration().getConvertedResultsPath();
+	}
+
+	public void setConvertModel(boolean convert)
+	{
+		this.convertModel = convert;
 	}
 
 }

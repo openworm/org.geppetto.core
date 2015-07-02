@@ -24,13 +24,20 @@ public class ExternalProcess extends Thread
 	public volatile boolean run = true;
 	private IExternalSimulatorCallbackListener _callback;
 	private String _fileToExecute;
+	private String outputFolder;
 
-	public ExternalProcess(String[] commands, String directoryToExecuteFrom, String fileToExecute, IExternalSimulatorCallbackListener callback)
+	public ExternalProcess(String[] commands, String directoryToExecuteFrom, String fileToExecute, IExternalSimulatorCallbackListener callback, String outputFolder)
 	{
 		this._commands = commands;
 		this._directoryToExecuteFrom = directoryToExecuteFrom;
 		this._callback = callback;
 		this._fileToExecute = fileToExecute;
+		this.outputFolder = outputFolder;
+	}
+
+	public String getOutputFolder()
+	{
+		return outputFolder;
 	}
 
 	@Override
