@@ -886,24 +886,7 @@ public class SerializeTreeVisitor extends RuntimeTreeVisitor
 				// if any items 
 				if (transformation.size() > 0){
 					
-					// open bracket for transformations 
-					transformationsString+= "[";
-							
-					// Loop items
-					for (int k=0; k<transformation.size(); k++){
-						Double cell = transformation.get(k);
-						
-						// add cell
-						transformationsString+= cell.toString();
-						
-						// add comma unless it's the last element
-						if (k != transformation.size()-1){
-							transformationsString+= ",";
-						}
-					}
-					
-					// close bracket for matrix
-					transformationsString+= "]";
+					transformationsString+= transformation.toString();
 					
 					// add comma unless it's the last element
 					if (i != transformationsSeries.size()-1){

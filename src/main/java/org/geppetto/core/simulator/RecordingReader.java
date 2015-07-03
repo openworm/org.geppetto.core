@@ -47,6 +47,7 @@ import ncsa.hdf.object.h5.H5File;
 import org.apache.commons.lang.ArrayUtils;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IInstancePath;
+import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.quantities.Unit;
@@ -72,12 +73,20 @@ public class RecordingReader
 
 	private RecordingModel recording;
 
+	private ResultsFormat recordingFormat;
+	
 	private boolean recordingOpened = false;
 
 	public RecordingReader(RecordingModel recording)
 	{
+		this(recording, ResultsFormat.GEPPETTO_RECORDING);
+	}
+	
+	public RecordingReader(RecordingModel recording, ResultsFormat format)
+	{
 		super();
 		this.recording = recording;
+		this.setRecordingFormat(format);
 	}
 
 	/**
@@ -91,10 +100,20 @@ public class RecordingReader
 		openRecording();
 
 		String varFullInstancePath = variable.getInstancePath();
-		String path = "/" + varFullInstancePath.replace(tree.getInstancePath() + ".", "");
-		path = path.replace(".", "/");
+		String recordingVariablePath = "";
+		
+		if(this.recordingFormat == ResultsFormat.GEPPETTO_RECORDING_FULLPATH)
+		{
+			recordingVariablePath = "/" + varFullInstancePath;
+		}
+		else
+		{
+			recordingVariablePath = "/" + varFullInstancePath.replace(tree.getInstancePath() + ".", "");
+		}
+		
+		recordingVariablePath = recordingVariablePath.replace(".", "/");
 
-		this.readVariable(path, recording.getHDF5(), tree, readAll);
+		this.readVariable(recordingVariablePath, recording.getHDF5(), tree, readAll);
 
 		this.readVariable("/time", recording.getHDF5(), tree, readAll);
 		
@@ -156,6 +175,17 @@ public class RecordingReader
 			throw new GeppettoExecutionException(e1);
 		}
 
+		if(this.getRecordingFormat() == ResultsFormat.GEPPETTO_RECORDING_FULLPATH)
+		{
+			// remove up to tree from variable instance path
+			// NOTE: we needed the full path to read it but we don't need it to populate the tree
+			String TREE_TOKEN = "Tree";
+			if(path.contains(TREE_TOKEN))
+			{
+				path = path.substring(path.indexOf(TREE_TOKEN)+TREE_TOKEN.length());
+			}
+		}
+		
 		path = path.replaceFirst("/", "");
 		StringTokenizer tokenizer = new StringTokenizer(path, "/");
 		VariableNode newVariableNode = null;
@@ -208,61 +238,67 @@ public class RecordingReader
 						if(metaType.contains("VariableNode") || metaType.contains("STATE_VARIABLE"))
 						{
 							VariableNode newNode = new VariableNode(current);
-							Quantity quantity = new Quantity();
-							AValue readValue = null;
-							if(dataRead instanceof double[])
-							{
-								double[] dr = (double[]) dataRead;
-								readValue = ValuesFactory.getDoubleValue(dr[currentRecordingIndex]);
-							}
-							else if(dataRead instanceof float[])
-							{
-								float[] fr = (float[]) dataRead;
-								readValue = ValuesFactory.getFloatValue(fr[currentRecordingIndex]);
-							}
-							else if(dataRead instanceof int[])
-							{
-								int[] ir = (int[]) dataRead;
-								readValue = ValuesFactory.getIntValue(ir[currentRecordingIndex]);
-							}
-	
-							quantity.setValue(readValue);
-							newNode.addQuantity(quantity);
-							newNode.setUnit(new Unit(unit));
 							newVariableNode = (VariableNode)newNode;
 							parent.addChild(newNode);
+							
+							if(!readAll)
+							{
+								Quantity quantity = new Quantity();
+								AValue readValue = null;
+								if(dataRead instanceof double[])
+								{
+									double[] dr = (double[]) dataRead;
+									readValue = ValuesFactory.getDoubleValue(dr[currentRecordingIndex]);
+								}
+								else if(dataRead instanceof float[])
+								{
+									float[] fr = (float[]) dataRead;
+									readValue = ValuesFactory.getFloatValue(fr[currentRecordingIndex]);
+								}
+								else if(dataRead instanceof int[])
+								{
+									int[] ir = (int[]) dataRead;
+									readValue = ValuesFactory.getIntValue(ir[currentRecordingIndex]);
+								}
+		
+								quantity.setValue(readValue);
+								newNode.addQuantity(quantity);
+								newNode.setUnit(new Unit(unit));
+							}
 						}
 						else if(metaType.contains("VISUAL_TRANSFORMATION"))
 						{
 							SkeletonAnimationNode newNode = new SkeletonAnimationNode(current);
-							double[] flatMatrices = null;
-							if(dataRead instanceof double[])
-							{
-								double[] dr = (double[])dataRead;
-								
-								// get items of interest based on matrix dimension and items per step
-								int itemsPerStep = Integer.parseInt(custom.get("items_per_step"));
-								int startIndex = currentRecordingIndex*itemsPerStep;
-								int endIndex = startIndex + (itemsPerStep);
-								
-								if(endIndex <= dr.length)
-								{
-									flatMatrices = Arrays.copyOfRange(dr, startIndex, endIndex);
-								}
-								else
-								{
-									throw new ArrayIndexOutOfBoundsException("ArrayIndexOutOfBounds");
-								}
-							}
-							
-							// set matrices on skeleton animation node
-							newNode.addSkeletonTransformation(Arrays.asList(ArrayUtils.toObject(flatMatrices)));
-							
 							newSkeletonAnimationNode = (SkeletonAnimationNode)newNode;
 							parent.addChild(newNode);
+							
+							if(!readAll)
+							{
+								double[] flatMatrices = null;
+								if(dataRead instanceof double[])
+								{
+									double[] dr = (double[])dataRead;
+									
+									// get items of interest based on matrix dimension and items per step
+									int itemsPerStep = Integer.parseInt(custom.get("items_per_step"));
+									int startIndex = currentRecordingIndex*itemsPerStep;
+									int endIndex = startIndex + (itemsPerStep);
+									
+									if(endIndex <= dr.length)
+									{
+										flatMatrices = Arrays.copyOfRange(dr, startIndex, endIndex);
+									}
+									else
+									{
+										throw new ArrayIndexOutOfBoundsException("ArrayIndexOutOfBounds");
+									}
+								}
+								
+								// set matrices on skeleton animation node
+								newNode.addSkeletonTransformation(Arrays.asList(ArrayUtils.toObject(flatMatrices)));
+							}
 						}
 					}
-
 					catch(Exception | OutOfMemoryError e)
 					{
 						throw new GeppettoExecutionException(e);
@@ -503,5 +539,13 @@ public class RecordingReader
 	{
 		closeRecording();
 		currentRecordingIndex = 0;
+	}
+
+	public ResultsFormat getRecordingFormat() {
+		return recordingFormat;
+	}
+
+	public void setRecordingFormat(ResultsFormat recordingFormat) {
+		this.recordingFormat = recordingFormat;
 	}
 }
