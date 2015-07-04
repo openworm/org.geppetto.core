@@ -271,7 +271,7 @@ public class GeppettoRecordingCreator
 	 *            - Type of node, either variable or parameter node
 	 * @throws Exception
 	 */
-	public void addValues(String variable, int value, String unit, MetaType metaType, boolean update) 
+	public void addValues(String variable, int value, String unit, MetaType metaType, boolean update)
 	{
 		// Convert single number into array, to store as dataset
 		int[] values = new int[1];
@@ -389,7 +389,7 @@ public class GeppettoRecordingCreator
 	 *            - Type of node, either variable or parameter node
 	 * @throws Exception
 	 */
-	public void addValues(String variable, float[] values, String unit, MetaType metaType, boolean update) 
+	public void addValues(String variable, float[] values, String unit, MetaType metaType, boolean update)
 	{
 		RecordingObject o = new RecordingObject();
 		o.setMetaType(metaType);
@@ -471,33 +471,36 @@ public class GeppettoRecordingCreator
 
 			this.createDataSet(recordingObject, current, currentTag);
 		}
-		else
-		{
-			_logger.warn("File already contains variable " + recordingObject.getVariable());
-			// retrieve the dataset "2D 32-bit integer 20x10"
-			Dataset dataset = (Dataset) v;
-			Object dataRead = dataset.read();
-			// update dataset according to its type
-			if(dataRead instanceof double[])
-			{
-				double[] existingValues = (double[]) dataRead;
-				this.recordingsH5File.delete(dataset);
-				this.updateDataSet(dataset.getName(), existingValues, recordingObject);
-			}
-			else if(dataRead instanceof int[])
-			{
-				int[] existingValues = (int[]) dataRead;
-				this.recordingsH5File.delete(dataset);
-				this.updateDataSet(dataset.getName(), existingValues, recordingObject);
-			}
-			else if(dataRead instanceof float[])
-			{
-				float[] existingValues = (float[]) dataRead;
-				this.recordingsH5File.delete(dataset);
-				this.updateDataSet(dataset.getName(), existingValues, recordingObject);
-
-			}
-		}
+//		else
+//		{
+//			if(!recordingObject.getVariable().equals("time"))
+//			{
+//				_logger.warn("File already contains variable " + recordingObject.getVariable());
+//				// retrieve the dataset "2D 32-bit integer 20x10"
+//				Dataset dataset = (Dataset) v;
+//				Object dataRead = dataset.read();
+//				// update dataset according to its type
+//				if(dataRead instanceof double[])
+//				{
+//					double[] existingValues = (double[]) dataRead;
+//					this.recordingsH5File.delete(dataset);
+//					this.updateDataSet(dataset.getName(), existingValues, recordingObject);
+//				}
+//				else if(dataRead instanceof int[])
+//				{
+//					int[] existingValues = (int[]) dataRead;
+//					this.recordingsH5File.delete(dataset);
+//					this.updateDataSet(dataset.getName(), existingValues, recordingObject);
+//				}
+//				else if(dataRead instanceof float[])
+//				{
+//					float[] existingValues = (float[]) dataRead;
+//					this.recordingsH5File.delete(dataset);
+//					this.updateDataSet(dataset.getName(), existingValues, recordingObject);
+//
+//				}
+//			}
+//		}
 	}
 
 	/**
@@ -507,10 +510,10 @@ public class GeppettoRecordingCreator
 	 *            - Amount of time steps to include in time array
 	 * @param timeValues
 	 *            - Values of time
-	 * @throws GeppettoExecutionException 
+	 * @throws GeppettoExecutionException
 	 * @throws Exception
 	 */
-	private void createTime(int biggestLength, float[] timeValues) throws GeppettoExecutionException, Exception 
+	private void createTime(int biggestLength, float[] timeValues) throws GeppettoExecutionException, Exception
 	{
 		// dimension of dataset, length of array and 1 column
 		long[] dims2D = { biggestLength, 1 };
