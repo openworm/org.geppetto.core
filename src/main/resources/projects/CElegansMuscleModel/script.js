@@ -30,7 +30,7 @@ TreeVisualiserDAT1.setSize(256,453);
 
 G.addWidget(Widgets.POPUP);
 Popup1.setName("Description");
-Popup1.setMessage("This is a live running example of the OpenWorm muscle model, found online at http://github.com/openworm/muscle_model.  This simulates the electrial properties of a single c. elegans body wall muscle cell.  The original version is based on a paper by Boyle & Cohen in 2008.");
+Popup1.setMessage(Project.getActiveExperiment().getDescription());
 Popup1.setSize(209.8,294.8)
 Popup1.setPosition(1099,84)
 

@@ -7,6 +7,7 @@
 		  	id:1,      
 		  	name: "Primary Auditory Cortex Network",
 		  	status: "COMPLETED",
+		  	description:"Network model of primary auditory cortex in rodents. David Beeman, University of Colorado, Boulder. Model developed in NeuroML. Simulation executed in NEURON. For more information see http://opensourcebrain.org/projects/acnet2.",
             "lastModified":"1436102517799",
 		  	script: "/projects/AuditoryCortex/script.js",
 		  	aspectConfigurations: [
