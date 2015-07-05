@@ -170,7 +170,7 @@ public class TestNetworkSerialization {
 		electrical.setParent(hhcell);
 		electrical2.setParent(purkinje);
 
-		ConnectionNode con1 = new ConnectionNode("Connection_1");
+		ConnectionNode con1 = new ConnectionNode("Connection_1",electrical);
 		con1.setEntityInstancePath(hhcell.getInstancePath());
 		con1.setType(ConnectionType.TO);
 		con1.setParent(hhcell);
@@ -195,7 +195,7 @@ public class TestNetworkSerialization {
 		con1.getCustomNodes().add(function);
 		con1.getVisualReferences().add(visObj);
 		
-		ConnectionNode con2 = new ConnectionNode("Connection_2");
+		ConnectionNode con2 = new ConnectionNode("Connection_2",electrical);
 		con2.setEntityInstancePath(purkinje.getInstancePath());
 		con2.setType(ConnectionType.FROM);
 		con2.setParent(purkinje);

@@ -1,3 +1,5 @@
+net.electrical.getModelTree();
+
 options = {yaxis:{min:-0.08,max:0.01},xaxis:{min:0,max:400,show:false}};
 G.addWidget(GEPPETTO.Widgets.PLOT);
 Plot1.setName("Voltage response muscle (mV)");

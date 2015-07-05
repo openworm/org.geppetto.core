@@ -374,10 +374,11 @@ public class SerializeTreeVisitor extends RuntimeTreeVisitor
 			{
 				entityId = "\"entityInstancePath\":" + "\"" + node.getEntityInstancePath() + "\",";
 			}
-
+			
+			String aspectInstancePath = "\"aspectInstancePath\":" + "\"" + node.getAspectInstancePath() + "\",";
 			String type = "\"type\":" + "\"" + node.getConnectionType().toString() + "\",";
 
-			_serialized.append(entityId + type + commonproperties + "},");
+			_serialized.append(entityId + type + aspectInstancePath + commonproperties + "},");
 			return super.outConnectionNode(node);
 		}
 		return this._stopVisiting;
@@ -462,7 +463,7 @@ public class SerializeTreeVisitor extends RuntimeTreeVisitor
 		}
 		return super.visitVariableNode(node);
 	}
-	
+
 	@Override
 	public boolean visitParameterNode(ParameterNode node)
 	{
@@ -472,8 +473,9 @@ public class SerializeTreeVisitor extends RuntimeTreeVisitor
 		}
 		return super.visitParameterNode(node);
 	}
-	
-	private void timeSeries(ATimeSeriesNode node){
+
+	private void timeSeries(ATimeSeriesNode node)
+	{
 		if(node.getParent().isArray())
 		{
 			CompositeNode parent = (CompositeNode) node.getParent();
@@ -579,7 +581,8 @@ public class SerializeTreeVisitor extends RuntimeTreeVisitor
 
 	public boolean visitParameterSpecificationNode(ParameterSpecificationNode node)
 	{
-		if(node.isModified()){
+		if(node.isModified())
+		{
 			String commonProperties = this.commonProperties(node);
 
 			PhysicalQuantity quantity = node.getValue();
@@ -610,7 +613,8 @@ public class SerializeTreeVisitor extends RuntimeTreeVisitor
 
 	public boolean visitFunctionNode(FunctionNode node)
 	{
-		if(node.isModified()){
+		if(node.isModified())
+		{
 			String commonProperties = this.commonProperties(node);
 
 			String properties = "";
@@ -865,38 +869,43 @@ public class SerializeTreeVisitor extends RuntimeTreeVisitor
 
 		return super.visitObjNode(node);
 	}
-	
+
 	@Override
-	public boolean visitSkeletonAnimationNode(SkeletonAnimationNode node) {
+	public boolean visitSkeletonAnimationNode(SkeletonAnimationNode node)
+	{
 		String commonProperties = this.commonProperties(node);
 		String name = node.getId();
-		
+
 		List<List<Double>> transformationsSeries = node.getSkeletonTransformationSeries();
 		String transformationsString = "";
 
-		if (transformationsSeries != null) {
-			
+		if(transformationsSeries != null)
+		{
+
 			// open bracket for array of matrices
-			transformationsString+= "[";
-			
+			transformationsString += "[";
+
 			// Loop list of matrices
-			for (int i=0; i < transformationsSeries.size(); i++){
+			for(int i = 0; i < transformationsSeries.size(); i++)
+			{
 				List<Double> transformation = transformationsSeries.get(i);
-				
-				// if any items 
-				if (transformation.size() > 0){
-					
-					transformationsString+= transformation.toString();
-					
+
+				// if any items
+				if(transformation.size() > 0)
+				{
+
+					transformationsString += transformation.toString();
+
 					// add comma unless it's the last element
-					if (i != transformationsSeries.size()-1){
-						transformationsString+= ",";
+					if(i != transformationsSeries.size() - 1)
+					{
+						transformationsString += ",";
 					}
 				}
 			}
-			
+
 			// close bracket for array of matrices
-			transformationsString+= "]";
+			transformationsString += "]";
 		}
 		else
 		{
