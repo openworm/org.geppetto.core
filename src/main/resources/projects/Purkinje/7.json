@@ -7,12 +7,13 @@
             "id": 1,
             "name": "NeuroML Purkinje Cell",
             "status": "COMPLETED",
+            "lastModified":"1436102517799",
             "aspectConfigurations": []
         }
     ],
     "geppettoModel": {
         "id": 9,
-        "url": "/projects/PurkinjeStatic/GEPPETTO.xml",
+        "url": "/projects/Purkinje/GEPPETTO.xml",
         "type": "GEPPETTO_PROJECT"
     }
 }

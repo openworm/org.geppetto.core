@@ -7,12 +7,13 @@
             "id": 1,
             "name": "NeuroML C.elegans PVDR Neuron",
             "status": "COMPLETED",
-            "aspectConfigurations": []
+            "aspectConfigurations": [],
+            "lastModified":"1436102517799"
         }
     ],
     "geppettoModel": {
         "id": 9,
-        "url": "/projects/CElegansPVDRStatic/GEPPETTO.xml",
+        "url": "/projects/CElegansPVDR/GEPPETTO.xml",
         "type": "GEPPETTO_PROJECT"
     }
 }

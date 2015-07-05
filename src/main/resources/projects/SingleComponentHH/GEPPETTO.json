@@ -12,6 +12,7 @@
   	id:1,      
   	name: "Executed experiment",
   	status: "COMPLETED",
+    "lastModified":"1436102517799",
   	script: "/projects/SingleComponentHH/HH_Geppetto_Script.js",
   	aspectConfigurations: [
     {
@@ -78,7 +79,8 @@
   	{
 	  	id:2,   
 	  	name: "Pending experiment",
-	  	status: "DESIGN",   
+	  	status: "DESIGN",
+        "lastModified":"1436102517799",   
 	  	aspectConfigurations: [
 	    {
 	  		id:1,
