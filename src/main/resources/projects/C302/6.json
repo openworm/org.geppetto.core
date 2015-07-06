@@ -6,42 +6,134 @@
         {
             "id": 1,
             "name": "C302 Experimental network",
-            "status": "DESIGN",
+            "status": "COMPLETED",
             "lastModified":"1436102517799",
-            "script": "https://dl.dropboxusercontent.com/u/7538688/GeppettoSimulations/C302/script.js?dl=1",
-            aspectConfigurations: [
-            {
-              id:1,
-              aspect: {
-                    id: 1,
-                    entityInstancePath: "c302",
-                    aspect: "electrical",
-                    localInstancePath: ""
+            "script": "/projects/C302/script.js",
+            "aspectConfigurations": [
+                {
+                    "id": 1,
+                    "aspect": {
+                        "id": 1,
+                        "entityInstancePath": "c302.ADAL_0",
+                        "aspect": "electrical",
+                        "localInstancePath": ""
+                    },
+                    "watchedVariables": [
+                        {
+                            "id": 1,
+                            "entityInstancePath": "c302.ADAL_0",
+                            "aspect": "electrical.SimulationTree",
+                            "localInstancePath": "generic_iaf_cell.v"
+                        }
+                    ]
                 },
-                simulatorConfiguration: {
-                  id: 1,
-                  simulatorId: "neuronSimulator",
-                  conversionServiceId: "lemsConversion",
-                  timestep: 0.0001,
-                  length: 0.5,
-                  parameters: {target: "c302_A"}
+                {
+                    "id": 2,
+                    "aspect": {
+                        "id": 1,
+                        "entityInstancePath": "c302.ADAR_0",
+                        "aspect": "electrical",
+                        "localInstancePath": ""
+                    },
+                    "watchedVariables": [
+                        {
+                            "id": 1,
+                            "entityInstancePath": "c302.ADAR_0",
+                            "aspect": "electrical.SimulationTree",
+                            "localInstancePath": "generic_iaf_cell.v"
+                        }
+                    ]
                 },
-                watchedVariables:[
-                  {
-                      "id": 1,
-                      "entityInstancePath": "c302.ADAL_0",
-                      "aspect": "electrical.SimulationTree",
-                      "localInstancePath": "generic_iaf_cell.v"
-                  }
-                ]
-            }
- 
+                {
+                    "id": 3,
+                    "aspect": {
+                        "id": 1,
+                        "entityInstancePath": "c302.BDUR_0",
+                        "aspect": "electrical",
+                        "localInstancePath": ""
+                    },
+                    "watchedVariables": [
+                        {
+                            "id": 1,
+                            "entityInstancePath": "c302.BDUR_0",
+                            "aspect": "electrical.SimulationTree",
+                            "localInstancePath": "generic_iaf_cell.v"
+                        }
+                    ]
+                },
+                {
+                    "id": 4,
+                    "aspect": {
+                        "id": 1,
+                        "entityInstancePath": "c302.I1R_0",
+                        "aspect": "electrical",
+                        "localInstancePath": ""
+                    },
+                    "watchedVariables": [
+                        {
+                            "id": 1,
+                            "entityInstancePath": "c302.I1R_0",
+                            "aspect": "electrical.SimulationTree",
+                            "localInstancePath": "generic_iaf_cell.v"
+                        }
+                    ]
+                },
+                {
+                    "id": 5,
+                    "aspect": {
+                        "id": 1,
+                        "entityInstancePath": "c302.I2L_0",
+                        "aspect": "electrical",
+                        "localInstancePath": ""
+                    },
+                    "watchedVariables": [
+                        {
+                            "id": 1,
+                            "entityInstancePath": "c302.I2L_0",
+                            "aspect": "electrical.SimulationTree",
+                            "localInstancePath": "generic_iaf_cell.v"
+                        }
+                    ]
+                },
+                {
+                    "id": 6,
+                    "aspect": {
+                        "id": 1,
+                        "entityInstancePath": "c302.PVDR_0",
+                        "aspect": "electrical",
+                        "localInstancePath": ""
+                    },
+                    "watchedVariables": [
+                        {
+                            "id": 1,
+                            "entityInstancePath": "c302.PVDR_0",
+                            "aspect": "electrical.SimulationTree",
+                            "localInstancePath": "generic_iaf_cell.v"
+                        }
+                    ]
+                }
+            ],
+            "simulationResults": [
+                {
+                    "id": 1,
+                    "aspect": {
+                        "id": 1,
+                        "entityInstancePath": "c302",
+                        "aspect": "electrical",
+                        "localInstancePath": ""
+                    },
+                    "result": {
+                        "id": 1,
+                        "url": "/projects/C302/results.h5",
+                        "type": "RECORDING"
+                    }
+                }
             ]
         }
     ],
     "geppettoModel": {
         "id": 6,
-        "url": "https://dl.dropboxusercontent.com/u/7538688/GeppettoSimulations/C302/GEPPETTO.xml?dl=1",
+        "url": "/projects/C302/GEPPETTO.xml",
         "type": "GEPPETTO_PROJECT"
     }
 }
