@@ -18,6 +18,6 @@ options = {yaxis:{min:-.1,max:0.1},xaxis:{min:0,max:400,show:false}};
 Plot1.setOptions(options);
 Plot1.setPosition(113, 90);
 Plot1.setSize(230,445);
-Plot1.plotData(acnet2.baskets_12_0.electrical.SimulationTree.baskets_12[0].bask[0].v);
+Plot1.plotData(acnet2.baskets_12_0.electrical.SimulationTree.bask[0].v);
 
-Project.getActiveExperiment().play({playAll:true});
+//Project.getActiveExperiment().play({playAll:true});

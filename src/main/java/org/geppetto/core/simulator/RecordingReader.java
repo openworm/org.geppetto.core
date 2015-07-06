@@ -99,17 +99,16 @@ public class RecordingReader
 	{
 		openRecording();
 
-		String varFullInstancePath = variable.getInstancePath();
-		String recordingVariablePath = "";
+		String recordingVariablePath = "/" + variable.getInstancePath();
 		
-		if(this.recordingFormat == ResultsFormat.GEPPETTO_RECORDING_FULLPATH)
-		{
-			recordingVariablePath = "/" + varFullInstancePath;
-		}
-		else
-		{
-			recordingVariablePath = "/" + varFullInstancePath.replace(tree.getInstancePath() + ".", "");
-		}
+//		if(this.recordingFormat == ResultsFormat.GEPPETTO_RECORDING_FULLPATH)
+//		{
+//			recordingVariablePath = "/" + recordingVariablePath;
+//		}
+//		else
+//		{
+//			recordingVariablePath = "/" + varFullInstancePath.replace(tree.getInstancePath() + ".", "");
+//		}
 		
 		recordingVariablePath = recordingVariablePath.replace(".", "/");
 
@@ -175,8 +174,8 @@ public class RecordingReader
 			throw new GeppettoExecutionException(e1);
 		}
 
-		if(this.getRecordingFormat() == ResultsFormat.GEPPETTO_RECORDING_FULLPATH)
-		{
+//		if(this.getRecordingFormat() == ResultsFormat.GEPPETTO_RECORDING_FULLPATH)
+//		{
 			// remove up to tree from variable instance path
 			// NOTE: we needed the full path to read it but we don't need it to populate the tree
 			String TREE_TOKEN = "Tree";
@@ -184,7 +183,7 @@ public class RecordingReader
 			{
 				path = path.substring(path.indexOf(TREE_TOKEN)+TREE_TOKEN.length());
 			}
-		}
+//		}
 		
 		path = path.replaceFirst("/", "");
 		StringTokenizer tokenizer = new StringTokenizer(path, "/");

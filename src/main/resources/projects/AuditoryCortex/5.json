@@ -32,7 +32,7 @@
 			            id: 1,
 			            entityInstancePath: "acnet2.baskets_12_0",
 			            aspect: "electrical.SimulationTree",
-			            localInstancePath: "baskets_12[0].bask[0].v"
+			            localInstancePath: "bask[0].v"
 			        }
 		        ]
 		  	}
@@ -53,8 +53,142 @@
 		          type: "RECORDING"
 		        }
 		  	}]
-	  	}
-    
+	  	},
+	    {
+		  	id:2,      
+		  	name: "Primary Auditory Cortex Network (Prepare for simulation)",
+		  	status: "DESIGN",
+		  	script: "/projects/AuditoryCortex/script2.js",
+		  	aspectConfigurations: [
+		    {
+		  		id:1,
+		  		aspect: {
+		            id: 1,
+		            entityInstancePath: "acnet2",
+		            aspect: "electrical",
+		            localInstancePath: ""
+		        },
+		        simulatorConfiguration: {
+		          id: 1,
+		          simulatorId: "neuronSimulator",
+		          conversionServiceId: "lemsConversion",
+		          timestep: 0.00001,
+		          length: 0.3,
+		          parameters: {target: "network_ACnet2"}
+		        },
+		        watchedVariables:[
+			        {
+			            id: 1,
+			            entityInstancePath: "acnet2.baskets_12_0",
+			            aspect: "electrical.SimulationTree",
+			            localInstancePath: "bask[0].v"
+			        }
+		        ]
+		  	}
+		  	]
+		  },
+		  
+		  {
+		  	id:3,      
+		  	name: "Primary Auditory Cortex Network (Prepare for simulation)",
+		  	status: "DESIGN",
+		  	script: "/projects/AuditoryCortex/script2.js",
+		  	aspectConfigurations: [
+		    {
+		  		id:1,
+		  		aspect: {
+		            id: 1,
+		            entityInstancePath: "acnet2",
+		            aspect: "electrical",
+		            localInstancePath: ""
+		        },
+		        simulatorConfiguration: {
+		          id: 1,
+		          simulatorId: "neuronSimulator",
+		          conversionServiceId: "lemsConversion",
+		          timestep: 0.00001,
+		          length: 0.3,
+		          parameters: {target: "network_ACnet2"}
+		        },
+		        watchedVariables:[
+			        {
+			            id: 1,
+			            entityInstancePath: "acnet2.baskets_12_0",
+			            aspect: "electrical.SimulationTree",
+			            localInstancePath: "bask[0].v"
+			        }
+		        ]
+		  	}
+		  	]
+		  },
+		  
+		  {
+		  	id:4,      
+		  	name: "Primary Auditory Cortex Network (Prepare for simulation)",
+		  	status: "DESIGN",
+		  	script: "/projects/AuditoryCortex/script2.js",
+		  	aspectConfigurations: [
+		    {
+		  		id:1,
+		  		aspect: {
+		            id: 1,
+		            entityInstancePath: "acnet2",
+		            aspect: "electrical",
+		            localInstancePath: ""
+		        },
+		        simulatorConfiguration: {
+		          id: 1,
+		          simulatorId: "neuronSimulator",
+		          conversionServiceId: "lemsConversion",
+		          timestep: 0.00001,
+		          length: 0.3,
+		          parameters: {target: "network_ACnet2"}
+		        },
+		        watchedVariables:[
+			        {
+			            id: 1,
+			            entityInstancePath: "acnet2.baskets_12_0",
+			            aspect: "electrical.SimulationTree",
+			            localInstancePath: "bask[0].v"
+			        }
+		        ]
+		  	}
+		  	]
+		  },
+		  
+		  {
+		  	id:5,      
+		  	name: "Primary Auditory Cortex Network (Prepare for simulation)",
+		  	status: "DESIGN",
+		  	script: "/projects/AuditoryCortex/script2.js",
+		  	aspectConfigurations: [
+		    {
+		  		id:1,
+		  		aspect: {
+		            id: 1,
+		            entityInstancePath: "acnet2",
+		            aspect: "electrical",
+		            localInstancePath: ""
+		        },
+		        simulatorConfiguration: {
+		          id: 1,
+		          simulatorId: "neuronSimulator",
+		          conversionServiceId: "lemsConversion",
+		          timestep: 0.00001,
+		          length: 0.3,
+		          parameters: {target: "network_ACnet2"}
+		        },
+		        watchedVariables:[
+			        {
+			            id: 1,
+			            entityInstancePath: "acnet2.baskets_12_0",
+			            aspect: "electrical.SimulationTree",
+			            localInstancePath: "bask[0].v"
+			        }
+		        ]
+		  	}
+		  	]
+		  }
     
         
     ],
