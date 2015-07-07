@@ -40,6 +40,7 @@ public enum GeppettoErrorCodes
 {
 
 	INITIALIZATION,
+	EXCEPTION,
 	SOLVER,
 	MODEL_INTERPRETER,
 	SIMULATOR,

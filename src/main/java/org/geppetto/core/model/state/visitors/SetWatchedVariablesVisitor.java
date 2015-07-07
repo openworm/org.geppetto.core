@@ -96,7 +96,7 @@ public class SetWatchedVariablesVisitor extends RuntimeTreeVisitor
 			{
 				for(IAspectConfiguration ac : experiment.getAspectConfigurations())
 				{
-					if(ac.getAspect().getInstancePath().equals(aspectPath))
+					if(aspectPath.startsWith(ac.getAspect().getInstancePath()))
 					{
 						found = ac;
 						break;
