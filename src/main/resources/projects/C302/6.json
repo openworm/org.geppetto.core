@@ -8,127 +8,96 @@
             "name": "C302 Experimental network",
             "status": "COMPLETED",
             "lastModified":"1436102517799",
-            "script": "/projects/C302/script.js",
-            "aspectConfigurations": [
-                {
-                    "id": 1,
-                    "aspect": {
-                        "id": 1,
-                        "entityInstancePath": "c302.ADAL_0",
-                        "aspect": "electrical",
-                        "localInstancePath": ""
-                    },
-                    "watchedVariables": [
-                        {
-                            "id": 1,
-                            "entityInstancePath": "c302.ADAL_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "generic_iaf_cell.v"
-                        }
-                    ]
+            "script": "https://dl.dropboxusercontent.com/u/7538688/GeppettoSimulations/C302/script.js?dl=1",
+            aspectConfigurations: [
+            {
+              id:1,
+              aspect: {
+                    id: 1,
+                    entityInstancePath: "c302",
+                    aspect: "electrical",
+                    localInstancePath: ""
                 },
-                {
-                    "id": 2,
-                    "aspect": {
-                        "id": 1,
-                        "entityInstancePath": "c302.ADAR_0",
-                        "aspect": "electrical",
-                        "localInstancePath": ""
-                    },
-                    "watchedVariables": [
-                        {
-                            "id": 1,
-                            "entityInstancePath": "c302.ADAR_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "generic_iaf_cell.v"
-                        }
-                    ]
+                simulatorConfiguration: {
+                  id: 1,
+                  simulatorId: "neuronSimulator",
+                  conversionServiceId: "lemsConversion",
+                  timestep: 0.0001,
+                  length: 0.5,
+                  parameters: {target: "c302_A"}
                 },
-                {
-                    "id": 3,
-                    "aspect": {
-                        "id": 1,
-                        "entityInstancePath": "c302.BDUR_0",
-                        "aspect": "electrical",
-                        "localInstancePath": ""
-                    },
-                    "watchedVariables": [
-                        {
-                            "id": 1,
-                            "entityInstancePath": "c302.BDUR_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "generic_iaf_cell.v"
-                        }
-                    ]
-                },
-                {
-                    "id": 4,
-                    "aspect": {
-                        "id": 1,
-                        "entityInstancePath": "c302.I1R_0",
-                        "aspect": "electrical",
-                        "localInstancePath": ""
-                    },
-                    "watchedVariables": [
-                        {
-                            "id": 1,
-                            "entityInstancePath": "c302.I1R_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "generic_iaf_cell.v"
-                        }
-                    ]
-                },
-                {
-                    "id": 5,
-                    "aspect": {
-                        "id": 1,
-                        "entityInstancePath": "c302.I2L_0",
-                        "aspect": "electrical",
-                        "localInstancePath": ""
-                    },
-                    "watchedVariables": [
-                        {
-                            "id": 1,
-                            "entityInstancePath": "c302.I2L_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "generic_iaf_cell.v"
-                        }
-                    ]
-                },
-                {
-                    "id": 6,
-                    "aspect": {
-                        "id": 1,
-                        "entityInstancePath": "c302.PVDR_0",
-                        "aspect": "electrical",
-                        "localInstancePath": ""
-                    },
-                    "watchedVariables": [
-                        {
-                            "id": 1,
-                            "entityInstancePath": "c302.PVDR_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "generic_iaf_cell.v"
-                        }
-                    ]
-                }
+                watchedVariables:[
+                  {
+                      "id": 1,
+                      "entityInstancePath": "c302.ADAL_0",
+                      "aspect": "electrical.SimulationTree",
+                      "localInstancePath": "generic_iaf_cell.v"
+                  },
+                  {
+                      "id": 2,
+                      "entityInstancePath": "c302.ADAR_0",
+                      "aspect": "electrical.SimulationTree",
+                      "localInstancePath": "generic_iaf_cell.v"
+                  },
+                  {
+                      "id": 3,
+                      "entityInstancePath": "c302.BDUR_0",
+                      "aspect": "electrical.SimulationTree",
+                      "localInstancePath": "generic_iaf_cell.v"
+                  },
+                  {
+                      "id": 4,
+                      "entityInstancePath": "c302.I1R_0",
+                      "aspect": "electrical.SimulationTree",
+                      "localInstancePath": "generic_iaf_cell.v"
+                  },
+                  {
+                      "id": 5,
+                      "entityInstancePath": "c302.I2L_0",
+                      "aspect": "electrical.SimulationTree",
+                      "localInstancePath": "generic_iaf_cell.v"
+                  },
+                  {
+                      "id": 6,
+                      "entityInstancePath": "c302.PVDR_0",
+                      "aspect": "electrical.SimulationTree",
+                      "localInstancePath": "generic_iaf_cell.v"
+                  }
+                ]
+            }
+
             ],
-            "simulationResults": [
-                {
-                    "id": 1,
-                    "aspect": {
-                        "id": 1,
-                        "entityInstancePath": "c302",
-                        "aspect": "electrical",
-                        "localInstancePath": ""
-                    },
-                    "result": {
-                        "id": 1,
-                        "url": "/projects/C302/results.h5",
-                        "type": "RECORDING"
-                    }
-                }
-            ]
+		  	simulationResults: [
+		  	{
+		  		id:1,
+		  		format: "GEPPETTO_RECORDING",
+		  		aspect: {
+		            id: 1,
+		            entityInstancePath: "c302",
+		            aspect: "electrical",
+		            localInstancePath: ""
+		        },
+		        result: {
+		          id: 1,
+		          url: "/projects/C302/results-2015.07.07.13.44.01.h5",
+		          type: "RECORDING"
+		        }
+		  	},
+		  	  	{
+		  		id:2,
+		  		format: "RAW",
+		  		aspect: {
+		            id: 1,
+		            entityInstancePath: "c302",
+		            aspect: "electrical",
+		            localInstancePath: ""
+		        },
+		        result: {
+		          id: 2,
+		          url: "/projects/C302/rawRecording.zip",
+		          type: "RECORDING"
+		        }
+		  	}]
         }
     ],
     "geppettoModel": {
