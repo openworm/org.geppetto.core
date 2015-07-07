@@ -74,14 +74,14 @@ public class RecordingReader
 	private RecordingModel recording;
 
 	private ResultsFormat recordingFormat;
-	
+
 	private boolean recordingOpened = false;
 
 	public RecordingReader(RecordingModel recording)
 	{
 		this(recording, ResultsFormat.GEPPETTO_RECORDING);
 	}
-	
+
 	public RecordingReader(RecordingModel recording, ResultsFormat format)
 	{
 		super();
@@ -100,23 +100,23 @@ public class RecordingReader
 		openRecording();
 
 		String recordingVariablePath = "/" + variable.getInstancePath();
-		
-//		if(this.recordingFormat == ResultsFormat.GEPPETTO_RECORDING_FULLPATH)
-//		{
-//			recordingVariablePath = "/" + recordingVariablePath;
-//		}
-//		else
-//		{
-//			recordingVariablePath = "/" + varFullInstancePath.replace(tree.getInstancePath() + ".", "");
-//		}
-		
+
+		// if(this.recordingFormat == ResultsFormat.GEPPETTO_RECORDING_FULLPATH)
+		// {
+		// recordingVariablePath = "/" + recordingVariablePath;
+		// }
+		// else
+		// {
+		// recordingVariablePath = "/" + varFullInstancePath.replace(tree.getInstancePath() + ".", "");
+		// }
+
 		recordingVariablePath = recordingVariablePath.replace(".", "/");
 
 		this.readVariable(recordingVariablePath, recording.getHDF5(), tree, readAll);
 
 		this.readVariable("/time", recording.getHDF5(), tree, readAll);
-		
-		if (!readAll)
+
+		if(!readAll)
 		{
 			currentRecordingIndex++;
 		}
@@ -144,29 +144,30 @@ public class RecordingReader
 		String unit = "";
 		String metaType = "";
 		Map<String, String> custom = null;
-		
+
 		try
 		{
 			// get metadata from recording node
 			List<Attribute> attributes = v.getMetadata();
-			
-			for(Attribute a : attributes){
+
+			for(Attribute a : attributes)
+			{
 				if(a.getName().toLowerCase().equals("unit"))
 				{
-					unit = ((String[])a.getValue())[0];
+					unit = ((String[]) a.getValue())[0];
 				}
-				
+
 				if(a.getName().toLowerCase().equals("meta_type") || a.getName().toLowerCase().equals("metatype"))
 				{
-					metaType = ((String[])a.getValue())[0];
+					metaType = ((String[]) a.getValue())[0];
 				}
-				
+
 				if(a.getName().toLowerCase().equals("custom_metadata"))
 				{
-					String customStr = ((String[])a.getValue())[0];
+					String customStr = ((String[]) a.getValue())[0];
 					custom = StringSplitter.keyValueSplit(customStr, ";");
 				}
-				
+
 			}
 		}
 		catch(Exception e1)
@@ -174,17 +175,7 @@ public class RecordingReader
 			throw new GeppettoExecutionException(e1);
 		}
 
-//		if(this.getRecordingFormat() == ResultsFormat.GEPPETTO_RECORDING_FULLPATH)
-//		{
-			// remove up to tree from variable instance path
-			// NOTE: we needed the full path to read it but we don't need it to populate the tree
-			String TREE_TOKEN = "Tree";
-			if(path.contains(TREE_TOKEN))
-			{
-				path = path.substring(path.indexOf(TREE_TOKEN)+TREE_TOKEN.length());
-			}
-//		}
-		
+		path = path.substring(path.indexOf("Tree") + "Tree".length());
 		path = path.replaceFirst("/", "");
 		StringTokenizer tokenizer = new StringTokenizer(path, "/");
 		VariableNode newVariableNode = null;
@@ -233,13 +224,13 @@ public class RecordingReader
 					try
 					{
 						dataRead = v.read();
-						
+
 						if(metaType.contains("VariableNode") || metaType.contains("STATE_VARIABLE"))
 						{
 							VariableNode newNode = new VariableNode(current);
-							newVariableNode = (VariableNode)newNode;
+							newVariableNode = (VariableNode) newNode;
 							parent.addChild(newNode);
-							
+
 							if(!readAll)
 							{
 								Quantity quantity = new Quantity();
@@ -259,7 +250,7 @@ public class RecordingReader
 									int[] ir = (int[]) dataRead;
 									readValue = ValuesFactory.getIntValue(ir[currentRecordingIndex]);
 								}
-		
+
 								quantity.setValue(readValue);
 								newNode.addQuantity(quantity);
 								newNode.setUnit(new Unit(unit));
@@ -268,21 +259,21 @@ public class RecordingReader
 						else if(metaType.contains("VISUAL_TRANSFORMATION"))
 						{
 							SkeletonAnimationNode newNode = new SkeletonAnimationNode(current);
-							newSkeletonAnimationNode = (SkeletonAnimationNode)newNode;
+							newSkeletonAnimationNode = (SkeletonAnimationNode) newNode;
 							parent.addChild(newNode);
-							
+
 							if(!readAll)
 							{
 								double[] flatMatrices = null;
 								if(dataRead instanceof double[])
 								{
-									double[] dr = (double[])dataRead;
-									
+									double[] dr = (double[]) dataRead;
+
 									// get items of interest based on matrix dimension and items per step
 									int itemsPerStep = Integer.parseInt(custom.get("items_per_step"));
-									int startIndex = currentRecordingIndex*itemsPerStep;
+									int startIndex = currentRecordingIndex * itemsPerStep;
 									int endIndex = startIndex + (itemsPerStep);
-									
+
 									if(endIndex <= dr.length)
 									{
 										flatMatrices = Arrays.copyOfRange(dr, startIndex, endIndex);
@@ -292,7 +283,7 @@ public class RecordingReader
 										throw new ArrayIndexOutOfBoundsException("ArrayIndexOutOfBounds");
 									}
 								}
-								
+
 								// set matrices on skeleton animation node
 								newNode.addSkeletonTransformation(Arrays.asList(ArrayUtils.toObject(flatMatrices)));
 							}
@@ -311,11 +302,11 @@ public class RecordingReader
 			try
 			{
 				dataRead = v.read();
-				
+
 				if(metaType.contains("VariableNode") || metaType.contains("STATE_VARIABLE"))
 				{
 					AValue readValue = null;
-	
+
 					if(dataRead instanceof double[])
 					{
 						double[] dr = (double[]) dataRead;
@@ -359,14 +350,14 @@ public class RecordingReader
 						// get items of interest based on matrix dimension and items per step
 						int itemsPerStep = Integer.parseInt(custom.get("items_per_step"));
 						int totalSteps = dr.length / itemsPerStep;
-						
+
 						for(int i = 0; i < totalSteps; i++)
 						{
 							double[] flatMatrices = null;
-							
-							int startIndex = i*itemsPerStep;
+
+							int startIndex = i * itemsPerStep;
 							int endIndex = startIndex + (itemsPerStep);
-							
+
 							if(endIndex <= dr.length)
 							{
 								flatMatrices = Arrays.copyOfRange(dr, startIndex, endIndex);
@@ -375,7 +366,7 @@ public class RecordingReader
 							{
 								throw new ArrayIndexOutOfBoundsException("ArrayIndexOutOfBounds");
 							}
-							
+
 							newSkeletonAnimationNode.addSkeletonTransformation(Arrays.asList(ArrayUtils.toObject(flatMatrices)));
 						}
 					}
@@ -475,7 +466,7 @@ public class RecordingReader
 			{
 				// recording reached the end - notify listener
 				// TODO Review this
-				//listener.endOfSteps(null,null);
+				// listener.endOfSteps(null,null);
 
 				// set end of steps flag reached
 				// NOTE: cannot break the loop here because more than one aspect might be reading the last step
@@ -540,11 +531,13 @@ public class RecordingReader
 		currentRecordingIndex = 0;
 	}
 
-	public ResultsFormat getRecordingFormat() {
+	public ResultsFormat getRecordingFormat()
+	{
 		return recordingFormat;
 	}
 
-	public void setRecordingFormat(ResultsFormat recordingFormat) {
+	public void setRecordingFormat(ResultsFormat recordingFormat)
+	{
 		this.recordingFormat = recordingFormat;
 	}
 }

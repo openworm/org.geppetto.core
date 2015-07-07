@@ -11,7 +11,7 @@ Project.getActiveExperiment().run()
 //Plot1.setSize(230,445);
 //Plot1.plotData(acnet2.baskets_12_0.electrical.SimulationTree.baskets_12[0].bask[0].v);
 //
-//G.addWidget(5).setVariable(acnet2.baskets_12_0.electrical.SimulationTree.baskets_12[0].bask[0].v);
+//G.addWidget(5).setVariable(acnet2.baskets_12_0.electrical.SimulationTree.bask[0].v);
 //VarVis1.setName("Primary Auditory Cortext Network - Basket Cell - Voltage");
 //
 //Project.getActiveExperiment().play({step:1});
