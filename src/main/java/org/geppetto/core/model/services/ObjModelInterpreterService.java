@@ -59,7 +59,7 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public class OBJModelInterpreterService extends AModelInterpreter
+public class ObjModelInterpreterService extends AModelInterpreter
 {
 
 	@Override

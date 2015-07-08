@@ -5,7 +5,7 @@
 		<tns:aspect>
 			<tns:id>morphology</tns:id>
 			<tns:model>
-    				<tns:modelInterpreterId>objModelInterpreter</tns:modelInterpreterId>
+    				<tns:modelInterpreterId>objModelInterpreterService</tns:modelInterpreterId>
     				<tns:modelURL>/projects/EyeWireGanglionCell/eyewiresample.obj</tns:modelURL>
 			</tns:model>
 		</tns:aspect>		
