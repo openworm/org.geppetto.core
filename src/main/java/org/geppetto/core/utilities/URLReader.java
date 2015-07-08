@@ -59,7 +59,7 @@ public class URLReader
 {
 
 	private static Log _logger = LogFactory.getLog(URLReader.class);
-	private static final String SERVER_ROOT_TOKEN = "%SERVER_ROOT%";
+	private static final String SERVER_ROOT_TOKEN = "SERVER_ROOT";
 
 	/**
 	 * @param urlString
