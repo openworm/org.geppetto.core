@@ -9,7 +9,7 @@
             "status": "COMPLETED",
             "lastModified":"1436102517799",
             script: "/projects/CElegansMuscleModel/script.js",
-            "description" :  "This is a live running example of the OpenWorm muscle model, found online at http://github.com/openworm/muscle_model.  This simulates the electrial properties of a single c. elegans body wall muscle cell.  The simulation was executed using NEURON. The original version is based on a paper by Boyle & Cohen in 2008.",
+            "description" :  "This project is based on the OpenWorm muscle model, found online at http://github.com/openworm/muscle_model.  This simulates the electrial properties of a single C. elegans body wall muscle cell.  The simulation was executed using NEURON. The original version is based on a paper by Boyle & Cohen in 2008.",
             "aspectConfigurations": [
                 {
                     "id": 1,
