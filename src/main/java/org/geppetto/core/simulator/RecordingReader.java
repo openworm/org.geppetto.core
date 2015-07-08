@@ -101,15 +101,6 @@ public class RecordingReader
 
 		String recordingVariablePath = "/" + variable.getInstancePath();
 
-		// if(this.recordingFormat == ResultsFormat.GEPPETTO_RECORDING_FULLPATH)
-		// {
-		// recordingVariablePath = "/" + recordingVariablePath;
-		// }
-		// else
-		// {
-		// recordingVariablePath = "/" + varFullInstancePath.replace(tree.getInstancePath() + ".", "");
-		// }
-
 		recordingVariablePath = recordingVariablePath.replace(".", "/");
 
 		this.readVariable(recordingVariablePath, recording.getHDF5(), tree, readAll);
@@ -156,13 +147,12 @@ public class RecordingReader
 				{
 					unit = ((String[]) a.getValue())[0];
 				}
-
-				if(a.getName().toLowerCase().equals("meta_type") || a.getName().toLowerCase().equals("metatype"))
+				else if(a.getName().toLowerCase().equals("meta_type") || a.getName().toLowerCase().equals("metatype"))
 				{
+					// FIXME Why the two of them? Why hardcoded strings? Consolidate and remove one of the two
 					metaType = ((String[]) a.getValue())[0];
 				}
-
-				if(a.getName().toLowerCase().equals("custom_metadata"))
+				else if(a.getName().toLowerCase().equals("custom_metadata"))
 				{
 					String customStr = ((String[]) a.getValue())[0];
 					custom = StringSplitter.keyValueSplit(customStr, ";");
@@ -172,18 +162,41 @@ public class RecordingReader
 		}
 		catch(Exception e1)
 		{
-			throw new GeppettoExecutionException("Error retrieving the variable " +path+" from the recording of the simulation",e1);
+			throw new GeppettoExecutionException("Error retrieving the variable " + path + " from the recording of the simulation", e1);
 		}
 
-		path = path.substring(path.indexOf("Tree") + "Tree".length());
-		path = path.replaceFirst("/", "");
+		String test = "/" + AspectTreeType.SIMULATION_TREE.toString() + "/";
+		boolean found = false;
+		if(path.contains(test))
+		{
+			path = path.substring(path.indexOf(test) + test.length());
+			found = true;
+		}
+		if(!found)
+		{
+			test = "/" + AspectTreeType.VISUALIZATION_TREE.toString() + "/";
+			if(path.contains(test))
+			{
+				path = path.substring(path.indexOf(test) + test.length());
+				found=true;
+			}
+			if(!found)
+			{
+				test = "/" + AspectTreeType.MODEL_TREE.toString() + "/";
+				if(path.contains(test))
+				{
+					path = path.substring(path.indexOf(test) + test.length());
+				}
+			}
+		}
+
 		StringTokenizer tokenizer = new StringTokenizer(path, "/");
 		VariableNode newVariableNode = null;
 		SkeletonAnimationNode newSkeletonAnimationNode = null;
 		while(tokenizer.hasMoreElements())
 		{
 			String current = tokenizer.nextToken();
-			boolean found = false;
+			found = false;
 			for(ANode child : parent.getChildren())
 			{
 				if(child.getId().equals(current))
