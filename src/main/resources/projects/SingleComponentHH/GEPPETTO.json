@@ -75,6 +75,21 @@
           url: "/projects/SingleComponentHH/results.h5",
           type: "RECORDING"
         }
+  	},
+  	{
+  		id:2,
+  		format: "RAW",
+  		aspect: {
+            id: 1,
+            entityInstancePath: "hhcell",
+            aspect: "electrical",
+            localInstancePath: ""
+        },
+        result: {
+          id: 2,
+          url: "/projects/SingleComponentHH/hhcell.electrical-rawRecording.zip",
+          type: "RECORDING"
+        }
   	}]
   	},
   	{
