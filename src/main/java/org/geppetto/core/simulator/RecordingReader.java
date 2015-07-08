@@ -172,7 +172,7 @@ public class RecordingReader
 		}
 		catch(Exception e1)
 		{
-			throw new GeppettoExecutionException(e1);
+			throw new GeppettoExecutionException("Error retrieving the variable " +path+" from the recording of the simulation",e1);
 		}
 
 		path = path.substring(path.indexOf("Tree") + "Tree".length());
