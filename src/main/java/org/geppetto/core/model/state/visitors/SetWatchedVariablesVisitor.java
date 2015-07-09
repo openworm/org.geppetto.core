@@ -90,39 +90,67 @@ public class SetWatchedVariablesVisitor extends RuntimeTreeVisitor
 		if(this._watchedVariables.contains(node.getInstancePath()))
 		{
 			node.setWatched(!node.isWatched());
-			String aspectPath = node.getAspectNode().getInstancePath();
-			IAspectConfiguration found = null;
-			if(experiment.getAspectConfigurations() != null)
+			IAspectConfiguration found = retrieveAspectConfiguration(node);
+			if(node.isWatched()) //we want to watch this variable
 			{
-				for(IAspectConfiguration ac : experiment.getAspectConfigurations())
+				if(found == null)
 				{
-					if(aspectPath.startsWith(ac.getAspect().getInstancePath()))
+					//if an aspect configuration doesn't alreadt exist we create it
+					IInstancePath instancePath = DataManagerHelper.getDataManager().newInstancePath(node.getAspectNode());
+					ISimulatorConfiguration simulatorConfiguration = DataManagerHelper.getDataManager().newSimulatorConfiguration("", "", 0l, 0l);
+					found = DataManagerHelper.getDataManager().newAspectConfiguration(experiment, instancePath, simulatorConfiguration);
+				}
+
+				IInstancePath instancePath = DataManagerHelper.getDataManager().newInstancePath(node);
+				DataManagerHelper.getDataManager().addWatchedVariable(found, instancePath);
+			}
+			else //we want to stop watching this variable
+			{
+				if(found != null)
+				{
+					IInstancePath instancePath = null;
+					for(IInstancePath variable : found.getWatchedVariables())
 					{
-						found = ac;
-						break;
+						if(variable.getInstancePath().equals(node.getInstancePath()))
+						{
+							instancePath = variable;
+							break;
+						}
+					}
+					if(instancePath != null)
+					{
+						found.getWatchedVariables().remove(instancePath);
 					}
 				}
-			}
-			if(found==null)
-			{
-				IInstancePath instancePath=DataManagerHelper.getDataManager().newInstancePath(node.getAspectNode());
-				ISimulatorConfiguration simulatorConfiguration=DataManagerHelper.getDataManager().newSimulatorConfiguration("","",0l,0l);
-				found=DataManagerHelper.getDataManager().newAspectConfiguration(experiment, instancePath, simulatorConfiguration);
-			}
-			else
-			{
-				IInstancePath instancePath=DataManagerHelper.getDataManager().newInstancePath(node);
-				DataManagerHelper.getDataManager().addWatchedVariable(found,instancePath);
 			}
 
 		}
 		else if(this._watchedVariables == null)
 		{
 			node.setWatched(false);
-			
-			//TODO Remove from the project too
 		}
 		return super.visitVariableNode(node);
+	}
+
+	/**
+	 * @param node
+	 * @return
+	 */
+	private IAspectConfiguration retrieveAspectConfiguration(VariableNode node)
+	{
+		String entityPath = node.getAspectNode().getEntityInstancePath();
+		if(experiment.getAspectConfigurations() != null)
+		{
+			for(IAspectConfiguration ac : experiment.getAspectConfigurations())
+			{
+				// if it descend from the same entity and it has the same aspect reuse the same aspect configuration
+				if(entityPath.startsWith(ac.getAspect().getEntityInstancePath()) && node.getAspectNode().getId().equals(ac.getAspect().getAspect()))
+				{
+					return ac;
+				}
+			}
+		}
+		return null;
 	}
 
 }
