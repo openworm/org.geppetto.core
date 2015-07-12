@@ -32,7 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.services;
 
-import org.geppetto.core.beans.PathConfiguration;
 import org.geppetto.core.features.IFeature;
 
 /**
@@ -55,5 +54,4 @@ public interface IService
 
 	void addFeature(IFeature feature);
 	
-	PathConfiguration getPathConfiguration();
 }

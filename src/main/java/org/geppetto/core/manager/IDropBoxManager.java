@@ -6,6 +6,8 @@ import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.services.ModelFormat;
 
+import com.dropbox.core.DbxException;
+
 public interface IDropBoxManager
 {
 

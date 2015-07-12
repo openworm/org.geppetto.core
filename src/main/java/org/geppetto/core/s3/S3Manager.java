@@ -44,7 +44,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.geppetto.core.beans.Settings;
+import org.geppetto.core.beans.PathConfiguration;
 import org.geppetto.core.data.IGeppettoS3Manager;
 
 import com.amazonaws.auth.PropertiesCredentials;
@@ -79,7 +79,7 @@ public class S3Manager implements IGeppettoS3Manager
 	{
 		if(_s3Connection == null)
 		{
-			File credentialsFile = new File(Settings.SETTINGS_DIR + "/aws.credentials");
+			File credentialsFile = new File(PathConfiguration.settingsFolder + "/aws.credentials");
 			try
 			{
 				_s3Connection = new AmazonS3Client(new PropertiesCredentials(credentialsFile));
@@ -101,7 +101,7 @@ public class S3Manager implements IGeppettoS3Manager
 	public synchronized void saveFileToS3(File file, String path)
 	{
 		AmazonS3 s3 = getS3Connection();
-		s3.putObject(Settings.BUCKET_NAME, path, file);
+		s3.putObject(PathConfiguration.s3BucketName, path, file);
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class S3Manager implements IGeppettoS3Manager
 	 */
 	public List<S3ObjectSummary> retrievePathsFromS3(String prefix)
 	{
-		ObjectListing listing = getS3Connection().listObjects(Settings.BUCKET_NAME, prefix);
+		ObjectListing listing = getS3Connection().listObjects(PathConfiguration.s3BucketName, prefix);
 		List<S3ObjectSummary> allSummaries = new ArrayList<>();
 		List<S3ObjectSummary> summaries = listing.getObjectSummaries();
 		while(!summaries.isEmpty())
@@ -147,7 +147,7 @@ public class S3Manager implements IGeppettoS3Manager
 	 */
 	public void deleteFromS3(String path)
 	{
-		getS3Connection().deleteObject(Settings.BUCKET_NAME, path);
+		getS3Connection().deleteObject(PathConfiguration.s3BucketName, path);
 	}
 
 	/*
@@ -159,6 +159,6 @@ public class S3Manager implements IGeppettoS3Manager
 	public URL getURL(String path) throws MalformedURLException
 	{
 		// Example: http://org.geppetto.bucket.s3.amazonaws.com/projects/1/GEPPETTO.xml
-		return new URL("http://" + Settings.BUCKET_NAME + ".s3.amazonaws.com/" + path);
+		return new URL("http://" + PathConfiguration.s3BucketName + ".s3.amazonaws.com/" + path);
 	}
 }

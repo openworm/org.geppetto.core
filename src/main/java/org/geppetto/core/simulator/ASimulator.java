@@ -38,6 +38,7 @@ import java.util.List;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.manager.Scope;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
@@ -68,6 +69,7 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	public ASimulator()
 	{
+		scope=Scope.RUN;
 	};
 
 	/*

@@ -2,7 +2,6 @@ package org.geppetto.core.features;
 
 import java.util.Map;
 
-import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
 
 /**

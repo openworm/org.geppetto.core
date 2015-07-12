@@ -42,14 +42,13 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.geppetto.core.beans.PathConfiguration;
 import org.geppetto.core.data.DataManagerHelper;
 import org.geppetto.core.data.DefaultGeppettoDataManager;
-import org.geppetto.core.services.ModelFormat;
+import org.geppetto.core.manager.Scope;
 
 /**
  * @author matteocantarelli
@@ -86,7 +85,7 @@ public class URLReader
 		{
 			throw new IOException("Can't find the Geppetto model at " + urlString);
 		}
-		
+
 		return url;
 	}
 
@@ -129,16 +128,18 @@ public class URLReader
 
 	/**
 	 * This method copies the file pointed by the remote URL locally to the server
+	 * Since this method essentially creates a temporary file in the server that will need to be
+	 * cleared we have additional information to define the scope and the id of the project
+	 * 
 	 * @param url
+	 * @param scope
+	 * @param projectId
 	 * @return
 	 * @throws IOException
 	 */
-	public static URL createLocalCopy(URL url) throws IOException
+	public static URL createLocalCopy(Scope scope, long projectId, URL url) throws IOException
 	{
-		String directory = System.getProperty("user.dir");
-		File outputFile = new File(directory+File.separator+"/tmp"+url.getPath().substring(0, url.getPath().lastIndexOf("/")));
-		outputFile.mkdirs();
-		outputFile=new File(outputFile.getAbsolutePath()+File.separator+url.getPath().substring(url.getPath().lastIndexOf("/")));
+		File outputFile = new File(PathConfiguration.createProjectTmpFolder(scope, projectId, PathConfiguration.getName(getFileName(url),true)));
 		URLConnection uc = url.openConnection();
 		uc.connect();
 		InputStream in = uc.getInputStream();
@@ -154,20 +155,13 @@ public class URLReader
 		out.close();
 		return outputFile.toURI().toURL();
 	}
-	
-	public static File createProjectFolder(ModelFormat output, String path)
-	{
-		String tmpFolder = output.getModelFormat() + new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
-		File outputFolder = new File(path, tmpFolder);
-		if(!outputFolder.exists()) outputFolder.mkdirs();
-		return outputFolder;
-	}
+
 
 	public static String getFileName(URL url)
 	{
 		return url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
 	}
-	
+
 	public static URL getServerRootURL(String localPath) throws MalformedURLException
 	{
 		File catalinaBase = new File(System.getProperty("catalina.home")).getAbsoluteFile();

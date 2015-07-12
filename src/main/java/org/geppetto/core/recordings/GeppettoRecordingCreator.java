@@ -38,11 +38,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.geppetto.core.common.GeppettoExecutionException;
-
 import ncsa.hdf.hdf5lib.exceptions.HDF5Exception;
 import ncsa.hdf.object.Attribute;
 import ncsa.hdf.object.Dataset;
@@ -53,6 +48,11 @@ import ncsa.hdf.object.HObject;
 import ncsa.hdf.object.h5.H5Datatype;
 import ncsa.hdf.object.h5.H5File;
 import ncsa.hdf.utils.SetNatives;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.geppetto.core.common.GeppettoExecutionException;
 
 /**
  * Creates HDF5 Recordings file. API can take different array datasets and single values for integers, doubles and floats.
@@ -75,6 +75,7 @@ public class GeppettoRecordingCreator
 
 	public enum MetaType
 	{
+		//FIXME This is not recording specific, move me elsewhere
 		Variable_Node("VariableNode"), Parameter_Node("ParameterNode"), AspectSubtree_Node("AspectSubtreeNode"), Composite_Node("CompositeNode");
 
 		private String type;
@@ -137,14 +138,6 @@ public class GeppettoRecordingCreator
 			{
 				_logger.error("Cannot find HDF5 FileFormat.");
 				throw new GeppettoExecutionException("Cannot find HDF5 FileFormat.");
-			}
-
-			String recordingsDirPath = System.getProperty("user.dir") + "/recordings";
-			// check parent directory for recordings exist
-			File recordingsDir = new File(recordingsDirPath);
-			if(!recordingsDir.exists())
-			{
-				recordingsDir.mkdir();
 			}
 
 			// Create instance pointing to file name

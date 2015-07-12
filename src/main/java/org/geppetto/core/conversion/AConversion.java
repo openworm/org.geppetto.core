@@ -33,6 +33,7 @@
 
 package org.geppetto.core.conversion;
 
+import org.geppetto.core.beans.PathConfiguration;
 import org.geppetto.core.services.AService;
 import org.geppetto.core.services.ModelFormat;
 
@@ -53,9 +54,9 @@ public abstract class AConversion extends AService implements IConversion
 		}
 	}
 
-	public String getConvertedResultsPath()
+	public String getConvertedResultsFolderName()
 	{
-		return getPathConfiguration().getConvertedResultsPath();
+		return PathConfiguration.convertedResultsPath;
 	}
 
 	public void setConvertModel(boolean convert)
