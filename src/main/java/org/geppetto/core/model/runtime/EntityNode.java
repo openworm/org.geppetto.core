@@ -50,7 +50,6 @@ public class EntityNode extends ACompositeNode {
 	protected List<ConnectionNode> _connections = new ArrayList<ConnectionNode>();
 	private AMetadataNode _metadata;
 	private Point _position;
-	private boolean _modified = true;
 
 	public EntityNode(String id) {
 		super(id);
@@ -85,19 +84,12 @@ public class EntityNode extends ACompositeNode {
 	}
 
 	public Point getPosition() {
-		return this._position;
-	}
-
-	public boolean isModified() {
-		return this._modified;
-	}
-
-	public void setModified(boolean mode) {
-		this._modified = mode;
+		return this._position; 
 	}
 
 	public void updateParentEntitiesFlags(boolean mode) {
-		this._modified = mode;
+		//TODO Check this with samples with nested entities (e.g. C302), is this part sitll needed?
+		//this._modified = mode;
 		EntityNode parentEntity = null;
 		if (this.getParent().getMetaType().equals("EntityNode")) {
 			parentEntity = (EntityNode) this.getParent();

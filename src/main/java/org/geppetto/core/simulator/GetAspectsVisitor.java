@@ -32,31 +32,17 @@
  *******************************************************************************/
 package org.geppetto.core.simulator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
-import org.geppetto.core.common.GeppettoErrorCodes;
-import org.geppetto.core.features.IWatchableVariableListFeature;
-import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.IModelInterpreter;
-import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
-import org.geppetto.core.model.runtime.EntityNode;
-import org.geppetto.core.model.runtime.VariableNode;
-import org.geppetto.core.model.state.visitors.DefaultStateVisitor;
-import org.geppetto.core.services.GeppettoFeature;
-import org.geppetto.core.simulation.ISimulationCallbackListener;
+import org.geppetto.core.model.state.visitors.RuntimeTreeVisitor;
 
 /**
  * Visitor used for retrieving all aspects within entity
  * @author  Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public class GetAspectsVisitor extends DefaultStateVisitor{
+public class GetAspectsVisitor extends RuntimeTreeVisitor{
 	
 	//This is not being used at the moment
 	private HashMap<String, AspectNode> _aspects = new HashMap<String,AspectNode>();

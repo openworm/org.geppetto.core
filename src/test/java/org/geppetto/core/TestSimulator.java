@@ -33,17 +33,18 @@
 package org.geppetto.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.features.IFeature;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.services.GeppettoFeature;
-import org.geppetto.core.services.IModelFormat;
+import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
-import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.simulator.ASimulator;
 
@@ -57,7 +58,7 @@ public class TestSimulator extends ASimulator
 {
 
 	@Override
-	public void simulate(IRunConfiguration runConfiguration, AspectNode aspect) throws GeppettoExecutionException
+	public void simulate(IAspectConfiguration aspectConfiguration, AspectNode aspect) throws GeppettoExecutionException
 	{
 		// TODO Auto-generated method stub
 		
@@ -112,10 +113,7 @@ public class TestSimulator extends ASimulator
 	@Override
 	public void registerGeppettoService()
 	{
-		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
-		modelFormatList.add(ModelFormat.TEST);
-		ServicesRegistry.registerSimulatorService(this, modelFormatList);
-		
+		ServicesRegistry.registerSimulatorService(this, new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.registerModelFormat("TEST"))));
 	}
 
 	@Override

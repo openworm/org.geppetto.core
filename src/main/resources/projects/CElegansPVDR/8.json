@@ -1,0 +1,19 @@
+{
+  	"id": 8,
+  	"name": "NeuroML C.elegans PVDR Neuron",
+    "activeExperimentId": 1,
+    "experiments": [
+        {
+            "id": 1,
+            "name": "NeuroML C.elegans PVDR Neuron",
+            "status": "COMPLETED",
+            "aspectConfigurations": [],
+            "lastModified":"1436102517799"
+        }
+    ],
+    "geppettoModel": {
+        "id": 9,
+        "url": "/projects/CElegansPVDR/GEPPETTO.xml",
+        "type": "GEPPETTO_PROJECT"
+    }
+}

@@ -43,6 +43,8 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.quantities.Quantity;
+import org.geppetto.core.model.quantities.Unit;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
@@ -108,14 +110,14 @@ public class TestNetworkSerialization {
 		VisualGroupElementNode soma = new VisualGroupElementNode("soma");
 		soma.setDefaultColor("orange");
 		PhysicalQuantity quantity = new PhysicalQuantity();
-		quantity.setScalingFactor("ms");
+		quantity.setScalingFactor("10");
 		quantity.setValue(new DoubleValue(12));
 		soma.setParameter(quantity);
 		
 		VisualGroupElementNode synapse = new VisualGroupElementNode("synapse");
 		synapse.setDefaultColor("orange");
 		PhysicalQuantity quantity2 = new PhysicalQuantity();
-		quantity2.setScalingFactor("ms");
+		quantity2.setScalingFactor("100");
 		quantity2.setValue(new DoubleValue(12));
 		synapse.setParameter(quantity2);
 		
@@ -168,7 +170,7 @@ public class TestNetworkSerialization {
 		electrical.setParent(hhcell);
 		electrical2.setParent(purkinje);
 
-		ConnectionNode con1 = new ConnectionNode("Connection_1");
+		ConnectionNode con1 = new ConnectionNode("Connection_1",electrical);
 		con1.setEntityInstancePath(hhcell.getInstancePath());
 		con1.setType(ConnectionType.TO);
 		con1.setParent(hhcell);
@@ -193,7 +195,7 @@ public class TestNetworkSerialization {
 		con1.getCustomNodes().add(function);
 		con1.getVisualReferences().add(visObj);
 		
-		ConnectionNode con2 = new ConnectionNode("Connection_2");
+		ConnectionNode con2 = new ConnectionNode("Connection_2",electrical);
 		con2.setEntityInstancePath(purkinje.getInstancePath());
 		con2.setType(ConnectionType.FROM);
 		con2.setParent(purkinje);
@@ -253,7 +255,7 @@ public class TestNetworkSerialization {
 
 		PhysicalQuantity value = new PhysicalQuantity();
 		value.setScalingFactor("10");
-		value.setUnit("ms");
+		value.setUnit(new Unit("ms"));
 		value.setValue(new DoubleValue(10));
 		dynamics.setInitialConditions(value);
 
@@ -271,7 +273,7 @@ public class TestNetworkSerialization {
 
 		PhysicalQuantity value1 = new PhysicalQuantity();
 		value1.setScalingFactor("10");
-		value1.setUnit("ms");
+		value1.setUnit(new Unit("ms"));
 		value1.setValue(new DoubleValue(10));
 
 		parameter.setValue(value1);
@@ -355,14 +357,14 @@ public class TestNetworkSerialization {
 		CompositeNode hhpop = new CompositeNode("hhpop[0]");
 
 		VariableNode v = new VariableNode("v");
-		PhysicalQuantity quantity = new PhysicalQuantity();
+		Quantity quantity = new Quantity();
 		quantity.setValue(ValuesFactory.getDoubleValue(20d));
 
-		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		Quantity quantity2 = new Quantity();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
 
-		v.addPhysicalQuantity(quantity);
-		v.addPhysicalQuantity(quantity2);
+		v.addQuantity(quantity);
+		v.addQuantity(quantity2);
 
 		ParameterNode a1 = new ParameterNode("a");
 
@@ -455,7 +457,7 @@ public class TestNetworkSerialization {
 
 		PhysicalQuantity value = new PhysicalQuantity();
 		value.setScalingFactor("10");
-		value.setUnit("ms");
+		value.setUnit(new Unit("ms"));
 		value.setValue(new DoubleValue(10));
 		dynamics.setInitialConditions(value);
 
@@ -473,7 +475,7 @@ public class TestNetworkSerialization {
 
 		PhysicalQuantity value1 = new PhysicalQuantity();
 		value1.setScalingFactor("10");
-		value1.setUnit("ms");
+		value1.setUnit(new Unit("ms"));
 		value1.setValue(new DoubleValue(10));
 
 		parameter.setValue(value1);
@@ -557,14 +559,14 @@ public class TestNetworkSerialization {
 		CompositeNode hhpop = new CompositeNode("hhpop[0]");
 
 		VariableNode v = new VariableNode("v");
-		PhysicalQuantity quantity = new PhysicalQuantity();
+		Quantity quantity = new Quantity();
 		quantity.setValue(ValuesFactory.getDoubleValue(20d));
 
-		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		Quantity quantity2 = new Quantity();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
 
-		v.addPhysicalQuantity(quantity);
-		v.addPhysicalQuantity(quantity2);
+		v.addQuantity(quantity);
+		v.addQuantity(quantity2);
 
 		ParameterNode a1 = new ParameterNode("a");
 
@@ -650,7 +652,7 @@ public class TestNetworkSerialization {
 
 		PhysicalQuantity value = new PhysicalQuantity();
 		value.setScalingFactor("10");
-		value.setUnit("ms");
+		value.setUnit(new Unit("ms"));
 		value.setValue(new DoubleValue(10));
 		dynamics.setInitialConditions(value);
 
@@ -668,7 +670,7 @@ public class TestNetworkSerialization {
 
 		PhysicalQuantity value1 = new PhysicalQuantity();
 		value1.setScalingFactor("10");
-		value1.setUnit("ms");
+		value1.setUnit(new Unit("ms"));
 		value1.setValue(new DoubleValue(10));
 
 		parameter.setValue(value1);
@@ -752,14 +754,14 @@ public class TestNetworkSerialization {
 		CompositeNode hhpop = new CompositeNode("hhpop[0]");
 
 		VariableNode v = new VariableNode("v");
-		PhysicalQuantity quantity = new PhysicalQuantity();
+		Quantity quantity = new Quantity();
 		quantity.setValue(ValuesFactory.getDoubleValue(20d));
 
-		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		Quantity quantity2 = new Quantity();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
 
-		v.addPhysicalQuantity(quantity);
-		v.addPhysicalQuantity(quantity2);
+		v.addQuantity(quantity);
+		v.addQuantity(quantity2);
 
 		ParameterNode a1 = new ParameterNode("a");
 

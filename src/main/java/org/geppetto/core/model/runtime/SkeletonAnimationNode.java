@@ -32,6 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.model.runtime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
@@ -49,7 +50,7 @@ public class SkeletonAnimationNode extends ANode {
 	 * 
 	 * TODO: Look into refactoring this into a generic MatrixValue, same as the other AValue derived classes we have.
 	 */
-	private List<List<List<Double>>> _skeletonAnimationMatrices;
+	private List<List<Double>> skeletonTransformationSeries = new ArrayList<List<Double>>();;
 	
 	public SkeletonAnimationNode(String id) {
 		super(id);
@@ -60,11 +61,15 @@ public class SkeletonAnimationNode extends ANode {
 		return visitor.visitSkeletonAnimationNode(this);
 	}
 
-	public List<List<List<Double>>> getSkeletonAnimationMatrices() {
-		return _skeletonAnimationMatrices;
+	public List<List<Double>> getSkeletonTransformationSeries() {
+		return skeletonTransformationSeries;
 	}
 
-	public void setSkeletonAnimationMatrices(List<List<List<Double>>> _skeletonAnimationMatrices) {
-		this._skeletonAnimationMatrices = _skeletonAnimationMatrices;
+	public void setSkeletonTransformationSeries(List<List<Double>> skeletonAnimationMatrices) {
+		this.skeletonTransformationSeries = skeletonAnimationMatrices;
+	}
+	
+	public void addSkeletonTransformation(List<Double> skeletonTransformation) {
+		this.skeletonTransformationSeries.add(skeletonTransformation);
 	}
 }

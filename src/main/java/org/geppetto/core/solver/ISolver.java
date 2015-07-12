@@ -33,14 +33,11 @@
 
 package org.geppetto.core.solver;
 
-import java.util.List;
-
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.simulation.IRunConfiguration;
 
 /**
  * @author matteocantarelli
@@ -48,11 +45,12 @@ import org.geppetto.core.simulation.IRunConfiguration;
  */
 public interface ISolver {
 	
-	public void solve(final IRunConfiguration timeConfiguration, AspectNode aspect) throws GeppettoExecutionException;
+	public void solve(final IAspectConfiguration aspectConfiguration, AspectNode aspect) throws GeppettoExecutionException;
 	
 	public void initialize(final IModel model) throws GeppettoInitializationException;
 	
 	public void dispose();
 	
 	void updateVisualizationTree(AspectNode aspect);
+
 }

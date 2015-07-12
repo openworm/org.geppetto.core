@@ -32,16 +32,48 @@
  *******************************************************************************/
 package org.geppetto.core.services;
 
-import org.geppetto.core.services.IModelFormat;
-
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public enum ModelFormat implements IModelFormat
+public class ModelFormat
 {
 
-	COLLADA,
-	OBJ;
-	
+	private String _modelFormat;
+
+	public ModelFormat(String _modelFormat)
+	{
+		super();
+		this._modelFormat = _modelFormat;
+	}
+
+	public String getModelFormat()
+	{
+		return _modelFormat;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((_modelFormat == null) ? 0 : _modelFormat.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(this == obj) return true;
+		if(obj == null) return false;
+		if(getClass() != obj.getClass()) return false;
+		ModelFormat other = (ModelFormat) obj;
+		if(_modelFormat == null)
+		{
+			if(other._modelFormat != null) return false;
+		}
+		else if(!_modelFormat.equals(other._modelFormat)) return false;
+		return true;
+	}
+
 }

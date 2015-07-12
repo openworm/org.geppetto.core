@@ -32,6 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.services.registry;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -46,11 +47,21 @@ import org.springframework.context.event.ContextRefreshedEvent;
 public class ApplicationListenerBean implements ApplicationListener<ContextRefreshedEvent>
 {
 	private static Log _logger = LogFactory.getLog(ApplicationListenerBean.class);
+	
+	private static Map<String,ApplicationContext> applicationContexts=new HashMap<String, ApplicationContext>();
 
+	/**
+	 * @return
+	 */
+	public static ApplicationContext getApplicationContext(String service)
+	{
+		return applicationContexts.get(service);
+	}
+	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event)
 	{
-		ApplicationContext applicationContext = event.getApplicationContext();
+		ApplicationContext applicationContext=event.getApplicationContext();
 		Map<String, IModelInterpreter> modelBeans = applicationContext.getBeansOfType(IModelInterpreter.class, false, false);
 
 		for(Map.Entry<String, IModelInterpreter> modelBean : modelBeans.entrySet())
@@ -58,6 +69,7 @@ public class ApplicationListenerBean implements ApplicationListener<ContextRefre
 			_logger.info("Registering Model Interpreter Services: " + modelBean.getKey());
 			try
 			{
+				applicationContexts.put(modelBean.getKey(), applicationContext);
 				modelBean.getValue().registerGeppettoService();
 			}
 			catch(Exception e)
@@ -72,6 +84,7 @@ public class ApplicationListenerBean implements ApplicationListener<ContextRefre
 			_logger.info("Registering Conversion Services: " + conversionBean.getKey());
 			try
 			{
+				applicationContexts.put(conversionBean.getKey(), applicationContext);
 				conversionBean.getValue().registerGeppettoService();
 			}
 			catch(Exception e)
@@ -86,6 +99,7 @@ public class ApplicationListenerBean implements ApplicationListener<ContextRefre
 			_logger.info("Registering Simulator Services: " + simulatorBean.getKey());
 			try
 			{
+				applicationContexts.put(simulatorBean.getKey(), applicationContext);
 				simulatorBean.getValue().registerGeppettoService();
 			}
 			catch(Exception e)

@@ -32,7 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.simulator;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -42,11 +41,12 @@ import ncsa.hdf.object.Dataset;
 import ncsa.hdf.object.FileFormat;
 import ncsa.hdf.object.h5.H5File;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.runtime.SkeletonAnimationNode;
 import org.geppetto.core.model.runtime.VariableNode;
-import org.geppetto.core.model.state.visitors.DefaultStateVisitor;
+import org.geppetto.core.model.state.visitors.RuntimeTreeVisitor;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.model.values.ValuesFactory;
 import org.geppetto.core.utilities.StringSplitter;
@@ -55,7 +55,7 @@ import org.geppetto.core.utilities.StringSplitter;
  * @author matteocantarelli
  * 
  */
-public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
+public class UpdateRecordingStateTreeVisitor extends RuntimeTreeVisitor
 {
 
 	private RecordingModel _recording;
@@ -92,7 +92,7 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 			try
 			{
 				dataRead = v.read();
-				PhysicalQuantity quantity = new PhysicalQuantity();
+				Quantity quantity = new Quantity();
 				AValue readValue = null;
 				if(dataRead instanceof double[]){
 					double[] dr = (double[])dataRead;
@@ -105,7 +105,7 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 					readValue = ValuesFactory.getIntValue(ir[_currentIndex]);
 				}
 				quantity.setValue(readValue);
-				node.addPhysicalQuantity(quantity);
+				node.addQuantity(quantity);
 			}
 			catch (ArrayIndexOutOfBoundsException  e) {
 				_endOfSteps = e.getMessage();
@@ -169,45 +169,9 @@ public class UpdateRecordingStateTreeVisitor extends DefaultStateVisitor
 						throw new ArrayIndexOutOfBoundsException("ArrayIndexOutOfBounds");
 					}
 				}
-				
-				// data structures to hold matrices as they get built
-				List<List<List<Double>>> transformations = new ArrayList<List<List<Double>>>();
-				List<List<Double>> matrix = new ArrayList<List<Double>>();
-				List<Double> row = new ArrayList<Double>();
-				int dimension = Integer.parseInt(metaMap.get("dimension"));
-				
-				// build list of matrices
-				for(int i=0; i<flatMatrices.length; i++)
-				{
-					// build rows and add to matrix when completed
-					if(row.size() <dimension)
-					{
-						// add to row
-						row.add((Double)flatMatrices[i]);
-					}
-					
-					// check if row is completed
-					if(row.size() == dimension)
-					{
-						// row completed - add to matrix
-						matrix.add(row);
-						// init new row
-						row = new ArrayList<Double>();
-					}
-					
-					// check if matrix is completed and add to list of matrices
-					if(matrix.size() == dimension)
-					{
-						// matrix is complted - add to list of matrices
-						transformations.add(matrix);
-						// create new matrix
-						matrix = new ArrayList<List<Double>>();
-					}
-					
-				}
-				
+
 				// set matrices on skeleton animation node
-				node.setSkeletonAnimationMatrices(transformations);
+				node.addSkeletonTransformation(Arrays.asList(ArrayUtils.toObject(flatMatrices)));
 			}
 			catch (ArrayIndexOutOfBoundsException  e) {
 				_endOfSteps = e.getMessage();

@@ -37,10 +37,10 @@ import java.util.List;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.services.IService;
-import org.geppetto.core.simulation.IRunConfiguration;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 
 /**
@@ -49,7 +49,16 @@ import org.geppetto.core.simulation.ISimulatorCallbackListener;
  */
 public interface ISimulator extends IService{
 	
-	void simulate(IRunConfiguration runConfiguration, AspectNode aspect) throws GeppettoExecutionException;
+	/**
+	 * The simulate method will tell the simulator to execute to run the simulation.
+	 * A simulator might send back updates after a number of steps or at the end of the simulation.
+	 * The simulate is nonetheless always called just once.
+	 * 
+	 * @param aspectConfiguration
+	 * @param aspectNode
+	 * @throws GeppettoExecutionException
+	 */
+	void simulate(IAspectConfiguration aspectConfiguration, AspectNode aspectNode) throws GeppettoExecutionException;
 	
 	void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
 

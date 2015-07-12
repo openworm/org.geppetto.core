@@ -48,9 +48,9 @@ import org.geppetto.core.model.runtime.ParticleNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
 import org.geppetto.core.model.runtime.SkeletonAnimationNode;
 import org.geppetto.core.model.runtime.SphereNode;
-import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.TextMetadataNode;
 import org.geppetto.core.model.runtime.URLMetadataNode;
+import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.VisualGroupElementNode;
 import org.geppetto.core.model.runtime.VisualGroupNode;
 import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
@@ -121,5 +121,5 @@ public interface IStateVisitor
 
 	boolean visitVisualGroupElementNode(VisualGroupElementNode visualGroupElementNode);
 
-	boolean visitSkeletonAnimationNode(SkeletonAnimationNode node);
+	boolean visitSkeletonAnimationNode(SkeletonAnimationNode node);	
 }

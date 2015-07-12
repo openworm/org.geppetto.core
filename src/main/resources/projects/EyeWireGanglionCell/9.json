@@ -1,0 +1,21 @@
+{
+    "id": 9,
+    "name": "EyeWire Ganglion Cell",
+    "activeExperimentId": 1,
+    "experiments": [
+        {
+            "id": 1,
+            "name": "EyeWire Ganglion Cell",
+            "status": "COMPLETED",
+            description : "EyeWire (https://eyewire.org) is a game to map the brain from Sebastian Seung's Lab at MIT. This citizen science human-based computation game challenges players to map 3D neurons in a retina. Geppetto is visualizing in 3D a morphology of a Ganglion cell that was reconstructed using the game.",
+            "lastModified":"1436102517799",
+            "script": "/projects/EyeWireGanglionCell/script.js",
+            "aspectConfigurations": []
+        }
+    ],
+    "geppettoModel": {
+        "id": 9,
+        "url": "/projects/EyeWireGanglionCell/GEPPETTO.xml",
+        "type": "GEPPETTO_PROJECT"
+    }
+}
