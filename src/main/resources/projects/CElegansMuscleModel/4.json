@@ -95,7 +95,7 @@
 		  		format: "RAW",
 		  		aspect: {
 		            id: 1,
-		            entityInstancePath: "c302",
+		            entityInstancePath: "net1",
 		            aspect: "electrical",
 		            localInstancePath: ""
 		        },
