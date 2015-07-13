@@ -1,11 +1,12 @@
 {
   	"id": 7,
-  	"name": "NeuroML Purkinje Cell",
+  	"name": "Purkinje Cell morphology",
     "activeExperimentId": 1,
     "experiments": [
         {
             "id": 1,
-            "name": "NeuroML Purkinje Cell",
+            "name": "Only morphology, no simulation",
+            "description" : "An initial implementation in NeuroML of the Purkinje Cell model from De Schutter, E. and Bower, J. M. (1994). Based on Arnd Roth el al's conversion of the original GENESIS code to NEURON. Source http://opensourcebrain.org",
             "status": "COMPLETED",
             "lastModified":"1436102517799",
             "aspectConfigurations": []

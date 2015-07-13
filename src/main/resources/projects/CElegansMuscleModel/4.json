@@ -5,7 +5,7 @@
     "experiments": [
         {
             "id": 1,
-            "name": "OpenWorm C.elegans muscle model",
+            "name": "Muscle cell NEURON simulation",
             "status": "COMPLETED",
             "lastModified":"1436102517799",
             script: "/projects/CElegansMuscleModel/script.js",
