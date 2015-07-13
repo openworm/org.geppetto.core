@@ -12,14 +12,4 @@
 	<context:annotation-config />			
 	<context:component-scan base-package="org.geppetto.core.model.services, org.geppetto.core.simulator.services" />
 	
-	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
-		<property name="scopes">
-			<map>		
-				<entry key="thread">
-					<ref bean="threadScope" />
-				</entry>
-			</map>
-		</property>
-	</bean>
-	<bean id="threadScope" class="org.geppetto.core.scope.ThreadScope"/>
 </beans>

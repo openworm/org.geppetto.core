@@ -1,7 +1,6 @@
 package org.geppetto.core.model.runtime;
 
 import org.geppetto.core.model.quantities.PhysicalQuantity;
-import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**

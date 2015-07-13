@@ -70,7 +70,6 @@ public class AspectSubTreeNode extends ACompositeNode
 	}
 
 	private AspectTreeType _type;
-	private boolean _modified = true;
 	
 	/**
 	 * @param modelTree.toString()
@@ -102,30 +101,6 @@ public class AspectSubTreeNode extends ACompositeNode
 		return this._type;
 	}
 	
-	public boolean isModified(){
-		return this._modified;
-	}
-	
-	public void setModified(boolean mode){
-		this._modified = mode;
-	}
-	
-	/**
-	 * @param tree
-	 */
-	public void flushSubTree(AspectTreeType tree)
-	{
-		for(ANode node : _children)
-		{
-			if(node.getName().equals(tree.toString()))
-			{
-				// re-assign to empty node
-				node = new CompositeNode(tree.toString());
-				break;
-			}
-		}
-	}
-
 	/**
 	 * @param modelTree
 	 * @return

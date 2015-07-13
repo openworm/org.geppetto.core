@@ -32,38 +32,34 @@
  *******************************************************************************/
 package org.geppetto.core.model.runtime;
 
-import java.util.HashMap;
+import java.util.List;
 
+import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
- * Node used to store static values that aren't going to change through simulation .
- * A parameter can be considered as the input of a model and  it does not contain any intrinsic dyamics. 
- * If a parameter changes its value over time is as result of the user changing it.
+ * Node used to store static values that aren't going to change through simulation . A parameter can be considered as the input of a model and it does not contain any intrinsic dyamics. If a parameter
+ * changes its value over time is as result of the user changing it.
  * 
- * @author  Jesus R. Martinez (jesus@metacell.us)
+ * @author Jesus R. Martinez (jesus@metacell.us) 
  *
  */
-public class ParameterNode extends ATimeSeriesNode {
+public class ParameterNode extends ATimeSeriesNode
+{
 
-	private HashMap<String, String> properties = new HashMap<String, String>();
-	
-	public ParameterNode(String id) {
+	public ParameterNode(String id)
+	{
 		super(id);
 	}
-		
+
+	public void setTimeSeries(List<Quantity> series)
+	{
+	}
+
 	@Override
 	public boolean apply(IStateVisitor visitor)
 	{
 		return visitor.visitParameterNode(this);
-	}
-	
-	public void addProperty(String key, String value){
-		this.properties.put(key, value);
-	}
-	
-	public HashMap<String, String> getProperties(){
-		return properties;
 	}
 
 }

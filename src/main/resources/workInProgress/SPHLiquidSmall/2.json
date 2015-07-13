@@ -1,0 +1,66 @@
+{
+    "id": 2,
+    "name": "PCISPH Small Liquid Scene",
+    "activeExperimentId": 1,
+    "experiments": [
+        {
+            "id": 1,
+            "name": "PCISPH Small Liquid Scene",
+            "status": "COMPLETED",
+            "lastModified":"1436102517799",
+            "script": "/projects/SPHLiquidSmall/script.js",
+            "aspectConfigurations": [
+                {
+                    "id": 1,
+                    "aspect": {
+                        "id": 1,
+                        "entityInstancePath": "sample",
+                        "aspect": "fluid",
+                        "localInstancePath": ""
+                    },
+                    "watchedVariables": [
+                        {
+                            "id": 1,
+                            "entityInstancePath": "sample",
+                            "aspect": "fluid.SimulationTree",
+                            "localInstancePath": "particle[1].position.z"
+                        },
+                        {
+                            "id": 2,
+                            "entityInstancePath": "sample",
+                            "aspect": "fluid.SimulationTree",
+                            "localInstancePath": "particle[1].position.y"
+                        },
+                        {
+                            "id": 3,
+                            "entityInstancePath": "sample",
+                            "aspect": "fluid.SimulationTree",
+                            "localInstancePath": "particle[1].position.x"
+                        }
+                    ]
+                }
+            ],
+            "simulationResults": [
+                {
+                    "id": 1,
+                    "aspect": {
+                        "id": 1,
+                        "entityInstancePath": "sample",
+                        "aspect": "fluid",
+                        "localInstancePath": ""
+                    },
+                    "result": {
+                        "id": 1,
+                        "url": "/projects/SPHLiquidSmall/results.h5",
+                        "type": "RECORDING"
+                    }
+                }
+            ]
+        }
+    ],
+    "geppettoModel": {
+        "id": 2,
+        "url": "/projects/SPHLiquidSmall/GEPPETTO.xml",
+        "type": "GEPPETTO_PROJECT"
+    }
+}

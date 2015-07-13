@@ -33,7 +33,12 @@
 
 package org.geppetto.core.simulation;
 
+import java.io.File;
+import java.util.Map;
+
 import org.geppetto.core.common.GeppettoExecutionException;
+import org.geppetto.core.data.model.ResultsFormat;
+import org.geppetto.core.model.runtime.AspectNode;
 
 /**
  * @author matteocantarelli
@@ -42,7 +47,11 @@ import org.geppetto.core.common.GeppettoExecutionException;
 public interface ISimulatorCallbackListener
 {
 
-	void endOfSteps(String message);
+	/**
+	 * @param aspectNode The aspect that was simulated
+	 * @param results The file containing the results of the simulation in the Geppetto HDF5 recording format
+	 */
+	void endOfSteps(AspectNode aspectNode, Map<File, ResultsFormat> results) throws GeppettoExecutionException;
 	
-	void stateTreeUpdated() throws GeppettoExecutionException;
+	void stepped(AspectNode aspect) throws GeppettoExecutionException;
 }

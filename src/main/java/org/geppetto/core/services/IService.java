@@ -53,4 +53,5 @@ public interface IService
 	IFeature getFeature(GeppettoFeature feature);
 
 	void addFeature(IFeature feature);
+	
 }

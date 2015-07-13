@@ -34,28 +34,35 @@ package org.geppetto.core.model.state.visitors;
 
 import java.util.List;
 
+import org.geppetto.core.data.DataManagerHelper;
+import org.geppetto.core.data.model.IAspectConfiguration;
+import org.geppetto.core.data.model.IExperiment;
+import org.geppetto.core.data.model.IInstancePath;
+import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.VariableNode;
 
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  * 
- *         This visitor sets the variables passed as a list of strings to watched in the simulation tree
- *         If no list is passed the simulation tree is cleared, i.e. no variables is watched in the simulation tree.
+ *         This visitor sets the variables passed as a list of strings to watched in the simulation tree If no list is passed the simulation tree is cleared, i.e. no variables is watched in the
+ *         simulation tree.
  */
-public class SetWatchedVariablesVisitor extends DefaultStateVisitor
+public class SetWatchedVariablesVisitor extends RuntimeTreeVisitor
 {
 
 	private List<String> _watchedVariables;
+	private IExperiment experiment;
 
 	public SetWatchedVariablesVisitor()
 	{
 		super();
 	}
 
-	public SetWatchedVariablesVisitor(List<String> lists)
+	public SetWatchedVariablesVisitor(IExperiment experiment, List<String> lists)
 	{
 		super();
+		this.experiment = experiment;
 		this._watchedVariables = lists;
 	}
 
@@ -83,12 +90,67 @@ public class SetWatchedVariablesVisitor extends DefaultStateVisitor
 		if(this._watchedVariables.contains(node.getInstancePath()))
 		{
 			node.setWatched(!node.isWatched());
+			IAspectConfiguration found = retrieveAspectConfiguration(node);
+			if(node.isWatched()) //we want to watch this variable
+			{
+				if(found == null)
+				{
+					//if an aspect configuration doesn't alreadt exist we create it
+					IInstancePath instancePath = DataManagerHelper.getDataManager().newInstancePath(node.getAspectNode());
+					ISimulatorConfiguration simulatorConfiguration = DataManagerHelper.getDataManager().newSimulatorConfiguration("", "", 0l, 0l);
+					found = DataManagerHelper.getDataManager().newAspectConfiguration(experiment, instancePath, simulatorConfiguration);
+				}
+
+				IInstancePath instancePath = DataManagerHelper.getDataManager().newInstancePath(node);
+				DataManagerHelper.getDataManager().addWatchedVariable(found, instancePath);
+			}
+			else //we want to stop watching this variable
+			{
+				if(found != null)
+				{
+					IInstancePath instancePath = null;
+					for(IInstancePath variable : found.getWatchedVariables())
+					{
+						if(variable.getInstancePath().equals(node.getInstancePath()))
+						{
+							instancePath = variable;
+							break;
+						}
+					}
+					if(instancePath != null)
+					{
+						found.getWatchedVariables().remove(instancePath);
+					}
+				}
+			}
+
 		}
 		else if(this._watchedVariables == null)
 		{
 			node.setWatched(false);
 		}
 		return super.visitVariableNode(node);
+	}
+
+	/**
+	 * @param node
+	 * @return
+	 */
+	private IAspectConfiguration retrieveAspectConfiguration(VariableNode node)
+	{
+		String entityPath = node.getAspectNode().getEntityInstancePath();
+		if(experiment.getAspectConfigurations() != null)
+		{
+			for(IAspectConfiguration ac : experiment.getAspectConfigurations())
+			{
+				// if it descend from the same entity and it has the same aspect reuse the same aspect configuration
+				if(entityPath.startsWith(ac.getAspect().getEntityInstancePath()) && node.getAspectNode().getId().equals(ac.getAspect().getAspect()))
+				{
+					return ac;
+				}
+			}
+		}
+		return null;
 	}
 
 }

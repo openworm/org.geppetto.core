@@ -1,0 +1,109 @@
+{
+    "id": 6,
+    "name": "c302 network of integrate and fire neurons",
+    "activeExperimentId": 1,
+    "experiments": [
+        {
+            "id": 1,
+            "name": "c302 NEURON Simulation",
+            "description" : "This network was generated using the c302, an experimental framework for generating network models in NeuroML 2 based on C. elegans connectivity data. The network was simulated using NEURON.",
+            "status": "COMPLETED",
+            "lastModified":"1436102517799",
+            "script": "/projects/C302/script.js",
+            aspectConfigurations: [
+            {
+              id:1,
+              aspect: {
+                    id: 1,
+                    entityInstancePath: "c302",
+                    aspect: "electrical",
+                    localInstancePath: ""
+                },
+                simulatorConfiguration: {
+                  id: 1,
+                  simulatorId: "neuronSimulator",
+                  conversionServiceId: "lemsConversion",
+                  timestep: 0.0001,
+                  length: 0.5,
+                  parameters: {target: "c302_A"}
+                },
+                watchedVariables:[
+                  {
+                      "id": 1,
+                      "entityInstancePath": "c302.ADAL_0",
+                      "aspect": "electrical.SimulationTree",
+                      "localInstancePath": "generic_iaf_cell.v"
+                  },
+                  {
+                      "id": 2,
+                      "entityInstancePath": "c302.ADAR_0",
+                      "aspect": "electrical.SimulationTree",
+                      "localInstancePath": "generic_iaf_cell.v"
+                  },
+                  {
+                      "id": 3,
+                      "entityInstancePath": "c302.BDUR_0",
+                      "aspect": "electrical.SimulationTree",
+                      "localInstancePath": "generic_iaf_cell.v"
+                  },
+                  {
+                      "id": 4,
+                      "entityInstancePath": "c302.I1R_0",
+                      "aspect": "electrical.SimulationTree",
+                      "localInstancePath": "generic_iaf_cell.v"
+                  },
+                  {
+                      "id": 5,
+                      "entityInstancePath": "c302.I2L_0",
+                      "aspect": "electrical.SimulationTree",
+                      "localInstancePath": "generic_iaf_cell.v"
+                  },
+                  {
+                      "id": 6,
+                      "entityInstancePath": "c302.PVDR_0",
+                      "aspect": "electrical.SimulationTree",
+                      "localInstancePath": "generic_iaf_cell.v"
+                  }
+                ]
+            }
+
+            ],
+		  	simulationResults: [
+		  	{
+		  		id:1,
+		  		format: "GEPPETTO_RECORDING",
+		  		aspect: {
+		            id: 1,
+		            entityInstancePath: "c302",
+		            aspect: "electrical",
+		            localInstancePath: ""
+		        },
+		        result: {
+		          id: 1,
+		          url: "/projects/C302/results.h5",
+		          type: "RECORDING"
+		        }
+		  	},
+		  	  	{
+		  		id:2,
+		  		format: "RAW",
+		  		aspect: {
+		            id: 1,
+		            entityInstancePath: "c302",
+		            aspect: "electrical",
+		            localInstancePath: ""
+		        },
+		        result: {
+		          id: 2,
+		          url: "/projects/C302/rawRecording.zip",
+		          type: "RECORDING"
+		        }
+		  	}]
+        }
+    ],
+    "geppettoModel": {
+        "id": 6,
+        "url": "/projects/C302/GEPPETTO.xml",
+        "type": "GEPPETTO_PROJECT"
+    }
+}

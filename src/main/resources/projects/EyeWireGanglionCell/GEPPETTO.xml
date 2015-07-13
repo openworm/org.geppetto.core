@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:geppettoModel xmlns:tns="http://www.openworm.org/simulationSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openworm.org/simulationSchema ../../main/resources/schema/simulation/simulationSchema.xsd">
+	<tns:entity>
+		<tns:id>ganglioncelll</tns:id>
+		<tns:aspect>
+			<tns:id>morphology</tns:id>
+			<tns:model>
+    				<tns:modelInterpreterId>objModelInterpreterService</tns:modelInterpreterId>
+    				<tns:modelURL>/projects/EyeWireGanglionCell/eyewiresample.obj</tns:modelURL>
+			</tns:model>
+		</tns:aspect>		
+	</tns:entity>
+</tns:geppettoModel>

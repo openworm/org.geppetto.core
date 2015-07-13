@@ -33,22 +33,26 @@
 
 package org.geppetto.core.model.services;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.AModelInterpreter;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.services.AService;
-import org.geppetto.core.services.IModelFormat;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
+import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
+import org.geppetto.core.simulator.RecordingVariableListFeature;
 import org.geppetto.core.simulator.services.ColladaVisualTreeFeature;
 import org.springframework.stereotype.Service;
 
@@ -69,9 +73,17 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
 			String colladaContent = scanner.useDelimiter("\\A").next();
 			scanner.close();
-			collada.wrapModel(ModelFormat.COLLADA, colladaContent);
+			collada.wrapModel(ServicesRegistry.getModelFormat("COLLADA"), colladaContent);
+
+			addRecordings(recordings, instancePath, collada);
+
+			if(this.getFeature(GeppettoFeature.VISUAL_TREE_FEATURE)==null){
+				this.addFeature(new ColladaVisualTreeFeature());
+			}
 			
-			this.addFeature(new ColladaVisualTreeFeature());
+			if(this.getFeature(GeppettoFeature.WATCHABLE_VARIABLE_LIST_FEATURE)==null){
+				this.addFeature(new RecordingVariableListFeature());
+			}
 		}
 		catch(IOException e)
 		{
@@ -82,30 +94,53 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 	}
 
 	@Override
-	public boolean populateModelTree(AspectNode aspectNode) {
+	public boolean populateModelTree(AspectNode aspectNode)
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean populateRuntimeTree(AspectNode aspectNode) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean populateRuntimeTree(AspectNode aspectNode)
+	{
+		AspectSubTreeNode modelTree = (AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.MODEL_TREE);
+		AspectSubTreeNode visualizationTree = (AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.VISUALIZATION_TREE);
+		AspectSubTreeNode simulationTree = (AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.SIMULATION_TREE);
+
+		modelTree.setId(AspectTreeType.MODEL_TREE.toString());
+		visualizationTree.setId(AspectTreeType.VISUALIZATION_TREE.toString());
+		simulationTree.setId(AspectTreeType.SIMULATION_TREE.toString());
+		
+		return true;
 	}
 
 	@Override
 	public String getName()
 	{
-		//TODO: Create spring bean with name of interpreter to retrieve it from there. 
-		//Move this to own bundle?
+		// TODO: Create spring bean with name of interpreter to retrieve it from there.
+		// Move this to own bundle?
 		return "Collada Model Interpreter";
 	}
-	
+
 	@Override
-	public void registerGeppettoService() {
-		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
-		modelFormatList.add(ModelFormat.COLLADA);
-		ServicesRegistry.registerModelInterpreterService(this, modelFormatList);
+	public void registerGeppettoService()
+	{
+		List<ModelFormat> modelFormats = new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.registerModelFormat("COLLADA")));
+		ServicesRegistry.registerModelInterpreterService(this, modelFormats);
+	}
+ 
+	@Override
+	public File downloadModel(AspectNode aspectNode, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

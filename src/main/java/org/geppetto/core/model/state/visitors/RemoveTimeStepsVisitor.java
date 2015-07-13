@@ -38,7 +38,7 @@ import org.geppetto.core.model.runtime.VariableNode;
  * @author matteocantarelli
  *
  */
-public class RemoveTimeStepsVisitor extends DefaultStateVisitor
+public class RemoveTimeStepsVisitor extends RuntimeTreeVisitor
 {
 
 	int _timeStepsToRemove;

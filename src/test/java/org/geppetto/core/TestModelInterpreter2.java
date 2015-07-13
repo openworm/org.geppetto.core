@@ -32,22 +32,24 @@
  *******************************************************************************/
 package org.geppetto.core;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.AModelInterpreter;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.services.IModelFormat;
+import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 
 /**
  * Dummy model interpreter used for testing purposes
  * 
- * @author  Jesus R. Martinez (jesus@metacell.us)
+ * @author Jesus R. Martinez (jesus@metacell.us)
  *
  */
 public class TestModelInterpreter2 extends AModelInterpreter
@@ -82,11 +84,25 @@ public class TestModelInterpreter2 extends AModelInterpreter
 	}
 
 	@Override
-	public void registerGeppettoService() {
-		List<IModelFormat> modelFormatList = new ArrayList<IModelFormat>();
-		modelFormatList.add(ModelFormat.TEST2);
-		ServicesRegistry.registerModelInterpreterService(this, modelFormatList);
-		
+	public void registerGeppettoService()
+	{
+		List<ModelFormat> modelFormats = new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.registerModelFormat("TEST2")));
+		ServicesRegistry.registerModelInterpreterService(this, modelFormats);
+
+	}
+
+	@Override
+	public File downloadModel(AspectNode aspectNode, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

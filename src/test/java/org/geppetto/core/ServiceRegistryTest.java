@@ -43,7 +43,7 @@ import junit.framework.Assert;
 
 import org.geppetto.core.conversion.IConversion;
 import org.geppetto.core.model.ModelWrapper;
-import org.geppetto.core.services.IModelFormat;
+import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.core.services.registry.ServicesRegistry.ConversionServiceKey;
 import org.junit.BeforeClass;
@@ -79,15 +79,15 @@ public class ServiceRegistryTest
 	 */
 	@Test
 	public void testRegisterModelInterpreterService(){
-		List<IModelFormat> modelFormats = null;
-		List<IModelFormat> modelFormats2 = null;
+		List<ModelFormat> modelFormats = null;
+		List<ModelFormat> modelFormats2 = null;
 		
 		modelFormats = ServicesRegistry.getModelInterpreterServiceFormats(new TestModelInterpreter());
 		modelFormats2 = ServicesRegistry.getModelInterpreterServiceFormats(new TestModelInterpreter2());
 		assertNotNull(modelFormats);
-		Assert.assertEquals(modelFormats.get(0), ModelFormat.TEST);
+		Assert.assertEquals(modelFormats.get(0), ServicesRegistry.getModelFormat("TEST"));
 		assertNotNull(modelFormats2);
-		Assert.assertEquals(modelFormats2.get(0), ModelFormat.TEST2);
+		Assert.assertEquals(modelFormats2.get(0), ServicesRegistry.getModelFormat("TEST2"));
 	}
 	
 	/**
@@ -96,15 +96,15 @@ public class ServiceRegistryTest
 	 */
 	@Test
 	public void testRegisterSimulatorService(){
-		List<IModelFormat> modelFormats = null;
-		List<IModelFormat> modelFormats2 = null;
+		List<ModelFormat> modelFormats = null;
+		List<ModelFormat> modelFormats2 = null;
 		
 		modelFormats = ServicesRegistry.getSimulatorServiceFormats(new TestSimulator());
 		modelFormats2 = ServicesRegistry.getSimulatorServiceFormats(new TestSimulator2());
 		assertNotNull(modelFormats);
-		Assert.assertEquals(modelFormats.get(0), ModelFormat.TEST);
+		Assert.assertEquals(modelFormats.get(0), ServicesRegistry.getModelFormat("TEST"));
 		assertNotNull(modelFormats2);
-		Assert.assertEquals(modelFormats2.get(0), ModelFormat.TEST2);
+		Assert.assertEquals(modelFormats2.get(0), ServicesRegistry.getModelFormat("TEST2"));
 	}
 	
 	/**
@@ -113,12 +113,12 @@ public class ServiceRegistryTest
 	 */
 	@Test
 	public void testRegisterConversionService(){
-		List<IModelFormat> modelFormats = new ArrayList<IModelFormat>();
-		modelFormats.add(ModelFormat.TEST);
-		List<IModelFormat> modelFormats2 = new ArrayList<IModelFormat>();
-		modelFormats2.add(ModelFormat.TEST2);
-		ConversionServiceKey conversionServiceKey = new ConversionServiceKey(ModelFormat.TEST, ModelFormat.TEST2);
-		ConversionServiceKey conversionServiceKey2 = new ConversionServiceKey(ModelFormat.TEST2, ModelFormat.TEST);
+		List<ModelFormat> modelFormats = new ArrayList<ModelFormat>();
+		modelFormats.add(ServicesRegistry.getModelFormat("TEST"));
+		List<ModelFormat> modelFormats2 = new ArrayList<ModelFormat>();
+		modelFormats2.add(ServicesRegistry.getModelFormat("TEST2"));
+		ConversionServiceKey conversionServiceKey = new ConversionServiceKey(ServicesRegistry.getModelFormat("TEST"), ServicesRegistry.getModelFormat("TEST2"));
+		ConversionServiceKey conversionServiceKey2 = new ConversionServiceKey(ServicesRegistry.getModelFormat("TEST2"), ServicesRegistry.getModelFormat("TEST"));
 		Map<ConversionServiceKey, List<IConversion>> conversionServiceMap = null;
 		List<IConversion> conversionServiceList = null;
 		
@@ -129,7 +129,7 @@ public class ServiceRegistryTest
 		assertNotNull(conversionServiceMap.get(conversionServiceKey));
 		Assert.assertEquals(conversionServiceMap.get(conversionServiceKey).get(0).getClass(), new TestConversion().getClass());
 		
-		conversionServiceList = ServicesRegistry.getConversionService(ModelFormat.TEST, ModelFormat.TEST2);
+		conversionServiceList = ServicesRegistry.getConversionService(ServicesRegistry.getModelFormat("TEST"), ServicesRegistry.getModelFormat("TEST2"));
 		assertNotNull(conversionServiceList);
 		Assert.assertEquals(conversionServiceList.size(), 1);
 		Assert.assertEquals(conversionServiceMap.get(conversionServiceKey).get(0).getClass(), new TestConversion().getClass());
@@ -141,7 +141,7 @@ public class ServiceRegistryTest
 		assertNotNull(conversionServiceMap.get(conversionServiceKey2));
 		Assert.assertEquals(conversionServiceMap.get(conversionServiceKey2).get(0).getClass(), new TestConversion2().getClass());
 		
-		conversionServiceList = ServicesRegistry.getConversionService(ModelFormat.TEST2, ModelFormat.TEST);
+		conversionServiceList = ServicesRegistry.getConversionService(ServicesRegistry.getModelFormat("TEST2"), ServicesRegistry.getModelFormat("TEST"));
 		assertNotNull(conversionServiceList);
 		Assert.assertEquals(conversionServiceList.size(), 1);
 		Assert.assertEquals(conversionServiceMap.get(conversionServiceKey2).get(0).getClass(), new TestConversion2().getClass());
@@ -154,18 +154,18 @@ public class ServiceRegistryTest
 	 */
 	@Test
 	public void testSupportedOutputs(){
-		Map<IModelFormat, List<IConversion>> outputsMap = null;
-		List<IModelFormat> modelFormats = new ArrayList<IModelFormat>();
-		modelFormats.add(ModelFormat.TEST);
-		List<IModelFormat> modelFormats2 = new ArrayList<IModelFormat>();
-		modelFormats2.add(ModelFormat.TEST2);
+		Map<ModelFormat, List<IConversion>> outputsMap = null;
+		List<ModelFormat> modelFormats = new ArrayList<ModelFormat>();
+		modelFormats.add(ServicesRegistry.getModelFormat("TEST"));
+		List<ModelFormat> modelFormats2 = new ArrayList<ModelFormat>();
+		modelFormats2.add(ServicesRegistry.getModelFormat("TEST2"));
 		
 		outputsMap = ServicesRegistry.getSupportedOutputs(new ModelWrapper(""), modelFormats);
 		assertNotNull(outputsMap);
 		Assert.assertEquals(outputsMap.size(), 1);
-		Assert.assertTrue(outputsMap.containsKey(ModelFormat.TEST2));
-		assertNotNull(outputsMap.get(ModelFormat.TEST2));
-		Assert.assertEquals(outputsMap.get(ModelFormat.TEST2).get(0).getClass(), new TestConversion().getClass());
+		Assert.assertTrue(outputsMap.containsKey(ServicesRegistry.getModelFormat("TEST2")));
+		assertNotNull(outputsMap.get(ServicesRegistry.getModelFormat("TEST2")));
+		Assert.assertEquals(outputsMap.get(ServicesRegistry.getModelFormat("TEST2")).get(0).getClass(), new TestConversion().getClass());
 		
 	}
 

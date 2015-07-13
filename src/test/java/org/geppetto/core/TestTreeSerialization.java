@@ -38,11 +38,14 @@
 package org.geppetto.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.Assert;
 
 import org.geppetto.core.model.quantities.PhysicalQuantity;
+import org.geppetto.core.model.quantities.Quantity;
+import org.geppetto.core.model.quantities.Unit;
 import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
@@ -53,6 +56,7 @@ import org.geppetto.core.model.runtime.FunctionNode;
 import org.geppetto.core.model.runtime.ParameterSpecificationNode;
 import org.geppetto.core.model.runtime.ParticleNode;
 import org.geppetto.core.model.runtime.RuntimeTreeRoot;
+import org.geppetto.core.model.runtime.SkeletonAnimationNode;
 import org.geppetto.core.model.runtime.SphereNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
@@ -66,40 +70,40 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-public class TestTreeSerialization {
+public class TestTreeSerialization
+{
 	@Test
-	public void testTreeSerialization() {
+	public void testTreeSerialization()
+	{
 		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
 
 		EntityNode entity_A = new EntityNode("Entity_A");
 
 		AspectNode aspect_A = new AspectNode("Aspect_A");
 
-		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.SIMULATION_TREE);
+		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.SIMULATION_TREE);
 
 		VariableNode dummyNode = new VariableNode("dummyFloat");
-		PhysicalQuantity quantity = new PhysicalQuantity();
-		quantity.setValue(ValuesFactory.getDoubleValue(50d));
-		quantity.setUnit("ms");
-		dummyNode.addPhysicalQuantity(quantity);
+		dummyNode.setUnit(new Unit("ms"));
 
-		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		Quantity quantity = new Quantity();
+		quantity.setValue(ValuesFactory.getDoubleValue(50d));
+		dummyNode.addQuantity(quantity);
+
+		Quantity quantity2 = new Quantity();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
-		quantity2.setUnit("ms");
-		dummyNode.addPhysicalQuantity(quantity2);
+		dummyNode.addQuantity(quantity2);
 
 		VariableNode anotherDummyNode = new VariableNode("dummyDouble");
+		anotherDummyNode.setUnit(new Unit("ms"));
 
-		PhysicalQuantity quantity3 = new PhysicalQuantity();
+		Quantity quantity3 = new Quantity();
 		quantity3.setValue(ValuesFactory.getDoubleValue(20d));
-		quantity3.setUnit("ms");
-		anotherDummyNode.addPhysicalQuantity(quantity3);
+		anotherDummyNode.addQuantity(quantity3);
 
-		PhysicalQuantity quantity4 = new PhysicalQuantity();
+		Quantity quantity4 = new Quantity();
 		quantity4.setValue(ValuesFactory.getDoubleValue(100d));
-		quantity4.setUnit("ms");
-		anotherDummyNode.addPhysicalQuantity(quantity4);
+		anotherDummyNode.addQuantity(quantity4);
 
 		runtime.addChild(entity_A);
 		entity_A.getAspects().add(aspect_A);
@@ -123,34 +127,37 @@ public class TestTreeSerialization {
 		String prettyJsonString = gson.toJson(je);
 
 		System.out.println(prettyJsonString);
-		
-		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"timeSeries\":{\"quantity0\":{\"value\":50.0,\"unit\":\"ms\",\"scale\":null},\"quantity1\":{\"value\":100.0,\"unit\":\"ms\",\"scale\":null}},\"watched\":\"false\",\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"unit\":\"ms\",\"scale\":null},\"quantity1\":{\"value\":100.0,\"unit\":\"ms\",\"scale\":null}},\"watched\":\"false\",\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
-		
+
+		Assert.assertEquals(
+				"{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"timeSeries\":{\"quantity0\":{\"value\":50.0,\"scale\":null},\"quantity1\":{\"value\":100.0,\"scale\":null}},\"watched\":\"false\",\"unit\":\"ms\",\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"scale\":null},\"quantity1\":{\"value\":100.0,\"scale\":null}},\"watched\":\"false\",\"unit\":\"ms\",\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
+				serialized);
+
 	}
-	
+
 	@Test
-	public void testTreeSerializationSingleValue() {
+	public void testTreeSerializationSingleValue()
+	{
 		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
 
 		EntityNode entity_A = new EntityNode("Entity_A");
 
 		AspectNode aspect_A = new AspectNode("Aspect_A");
 
-		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.SIMULATION_TREE);
+		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.SIMULATION_TREE);
 
 		VariableNode dummyNode = new VariableNode("dummyFloat");
-		PhysicalQuantity quantity = new PhysicalQuantity();
+		dummyNode.setUnit(new Unit("ms"));
+
+		Quantity quantity = new Quantity();
 		quantity.setValue(ValuesFactory.getDoubleValue(50d));
-		quantity.setUnit("ms");
-		dummyNode.addPhysicalQuantity(quantity);
+		dummyNode.addQuantity(quantity);
 
 		VariableNode anotherDummyNode = new VariableNode("dummyDouble");
+		anotherDummyNode.setUnit(new Unit("ms"));
 
-		PhysicalQuantity quantity3 = new PhysicalQuantity();
+		Quantity quantity3 = new Quantity();
 		quantity3.setValue(ValuesFactory.getDoubleValue(20d));
-		quantity3.setUnit("ms");
-		anotherDummyNode.addPhysicalQuantity(quantity3);
+		anotherDummyNode.addQuantity(quantity3);
 
 		runtime.addChild(entity_A);
 		entity_A.getAspects().add(aspect_A);
@@ -174,12 +181,15 @@ public class TestTreeSerialization {
 		String prettyJsonString = gson.toJson(je);
 
 		System.out.println(prettyJsonString);
-		
-		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"timeSeries\":{\"quantity0\":{\"value\":50.0,\"unit\":\"ms\",\"scale\":null}},\"watched\":\"false\",\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"unit\":\"ms\",\"scale\":null}},\"watched\":\"false\",\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
+
+		Assert.assertEquals(
+				"{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"timeSeries\":{\"quantity0\":{\"value\":50.0,\"scale\":null}},\"watched\":\"false\",\"unit\":\"ms\",\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"scale\":null}},\"watched\":\"false\",\"unit\":\"ms\",\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
+				serialized);
 	}
 
 	@Test
-	public void testTreeWithUnits() {
+	public void testTreeWithUnits()
+	{
 
 		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
 
@@ -187,29 +197,27 @@ public class TestTreeSerialization {
 
 		AspectNode aspect_A = new AspectNode("Aspect_A");
 
-		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.SIMULATION_TREE);
+		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.SIMULATION_TREE);
 
 		AValue val = ValuesFactory.getDoubleValue(50d);
 
-		PhysicalQuantity quantity = new PhysicalQuantity();
+		Quantity quantity = new Quantity();
 		quantity.setValue(val);
-		quantity.setUnit("V");
 		quantity.setScalingFactor("1.E3");
 
 		VariableNode dummyNode = new VariableNode("dummyFloat");
-		dummyNode.addPhysicalQuantity(quantity);
-
-		VariableNode anotherDummyNode = new VariableNode("dummyDouble");
+		dummyNode.setUnit(new Unit("V"));
+		dummyNode.addQuantity(quantity);
 
 		AValue val3 = ValuesFactory.getDoubleValue(50d);
 
-		PhysicalQuantity quantity3 = new PhysicalQuantity();
+		Quantity quantity3 = new Quantity();
 		quantity3.setValue(val3);
-		quantity3.setUnit("mV");
 		quantity3.setScalingFactor("1.E3");
 
-		anotherDummyNode.addPhysicalQuantity(quantity3);
+		VariableNode anotherDummyNode = new VariableNode("dummyDouble");
+		anotherDummyNode.addQuantity(quantity3);
+		anotherDummyNode.setUnit(new Unit("mV"));
 
 		runtime.addChild(entity_A);
 		entity_A.getAspects().add(aspect_A);
@@ -233,12 +241,15 @@ public class TestTreeSerialization {
 		String prettyJsonString = gson.toJson(je);
 
 		System.out.println(prettyJsonString);
-		
-		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"timeSeries\":{\"quantity0\":{\"value\":50.0,\"unit\":\"V\",\"scale\":\"1.E3\"}},\"watched\":\"false\",\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"timeSeries\":{\"quantity0\":{\"value\":50.0,\"unit\":\"mV\",\"scale\":\"1.E3\"}},\"watched\":\"false\",\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
+
+		Assert.assertEquals(
+				"{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"dummyFloat\":{\"timeSeries\":{\"quantity0\":{\"value\":50.0,\"scale\":\"1.E3\"}},\"watched\":\"false\",\"unit\":\"V\",\"id\":\"dummyFloat\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyFloat\",\"_metaType\":\"VariableNode\"},\"dummyDouble\":{\"timeSeries\":{\"quantity0\":{\"value\":50.0,\"scale\":\"1.E3\"}},\"watched\":\"false\",\"unit\":\"mV\",\"id\":\"dummyDouble\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree.dummyDouble\",\"_metaType\":\"VariableNode\"},\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
+				serialized);
 	}
 
 	@Test
-	public void emulateJLemsSimulation() {
+	public void emulateJLemsSimulation()
+	{
 
 		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
 
@@ -246,14 +257,12 @@ public class TestTreeSerialization {
 
 		AspectNode electrical = new AspectNode("electrical");
 
-		AspectSubTreeNode visualization = new AspectSubTreeNode(
-				AspectTreeType.VISUALIZATION_TREE);
+		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
 
 		SphereNode sphere = new SphereNode("hhcell");
 		visualization.addChild(sphere);
 
-		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.SIMULATION_TREE);
+		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.SIMULATION_TREE);
 
 		CompositeNode hhpop = new CompositeNode("hhpop[0]");
 		CompositeNode bio = new CompositeNode("bioPhys1");
@@ -263,20 +272,19 @@ public class TestTreeSerialization {
 		CompositeNode m = new CompositeNode("m");
 
 		VariableNode v = new VariableNode("v");
-		PhysicalQuantity quantity = new PhysicalQuantity();
+		Quantity quantity = new Quantity();
 		quantity.setValue(ValuesFactory.getDoubleValue(20d));
 
-		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		Quantity quantity2 = new Quantity();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
 
 		VariableNode spiking = new VariableNode("spiking");
 
 		VariableNode q = new VariableNode("q");
 
-		v.addPhysicalQuantity(quantity);
-
-		spiking.addPhysicalQuantity(quantity);
-		q.addPhysicalQuantity(quantity);
+		v.addQuantity(quantity);
+		spiking.addQuantity(quantity);
+		q.addQuantity(quantity);
 
 		simulation.addChild(hhpop);
 		hhpop.addChild(v);
@@ -308,12 +316,15 @@ public class TestTreeSerialization {
 		String prettyJsonString = gson.toJson(je);
 
 		System.out.println(prettyJsonString);
-		
-		Assert.assertEquals("{\"root\":{\"hhcell\":{\"electrical\":{\"SimulationTree\":{\"hhpop\":[{\"v\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"unit\":null,\"scale\":null}},\"watched\":\"false\",\"id\":\"v\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].v\",\"_metaType\":\"VariableNode\"},\"spiking\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"unit\":null,\"scale\":null}},\"watched\":\"false\",\"id\":\"spiking\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].spiking\",\"_metaType\":\"VariableNode\"},\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"na\":{\"m\":{\"q\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"unit\":null,\"scale\":null}},\"watched\":\"false\",\"id\":\"q\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q\",\"_metaType\":\"VariableNode\"},\"id\":\"m\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.m\",\"_metaType\":\"CompositeNode\"},\"id\":\"na\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na\",\"_metaType\":\"CompositeNode\"},\"id\":\"naChans\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans\",\"_metaType\":\"CompositeNode\"},\"id\":\"membraneProperties\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties\",\"_metaType\":\"CompositeNode\"},\"id\":\"bioPhys1\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1\",\"_metaType\":\"CompositeNode\"},\"id\":\"hhpop[0]\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0]\",\"_metaType\":\"CompositeNode\"}],\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"hhcell.electrical.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"electrical\",\"instancePath\":\"hhcell.electrical\",\"_metaType\":\"AspectNode\"},\"id\":\"hhcell\",\"instancePath\":\"hhcell\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
+
+		Assert.assertEquals(
+				"{\"root\":{\"hhcell\":{\"electrical\":{\"SimulationTree\":{\"hhpop\":[{\"v\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"scale\":null}},\"watched\":\"false\",\"unit\":null,\"id\":\"v\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].v\",\"_metaType\":\"VariableNode\"},\"spiking\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"scale\":null}},\"watched\":\"false\",\"unit\":null,\"id\":\"spiking\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].spiking\",\"_metaType\":\"VariableNode\"},\"bioPhys1\":{\"membraneProperties\":{\"naChans\":{\"na\":{\"m\":{\"q\":{\"timeSeries\":{\"quantity0\":{\"value\":20.0,\"scale\":null}},\"watched\":\"false\",\"unit\":null,\"id\":\"q\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q\",\"_metaType\":\"VariableNode\"},\"id\":\"m\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na.m\",\"_metaType\":\"CompositeNode\"},\"id\":\"na\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans.na\",\"_metaType\":\"CompositeNode\"},\"id\":\"naChans\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties.naChans\",\"_metaType\":\"CompositeNode\"},\"id\":\"membraneProperties\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1.membraneProperties\",\"_metaType\":\"CompositeNode\"},\"id\":\"bioPhys1\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0].bioPhys1\",\"_metaType\":\"CompositeNode\"},\"id\":\"hhpop[0]\",\"instancePath\":\"hhcell.electrical.SimulationTree.hhpop[0]\",\"_metaType\":\"CompositeNode\"}],\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"hhcell.electrical.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"electrical\",\"instancePath\":\"hhcell.electrical\",\"_metaType\":\"AspectNode\"},\"id\":\"hhcell\",\"instancePath\":\"hhcell\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
+				serialized);
 	}
 
 	@Test
-	public void emulateSmallLiquidSimulation() {
+	public void emulateSmallLiquidSimulation()
+	{
 
 		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
 
@@ -321,8 +332,7 @@ public class TestTreeSerialization {
 
 		AspectNode fluid = new AspectNode("fluid");
 
-		AspectSubTreeNode visualization = new AspectSubTreeNode(
-				AspectTreeType.VISUALIZATION_TREE);
+		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
 
 		CompositeNode elastic = new CompositeNode("Elastic");
 		CompositeNode liquid = new CompositeNode("Liquid");
@@ -343,8 +353,7 @@ public class TestTreeSerialization {
 		liquid.addChild(p1);
 		liquid.addChild(p2);
 
-		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.SIMULATION_TREE);
+		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.SIMULATION_TREE);
 
 		CompositeNode particle0 = new CompositeNode("particle[0]");
 		CompositeNode particle = new CompositeNode("particle[1]");
@@ -352,24 +361,24 @@ public class TestTreeSerialization {
 		CompositeNode position = new CompositeNode("position");
 
 		VariableNode anotherDummyNode0 = new VariableNode("v");
-		PhysicalQuantity quantity = new PhysicalQuantity();
+		Quantity quantity = new Quantity();
 		quantity.setValue(ValuesFactory.getDoubleValue(20d));
 
-		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		Quantity quantity2 = new Quantity();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
 
-		anotherDummyNode0.addPhysicalQuantity(quantity);
-		anotherDummyNode0.addPhysicalQuantity(quantity2);
+		anotherDummyNode0.addQuantity(quantity);
+		anotherDummyNode0.addQuantity(quantity2);
 
 		VariableNode anotherDummyNode1 = new VariableNode("v");
-		PhysicalQuantity quantity3 = new PhysicalQuantity();
+		Quantity quantity3 = new Quantity();
 		quantity3.setValue(ValuesFactory.getDoubleValue(55d));
 
-		PhysicalQuantity quantity4 = new PhysicalQuantity();
+		Quantity quantity4 = new Quantity();
 		quantity4.setValue(ValuesFactory.getDoubleValue(65d));
 
-		anotherDummyNode1.addPhysicalQuantity(quantity3);
-		anotherDummyNode1.addPhysicalQuantity(quantity4);
+		anotherDummyNode1.addQuantity(quantity3);
+		anotherDummyNode1.addQuantity(quantity4);
 
 		simulation.addChild(particle0);
 		simulation.addChild(particle);
@@ -398,29 +407,28 @@ public class TestTreeSerialization {
 		String prettyJsonString = gson.toJson(je);
 
 		System.out.println(prettyJsonString);
-		
-		//Assert.assertEquals("{\"root\":{\"small\":{\"fluid\":{\"VisualizationTree\":{\"Elastic\":{\"id\":\"Elastic\",\"instancePath\":\"small.fluid.VisualizationTree.Elastic\",\"_metaType\":\"CompositeNode\"},\"Liquid\":{\"p[0]\":{\"position\":{},\"id\":\"p[0]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[0]\",\"_metaType\":\"ParticleNode\"},\"p[1]\":{\"position\":{},\"id\":\"p[1]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[1]\",\"_metaType\":\"ParticleNode\"},\"p[2]\":{\"position\":{},\"id\":\"p[2]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[2]\",\"_metaType\":\"ParticleNode\"},\"id\":\"Liquid\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid\",\"_metaType\":\"CompositeNode\"},\"Boundary\":{\"id\":\"Boundary\",\"instancePath\":\"small.fluid.VisualizationTree.Boundary\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"instancePath\":\"small.fluid.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"particle\":[{},{\"position\":{\"v\":{\"timeSeries\":{\"quantity0\":{\"value\":55.0,\"unit\":null,\"scale\":null},\"quantity1\":{\"value\":65.0,\"unit\":null,\"scale\":null}},\"watched\":\"false\",\"id\":\"v\",\"instancePath\":\"small.fluid.SimulationTree.particle[1].position.v\",\"_metaType\":\"VariableNode\"},\"id\":\"position\",\"instancePath\":\"small.fluid.SimulationTree.particle[1].position\",\"_metaType\":\"CompositeNode\"},\"id\":\"particle[1]\",\"instancePath\":\"small.fluid.SimulationTree.particle[1]\",\"_metaType\":\"CompositeNode\"}],\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"small.fluid.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"fluid\",\"instancePath\":\"small.fluid\",\"_metaType\":\"AspectNode\"},\"id\":\"small\",\"instancePath\":\"small\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}", serialized);
+
+		// Assert.assertEquals("{\"root\":{\"small\":{\"fluid\":{\"VisualizationTree\":{\"Elastic\":{\"id\":\"Elastic\",\"instancePath\":\"small.fluid.VisualizationTree.Elastic\",\"_metaType\":\"CompositeNode\"},\"Liquid\":{\"p[0]\":{\"position\":{},\"id\":\"p[0]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[0]\",\"_metaType\":\"ParticleNode\"},\"p[1]\":{\"position\":{},\"id\":\"p[1]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[1]\",\"_metaType\":\"ParticleNode\"},\"p[2]\":{\"position\":{},\"id\":\"p[2]\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid.p[2]\",\"_metaType\":\"ParticleNode\"},\"id\":\"Liquid\",\"instancePath\":\"small.fluid.VisualizationTree.Liquid\",\"_metaType\":\"CompositeNode\"},\"Boundary\":{\"id\":\"Boundary\",\"instancePath\":\"small.fluid.VisualizationTree.Boundary\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"instancePath\":\"small.fluid.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"particle\":[{},{\"position\":{\"v\":{\"timeSeries\":{\"quantity0\":{\"value\":55.0,\"unit\":null,\"scale\":null},\"quantity1\":{\"value\":65.0,\"unit\":null,\"scale\":null}},\"watched\":\"false\",\"id\":\"v\",\"instancePath\":\"small.fluid.SimulationTree.particle[1].position.v\",\"_metaType\":\"VariableNode\"},\"id\":\"position\",\"instancePath\":\"small.fluid.SimulationTree.particle[1].position\",\"_metaType\":\"CompositeNode\"},\"id\":\"particle[1]\",\"instancePath\":\"small.fluid.SimulationTree.particle[1]\",\"_metaType\":\"CompositeNode\"}],\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"small.fluid.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"fluid\",\"instancePath\":\"small.fluid\",\"_metaType\":\"AspectNode\"},\"id\":\"small\",\"instancePath\":\"small\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
+		// serialized);
 	}
 
 	/**
 	 * Skeleton tree test. One entity, one aspect, and all subtrees modified
 	 */
 	@Test
-	public void testSkeletonRuntimeTree() {
+	public void testSkeletonRuntimeTree()
+	{
 		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
 
 		EntityNode entity_A = new EntityNode("Entity_A");
 
 		AspectNode aspect_A = new AspectNode("Aspect_A");
 
-		AspectSubTreeNode model = new AspectSubTreeNode(
-				AspectTreeType.MODEL_TREE);
+		AspectSubTreeNode model = new AspectSubTreeNode(AspectTreeType.MODEL_TREE);
 
-		AspectSubTreeNode visualization = new AspectSubTreeNode(
-				AspectTreeType.VISUALIZATION_TREE);
+		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
 
-		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.SIMULATION_TREE);
+		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.SIMULATION_TREE);
 
 		runtime.addChild(entity_A);
 		entity_A.getAspects().add(aspect_A);
@@ -442,31 +450,30 @@ public class TestTreeSerialization {
 		String prettyJsonString = gson.toJson(je);
 
 		System.out.println(prettyJsonString);
-		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"ModelTree\":{\"type\":\"ModelTree\",\"id\":\"ModelTree\",\"name\":\"Model\",\"instancePath\":\"Entity_A.Aspect_A.ModelTree\",\"_metaType\":\"AspectSubTreeNode\"},\"VisualizationTree\":{\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"instancePath\":\"Entity_A.Aspect_A.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
+		Assert.assertEquals(
+				"{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"ModelTree\":{\"type\":\"ModelTree\",\"id\":\"ModelTree\",\"name\":\"Model\",\"instancePath\":\"Entity_A.Aspect_A.ModelTree\",\"_metaType\":\"AspectSubTreeNode\"},\"VisualizationTree\":{\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"instancePath\":\"Entity_A.Aspect_A.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"SimulationTree\":{\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
+				serialized);
 	}
 
 	/**
-	 * Skeleton tree test. Emulate one entity, one aspect and model tree
-	 * modified only
+	 * Skeleton tree test. Emulate one entity, one aspect and model tree modified only
 	 */
 	@Test
-	public void testSkeletonRuntimeTreeOnlyModel() {
+	public void testSkeletonRuntimeTreeOnlyModel()
+	{
 		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
 
 		EntityNode entity_A = new EntityNode("Entity_A");
 
 		AspectNode aspect_A = new AspectNode("Aspect_A");
 
-		AspectSubTreeNode model = new AspectSubTreeNode(
-				AspectTreeType.MODEL_TREE);
+		AspectSubTreeNode model = new AspectSubTreeNode(AspectTreeType.MODEL_TREE);
 
-		AspectSubTreeNode visualization = new AspectSubTreeNode(
-				AspectTreeType.VISUALIZATION_TREE);
+		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
 
 		visualization.setModified(false);
 
-		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.SIMULATION_TREE);
+		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.SIMULATION_TREE);
 
 		simulation.setModified(false);
 
@@ -490,29 +497,28 @@ public class TestTreeSerialization {
 		String prettyJsonString = gson.toJson(je);
 
 		System.out.println(prettyJsonString);
-		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"ModelTree\":{\"type\":\"ModelTree\",\"id\":\"ModelTree\",\"name\":\"Model\",\"instancePath\":\"Entity_A.Aspect_A.ModelTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
+		Assert.assertEquals(
+				"{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"ModelTree\":{\"type\":\"ModelTree\",\"id\":\"ModelTree\",\"name\":\"Model\",\"instancePath\":\"Entity_A.Aspect_A.ModelTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
+				serialized);
 	}
 
 	/**
-	 * Skeleton tree test. One entity, one aspect, and only simulation tree
-	 * modified
+	 * Skeleton tree test. One entity, one aspect, and only simulation tree modified
 	 */
 	@Test
-	public void testSkeletonRuntimeTreeOnlySimulation() {
+	public void testSkeletonRuntimeTreeOnlySimulation()
+	{
 		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
 
 		EntityNode entity_A = new EntityNode("Entity_A");
 
 		AspectNode aspect_A = new AspectNode("Aspect_A");
 
-		AspectSubTreeNode model = new AspectSubTreeNode(
-				AspectTreeType.MODEL_TREE);
+		AspectSubTreeNode model = new AspectSubTreeNode(AspectTreeType.MODEL_TREE);
 		model.setModified(false);
-		AspectSubTreeNode visualization = new AspectSubTreeNode(
-				AspectTreeType.VISUALIZATION_TREE);
+		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
 		visualization.setModified(false);
-		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.SIMULATION_TREE);
+		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.SIMULATION_TREE);
 
 		runtime.addChild(entity_A);
 		entity_A.getAspects().add(aspect_A);
@@ -534,29 +540,28 @@ public class TestTreeSerialization {
 		String prettyJsonString = gson.toJson(je);
 
 		System.out.println(prettyJsonString);
-		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
+		Assert.assertEquals(
+				"{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"SimulationTree\":{\"type\":\"SimulationTree\",\"id\":\"SimulationTree\",\"name\":\"Simulation\",\"instancePath\":\"Entity_A.Aspect_A.SimulationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
+				serialized);
 	}
 
 	/**
-	 * Skeleton tree test. One entity with one aspect, and only visualization
-	 * modified
+	 * Skeleton tree test. One entity with one aspect, and only visualization modified
 	 */
 	@Test
-	public void testSkeletonRuntimeTreeOnlyVisualization() {
+	public void testSkeletonRuntimeTreeOnlyVisualization()
+	{
 		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
 
 		EntityNode entity_A = new EntityNode("Entity_A");
 
 		AspectNode aspect_A = new AspectNode("Aspect_A");
 
-		AspectSubTreeNode model = new AspectSubTreeNode(
-				AspectTreeType.MODEL_TREE);
+		AspectSubTreeNode model = new AspectSubTreeNode(AspectTreeType.MODEL_TREE);
 		model.setModified(false);
-		AspectSubTreeNode visualization = new AspectSubTreeNode(
-				AspectTreeType.VISUALIZATION_TREE);
+		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
 
-		AspectSubTreeNode simulation = new AspectSubTreeNode(
-				AspectTreeType.SIMULATION_TREE);
+		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.SIMULATION_TREE);
 		simulation.setModified(false);
 
 		runtime.addChild(entity_A);
@@ -579,25 +584,26 @@ public class TestTreeSerialization {
 		String prettyJsonString = gson.toJson(je);
 
 		System.out.println(prettyJsonString);
-		Assert.assertEquals("{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"VisualizationTree\":{\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"instancePath\":\"Entity_A.Aspect_A.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",serialized);
+		Assert.assertEquals(
+				"{\"root\":{\"Entity_A\":{\"Aspect_A\":{\"VisualizationTree\":{\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"instancePath\":\"Entity_A.Aspect_A.VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"},\"id\":\"Aspect_A\",\"instancePath\":\"Entity_A.Aspect_A\",\"_metaType\":\"AspectNode\"},\"id\":\"Entity_A\",\"instancePath\":\"Entity_A\",\"_metaType\":\"EntityNode\"},\"_metaType\":\"RuntimeTreeRoot\"}}",
+				serialized);
 	}
 
 	/**
 	 * Test Model Tree. Emulates retrieving model tree for aspect
 	 */
 	@Test
-	public void emulateGetModelTree() {
-		AspectSubTreeNode model = new AspectSubTreeNode(
-				AspectTreeType.MODEL_TREE);
+	public void emulateGetModelTree()
+	{
+		AspectSubTreeNode model = new AspectSubTreeNode(AspectTreeType.MODEL_TREE);
 
 		model.setModified(true);
 
-		DynamicsSpecificationNode dynamics = new DynamicsSpecificationNode(
-				"Dynamics");
+		DynamicsSpecificationNode dynamics = new DynamicsSpecificationNode("Dynamics");
 
 		PhysicalQuantity value = new PhysicalQuantity();
 		value.setScalingFactor("10");
-		value.setUnit("ms");
+		value.setUnit(new Unit("ms"));
 		value.setValue(new DoubleValue(10));
 		dynamics.setInitialConditions(value);
 
@@ -610,12 +616,11 @@ public class TestTreeSerialization {
 
 		dynamics.setDynamics(function);
 
-		ParameterSpecificationNode parameter = new ParameterSpecificationNode(
-				"Parameter");
+		ParameterSpecificationNode parameter = new ParameterSpecificationNode("Parameter");
 
 		PhysicalQuantity value1 = new PhysicalQuantity();
 		value1.setScalingFactor("10");
-		value1.setUnit("ms");
+		value1.setUnit(new Unit("ms"));
 		value1.setValue(new DoubleValue(10));
 
 		parameter.setValue(value1);
@@ -632,7 +637,7 @@ public class TestTreeSerialization {
 
 		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
 		model.apply(visitor);
-		String serialized = "{" + visitor.getSerializedTree() + "}";
+		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -642,31 +647,32 @@ public class TestTreeSerialization {
 
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals("{\"ModelTree\":{\"Parameter\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"id\":\"Parameter\",\"instancePath\":\"Parameter\",\"_metaType\":\"ParameterSpecificationNode\"},\"Dynamics\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"_function\":{\"expression\":\"y=x+2\",\"arguments\":{\"0\":\"1\",\"1\":\"2\"}},\"id\":\"Dynamics\",\"instancePath\":\"Dynamics\",\"_metaType\":\"DynamicsSpecificationNode\"},\"FunctionNode\":{\"expression\":\"y=x^2\",\"arguments\":{\"0\":\"1\"},\"id\":\"FunctionNode\",\"instancePath\":\"FunctionNode\",\"_metaType\":\"FunctionNode\"},\"type\":\"ModelTree\",\"id\":\"ModelTree\",\"name\":\"Model\",\"_metaType\":\"AspectSubTreeNode\"}}", serialized);
+		Assert.assertEquals(
+				"{\"ModelTree\":{\"Parameter\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"id\":\"Parameter\",\"instancePath\":\"ModelTree.Parameter\",\"_metaType\":\"ParameterSpecificationNode\"},\"Dynamics\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"_function\":{\"expression\":\"y=x+2\",\"arguments\":{\"0\":\"1\",\"1\":\"2\"}},\"id\":\"Dynamics\",\"instancePath\":\"ModelTree.Dynamics\",\"_metaType\":\"DynamicsSpecificationNode\"},\"FunctionNode\":{\"expression\":\"y=x^2\",\"arguments\":{\"0\":\"1\"},\"id\":\"FunctionNode\",\"instancePath\":\"ModelTree.FunctionNode\",\"_metaType\":\"FunctionNode\"},\"type\":\"ModelTree\",\"id\":\"ModelTree\",\"name\":\"Model\",\"instancePath\":\"ModelTree\",\"_metaType\":\"AspectSubTreeNode\"}}",
+				serialized);
 	}
-	
+
 	/**
 	 * Test Model Tree. Emulates retrieving model tree for aspect
 	 */
 	@Test
-	public void childWithSameIds() {
-		AspectSubTreeNode model = new AspectSubTreeNode(
-				AspectTreeType.MODEL_TREE);
+	public void childWithSameIds()
+	{
+		AspectSubTreeNode model = new AspectSubTreeNode(AspectTreeType.MODEL_TREE);
 
 		model.setModified(true);
-		
+
 		CompositeNode first = new CompositeNode("One");
 		first.setId("One_1");
-		
+
 		CompositeNode second = new CompositeNode("One");
 		second.setId("One_2");
 
-		DynamicsSpecificationNode dynamics = new DynamicsSpecificationNode(
-				"Dynamics");
+		DynamicsSpecificationNode dynamics = new DynamicsSpecificationNode("Dynamics");
 
 		PhysicalQuantity value = new PhysicalQuantity();
 		value.setScalingFactor("10");
-		value.setUnit("ms");
+		value.setUnit(new Unit("ms"));
 		value.setValue(new DoubleValue(10));
 		dynamics.setInitialConditions(value);
 
@@ -679,15 +685,13 @@ public class TestTreeSerialization {
 
 		dynamics.setDynamics(function);
 
-		ParameterSpecificationNode parameter = new ParameterSpecificationNode(
-				"Parameter");
-		
-		ParameterSpecificationNode parameter2 = new ParameterSpecificationNode(
-				"Parameter");
+		ParameterSpecificationNode parameter = new ParameterSpecificationNode("Parameter");
+
+		ParameterSpecificationNode parameter2 = new ParameterSpecificationNode("Parameter");
 
 		PhysicalQuantity value1 = new PhysicalQuantity();
 		value1.setScalingFactor("10");
-		value1.setUnit("ms");
+		value1.setUnit(new Unit("ms"));
 		value1.setValue(new DoubleValue(10));
 
 		parameter.setValue(value1);
@@ -702,15 +706,15 @@ public class TestTreeSerialization {
 		first.addChild(parameter);
 		first.addChild(dynamics);
 		first.addChild(functionNode);
-		
+
 		second.addChild(parameter2);
 
 		model.addChild(first);
 		model.addChild(second);
-		
+
 		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
 		model.apply(visitor);
-		String serialized = "{" + visitor.getSerializedTree() + "}";
+		String serialized = visitor.getSerializedTree();
 		System.out.println(serialized);
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -720,6 +724,52 @@ public class TestTreeSerialization {
 
 		System.out.println(prettyJsonString);
 
-		Assert.assertEquals("{\"ModelTree\":{\"One_1\":{\"Parameter\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"id\":\"Parameter\",\"instancePath\":\"One_1.Parameter\",\"_metaType\":\"ParameterSpecificationNode\"},\"Dynamics\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"_function\":{\"expression\":\"y=x+2\",\"arguments\":{\"0\":\"1\",\"1\":\"2\"}},\"id\":\"Dynamics\",\"instancePath\":\"One_1.Dynamics\",\"_metaType\":\"DynamicsSpecificationNode\"},\"FunctionNode\":{\"expression\":\"y=x^2\",\"arguments\":{\"0\":\"1\"},\"id\":\"FunctionNode\",\"instancePath\":\"One_1.FunctionNode\",\"_metaType\":\"FunctionNode\"},\"id\":\"One_1\",\"instancePath\":\"One_1\",\"_metaType\":\"CompositeNode\"},\"One_2\":{\"Parameter\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"id\":\"Parameter\",\"instancePath\":\"One_2.Parameter\",\"_metaType\":\"ParameterSpecificationNode\"},\"id\":\"One_2\",\"instancePath\":\"One_2\",\"_metaType\":\"CompositeNode\"},\"type\":\"ModelTree\",\"id\":\"ModelTree\",\"name\":\"Model\",\"_metaType\":\"AspectSubTreeNode\"}}",serialized);
+		Assert.assertEquals(
+				"{\"ModelTree\":{\"One_1\":{\"Parameter\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"id\":\"Parameter\",\"instancePath\":\"ModelTree.One_1.Parameter\",\"_metaType\":\"ParameterSpecificationNode\"},\"Dynamics\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"_function\":{\"expression\":\"y=x+2\",\"arguments\":{\"0\":\"1\",\"1\":\"2\"}},\"id\":\"Dynamics\",\"instancePath\":\"ModelTree.One_1.Dynamics\",\"_metaType\":\"DynamicsSpecificationNode\"},\"FunctionNode\":{\"expression\":\"y=x^2\",\"arguments\":{\"0\":\"1\"},\"id\":\"FunctionNode\",\"instancePath\":\"ModelTree.One_1.FunctionNode\",\"_metaType\":\"FunctionNode\"},\"id\":\"One_1\",\"instancePath\":\"ModelTree.One_1\",\"_metaType\":\"CompositeNode\"},\"One_2\":{\"Parameter\":{\"value\":\"10.0\",\"unit\":\"ms\",\"scale\":\"10\",\"id\":\"Parameter\",\"instancePath\":\"ModelTree.One_2.Parameter\",\"_metaType\":\"ParameterSpecificationNode\"},\"id\":\"One_2\",\"instancePath\":\"ModelTree.One_2\",\"_metaType\":\"CompositeNode\"},\"type\":\"ModelTree\",\"id\":\"ModelTree\",\"name\":\"Model\",\"instancePath\":\"ModelTree\",\"_metaType\":\"AspectSubTreeNode\"}}",
+				serialized);
+	}
+	
+	/**
+	 * Test tree serialization with skeleton animation node.
+	 */
+	@Test
+	public void treeWithSkeletonAnimationNode() {
+		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
+		visualization.setModified(true);
+		
+		CompositeNode first = new CompositeNode("CompositeNode");
+		first.setId("Composite_XXX");
+		
+		SkeletonAnimationNode skeletonNode = new SkeletonAnimationNode("SkeletonAnimation");
+		skeletonNode.setId("Skeleton_XXX");
+		
+		List<Double> matrix1 = new ArrayList<Double>();
+		matrix1.addAll(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0));
+		
+		List<Double> matrix2 = new ArrayList<Double>();
+		matrix2.addAll(Arrays.asList(10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0));
+		
+		List<Double> matrix3 = new ArrayList<Double>();
+		matrix3.addAll(Arrays.asList(19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0));
+		
+		skeletonNode.setSkeletonTransformationSeries(Arrays.asList(matrix1, matrix2, matrix3));
+		
+		// build tree
+		first.addChild(skeletonNode);
+		visualization.addChild(first);
+		
+		SerializeTreeVisitor visitor = new SerializeTreeVisitor();
+		visualization.apply(visitor);
+		String serialized = visitor.getSerializedTree();
+		System.out.println(serialized);
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(serialized);
+		String prettyJsonString = gson.toJson(je);
+
+		System.out.println(prettyJsonString);
+
+		Assert.assertEquals("{\"VisualizationTree\":{\"Composite_XXX\":{\"Skeleton_XXX\":{\"skeletonTransformations\":[[1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0],[10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0],[19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0]],\"id\":\"Skeleton_XXX\",\"instancePath\":\"VisualizationTree.Composite_XXX.Skeleton_XXX\",\"_metaType\":\"SkeletonAnimationNode\"},\"id\":\"Composite_XXX\",\"instancePath\":\"VisualizationTree.Composite_XXX\",\"_metaType\":\"CompositeNode\"},\"type\":\"VisualizationTree\",\"id\":\"VisualizationTree\",\"name\":\"Visualization\",\"instancePath\":\"VisualizationTree\",\"_metaType\":\"AspectSubTreeNode\"}}", serialized);		
 	}
 }
