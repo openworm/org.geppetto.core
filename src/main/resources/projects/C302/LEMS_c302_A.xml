@@ -9,7 +9,7 @@
     <Include file="/Simulation.xml"/>
 
     <!-- Including file with a <neuroml> root, a "real" NeuroML 2 file -->
-    <Include url="https://raw.githubusercontent.com/openworm/org.geppetto.samples/master/LEMS/C302/c302_A.nml"/>
+    <Include file="/c302_A.nml"/>
     
 
     <!-- End of NeuroML2 content -->
