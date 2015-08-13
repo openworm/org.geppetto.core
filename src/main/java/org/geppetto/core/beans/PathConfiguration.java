@@ -34,6 +34,7 @@ package org.geppetto.core.beans;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -223,5 +224,9 @@ public class PathConfiguration
 		// createProjectTmpFolder creates only up to the project level, the following mkdir will create also folderName
 		folder.mkdir();
 		return folder;
+	}
+	
+	public static URL getModelSchemaURL(){
+		return PathConfiguration.class.getResource("/schema/simulation/simulationSchema.xsd");
 	}
 }
