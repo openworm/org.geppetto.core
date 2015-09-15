@@ -159,7 +159,12 @@ public class URLReader
 
 	public static String getFileName(URL url)
 	{
-		return url.getPath().substring(url.getPath().lastIndexOf(File.separator) + 1);
+		int indexes = url.getPath().lastIndexOf(File.separator);
+		if(indexes == -1){
+			indexes = url.getPath().lastIndexOf("/");
+		}
+		String fileName = url.getPath().substring(indexes+1);
+		return fileName;
 	}
 
 	public static URL getServerRootURL(String localPath) throws MalformedURLException
