@@ -42,6 +42,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.geppetto.core.model.geppettomodel.ConnectionType;
 import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.quantities.Unit;
@@ -64,7 +65,6 @@ import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.VisualGroupElementNode;
 import org.geppetto.core.model.runtime.VisualGroupNode;
 import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
-import org.geppetto.core.model.simulation.ConnectionType;
 import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
 import org.geppetto.core.model.values.DoubleValue;
 import org.geppetto.core.model.values.ValuesFactory;

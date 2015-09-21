@@ -227,6 +227,6 @@ public class PathConfiguration
 	}
 	
 	public static URL getModelSchemaURL(){
-		return PathConfiguration.class.getResource("/schema/simulation/simulationSchema.xsd");
+		return PathConfiguration.class.getResource("/schema/geppettoModel/geppettoModelSchema.xsd");
 	}
 }

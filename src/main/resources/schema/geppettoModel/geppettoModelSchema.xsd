@@ -88,6 +88,9 @@
 			<element name="id" type="string" maxOccurs="1"
 				minOccurs="1">
 			</element>
+			<element name="name" type="string"
+				maxOccurs="1" minOccurs="0">
+			</element>
 			<element name="instancePath" type="string" maxOccurs="1"
 				minOccurs="0">
 			</element>

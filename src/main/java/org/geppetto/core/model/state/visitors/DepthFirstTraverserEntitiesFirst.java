@@ -32,12 +32,12 @@
  *******************************************************************************/
 package org.geppetto.core.model.state.visitors;
 
-import org.geppetto.core.model.simulation.Aspect;
-import org.geppetto.core.model.simulation.Entity;
-import org.geppetto.core.model.simulation.GeppettoModel;
-import org.geppetto.core.model.simulation.Model;
-import org.geppetto.core.model.simulation.visitor.DepthFirstTraverserImpl;
-import org.geppetto.core.model.simulation.visitor.Visitor;
+import org.geppetto.core.model.geppettomodel.Aspect;
+import org.geppetto.core.model.geppettomodel.Entity;
+import org.geppetto.core.model.geppettomodel.GeppettoModel;
+import org.geppetto.core.model.geppettomodel.Model;
+import org.geppetto.core.model.geppettomodel.visitor.DepthFirstTraverserImpl;
+import org.geppetto.core.model.geppettomodel.visitor.Visitor;
 
 /**
  * @author matteocantarelli
@@ -82,14 +82,6 @@ public class DepthFirstTraverserEntitiesFirst extends DepthFirstTraverserImpl
             	return;
             }
         }
-    	// SIM TODO
-//        if (aBean.getSimulator()!= null) {
-//            aBean.getSimulator().accept(aVisitor);
-//            if(_stopVisiting)
-//            {
-//            	return;
-//            }
-//        }
     }
 
 

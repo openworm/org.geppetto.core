@@ -217,19 +217,19 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<bindingDirectory>src/main/resources/schema/simulation/bindings/</bindingDirectory>
+							<bindingDirectory>src/main/resources/schema/geppettoModel/bindings/</bindingDirectory>
 							<bindingIncludes>
-								<include>simulationSchema.xjb</include>
+								<include>geppettoModelSchema.xjb</include>
 							</bindingIncludes>
 							<!--<forceRegenerate>true</forceRegenerate> -->
-							<schemaDirectory>src/main/resources/schema/simulation</schemaDirectory>
-							<generateDirectory>${project.build.directory}/generated-sources/simulationSchema</generateDirectory>
+							<schemaDirectory>src/main/resources/schema/geppettoModel</schemaDirectory>
+							<generateDirectory>${project.build.directory}/generated-sources/geppettoModel</generateDirectory>
 							<schemaIncludes>
-								<include>simulationSchema.xsd</include>
+								<include>geppettoModelSchema.xsd</include>
 							</schemaIncludes>
 							<args>
 								<arg>-Xvisitor</arg>
-								<arg>-Xvisitor-package:org.geppetto.core.model.simulation.visitor</arg>
+								<arg>-Xvisitor-package:org.geppetto.core.model.geppettomodel.visitor</arg>
 							</args>
 
 							<plugins>

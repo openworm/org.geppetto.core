@@ -3,7 +3,7 @@ package org.geppetto.core.model.runtime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geppetto.core.model.simulation.ConnectionType;
+import org.geppetto.core.model.geppettomodel.ConnectionType;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 
 /**
