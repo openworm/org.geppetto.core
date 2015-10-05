@@ -419,5 +419,12 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	{
 		((LocalAspectConfiguration)aspectConfiguration).getWatchedVariables().add((LocalInstancePath)instancePath);
 	}
+	
+	@Override
+	public IUser updateUser(IUser user, String password)
+	{
+		// Just return a new user
+		return newUser(user.getName(), password, false);
+	}
 
 }

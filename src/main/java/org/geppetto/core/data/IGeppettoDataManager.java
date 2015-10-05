@@ -99,6 +99,8 @@ public interface IGeppettoDataManager
 	
 	IUser newUser(String name, String password, boolean persistent);
 	
+	IUser updateUser(IUser user, String password);
+	
 	IAspectConfiguration newAspectConfiguration(IExperiment experiment, IInstancePath instancePath, ISimulatorConfiguration simulatorConfiguration);
 
 	ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, long timestep, long length);
@@ -108,7 +110,6 @@ public interface IGeppettoDataManager
 	Object deleteGeppettoProject(long id, IUser user);
 
 	Object deleteExperiment(IExperiment experiment);
-
 
 	void clearWatchedVariables(IAspectConfiguration aspectConfig);
 	
