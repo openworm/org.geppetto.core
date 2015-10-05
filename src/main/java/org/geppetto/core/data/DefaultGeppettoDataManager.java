@@ -166,7 +166,15 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public Collection<LocalGeppettoProject> getAllGeppettoProjects()
 	{
-		return projects.values();
+		List<LocalGeppettoProject> allProjects=new ArrayList<LocalGeppettoProject>();
+		for(LocalGeppettoProject project:projects.values())
+		{
+			if(!project.isVolatile())
+			{
+				allProjects.add(project);
+			}
+		}
+		return allProjects;
 	}
 
 	/*
@@ -177,7 +185,15 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public Collection<LocalGeppettoProject> getGeppettoProjectsForUser(String login)
 	{
-		return projects.values();
+		List<LocalGeppettoProject> allProjects=new ArrayList<LocalGeppettoProject>();
+		for(LocalGeppettoProject project:projects.values())
+		{
+			if(!project.isVolatile())
+			{
+				allProjects.add(project);
+			}
+		}
+		return allProjects;
 	}
 
 	/*
