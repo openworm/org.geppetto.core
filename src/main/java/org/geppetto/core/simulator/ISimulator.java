@@ -58,9 +58,9 @@ public interface ISimulator extends IService{
 	 * @param aspectNode
 	 * @throws GeppettoExecutionException
 	 */
-	void simulate(IAspectConfiguration aspectConfiguration, AspectNode aspectNode) throws GeppettoExecutionException;
+	void simulate(AspectNode aspect) throws GeppettoExecutionException;
 	
-	void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
+	void initialize(List<IModel> models, ISimulatorCallbackListener listener, IAspectConfiguration aspectConfiguration) throws GeppettoInitializationException, GeppettoExecutionException;
 
 	boolean isInitialized();
 	

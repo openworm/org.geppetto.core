@@ -56,7 +56,7 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 	}
 
 	@Override
-	public void simulate(IAspectConfiguration aspectConfiguration, AspectNode aspect) throws GeppettoExecutionException
+	public void simulate(AspectNode aspect) throws GeppettoExecutionException
 	{
 		this.aspectNode = aspect;
 		// send command, directory where execution is happening, and path to original file script to execute
