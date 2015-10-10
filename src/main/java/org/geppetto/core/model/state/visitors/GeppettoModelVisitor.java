@@ -33,8 +33,8 @@
 package org.geppetto.core.model.state.visitors;
 
 import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.model.simulation.visitor.BaseVisitor;
-import org.geppetto.core.model.simulation.visitor.TraversingVisitor;
+import org.geppetto.core.model.geppettomodel.visitor.BaseVisitor;
+import org.geppetto.core.model.geppettomodel.visitor.TraversingVisitor;
 
 /**
  * Pattern to use: fill the exception field if the visitor throws an exception
