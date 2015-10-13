@@ -678,7 +678,7 @@ public class SerializeTreeVisitor extends RuntimeTreeVisitor
 				valueString = "\"value\":" + "\"" + value + "\",";
 			}
 
-			_serialized.append("\"" + node.getId() + "\":{" + valueString.replaceAll("[\n\r]", "") + commonProperties + "},");
+			_serialized.append("\"" + node.getId() + "\":{" + valueString.replaceAll("[\n\r]", "").replaceAll("[\t]", "") + commonProperties + "},");
 		}
 		return super.visitTextMetadataNode(node);
 	}
