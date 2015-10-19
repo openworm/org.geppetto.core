@@ -57,6 +57,7 @@ import org.geppetto.core.model.runtime.CylinderNode;
 import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
 import org.geppetto.core.model.runtime.FunctionNode;
+import org.geppetto.core.model.runtime.HTMLMetadataNode;
 import org.geppetto.core.model.runtime.OBJNode;
 import org.geppetto.core.model.runtime.ParameterNode;
 import org.geppetto.core.model.runtime.ParameterSpecificationNode;
@@ -73,6 +74,7 @@ import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
 import org.geppetto.core.model.values.AValue;
 import org.geppetto.core.visualisation.model.Point;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class SerializeTreeVisitor extends RuntimeTreeVisitor
@@ -681,6 +683,24 @@ public class SerializeTreeVisitor extends RuntimeTreeVisitor
 			_serialized.append("\"" + node.getId() + "\":{" + valueString.replaceAll("[\n\r]", "").replaceAll("[\t]", "") + commonProperties + "},");
 		}
 		return super.visitTextMetadataNode(node);
+	}
+	
+	@Override
+	public boolean visitHTMLMetadataNode(HTMLMetadataNode node)
+	{
+		if(node.isModified())
+		{
+			String commonProperties = this.commonProperties(node);
+			String valueString = "";
+			if(node.getValue() != null)
+			{
+				AValue value = node.getValue();
+				valueString = "\"value\":" + "\"" + value.toString().replaceAll("[\n\r]", "").replaceAll("[\t]", "").replace("\"", "\\\"") + "\",";
+			}
+
+			_serialized.append("\"" + node.getId() + "\":{" + valueString + commonProperties + "},");
+		}
+		return super.visitHTMLMetadataNode(node);
 	}
 
 	@Override
