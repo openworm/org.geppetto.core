@@ -166,7 +166,15 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public Collection<LocalGeppettoProject> getAllGeppettoProjects()
 	{
-		return projects.values();
+		List<LocalGeppettoProject> allProjects=new ArrayList<LocalGeppettoProject>();
+		for(LocalGeppettoProject project:projects.values())
+		{
+			if(!project.isVolatile())
+			{
+				allProjects.add(project);
+			}
+		}
+		return allProjects;
 	}
 
 	/*
@@ -177,7 +185,15 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public Collection<LocalGeppettoProject> getGeppettoProjectsForUser(String login)
 	{
-		return projects.values();
+		List<LocalGeppettoProject> allProjects=new ArrayList<LocalGeppettoProject>();
+		for(LocalGeppettoProject project:projects.values())
+		{
+			if(!project.isVolatile())
+			{
+				allProjects.add(project);
+			}
+		}
+		return allProjects;
 	}
 
 	/*
@@ -402,6 +418,13 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	public void addWatchedVariable(IAspectConfiguration aspectConfiguration, IInstancePath instancePath)
 	{
 		((LocalAspectConfiguration)aspectConfiguration).getWatchedVariables().add((LocalInstancePath)instancePath);
+	}
+	
+	@Override
+	public IUser updateUser(IUser user, String password)
+	{
+		// Just return a new user
+		return newUser(user.getName(), password, false);
 	}
 
 }
