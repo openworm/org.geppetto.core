@@ -53,14 +53,14 @@ import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.quantities.Unit;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
-import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.SkeletonAnimationNode;
 import org.geppetto.core.model.runtime.VariableNode;
-import org.geppetto.core.model.values.AValue;
-import org.geppetto.core.model.values.ValuesFactory;
+import org.geppetto.core.model.typesystem.AspectNode;
+import org.geppetto.core.model.typesystem.values.AValue;
+import org.geppetto.core.model.typesystem.values.ValuesFactory;
 import org.geppetto.core.utilities.StringSplitter;
 
 /**

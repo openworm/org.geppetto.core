@@ -11,7 +11,7 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.HDF5Reader;
-import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.typesystem.AspectNode;
 import org.geppetto.core.services.AService;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;

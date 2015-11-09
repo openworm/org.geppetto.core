@@ -38,7 +38,7 @@ import java.util.Map;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.ResultsFormat;
-import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.typesystem.AspectNode;
 
 /**
  * @author matteocantarelli

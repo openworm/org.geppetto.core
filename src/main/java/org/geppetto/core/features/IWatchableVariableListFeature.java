@@ -34,7 +34,7 @@ package org.geppetto.core.features;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.typesystem.AspectNode;
 
 /**
  * Interface used by classes that need to implement variable watch

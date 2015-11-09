@@ -33,7 +33,7 @@
 package org.geppetto.core.model.runtime;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
-import org.geppetto.core.model.values.AValue;
+import org.geppetto.core.model.typesystem.values.AValue;
 
 /**
  * Node use for storing text metadata properties and serialization

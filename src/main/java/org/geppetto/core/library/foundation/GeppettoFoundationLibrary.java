@@ -30,15 +30,22 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.values.visitors;
+package org.geppetto.core.library.foundation;
+
+import org.geppetto.core.library.AGeppettoLibrary;
 
 /**
  * @author matteocantarelli
  *
  */
-public interface IVisitable
+public class GeppettoFoundationLibrary extends AGeppettoLibrary
 {
 	
-	boolean accept(IValuesVisitor visitor);
-
+	public void init()
+	{
+		if(types.isEmpty())
+		{
+			addType(GeppettoFoundationTypesFactory.getDynamicsSpecificationType());
+		}
+	}
 }

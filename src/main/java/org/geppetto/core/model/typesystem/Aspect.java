@@ -30,23 +30,47 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.values.visitors;
+package org.geppetto.core.model.typesystem;
 
-import org.geppetto.core.model.values.DoubleValue;
-import org.geppetto.core.model.values.FloatValue;
-import org.geppetto.core.model.values.StringValue;
 
 /**
  * @author matteocantarelli
  *
  */
-public interface IValuesVisitor
+public class Aspect implements IAspect
 {
+	
+	String name;
+	
+	String id;
 
-	void visit( DoubleValue value );
-	
-	void visit( FloatValue value );
-	
-	void visit( StringValue value );
+	/**
+	 * @param name
+	 * @param id
+	 */
+	public Aspect(String name, String id)
+	{
+		super();
+		this.name = name;
+		this.id = id;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.geppetto.core.model.typesystem.IAspect#getName()
+	 */
+	@Override
+	public String getName()
+	{
+		return name;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.geppetto.core.model.typesystem.IAspect#getId()
+	 */
+	@Override
+	public String getId()
+	{
+		return id;
+	}
 
 }

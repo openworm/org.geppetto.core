@@ -6,7 +6,7 @@ import java.util.Map;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.externalprocesses.ExternalProcess;
-import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.typesystem.AspectNode;
 import org.geppetto.core.simulation.IExternalSimulatorCallbackListener;
 
 /**

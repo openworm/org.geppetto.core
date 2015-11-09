@@ -34,7 +34,6 @@ package org.geppetto.core;
 
 import junit.framework.Assert;
 
-import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.runtime.CompositeNode;
@@ -42,6 +41,7 @@ import org.geppetto.core.model.runtime.EntityNode;
 import org.geppetto.core.model.runtime.ParameterSpecificationNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.VisualGroupNode;
+import org.geppetto.core.model.typesystem.AspectNode;
 import org.junit.Before;
 import org.junit.Test;
 

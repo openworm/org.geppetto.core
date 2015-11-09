@@ -1,6 +1,6 @@
 package org.geppetto.core.features;
 
-import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.typesystem.AspectNode;
 
 /**
  * This feature when implemented allows a simulator to dynamically change

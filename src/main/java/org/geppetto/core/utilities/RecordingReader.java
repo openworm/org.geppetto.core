@@ -50,11 +50,11 @@ import ncsa.hdf.hdf5lib.structs.H5O_info_t;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
-import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.SkeletonAnimationNode;
 import org.geppetto.core.model.runtime.VariableNode;
+import org.geppetto.core.model.typesystem.AspectNode;
 
 /**
  * Utility class to read recording files

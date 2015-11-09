@@ -32,7 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.model.quantities;
 
-import org.geppetto.core.model.values.AValue;
+import org.geppetto.core.model.typesystem.values.AValue;
 
 public class Quantity
 {

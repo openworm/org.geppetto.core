@@ -42,7 +42,7 @@ import org.geppetto.core.manager.Scope;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.typesystem.AspectNode;
 import org.geppetto.core.services.AService;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 

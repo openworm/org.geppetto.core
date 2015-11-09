@@ -47,8 +47,8 @@ import org.geppetto.core.model.quantities.Quantity;
 import org.geppetto.core.model.runtime.SkeletonAnimationNode;
 import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.state.visitors.RuntimeTreeVisitor;
-import org.geppetto.core.model.values.AValue;
-import org.geppetto.core.model.values.ValuesFactory;
+import org.geppetto.core.model.typesystem.values.AValue;
+import org.geppetto.core.model.typesystem.values.ValuesFactory;
 import org.geppetto.core.utilities.StringSplitter;
 
 /**

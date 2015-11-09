@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geppetto.core.model.state.visitors.IStateVisitor;
+import org.geppetto.core.model.typesystem.AspectNode;
 import org.geppetto.core.visualisation.model.Point;
 
 /**

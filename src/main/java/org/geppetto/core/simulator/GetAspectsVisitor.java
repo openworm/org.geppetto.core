@@ -34,8 +34,8 @@ package org.geppetto.core.simulator;
 
 import java.util.HashMap;
 
-import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.state.visitors.RuntimeTreeVisitor;
+import org.geppetto.core.model.typesystem.AspectNode;
 
 /**
  * Visitor used for retrieving all aspects within entity

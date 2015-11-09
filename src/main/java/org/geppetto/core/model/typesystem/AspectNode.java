@@ -30,10 +30,15 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.runtime;
+package org.geppetto.core.model.typesystem;
 
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.IModelInterpreter;
+import org.geppetto.core.model.runtime.ACompositeNode;
+import org.geppetto.core.model.runtime.ANode;
+import org.geppetto.core.model.runtime.AspectSubTreeNode;
+import org.geppetto.core.model.runtime.EntityNode;
+import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
 import org.geppetto.core.simulator.ISimulator;

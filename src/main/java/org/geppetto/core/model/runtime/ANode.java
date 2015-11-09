@@ -33,6 +33,7 @@
 package org.geppetto.core.model.runtime;
 
 import org.geppetto.core.model.state.visitors.IVisitable;
+import org.geppetto.core.model.typesystem.AspectNode;
 
 /**
  * Parent Node, use for serialization.

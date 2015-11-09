@@ -38,7 +38,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
-import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.core.model.typesystem.AspectNode;
 import org.geppetto.core.services.IService;
 import org.geppetto.core.services.ModelFormat;
 

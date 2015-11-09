@@ -35,7 +35,7 @@ package org.geppetto.core.model.runtime;
 import org.geppetto.core.model.quantities.PhysicalQuantity;
 import org.geppetto.core.model.quantities.Unit;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
-import org.geppetto.core.model.values.AValue;
+import org.geppetto.core.model.typesystem.values.AValue;
 
 /**
  * Node used to store specific parameters with quantities

@@ -48,7 +48,6 @@ import org.geppetto.core.model.quantities.Unit;
 import org.geppetto.core.model.runtime.ACompositeNode;
 import org.geppetto.core.model.runtime.ANode;
 import org.geppetto.core.model.runtime.ATimeSeriesNode;
-import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
 import org.geppetto.core.model.runtime.CompositeNode;
@@ -70,7 +69,8 @@ import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.VisualGroupElementNode;
 import org.geppetto.core.model.runtime.VisualGroupNode;
 import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
-import org.geppetto.core.model.values.AValue;
+import org.geppetto.core.model.typesystem.AspectNode;
+import org.geppetto.core.model.typesystem.values.AValue;
 import org.geppetto.core.visualisation.model.Point;
 
 import com.google.gson.JsonObject;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geppetto.core.model.geppettomodel.ConnectionType;
 import org.geppetto.core.model.state.visitors.IStateVisitor;
+import org.geppetto.core.model.typesystem.AspectNode;
 
 /**
  * 

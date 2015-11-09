@@ -32,7 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.model.runtime;
 
-import org.geppetto.core.model.values.AValue;
+import org.geppetto.core.model.typesystem.values.AValue;
 
 /**
  * Node used for storing metada properties

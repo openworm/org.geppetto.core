@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.geppetto.core.model.values;
+package org.geppetto.core.model.typesystem.values;
 
 /**
  * @author matteocantarelli

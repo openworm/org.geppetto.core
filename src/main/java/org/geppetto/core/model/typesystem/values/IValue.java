@@ -30,36 +30,13 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.model.values.visitors;
-
-import org.geppetto.core.model.values.DoubleValue;
-import org.geppetto.core.model.values.FloatValue;
-import org.geppetto.core.model.values.StringValue;
+package org.geppetto.core.model.typesystem.values;
 
 /**
  * @author matteocantarelli
  *
  */
-public class DefaultValueVisitor implements IValuesVisitor
+public interface IValue
 {
-
-	@Override
-	public void visit(DoubleValue value)
-	{
-		return;
-	}
-
-	@Override
-	public void visit(FloatValue value)
-	{
-		return;
-	}
-
-	@Override
-	public void visit(StringValue value)
-	{
-		return;
-	}
-
 
 }

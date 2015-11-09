@@ -32,7 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.model.state.visitors;
 
-import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.ColladaNode;
 import org.geppetto.core.model.runtime.CompositeNode;
@@ -54,6 +53,7 @@ import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.VisualGroupElementNode;
 import org.geppetto.core.model.runtime.VisualGroupNode;
 import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
+import org.geppetto.core.model.typesystem.AspectNode;
 
 /**
  * @author matteocantarelli
