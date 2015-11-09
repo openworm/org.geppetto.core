@@ -29,6 +29,13 @@ Popup1.setName("Description");
 Popup1.setPosition(870, 90);
 Popup1.setSize(160,465)
 
+hhcell.electrical.getModelTree();
+G.addWidget(Widgets.POPUP);
+Popup2.setPosition(870,259)
+Popup2.setSize(321.8,464.8)
+Popup2.addCustomNodeHandler(function(path){alert(path);}, 'click');
+Popup2.setMessage(hhcell.electrical.ModelTree.ModelDescription.value);
+
 G.addBrightnessFunction(hhcell.electrical, hhcell.electrical.SimulationTree.hhpop[0].v, function(x){return (x+0.07)/0.1;});
 
 Project.getActiveExperiment().play({step:1});
