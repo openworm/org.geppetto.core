@@ -33,7 +33,7 @@ hhcell.electrical.getModelTree();
 G.addWidget(Widgets.POPUP);
 Popup2.setPosition(870,259)
 Popup2.setSize(321.8,464.8)
-Popup2.addCustomNodeHandler(function(path){alert(path);}, 'click');
+Popup2.addCustomNodeHandler(function(path){alert(path.getName());}, 'click');
 Popup2.setMessage(hhcell.electrical.ModelTree.ModelDescription.value);
 
 G.addBrightnessFunction(hhcell.electrical, hhcell.electrical.SimulationTree.hhpop[0].v, function(x){return (x+0.07)/0.1;});
