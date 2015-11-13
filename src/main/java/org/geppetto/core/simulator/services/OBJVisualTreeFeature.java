@@ -3,25 +3,24 @@ package org.geppetto.core.simulator.services;
 import org.geppetto.core.features.IVisualTreeFeature;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
-import org.geppetto.core.model.runtime.OBJNode;
-import org.geppetto.core.model.typesystem.AspectNode;
+import org.geppetto.core.model.typesystem.values.OBJValue;
 import org.geppetto.core.services.GeppettoFeature;
 
-public class OBJVisualTreeFeature implements IVisualTreeFeature{
+public class OBJVisualTreeFeature implements IVisualTreeFeature
+{
 
 	GeppettoFeature type = GeppettoFeature.VISUAL_TREE_FEATURE;
-	
+
 	@Override
-	public GeppettoFeature getType() {
+	public GeppettoFeature getType()
+	{
 		return type;
 	}
 
 	@Override
-	public boolean populateVisualTree(AspectNode aspectNode)
-			throws ModelInterpreterException {
-		OBJNode obj = new OBJNode("OBJ");
+	public boolean populateVisualTree(AspectNode aspectNode) throws ModelInterpreterException
+	{
+		OBJValue obj = new OBJValue("OBJ");
 		obj.setModel((String) ((ModelWrapper) aspectNode.getModel()).getModel("OBJ"));
 
 		aspectNode.getSubTree(AspectTreeType.VISUALIZATION_TREE).addChild(obj);

@@ -46,9 +46,6 @@ import org.geppetto.core.model.AModelInterpreter;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
-import org.geppetto.core.model.typesystem.AspectNode;
 import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
@@ -77,11 +74,13 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 
 			addRecordings(recordings, instancePath, collada);
 
-			if(this.getFeature(GeppettoFeature.VISUAL_TREE_FEATURE)==null){
+			if(this.getFeature(GeppettoFeature.VISUAL_TREE_FEATURE) == null)
+			{
 				this.addFeature(new ColladaVisualTreeFeature());
 			}
-			
-			if(this.getFeature(GeppettoFeature.WATCHABLE_VARIABLE_LIST_FEATURE)==null){
+
+			if(this.getFeature(GeppettoFeature.WATCHABLE_VARIABLE_LIST_FEATURE) == null)
+			{
 				this.addFeature(new RecordingVariableListFeature());
 			}
 		}
@@ -110,7 +109,7 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 		modelTree.setId(AspectTreeType.MODEL_TREE.toString());
 		visualizationTree.setId(AspectTreeType.VISUALIZATION_TREE.toString());
 		simulationTree.setId(AspectTreeType.SIMULATION_TREE.toString());
-		
+
 		return true;
 	}
 
@@ -128,7 +127,7 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 		List<ModelFormat> modelFormats = new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.registerModelFormat("COLLADA")));
 		ServicesRegistry.registerModelInterpreterService(this, modelFormats);
 	}
- 
+
 	@Override
 	public File downloadModel(AspectNode aspectNode, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
 	{

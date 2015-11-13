@@ -46,39 +46,42 @@ import org.geppetto.core.solver.ISolver;
  * @author matteocantarelli
  * 
  */
-public abstract class AParallelSimulator extends ASimulator {
-	
+public abstract class AParallelSimulator extends ASimulator
+{
+
 	public abstract void startSimulatorCycle();
-	
+
 	public abstract void endSimulatorCycle();
 
 	Map<ISolver, List<IModel>> _iModelQueue = new HashMap<ISolver, List<IModel>>();
-	
 
 	/**
 	 * @param model
 	 */
-	protected void enqueue(final IModel model, final ISolver solver) {
-		if (!_iModelQueue.containsKey(solver)) 
+	protected void enqueue(final IModel model, final ISolver solver)
+	{
+		if(!_iModelQueue.containsKey(solver))
 		{
 			_iModelQueue.put(solver, new ArrayList<IModel>());
 		}
 		_iModelQueue.get(solver).add(model);
 	}
 
-
 	/**
 	 * 
 	 */
-	protected void clearQueue() {
+	protected void clearQueue()
+	{
 		_iModelQueue.clear();
 	}
 
 	/**
 	 * @param solver
 	 */
-	protected void clearQueue(final ISolver solver) {
-		if (_iModelQueue.containsKey(solver)) {
+	protected void clearQueue(final ISolver solver)
+	{
+		if(_iModelQueue.containsKey(solver))
+		{
 			_iModelQueue.remove(solver);
 		}
 		else
@@ -102,5 +105,5 @@ public abstract class AParallelSimulator extends ASimulator {
 			throw new InvalidParameterException(solver + " is not present in the queue!");
 		}
 	}
-	
+
 }

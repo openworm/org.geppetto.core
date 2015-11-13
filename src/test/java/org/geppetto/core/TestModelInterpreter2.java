@@ -39,6 +39,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
+import org.geppetto.core.library.LibraryManager;
 import org.geppetto.core.model.AModelInterpreter;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
@@ -103,6 +104,13 @@ public class TestModelInterpreter2 extends AModelInterpreter
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void importType(URL url, LibraryManager libraryManager)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

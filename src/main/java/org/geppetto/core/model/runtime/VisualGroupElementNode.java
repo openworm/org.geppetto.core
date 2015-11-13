@@ -1,40 +1,48 @@
 package org.geppetto.core.model.runtime;
 
-import org.geppetto.core.model.quantities.PhysicalQuantity;
-import org.geppetto.core.model.state.visitors.IStateVisitor;
+import org.geppetto.core.model.typesystem.values.AValue;
+import org.geppetto.core.model.typesystem.values.PhysicalQuantityValue;
+import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 
 /**
- * Element of Visual Group used to store individual node properties 
- * not shared with rest of the nodes in the same group.
+ * Element of Visual Group used to store individual node properties not shared with rest of the nodes in the same group.
  * 
- * @author  Jesus R. Martinez (jesus@metacell.us)
+ * @author Jesus R. Martinez (jesus@metacell.us)
  */
-public class VisualGroupElementNode extends ANode{
+public class VisualGroupElementNode extends AValue
+{
 
 	private String _defaultColor;
-	private PhysicalQuantity _parameter;
-	
-	public VisualGroupElementNode(String id) {
+	private PhysicalQuantityValue _parameter;
+
+	public VisualGroupElementNode(String id)
+	{
 		super(id);
 	}
 
-	public String getDefaultColor(){
+	public String getDefaultColor()
+	{
 		return this._defaultColor;
 	}
-	
-	public void setDefaultColor(String defaultColor){
+
+	public void setDefaultColor(String defaultColor)
+	{
 		this._defaultColor = defaultColor;
 	}
-	
-	public PhysicalQuantity getParameter(){
+
+	public PhysicalQuantityValue getParameter()
+	{
 		return this._parameter;
 	}
-	
-	public void setParameter(PhysicalQuantity parameter){
+
+	public void setParameter(PhysicalQuantityValue parameter)
+	{
 		this._parameter = parameter;
 	}
+
 	@Override
-	public boolean apply(IStateVisitor visitor) {
+	public boolean apply(IAnalysis visitor)
+	{
 		return visitor.visitVisualGroupElementNode(this);
 	}
 }

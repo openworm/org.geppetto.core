@@ -37,11 +37,11 @@ import org.geppetto.core.services.registry.ApplicationListenerBean;
 
 /**
  * This class creates a service using the application context.
- *  
+ * 
  * @author matteocantarelli
  *
  */
-public class ServiceCreator 
+public class ServiceCreator
 {
 
 	public static Object getNewServiceInstance(String discoveryId) throws GeppettoInitializationException

@@ -46,9 +46,6 @@ import org.geppetto.core.model.AModelInterpreter;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
-import org.geppetto.core.model.typesystem.AspectNode;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.core.simulator.services.OBJVisualTreeFeature;
@@ -86,7 +83,7 @@ public class ObjModelInterpreterService extends AModelInterpreter
 	@Override
 	public boolean populateModelTree(AspectNode aspectNode)
 	{
-		// TODO Auto-generated method stub 
+		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -100,7 +97,7 @@ public class ObjModelInterpreterService extends AModelInterpreter
 		modelTree.setId(AspectTreeType.MODEL_TREE.toString());
 		visualizationTree.setId(AspectTreeType.VISUALIZATION_TREE.toString());
 		simulationTree.setId(AspectTreeType.SIMULATION_TREE.toString());
-		
+
 		return true;
 	}
 

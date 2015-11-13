@@ -35,9 +35,10 @@ package org.geppetto.core.model.typesystem.types;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geppetto.core.model.typesystem.IAspect;
+import org.geppetto.core.model.typesystem.aspect.IAspect;
 import org.geppetto.core.model.typesystem.values.IValue;
 import org.geppetto.core.model.typesystem.variables.IVariable;
+import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 
 /**
  * @author matteocantarelli
@@ -72,11 +73,8 @@ public class CompositeType extends AType
 	 */
 	public void addVariable(IVariable variable)
 	{
-		if(variables == null)
-		{
-			variables = new ArrayList<IVariable>();
-		}
-		variables.add(variable);
+		getVariables().add(variable);
+		variable.setParent(this);
 	}
 
 	/*
@@ -89,6 +87,40 @@ public class CompositeType extends AType
 	{
 		// TODO Implement method if needed
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.geppetto.core.model.typesystem.visitor.IVisitable#apply(org.geppetto.core.model.typesystem.visitor.IAnalysis)
+	 */
+	@Override
+	public boolean apply(IAnalysis visitor)
+	{
+		if(visitor.inCompositeType(this)) // enter this node?
+		{
+			for(IVariable variable : getVariables())
+			{
+				variable.apply(visitor);
+				if(visitor.stopVisiting())
+				{
+					break;
+				}
+			}
+		}
+		return visitor.outCompositeType(this);
+	}
+
+	/**
+	 * @return
+	 */
+	private List<IVariable> getVariables()
+	{
+		if(variables == null)
+		{
+			variables = new ArrayList<IVariable>();
+		}
+		return variables;
 	}
 
 }

@@ -32,11 +32,13 @@
  *******************************************************************************/
 package org.geppetto.core.model.typesystem.values;
 
+import org.geppetto.core.model.typesystem.visitor.IVisitable;
+
 /**
  * @author matteocantarelli
  *
  */
-public interface IValue
+public interface IValue extends IVisitable
 {
 
 }

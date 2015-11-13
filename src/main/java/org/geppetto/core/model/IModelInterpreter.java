@@ -38,7 +38,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
-import org.geppetto.core.model.typesystem.AspectNode;
+import org.geppetto.core.library.LibraryManager;
 import org.geppetto.core.services.IService;
 import org.geppetto.core.services.ModelFormat;
 
@@ -49,15 +49,20 @@ import org.geppetto.core.services.ModelFormat;
  */
 public interface IModelInterpreter extends IService
 {
-	
+
+	void importType(URL url, LibraryManager libraryManager);
+
+	@Deprecated
 	IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException;
 
+	@Deprecated
 	boolean populateModelTree(AspectNode aspectNode) throws ModelInterpreterException;
 
+	@Deprecated
 	boolean populateRuntimeTree(AspectNode aspectNode) throws ModelInterpreterException;
 
 	File downloadModel(AspectNode aspectNode, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException;
-	
+
 	List<ModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException;
 
 	String getName();

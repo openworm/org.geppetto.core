@@ -7,7 +7,6 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
 
 public interface IRuntimeTreeManager
 {
@@ -17,7 +16,7 @@ public interface IRuntimeTreeManager
 	 * 
 	 * @param aspectID
 	 * @return
-	 * @throws GeppettoExecutionException 
+	 * @throws GeppettoExecutionException
 	 */
 	public Map<String, AspectSubTreeNode> getModelTree(String aspectInstancePath, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
@@ -30,23 +29,23 @@ public interface IRuntimeTreeManager
 	public abstract Map<String, AspectSubTreeNode> getSimulationTree(String aspectInstancePath, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;;
 
 	/**
-	 * Changes the parameters of the model 
+	 * Changes the parameters of the model
+	 * 
 	 * @param aspectInstancePath
 	 * @param parameters
 	 */
 	public abstract AspectSubTreeNode setModelParameters(String aspectInstancePath, Map<String, String> parameters, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;;
 
-	
 	/**
 	 * Sets variables to be watched
-	 * @throws GeppettoExecutionException 
-	 * @throws GeppettoInitializationException 
+	 * 
+	 * @throws GeppettoExecutionException
+	 * @throws GeppettoInitializationException
 	 * */
 	void setWatchedVariables(List<String> watchedVariables, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
-	
 	/**
-	 * @throws GeppettoExecutionException 
+	 * @throws GeppettoExecutionException
 	 * 
 	 */
 	public abstract void clearWatchLists(IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;

@@ -30,12 +30,11 @@ public interface IDownloadManager
 	 */
 	public abstract List<ModelFormat> getSupportedOuputs(String aspectInstancePath, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
-	
 	/**
-	 * @param aspectPath 
+	 * @param aspectPath
 	 * @param resultsFormat
 	 * @return
-	 * @throws GeppettoExecutionException 
+	 * @throws GeppettoExecutionException
 	 */
 	public abstract URL downloadResults(String aspectPath, ResultsFormat resultsFormat, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 

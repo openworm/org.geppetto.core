@@ -34,7 +34,6 @@ package org.geppetto.core.features;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.model.typesystem.AspectNode;
 
 /**
  * Interface used by classes that need to implement variable watch
@@ -42,6 +41,7 @@ import org.geppetto.core.model.typesystem.AspectNode;
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public interface IWatchableVariableListFeature extends IFeature{
+public interface IWatchableVariableListFeature extends IFeature
+{
 	boolean listWatchableVariables(AspectNode aspectNode, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException;
 }

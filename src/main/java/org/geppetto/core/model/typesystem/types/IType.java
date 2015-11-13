@@ -32,24 +32,25 @@
  *******************************************************************************/
 package org.geppetto.core.model.typesystem.types;
 
-import org.geppetto.core.model.typesystem.IAspect;
+import org.geppetto.core.model.typesystem.aspect.IAspect;
 import org.geppetto.core.model.typesystem.values.IValue;
+import org.geppetto.core.model.typesystem.visitor.IVisitable;
 
 /**
  * @author matteocantarelli
  *
  */
-public interface IType
+public interface IType extends IVisitable
 {
-	
+
 	String getName();
-	
+
 	IAspect getAspect();
-	
+
 	IValue getDefaultValue();
-	
+
 	IType getBaseType();
-	
+
 	IVisualType getVisualType();
 
 	boolean equivalent(IType type);

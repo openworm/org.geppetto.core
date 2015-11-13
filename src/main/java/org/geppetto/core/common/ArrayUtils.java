@@ -43,15 +43,15 @@ public class ArrayUtils
 	{
 		return v.contains("[");
 	}
-	
+
 	public static int getArrayIndex(String v)
 	{
-		return Integer.parseInt(v.substring(v.indexOf("[")+1, v.indexOf("]")));
+		return Integer.parseInt(v.substring(v.indexOf("[") + 1, v.indexOf("]")));
 	}
-	
+
 	public static String getArrayName(String v)
 	{
 		return v.substring(0, v.indexOf("["));
 	}
-	
+
 }

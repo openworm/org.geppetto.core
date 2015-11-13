@@ -51,7 +51,7 @@ public class LocalSimulationResult implements ISimulationResult
 		this.id = id;
 		this.aspect = aspect;
 		this.result = result;
-		this.format=format;
+		this.format = format;
 	}
 
 	@Override

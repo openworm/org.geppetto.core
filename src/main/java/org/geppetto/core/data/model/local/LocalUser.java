@@ -125,7 +125,7 @@ public class LocalUser implements IUser
 	@Override
 	public void setDropboxToken(String token)
 	{
-		this.dropboxToken=token;
+		this.dropboxToken = token;
 	}
 
 }

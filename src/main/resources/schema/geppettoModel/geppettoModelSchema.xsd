@@ -4,15 +4,20 @@
 	elementFormDefault="qualified" xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
 	jxb:version="2.0">
 
-
 	<element name="geppettoModel">
 		<complexType>
 			<sequence>
-				<element name="entity" type="tns:Entity" maxOccurs="unbounded"
-					minOccurs="1">
+				<element name="variable" type="tns:GMVariable" maxOccurs="unbounded" minOccurs="0">
 					<annotation>
 						<appinfo>
-							<jxb:property name="entities" />
+							<jxb:property name="variables" />
+						</appinfo>
+					</annotation>
+				</element>
+				<element name="import" type="tns:GMImport" maxOccurs="unbounded" minOccurs="0">
+					<annotation>
+						<appinfo>
+							<jxb:property name="imports" />
 						</appinfo>
 					</annotation>
 				</element>
@@ -20,136 +25,47 @@
 		</complexType>
 	</element>
 
-	<complexType name="Model">
+	<complexType name="GMImport">
 		<sequence>
-			<element name="modelInterpreterId" type="string" maxOccurs="1"
-				minOccurs="1"></element>
-			<element name="modelURL" type="string" maxOccurs="1"
-				minOccurs="1"></element>
-			<element name="instancePath" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="parentAspect" type="tns:Aspect" maxOccurs="1" minOccurs="0"></element>
-			<element name="recordingURL" type="string" maxOccurs="unbounded" minOccurs="0"></element>
+			<element name="aspect" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element name="modelInterpreterId" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element name="typeName" type="string" maxOccurs="1" minOccurs="0"></element>
 			<element name="referenceURL" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element name="importURL" type="string" maxOccurs="1" minOccurs="1"></element>
 		</sequence>
 	</complexType>
 
-	<complexType name="Point3D">
+	<complexType name="GMVariable">
 		<sequence>
-			<element name="x" type="float" maxOccurs="1" minOccurs="1"></element>
-			<element name="y" type="float" maxOccurs="1" minOccurs="1"></element>
-			<element name="z" type="float" maxOccurs="1" minOccurs="1"></element>
-		</sequence>
-	</complexType>
-
-	<simpleType name="ConnectionType">
-		<restriction base="string">
-			<enumeration value="FROM" />
-			<enumeration value="TO" />
-			<enumeration value="UNDIRECTED" />
-		</restriction>
-	</simpleType>
-	
-	<complexType name="VisualObjectReference">
-		<sequence>
-			<element name="aspectInstancePath" type="string"
-				maxOccurs="1" minOccurs="1">
-			</element>
-			<element name="visualObjectID" type="string" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
-		</sequence>
-	</complexType>
-	
-	<complexType name="CustomProperty">
-		<sequence>
-			<element name="name" type="string"
-				maxOccurs="1" minOccurs="1">
-			</element>
-			<element name="value" type="float" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
-		</sequence>
-	</complexType>
-	
-	<complexType name="Aspect">
-		<sequence>
-			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
-			<element name="instancePath" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="model" type="tns:Model" maxOccurs="1"
-				minOccurs="0"></element>
-			<element name="parentEntity" type="tns:Entity" maxOccurs="1" minOccurs="0"></element>
-		</sequence>
-	</complexType>
-
-	<complexType name="Entity">
-		<sequence>
-			<element name="id" type="string" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="name" type="string"
-				maxOccurs="1" minOccurs="0">
-			</element>
-			<element name="instancePath" type="string" maxOccurs="1"
-				minOccurs="0">
-			</element>
-			<element name="aspect" type="tns:Aspect"
-				maxOccurs="unbounded" minOccurs="1">
+			<element name="name" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element name="type" type="tns:GMType" maxOccurs="unbounded" minOccurs="1">
 				<annotation>
 					<appinfo>
-						<jxb:property name="aspects" />
+						<jxb:property name="types" />
 					</appinfo>
 				</annotation>
 			</element>
-			<element name="parentEntity" type="tns:Entity" maxOccurs="1"
-				minOccurs="0">
-			</element>
-			<element name="entity" type="tns:Entity"
-				maxOccurs="unbounded" minOccurs="0">
-				<annotation>
-					<appinfo>
-						<jxb:property name="entities" />
-					</appinfo>
-				</annotation>
-			</element>
-			<element name="position" type="tns:Point3D" minOccurs="0"
-				maxOccurs="1">
-			</element>
-            <element name="connection" type="tns:Connection" 
-            	maxOccurs="unbounded" minOccurs="0">
-            	<annotation>
-					<appinfo>
-						<jxb:property name="connections" />
-					</appinfo>
-				</annotation>
-            </element>
         </sequence>
 	</complexType>
 	
-	<complexType name="Connection">
-		<sequence>
-			<element name="id" type="string" maxOccurs="1" minOccurs="1"></element>
-			<element name="entityInstancePath" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="type" type="tns:ConnectionType" maxOccurs="1"
-				minOccurs="1"></element>
-			<element name="visualReference" type="tns:VisualObjectReference"
-				maxOccurs="unbounded" minOccurs="0">
-				<annotation>
-					<appinfo>
-						<jxb:property name="visualObjectReferences" />
-					</appinfo>
-				</annotation>
-			</element>
-			<element name="customProperty" type="tns:CustomProperty"
-				maxOccurs="unbounded" minOccurs="0">
-				<annotation>
-					<appinfo>
-						<jxb:property name="customProperties" />
-					</appinfo>
-				</annotation>
-			</element>
-		</sequence>
+	<complexType name="GMType">
+		<choice>
+			<sequence>
+				<element name="typeRef" type="string" maxOccurs="1" minOccurs="1"></element>
+				<element name="aspect" type="string" maxOccurs="1" minOccurs="1"></element>
+			</sequence>
+			<sequence>
+				<element name="typeName" type="string" maxOccurs="1" minOccurs="1"></element>
+				<element name="variable" type="tns:GMVariable" maxOccurs="unbounded" minOccurs="0">
+					<annotation>
+						<appinfo>
+							<jxb:property name="variables" />
+						</appinfo>
+					</annotation>
+				</element>
+			</sequence>
+			<element name="import" type="tns:GMImport" maxOccurs="1" minOccurs="1"></element>
+		</choice>
 	</complexType>
 
 	

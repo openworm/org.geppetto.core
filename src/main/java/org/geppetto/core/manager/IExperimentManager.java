@@ -6,8 +6,7 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.model.runtime.RuntimeTreeRoot;
+import org.geppetto.core.model.typesystem.Root;
 
 public interface IExperimentManager
 {
@@ -15,10 +14,10 @@ public interface IExperimentManager
 	/**
 	 * @param requestId
 	 * @param experiment
-	 * @return 
+	 * @return
 	 * @throws GeppettoExecutionException
 	 */
-	public abstract RuntimeTreeRoot loadExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
+	public abstract Root loadExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
 
 	/**
 	 * Run a specified experiment
@@ -27,39 +26,36 @@ public interface IExperimentManager
 	 * @param user
 	 * @param experiment
 	 * @throws GeppettoInitializationException
-	 * @throws GeppettoExecutionException 
+	 * @throws GeppettoExecutionException
 	 */
 	public abstract void runExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
 
-	
 	/**
 	 * @param requestId
 	 * @param experiment
-	 * @return 
+	 * @return
 	 */
 	Map<String, AspectSubTreeNode> playExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
-	
+
 	/**
 	 * Create a new experiment inside a given project
 	 * 
 	 * @param requestId
 	 * @param project
 	 * @return
-	 * @throws GeppettoExecutionException 
+	 * @throws GeppettoExecutionException
 	 */
 	public abstract IExperiment newExperiment(String requestId, IGeppettoProject project) throws GeppettoExecutionException;
-	
-	
+
 	/**
 	 * Delete a specified experiment
 	 * 
 	 * @param requestId
 	 * @param user
 	 * @param experiment
-	 * @throws GeppettoExecutionException 
+	 * @throws GeppettoExecutionException
 	 */
 	void deleteExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
-	
 
 	/**
 	 * @param requestId
@@ -67,6 +63,5 @@ public interface IExperimentManager
 	 * @param project
 	 */
 	void cancelExperimentRun(String requestId, IExperiment experiment);
-	
 
 }

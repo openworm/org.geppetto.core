@@ -42,32 +42,32 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.geppetto.core.model.geppettomodel.ConnectionType;
-import org.geppetto.core.model.quantities.PhysicalQuantity;
-import org.geppetto.core.model.quantities.Quantity;
-import org.geppetto.core.model.quantities.Unit;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
-import org.geppetto.core.model.runtime.CompositeNode;
-import org.geppetto.core.model.runtime.ConnectionNode;
-import org.geppetto.core.model.runtime.CylinderNode;
-import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
-import org.geppetto.core.model.runtime.FunctionNode;
 import org.geppetto.core.model.runtime.ParameterNode;
-import org.geppetto.core.model.runtime.ParameterSpecificationNode;
-import org.geppetto.core.model.runtime.RuntimeTreeRoot;
-import org.geppetto.core.model.runtime.SphereNode;
-import org.geppetto.core.model.runtime.TextMetadataNode;
-import org.geppetto.core.model.runtime.URLMetadataNode;
-import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.VisualGroupElementNode;
 import org.geppetto.core.model.runtime.VisualGroupNode;
 import org.geppetto.core.model.runtime.VisualObjectReferenceNode;
-import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
 import org.geppetto.core.model.typesystem.AspectNode;
+import org.geppetto.core.model.typesystem.Root;
+import org.geppetto.core.model.typesystem.types.ConnectionType;
+import org.geppetto.core.model.typesystem.values.CompositeValue;
+import org.geppetto.core.model.typesystem.values.ConnectionValue;
+import org.geppetto.core.model.typesystem.values.CylinderValue;
 import org.geppetto.core.model.typesystem.values.DoubleValue;
+import org.geppetto.core.model.typesystem.values.DynamicsSpecificationValue;
+import org.geppetto.core.model.typesystem.values.FunctionValue;
+import org.geppetto.core.model.typesystem.values.ParameterValue;
+import org.geppetto.core.model.typesystem.values.PhysicalQuantityValue;
+import org.geppetto.core.model.typesystem.values.QuantityValue;
+import org.geppetto.core.model.typesystem.values.SphereValue;
+import org.geppetto.core.model.typesystem.values.TextMetadataValue;
+import org.geppetto.core.model.typesystem.values.URLMetadataValue;
+import org.geppetto.core.model.typesystem.values.Unit;
 import org.geppetto.core.model.typesystem.values.ValuesFactory;
+import org.geppetto.core.model.typesystem.values.VariableValue;
+import org.geppetto.core.model.typesystem.visitor.SerializeTreeVisitor;
 import org.geppetto.core.visualisation.model.Point;
 import org.junit.Test;
 
@@ -81,7 +81,7 @@ public class TestNetworkSerialization {
 	@Test
 	public void testVisualGroups() {
 
-		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
+		Root runtime = new Root("root");
 
 		EntityNode hhcell = new EntityNode("hhcell");
 		
@@ -91,7 +91,7 @@ public class TestNetworkSerialization {
 		AspectNode electrical2 = new AspectNode("electrical");
 
 		AspectSubTreeNode visualization = electrical.getSubTree(AspectTreeType.VISUALIZATION_TREE);
-		SphereNode sphere = new SphereNode("purkinje");
+		SphereValue sphere = new SphereValue("purkinje");
 		visualization.addChild(sphere);
 
 		runtime.addChild(hhcell);
@@ -109,14 +109,14 @@ public class TestNetworkSerialization {
 		
 		VisualGroupElementNode soma = new VisualGroupElementNode("soma");
 		soma.setDefaultColor("orange");
-		PhysicalQuantity quantity = new PhysicalQuantity();
+		PhysicalQuantityValue quantity = new PhysicalQuantityValue();
 		quantity.setScalingFactor("10");
 		quantity.setValue(new DoubleValue(12));
 		soma.setParameter(quantity);
 		
 		VisualGroupElementNode synapse = new VisualGroupElementNode("synapse");
 		synapse.setDefaultColor("orange");
-		PhysicalQuantity quantity2 = new PhysicalQuantity();
+		PhysicalQuantityValue quantity2 = new PhysicalQuantityValue();
 		quantity2.setScalingFactor("100");
 		quantity2.setValue(new DoubleValue(12));
 		synapse.setParameter(quantity2);
@@ -148,7 +148,7 @@ public class TestNetworkSerialization {
 	@Test
 	public void testConnection() {
 
-		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
+		Root runtime = new Root("root");
 
 		EntityNode hhcell = new EntityNode("hhcell");
 		
@@ -160,7 +160,7 @@ public class TestNetworkSerialization {
 		AspectSubTreeNode visualization = new AspectSubTreeNode(
 				AspectTreeType.VISUALIZATION_TREE);
 
-		SphereNode sphere = new SphereNode("purkinje");
+		SphereValue sphere = new SphereValue("purkinje");
 		visualization.addChild(sphere);
 
 		runtime.addChild(hhcell);
@@ -170,7 +170,7 @@ public class TestNetworkSerialization {
 		electrical.setParent(hhcell);
 		electrical2.setParent(purkinje);
 
-		ConnectionNode con1 = new ConnectionNode("Connection_1",electrical);
+		ConnectionValue con1 = new ConnectionValue("Connection_1",electrical);
 		con1.setEntityInstancePath(hhcell.getInstancePath());
 		con1.setType(ConnectionType.TO);
 		con1.setParent(hhcell);
@@ -179,14 +179,14 @@ public class TestNetworkSerialization {
 		VisualObjectReferenceNode visObj = new VisualObjectReferenceNode("Vis");
 		visObj.setAspectInstancePath(electrical.getInstancePath());
 		visObj.setVisualObjectId(sphere.getId());
-		TextMetadataNode text = new TextMetadataNode("Text");
+		TextMetadataValue text = new TextMetadataValue("Text");
 		text.setValue(new DoubleValue(2));
 		
-		URLMetadataNode url = new URLMetadataNode("URL");
+		URLMetadataValue url = new URLMetadataValue("URL");
 		url.setValue(new DoubleValue(2));
 		url.setURL("hhtp://url.com");
 		
-		FunctionNode function = new FunctionNode("Function");
+		FunctionValue function = new FunctionValue("Function");
 		function.setExpression("x=y^2");
 		function.setName("hello");
 		
@@ -195,7 +195,7 @@ public class TestNetworkSerialization {
 		con1.getCustomNodes().add(function);
 		con1.getVisualReferences().add(visObj);
 		
-		ConnectionNode con2 = new ConnectionNode("Connection_2",electrical);
+		ConnectionValue con2 = new ConnectionValue("Connection_2",electrical);
 		con2.setEntityInstancePath(purkinje.getInstancePath());
 		con2.setType(ConnectionType.FROM);
 		con2.setParent(purkinje);
@@ -223,7 +223,7 @@ public class TestNetworkSerialization {
 	@Test
 	public void testNetworks() {
 
-		RuntimeTreeRoot runtimeTree = new RuntimeTreeRoot("RuntimeTree");
+		Root runtimeTree = new Root("RuntimeTree");
 
 		EntityNode entity1 = new EntityNode("Entity1");
 		EntityNode entity2 = new EntityNode("Entity2");
@@ -250,16 +250,16 @@ public class TestNetworkSerialization {
 				AspectTreeType.MODEL_TREE);
 		model.setModified(true);
 
-		DynamicsSpecificationNode dynamics = new DynamicsSpecificationNode(
+		DynamicsSpecificationValue dynamics = new DynamicsSpecificationValue(
 				"Dynamics");
 
-		PhysicalQuantity value = new PhysicalQuantity();
+		PhysicalQuantityValue value = new PhysicalQuantityValue();
 		value.setScalingFactor("10");
 		value.setUnit(new Unit("ms"));
 		value.setValue(new DoubleValue(10));
 		dynamics.setInitialConditions(value);
 
-		FunctionNode function = new FunctionNode("Function");
+		FunctionValue function = new FunctionValue("Function");
 		function.setExpression("y=x+2");
 		List<String> argumentsF = new ArrayList<String>();
 		argumentsF.add("1");
@@ -268,17 +268,17 @@ public class TestNetworkSerialization {
 
 		dynamics.setDynamics(function);
 
-		ParameterSpecificationNode parameter = new ParameterSpecificationNode(
+		ParameterValue parameter = new ParameterValue(
 				"Parameter");
 
-		PhysicalQuantity value1 = new PhysicalQuantity();
+		PhysicalQuantityValue value1 = new PhysicalQuantityValue();
 		value1.setScalingFactor("10");
 		value1.setUnit(new Unit("ms"));
 		value1.setValue(new DoubleValue(10));
 
 		parameter.setValue(value1);
 
-		FunctionNode functionNode = new FunctionNode("FunctionNode");
+		FunctionValue functionNode = new FunctionValue("FunctionNode");
 		functionNode.setExpression("y=x^2");
 		List<String> arguments = new ArrayList<String>();
 		arguments.add("1");
@@ -288,7 +288,7 @@ public class TestNetworkSerialization {
 				AspectTreeType.VISUALIZATION_TREE);
 		visualization.setModified(true);
 
-		SphereNode sphere = new SphereNode("sphere");
+		SphereValue sphere = new SphereValue("sphere");
 		Point p = new Point();
 		p.setX(new Double(3.3));
 		p.setY(new Double(4));
@@ -296,7 +296,7 @@ public class TestNetworkSerialization {
 		sphere.setPosition(p);
 		sphere.setRadius(new Double(33));
 
-		CylinderNode cylinder = new CylinderNode("cylinder");
+		CylinderValue cylinder = new CylinderValue("cylinder");
 		Point p2 = new Point();
 		p2.setX(new Double(6.3));
 		p2.setY(new Double(8));
@@ -310,31 +310,31 @@ public class TestNetworkSerialization {
 		cylinder.setRadiusBottom(new Double(34.55));
 		cylinder.setRadiusTop(new Double(34.55));
 
-		CylinderNode cylinder2 = new CylinderNode("cylinder");
+		CylinderValue cylinder2 = new CylinderValue("cylinder");
 		cylinder2.setPosition(p2);
 		cylinder2.setDistal(p3);
 		cylinder2.setRadiusBottom(new Double(34.55));
 		cylinder2.setRadiusTop(new Double(34.55));
 
-		CylinderNode cylinder3 = new CylinderNode("cylinder");
+		CylinderValue cylinder3 = new CylinderValue("cylinder");
 		cylinder3.setPosition(p2);
 		cylinder3.setDistal(p3);
 		cylinder3.setRadiusBottom(new Double(34.55));
 		cylinder3.setRadiusTop(new Double(34.55));
 
-		CylinderNode cylinder4 = new CylinderNode("cylinder");
+		CylinderValue cylinder4 = new CylinderValue("cylinder");
 		cylinder4.setPosition(p2);
 		cylinder4.setDistal(p3);
 		cylinder4.setRadiusBottom(new Double(34.55));
 		cylinder4.setRadiusTop(new Double(34.55));
 
-		CylinderNode cylinder5 = new CylinderNode("cylinder");
+		CylinderValue cylinder5 = new CylinderValue("cylinder");
 		cylinder5.setPosition(p2);
 		cylinder5.setDistal(p3);
 		cylinder5.setRadiusBottom(new Double(34.55));
 		cylinder5.setRadiusTop(new Double(34.55));
 
-		CompositeNode vg = new CompositeNode("vg");
+		CompositeValue vg = new CompositeValue("vg");
 		vg.addChild(sphere);
 		vg.addChild(cylinder);
 		vg.addChild(cylinder2);
@@ -342,7 +342,7 @@ public class TestNetworkSerialization {
 		vg.addChild(cylinder4);
 		vg.addChild(cylinder5);
 
-		CompositeNode vg2 = new CompositeNode("vg2");
+		CompositeValue vg2 = new CompositeValue("vg2");
 		vg2.addChild(cylinder);
 		vg2.addChild(cylinder2);
 		vg2.addChild(cylinder3);
@@ -354,13 +354,13 @@ public class TestNetworkSerialization {
 				AspectTreeType.SIMULATION_TREE);
 		simulation.setModified(true);
 
-		CompositeNode hhpop = new CompositeNode("hhpop[0]");
+		CompositeValue hhpop = new CompositeValue("hhpop[0]");
 
-		VariableNode v = new VariableNode("v");
-		Quantity quantity = new Quantity();
+		VariableValue v = new VariableValue("v");
+		QuantityValue quantity = new QuantityValue();
 		quantity.setValue(ValuesFactory.getDoubleValue(20d));
 
-		Quantity quantity2 = new Quantity();
+		QuantityValue quantity2 = new QuantityValue();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
 
 		v.addQuantity(quantity);
@@ -423,7 +423,7 @@ public class TestNetworkSerialization {
 	@Test
 	public void testNetworksModifiedFlag() {
 
-		RuntimeTreeRoot runtimeTree = new RuntimeTreeRoot("RuntimeTree");
+		Root runtimeTree = new Root("RuntimeTree");
 
 		EntityNode entity1 = new EntityNode("Entity1");
 		EntityNode entity2 = new EntityNode("Entity2");
@@ -452,16 +452,16 @@ public class TestNetworkSerialization {
 				AspectTreeType.MODEL_TREE);
 		model.setModified(true);
 
-		DynamicsSpecificationNode dynamics = new DynamicsSpecificationNode(
+		DynamicsSpecificationValue dynamics = new DynamicsSpecificationValue(
 				"Dynamics");
 
-		PhysicalQuantity value = new PhysicalQuantity();
+		PhysicalQuantityValue value = new PhysicalQuantityValue();
 		value.setScalingFactor("10");
 		value.setUnit(new Unit("ms"));
 		value.setValue(new DoubleValue(10));
 		dynamics.setInitialConditions(value);
 
-		FunctionNode function = new FunctionNode("Function");
+		FunctionValue function = new FunctionValue("Function");
 		function.setExpression("y=x+2");
 		List<String> argumentsF = new ArrayList<String>();
 		argumentsF.add("1");
@@ -470,17 +470,17 @@ public class TestNetworkSerialization {
 
 		dynamics.setDynamics(function);
 
-		ParameterSpecificationNode parameter = new ParameterSpecificationNode(
+		ParameterValue parameter = new ParameterValue(
 				"Parameter");
 
-		PhysicalQuantity value1 = new PhysicalQuantity();
+		PhysicalQuantityValue value1 = new PhysicalQuantityValue();
 		value1.setScalingFactor("10");
 		value1.setUnit(new Unit("ms"));
 		value1.setValue(new DoubleValue(10));
 
 		parameter.setValue(value1);
 
-		FunctionNode functionNode = new FunctionNode("FunctionNode");
+		FunctionValue functionNode = new FunctionValue("FunctionNode");
 		functionNode.setExpression("y=x^2");
 		List<String> arguments = new ArrayList<String>();
 		arguments.add("1");
@@ -490,7 +490,7 @@ public class TestNetworkSerialization {
 				AspectTreeType.VISUALIZATION_TREE);
 		visualization.setModified(true);
 
-		SphereNode sphere = new SphereNode("sphere");
+		SphereValue sphere = new SphereValue("sphere");
 		Point p = new Point();
 		p.setX(new Double(3.3));
 		p.setY(new Double(4));
@@ -498,7 +498,7 @@ public class TestNetworkSerialization {
 		sphere.setPosition(p);
 		sphere.setRadius(new Double(33));
 
-		CylinderNode cylinder = new CylinderNode("cylinder");
+		CylinderValue cylinder = new CylinderValue("cylinder");
 		Point p2 = new Point();
 		p2.setX(new Double(6.3));
 		p2.setY(new Double(8));
@@ -512,31 +512,31 @@ public class TestNetworkSerialization {
 		cylinder.setRadiusBottom(new Double(34.55));
 		cylinder.setRadiusTop(new Double(34.55));
 
-		CylinderNode cylinder2 = new CylinderNode("cylinder");
+		CylinderValue cylinder2 = new CylinderValue("cylinder");
 		cylinder2.setPosition(p2);
 		cylinder2.setDistal(p3);
 		cylinder2.setRadiusBottom(new Double(34.55));
 		cylinder2.setRadiusTop(new Double(34.55));
 
-		CylinderNode cylinder3 = new CylinderNode("cylinder");
+		CylinderValue cylinder3 = new CylinderValue("cylinder");
 		cylinder3.setPosition(p2);
 		cylinder3.setDistal(p3);
 		cylinder3.setRadiusBottom(new Double(34.55));
 		cylinder3.setRadiusTop(new Double(34.55));
 
-		CylinderNode cylinder4 = new CylinderNode("cylinder");
+		CylinderValue cylinder4 = new CylinderValue("cylinder");
 		cylinder4.setPosition(p2);
 		cylinder4.setDistal(p3);
 		cylinder4.setRadiusBottom(new Double(34.55));
 		cylinder4.setRadiusTop(new Double(34.55));
 
-		CylinderNode cylinder5 = new CylinderNode("cylinder");
+		CylinderValue cylinder5 = new CylinderValue("cylinder");
 		cylinder5.setPosition(p2);
 		cylinder5.setDistal(p3);
 		cylinder5.setRadiusBottom(new Double(34.55));
 		cylinder5.setRadiusTop(new Double(34.55));
 
-		CompositeNode vg = new CompositeNode("vg");
+		CompositeValue vg = new CompositeValue("vg");
 		vg.addChild(sphere);
 		vg.addChild(cylinder);
 		vg.addChild(cylinder2);
@@ -544,7 +544,7 @@ public class TestNetworkSerialization {
 		vg.addChild(cylinder4);
 		vg.addChild(cylinder5);
 
-		CompositeNode vg2 = new CompositeNode("vg2");
+		CompositeValue vg2 = new CompositeValue("vg2");
 		vg2.addChild(cylinder);
 		vg2.addChild(cylinder2);
 		vg2.addChild(cylinder3);
@@ -556,13 +556,13 @@ public class TestNetworkSerialization {
 				AspectTreeType.SIMULATION_TREE);
 		simulation.setModified(true);
 
-		CompositeNode hhpop = new CompositeNode("hhpop[0]");
+		CompositeValue hhpop = new CompositeValue("hhpop[0]");
 
-		VariableNode v = new VariableNode("v");
-		Quantity quantity = new Quantity();
+		VariableValue v = new VariableValue("v");
+		QuantityValue quantity = new QuantityValue();
 		quantity.setValue(ValuesFactory.getDoubleValue(20d));
 
-		Quantity quantity2 = new Quantity();
+		QuantityValue quantity2 = new QuantityValue();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
 
 		v.addQuantity(quantity);
@@ -618,7 +618,7 @@ public class TestNetworkSerialization {
 	@Test
 	public void testNetworksModifiedFlag2() {
 
-		RuntimeTreeRoot runtimeTree = new RuntimeTreeRoot("RuntimeTree");
+		Root runtimeTree = new Root("RuntimeTree");
 
 		EntityNode entity1 = new EntityNode("Entity1");
 		EntityNode entity2 = new EntityNode("Entity2");
@@ -647,16 +647,16 @@ public class TestNetworkSerialization {
 				AspectTreeType.MODEL_TREE);
 		model.setModified(true);
 
-		DynamicsSpecificationNode dynamics = new DynamicsSpecificationNode(
+		DynamicsSpecificationValue dynamics = new DynamicsSpecificationValue(
 				"Dynamics");
 
-		PhysicalQuantity value = new PhysicalQuantity();
+		PhysicalQuantityValue value = new PhysicalQuantityValue();
 		value.setScalingFactor("10");
 		value.setUnit(new Unit("ms"));
 		value.setValue(new DoubleValue(10));
 		dynamics.setInitialConditions(value);
 
-		FunctionNode function = new FunctionNode("Function");
+		FunctionValue function = new FunctionValue("Function");
 		function.setExpression("y=x+2");
 		List<String> argumentsF = new ArrayList<String>();
 		argumentsF.add("1");
@@ -665,17 +665,17 @@ public class TestNetworkSerialization {
 
 		dynamics.setDynamics(function);
 
-		ParameterSpecificationNode parameter = new ParameterSpecificationNode(
+		ParameterValue parameter = new ParameterValue(
 				"Parameter");
 
-		PhysicalQuantity value1 = new PhysicalQuantity();
+		PhysicalQuantityValue value1 = new PhysicalQuantityValue();
 		value1.setScalingFactor("10");
 		value1.setUnit(new Unit("ms"));
 		value1.setValue(new DoubleValue(10));
 
 		parameter.setValue(value1);
 
-		FunctionNode functionNode = new FunctionNode("FunctionNode");
+		FunctionValue functionNode = new FunctionValue("FunctionNode");
 		functionNode.setExpression("y=x^2");
 		List<String> arguments = new ArrayList<String>();
 		arguments.add("1");
@@ -685,7 +685,7 @@ public class TestNetworkSerialization {
 				AspectTreeType.VISUALIZATION_TREE);
 		visualization.setModified(true);
 
-		SphereNode sphere = new SphereNode("sphere");
+		SphereValue sphere = new SphereValue("sphere");
 		Point p = new Point();
 		p.setX(new Double(3.3));
 		p.setY(new Double(4));
@@ -693,7 +693,7 @@ public class TestNetworkSerialization {
 		sphere.setPosition(p);
 		sphere.setRadius(new Double(33));
 
-		CylinderNode cylinder = new CylinderNode("cylinder");
+		CylinderValue cylinder = new CylinderValue("cylinder");
 		Point p2 = new Point();
 		p2.setX(new Double(6.3));
 		p2.setY(new Double(8));
@@ -707,31 +707,31 @@ public class TestNetworkSerialization {
 		cylinder.setRadiusBottom(new Double(34.55));
 		cylinder.setRadiusTop(new Double(34.55));
 
-		CylinderNode cylinder2 = new CylinderNode("cylinder");
+		CylinderValue cylinder2 = new CylinderValue("cylinder");
 		cylinder2.setPosition(p2);
 		cylinder2.setDistal(p3);
 		cylinder2.setRadiusBottom(new Double(34.55));
 		cylinder2.setRadiusTop(new Double(34.55));
 
-		CylinderNode cylinder3 = new CylinderNode("cylinder");
+		CylinderValue cylinder3 = new CylinderValue("cylinder");
 		cylinder3.setPosition(p2);
 		cylinder3.setDistal(p3);
 		cylinder3.setRadiusBottom(new Double(34.55));
 		cylinder3.setRadiusTop(new Double(34.55));
 
-		CylinderNode cylinder4 = new CylinderNode("cylinder");
+		CylinderValue cylinder4 = new CylinderValue("cylinder");
 		cylinder4.setPosition(p2);
 		cylinder4.setDistal(p3);
 		cylinder4.setRadiusBottom(new Double(34.55));
 		cylinder4.setRadiusTop(new Double(34.55));
 
-		CylinderNode cylinder5 = new CylinderNode("cylinder");
+		CylinderValue cylinder5 = new CylinderValue("cylinder");
 		cylinder5.setPosition(p2);
 		cylinder5.setDistal(p3);
 		cylinder5.setRadiusBottom(new Double(34.55));
 		cylinder5.setRadiusTop(new Double(34.55));
 
-		CompositeNode vg = new CompositeNode("vg");
+		CompositeValue vg = new CompositeValue("vg");
 		vg.addChild(sphere);
 		vg.addChild(cylinder);
 		vg.addChild(cylinder2);
@@ -739,7 +739,7 @@ public class TestNetworkSerialization {
 		vg.addChild(cylinder4);
 		vg.addChild(cylinder5);
 
-		CompositeNode vg2 = new CompositeNode("vg2");
+		CompositeValue vg2 = new CompositeValue("vg2");
 		vg2.addChild(cylinder);
 		vg2.addChild(cylinder2);
 		vg2.addChild(cylinder3);
@@ -751,13 +751,13 @@ public class TestNetworkSerialization {
 				AspectTreeType.SIMULATION_TREE);
 		simulation.setModified(true);
 
-		CompositeNode hhpop = new CompositeNode("hhpop[0]");
+		CompositeValue hhpop = new CompositeValue("hhpop[0]");
 
-		VariableNode v = new VariableNode("v");
-		Quantity quantity = new Quantity();
+		VariableValue v = new VariableValue("v");
+		QuantityValue quantity = new QuantityValue();
 		quantity.setValue(ValuesFactory.getDoubleValue(20d));
 
-		Quantity quantity2 = new Quantity();
+		QuantityValue quantity2 = new QuantityValue();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
 
 		v.addQuantity(quantity);

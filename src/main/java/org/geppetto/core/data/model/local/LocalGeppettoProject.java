@@ -50,7 +50,7 @@ public class LocalGeppettoProject implements IGeppettoProject
 	private LocalPersistedData geppettoModel;
 
 	private long activeExperimentId;
-	
+
 	@JsonIgnore
 	private transient boolean volatileProject;
 
@@ -62,7 +62,7 @@ public class LocalGeppettoProject implements IGeppettoProject
 		this.name = name;
 		this.experiments = experiments;
 		this.geppettoModel = geppettoModel;
-		this.activeExperimentId=-1;
+		this.activeExperimentId = -1;
 	}
 
 	@Override
@@ -73,9 +73,9 @@ public class LocalGeppettoProject implements IGeppettoProject
 
 	public void setId(long id)
 	{
-		this.id=id;
+		this.id = id;
 	}
-	
+
 	@Override
 	public String getName()
 	{
@@ -116,13 +116,13 @@ public class LocalGeppettoProject implements IGeppettoProject
 	{
 		return this.volatileProject;
 	}
-	
+
 	@Override
 	public void setVolatile(boolean volatileProject)
 	{
-		this.volatileProject=volatileProject;
+		this.volatileProject = volatileProject;
 	}
-	
+
 	@Override
 	public long getActiveExperimentId()
 	{
@@ -132,7 +132,7 @@ public class LocalGeppettoProject implements IGeppettoProject
 	@Override
 	public void setActiveExperimentId(long experimentId)
 	{
-		this.activeExperimentId=experimentId;
+		this.activeExperimentId = experimentId;
 	}
 
 }

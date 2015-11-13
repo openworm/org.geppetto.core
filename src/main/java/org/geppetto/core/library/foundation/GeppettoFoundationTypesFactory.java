@@ -32,7 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.library.foundation;
 
-import org.geppetto.core.model.typesystem.GeppettoAspect;
 import org.geppetto.core.model.typesystem.types.AType;
 import org.geppetto.core.model.typesystem.types.CompositeType;
 import org.geppetto.core.model.typesystem.types.IType;
@@ -56,8 +55,8 @@ public class GeppettoFoundationTypesFactory
 	public static AType getDynamicsSpecificationType()
 	{
 		CompositeType type = TypesFactory.getCompositeType(GeppettoAspect.get(), "DynamicsSpecification");
-		type.addVariable(VariablesFactory.getVariable("initialCondition",getPhysicalQuantityType()));
-		type.addVariable(VariablesFactory.getVariable("dynamics",getFunctionType()));
+		type.addVariable(VariablesFactory.getVariable("initialCondition", getPhysicalQuantityType()));
+		type.addVariable(VariablesFactory.getVariable("dynamics", getFunctionType()));
 		return type;
 	}
 
@@ -113,7 +112,7 @@ public class GeppettoFoundationTypesFactory
 	{
 		if(unit == null)
 		{
-			unit = TypesFactory.getSimpleType(GeppettoAspect.get(), "Unit",TypesFactory.getStringType());
+			unit = TypesFactory.getSimpleType(GeppettoAspect.get(), "Unit", TypesFactory.getStringType());
 		}
 		return unit;
 	}

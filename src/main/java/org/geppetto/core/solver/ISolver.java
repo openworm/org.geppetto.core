@@ -37,20 +37,20 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.typesystem.AspectNode;
 
 /**
  * @author matteocantarelli
  *
  */
-public interface ISolver {
-	
+public interface ISolver
+{
+
 	public void solve(final IAspectConfiguration aspectConfiguration, AspectNode aspect) throws GeppettoExecutionException;
-	
+
 	public void initialize(final IModel model) throws GeppettoInitializationException;
-	
+
 	public void dispose();
-	
+
 	void updateVisualizationTree(AspectNode aspect);
 
 }

@@ -43,7 +43,7 @@ public class GeppettoTypeException extends Exception
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public GeppettoTypeException(Throwable cause)
 	{
 		super(cause);
@@ -56,6 +56,6 @@ public class GeppettoTypeException extends Exception
 
 	public GeppettoTypeException(String string, Throwable e1)
 	{
-		super(string,e1);
+		super(string, e1);
 	}
 }

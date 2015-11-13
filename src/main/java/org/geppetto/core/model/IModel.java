@@ -31,21 +31,20 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-
 package org.geppetto.core.model;
 
 /**
  * @author matteocantarelli
  *
  */
-public interface IModel {
+public interface IModel
+{
 
-	
 	@Deprecated
 	String getId();
 
 	void setInstancePath(String instancePath);
-	
+
 	String getInstancePath();
-	
+
 }

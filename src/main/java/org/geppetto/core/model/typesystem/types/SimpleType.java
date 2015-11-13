@@ -32,8 +32,8 @@
  *******************************************************************************/
 package org.geppetto.core.model.typesystem.types;
 
-import org.geppetto.core.model.typesystem.IAspect;
-
+import org.geppetto.core.model.typesystem.aspect.IAspect;
+import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 
 /**
  * @author matteocantarelli
@@ -44,7 +44,7 @@ public class SimpleType extends AType
 
 	public SimpleType(IAspect aspect, String name, IType baseType)
 	{
-		super(aspect,name,baseType);
+		super(aspect, name, baseType);
 	}
 
 	@Override
@@ -54,5 +54,10 @@ public class SimpleType extends AType
 		return false;
 	}
 
+	@Override
+	public boolean apply(IAnalysis visitor)
+	{
+		return visitor.visitSimpleType(this);
+	}
 
 }

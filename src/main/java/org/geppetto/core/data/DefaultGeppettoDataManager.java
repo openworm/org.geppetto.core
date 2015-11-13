@@ -69,7 +69,7 @@ import org.geppetto.core.data.model.local.LocalPersistedData;
 import org.geppetto.core.data.model.local.LocalSimulationResult;
 import org.geppetto.core.data.model.local.LocalSimulatorConfiguration;
 import org.geppetto.core.data.model.local.LocalUser;
-import org.geppetto.core.model.runtime.ANode;
+import org.geppetto.core.model.typesystem.INode;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
@@ -166,8 +166,8 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public Collection<LocalGeppettoProject> getAllGeppettoProjects()
 	{
-		List<LocalGeppettoProject> allProjects=new ArrayList<LocalGeppettoProject>();
-		for(LocalGeppettoProject project:projects.values())
+		List<LocalGeppettoProject> allProjects = new ArrayList<LocalGeppettoProject>();
+		for(LocalGeppettoProject project : projects.values())
 		{
 			if(!project.isVolatile())
 			{
@@ -185,8 +185,8 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public Collection<LocalGeppettoProject> getGeppettoProjectsForUser(String login)
 	{
-		List<LocalGeppettoProject> allProjects=new ArrayList<LocalGeppettoProject>();
-		for(LocalGeppettoProject project:projects.values())
+		List<LocalGeppettoProject> allProjects = new ArrayList<LocalGeppettoProject>();
+		for(LocalGeppettoProject project : projects.values())
 		{
 			if(!project.isVolatile())
 			{
@@ -315,13 +315,13 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		LocalGeppettoProject project = gson.fromJson(json, LocalGeppettoProject.class);
 		project.setId(getRandomId());
 		project.setVolatile(true);
-		
+
 		// set project as parent for experiments
-		for(IExperiment e:project.getExperiments())
+		for(IExperiment e : project.getExperiments())
 		{
 			e.setParentProject(project);
 		}
-		
+
 		projects.put(project.getId(), project);
 		return project;
 	}
@@ -343,13 +343,13 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		LocalGeppettoProject project = gson.fromJson(json, LocalGeppettoProject.class);
 		project.setId(getRandomId());
 		project.setVolatile(true);
-		
+
 		// set project as parent for experiments
-		for(IExperiment e:project.getExperiments())
+		for(IExperiment e : project.getExperiments())
 		{
 			e.setParentProject(project);
 		}
-		
+
 		projects.put(project.getId(), project);
 		return project;
 	}
@@ -379,7 +379,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	}
 
 	@Override
-	public IInstancePath newInstancePath(ANode node)
+	public IInstancePath newInstancePath(INode node)
 	{
 		return newInstancePath(node.getEntityInstancePath(), node.getAspectInstancePath(), node.getLocalInstancePath());
 	}
@@ -405,7 +405,8 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IAspectConfiguration newAspectConfiguration(IExperiment experiment, IInstancePath instancePath, ISimulatorConfiguration simulatorConfiguration)
 	{
-		return new LocalAspectConfiguration(0l,(LocalInstancePath)instancePath,new ArrayList<LocalInstancePath>(),new ArrayList<LocalParameter>(),(LocalSimulatorConfiguration)simulatorConfiguration);
+		return new LocalAspectConfiguration(0l, (LocalInstancePath) instancePath, new ArrayList<LocalInstancePath>(), new ArrayList<LocalParameter>(),
+				(LocalSimulatorConfiguration) simulatorConfiguration);
 	}
 
 	@Override
@@ -417,9 +418,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public void addWatchedVariable(IAspectConfiguration aspectConfiguration, IInstancePath instancePath)
 	{
-		((LocalAspectConfiguration)aspectConfiguration).getWatchedVariables().add((LocalInstancePath)instancePath);
+		((LocalAspectConfiguration) aspectConfiguration).getWatchedVariables().add((LocalInstancePath) instancePath);
 	}
-	
+
 	@Override
 	public IUser updateUser(IUser user, String password)
 	{

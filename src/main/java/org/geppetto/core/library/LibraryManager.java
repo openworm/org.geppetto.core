@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geppetto.core.model.geppettomodel.GeppettoModel;
-import org.geppetto.core.model.typesystem.IAspect;
+import org.geppetto.core.model.typesystem.aspect.IAspect;
 import org.geppetto.core.model.typesystem.types.IType;
 
 /**
@@ -60,8 +60,9 @@ public class LibraryManager implements ILibraryManager
 		// TODO initialise the library from a geppetto model
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.library.ILibraryManager#getTypeByName(org.geppetto.core.model.typesystem.IAspect, java.lang.String)
 	 */
 	@Override
@@ -71,23 +72,25 @@ public class LibraryManager implements ILibraryManager
 		{
 			return libraries.get(aspect).getTypeByName(name);
 		}
-		throw new GeppettoTypeException("Type "+name+ " not found in the library for aspect "+aspect.getId());
+		throw new GeppettoTypeException("Type " + name + " not found in the library for aspect " + aspect.getId());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.library.ILibraryManager#getTypeByName(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public IType getTypeByName(String aspectId, String name) throws GeppettoTypeException
 	{
-		for(IAspect aspect:libraries.keySet())
+		for(IAspect aspect : libraries.keySet())
 		{
 			if(aspect.getId().equals(aspectId))
 			{
 				return getTypeByName(aspect, name);
 			}
 		}
-		throw new GeppettoTypeException("Type "+name+ " not found in the library for aspect "+aspectId);
+		throw new GeppettoTypeException("Type " + name + " not found in the library for aspect " + aspectId);
 	}
 
 }

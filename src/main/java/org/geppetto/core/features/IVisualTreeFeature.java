@@ -1,13 +1,11 @@
 package org.geppetto.core.features;
 
 import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.model.typesystem.AspectNode;
 
 /**
  * 
- * This feature allows a service to build a statice 3D scene out of the loaded model.
- * To have the scene change in time as result of the simulation see the IDynamicVisualTreeFeature.
- * The scene is built through the visual objects node inside the visual tree. 
+ * This feature allows a service to build a statice 3D scene out of the loaded model. To have the scene change in time as result of the simulation see the IDynamicVisualTreeFeature. The scene is built
+ * through the visual objects node inside the visual tree.
  * 
  * @author matteocantarelli
  * @author Jesus Martinez (jesus@metacell.us)

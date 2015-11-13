@@ -34,28 +34,33 @@ package org.geppetto.core.simulator;
 
 import java.util.HashMap;
 
-import org.geppetto.core.model.state.visitors.RuntimeTreeVisitor;
-import org.geppetto.core.model.typesystem.AspectNode;
+import org.geppetto.core.model.typesystem.visitor.AnalysisVisitor;
 
 /**
  * Visitor used for retrieving all aspects within entity
- * @author  Adrian Quintana (adrian.perez@ucl.ac.uk)
+ * 
+ * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public class GetAspectsVisitor extends RuntimeTreeVisitor{
-	
-	//This is not being used at the moment
-	private HashMap<String, AspectNode> _aspects = new HashMap<String,AspectNode>();
+public class GetAspectsVisitor extends AnalysisVisitor
+{
+
+	// This is not being used at the moment
+	private HashMap<String, AspectNode> _aspects = new HashMap<String, AspectNode>();
 
 	/**
 	 * Return map of all aspects
+	 * 
 	 * @return
 	 */
-	public HashMap<String,AspectNode> getAspects(){
+	public HashMap<String, AspectNode> getAspects()
+	{
 		return this._aspects;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.model.state.visitors.DefaultStateVisitor#inCompositeStateNode(org.geppetto.core.model.state.CompositeStateNode)
 	 */
 	@Override
@@ -65,7 +70,9 @@ public class GetAspectsVisitor extends RuntimeTreeVisitor{
 		return super.inAspectNode(node);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.model.state.visitors.DefaultStateVisitor#outCompositeStateNode(org.geppetto.core.model.state.CompositeStateNode)
 	 */
 	@Override

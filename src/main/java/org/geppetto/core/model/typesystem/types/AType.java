@@ -1,9 +1,10 @@
 package org.geppetto.core.model.typesystem.types;
 
-import org.geppetto.core.model.typesystem.IAspect;
+import org.geppetto.core.model.typesystem.ANode;
+import org.geppetto.core.model.typesystem.aspect.IAspect;
 import org.geppetto.core.model.typesystem.values.IValue;
 
-public abstract class AType implements IType
+public abstract class AType extends ANode implements IType
 {
 
 	protected IAspect aspect = null;

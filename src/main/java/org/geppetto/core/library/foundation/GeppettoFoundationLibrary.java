@@ -40,7 +40,7 @@ import org.geppetto.core.library.AGeppettoLibrary;
  */
 public class GeppettoFoundationLibrary extends AGeppettoLibrary
 {
-	
+
 	public void init()
 	{
 		if(types.isEmpty())

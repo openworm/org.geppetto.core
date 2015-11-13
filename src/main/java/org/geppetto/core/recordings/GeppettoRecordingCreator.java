@@ -32,7 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.recordings;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -75,7 +74,7 @@ public class GeppettoRecordingCreator
 
 	public enum MetaType
 	{
-		//FIXME This is not recording specific, move me elsewhere
+		// FIXME This is not recording specific, move me elsewhere
 		Variable_Node("VariableNode"), Parameter_Node("ParameterNode"), AspectSubtree_Node("AspectSubtreeNode"), Composite_Node("CompositeNode");
 
 		private String type;
@@ -464,36 +463,36 @@ public class GeppettoRecordingCreator
 
 			this.createDataSet(recordingObject, current, currentTag);
 		}
-//		else
-//		{
-//			if(!recordingObject.getVariable().equals("time"))
-//			{
-//				_logger.warn("File already contains variable " + recordingObject.getVariable());
-//				// retrieve the dataset "2D 32-bit integer 20x10"
-//				Dataset dataset = (Dataset) v;
-//				Object dataRead = dataset.read();
-//				// update dataset according to its type
-//				if(dataRead instanceof double[])
-//				{
-//					double[] existingValues = (double[]) dataRead;
-//					this.recordingsH5File.delete(dataset);
-//					this.updateDataSet(dataset.getName(), existingValues, recordingObject);
-//				}
-//				else if(dataRead instanceof int[])
-//				{
-//					int[] existingValues = (int[]) dataRead;
-//					this.recordingsH5File.delete(dataset);
-//					this.updateDataSet(dataset.getName(), existingValues, recordingObject);
-//				}
-//				else if(dataRead instanceof float[])
-//				{
-//					float[] existingValues = (float[]) dataRead;
-//					this.recordingsH5File.delete(dataset);
-//					this.updateDataSet(dataset.getName(), existingValues, recordingObject);
-//
-//				}
-//			}
-//		}
+		// else
+		// {
+		// if(!recordingObject.getVariable().equals("time"))
+		// {
+		// _logger.warn("File already contains variable " + recordingObject.getVariable());
+		// // retrieve the dataset "2D 32-bit integer 20x10"
+		// Dataset dataset = (Dataset) v;
+		// Object dataRead = dataset.read();
+		// // update dataset according to its type
+		// if(dataRead instanceof double[])
+		// {
+		// double[] existingValues = (double[]) dataRead;
+		// this.recordingsH5File.delete(dataset);
+		// this.updateDataSet(dataset.getName(), existingValues, recordingObject);
+		// }
+		// else if(dataRead instanceof int[])
+		// {
+		// int[] existingValues = (int[]) dataRead;
+		// this.recordingsH5File.delete(dataset);
+		// this.updateDataSet(dataset.getName(), existingValues, recordingObject);
+		// }
+		// else if(dataRead instanceof float[])
+		// {
+		// float[] existingValues = (float[]) dataRead;
+		// this.recordingsH5File.delete(dataset);
+		// this.updateDataSet(dataset.getName(), existingValues, recordingObject);
+		//
+		// }
+		// }
+		// }
 	}
 
 	/**

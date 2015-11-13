@@ -38,14 +38,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geppetto.core.library.GeppettoTypeException;
+import org.geppetto.core.model.typesystem.ANode;
 import org.geppetto.core.model.typesystem.types.IType;
 import org.geppetto.core.model.typesystem.values.IValue;
+import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 
 /**
  * @author matteocantarelli
  *
  */
-public class Variable implements IVariable
+public class Variable extends ANode implements IVariable
 {
 
 	String name;
@@ -64,11 +66,15 @@ public class Variable implements IVariable
 
 	public Variable(String name, IType type)
 	{
-		super();
-		this.name = name;
+		this(name);
 		this.type = type;
 	}
-	
+
+	public Variable(String name)
+	{
+		this.name = name;
+	}
+
 	IValue initialValue;
 
 	/*
@@ -159,7 +165,7 @@ public class Variable implements IVariable
 		{
 			if(this.type == null)
 			{
-				this.type=type;
+				this.type = type;
 			}
 			else
 			{
@@ -174,6 +180,47 @@ public class Variable implements IVariable
 			}
 		}
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.geppetto.core.model.typesystem.visitor.IVisitable#apply(org.geppetto.core.model.typesystem.visitor.IAnalysis)
+	 */
+	@Override
+	public synchronized boolean apply(IAnalysis visitor)
+	{
+		if(visitor.inVariable(this)) // enter this node?
+		{
+			try
+			{
+				if(hasMultipleTypes())
+				{
+					for(IType type : this.getTypes())
+					{
+						type.apply(visitor);
+
+						getInitialValue(type).apply(visitor);
+
+						if(visitor.stopVisiting())
+						{
+							break;
+						}
+					}
+				}
+				else
+				{
+					getType().apply(visitor);
+					getInitialValue().apply(visitor);
+				}
+			}
+			catch(GeppettoTypeException e)
+			{
+				// Should never happen really
+				throw new RuntimeException(e);
+			}
+		}
+		return visitor.outVariable(this);
 	}
 
 }

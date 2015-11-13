@@ -56,7 +56,7 @@ public interface IUser
 	long getSimulationTimeAllowance();
 
 	String getDropboxToken();
-	
+
 	void setDropboxToken(String token);
 
 }

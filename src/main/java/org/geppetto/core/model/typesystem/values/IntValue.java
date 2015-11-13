@@ -14,7 +14,7 @@ public class IntValue extends AValue
 
 	public IntValue(int value)
 	{
-		_value=value;
+		_value = value;
 	}
 
 	@Override
@@ -22,10 +22,10 @@ public class IntValue extends AValue
 	{
 		return Integer.toString(_value);
 	}
-	
+
 	public int getAsInt()
 	{
 		return _value;
 	}
-	
+
 }

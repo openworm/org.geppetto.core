@@ -35,6 +35,7 @@ package org.geppetto.core.model.typesystem.variables;
 import java.util.Collection;
 
 import org.geppetto.core.library.GeppettoTypeException;
+import org.geppetto.core.model.typesystem.ANode;
 import org.geppetto.core.model.typesystem.types.IType;
 import org.geppetto.core.model.typesystem.values.IValue;
 
@@ -42,54 +43,35 @@ import org.geppetto.core.model.typesystem.values.IValue;
  * @author matteocantarelli
  *
  */
-public class ArrayVariable implements IVariable
+public class ArrayVariable extends Variable
 {
+
+	public ArrayVariable(String name)
+	{
+		super(name);
+	}
+
+	public ArrayVariable(String name, IType type, IValue initialValue)
+	{
+		super(name, type, initialValue);
+	}
 
 	public ArrayVariable(String name, IType type)
 	{
-		// TODO Auto-generated constructor stub
+		super(name, type);
 	}
 
-	@Override
-	public String getName()
+	private int size;
+	
+	
+	public int getArraySize()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return size;
 	}
-
-	@Override
-	public Collection<IType> getTypes()
+	
+	public void setArraySize(int size)
 	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void addType(IType type)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public IValue getInitialValue(IType type) throws GeppettoTypeException
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public IType getType() throws GeppettoTypeException
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public IValue getInitialValue() throws GeppettoTypeException
-	{
-		// TODO Auto-generated method stub
-		return null;
+		this.size=size;
 	}
 
 }

@@ -35,36 +35,43 @@ package org.geppetto.core.model.runtime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geppetto.core.model.typesystem.values.AValue;
 import org.geppetto.core.visualisation.model.Point;
 
 /**
- * Abstract class used by visualization objects. Node allows serialization of visual objects. 
+ * Abstract class used by visualization objects. Node allows serialization of visual objects.
  * 
- * @author  Jesus R. Martinez (jesus@metacell.us)
+ * @author Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public abstract class AVisualObjectNode extends ANode{
+public abstract class AVisualObjectNode extends AValue
+{
 
 	private Point _position;
-	private List _groupElementsMap = new ArrayList<String>(); 
-	
-	public AVisualObjectNode(String id) {
+	private List _groupElementsMap = new ArrayList<String>();
+
+	public AVisualObjectNode(String id)
+	{
 		super(id);
 	}
-	
-	public void setPosition(Point position){
+
+	public void setPosition(Point position)
+	{
 		this._position = position;
 	}
-	
-	public Point getPosition(){
+
+	public Point getPosition()
+	{
 		return this._position;
 	}
 
-	public List<String> getGroupElementsMap() {
+	public List<String> getGroupElementsMap()
+	{
 		return _groupElementsMap;
 	}
 
-	public void setGroupElementsMap(List<String> _groupElementsMap) {
+	public void setGroupElementsMap(List<String> _groupElementsMap)
+	{
 		this._groupElementsMap = _groupElementsMap;
 	}
 }

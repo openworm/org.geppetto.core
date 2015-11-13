@@ -3,13 +3,13 @@ package org.geppetto.core.recordings;
 import org.geppetto.core.recordings.GeppettoRecordingCreator.MetaType;
 
 /**
- * Object class that holds together valus for a variable yet 
- * to be created inside an HDF5 file. 
+ * Object class that holds together valus for a variable yet to be created inside an HDF5 file.
  * 
  * @author Jesus R Martinez (jesus@metacell.us)
  *
  */
-public class RecordingObject {
+public class RecordingObject
+{
 
 	private String _variable;
 	private String _unit;
@@ -18,48 +18,74 @@ public class RecordingObject {
 	private int _dataType;
 	private int _valuesLength;
 	private int _dataBytes;
-	
-	public String getVariable() {
+
+	public String getVariable()
+	{
 		return _variable;
 	}
-	public void setVariable(String _variable) {
+
+	public void setVariable(String _variable)
+	{
 		this._variable = _variable;
 	}
-	public String getUnit() {
+
+	public String getUnit()
+	{
 		return _unit;
 	}
-	public void setUnit(String _unit) {
+
+	public void setUnit(String _unit)
+	{
 		this._unit = _unit;
 	}
-	public MetaType getMetaType() {
+
+	public MetaType getMetaType()
+	{
 		return _metaType;
 	}
-	public void setMetaType(MetaType _metaType) {
+
+	public void setMetaType(MetaType _metaType)
+	{
 		this._metaType = _metaType;
 	}
-	public Object getValues() {
+
+	public Object getValues()
+	{
 		return _values;
 	}
-	public void setValues(Object _values) {
+
+	public void setValues(Object _values)
+	{
 		this._values = _values;
 	}
-	public void setDataType(int dataType) {
+
+	public void setDataType(int dataType)
+	{
 		this._dataType = dataType;
 	}
-	
-	public int getDataType(){
+
+	public int getDataType()
+	{
 		return this._dataType;
 	}
-	public int getValuesLength() {
+
+	public int getValuesLength()
+	{
 		return this._valuesLength;
 	}
-	public void setValuesLenght(int valuesLength){
+
+	public void setValuesLenght(int valuesLength)
+	{
 		this._valuesLength = valuesLength;
 	}
-	public void setDataBytes(int dataBytes) {
+
+	public void setDataBytes(int dataBytes)
+	{
 		this._dataBytes = dataBytes;
-	}	
-	public int getDataBytes(){
+	}
+
+	public int getDataBytes()
+	{
 		return this._dataBytes;
 	}
 }

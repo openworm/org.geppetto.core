@@ -14,7 +14,7 @@ public class FloatValue extends AValue
 
 	public FloatValue(float value)
 	{
-		_value=value;
+		_value = value;
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class FloatValue extends AValue
 	{
 		return Float.toString(_value);
 	}
-	
+
 	public double getAsDouble()
 	{
 		return Float.valueOf(_value).doubleValue();
@@ -32,5 +32,5 @@ public class FloatValue extends AValue
 	{
 		return _value;
 	}
-	
+
 }

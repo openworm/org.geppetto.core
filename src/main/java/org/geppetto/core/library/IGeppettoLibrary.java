@@ -34,7 +34,7 @@ package org.geppetto.core.library;
 
 import java.util.Collection;
 
-import org.geppetto.core.model.typesystem.IAspect;
+import org.geppetto.core.model.typesystem.aspect.IAspect;
 import org.geppetto.core.model.typesystem.types.IType;
 
 /**
@@ -43,11 +43,11 @@ import org.geppetto.core.model.typesystem.types.IType;
  */
 public interface IGeppettoLibrary
 {
-	
+
 	IAspect getAspect();
-	
+
 	Collection<IType> getTypes();
-	
+
 	IType getTypeByName(String name) throws GeppettoTypeException;
-	
+
 }

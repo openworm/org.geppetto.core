@@ -28,65 +28,73 @@ import org.springframework.beans.factory.config.Scope;
  * 
  * @author David Winterfeldt
  */
-public class ThreadScope implements Scope {
-		
-    protected final Map<String, Object> _hBeans = new HashMap<String, Object>();
-    
+public class ThreadScope implements Scope
+{
+
+	protected final Map<String, Object> _hBeans = new HashMap<String, Object>();
+
 	private static final Log logger = LogFactory.getLog(ThreadScope.class);
 
 	/**
-     * Gets bean from scope.
-     */
-    public Object get(String name, ObjectFactory<?> factory) {
-        Object result = null;
-        
-        Map<String, Object> hBeans = ThreadScopeContextHolder.currentThreadScopeAttributes().getBeanMap();
-        
-        if (!hBeans.containsKey(name)) {
-            result = factory.getObject();
-            
-            hBeans.put(name, result);
-        } else {
-            result = hBeans.get(name);
-        }
-        
-        
-        return result;
-    }
-    
-    /**
-     * Removes bean from scope.
-     */
-    public Object remove(String name) {
-        Object result = null;
-        
-        Map<String, Object> hBeans = ThreadScopeContextHolder.currentThreadScopeAttributes().getBeanMap();
+	 * Gets bean from scope.
+	 */
+	public Object get(String name, ObjectFactory<?> factory)
+	{
+		Object result = null;
 
-        if (hBeans.containsKey(name)) {
-            result = hBeans.get(name);
-            
-            hBeans.remove(name);
-        }
+		Map<String, Object> hBeans = ThreadScopeContextHolder.currentThreadScopeAttributes().getBeanMap();
 
-        return result;
-    }
+		if(!hBeans.containsKey(name))
+		{
+			result = factory.getObject();
 
-    public void registerDestructionCallback(String name, Runnable callback) {
-        ThreadScopeContextHolder.currentThreadScopeAttributes().registerRequestDestructionCallback(name, callback);
-    }
+			hBeans.put(name, result);
+		}
+		else
+		{
+			result = hBeans.get(name);
+		}
 
-    /**
-     * Resolve the contextual object for the given key, if any.
-     * Which in this case will always be <code>null</code>.
-     */
-    public Object resolveContextualObject(String key) {
-        return null;
-    }
+		return result;
+	}
 
-    /**
-     * Gets current thread name as the conversation id.
-     */
-    public String getConversationId() {
-        return Thread.currentThread().getName();
-    }
+	/**
+	 * Removes bean from scope.
+	 */
+	public Object remove(String name)
+	{
+		Object result = null;
+
+		Map<String, Object> hBeans = ThreadScopeContextHolder.currentThreadScopeAttributes().getBeanMap();
+
+		if(hBeans.containsKey(name))
+		{
+			result = hBeans.get(name);
+
+			hBeans.remove(name);
+		}
+
+		return result;
+	}
+
+	public void registerDestructionCallback(String name, Runnable callback)
+	{
+		ThreadScopeContextHolder.currentThreadScopeAttributes().registerRequestDestructionCallback(name, callback);
+	}
+
+	/**
+	 * Resolve the contextual object for the given key, if any. Which in this case will always be <code>null</code>.
+	 */
+	public Object resolveContextualObject(String key)
+	{
+		return null;
+	}
+
+	/**
+	 * Gets current thread name as the conversation id.
+	 */
+	public String getConversationId()
+	{
+		return Thread.currentThread().getName();
+	}
 }

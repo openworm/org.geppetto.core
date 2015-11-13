@@ -49,15 +49,15 @@ public interface IProjectManager
 	 * @param requestId
 	 * @param user
 	 * @param project
-	 * @throws GeppettoExecutionException 
+	 * @throws GeppettoExecutionException
 	 */
 	void persistProject(String requestId, IGeppettoProject project) throws GeppettoExecutionException;
-	
+
 	/**
 	 * @param requestId
 	 * @param project
-	 * @return 
+	 * @return
 	 */
-	List<? extends IExperiment> checkExperimentsStatus(String requestId, IGeppettoProject project);	
+	List<? extends IExperiment> checkExperimentsStatus(String requestId, IGeppettoProject project);
 
 }

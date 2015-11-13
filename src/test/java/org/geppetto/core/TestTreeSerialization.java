@@ -43,26 +43,26 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.geppetto.core.model.quantities.PhysicalQuantity;
-import org.geppetto.core.model.quantities.Quantity;
-import org.geppetto.core.model.quantities.Unit;
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
-import org.geppetto.core.model.runtime.CompositeNode;
-import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
-import org.geppetto.core.model.runtime.FunctionNode;
-import org.geppetto.core.model.runtime.ParameterSpecificationNode;
-import org.geppetto.core.model.runtime.ParticleNode;
-import org.geppetto.core.model.runtime.RuntimeTreeRoot;
-import org.geppetto.core.model.runtime.SkeletonAnimationNode;
-import org.geppetto.core.model.runtime.SphereNode;
-import org.geppetto.core.model.runtime.VariableNode;
-import org.geppetto.core.model.state.visitors.SerializeTreeVisitor;
 import org.geppetto.core.model.typesystem.AspectNode;
+import org.geppetto.core.model.typesystem.Root;
 import org.geppetto.core.model.typesystem.values.AValue;
+import org.geppetto.core.model.typesystem.values.CompositeValue;
 import org.geppetto.core.model.typesystem.values.DoubleValue;
+import org.geppetto.core.model.typesystem.values.DynamicsSpecificationValue;
+import org.geppetto.core.model.typesystem.values.FunctionValue;
+import org.geppetto.core.model.typesystem.values.ParameterValue;
+import org.geppetto.core.model.typesystem.values.ParticleValue;
+import org.geppetto.core.model.typesystem.values.PhysicalQuantityValue;
+import org.geppetto.core.model.typesystem.values.QuantityValue;
+import org.geppetto.core.model.typesystem.values.SkeletonAnimationValue;
+import org.geppetto.core.model.typesystem.values.SphereValue;
+import org.geppetto.core.model.typesystem.values.Unit;
 import org.geppetto.core.model.typesystem.values.ValuesFactory;
+import org.geppetto.core.model.typesystem.values.VariableValue;
+import org.geppetto.core.model.typesystem.visitor.SerializeTreeVisitor;
 import org.junit.Test;
 
 import com.google.gson.Gson;
@@ -75,7 +75,7 @@ public class TestTreeSerialization
 	@Test
 	public void testTreeSerialization()
 	{
-		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
+		Root runtime = new Root("root");
 
 		EntityNode entity_A = new EntityNode("Entity_A");
 
@@ -83,25 +83,25 @@ public class TestTreeSerialization
 
 		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.SIMULATION_TREE);
 
-		VariableNode dummyNode = new VariableNode("dummyFloat");
+		VariableValue dummyNode = new VariableValue("dummyFloat");
 		dummyNode.setUnit(new Unit("ms"));
 
-		Quantity quantity = new Quantity();
+		QuantityValue quantity = new QuantityValue();
 		quantity.setValue(ValuesFactory.getDoubleValue(50d));
 		dummyNode.addQuantity(quantity);
 
-		Quantity quantity2 = new Quantity();
+		QuantityValue quantity2 = new QuantityValue();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
 		dummyNode.addQuantity(quantity2);
 
-		VariableNode anotherDummyNode = new VariableNode("dummyDouble");
+		VariableValue anotherDummyNode = new VariableValue("dummyDouble");
 		anotherDummyNode.setUnit(new Unit("ms"));
 
-		Quantity quantity3 = new Quantity();
+		QuantityValue quantity3 = new QuantityValue();
 		quantity3.setValue(ValuesFactory.getDoubleValue(20d));
 		anotherDummyNode.addQuantity(quantity3);
 
-		Quantity quantity4 = new Quantity();
+		QuantityValue quantity4 = new QuantityValue();
 		quantity4.setValue(ValuesFactory.getDoubleValue(100d));
 		anotherDummyNode.addQuantity(quantity4);
 
@@ -137,7 +137,7 @@ public class TestTreeSerialization
 	@Test
 	public void testTreeSerializationSingleValue()
 	{
-		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
+		Root runtime = new Root("root");
 
 		EntityNode entity_A = new EntityNode("Entity_A");
 
@@ -145,17 +145,17 @@ public class TestTreeSerialization
 
 		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.SIMULATION_TREE);
 
-		VariableNode dummyNode = new VariableNode("dummyFloat");
+		VariableValue dummyNode = new VariableValue("dummyFloat");
 		dummyNode.setUnit(new Unit("ms"));
 
-		Quantity quantity = new Quantity();
+		QuantityValue quantity = new QuantityValue();
 		quantity.setValue(ValuesFactory.getDoubleValue(50d));
 		dummyNode.addQuantity(quantity);
 
-		VariableNode anotherDummyNode = new VariableNode("dummyDouble");
+		VariableValue anotherDummyNode = new VariableValue("dummyDouble");
 		anotherDummyNode.setUnit(new Unit("ms"));
 
-		Quantity quantity3 = new Quantity();
+		QuantityValue quantity3 = new QuantityValue();
 		quantity3.setValue(ValuesFactory.getDoubleValue(20d));
 		anotherDummyNode.addQuantity(quantity3);
 
@@ -191,7 +191,7 @@ public class TestTreeSerialization
 	public void testTreeWithUnits()
 	{
 
-		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
+		Root runtime = new Root("root");
 
 		EntityNode entity_A = new EntityNode("Entity_A");
 
@@ -201,21 +201,21 @@ public class TestTreeSerialization
 
 		AValue val = ValuesFactory.getDoubleValue(50d);
 
-		Quantity quantity = new Quantity();
+		QuantityValue quantity = new QuantityValue();
 		quantity.setValue(val);
 		quantity.setScalingFactor("1.E3");
 
-		VariableNode dummyNode = new VariableNode("dummyFloat");
+		VariableValue dummyNode = new VariableValue("dummyFloat");
 		dummyNode.setUnit(new Unit("V"));
 		dummyNode.addQuantity(quantity);
 
 		AValue val3 = ValuesFactory.getDoubleValue(50d);
 
-		Quantity quantity3 = new Quantity();
+		QuantityValue quantity3 = new QuantityValue();
 		quantity3.setValue(val3);
 		quantity3.setScalingFactor("1.E3");
 
-		VariableNode anotherDummyNode = new VariableNode("dummyDouble");
+		VariableValue anotherDummyNode = new VariableValue("dummyDouble");
 		anotherDummyNode.addQuantity(quantity3);
 		anotherDummyNode.setUnit(new Unit("mV"));
 
@@ -251,7 +251,7 @@ public class TestTreeSerialization
 	public void emulateJLemsSimulation()
 	{
 
-		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
+		Root runtime = new Root("root");
 
 		EntityNode hhcell = new EntityNode("hhcell");
 
@@ -259,28 +259,28 @@ public class TestTreeSerialization
 
 		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
 
-		SphereNode sphere = new SphereNode("hhcell");
+		SphereValue sphere = new SphereValue("hhcell");
 		visualization.addChild(sphere);
 
 		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.SIMULATION_TREE);
 
-		CompositeNode hhpop = new CompositeNode("hhpop[0]");
-		CompositeNode bio = new CompositeNode("bioPhys1");
-		CompositeNode membrane = new CompositeNode("membraneProperties");
-		CompositeNode naChans = new CompositeNode("naChans");
-		CompositeNode na = new CompositeNode("na");
-		CompositeNode m = new CompositeNode("m");
+		CompositeValue hhpop = new CompositeValue("hhpop[0]");
+		CompositeValue bio = new CompositeValue("bioPhys1");
+		CompositeValue membrane = new CompositeValue("membraneProperties");
+		CompositeValue naChans = new CompositeValue("naChans");
+		CompositeValue na = new CompositeValue("na");
+		CompositeValue m = new CompositeValue("m");
 
-		VariableNode v = new VariableNode("v");
-		Quantity quantity = new Quantity();
+		VariableValue v = new VariableValue("v");
+		QuantityValue quantity = new QuantityValue();
 		quantity.setValue(ValuesFactory.getDoubleValue(20d));
 
-		Quantity quantity2 = new Quantity();
+		QuantityValue quantity2 = new QuantityValue();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
 
-		VariableNode spiking = new VariableNode("spiking");
+		VariableValue spiking = new VariableValue("spiking");
 
-		VariableNode q = new VariableNode("q");
+		VariableValue q = new VariableValue("q");
 
 		v.addQuantity(quantity);
 		spiking.addQuantity(quantity);
@@ -326,7 +326,7 @@ public class TestTreeSerialization
 	public void emulateSmallLiquidSimulation()
 	{
 
-		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
+		Root runtime = new Root("root");
 
 		EntityNode small = new EntityNode("small");
 
@@ -334,13 +334,13 @@ public class TestTreeSerialization
 
 		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
 
-		CompositeNode elastic = new CompositeNode("Elastic");
-		CompositeNode liquid = new CompositeNode("Liquid");
-		CompositeNode boundary = new CompositeNode("Boundary");
+		CompositeValue elastic = new CompositeValue("Elastic");
+		CompositeValue liquid = new CompositeValue("Liquid");
+		CompositeValue boundary = new CompositeValue("Boundary");
 
-		ParticleNode p0 = new ParticleNode("p[0]");
-		ParticleNode p1 = new ParticleNode("p[1]");
-		ParticleNode p2 = new ParticleNode("p[2]");
+		ParticleValue p0 = new ParticleValue("p[0]");
+		ParticleValue p1 = new ParticleValue("p[1]");
+		ParticleValue p2 = new ParticleValue("p[2]");
 
 		visualization.addChild(elastic);
 		visualization.addChild(liquid);
@@ -355,26 +355,26 @@ public class TestTreeSerialization
 
 		AspectSubTreeNode simulation = new AspectSubTreeNode(AspectTreeType.SIMULATION_TREE);
 
-		CompositeNode particle0 = new CompositeNode("particle[0]");
-		CompositeNode particle = new CompositeNode("particle[1]");
-		CompositeNode particle2 = new CompositeNode("particle[2]");
-		CompositeNode position = new CompositeNode("position");
+		CompositeValue particle0 = new CompositeValue("particle[0]");
+		CompositeValue particle = new CompositeValue("particle[1]");
+		CompositeValue particle2 = new CompositeValue("particle[2]");
+		CompositeValue position = new CompositeValue("position");
 
-		VariableNode anotherDummyNode0 = new VariableNode("v");
-		Quantity quantity = new Quantity();
+		VariableValue anotherDummyNode0 = new VariableValue("v");
+		QuantityValue quantity = new QuantityValue();
 		quantity.setValue(ValuesFactory.getDoubleValue(20d));
 
-		Quantity quantity2 = new Quantity();
+		QuantityValue quantity2 = new QuantityValue();
 		quantity2.setValue(ValuesFactory.getDoubleValue(100d));
 
 		anotherDummyNode0.addQuantity(quantity);
 		anotherDummyNode0.addQuantity(quantity2);
 
-		VariableNode anotherDummyNode1 = new VariableNode("v");
-		Quantity quantity3 = new Quantity();
+		VariableValue anotherDummyNode1 = new VariableValue("v");
+		QuantityValue quantity3 = new QuantityValue();
 		quantity3.setValue(ValuesFactory.getDoubleValue(55d));
 
-		Quantity quantity4 = new Quantity();
+		QuantityValue quantity4 = new QuantityValue();
 		quantity4.setValue(ValuesFactory.getDoubleValue(65d));
 
 		anotherDummyNode1.addQuantity(quantity3);
@@ -418,7 +418,7 @@ public class TestTreeSerialization
 	@Test
 	public void testSkeletonRuntimeTree()
 	{
-		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
+		Root runtime = new Root("root");
 
 		EntityNode entity_A = new EntityNode("Entity_A");
 
@@ -461,7 +461,7 @@ public class TestTreeSerialization
 	@Test
 	public void testSkeletonRuntimeTreeOnlyModel()
 	{
-		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
+		Root runtime = new Root("root");
 
 		EntityNode entity_A = new EntityNode("Entity_A");
 
@@ -508,7 +508,7 @@ public class TestTreeSerialization
 	@Test
 	public void testSkeletonRuntimeTreeOnlySimulation()
 	{
-		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
+		Root runtime = new Root("root");
 
 		EntityNode entity_A = new EntityNode("Entity_A");
 
@@ -551,7 +551,7 @@ public class TestTreeSerialization
 	@Test
 	public void testSkeletonRuntimeTreeOnlyVisualization()
 	{
-		RuntimeTreeRoot runtime = new RuntimeTreeRoot("root");
+		Root runtime = new Root("root");
 
 		EntityNode entity_A = new EntityNode("Entity_A");
 
@@ -599,15 +599,15 @@ public class TestTreeSerialization
 
 		model.setModified(true);
 
-		DynamicsSpecificationNode dynamics = new DynamicsSpecificationNode("Dynamics");
+		DynamicsSpecificationValue dynamics = new DynamicsSpecificationValue("Dynamics");
 
-		PhysicalQuantity value = new PhysicalQuantity();
+		PhysicalQuantityValue value = new PhysicalQuantityValue();
 		value.setScalingFactor("10");
 		value.setUnit(new Unit("ms"));
 		value.setValue(new DoubleValue(10));
 		dynamics.setInitialConditions(value);
 
-		FunctionNode function = new FunctionNode("Function");
+		FunctionValue function = new FunctionValue("Function");
 		function.setExpression("y=x+2");
 		List<String> argumentsF = new ArrayList<String>();
 		argumentsF.add("1");
@@ -616,16 +616,16 @@ public class TestTreeSerialization
 
 		dynamics.setDynamics(function);
 
-		ParameterSpecificationNode parameter = new ParameterSpecificationNode("Parameter");
+		ParameterValue parameter = new ParameterValue("Parameter");
 
-		PhysicalQuantity value1 = new PhysicalQuantity();
+		PhysicalQuantityValue value1 = new PhysicalQuantityValue();
 		value1.setScalingFactor("10");
 		value1.setUnit(new Unit("ms"));
 		value1.setValue(new DoubleValue(10));
 
 		parameter.setValue(value1);
 
-		FunctionNode functionNode = new FunctionNode("FunctionNode");
+		FunctionValue functionNode = new FunctionValue("FunctionNode");
 		functionNode.setExpression("y=x^2");
 		List<String> arguments = new ArrayList<String>();
 		arguments.add("1");
@@ -662,21 +662,21 @@ public class TestTreeSerialization
 
 		model.setModified(true);
 
-		CompositeNode first = new CompositeNode("One");
+		CompositeValue first = new CompositeValue("One");
 		first.setId("One_1");
 
-		CompositeNode second = new CompositeNode("One");
+		CompositeValue second = new CompositeValue("One");
 		second.setId("One_2");
 
-		DynamicsSpecificationNode dynamics = new DynamicsSpecificationNode("Dynamics");
+		DynamicsSpecificationValue dynamics = new DynamicsSpecificationValue("Dynamics");
 
-		PhysicalQuantity value = new PhysicalQuantity();
+		PhysicalQuantityValue value = new PhysicalQuantityValue();
 		value.setScalingFactor("10");
 		value.setUnit(new Unit("ms"));
 		value.setValue(new DoubleValue(10));
 		dynamics.setInitialConditions(value);
 
-		FunctionNode function = new FunctionNode("Function");
+		FunctionValue function = new FunctionValue("Function");
 		function.setExpression("y=x+2");
 		List<String> argumentsF = new ArrayList<String>();
 		argumentsF.add("1");
@@ -685,11 +685,11 @@ public class TestTreeSerialization
 
 		dynamics.setDynamics(function);
 
-		ParameterSpecificationNode parameter = new ParameterSpecificationNode("Parameter");
+		ParameterValue parameter = new ParameterValue("Parameter");
 
-		ParameterSpecificationNode parameter2 = new ParameterSpecificationNode("Parameter");
+		ParameterValue parameter2 = new ParameterValue("Parameter");
 
-		PhysicalQuantity value1 = new PhysicalQuantity();
+		PhysicalQuantityValue value1 = new PhysicalQuantityValue();
 		value1.setScalingFactor("10");
 		value1.setUnit(new Unit("ms"));
 		value1.setValue(new DoubleValue(10));
@@ -697,7 +697,7 @@ public class TestTreeSerialization
 		parameter.setValue(value1);
 		parameter2.setValue(value1);
 
-		FunctionNode functionNode = new FunctionNode("FunctionNode");
+		FunctionValue functionNode = new FunctionValue("FunctionNode");
 		functionNode.setExpression("y=x^2");
 		List<String> arguments = new ArrayList<String>();
 		arguments.add("1");
@@ -737,10 +737,10 @@ public class TestTreeSerialization
 		AspectSubTreeNode visualization = new AspectSubTreeNode(AspectTreeType.VISUALIZATION_TREE);
 		visualization.setModified(true);
 		
-		CompositeNode first = new CompositeNode("CompositeNode");
+		CompositeValue first = new CompositeValue("CompositeNode");
 		first.setId("Composite_XXX");
 		
-		SkeletonAnimationNode skeletonNode = new SkeletonAnimationNode("SkeletonAnimation");
+		SkeletonAnimationValue skeletonNode = new SkeletonAnimationValue("SkeletonAnimation");
 		skeletonNode.setId("Skeleton_XXX");
 		
 		List<Double> matrix1 = new ArrayList<Double>();

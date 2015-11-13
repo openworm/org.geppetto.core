@@ -43,19 +43,19 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.quantities.Quantity;
-import org.geppetto.core.model.runtime.SkeletonAnimationNode;
-import org.geppetto.core.model.runtime.VariableNode;
-import org.geppetto.core.model.state.visitors.RuntimeTreeVisitor;
 import org.geppetto.core.model.typesystem.values.AValue;
+import org.geppetto.core.model.typesystem.values.QuantityValue;
+import org.geppetto.core.model.typesystem.values.SkeletonAnimationValue;
 import org.geppetto.core.model.typesystem.values.ValuesFactory;
+import org.geppetto.core.model.typesystem.values.VariableValue;
+import org.geppetto.core.model.typesystem.visitor.AnalysisVisitor;
 import org.geppetto.core.utilities.StringSplitter;
 
 /**
  * @author matteocantarelli
  * 
  */
-public class UpdateRecordingStateTreeVisitor extends RuntimeTreeVisitor
+public class UpdateRecordingStateTreeVisitor extends AnalysisVisitor
 {
 
 	private RecordingModel _recording;
@@ -80,7 +80,7 @@ public class UpdateRecordingStateTreeVisitor extends RuntimeTreeVisitor
 	 * @see org.geppetto.core.model.state.visitors.DefaultStateVisitor#visitSimpleStateNode(org.geppetto.core.model.state.SimpleStateNode)
 	 */
 	@Override
-	public boolean visitVariableNode(VariableNode node)
+	public boolean visitVariableNode(VariableValue node)
 	{
 		String variable = node.getInstancePath();
 		H5File file = _recording.getHDF5();
@@ -92,22 +92,28 @@ public class UpdateRecordingStateTreeVisitor extends RuntimeTreeVisitor
 			try
 			{
 				dataRead = v.read();
-				Quantity quantity = new Quantity();
+				QuantityValue quantity = new QuantityValue();
 				AValue readValue = null;
-				if(dataRead instanceof double[]){
-					double[] dr = (double[])dataRead;
+				if(dataRead instanceof double[])
+				{
+					double[] dr = (double[]) dataRead;
 					readValue = ValuesFactory.getDoubleValue(dr[_currentIndex]);
-				}else if(dataRead instanceof float[]){
-					float[] fr = (float[])dataRead;
+				}
+				else if(dataRead instanceof float[])
+				{
+					float[] fr = (float[]) dataRead;
 					readValue = ValuesFactory.getFloatValue(fr[_currentIndex]);
-				}else if(dataRead instanceof int[]){
-					int[] ir = (int[])dataRead;
+				}
+				else if(dataRead instanceof int[])
+				{
+					int[] ir = (int[]) dataRead;
 					readValue = ValuesFactory.getIntValue(ir[_currentIndex]);
 				}
 				quantity.setValue(readValue);
 				node.addQuantity(quantity);
 			}
-			catch (ArrayIndexOutOfBoundsException  e) {
+			catch(ArrayIndexOutOfBoundsException e)
+			{
 				_endOfSteps = e.getMessage();
 			}
 			catch(Exception | OutOfMemoryError e)
@@ -118,14 +124,13 @@ public class UpdateRecordingStateTreeVisitor extends RuntimeTreeVisitor
 		return super.visitVariableNode(node);
 	}
 
-	
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.geppetto.core.model.state.visitors.DefaultStateVisitor#visitSimpleStateNode(org.geppetto.core.model.state.SimpleStateNode)
 	 */
 	@Override
-	public boolean visitSkeletonAnimationNode(SkeletonAnimationNode node)
+	public boolean visitSkeletonAnimationNode(SkeletonAnimationValue node)
 	{
 		String variable = node.getInstancePath();
 		H5File file = _recording.getHDF5();
@@ -137,29 +142,29 @@ public class UpdateRecordingStateTreeVisitor extends RuntimeTreeVisitor
 			try
 			{
 				dataRead = v.read();
-				
+
 				// get metadata from recording node
 				List<Attribute> attributes = v.getMetadata();
 				String meta = "";
-				
-				for(Attribute a : attributes){
-					if(a.getName().equals("custom_metadata"))
-						meta = ((String[])a.getValue())[0];
+
+				for(Attribute a : attributes)
+				{
+					if(a.getName().equals("custom_metadata")) meta = ((String[]) a.getValue())[0];
 				}
-				
+
 				// split into key value pair
 				Map<String, String> metaMap = StringSplitter.keyValueSplit(meta, ";");
-				
+
 				double[] flatMatrices = null;
 				if(dataRead instanceof double[])
 				{
-					double[] dr = (double[])dataRead;
-					
+					double[] dr = (double[]) dataRead;
+
 					// get items of interest based on matrix dimension and items per step
 					int itemsPerStep = Integer.parseInt(metaMap.get("items_per_step"));
-					int startIndex = _currentIndex*itemsPerStep;
+					int startIndex = _currentIndex * itemsPerStep;
 					int endIndex = startIndex + (itemsPerStep);
-					
+
 					if(endIndex <= dr.length)
 					{
 						flatMatrices = Arrays.copyOfRange(dr, startIndex, endIndex);
@@ -173,7 +178,8 @@ public class UpdateRecordingStateTreeVisitor extends RuntimeTreeVisitor
 				// set matrices on skeleton animation node
 				node.addSkeletonTransformation(Arrays.asList(ArrayUtils.toObject(flatMatrices)));
 			}
-			catch (ArrayIndexOutOfBoundsException  e) {
+			catch(ArrayIndexOutOfBoundsException e)
+			{
 				_endOfSteps = e.getMessage();
 			}
 			catch(Exception | OutOfMemoryError e)
@@ -181,10 +187,10 @@ public class UpdateRecordingStateTreeVisitor extends RuntimeTreeVisitor
 				_errorMessage = e.getMessage();
 			}
 		}
-		
+
 		return super.visitSkeletonAnimationNode(node);
 	}
-	
+
 	/**
 	 * @return
 	 */

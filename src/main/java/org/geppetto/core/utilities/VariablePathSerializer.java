@@ -33,7 +33,6 @@
 
 package org.geppetto.core.utilities;
 
-
 /**
  * @author matteocantarelli
  *
@@ -45,11 +44,11 @@ public class VariablePathSerializer
 	 * @param index
 	 * @return
 	 */
-	public static String getArrayName(String var, String index) 
+	public static String getArrayName(String var, String index)
 	{
-		return var+"_"+index;
+		return var + "_" + index;
 	}
-		  
+
 	/**
 	 * @param var
 	 * @param index

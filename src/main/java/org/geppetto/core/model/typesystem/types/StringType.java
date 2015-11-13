@@ -34,16 +34,17 @@ package org.geppetto.core.model.typesystem.types;
 
 import org.geppetto.core.model.typesystem.values.IValue;
 import org.geppetto.core.model.typesystem.values.ValuesFactory;
+import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 
 /**
  * @author matteocantarelli
  *
  */
-public class StringType extends PrimitiveType
+public class StringType extends APrimitiveType
 {
 
-	IValue defaultValue=ValuesFactory.getStringValue("");
-	
+	IValue defaultValue = ValuesFactory.getStringValue("");
+
 	@Override
 	public String getName()
 	{
@@ -54,6 +55,12 @@ public class StringType extends PrimitiveType
 	public IValue getDefaultValue()
 	{
 		return defaultValue;
+	}
+
+	@Override
+	public boolean apply(IAnalysis visitor)
+	{
+		return visitor.visitStringType(this);
 	}
 
 }

@@ -39,7 +39,6 @@ import java.util.Map;
 
 import org.geppetto.core.services.ModelFormat;
 
-
 /**
  * @author matteocantarelli
  * 
@@ -63,7 +62,7 @@ public class ModelWrapper extends AModel
 		}
 		return null;
 	}
-	
+
 	public Object getModel(String id)
 	{
 		if(_models.containsKey(id))
@@ -77,12 +76,12 @@ public class ModelWrapper extends AModel
 	{
 		_models.put(id, model);
 	}
-	
+
 	public void wrapModel(ModelFormat format, Object model)
 	{
 		_models.put(format.getModelFormat(), model);
 	}
-	
+
 	public Collection<Object> getModels()
 	{
 		return _models.values();

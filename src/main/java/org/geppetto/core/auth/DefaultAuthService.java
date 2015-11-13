@@ -37,7 +37,6 @@ import org.geppetto.core.data.model.IUser;
 public class DefaultAuthService implements IAuthService
 {
 
-
 	@Override
 	public String authFailureRedirect()
 	{

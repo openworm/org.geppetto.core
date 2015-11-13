@@ -32,7 +32,8 @@
  *******************************************************************************/
 package org.geppetto.core.model.typesystem.types;
 
-import org.geppetto.core.model.typesystem.IAspect;
+import org.geppetto.core.model.typesystem.aspect.IAspect;
+import org.geppetto.core.model.typesystem.types.ConnectionType.Directionality;
 
 /**
  * @author matteocantarelli
@@ -43,11 +44,18 @@ public class TypesFactory
 
 	private static IntType intType = new IntType();
 	private static StringType stringType = new StringType();
-	private static IType primitiveType = new PrimitiveType();
+	private static IType primitiveType = new AnyPrimitiveType();
+	private static PointerType pointerType = new PointerType();
 
 	public static CompositeType getCompositeType(IAspect aspect, String name)
 	{
 		CompositeType compositeType = new CompositeType(aspect, name);
+		return compositeType;
+	}
+
+	public static ConnectionType getConnectionType(IAspect aspect, String name, Directionality directionality)
+	{
+		ConnectionType compositeType = new ConnectionType(aspect, name, directionality);
 		return compositeType;
 	}
 
@@ -72,6 +80,11 @@ public class TypesFactory
 	public static IType getPrimitiveType()
 	{
 		return primitiveType;
+	}
+
+	public static PointerType getPointerType()
+	{
+		return pointerType;
 	}
 
 }

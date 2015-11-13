@@ -225,8 +225,9 @@ public class PathConfiguration
 		folder.mkdir();
 		return folder;
 	}
-	
-	public static URL getModelSchemaURL(){
+
+	public static URL getModelSchemaURL()
+	{
 		return PathConfiguration.class.getResource("/schema/geppettoModel/geppettoModelSchema.xsd");
 	}
 }

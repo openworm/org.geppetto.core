@@ -43,9 +43,8 @@ import org.geppetto.core.features.IWatchableVariableListFeature;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.runtime.ANode;
-import org.geppetto.core.model.runtime.RuntimeTreeRoot;
-import org.geppetto.core.model.typesystem.AspectNode;
+import org.geppetto.core.model.typesystem.INode;
+import org.geppetto.core.model.typesystem.Root;
 import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.utilities.RecordingReader;
 
@@ -55,10 +54,11 @@ import org.geppetto.core.utilities.RecordingReader;
  * @author Jesus R Martinez (jesus@metacell.us)
  *
  */
-public class RecordingVariableListFeature implements IWatchableVariableListFeature{
+public class RecordingVariableListFeature implements IWatchableVariableListFeature
+{
 
 	private GeppettoFeature type = GeppettoFeature.WATCHABLE_VARIABLE_LIST_FEATURE;
-	private RuntimeTreeRoot root;
+	private Root root;
 	private static Log _logger = LogFactory.getLog(RecordingVariableListFeature.class);
 
 	@Override
@@ -75,33 +75,36 @@ public class RecordingVariableListFeature implements IWatchableVariableListFeatu
 		ModelWrapper model = (ModelWrapper) aspectNode.getModel();
 		Collection<Object> models = model.getModels();
 		Iterator i = models.iterator();
-		while(i.hasNext()){
+		while(i.hasNext())
+		{
 			Object m = i.next();
 			if(m instanceof RecordingModel)
 			{
-				//Get scene root
-				ANode n = aspectNode.getParent();
-				while(n.getParent()!=null){
-					n  = n.getParent();
+				// Get scene root
+				INode n = aspectNode.getParent();
+				while(n.getParent() != null)
+				{
+					n = n.getParent();
 				}
-				
-				this.root = (RuntimeTreeRoot) n;
-				//traverse scene root to get all simulation trees for all aspects
+
+				this.root = (Root) n;
+				// traverse scene root to get all simulation trees for all aspects
 				GetAspectsVisitor mappingVisitor = new GetAspectsVisitor();
 				this.root.apply(mappingVisitor);
-			
-				try {
-					//we send the recording hdf5 location, plus map of aspects to populate them with recordings extracts
+
+				try
+				{
+					// we send the recording hdf5 location, plus map of aspects to populate them with recordings extracts
 					RecordingReader recReader = new RecordingReader();
 					recReader.populateSimulationVariables(((RecordingModel) m).getHDF5().getAbsolutePath(), mappingVisitor.getAspects());
-				} catch (GeppettoExecutionException e) {
+				}
+				catch(GeppettoExecutionException e)
+				{
 					throw new ModelInterpreterException(e);
 				}
 			}
 		}
-		
+
 		return modified;
 	}
 }
-
-

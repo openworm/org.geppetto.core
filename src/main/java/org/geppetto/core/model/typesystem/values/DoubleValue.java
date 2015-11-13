@@ -14,7 +14,7 @@ public class DoubleValue extends AValue
 
 	public DoubleValue(double value)
 	{
-		_value=value;
+		_value = value;
 	}
 
 	@Override
@@ -22,10 +22,10 @@ public class DoubleValue extends AValue
 	{
 		return Double.toString(_value);
 	}
-	
+
 	public double getValue()
 	{
 		return _value;
 	}
-	
+
 }

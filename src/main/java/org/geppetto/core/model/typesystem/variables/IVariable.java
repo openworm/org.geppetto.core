@@ -35,6 +35,7 @@ package org.geppetto.core.model.typesystem.variables;
 import java.util.Collection;
 
 import org.geppetto.core.library.GeppettoTypeException;
+import org.geppetto.core.model.typesystem.INode;
 import org.geppetto.core.model.typesystem.types.IType;
 import org.geppetto.core.model.typesystem.values.IValue;
 
@@ -42,19 +43,19 @@ import org.geppetto.core.model.typesystem.values.IValue;
  * @author matteocantarelli
  *
  */
-public interface IVariable
+public interface IVariable extends INode
 {
-	
+
 	String getName();
-	
+
 	Collection<IType> getTypes();
-	
+
 	void addType(IType type);
-	
+
 	IValue getInitialValue(IType type) throws GeppettoTypeException;
-	
+
 	IType getType() throws GeppettoTypeException;
-	
+
 	IValue getInitialValue() throws GeppettoTypeException;
 
 }

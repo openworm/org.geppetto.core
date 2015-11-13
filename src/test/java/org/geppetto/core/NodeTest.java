@@ -36,12 +36,12 @@ import junit.framework.Assert;
 
 import org.geppetto.core.model.runtime.AspectSubTreeNode;
 import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
-import org.geppetto.core.model.runtime.CompositeNode;
 import org.geppetto.core.model.runtime.EntityNode;
-import org.geppetto.core.model.runtime.ParameterSpecificationNode;
-import org.geppetto.core.model.runtime.VariableNode;
 import org.geppetto.core.model.runtime.VisualGroupNode;
 import org.geppetto.core.model.typesystem.AspectNode;
+import org.geppetto.core.model.typesystem.values.CompositeValue;
+import org.geppetto.core.model.typesystem.values.ParameterValue;
+import org.geppetto.core.model.typesystem.values.VariableValue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,13 +55,13 @@ public class NodeTest
 	EntityNode entity1;
 	EntityNode entity2;
 	AspectNode aspect;
-	ParameterSpecificationNode param;
-	VariableNode var;
+	ParameterValue param;
+	VariableValue var;
 	VisualGroupNode vgroup;
 	AspectSubTreeNode mt;
 	AspectSubTreeNode vt;
 	AspectSubTreeNode st;
-	CompositeNode comp;
+	CompositeValue comp;
 	
 	public NodeTest()
 	{
@@ -77,11 +77,11 @@ public class NodeTest
 		mt.setParent(aspect);
 		st.setParent(aspect);
 		vt.setParent(aspect);
-		comp=new CompositeNode("comp");
+		comp=new CompositeValue("comp");
 		comp.setParent(mt);
-		param=new ParameterSpecificationNode("p1");
+		param=new ParameterValue("p1");
 		param.setParent(comp);
-		var=new VariableNode("v1");
+		var=new VariableValue("v1");
 		var.setParent(st);
 		vgroup = new VisualGroupNode("vg1");
 		vgroup.setParent(vt);

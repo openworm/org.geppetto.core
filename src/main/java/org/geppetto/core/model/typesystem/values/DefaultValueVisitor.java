@@ -32,7 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.model.typesystem.values;
 
-
 /**
  * @author matteocantarelli
  *
@@ -57,6 +56,5 @@ public class DefaultValueVisitor implements IValuesVisitor
 	{
 		return;
 	}
-
 
 }

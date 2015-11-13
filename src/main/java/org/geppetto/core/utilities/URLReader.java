@@ -127,9 +127,8 @@ public class URLReader
 	}
 
 	/**
-	 * This method copies the file pointed by the remote URL locally to the server
-	 * Since this method essentially creates a temporary file in the server that will need to be
-	 * cleared we have additional information to define the scope and the id of the project
+	 * This method copies the file pointed by the remote URL locally to the server Since this method essentially creates a temporary file in the server that will need to be cleared we have additional
+	 * information to define the scope and the id of the project
 	 * 
 	 * @param url
 	 * @param scope
@@ -139,7 +138,7 @@ public class URLReader
 	 */
 	public static URL createLocalCopy(Scope scope, long projectId, URL url) throws IOException
 	{
-		File outputFile = new File(PathConfiguration.createProjectTmpFolder(scope, projectId, PathConfiguration.getName(getFileName(url),true)));
+		File outputFile = new File(PathConfiguration.createProjectTmpFolder(scope, projectId, PathConfiguration.getName(getFileName(url), true)));
 		URLConnection uc = url.openConnection();
 		uc.connect();
 		InputStream in = uc.getInputStream();
@@ -156,14 +155,14 @@ public class URLReader
 		return outputFile.toURI().toURL();
 	}
 
-
 	public static String getFileName(URL url)
 	{
 		int indexes = url.getPath().lastIndexOf(File.separator);
-		if(indexes == -1){
+		if(indexes == -1)
+		{
 			indexes = url.getPath().lastIndexOf("/");
 		}
-		String fileName = url.getPath().substring(indexes+1);
+		String fileName = url.getPath().substring(indexes + 1);
 		return fileName;
 	}
 

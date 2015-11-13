@@ -57,7 +57,7 @@ public class GeppettoExecutionException extends Exception
 
 	public GeppettoExecutionException(String string, Throwable e1)
 	{
-		super(string,e1);
+		super(string, e1);
 	}
 
 }

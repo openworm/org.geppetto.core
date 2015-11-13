@@ -35,7 +35,7 @@ package org.geppetto.core.library;
 import java.util.Collection;
 import java.util.Map;
 
-import org.geppetto.core.model.typesystem.IAspect;
+import org.geppetto.core.model.typesystem.aspect.IAspect;
 import org.geppetto.core.model.typesystem.types.IType;
 
 /**
@@ -96,7 +96,7 @@ public abstract class AGeppettoLibrary implements IGeppettoLibrary
 	/**
 	 * @param type
 	 * @param overwrite
-	 * @throws GeppettoTypeException 
+	 * @throws GeppettoTypeException
 	 */
 	protected void addType(IType type, boolean overwrite) throws GeppettoTypeException
 	{
@@ -110,23 +110,23 @@ public abstract class AGeppettoLibrary implements IGeppettoLibrary
 			{
 				if(!getTypeByName(type.getName()).equivalent(type))
 				{
-					//they are not the same, old type is discarded
+					// they are not the same, old type is discarded
 					addType(type);
 				}
 				else
 				{
-					//do nothing, there is an equivalent type
+					// do nothing, there is an equivalent type
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * @param type
 	 */
 	protected void addType(IType type)
 	{
-		types.put(type.getName(),type);
+		types.put(type.getName(), type);
 	}
 
 	/**

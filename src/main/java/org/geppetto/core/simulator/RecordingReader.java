@@ -49,18 +49,16 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.quantities.Quantity;
-import org.geppetto.core.model.quantities.Unit;
-import org.geppetto.core.model.runtime.ACompositeNode;
-import org.geppetto.core.model.runtime.ANode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
-import org.geppetto.core.model.runtime.CompositeNode;
-import org.geppetto.core.model.runtime.SkeletonAnimationNode;
-import org.geppetto.core.model.runtime.VariableNode;
-import org.geppetto.core.model.typesystem.AspectNode;
+import org.geppetto.core.model.typesystem.ANode;
+import org.geppetto.core.model.typesystem.INode;
+import org.geppetto.core.model.typesystem.values.ACompositeValue;
 import org.geppetto.core.model.typesystem.values.AValue;
+import org.geppetto.core.model.typesystem.values.CompositeValue;
+import org.geppetto.core.model.typesystem.values.QuantityValue;
+import org.geppetto.core.model.typesystem.values.SkeletonAnimationValue;
+import org.geppetto.core.model.typesystem.values.Unit;
 import org.geppetto.core.model.typesystem.values.ValuesFactory;
+import org.geppetto.core.model.typesystem.values.VariableValue;
 import org.geppetto.core.utilities.StringSplitter;
 
 /**
@@ -128,7 +126,7 @@ public class RecordingReader
 	 * @param readAll
 	 * @throws GeppettoExecutionException
 	 */
-	public void readVariable(String path, H5File h5File, ACompositeNode parent, boolean readAll) throws GeppettoExecutionException
+	public void readVariable(String path, H5File h5File, ACompositeValue parent, boolean readAll) throws GeppettoExecutionException
 	{
 		Dataset v = (Dataset) FileFormat.findObject(h5File, path);
 
@@ -178,7 +176,7 @@ public class RecordingReader
 			if(path.contains(test))
 			{
 				path = path.substring(path.indexOf(test) + test.length());
-				found=true;
+				found = true;
 			}
 			if(!found)
 			{
@@ -191,27 +189,27 @@ public class RecordingReader
 		}
 
 		StringTokenizer tokenizer = new StringTokenizer(path, "/");
-		VariableNode newVariableNode = null;
-		SkeletonAnimationNode newSkeletonAnimationNode = null;
+		VariableValue newVariableNode = null;
+		SkeletonAnimationValue newSkeletonAnimationNode = null;
 		while(tokenizer.hasMoreElements())
 		{
 			String current = tokenizer.nextToken();
 			found = false;
-			for(ANode child : parent.getChildren())
+			for(INode child : parent.getChildren())
 			{
 				if(child.getId().equals(current))
 				{
-					if(child instanceof ACompositeNode)
+					if(child instanceof ACompositeValue)
 					{
-						parent = (ACompositeNode) child;
+						parent = (ACompositeValue) child;
 					}
-					if(child instanceof VariableNode)
+					if(child instanceof VariableValue)
 					{
-						newVariableNode = (VariableNode) child;
+						newVariableNode = (VariableValue) child;
 					}
-					if(child instanceof SkeletonAnimationNode)
+					if(child instanceof SkeletonAnimationValue)
 					{
-						newSkeletonAnimationNode = (SkeletonAnimationNode) child;
+						newSkeletonAnimationNode = (SkeletonAnimationValue) child;
 					}
 					found = true;
 					break;
@@ -226,7 +224,7 @@ public class RecordingReader
 				if(tokenizer.hasMoreElements())
 				{
 					// not a leaf, create a composite state node
-					ACompositeNode newNode = new CompositeNode(current);
+					ACompositeValue newNode = new CompositeValue(current);
 					parent.addChild(newNode);
 					parent = newNode;
 				}
@@ -240,13 +238,13 @@ public class RecordingReader
 
 						if(metaType.contains("VariableNode") || metaType.contains("STATE_VARIABLE"))
 						{
-							VariableNode newNode = new VariableNode(current);
-							newVariableNode = (VariableNode) newNode;
+							VariableValue newNode = new VariableValue(current);
+							newVariableNode = (VariableValue) newNode;
 							parent.addChild(newNode);
 
 							if(!readAll)
 							{
-								Quantity quantity = new Quantity();
+								QuantityValue quantity = new QuantityValue();
 								AValue readValue = null;
 								if(dataRead instanceof double[])
 								{
@@ -271,8 +269,8 @@ public class RecordingReader
 						}
 						else if(metaType.contains("VISUAL_TRANSFORMATION"))
 						{
-							SkeletonAnimationNode newNode = new SkeletonAnimationNode(current);
-							newSkeletonAnimationNode = (SkeletonAnimationNode) newNode;
+							SkeletonAnimationValue newNode = new SkeletonAnimationValue(current);
+							newSkeletonAnimationNode = (SkeletonAnimationValue) newNode;
 							parent.addChild(newNode);
 
 							if(!readAll)
@@ -325,7 +323,7 @@ public class RecordingReader
 						double[] dr = (double[]) dataRead;
 						for(int i = 0; i < dr.length; i++)
 						{
-							Quantity quantity = new Quantity();
+							QuantityValue quantity = new QuantityValue();
 							readValue = ValuesFactory.getDoubleValue(dr[i]);
 							quantity.setValue(readValue);
 							newVariableNode.addQuantity(quantity);
@@ -336,7 +334,7 @@ public class RecordingReader
 						float[] fr = (float[]) dataRead;
 						for(int i = 0; i < fr.length; i++)
 						{
-							Quantity quantity = new Quantity();
+							QuantityValue quantity = new QuantityValue();
 							readValue = ValuesFactory.getDoubleValue(fr[i]);
 							quantity.setValue(readValue);
 							newVariableNode.addQuantity(quantity);
@@ -347,7 +345,7 @@ public class RecordingReader
 						int[] ir = (int[]) dataRead;
 						for(int i = 0; i < ir.length; i++)
 						{
-							Quantity quantity = new Quantity();
+							QuantityValue quantity = new QuantityValue();
 							readValue = ValuesFactory.getDoubleValue(ir[i]);
 							quantity.setValue(readValue);
 							newVariableNode.addQuantity(quantity);

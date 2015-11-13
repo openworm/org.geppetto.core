@@ -44,14 +44,15 @@ import org.geppetto.core.services.ModelFormat;
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public interface IConversion extends IService{
-	
+public interface IConversion extends IService
+{
+
 	List<ModelFormat> getSupportedOutputs(IModel model, ModelFormat input) throws ConversionException;
-	
+
 	List<ModelFormat> getSupportedOutputs() throws ConversionException;
-	
+
 	List<ModelFormat> getSupportedInputs() throws ConversionException;
-	
+
 	IModel convert(IModel model, ModelFormat input, ModelFormat output, IAspectConfiguration aspectConfig) throws ConversionException;
-		
+
 }

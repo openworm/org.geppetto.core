@@ -35,23 +35,28 @@ package org.geppetto.core.model.typesystem.variables;
 import org.geppetto.core.model.typesystem.types.IType;
 import org.geppetto.core.model.typesystem.types.TypesFactory;
 
-
 /**
  * @author matteocantarelli
  *
  */
 public class VariablesFactory
 {
-	
+
 	public static IVariable getVariable(String name, IType type)
 	{
-		Variable variable=new Variable(name, type);
+		Variable variable = new Variable(name, type);
+		return variable;
+	}
+
+	public static IVariable getVariable(String name)
+	{
+		Variable variable = new Variable(name);
 		return variable;
 	}
 
 	public static ArrayVariable getArrayVariable(String name, IType type)
 	{
-		ArrayVariable variable=new ArrayVariable(name, type);
+		ArrayVariable variable = new ArrayVariable(name, type);
 		return variable;
 	}
 
@@ -64,13 +69,10 @@ public class VariablesFactory
 	{
 		return getVariable(name, TypesFactory.getIntType());
 	}
-	
+
 	public static IVariable getStringVariable(String name)
 	{
 		return getVariable(name, TypesFactory.getStringType());
 	}
-	
-	
-
 
 }

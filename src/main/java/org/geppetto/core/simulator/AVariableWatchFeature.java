@@ -45,13 +45,14 @@ import org.geppetto.core.services.GeppettoFeature;
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
  */
-public class AVariableWatchFeature implements IVariableWatchFeature{
+public class AVariableWatchFeature implements IVariableWatchFeature
+{
 
 	protected int _currentRecordingIndex = 0;
 	private boolean _watchListModified;
 	private GeppettoFeature _type = GeppettoFeature.VARIABLE_WATCH_FEATURE;
 	List<String> watchedVariables = new ArrayList<String>();
-	 
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -61,7 +62,8 @@ public class AVariableWatchFeature implements IVariableWatchFeature{
 	public void setWatchedVariables(List<String> variableNames)
 	{
 		this._watchListModified = true;
-		for(String s : variableNames){
+		for(String s : variableNames)
+		{
 			this.watchedVariables.add(s);
 		}
 	}
@@ -78,22 +80,26 @@ public class AVariableWatchFeature implements IVariableWatchFeature{
 	}
 
 	@Override
-	public GeppettoFeature getType() {
-		return _type ;
+	public GeppettoFeature getType()
+	{
+		return _type;
 	}
-	
+
 	@Override
-	public boolean watchListModified(){
+	public boolean watchListModified()
+	{
 		return _watchListModified;
 	}
-	
+
 	@Override
-	public void setWatchListModified(boolean modified){
+	public void setWatchListModified(boolean modified)
+	{
 		_watchListModified = modified;
 	}
 
 	@Override
-	public List<String> getWatchedVariables() {
+	public List<String> getWatchedVariables()
+	{
 		return this.watchedVariables;
 	}
 

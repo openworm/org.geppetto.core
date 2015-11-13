@@ -3,13 +3,14 @@
  */
 package org.geppetto.core.model.typesystem.values;
 
+import org.geppetto.core.model.typesystem.ANode;
 
 /**
  * @author matteocantarelli
  *
  */
-public abstract class AValue implements IValue
-{	
+public abstract class AValue extends ANode implements IValue 
+{
 
 	public abstract String getStringValue();
 
@@ -18,5 +19,5 @@ public abstract class AValue implements IValue
 	{
 		return getStringValue();
 	}
-	
+
 }
