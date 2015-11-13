@@ -31,90 +31,29 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.data.model.local;
+package org.geppetto.core.data.model;
 
-import java.util.List;
+public enum UserPrivileges {
+	READ_PROJECT("READ_PROJECT"), 
+	CREATE_PROJECT("CREATE_PROJECT"), 
+	RUN_EXPERIMENT("RUN_EXPERIMENT"), 
+	EDIT_PROJECT("EDIT_PROJECT"), 
+	CREATE_EXPERIMENT("CREATE_EXPERIMENT");
+	
+	private final String text;
 
-import org.geppetto.core.data.model.IUser;
-import org.geppetto.core.data.model.IUserGroup;
+    /**
+     * @param text
+     */
+    private UserPrivileges(final String text) {
+        this.text = text;
+    }
 
-public class LocalUser implements IUser
-{
-	private long id;
-
-	private String login;
-
-	private String name;
-
-	private String password;
-
-	private String token;
-
-	private List<LocalGeppettoProject> geppettoProjects;
-
-	private String dropboxToken;
-
-	public LocalUser(long id, String login, String password, String name, String token, List<LocalGeppettoProject> geppettoProjects)
-	{
-		this.id = id;
-		this.login = login;
-		this.password = password;
-		this.name = name;
-		this.token = token;
-		this.geppettoProjects = geppettoProjects;
-	}
-
-	@Override
-	public long getId()
-	{
-		return id;
-	}
-
-	@Override
-	public String getLogin()
-	{
-		return login;
-	}
-
-	@Override
-	public String getPassword()
-	{
-		return password;
-	}
-
-	@Override
-	public String getName()
-	{
-		return name;
-	}
-
-	public String getToken()
-	{
-		return token;
-	}
-
-	@Override
-	public List<LocalGeppettoProject> getGeppettoProjects()
-	{
-		return geppettoProjects;
-	}
-
-	@Override
-	public String getDropboxToken()
-	{
-		return this.dropboxToken;
-	}
-
-	@Override
-	public void setDropboxToken(String token)
-	{
-		this.dropboxToken=token;
-	}
-
-	@Override
-	public IUserGroup getUserGroup() {
-		// TODO: Auto-generated method stub
-		return null;
-	}
-
+    /* (non-Javadoc)
+     * @see java.lang.Enum#toString()
+     */
+    @Override
+    public String toString() {
+        return text;
+    }
 }
