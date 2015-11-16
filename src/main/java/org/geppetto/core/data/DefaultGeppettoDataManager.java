@@ -58,6 +58,7 @@ import org.geppetto.core.data.model.IPersistedData;
 import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.data.model.IUser;
+import org.geppetto.core.data.model.IUserGroup;
 import org.geppetto.core.data.model.PersistedDataType;
 import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.data.model.local.LocalAspectConfiguration;
@@ -248,7 +249,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	 * @see org.geppetto.core.data.IGeppettoDataManager#newUser(java.lang.String)
 	 */
 	@Override
-	public IUser newUser(String name, String password, boolean persistent)
+	public IUser newUser(String name, String password, boolean persistent, IUserGroup group)
 	{
 		List<LocalGeppettoProject> list = new ArrayList<LocalGeppettoProject>(projects.values());
 		return new LocalUser(0, name, password, name, name, list);
@@ -422,9 +423,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	
 	@Override
 	public IUser updateUser(IUser user, String password)
-	{
+	{		
 		// Just return a new user
-		return newUser(user.getName(), password, false);
+		return newUser(user.getName(), password, false, null);
 	}
 
 }

@@ -47,6 +47,7 @@ import org.geppetto.core.data.model.IPersistedData;
 import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.data.model.IUser;
+import org.geppetto.core.data.model.IUserGroup;
 import org.geppetto.core.data.model.PersistedDataType;
 import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.model.runtime.ANode;
@@ -97,7 +98,7 @@ public interface IGeppettoDataManager
 
 	IExperiment newExperiment(String name, String description, IGeppettoProject project);
 	
-	IUser newUser(String name, String password, boolean persistent);
+	IUser newUser(String name, String password, boolean persistent, IUserGroup group);
 	
 	IUser updateUser(IUser user, String password);
 	

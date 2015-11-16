@@ -35,6 +35,8 @@ package org.geppetto.core.data.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public interface IUserGroup {
 	
 	long getId();
@@ -43,7 +45,9 @@ public interface IUserGroup {
 	
 	List<UserPrivileges> getPrivileges();
 	
+	@JsonIgnore
 	long getSpaceAllowance();
 	
+	@JsonIgnore
 	long getSimulationTimeAllowance();
 }
