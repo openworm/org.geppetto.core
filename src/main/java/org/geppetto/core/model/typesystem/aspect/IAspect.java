@@ -32,7 +32,11 @@
  *******************************************************************************/
 package org.geppetto.core.model.typesystem.aspect;
 
+import java.util.Collection;
+
+import org.geppetto.core.library.GeppettoTypeException;
 import org.geppetto.core.model.typesystem.INode;
+import org.geppetto.core.model.typesystem.types.IType;
 
 /**
  * @author matteocantarelli
@@ -41,7 +45,10 @@ import org.geppetto.core.model.typesystem.INode;
 public interface IAspect extends INode
 {
 
-	String getName();
+	Collection<IType> getTypes();
 
-	String getId();
+	void addTypes(Collection<IType> types);
+
+	IType getTypeByName(String typeName) throws GeppettoTypeException;
+	
 }

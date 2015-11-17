@@ -33,7 +33,7 @@
 package org.geppetto.core.model.typesystem.types;
 
 import org.geppetto.core.library.foundation.GeppettoAspect;
-import org.geppetto.core.model.typesystem.aspect.IAspect;
+import org.geppetto.core.model.typesystem.values.AValue;
 
 /**
  * @author matteocantarelli
@@ -42,16 +42,10 @@ import org.geppetto.core.model.typesystem.aspect.IAspect;
 public abstract class APrimitiveType extends AType
 {
 
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.model.typesystem.types.IType#getAspect()
-	 */
-	@Override
-	public IAspect getAspect()
+	public APrimitiveType(String name, AValue defaultValue)
 	{
-		return GeppettoAspect.get();
+		super(GeppettoAspect.get(), name);
+		this.defaultValue = defaultValue;
 	}
 
 	@Override
@@ -60,6 +54,5 @@ public abstract class APrimitiveType extends AType
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 }

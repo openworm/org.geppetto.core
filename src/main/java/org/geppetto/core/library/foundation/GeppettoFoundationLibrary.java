@@ -32,13 +32,13 @@
  *******************************************************************************/
 package org.geppetto.core.library.foundation;
 
-import org.geppetto.core.library.AGeppettoLibrary;
+import org.geppetto.core.library.GeppettoLibrary;
 
 /**
  * @author matteocantarelli
  *
  */
-public class GeppettoFoundationLibrary extends AGeppettoLibrary
+public class GeppettoFoundationLibrary extends GeppettoLibrary
 {
 
 	public void init()

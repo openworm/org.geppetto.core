@@ -32,7 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.model.typesystem.types;
 
-import org.geppetto.core.model.typesystem.values.IValue;
 import org.geppetto.core.model.typesystem.values.ValuesFactory;
 import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 
@@ -43,18 +42,9 @@ import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 public class FloatType extends APrimitiveType
 {
 
-	IValue defaultValue = ValuesFactory.getFloatValue(0f);
-
-	@Override
-	public String getName()
+	public FloatType(String name)
 	{
-		return "Float";
-	}
-
-	@Override
-	public IValue getDefaultValue()
-	{
-		return defaultValue;
+		super("Float", ValuesFactory.getFloatValue(0f));
 	}
 
 	@Override

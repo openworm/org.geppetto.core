@@ -51,9 +51,8 @@ public class CompositeType extends AType
 
 	public CompositeType(IAspect aspect, String name)
 	{
-		super();
+		super(name);
 		this.aspect = aspect;
-		this.name = name;
 	}
 
 	public CompositeType(IAspect aspect, String name, IValue defaultValue)

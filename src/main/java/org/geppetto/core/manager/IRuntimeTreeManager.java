@@ -11,22 +11,6 @@ import org.geppetto.core.data.model.IGeppettoProject;
 public interface IRuntimeTreeManager
 {
 
-	/**
-	 * Returns the model tree corresponding to the specified aspect
-	 * 
-	 * @param aspectID
-	 * @return
-	 * @throws GeppettoExecutionException
-	 */
-	public Map<String, AspectSubTreeNode> getModelTree(String aspectInstancePath, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
-
-	/**
-	 * Returns the simulation tree corresponding to the specified aspect
-	 * 
-	 * @param aspectInstancePath
-	 * @return
-	 */
-	public abstract Map<String, AspectSubTreeNode> getSimulationTree(String aspectInstancePath, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;;
 
 	/**
 	 * Changes the parameters of the model
@@ -34,7 +18,7 @@ public interface IRuntimeTreeManager
 	 * @param aspectInstancePath
 	 * @param parameters
 	 */
-	public abstract AspectSubTreeNode setModelParameters(String aspectInstancePath, Map<String, String> parameters, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;;
+	void setModelParameters(Map<String, String> parameters, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;;
 
 	/**
 	 * Sets variables to be watched
@@ -48,6 +32,6 @@ public interface IRuntimeTreeManager
 	 * @throws GeppettoExecutionException
 	 * 
 	 */
-	public abstract void clearWatchLists(IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
+	void clearWatchLists(IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
 }

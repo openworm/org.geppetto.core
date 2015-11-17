@@ -35,10 +35,6 @@ package org.geppetto.core.library;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.geppetto.core.model.geppettomodel.GeppettoModel;
-import org.geppetto.core.model.typesystem.aspect.IAspect;
-import org.geppetto.core.model.typesystem.types.IType;
-
 /**
  * @author matteocantarelli
  *
@@ -46,51 +42,15 @@ import org.geppetto.core.model.typesystem.types.IType;
 public class LibraryManager implements ILibraryManager
 {
 
-	Map<IAspect, IGeppettoLibrary> libraries;
+	Map<String, IGeppettoLibrary> libraries = new HashMap<String, IGeppettoLibrary>();;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.library.ILibraryManager#init(org.geppetto.core.model.geppettomodel.GeppettoModel)
-	 */
-	@Override
-	public void init(GeppettoModel model)
+	public IGeppettoLibrary getLibrary(String modelInterpreterId)
 	{
-		libraries = new HashMap<IAspect, IGeppettoLibrary>();
-		// TODO initialise the library from a geppetto model
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.library.ILibraryManager#getTypeByName(org.geppetto.core.model.typesystem.IAspect, java.lang.String)
-	 */
-	@Override
-	public IType getTypeByName(IAspect aspect, String name) throws GeppettoTypeException
-	{
-		if(libraries.containsKey(aspect))
+		if(!libraries.containsKey(modelInterpreterId))
 		{
-			return libraries.get(aspect).getTypeByName(name);
+			libraries.put(modelInterpreterId, new GeppettoLibrary());
 		}
-		throw new GeppettoTypeException("Type " + name + " not found in the library for aspect " + aspect.getId());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.library.ILibraryManager#getTypeByName(java.lang.String, java.lang.String)
-	 */
-	@Override
-	public IType getTypeByName(String aspectId, String name) throws GeppettoTypeException
-	{
-		for(IAspect aspect : libraries.keySet())
-		{
-			if(aspect.getId().equals(aspectId))
-			{
-				return getTypeByName(aspect, name);
-			}
-		}
-		throw new GeppettoTypeException("Type " + name + " not found in the library for aspect " + aspectId);
+		return libraries.get(modelInterpreterId);
 	}
 
 }

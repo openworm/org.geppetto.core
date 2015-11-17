@@ -41,6 +41,11 @@ import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 public class PointerType extends AType implements IType
 {
 
+	public PointerType()
+	{
+		super("Pointer");
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -47,6 +47,11 @@ import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 public class Root extends ANode
 {
 
+	public Root()
+	{
+		super("__ROOT__");
+	}
+
 	private List<IAspect> aspects;
 
 	private List<IVariable> variables;

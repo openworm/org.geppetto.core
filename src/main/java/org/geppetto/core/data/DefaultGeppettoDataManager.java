@@ -69,7 +69,6 @@ import org.geppetto.core.data.model.local.LocalPersistedData;
 import org.geppetto.core.data.model.local.LocalSimulationResult;
 import org.geppetto.core.data.model.local.LocalSimulatorConfiguration;
 import org.geppetto.core.data.model.local.LocalUser;
-import org.geppetto.core.model.typesystem.INode;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
@@ -214,9 +213,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	 * @see org.geppetto.core.data.IGeppettoDataManager#newInstancePath(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public IInstancePath newInstancePath(String entityPath, String aspectPath, String localPath)
+	public IInstancePath newInstancePath(String instancePath)
 	{
-		return new LocalInstancePath(0, entityPath, aspectPath, localPath);
+		return new LocalInstancePath(0, instancePath);
 	}
 
 	/*
@@ -376,12 +375,6 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	public ISimulationResult newSimulationResult(IInstancePath parameterPath, IPersistedData results, ResultsFormat format)
 	{
 		return new LocalSimulationResult(0, (LocalInstancePath) parameterPath, (LocalPersistedData) results, format);
-	}
-
-	@Override
-	public IInstancePath newInstancePath(INode node)
-	{
-		return newInstancePath(node.getEntityInstancePath(), node.getAspectInstancePath(), node.getLocalInstancePath());
 	}
 
 	@Override

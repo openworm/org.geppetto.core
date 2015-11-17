@@ -9,28 +9,30 @@ public abstract class AType extends ANode implements IType
 
 	protected IAspect aspect = null;
 
-	protected String name = null;
-
 	protected IValue defaultValue = null;
 
 	protected IType baseType = null;
 
 	protected IVisualType visualType = null;
 
-	public AType()
+	
+	/**
+	 * @param aspect
+	 * @param name
+	 */
+	public AType(String name)
 	{
-		super();
+		super(name);
 	}
-
+	
 	/**
 	 * @param aspect
 	 * @param name
 	 */
 	public AType(IAspect aspect, String name)
 	{
-		super();
+		this(name);
 		this.aspect = aspect;
-		this.name = name;
 	}
 
 	/**
@@ -44,11 +46,7 @@ public abstract class AType extends ANode implements IType
 		this.baseType = baseType;
 	}
 
-	@Override
-	public String getName()
-	{
-		return name;
-	}
+
 
 	@Override
 	public IAspect getAspect()

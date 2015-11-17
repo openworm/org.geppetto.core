@@ -35,11 +35,8 @@ package org.geppetto.core.data.model;
 public interface IInstancePath extends IDataEntity
 {
 
-	String getEntityInstancePath();
+	String getInstancePath();
 
 	String getAspect();
 
-	String getLocalInstancePath();
-
-	String getInstancePath();
 }

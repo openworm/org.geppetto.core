@@ -43,7 +43,7 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 {
 	private long id;
 
-	private LocalInstancePath aspect = new LocalInstancePath(id, null, null, null);
+	private LocalInstancePath aspect = new LocalInstancePath(id, null, null);
 
 	private List<LocalInstancePath> watchedVariables = new ArrayList<LocalInstancePath>();
 

@@ -11,6 +11,7 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.HDF5Reader;
+import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.services.AService;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
@@ -55,7 +56,7 @@ public abstract class AModelInterpreter extends AService implements IModelInterp
 	}
 
 	@Override
-	public List<ModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException
+	public List<ModelFormat> getSupportedOutputs(IInstancePath aspectNode) throws ModelInterpreterException
 	{
 		return ServicesRegistry.getModelInterpreterServiceFormats(this);
 	}

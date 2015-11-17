@@ -35,28 +35,19 @@ package org.geppetto.core.library;
 import java.util.Collection;
 import java.util.Map;
 
-import org.geppetto.core.model.typesystem.aspect.IAspect;
 import org.geppetto.core.model.typesystem.types.IType;
 
 /**
  * @author matteocantarelli
  *
  */
-public abstract class AGeppettoLibrary implements IGeppettoLibrary
+public class GeppettoLibrary implements IGeppettoLibrary
 {
-
-	private IAspect aspect;
 
 	private boolean caching = true;
 
 	// TODO: Do we introduce a mechanism for type caching?
 	protected Map<String, IType> types;
-
-	@Override
-	public IAspect getAspect()
-	{
-		return aspect;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -68,65 +59,21 @@ public abstract class AGeppettoLibrary implements IGeppettoLibrary
 	{
 		return types.values();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.library.IGeppettoLibrary#getTypeByName(java.lang.String)
-	 */
-	@Override
-	public IType getTypeByName(String name) throws GeppettoTypeException
-	{
-		if(types.containsKey(name))
-		{
-			return types.get(name);
-		}
-		throw new GeppettoTypeException("Type " + name + " not found in the library for aspect " + aspect.getId());
-	}
-
-	/**
-	 * @param typeName
-	 * @return
-	 */
-	public boolean hasType(String typeName)
-	{
-		return types.containsKey(typeName);
-	}
-
-	/**
-	 * @param type
-	 * @param overwrite
-	 * @throws GeppettoTypeException
-	 */
-	protected void addType(IType type, boolean overwrite) throws GeppettoTypeException
-	{
-		if(!isCaching() || overwrite)
-		{
-			addType(type);
-		}
-		else
-		{
-			if(hasType(type.getName()))
-			{
-				if(!getTypeByName(type.getName()).equivalent(type))
-				{
-					// they are not the same, old type is discarded
-					addType(type);
-				}
-				else
-				{
-					// do nothing, there is an equivalent type
-				}
-			}
-		}
-	}
-
+	
 	/**
 	 * @param type
 	 */
 	protected void addType(IType type)
 	{
-		types.put(type.getName(), type);
+		types.put(url, type);
+	}
+
+	/**
+	 * @param type
+	 */
+	protected void addType(String url, IType type)
+	{
+		types.put(url, type);
 	}
 
 	/**
@@ -145,4 +92,12 @@ public abstract class AGeppettoLibrary implements IGeppettoLibrary
 	{
 		return caching;
 	}
+
+	@Override
+	public Collection<IType> getTypeByURL(String url)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

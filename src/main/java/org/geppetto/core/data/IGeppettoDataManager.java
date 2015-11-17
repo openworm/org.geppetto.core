@@ -86,13 +86,11 @@ public interface IGeppettoDataManager
 
 	void addWatchedVariable(IAspectConfiguration found, IInstancePath instancePath);
 
-	IInstancePath newInstancePath(INode aspectNode);
-
 	IPersistedData newPersistedData(URL url, PersistedDataType type);
 
 	IParameter newParameter(IInstancePath parameterPath, String value);
 
-	IInstancePath newInstancePath(String entityPath, String aspectPath, String localPath);
+	IInstancePath newInstancePath(String instancePath);
 
 	IExperiment newExperiment(String name, String description, IGeppettoProject project);
 

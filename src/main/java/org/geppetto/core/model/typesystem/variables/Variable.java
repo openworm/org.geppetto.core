@@ -50,13 +50,14 @@ import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 public class Variable extends ANode implements IVariable
 {
 
-	String name;
-
 	Collection<IType> types = null;
 
 	Map<IType, IValue> initialValues = null;
 
 	IType type;
+	
+	IValue initialValue;
+
 
 	public Variable(String name, IType type, IValue initialValue)
 	{
@@ -72,20 +73,7 @@ public class Variable extends ANode implements IVariable
 
 	public Variable(String name)
 	{
-		this.name = name;
-	}
-
-	IValue initialValue;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.model.typesystem.IVariable#getName()
-	 */
-	@Override
-	public String getName()
-	{
-		return name;
+		super(name);
 	}
 
 	/*

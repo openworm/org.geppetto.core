@@ -32,6 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.model.typesystem.types;
 
+import org.geppetto.core.model.typesystem.aspect.IAspect;
 import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 
 /**
@@ -40,6 +41,11 @@ import org.geppetto.core.model.typesystem.visitor.IAnalysis;
  */
 public class ArrayType extends AType
 {
+
+	public ArrayType(IAspect aspect, String name)
+	{
+		super(aspect, name);
+	}
 
 	/* (non-Javadoc)
 	 * @see org.geppetto.core.model.typesystem.types.IType#equivalent(org.geppetto.core.model.typesystem.types.IType)

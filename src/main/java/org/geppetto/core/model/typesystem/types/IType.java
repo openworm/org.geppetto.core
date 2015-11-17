@@ -32,18 +32,16 @@
  *******************************************************************************/
 package org.geppetto.core.model.typesystem.types;
 
+import org.geppetto.core.model.typesystem.INode;
 import org.geppetto.core.model.typesystem.aspect.IAspect;
 import org.geppetto.core.model.typesystem.values.IValue;
-import org.geppetto.core.model.typesystem.visitor.IVisitable;
 
 /**
  * @author matteocantarelli
  *
  */
-public interface IType extends IVisitable
+public interface IType extends INode
 {
-
-	String getName();
 
 	IAspect getAspect();
 

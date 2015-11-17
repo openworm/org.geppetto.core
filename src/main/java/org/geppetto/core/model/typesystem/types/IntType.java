@@ -32,7 +32,6 @@
  *******************************************************************************/
 package org.geppetto.core.model.typesystem.types;
 
-import org.geppetto.core.model.typesystem.values.IValue;
 import org.geppetto.core.model.typesystem.values.ValuesFactory;
 import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 
@@ -43,18 +42,9 @@ import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 public class IntType extends APrimitiveType
 {
 
-	IValue defaultValue = ValuesFactory.getIntValue(0);
-
-	@Override
-	public String getName()
+	public IntType()
 	{
-		return "Int";
-	}
-
-	@Override
-	public IValue getDefaultValue()
-	{
-		return defaultValue;
+		super("Int",ValuesFactory.getIntValue(0));
 	}
 
 	@Override

@@ -41,15 +41,9 @@ import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 public class AnyPrimitiveType extends APrimitiveType
 {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.model.typesystem.types.IType#getName()
-	 */
-	@Override
-	public String getName()
+	public AnyPrimitiveType()
 	{
-		return "AnyPrimitive";
+		super("AnyPrimitive", null);
 	}
 
 	@Override

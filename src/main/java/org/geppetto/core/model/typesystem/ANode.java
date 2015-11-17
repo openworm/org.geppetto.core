@@ -40,9 +40,44 @@ package org.geppetto.core.model.typesystem;
 public abstract class ANode implements INode
 {
 
+	protected String name = null;
+
 	protected ANode parent;
-	
+
+	public ANode(String name)
+	{
+		this.name=name;
+	}
+
+	@Override
+	public String getName()
+	{
+		return name;
+	}
+
 	/* (non-Javadoc)
+	 * @see org.geppetto.core.model.typesystem.INode#getPath()
+	 */
+	@Override
+	public String getPath()
+	{
+		StringBuffer fullName = new StringBuffer(this.name);
+		ANode iterateState = this.getParent();
+		while(iterateState != null && !(iterateState instanceof Root))
+		{
+			if(!fullName.toString().isEmpty())
+			{
+				fullName.insert(0, ".");
+			}
+			fullName.insert(0, iterateState.name);
+			iterateState = iterateState.getParent();
+		}
+		return fullName.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.model.typesystem.INode#getParent()
 	 */
 	@Override
@@ -50,15 +85,16 @@ public abstract class ANode implements INode
 	{
 		return parent;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.model.typesystem.INode#setParent(org.geppetto.core.model.typesystem.ANode)
 	 */
 	@Override
 	public void setParent(ANode parent)
 	{
-		this.parent=parent;
+		this.parent = parent;
 	}
-	
-	
+
 }

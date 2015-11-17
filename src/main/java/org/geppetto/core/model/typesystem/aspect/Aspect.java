@@ -32,9 +32,11 @@
  *******************************************************************************/
 package org.geppetto.core.model.typesystem.aspect;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.geppetto.core.library.GeppettoTypeException;
 import org.geppetto.core.model.typesystem.ANode;
 import org.geppetto.core.model.typesystem.types.IType;
 import org.geppetto.core.model.typesystem.visitor.IAnalysis;
@@ -46,43 +48,15 @@ import org.geppetto.core.model.typesystem.visitor.IAnalysis;
 public class Aspect extends ANode implements IAspect
 {
 
-	private String name;
-
-	private String id;
-
-	private List<IType> types;
+	private Map<String, IType> types;
 
 	/**
 	 * @param name
 	 * @param id
 	 */
-	public Aspect(String name, String id)
+	public Aspect(String name)
 	{
-		super();
-		this.name = name;
-		this.id = id;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.model.typesystem.IAspect#getName()
-	 */
-	@Override
-	public String getName()
-	{
-		return name;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.model.typesystem.IAspect#getId()
-	 */
-	@Override
-	public String getId()
-	{
-		return id;
+		super(name);
 	}
 
 	/*
@@ -107,16 +81,48 @@ public class Aspect extends ANode implements IAspect
 		return visitor.outAspect(this);
 	}
 
-	/**
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.geppetto.core.model.typesystem.aspect.IAspect#getTypes()
 	 */
-	public List<IType> getTypes()
+	@Override
+	public Collection<IType> getTypes()
 	{
 		if(types == null)
 		{
-			types = new ArrayList<IType>();
+			types = new HashMap<String, IType>();
 		}
-		return types;
+		return types.values();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.geppetto.core.model.typesystem.aspect.IAspect#getTypeByName(java.lang.String)
+	 */
+	@Override
+	public IType getTypeByName(String name) throws GeppettoTypeException
+	{
+		if(types.containsKey(name))
+		{
+			return types.get(name);
+		}
+		throw new GeppettoTypeException("Type " + name + " not found inside aspect " + getName());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.geppetto.core.model.typesystem.aspect.IAspect#addTypes(java.util.List)
+	 */
+	@Override
+	public void addTypes(Collection<IType> types)
+	{
+		for(IType t : types)
+		{
+			this.types.put(t.getName(), t);
+		}
 	}
 
 }

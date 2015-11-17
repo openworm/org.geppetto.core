@@ -46,8 +46,6 @@ import org.geppetto.core.model.typesystem.values.IValue;
 public interface IVariable extends INode
 {
 
-	String getName();
-
 	Collection<IType> getTypes();
 
 	void addType(IType type);
