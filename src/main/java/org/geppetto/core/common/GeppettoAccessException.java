@@ -31,29 +31,31 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.data.model;
+package org.geppetto.core.common;
 
-public enum UserPrivileges {
-	READ_PROJECT("READ_PROJECT"), 
-	WRITE_PROJECT("WRITE_PROJECT"),
-	RUN_EXPERIMENT("RUN_EXPERIMENT"),
-	DROPBOX_INTEGRATION("DROPBOX_INTEGRATION"),
-	DOWNLOAD("DOWNLOAD");
-	
-	private final String text;
+/**
+ * @author giovanni idili
+ *
+ */
+public class GeppettoAccessException extends Exception
+{
 
-    /**
-     * @param text
-     */
-    private UserPrivileges(final String text) {
-        this.text = text;
-    }
+	private static final long serialVersionUID = -3179500281577232696L;
 
-    /* (non-Javadoc)
-     * @see java.lang.Enum#toString()
-     */
-    @Override
-    public String toString() {
-        return text;
-    }
+	public GeppettoAccessException(Throwable cause)
+	{
+		super(cause);
+	}
+
+	public GeppettoAccessException(String string)
+	{
+		super(string);
+	}
+
+	public GeppettoAccessException(String string, Throwable e1)
+	{
+		super(string,e1);
+	}
+
 }
+
