@@ -40,6 +40,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -61,6 +62,7 @@ import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.data.model.IUserGroup;
 import org.geppetto.core.data.model.PersistedDataType;
 import org.geppetto.core.data.model.ResultsFormat;
+import org.geppetto.core.data.model.UserPrivileges;
 import org.geppetto.core.data.model.local.LocalAspectConfiguration;
 import org.geppetto.core.data.model.local.LocalExperiment;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
@@ -70,6 +72,7 @@ import org.geppetto.core.data.model.local.LocalPersistedData;
 import org.geppetto.core.data.model.local.LocalSimulationResult;
 import org.geppetto.core.data.model.local.LocalSimulatorConfiguration;
 import org.geppetto.core.data.model.local.LocalUser;
+import org.geppetto.core.data.model.local.LocalUserGroup;
 import org.geppetto.core.model.runtime.ANode;
 import org.springframework.http.HttpStatus;
 
@@ -129,7 +132,10 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IUser getUserByLogin(String login)
 	{
-		IUser user = new LocalUser(1, login, login, login, login, new ArrayList<LocalGeppettoProject>());
+		List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT);
+		IUserGroup group = new LocalUserGroup("guest", privileges, 0, 0);
+		IUser user = new LocalUser(1, login, login, login, login, new ArrayList<LocalGeppettoProject>(), group);
+		
 		return user;
 	}
 
@@ -252,7 +258,13 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	public IUser newUser(String name, String password, boolean persistent, IUserGroup group)
 	{
 		List<LocalGeppettoProject> list = new ArrayList<LocalGeppettoProject>(projects.values());
-		return new LocalUser(0, name, password, name, name, list);
+		
+		if(group == null) {
+			List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT);
+			group = new LocalUserGroup("guest", privileges, 0, 0);
+		}
+		
+		return new LocalUser(0, name, password, name, name, list, group);
 	}
 
 	/*

@@ -51,10 +51,12 @@ public class LocalUser implements IUser
 	private String token;
 
 	private List<LocalGeppettoProject> geppettoProjects;
+	
+	private IUserGroup group;
 
 	private String dropboxToken;
 
-	public LocalUser(long id, String login, String password, String name, String token, List<LocalGeppettoProject> geppettoProjects)
+	public LocalUser(long id, String login, String password, String name, String token, List<LocalGeppettoProject> geppettoProjects, IUserGroup group)
 	{
 		this.id = id;
 		this.login = login;
@@ -62,6 +64,7 @@ public class LocalUser implements IUser
 		this.name = name;
 		this.token = token;
 		this.geppettoProjects = geppettoProjects;
+		this.group = group;
 	}
 
 	@Override
@@ -113,8 +116,11 @@ public class LocalUser implements IUser
 
 	@Override
 	public IUserGroup getUserGroup() {
-		// TODO: Auto-generated method stub
-		return null;
+		return this.group;
+	}
+	
+	public void setUserGroup(IUserGroup group){
+		this.group = group;
 	}
 
 }
