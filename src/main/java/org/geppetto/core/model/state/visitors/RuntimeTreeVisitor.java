@@ -42,6 +42,7 @@ import org.geppetto.core.model.runtime.CylinderNode;
 import org.geppetto.core.model.runtime.DynamicsSpecificationNode;
 import org.geppetto.core.model.runtime.EntityNode;
 import org.geppetto.core.model.runtime.FunctionNode;
+import org.geppetto.core.model.runtime.HTMLMetadataNode;
 import org.geppetto.core.model.runtime.OBJNode;
 import org.geppetto.core.model.runtime.ParameterNode;
 import org.geppetto.core.model.runtime.ParameterSpecificationNode;
@@ -117,6 +118,11 @@ public class RuntimeTreeVisitor implements IStateVisitor
 	}
 	@Override
 	public boolean visitTextMetadataNode(TextMetadataNode textMetadataNode) {
+		return !_stopVisiting;
+	}
+	
+	@Override
+	public boolean visitHTMLMetadataNode(HTMLMetadataNode htmlMetadataNode) {
 		return !_stopVisiting;
 	}
 
