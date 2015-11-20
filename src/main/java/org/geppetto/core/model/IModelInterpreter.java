@@ -41,9 +41,9 @@ import java.util.List;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.library.LibraryManager;
-import org.geppetto.core.model.typesystem.types.IType;
 import org.geppetto.core.services.IService;
 import org.geppetto.core.services.ModelFormat;
+import org.geppetto.model.types.Type;
 
 /**
  * @author matteocantarelli
@@ -53,7 +53,7 @@ import org.geppetto.core.services.ModelFormat;
 public interface IModelInterpreter extends IService
 {
 
-	Collection<IType> importType(URL url, String typeName, LibraryManager libraryManager);
+	Collection<Type> importType(URL url, String typeName, LibraryManager libraryManager);
 
 	File downloadModel(IInstancePath instancePath, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException;
 

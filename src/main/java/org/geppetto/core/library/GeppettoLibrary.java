@@ -35,7 +35,7 @@ package org.geppetto.core.library;
 import java.util.Collection;
 import java.util.Map;
 
-import org.geppetto.core.model.typesystem.types.IType;
+import org.geppetto.model.types.Type;
 
 /**
  * @author matteocantarelli
@@ -47,7 +47,7 @@ public class GeppettoLibrary implements IGeppettoLibrary
 	private boolean caching = true;
 
 	// TODO: Do we introduce a mechanism for type caching?
-	protected Map<String, IType> types;
+	protected Map<String, Type> types;
 
 	/*
 	 * (non-Javadoc)
@@ -55,15 +55,16 @@ public class GeppettoLibrary implements IGeppettoLibrary
 	 * @see org.geppetto.core.library.IGeppettoLibrary#getTypes()
 	 */
 	@Override
-	public Collection<IType> getTypes()
+	public Collection<Type> getTypes()
 	{
 		return types.values();
 	}
 	
 	/**
 	 * @param type
+	 * @param url 
 	 */
-	protected void addType(IType type)
+	protected void addType(Type type, String url)
 	{
 		types.put(url, type);
 	}
@@ -71,7 +72,7 @@ public class GeppettoLibrary implements IGeppettoLibrary
 	/**
 	 * @param type
 	 */
-	protected void addType(String url, IType type)
+	protected void addType(String url, Type type)
 	{
 		types.put(url, type);
 	}
@@ -94,7 +95,7 @@ public class GeppettoLibrary implements IGeppettoLibrary
 	}
 
 	@Override
-	public Collection<IType> getTypeByURL(String url)
+	public Collection<Type> getTypeByURL(String url)
 	{
 		// TODO Auto-generated method stub
 		return null;

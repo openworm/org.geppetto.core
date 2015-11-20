@@ -34,7 +34,7 @@ package org.geppetto.core.library;
 
 import java.util.Collection;
 
-import org.geppetto.core.model.typesystem.types.IType;
+import org.geppetto.model.types.Type;
 
 /**
  * @author matteocantarelli
@@ -43,8 +43,8 @@ import org.geppetto.core.model.typesystem.types.IType;
 public interface IGeppettoLibrary
 {
 
-	Collection<IType> getTypes();
+	Collection<Type> getTypes();
 
-	Collection<IType> getTypeByURL(String url);
+	Collection<Type> getTypeByURL(String url);
 
 }

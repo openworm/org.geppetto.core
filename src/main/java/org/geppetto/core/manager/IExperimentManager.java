@@ -6,7 +6,7 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.model.typesystem.Root;
+import org.geppetto.model.GeppettoModel;
 
 public interface IExperimentManager
 {
@@ -17,7 +17,7 @@ public interface IExperimentManager
 	 * @return
 	 * @throws GeppettoExecutionException
 	 */
-	public abstract Root loadExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
+	public abstract GeppettoModel loadExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
 
 	/**
 	 * Run a specified experiment
