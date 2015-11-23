@@ -132,7 +132,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IUser getUserByLogin(String login)
 	{
-		List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT);
+		List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT, UserPrivileges.DOWNLOAD);
 		IUserGroup group = new LocalUserGroup("guest", privileges, 0, 0);
 		IUser user = new LocalUser(1, login, login, login, login, new ArrayList<LocalGeppettoProject>(), group);
 		
@@ -260,7 +260,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		List<LocalGeppettoProject> list = new ArrayList<LocalGeppettoProject>(projects.values());
 		
 		if(group == null) {
-			List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT);
+			List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT, UserPrivileges.DOWNLOAD);
 			group = new LocalUserGroup("guest", privileges, 0, 0);
 		}
 		
