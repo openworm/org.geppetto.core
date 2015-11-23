@@ -44,6 +44,7 @@ import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.services.AService;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
+import org.geppetto.model.values.Pointer;
 
 /**
  * @author matteocantarelli
@@ -150,7 +151,7 @@ public abstract class ASimulator extends AService implements ISimulator
 	 * @param timestep
 	 * @param aspect
 	 */
-	public void advanceTimeStep(double timestep, AspectNode aspect)
+	public void advanceTimeStep(double timestep, Pointer pointer)
 	{
 		_runtime += timestep;
 	}
@@ -159,11 +160,11 @@ public abstract class ASimulator extends AService implements ISimulator
 	 * @param aspect
 	 * @throws GeppettoExecutionException
 	 */
-	protected void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
+	protected void advanceRecordings(Pointer pointer) throws GeppettoExecutionException
 	{
 		for(RecordingReader reader : recordingReaders)
 		{
-			reader.advanceRecordings(aspect);
+			reader.advanceRecordings(pointer);
 		}
 	}
 
@@ -186,9 +187,9 @@ public abstract class ASimulator extends AService implements ISimulator
 	/**
 	 * @throws GeppettoExecutionException
 	 */
-	protected void notifySimulatorHasStepped(AspectNode aspect) throws GeppettoExecutionException
+	protected void notifySimulatorHasStepped(Pointer pointer) throws GeppettoExecutionException
 	{
-		getListener().stepped(aspect);
+		getListener().stepped(pointer);
 	}
 
 	@Override

@@ -39,11 +39,11 @@ import java.util.Collection;
 import java.util.List;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
-import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.library.LibraryManager;
 import org.geppetto.core.services.IService;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.model.types.Type;
+import org.geppetto.model.values.Pointer;
 
 /**
  * @author matteocantarelli
@@ -55,9 +55,9 @@ public interface IModelInterpreter extends IService
 
 	Collection<Type> importType(URL url, String typeName, LibraryManager libraryManager);
 
-	File downloadModel(IInstancePath instancePath, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException;
+	File downloadModel(Pointer pointer, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException;
 
-	List<ModelFormat> getSupportedOutputs(IInstancePath instancePath) throws ModelInterpreterException;
+	List<ModelFormat> getSupportedOutputs(Pointer pointer) throws ModelInterpreterException;
 
 	String getName();
 

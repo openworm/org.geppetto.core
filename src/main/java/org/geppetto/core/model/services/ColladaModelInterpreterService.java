@@ -38,10 +38,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
+import org.geppetto.core.data.model.IInstancePath;
+import org.geppetto.core.library.LibraryManager;
 import org.geppetto.core.model.AModelInterpreter;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
@@ -50,7 +53,7 @@ import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.core.simulator.RecordingVariableListFeature;
-import org.geppetto.core.simulator.services.ColladaVisualTreeFeature;
+import org.geppetto.model.types.Type;
 import org.springframework.stereotype.Service;
 
 /**
@@ -137,6 +140,20 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 
 	@Override
 	public List<ModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection<Type> importType(URL url, String typeName, LibraryManager libraryManager)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public File downloadModel(IInstancePath instancePath, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
 	{
 		// TODO Auto-generated method stub
 		return null;

@@ -48,7 +48,6 @@ import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
-import org.geppetto.core.simulator.services.OBJVisualTreeFeature;
 import org.springframework.stereotype.Service;
 
 /**

@@ -39,9 +39,9 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.typesystem.variables.IVariable;
 import org.geppetto.core.services.IService;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
+import org.geppetto.model.values.Pointer;
 
 /**
  * @author matteocantarelli
@@ -58,7 +58,7 @@ public interface ISimulator extends IService
 	 * @param variable
 	 * @throws GeppettoExecutionException
 	 */
-	void simulate(IAspectConfiguration aspectConfiguration, IVariable variable) throws GeppettoExecutionException;
+	void simulate(IAspectConfiguration aspectConfiguration, Pointer pointer) throws GeppettoExecutionException;
 
 	void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
 

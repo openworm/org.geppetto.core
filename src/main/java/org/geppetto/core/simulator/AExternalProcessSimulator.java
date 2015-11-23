@@ -7,6 +7,7 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.externalprocesses.ExternalProcess;
 import org.geppetto.core.simulation.IExternalSimulatorCallbackListener;
+import org.geppetto.model.values.Pointer;
 
 /**
  * Abstract simulator class for external processes
@@ -18,7 +19,7 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 {
 
 	// the instance path of the aspect that is being simulated
-	protected AspectNode aspectNode;
+	protected Pointer pointer;
 
 	protected boolean started = false;
 
@@ -55,9 +56,9 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 	}
 
 	@Override
-	public void simulate(IAspectConfiguration aspectConfiguration, AspectNode aspect) throws GeppettoExecutionException
+	public void simulate(IAspectConfiguration aspectConfiguration, Pointer pointer) throws GeppettoExecutionException
 	{
-		this.aspectNode = aspect;
+		this.pointer = pointer;
 		// send command, directory where execution is happening, and path to original file script to execute
 		if(!started)
 		{
@@ -70,9 +71,9 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 		}
 	}
 
-	public AspectNode getAspectNode()
+	public Pointer getPointer()
 	{
-		return this.aspectNode;
+		return this.pointer;
 	}
 
 }

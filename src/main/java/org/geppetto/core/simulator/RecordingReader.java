@@ -39,6 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import javax.measure.unit.Unit;
+
 import ncsa.hdf.object.Attribute;
 import ncsa.hdf.object.Dataset;
 import ncsa.hdf.object.FileFormat;
@@ -49,17 +51,9 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.typesystem.ANode;
-import org.geppetto.core.model.typesystem.INode;
-import org.geppetto.core.model.typesystem.values.ACompositeValue;
-import org.geppetto.core.model.typesystem.values.AValue;
-import org.geppetto.core.model.typesystem.values.CompositeValue;
-import org.geppetto.core.model.typesystem.values.QuantityValue;
-import org.geppetto.core.model.typesystem.values.SkeletonAnimationValue;
-import org.geppetto.core.model.typesystem.values.Unit;
-import org.geppetto.core.model.typesystem.values.ValuesFactory;
-import org.geppetto.core.model.typesystem.values.VariableValue;
 import org.geppetto.core.utilities.StringSplitter;
+import org.geppetto.model.values.Pointer;
+import org.geppetto.model.values.ValuesFactory;
 
 /**
  * @author matteocantarelli
@@ -414,7 +408,7 @@ public class RecordingReader
 	 * @param aspect
 	 * @throws GeppettoExecutionException
 	 */
-	public void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
+	public void advanceRecordings(Pointer pointer) throws GeppettoExecutionException
 	{
 		if(recording == null)
 		{
@@ -423,6 +417,7 @@ public class RecordingReader
 		}
 
 		// traverse scene root to get all simulation trees for all *CHILDREN* aspects
+		//IT FIXME: aspect was the aspectNode
 		ANode parentEntity = aspect.getParent();
 
 		// find all children aspects
