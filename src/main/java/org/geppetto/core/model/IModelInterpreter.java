@@ -39,9 +39,9 @@ import java.util.Collection;
 import java.util.List;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
-import org.geppetto.core.library.LibraryManager;
 import org.geppetto.core.services.IService;
 import org.geppetto.core.services.ModelFormat;
+import org.geppetto.model.LibraryManager;
 import org.geppetto.model.types.Type;
 import org.geppetto.model.values.Pointer;
 

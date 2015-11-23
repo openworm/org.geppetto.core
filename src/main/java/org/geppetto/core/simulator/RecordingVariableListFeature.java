@@ -39,12 +39,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IAspectConfiguration;
-import org.geppetto.core.features.IWatchableVariableListFeature;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.typesystem.INode;
-import org.geppetto.core.model.typesystem.Root;
 import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.utilities.RecordingReader;
 

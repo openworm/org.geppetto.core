@@ -48,11 +48,6 @@ import ncsa.hdf.hdf5lib.structs.H5L_info_t;
 import ncsa.hdf.hdf5lib.structs.H5O_info_t;
 
 import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.model.typesystem.INode;
-import org.geppetto.core.model.typesystem.values.ACompositeValue;
-import org.geppetto.core.model.typesystem.values.CompositeValue;
-import org.geppetto.core.model.typesystem.values.SkeletonAnimationValue;
-import org.geppetto.core.model.typesystem.values.VariableValue;
 
 /**
  * Utility class to read recording files

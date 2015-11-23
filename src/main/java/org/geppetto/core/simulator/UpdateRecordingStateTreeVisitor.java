@@ -43,13 +43,8 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.typesystem.values.AValue;
-import org.geppetto.core.model.typesystem.values.QuantityValue;
-import org.geppetto.core.model.typesystem.values.SkeletonAnimationValue;
-import org.geppetto.core.model.typesystem.values.ValuesFactory;
-import org.geppetto.core.model.typesystem.values.VariableValue;
-import org.geppetto.core.model.typesystem.visitor.AnalysisVisitor;
 import org.geppetto.core.utilities.StringSplitter;
+import org.geppetto.model.values.ValuesFactory;
 
 /**
  * @author matteocantarelli

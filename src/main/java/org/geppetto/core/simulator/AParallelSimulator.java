@@ -40,7 +40,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.solver.ISolver;
 
 /**
  * @author matteocantarelli
