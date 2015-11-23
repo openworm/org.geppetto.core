@@ -44,7 +44,7 @@ public interface IProjectManager
 	 * @throws GeppettoExecutionException
 	 * @throws GeppettoAccessException 
 	 */
-	void deleteProject(String requestId, IGeppettoProject project) throws GeppettoExecutionException, GeppettoAccessException;
+	void deleteProject(long projectID) throws GeppettoExecutionException, GeppettoAccessException;
 
 	/**
 	 * Saves the current project in the database. Once a project is persisted it will always be updated until it gets deleted
