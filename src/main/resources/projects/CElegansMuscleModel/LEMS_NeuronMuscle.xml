@@ -8,8 +8,8 @@
     <Include url="https://raw.github.com/NeuroML/NeuroML2/master/NeuroML2CoreTypes/NeuroML2CoreTypes.xml"/>
     <Include file="/Simulation.xml"/>
 
-    <Include url="https://raw.githubusercontent.com/openworm/muscle_model/master/NeuroML2/CaPool.nml"/>
-    <Include url="https://raw.githubusercontent.com/openworm/muscle_model/master/NeuroML2/NeuronMuscle.net.nml"/>
+    <Include file="/CaPool.nml"/>
+    <Include file="/NeuronMuscle.net.nml"/>
 
 
     <Simulation id="sim1" length="500ms" step="0.05ms" target="net1">
