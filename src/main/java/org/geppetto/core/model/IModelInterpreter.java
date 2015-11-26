@@ -52,7 +52,7 @@ import org.geppetto.model.values.Pointer;
 public interface IModelInterpreter extends IService
 {
 
-	Type importType(URL url, String typeName, GeppettoLibrary library);
+	Type importType(URL url, String typeName, GeppettoLibrary library) throws ModelInterpreterException;
 
 	File downloadModel(Pointer pointer, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException;
 
