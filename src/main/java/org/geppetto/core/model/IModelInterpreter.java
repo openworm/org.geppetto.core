@@ -35,13 +35,12 @@ package org.geppetto.core.model;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Collection;
 import java.util.List;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.services.IService;
 import org.geppetto.core.services.ModelFormat;
-import org.geppetto.model.LibraryManager;
+import org.geppetto.model.GeppettoLibrary;
 import org.geppetto.model.types.Type;
 import org.geppetto.model.values.Pointer;
 
@@ -53,7 +52,7 @@ import org.geppetto.model.values.Pointer;
 public interface IModelInterpreter extends IService
 {
 
-	Collection<Type> importType(URL url, String typeName, LibraryManager libraryManager);
+	Type importType(URL url, String typeName, GeppettoLibrary library);
 
 	File downloadModel(Pointer pointer, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException;
 
