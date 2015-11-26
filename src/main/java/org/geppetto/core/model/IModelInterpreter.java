@@ -53,7 +53,7 @@ import org.geppetto.model.values.Pointer;
 public interface IModelInterpreter extends IService
 {
 
-	Collection<Type> importType(URL url, String typeName, LibraryManager libraryManager);
+	Collection<Type> importType(URL url, String typeName, LibraryManager libraryManager) throws ModelInterpreterException;
 
 	File downloadModel(Pointer pointer, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException;
 
