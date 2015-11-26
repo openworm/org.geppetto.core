@@ -7,6 +7,8 @@ import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.model.GeppettoModel;
+import org.geppetto.model.values.Pointer;
+import org.geppetto.model.values.Value;
 
 public interface IExperimentManager
 {
@@ -33,9 +35,10 @@ public interface IExperimentManager
 	/**
 	 * @param requestId
 	 * @param experiment
-	 * @return
+	 * @return a map containing the value for each recorded variable identified by a pointer
+	 * @throws GeppettoExecutionException
 	 */
-	Map<String, AspectSubTreeNode> playExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
+	Map<Pointer, Value> playExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
 
 	/**
 	 * Create a new experiment inside a given project

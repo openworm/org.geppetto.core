@@ -32,9 +32,17 @@
  *******************************************************************************/
 package org.geppetto.core.manager;
 
-import org.geppetto.model.GeppettoFactory;
-import org.geppetto.model.LibraryManager;
+import java.util.Map;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.geppetto.model.GeppettoFactory;
+import org.geppetto.model.GeppettoLibrary;
+import org.geppetto.model.GeppettoPackage;
+import org.geppetto.model.LibraryManager;
 
 /**
  * @author matteocantarelli
@@ -44,13 +52,33 @@ public class SharedLibraryManager
 {
 
 	private static LibraryManager manager;
-	
-	public static LibraryManager get()
+
+	private static GeppettoLibrary commonLibrary;
+
+	public static LibraryManager getLibraryManager()
 	{
-		if(manager==null)
+		if(manager == null)
 		{
 			GeppettoFactory.eINSTANCE.createLibraryManager();
 		}
 		return manager;
 	}
+
+	public static GeppettoLibrary getSharedCommonLibrary()
+	{
+		if(commonLibrary == null)
+		{
+			GeppettoPackage.eINSTANCE.eClass();
+			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+			Map<String, Object> m = reg.getExtensionToFactoryMap();
+			m.put("xmi", new XMIResourceFactoryImpl()); // sets the factory for the XMI type
+			ResourceSet resSet = new ResourceSetImpl();
+			Resource resource = resSet.getResource(URI.createURI("./src/main/resources/GeppettoCommonLibrary.xmi"), true);
+			commonLibrary = (GeppettoLibrary) resource.getContents().get(0);
+			getLibraryManager().getLibraries().add(commonLibrary);
+		
+		}
+		return commonLibrary;
+	}
+
 }

@@ -156,17 +156,6 @@ public abstract class ASimulator extends AService implements ISimulator
 		_runtime += timestep;
 	}
 
-	/**
-	 * @param aspect
-	 * @throws GeppettoExecutionException
-	 */
-	protected void advanceRecordings(Pointer pointer) throws GeppettoExecutionException
-	{
-		for(RecordingReader reader : recordingReaders)
-		{
-			reader.advanceRecordings(pointer);
-		}
-	}
 
 	/**
 	 * @return

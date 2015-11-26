@@ -43,11 +43,16 @@ import java.util.Scanner;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.AModelInterpreter;
-import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.model.ModelWrapper;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
+import org.geppetto.model.GeppettoLibrary;
+import org.geppetto.model.types.Type;
+import org.geppetto.model.types.TypesFactory;
+import org.geppetto.model.types.VisualType;
+import org.geppetto.model.values.OBJ;
+import org.geppetto.model.values.Pointer;
+import org.geppetto.model.values.ValuesFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -58,57 +63,56 @@ import org.springframework.stereotype.Service;
 public class ObjModelInterpreterService extends AModelInterpreter
 {
 
+	/* (non-Javadoc)
+	 * @see org.geppetto.core.model.IModelInterpreter#importType(java.net.URL, java.lang.String, org.geppetto.model.GeppettoLibrary)
+	 */
 	@Override
-	public IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException
+	public Type importType(URL url, String typeName, GeppettoLibrary library) throws ModelInterpreterException
 	{
-		ModelWrapper collada = new ModelWrapper(instancePath);
+		VisualType visualType=TypesFactory.eINSTANCE.createVisualType();
+		
 		try
 		{
 			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
 			String objContent = scanner.useDelimiter("\\A").next();
 			scanner.close();
-			collada.wrapModel(ServicesRegistry.getModelFormat("OBJ"), objContent);
-
-			this.addFeature(new OBJVisualTreeFeature());
+			OBJ obj=ValuesFactory.eINSTANCE.createOBJ();
+			obj.setObj(objContent);
+			visualType.setId(typeName);
+			visualType.setName(typeName);
+			visualType.setDefaultValue(obj);
+			library.getTypes().add(visualType);
 		}
 		catch(IOException e)
 		{
 			throw new ModelInterpreterException(e);
 		}
 
-		return collada;
+		return visualType;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.geppetto.core.model.IModelInterpreter#downloadModel(org.geppetto.model.values.Pointer, org.geppetto.core.services.ModelFormat, org.geppetto.core.data.model.IAspectConfiguration)
+	 */
 	@Override
-	public boolean populateModelTree(AspectNode aspectNode)
+	public File downloadModel(Pointer pointer, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
 	{
-		// TODO Auto-generated method stub
-		return false;
+		throw new ModelInterpreterException("Download model not implemented for OBJ model interpreter");
 	}
 
-	@Override
-	public boolean populateRuntimeTree(AspectNode aspectNode)
-	{
-		AspectSubTreeNode modelTree = (AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.MODEL_TREE);
-		AspectSubTreeNode visualizationTree = (AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.VISUALIZATION_TREE);
-		AspectSubTreeNode simulationTree = (AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.SIMULATION_TREE);
 
-		modelTree.setId(AspectTreeType.MODEL_TREE.toString());
-		visualizationTree.setId(AspectTreeType.VISUALIZATION_TREE.toString());
-		simulationTree.setId(AspectTreeType.SIMULATION_TREE.toString());
-
-		return true;
-	}
-
+	/* (non-Javadoc)
+	 * @see org.geppetto.core.model.IModelInterpreter#getName()
+	 */
 	@Override
 	public String getName()
 	{
-		// TODO: Create spring bean with name of interpreter to retrieve it from
-		// there.
-		// Move this to own bundle?
 		return "Obj Model Interpreter";
 	}
 
+	/* (non-Javadoc)
+	 * @see org.geppetto.core.services.IService#registerGeppettoService()
+	 */
 	@Override
 	public void registerGeppettoService()
 	{
@@ -116,18 +120,6 @@ public class ObjModelInterpreterService extends AModelInterpreter
 		ServicesRegistry.registerModelInterpreterService(this, modelFormats);
 	}
 
-	@Override
-	public File downloadModel(AspectNode aspectNode, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public List<ModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

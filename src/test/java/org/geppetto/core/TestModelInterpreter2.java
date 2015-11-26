@@ -30,40 +30,62 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+package org.geppetto.core;
 
-package org.geppetto.core.data.model.local;
+import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import org.geppetto.core.data.model.IInstancePath;
+import org.geppetto.core.data.model.IAspectConfiguration;
+import org.geppetto.core.model.AModelInterpreter;
+import org.geppetto.core.model.ModelInterpreterException;
+import org.geppetto.core.services.ModelFormat;
+import org.geppetto.core.services.registry.ServicesRegistry;
+import org.geppetto.model.GeppettoLibrary;
+import org.geppetto.model.types.Type;
+import org.geppetto.model.values.Pointer;
 
-public class LocalInstancePath implements IInstancePath
+/**
+ * Dummy model interpreter used for testing purposes
+ * 
+ * @author Jesus R. Martinez (jesus@metacell.us)
+ *
+ */
+public class TestModelInterpreter2 extends AModelInterpreter
 {
-	private long id;
-
-	private String instancePath;
-
-
-	public LocalInstancePath(long id, String instancePath)
-	{
-		this.id = id;
-		this.instancePath = instancePath;
-	}
-
-	@Override
-	public long getId()
-	{
-		return id;
-	}
 
 
 	@Override
-	public String getInstancePath()
+	public String getName()
 	{
-		return instancePath;
+		// TODO Auto-generated method stub
+		return "Test Model interpreter";
 	}
 
 	@Override
-	public void setId(long id)
+	public void registerGeppettoService()
 	{
-		this.id = id;
+		List<ModelFormat> modelFormats = new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.registerModelFormat("TEST2")));
+		ServicesRegistry.registerModelInterpreterService(this, modelFormats);
+
 	}
+
+
+
+	@Override
+	public Type importType(URL url, String typeName, GeppettoLibrary library) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public File downloadModel(Pointer pointer, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

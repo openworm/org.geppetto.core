@@ -37,6 +37,4 @@ public interface IInstancePath extends IDataEntity
 
 	String getInstancePath();
 
-	String getAspect();
-
 }

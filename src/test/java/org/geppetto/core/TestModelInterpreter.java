@@ -30,52 +30,67 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.simulator;
+package org.geppetto.core;
 
-import java.util.HashMap;
+import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.geppetto.core.data.model.IAspectConfiguration;
+import org.geppetto.core.model.AModelInterpreter;
+import org.geppetto.core.model.ModelInterpreterException;
+import org.geppetto.core.services.ModelFormat;
+import org.geppetto.core.services.registry.ServicesRegistry;
+import org.geppetto.model.GeppettoLibrary;
+import org.geppetto.model.types.Type;
+import org.geppetto.model.values.Pointer;
 
 /**
- * Visitor used for retrieving all aspects within entity
+ * Dummy model interpreter used for testing purposes
  * 
- * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
+ * @author Jesus R. Martinez (jesus@metacell.us)
  *
  */
-public class GetAspectsVisitor extends AnalysisVisitor
+public class TestModelInterpreter extends AModelInterpreter
 {
 
-	// This is not being used at the moment
-	private HashMap<String, AspectNode> _aspects = new HashMap<String, AspectNode>();
 
-	/**
-	 * Return map of all aspects
-	 * 
-	 * @return
-	 */
-	public HashMap<String, AspectNode> getAspects()
-	{
-		return this._aspects;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.model.state.visitors.DefaultStateVisitor#inCompositeStateNode(org.geppetto.core.model.state.CompositeStateNode)
-	 */
 	@Override
-	public boolean inAspectNode(AspectNode node)
+	public String getName()
 	{
-		this._aspects.put(node.getInstancePath(), node);
-		return super.inAspectNode(node);
+		// TODO Auto-generated method stub
+		return "Test Model interpreter";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.model.state.visitors.DefaultStateVisitor#outCompositeStateNode(org.geppetto.core.model.state.CompositeStateNode)
-	 */
 	@Override
-	public boolean outAspectNode(AspectNode node)
+	public void registerGeppettoService()
 	{
-		return super.outAspectNode(node);
+		List<ModelFormat> modelFormats = new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.registerModelFormat("TEST")));
+		ServicesRegistry.registerModelInterpreterService(this, modelFormats);
 	}
+
+
+	@Override
+	public List<ModelFormat> getSupportedOutputs(Pointer pointer) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Type importType(URL url, String typeName, GeppettoLibrary library) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public File downloadModel(Pointer pointer, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

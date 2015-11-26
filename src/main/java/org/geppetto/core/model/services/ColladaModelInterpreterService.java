@@ -38,22 +38,21 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
-import org.geppetto.core.data.model.IInstancePath;
-import org.geppetto.core.library.LibraryManager;
 import org.geppetto.core.model.AModelInterpreter;
-import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.model.ModelWrapper;
-import org.geppetto.core.services.GeppettoFeature;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
-import org.geppetto.core.simulator.RecordingVariableListFeature;
+import org.geppetto.model.GeppettoLibrary;
 import org.geppetto.model.types.Type;
+import org.geppetto.model.types.TypesFactory;
+import org.geppetto.model.types.VisualType;
+import org.geppetto.model.values.Collada;
+import org.geppetto.model.values.Pointer;
+import org.geppetto.model.values.ValuesFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -65,62 +64,8 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 {
 
 	@Override
-	public IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException
-	{
-		ModelWrapper collada = new ModelWrapper(instancePath);
-		try
-		{
-			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
-			String colladaContent = scanner.useDelimiter("\\A").next();
-			scanner.close();
-			collada.wrapModel(ServicesRegistry.getModelFormat("COLLADA"), colladaContent);
-
-			addRecordings(recordings, instancePath, collada);
-
-			if(this.getFeature(GeppettoFeature.VISUAL_TREE_FEATURE) == null)
-			{
-				this.addFeature(new ColladaVisualTreeFeature());
-			}
-
-			if(this.getFeature(GeppettoFeature.WATCHABLE_VARIABLE_LIST_FEATURE) == null)
-			{
-				this.addFeature(new RecordingVariableListFeature());
-			}
-		}
-		catch(IOException e)
-		{
-			throw new ModelInterpreterException(e);
-		}
-
-		return collada;
-	}
-
-	@Override
-	public boolean populateModelTree(AspectNode aspectNode)
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean populateRuntimeTree(AspectNode aspectNode)
-	{
-		AspectSubTreeNode modelTree = (AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.MODEL_TREE);
-		AspectSubTreeNode visualizationTree = (AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.VISUALIZATION_TREE);
-		AspectSubTreeNode simulationTree = (AspectSubTreeNode) aspectNode.getSubTree(AspectTreeType.SIMULATION_TREE);
-
-		modelTree.setId(AspectTreeType.MODEL_TREE.toString());
-		visualizationTree.setId(AspectTreeType.VISUALIZATION_TREE.toString());
-		simulationTree.setId(AspectTreeType.SIMULATION_TREE.toString());
-
-		return true;
-	}
-
-	@Override
 	public String getName()
 	{
-		// TODO: Create spring bean with name of interpreter to retrieve it from there.
-		// Move this to own bundle?
 		return "Collada Model Interpreter";
 	}
 
@@ -131,32 +76,49 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 		ServicesRegistry.registerModelInterpreterService(this, modelFormats);
 	}
 
+
 	@Override
-	public File downloadModel(AspectNode aspectNode, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
+	public Type importType(URL url, String typeName, GeppettoLibrary library) throws ModelInterpreterException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		VisualType visualType=TypesFactory.eINSTANCE.createVisualType();
+		
+		try
+		{
+			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
+			String colladaContent = scanner.useDelimiter("\\A").next();
+			scanner.close();
+			Collada collada=ValuesFactory.eINSTANCE.createCollada();
+			collada.setCollada(colladaContent);
+			visualType.setId(typeName);
+			visualType.setName(typeName);
+			visualType.setDefaultValue(collada);
+			library.getTypes().add(visualType);
+		}
+		catch(IOException e)
+		{
+			throw new ModelInterpreterException(e);
+		}
+
+		//IT FIXME: What were we doing with the recording exactly? resolve this
+		// if(this.getFeature(GeppettoFeature.VISUAL_TREE_FEATURE) == null)
+		// {
+		// this.addFeature(new ColladaVisualTreeFeature());
+		// }
+		//
+		// if(this.getFeature(GeppettoFeature.WATCHABLE_VARIABLE_LIST_FEATURE) == null)
+		// {
+		// this.addFeature(new RecordingVariableListFeature());
+		// }
+		
+		return visualType;
 	}
 
 	@Override
-	public List<ModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException
+	public File downloadModel(Pointer pointer, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		throw new ModelInterpreterException("Download model not implemented for Collada model interpreter");
 	}
 
-	@Override
-	public Collection<Type> importType(URL url, String typeName, LibraryManager libraryManager)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public File downloadModel(IInstancePath instancePath, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
