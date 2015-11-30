@@ -40,6 +40,7 @@ import java.util.List;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.AModelInterpreter;
+import org.geppetto.core.model.GeppettoCommonLibraryAccess;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
@@ -80,7 +81,7 @@ public class TestModelInterpreter extends AModelInterpreter
 	}
 
 	@Override
-	public Type importType(URL url, String typeName, GeppettoLibrary library) throws ModelInterpreterException
+	public Type importType(URL url, String typeName, GeppettoLibrary library, GeppettoCommonLibraryAccess commonLibrary) throws ModelInterpreterException
 	{
 		// TODO Auto-generated method stub
 		return null;

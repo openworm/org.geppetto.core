@@ -7,10 +7,10 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.model.VariableValue;
 
 public interface IRuntimeTreeManager
 {
-
 
 	/**
 	 * Changes the parameters of the model
@@ -18,7 +18,7 @@ public interface IRuntimeTreeManager
 	 * @param aspectInstancePath
 	 * @param parameters
 	 */
-	void setModelParameters(Map<String, String> parameters, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;;
+	List<VariableValue> setModelParameters(Map<String, String> parameters, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;;
 
 	/**
 	 * Sets variables to be watched
@@ -27,11 +27,5 @@ public interface IRuntimeTreeManager
 	 * @throws GeppettoInitializationException
 	 * */
 	void setWatchedVariables(List<String> watchedVariables, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
-
-	/**
-	 * @throws GeppettoExecutionException
-	 * 
-	 */
-	void clearWatchLists(IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
 }

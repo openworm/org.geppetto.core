@@ -43,6 +43,7 @@ import java.util.Scanner;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.AModelInterpreter;
+import org.geppetto.core.model.GeppettoCommonLibraryAccess;
 import org.geppetto.core.model.ModelInterpreterException;
 import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
@@ -78,7 +79,7 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 
 
 	@Override
-	public Type importType(URL url, String typeName, GeppettoLibrary library) throws ModelInterpreterException
+	public Type importType(URL url, String typeName, GeppettoLibrary library, GeppettoCommonLibraryAccess commonLibrary) throws ModelInterpreterException
 	{
 		VisualType visualType=TypesFactory.eINSTANCE.createVisualType();
 		
