@@ -1,8 +1,7 @@
 package org.geppetto.core.features;
 
-import java.util.Map;
-
 import org.geppetto.core.model.ModelInterpreterException;
+import org.geppetto.model.VariableValue;
 
 /**
  * 
@@ -13,5 +12,5 @@ import org.geppetto.core.model.ModelInterpreterException;
  */
 public interface ISetParameterFeature extends IFeature
 {
-	void setParameter(Map<String, String> parameter) throws ModelInterpreterException;
+	void setParameter(VariableValue variableValue) throws ModelInterpreterException;
 }
