@@ -32,4 +32,7 @@
   <types xsi:type="gep_1:ExpressionType"
       id="Expression"
       name="Expression"/>
+  <types xsi:type="gep_1:VisualType"
+      id="Visual"
+      name="Visual"/>
 </gep:GeppettoLibrary>
