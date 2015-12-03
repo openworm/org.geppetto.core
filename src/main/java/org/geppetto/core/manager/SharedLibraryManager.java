@@ -59,7 +59,7 @@ public class SharedLibraryManager
 	{
 		if(manager == null)
 		{
-			GeppettoFactory.eINSTANCE.createLibraryManager();
+			manager = GeppettoFactory.eINSTANCE.createLibraryManager();
 		}
 		return manager;
 	}
@@ -73,7 +73,7 @@ public class SharedLibraryManager
 			Map<String, Object> m = reg.getExtensionToFactoryMap();
 			m.put("xmi", new XMIResourceFactoryImpl()); // sets the factory for the XMI type
 			ResourceSet resSet = new ResourceSetImpl();
-			Resource resource = resSet.getResource(URI.createURI("./src/main/resources/GeppettoCommonLibrary.xmi"), true);
+			Resource resource = resSet.getResource(URI.createURI(SharedLibraryManager.class.getResource("/GeppettoCommonLibrary.xmi").getPath()), true);
 			commonLibrary = (GeppettoLibrary) resource.getContents().get(0);
 			getLibraryManager().getLibraries().add(commonLibrary);
 		

@@ -66,18 +66,19 @@ public class GeppettoCommonLibraryAccess
 
 	/**
 	 * Usage commonLibraryAccess.getType(TypesPackage.Literals.PARAMETER_TYPE);
+	 * 
 	 * @return
-	 * @throws GeppettoModelException 
+	 * @throws GeppettoModelException
 	 */
 	public Type getType(EClass eclass) throws GeppettoModelException
 	{
-		for(Type type:commonlibrary.getTypes())
+		for(Type type : commonlibrary.getTypes())
 		{
 			if(type.eClass().equals(eclass))
 			{
 				return type;
 			}
 		}
-		throw new GeppettoModelException("Type for eClass "+eclass+" not found in common library.");
+		throw new GeppettoModelException("Type for eClass " + eclass + " not found in common library.");
 	}
 }
