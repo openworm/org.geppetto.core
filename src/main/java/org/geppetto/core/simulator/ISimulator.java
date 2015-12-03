@@ -33,15 +33,12 @@
 
 package org.geppetto.core.simulator;
 
-import java.util.List;
-
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.services.IService;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
-import org.geppetto.model.values.Pointer;
 
 /**
  * @author matteocantarelli
@@ -58,9 +55,19 @@ public interface ISimulator extends IService
 	 * @param variable
 	 * @throws GeppettoExecutionException
 	 */
-	void simulate(IAspectConfiguration aspectConfiguration, Pointer pointer) throws GeppettoExecutionException;
+	void simulate() throws GeppettoExecutionException;
 
-	void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
+	/**
+	 * This interface assumes the simulator will use the domain model (IModel) to simulate. 
+	 * In the future some native simulator could work directly with a Pointer instead.
+	 * 
+	 * @param model
+	 * @param aspectConfiguration
+	 * @param listener
+	 * @throws GeppettoInitializationException
+	 * @throws GeppettoExecutionException
+	 */
+	void initialize(IModel model, IAspectConfiguration aspectConfiguration, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
 
 	boolean isInitialized();
 

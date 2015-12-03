@@ -36,7 +36,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.geppetto.model.GeppettoLibrary;
 import org.geppetto.model.GeppettoModel;
 import org.geppetto.model.types.Type;
-import org.geppetto.model.util.GeppettoModelException;
+import org.geppetto.model.util.GeppettoVisitingException;
 
 /**
  * @author matteocantarelli
@@ -47,7 +47,7 @@ public class GeppettoCommonLibraryAccess
 
 	GeppettoLibrary commonlibrary;
 
-	public GeppettoCommonLibraryAccess(GeppettoModel geppettoModel) throws GeppettoModelException
+	public GeppettoCommonLibraryAccess(GeppettoModel geppettoModel) throws GeppettoVisitingException
 	{
 		super();
 		for(GeppettoLibrary library : geppettoModel.getLibraries())
@@ -60,7 +60,7 @@ public class GeppettoCommonLibraryAccess
 		}
 		if(commonlibrary == null)
 		{
-			throw new GeppettoModelException("Common library not found");
+			throw new GeppettoVisitingException("Common library not found");
 		}
 	}
 
@@ -68,9 +68,9 @@ public class GeppettoCommonLibraryAccess
 	 * Usage commonLibraryAccess.getType(TypesPackage.Literals.PARAMETER_TYPE);
 	 * 
 	 * @return
-	 * @throws GeppettoModelException
+	 * @throws GeppettoVisitingException
 	 */
-	public Type getType(EClass eclass) throws GeppettoModelException
+	public Type getType(EClass eclass) throws GeppettoVisitingException
 	{
 		for(Type type : commonlibrary.getTypes())
 		{
@@ -79,6 +79,6 @@ public class GeppettoCommonLibraryAccess
 				return type;
 			}
 		}
-		throw new GeppettoModelException("Type for eClass " + eclass + " not found in common library.");
+		throw new GeppettoVisitingException("Type for eClass " + eclass + " not found in common library.");
 	}
 }

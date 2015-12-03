@@ -58,14 +58,14 @@ public class TestSimulator extends ASimulator
 {
 
 	@Override
-	public void simulate(IAspectConfiguration aspectConfiguration, Pointer pointer) throws GeppettoExecutionException
+	public void simulate() throws GeppettoExecutionException
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
+	public void initialize(IModel model, IAspectConfiguration aspectConfiguration, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
 	{
 		// TODO Auto-generated method stub
 		

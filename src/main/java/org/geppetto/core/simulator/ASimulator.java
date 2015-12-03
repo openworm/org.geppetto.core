@@ -33,15 +33,11 @@
 
 package org.geppetto.core.simulator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
+import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.manager.Scope;
 import org.geppetto.core.model.IModel;
-import org.geppetto.core.model.ModelWrapper;
-import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.services.AService;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.model.values.Pointer;
@@ -53,19 +49,17 @@ import org.geppetto.model.values.Pointer;
 public abstract class ASimulator extends AService implements ISimulator
 {
 
-	protected List<IModel> _models;
-
 	private ISimulatorCallbackListener listener;
 
-	private boolean _initialized = false;
+	private boolean initialized = false;
 
-	protected boolean _treesEmptied = false;
+	private String timeStepUnit = "ms";
 
-	private String _timeStepUnit = "ms";
+	private double runtime;
 
-	protected List<RecordingReader> recordingReaders = new ArrayList<RecordingReader>();
+	protected IModel model;
 
-	private double _runtime;
+	protected IAspectConfiguration aspectConfiguration;
 
 	public ASimulator()
 	{
@@ -78,33 +72,13 @@ public abstract class ASimulator extends AService implements ISimulator
 	 * @see org.geppetto.core.simulator.ISimulator#initialize(org.geppetto.core.model.IModel, org.geppetto.core.simulation.ISimulatorCallbackListener)
 	 */
 	@Override
-	public void initialize(List<IModel> models, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
+	public void initialize(IModel model, IAspectConfiguration aspectConfiguration, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
 	{
 		setListener(listener);
-		_models = models;
-
-		// initialize recordings
-		for(IModel model : models)
-		{
-			// for each IModel passed to this simulator which is a RecordingModel we add it to a list
-			if(model instanceof ModelWrapper)
-			{
-				for(Object wrappedModel : ((ModelWrapper) model).getModels())
-				{
-					if(wrappedModel instanceof RecordingModel)
-					{
-						recordingReaders.add(new RecordingReader((RecordingModel) wrappedModel));
-					}
-				}
-			}
-			else if(model instanceof RecordingModel)
-			{
-				recordingReaders.add(new RecordingReader((RecordingModel) model));
-			}
-		}
-
-		_runtime = 0;
-		_initialized = true;
+		this.model = model;
+		this.aspectConfiguration = aspectConfiguration;
+		this.runtime = 0;
+		this.initialized = true;
 	}
 
 	/**
@@ -122,13 +96,13 @@ public abstract class ASimulator extends AService implements ISimulator
 	 */
 	public boolean isInitialized()
 	{
-		return _initialized;
+		return initialized;
 	}
 
 	@Override
 	public void setInitialized(boolean initialized)
 	{
-		_initialized = initialized;
+		this.initialized = initialized;
 	}
 
 	/**
@@ -144,7 +118,7 @@ public abstract class ASimulator extends AService implements ISimulator
 	 */
 	public void setTimeStepUnit(String timeStepUnit)
 	{
-		this._timeStepUnit = timeStepUnit;
+		this.timeStepUnit = timeStepUnit;
 	}
 
 	/**
@@ -153,24 +127,7 @@ public abstract class ASimulator extends AService implements ISimulator
 	 */
 	public void advanceTimeStep(double timestep, Pointer pointer)
 	{
-		_runtime += timestep;
-	}
-
-
-	/**
-	 * @return
-	 */
-	protected boolean treesEmptied()
-	{
-		return _treesEmptied;
-	}
-
-	/**
-	 * @param b
-	 */
-	protected void treesEmptied(boolean b)
-	{
-		_treesEmptied = b;
+		runtime += timestep;
 	}
 
 	/**
@@ -184,12 +141,12 @@ public abstract class ASimulator extends AService implements ISimulator
 	@Override
 	public double getTime()
 	{
-		return _runtime;
+		return runtime;
 	}
 
 	@Override
 	public String getTimeStepUnit()
 	{
-		return _timeStepUnit;
+		return timeStepUnit;
 	}
 }

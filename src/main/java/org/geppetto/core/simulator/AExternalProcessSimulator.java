@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.externalprocesses.ExternalProcess;
 import org.geppetto.core.simulation.IExternalSimulatorCallbackListener;
 import org.geppetto.model.values.Pointer;
@@ -56,9 +55,8 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 	}
 
 	@Override
-	public void simulate(IAspectConfiguration aspectConfiguration, Pointer pointer) throws GeppettoExecutionException
+	public void simulate() throws GeppettoExecutionException
 	{
-		this.pointer = pointer;
 		// send command, directory where execution is happening, and path to original file script to execute
 		if(!started)
 		{
@@ -71,9 +69,5 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 		}
 	}
 
-	public Pointer getPointer()
-	{
-		return this.pointer;
-	}
 
 }
