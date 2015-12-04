@@ -48,7 +48,7 @@ import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.model.RecordingModel;
 import org.geppetto.core.utilities.StringSplitter;
 import org.geppetto.model.GeppettoFactory;
-import org.geppetto.model.GeppettoModelState;
+import org.geppetto.model.ExperimentState;
 import org.geppetto.model.VariableValue;
 import org.geppetto.model.values.Pointer;
 import org.geppetto.model.values.Quantity;
@@ -91,7 +91,7 @@ public class RecordingReader
 	 * @param readAll
 	 * @throws GeppettoExecutionException
 	 */
-	public void readRecording(IInstancePath variable, GeppettoModelState modelState, boolean readAll) throws GeppettoExecutionException
+	public void readRecording(IInstancePath variable, ExperimentState modelState, boolean readAll) throws GeppettoExecutionException
 	{
 		openRecording();
 
@@ -124,7 +124,7 @@ public class RecordingReader
 	 * @param readAll
 	 * @throws GeppettoExecutionException
 	 */
-	public void readVariable(String path, H5File h5File, GeppettoModelState modelState, boolean readAll) throws GeppettoExecutionException
+	public void readVariable(String path, H5File h5File, ExperimentState modelState, boolean readAll) throws GeppettoExecutionException
 	{
 		try
 		{

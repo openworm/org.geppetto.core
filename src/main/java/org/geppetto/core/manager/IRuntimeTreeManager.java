@@ -7,7 +7,7 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.model.VariableValue;
+import org.geppetto.model.ExperimentState;
 
 public interface IRuntimeTreeManager
 {
@@ -18,7 +18,7 @@ public interface IRuntimeTreeManager
 	 * @param aspectInstancePath
 	 * @param parameters
 	 */
-	List<VariableValue> setModelParameters(Map<String, String> parameters, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;;
+	ExperimentState setModelParameters(Map<String, String> parameters, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;;
 
 	/**
 	 * Sets variables to be watched

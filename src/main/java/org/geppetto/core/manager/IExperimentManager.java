@@ -1,13 +1,10 @@
 package org.geppetto.core.manager;
 
-import java.util.List;
-
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.model.GeppettoModelState;
-import org.geppetto.model.VariableValue;
+import org.geppetto.model.ExperimentState;
 
 public interface IExperimentManager
 {
@@ -18,7 +15,7 @@ public interface IExperimentManager
 	 * @return
 	 * @throws GeppettoExecutionException
 	 */
-	public abstract GeppettoModelState loadExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
+	public abstract ExperimentState loadExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
 
 	/**
 	 * Run a specified experiment
@@ -37,7 +34,7 @@ public interface IExperimentManager
 	 * @return a map containing the value for each recorded variable identified by a pointer
 	 * @throws GeppettoExecutionException
 	 */
-	public abstract List<VariableValue> playExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
+	public abstract ExperimentState playExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
 
 	/**
 	 * Create a new experiment inside a given project
