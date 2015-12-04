@@ -34,7 +34,6 @@ package org.geppetto.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
@@ -46,7 +45,7 @@ import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.simulator.ASimulator;
-import org.geppetto.model.values.Pointer;
+import org.geppetto.model.ExperimentState;
 
 /**
  * Dummy simulator used for testing purposes 
@@ -65,7 +64,7 @@ public class TestSimulator extends ASimulator
 	}
 
 	@Override
-	public void initialize(IModel model, IAspectConfiguration aspectConfiguration, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
+	public void initialize(IModel model, IAspectConfiguration aspectConfiguration, ExperimentState experimentState,ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
 	{
 		// TODO Auto-generated method stub
 		

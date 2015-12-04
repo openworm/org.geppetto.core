@@ -40,6 +40,7 @@ import org.geppetto.core.manager.Scope;
 import org.geppetto.core.model.IModel;
 import org.geppetto.core.services.AService;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
+import org.geppetto.model.ExperimentState;
 import org.geppetto.model.values.Pointer;
 
 /**
@@ -61,6 +62,8 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	protected IAspectConfiguration aspectConfiguration;
 
+	protected ExperimentState experimentState;
+
 	public ASimulator()
 	{
 		scope = Scope.RUN;
@@ -72,13 +75,15 @@ public abstract class ASimulator extends AService implements ISimulator
 	 * @see org.geppetto.core.simulator.ISimulator#initialize(org.geppetto.core.model.IModel, org.geppetto.core.simulation.ISimulatorCallbackListener)
 	 */
 	@Override
-	public void initialize(IModel model, IAspectConfiguration aspectConfiguration, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
+	public void initialize(IModel model, IAspectConfiguration aspectConfiguration, ExperimentState experimentState, ISimulatorCallbackListener listener) throws GeppettoInitializationException,
+			GeppettoExecutionException
 	{
 		setListener(listener);
 		this.model = model;
 		this.aspectConfiguration = aspectConfiguration;
 		this.runtime = 0;
 		this.initialized = true;
+		this.experimentState = experimentState;
 	}
 
 	/**

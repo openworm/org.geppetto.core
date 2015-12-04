@@ -17,7 +17,7 @@ import org.geppetto.model.values.Pointer;
 public abstract class AExternalProcessSimulator extends ASimulator implements IExternalSimulatorCallbackListener
 {
 
-	// the instance path of the aspect that is being simulated
+	// the instance path of the instance that is being simulated
 	protected Pointer pointer;
 
 	protected boolean started = false;
