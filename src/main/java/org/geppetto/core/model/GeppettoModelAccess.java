@@ -35,6 +35,7 @@ package org.geppetto.core.model;
 import org.eclipse.emf.ecore.EClass;
 import org.geppetto.model.GeppettoLibrary;
 import org.geppetto.model.GeppettoModel;
+import org.geppetto.model.Tag;
 import org.geppetto.model.types.Type;
 import org.geppetto.model.util.GeppettoVisitingException;
 
@@ -42,14 +43,17 @@ import org.geppetto.model.util.GeppettoVisitingException;
  * @author matteocantarelli
  *
  */
-public class GeppettoCommonLibraryAccess
+public class GeppettoModelAccess
 {
 
-	GeppettoLibrary commonlibrary;
+	private GeppettoModel geppettoModel;
+	
+	private GeppettoLibrary commonlibrary;
 
-	public GeppettoCommonLibraryAccess(GeppettoModel geppettoModel) throws GeppettoVisitingException
+	public GeppettoModelAccess(GeppettoModel geppettoModel) throws GeppettoVisitingException
 	{
 		super();
+		this.geppettoModel=geppettoModel;
 		for(GeppettoLibrary library : geppettoModel.getLibraries())
 		{
 			if(library.getId().equals("common"))
@@ -62,6 +66,14 @@ public class GeppettoCommonLibraryAccess
 		{
 			throw new GeppettoVisitingException("Common library not found");
 		}
+	}
+	
+	/**
+	 * @param tag
+	 */
+	public void addTag(Tag tag)
+	{
+		geppettoModel.getTags().add(tag);
 	}
 
 	/**
