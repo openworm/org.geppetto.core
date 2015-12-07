@@ -49,8 +49,9 @@ import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.model.GeppettoLibrary;
 import org.geppetto.model.types.Type;
-import org.geppetto.model.types.TypesFactory;
+import org.geppetto.model.types.TypesPackage;
 import org.geppetto.model.types.VisualType;
+import org.geppetto.model.util.GeppettoVisitingException;
 import org.geppetto.model.values.OBJ;
 import org.geppetto.model.values.Pointer;
 import org.geppetto.model.values.ValuesFactory;
@@ -64,35 +65,39 @@ import org.springframework.stereotype.Service;
 public class ObjModelInterpreterService extends AModelInterpreter
 {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.model.IModelInterpreter#importType(java.net.URL, java.lang.String, org.geppetto.model.GeppettoLibrary)
 	 */
 	@Override
 	public Type importType(URL url, String typeName, GeppettoLibrary library, GeppettoCommonLibraryAccess commonLibrary) throws ModelInterpreterException
 	{
-		VisualType visualType=TypesFactory.eINSTANCE.createVisualType();
-		
+
 		try
 		{
+			VisualType visualType = (VisualType) commonLibrary.getType(TypesPackage.Literals.VISUAL_TYPE);
 			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
 			String objContent = scanner.useDelimiter("\\A").next();
 			scanner.close();
-			OBJ obj=ValuesFactory.eINSTANCE.createOBJ();
+			OBJ obj = ValuesFactory.eINSTANCE.createOBJ();
 			obj.setObj(objContent);
 			visualType.setId(typeName);
 			visualType.setName(typeName);
 			visualType.setDefaultValue(obj);
 			library.getTypes().add(visualType);
+			return visualType;
 		}
-		catch(IOException e)
+		catch(IOException | GeppettoVisitingException e)
 		{
 			throw new ModelInterpreterException(e);
 		}
 
-		return visualType;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.model.IModelInterpreter#downloadModel(org.geppetto.model.values.Pointer, org.geppetto.core.services.ModelFormat, org.geppetto.core.data.model.IAspectConfiguration)
 	 */
 	@Override
@@ -101,17 +106,20 @@ public class ObjModelInterpreterService extends AModelInterpreter
 		throw new ModelInterpreterException("Download model not implemented for OBJ model interpreter");
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.model.IModelInterpreter#getName()
 	 */
 	@Override
 	public String getName()
 	{
-		return "Obj Model Interpreter";
+		return "OBJ Model Interpreter";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.services.IService#registerGeppettoService()
 	 */
 	@Override
@@ -120,7 +128,5 @@ public class ObjModelInterpreterService extends AModelInterpreter
 		List<ModelFormat> modelFormats = new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.registerModelFormat("OBJ")));
 		ServicesRegistry.registerModelInterpreterService(this, modelFormats);
 	}
-
-
 
 }

@@ -49,8 +49,9 @@ import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.model.GeppettoLibrary;
 import org.geppetto.model.types.Type;
-import org.geppetto.model.types.TypesFactory;
+import org.geppetto.model.types.TypesPackage;
 import org.geppetto.model.types.VisualType;
+import org.geppetto.model.util.GeppettoVisitingException;
 import org.geppetto.model.values.Collada;
 import org.geppetto.model.values.Pointer;
 import org.geppetto.model.values.ValuesFactory;
@@ -77,41 +78,27 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 		ServicesRegistry.registerModelInterpreterService(this, modelFormats);
 	}
 
-
 	@Override
 	public Type importType(URL url, String typeName, GeppettoLibrary library, GeppettoCommonLibraryAccess commonLibrary) throws ModelInterpreterException
 	{
-		VisualType visualType=TypesFactory.eINSTANCE.createVisualType();
-		
 		try
 		{
+			VisualType visualType = (VisualType) commonLibrary.getType(TypesPackage.Literals.VISUAL_TYPE);
 			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
 			String colladaContent = scanner.useDelimiter("\\A").next();
 			scanner.close();
-			Collada collada=ValuesFactory.eINSTANCE.createCollada();
+			Collada collada = ValuesFactory.eINSTANCE.createCollada();
 			collada.setCollada(colladaContent);
 			visualType.setId(typeName);
 			visualType.setName(typeName);
 			visualType.setDefaultValue(collada);
 			library.getTypes().add(visualType);
+			return visualType;
 		}
-		catch(IOException e)
+		catch(IOException | GeppettoVisitingException e)
 		{
 			throw new ModelInterpreterException(e);
 		}
-
-		//IT FIXME: What were we doing with the recording exactly? resolve this
-		// if(this.getFeature(GeppettoFeature.VISUAL_TREE_FEATURE) == null)
-		// {
-		// this.addFeature(new ColladaVisualTreeFeature());
-		// }
-		//
-		// if(this.getFeature(GeppettoFeature.WATCHABLE_VARIABLE_LIST_FEATURE) == null)
-		// {
-		// this.addFeature(new RecordingVariableListFeature());
-		// }
-		
-		return visualType;
 	}
 
 	@Override
@@ -119,7 +106,5 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 	{
 		throw new ModelInterpreterException("Download model not implemented for Collada model interpreter");
 	}
-
-
 
 }
