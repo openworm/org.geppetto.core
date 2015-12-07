@@ -49,7 +49,6 @@ import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.data.model.PersistedDataType;
 import org.geppetto.core.data.model.ResultsFormat;
-import org.geppetto.model.values.Pointer;
 
 import com.google.gson.Gson;
 

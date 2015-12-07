@@ -43,10 +43,11 @@ import java.util.Set;
 import org.geppetto.core.conversion.ConversionException;
 import org.geppetto.core.conversion.IConversion;
 import org.geppetto.core.data.model.ResultsFormat;
-import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.IModelInterpreter;
-import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.simulator.ISimulator;
+import org.geppetto.model.DomainModel;
+import org.geppetto.model.GeppettoFactory;
+import org.geppetto.model.ModelFormat;
 import org.springframework.aop.TargetClassAware;
 
 /**
@@ -64,7 +65,8 @@ public class ServicesRegistry
 
 	public static ModelFormat registerModelFormat(String format)
 	{
-		ModelFormat modelFormat = new ModelFormat(format);
+		ModelFormat modelFormat = GeppettoFactory.eINSTANCE.createModelFormat();
+		modelFormat.setModelFormat(format);
 		registeredModelFormats.add(modelFormat);
 		return modelFormat;
 	}
@@ -151,14 +153,14 @@ public class ServicesRegistry
 		}
 	}
 
-	public static Map<ModelFormat, List<IConversion>> getSupportedOutputs(IModel model, List<ModelFormat> inputFormats)
+	public static Map<ModelFormat, List<IConversion>> getSupportedOutputs(DomainModel model)
 	{
 		Map<ModelFormat, List<IConversion>> supportedOutputs = new HashMap<ModelFormat, List<IConversion>>();
 		List<IConversion> checkedConversions = new ArrayList<IConversion>();
 		for(Map.Entry<ConversionServiceKey, List<IConversion>> entry : registeredConversionServices.entrySet())
 		{
 			ConversionServiceKey conversionServiceKey = entry.getKey();
-			if(inputFormats.contains(conversionServiceKey.getInputModelFormat()))
+			if(model.getFormat().equals(conversionServiceKey.getInputModelFormat()))
 			{
 				for(IConversion conversion : entry.getValue())
 				{
@@ -166,7 +168,7 @@ public class ServicesRegistry
 					{
 						if(!checkedConversions.contains(conversion))
 						{
-							List<ModelFormat> outputs = conversion.getSupportedOutputs(model, conversionServiceKey.getInputModelFormat());
+							List<ModelFormat> outputs = conversion.getSupportedOutputs(model);
 							for(ModelFormat output : outputs)
 							{
 								List<IConversion> supportedConversions = supportedOutputs.get(output);

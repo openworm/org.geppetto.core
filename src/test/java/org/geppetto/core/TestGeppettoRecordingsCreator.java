@@ -32,14 +32,12 @@
  *******************************************************************************/
 package org.geppetto.core;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.util.List;
-import java.util.Properties;
 
 import junit.framework.Assert;
-
 import ncsa.hdf.object.Attribute;
 import ncsa.hdf.object.Dataset;
 import ncsa.hdf.object.h5.H5File;

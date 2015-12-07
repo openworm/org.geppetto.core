@@ -37,9 +37,9 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.manager.Scope;
-import org.geppetto.core.model.IModel;
 import org.geppetto.core.services.AService;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
+import org.geppetto.model.DomainModel;
 import org.geppetto.model.ExperimentState;
 import org.geppetto.model.values.Pointer;
 
@@ -58,7 +58,7 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	private double runtime;
 
-	protected IModel model;
+	protected DomainModel model;
 
 	protected IAspectConfiguration aspectConfiguration;
 
@@ -75,7 +75,7 @@ public abstract class ASimulator extends AService implements ISimulator
 	 * @see org.geppetto.core.simulator.ISimulator#initialize(org.geppetto.core.model.IModel, org.geppetto.core.simulation.ISimulatorCallbackListener)
 	 */
 	@Override
-	public void initialize(IModel model, IAspectConfiguration aspectConfiguration, ExperimentState experimentState, ISimulatorCallbackListener listener) throws GeppettoInitializationException,
+	public void initialize(DomainModel model, IAspectConfiguration aspectConfiguration, ExperimentState experimentState, ISimulatorCallbackListener listener) throws GeppettoInitializationException,
 			GeppettoExecutionException
 	{
 		setListener(listener);

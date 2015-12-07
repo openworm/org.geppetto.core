@@ -36,9 +36,9 @@ package org.geppetto.core.conversion;
 import java.util.List;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
-import org.geppetto.core.model.IModel;
 import org.geppetto.core.services.IService;
-import org.geppetto.core.services.ModelFormat;
+import org.geppetto.model.DomainModel;
+import org.geppetto.model.ModelFormat;
 
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
@@ -47,12 +47,12 @@ import org.geppetto.core.services.ModelFormat;
 public interface IConversion extends IService
 {
 
-	List<ModelFormat> getSupportedOutputs(IModel model, ModelFormat input) throws ConversionException;
+	List<ModelFormat> getSupportedOutputs(DomainModel model) throws ConversionException;
 
 	List<ModelFormat> getSupportedOutputs() throws ConversionException;
 
 	List<ModelFormat> getSupportedInputs() throws ConversionException;
 
-	IModel convert(IModel model, ModelFormat input, ModelFormat output, IAspectConfiguration aspectConfig) throws ConversionException;
+	DomainModel convert(DomainModel model, ModelFormat output, IAspectConfiguration aspectConfig) throws ConversionException;
 
 }

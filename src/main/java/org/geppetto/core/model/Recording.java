@@ -38,14 +38,13 @@ import ncsa.hdf.object.h5.H5File;
  * @author matteocantarelli
  *
  */
-public class RecordingModel extends AModel
+public class Recording
 {
 
 	H5File _file = null;
 
-	public RecordingModel(H5File file)
+	public Recording(H5File file)
 	{
-		super(null); // the id is deprecated, this will go away
 		_file = file;
 	}
 

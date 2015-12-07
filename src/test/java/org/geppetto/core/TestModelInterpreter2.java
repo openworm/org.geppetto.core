@@ -42,9 +42,9 @@ import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.AModelInterpreter;
 import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.model.GeppettoLibrary;
+import org.geppetto.model.ModelFormat;
 import org.geppetto.model.types.Type;
 import org.geppetto.model.values.Pointer;
 

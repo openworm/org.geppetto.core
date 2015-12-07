@@ -36,9 +36,9 @@ package org.geppetto.core.simulator;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IAspectConfiguration;
-import org.geppetto.core.model.IModel;
 import org.geppetto.core.services.IService;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
+import org.geppetto.model.DomainModel;
 import org.geppetto.model.ExperimentState;
 
 /**
@@ -68,7 +68,7 @@ public interface ISimulator extends IService
 	 * @throws GeppettoInitializationException
 	 * @throws GeppettoExecutionException
 	 */
-	void initialize(IModel model, IAspectConfiguration aspectConfiguration, ExperimentState experimentState, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
+	void initialize(DomainModel model, IAspectConfiguration aspectConfiguration, ExperimentState experimentState, ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException;
 
 	boolean isInitialized();
 

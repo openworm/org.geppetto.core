@@ -33,21 +33,6 @@
 
 package org.geppetto.core.utilities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.StringTokenizer;
-
-import ncsa.hdf.hdf5lib.H5;
-import ncsa.hdf.hdf5lib.HDF5Constants;
-import ncsa.hdf.hdf5lib.callbacks.H5L_iterate_cb;
-import ncsa.hdf.hdf5lib.callbacks.H5L_iterate_t;
-import ncsa.hdf.hdf5lib.callbacks.H5O_iterate_cb;
-import ncsa.hdf.hdf5lib.callbacks.H5O_iterate_t;
-import ncsa.hdf.hdf5lib.exceptions.HDF5LibraryException;
-import ncsa.hdf.hdf5lib.structs.H5L_info_t;
-import ncsa.hdf.hdf5lib.structs.H5O_info_t;
-
-import org.geppetto.core.common.GeppettoExecutionException;
 
 /**
  * Utility class to read recording files

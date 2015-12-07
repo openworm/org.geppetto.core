@@ -39,13 +39,13 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.features.IFeature;
-import org.geppetto.core.model.IModel;
 import org.geppetto.core.services.GeppettoFeature;
-import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.core.simulation.ISimulatorCallbackListener;
 import org.geppetto.core.simulator.ASimulator;
+import org.geppetto.model.DomainModel;
 import org.geppetto.model.ExperimentState;
+import org.geppetto.model.ModelFormat;
 
 /**
  * Dummy simulator used for testing purposes 
@@ -64,7 +64,7 @@ public class TestSimulator extends ASimulator
 	}
 
 	@Override
-	public void initialize(IModel model, IAspectConfiguration aspectConfiguration, ExperimentState experimentState,ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
+	public void initialize(DomainModel model, IAspectConfiguration aspectConfiguration, ExperimentState experimentState,ISimulatorCallbackListener listener) throws GeppettoInitializationException, GeppettoExecutionException
 	{
 		// TODO Auto-generated method stub
 		

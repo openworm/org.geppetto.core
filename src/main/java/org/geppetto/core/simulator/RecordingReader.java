@@ -45,10 +45,10 @@ import org.apache.commons.lang.ArrayUtils;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.data.model.ResultsFormat;
-import org.geppetto.core.model.RecordingModel;
+import org.geppetto.core.model.Recording;
 import org.geppetto.core.utilities.StringSplitter;
-import org.geppetto.model.GeppettoFactory;
 import org.geppetto.model.ExperimentState;
+import org.geppetto.model.GeppettoFactory;
 import org.geppetto.model.VariableValue;
 import org.geppetto.model.values.Pointer;
 import org.geppetto.model.values.Quantity;
@@ -67,18 +67,18 @@ public class RecordingReader
 {
 	private int currentRecordingIndex = 0;
 
-	private RecordingModel recording;
+	private Recording recording;
 
 	private ResultsFormat recordingFormat;
 
 	private boolean recordingOpened = false;
 
-	public RecordingReader(RecordingModel recording)
+	public RecordingReader(Recording recording)
 	{
 		this(recording, ResultsFormat.GEPPETTO_RECORDING);
 	}
 
-	public RecordingReader(RecordingModel recording, ResultsFormat format)
+	public RecordingReader(Recording recording, ResultsFormat format)
 	{
 		super();
 		this.recording = recording;
