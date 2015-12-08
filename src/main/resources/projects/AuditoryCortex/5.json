@@ -72,7 +72,7 @@
     ],
     "geppettoModel": {
         "id": 9,
-        "url": "/projects/AuditoryCortex/GEPPETTO.xml",
+        "url": "/projects/AuditoryCortex/GeppettoModel.xmi",
         "type": "GEPPETTO_PROJECT"
     }
 }
