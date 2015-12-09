@@ -30,29 +30,33 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.services;
+package org.geppetto.core.model;
 
-import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.core.services.registry.ApplicationListenerBean;
-import org.springframework.context.ApplicationContext;
+import java.io.IOException;
+import java.io.StringWriter;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.URIConverter.WriteableOutputStream;
+import org.emfjson.jackson.resource.JsonResource;
 
 /**
- * This class creates a service using the application context.
- * 
  * @author matteocantarelli
  *
  */
-public class ServiceCreator
+public class GeppettoSerializer
 {
 
-	public static Object getNewServiceInstance(String discoveryId) throws GeppettoInitializationException
+	public static String serializeToJSON(EObject toSerialize) throws IOException
 	{
-		ApplicationContext appContext = ApplicationListenerBean.getApplicationContext(discoveryId);
-		if(appContext != null)
-		{
-			return appContext.getBean("scopedTarget." + discoveryId);
-		}
-		throw new GeppettoInitializationException("The service " + discoveryId + " was not found!");
-	}
+		StringWriter sw = new StringWriter();
+		WriteableOutputStream outputStream = new WriteableOutputStream(sw, "UTF-8");
 
+		JsonResource resource = new JsonResource();
+		resource.getContents().add(toSerialize);
+		resource.save(outputStream, null);
+		outputStream.flush();
+		sw.close();
+		return sw.toString();
+	}
+	
 }

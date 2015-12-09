@@ -33,6 +33,11 @@
 			<artifactId>org.apache.servicemix.bundles.commons-httpclient</artifactId>
 			<version>3.1_7</version>
 		</dependency>
+		<dependency>
+			<groupId>org.emfjson</groupId>
+			<artifactId>emfjson-jackson</artifactId>
+			<version>0.13.0</version>
+		</dependency>
 		<!-- test dependencies -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -222,7 +227,7 @@
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Include-Resource>
-							{maven-resources},META-INF/spring=src/main/java/META-INF/spring,src/main/resources/Geppetto.properties
+							{maven-resources},META-INF/spring=src/main/java/META-INF/spring,src/main/resources/Geppetto.properties,src/main/resources/GeppettoCommonLibrary.xmi
 						</Include-Resource>
 						<Import-Package>
 							org.springframework.context,org.aopalliance.aop,org.springframework.aop,,org.springframework.aop.scope,org.springframework.aop.framework,*

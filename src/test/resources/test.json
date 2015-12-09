@@ -1,0 +1,21 @@
+{
+  "eClass" : "https://raw.githubusercontent.com/openworm/org.geppetto.model/development/src/main/resources/geppettoModel.ecore#//GeppettoModel",
+  "variables" : [ {
+    "eClass" : "https://raw.githubusercontent.com/openworm/org.geppetto.model/development/src/main/resources/geppettoModel.ecore#//variables/Variable",
+    "name" : "acnet2",
+    "types" : [ {
+      "$ref" : "//@libraries.0/@types.0"
+    } ]
+  } ],
+  "libraries" : [ {
+    "eClass" : "https://raw.githubusercontent.com/openworm/org.geppetto.model/development/src/main/resources/geppettoModel.ecore#//GeppettoLibrary",
+    "name" : "NeuroML",
+    "types" : [ {
+      "eClass" : "https://raw.githubusercontent.com/openworm/org.geppetto.model/development/src/main/resources/geppettoModel.ecore#//types/ImportType",
+      "name" : "network_ACnet2",
+      "url" : "/projects/AuditoryCortex/MediumNet.net.nml",
+      "referenceURL" : "",
+      "modelInterpreterId" : "neuroMLModelInterpreter"
+    } ]
+  } ]
+}

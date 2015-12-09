@@ -30,9 +30,15 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.manager;
+package org.geppetto.core;
+
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -40,55 +46,35 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.geppetto.core.common.GeppettoInitializationException;
-import org.geppetto.model.GeppettoFactory;
-import org.geppetto.model.GeppettoLibrary;
+import org.emfjson.jackson.resource.JsonResourceFactory;
+import org.geppetto.core.model.GeppettoSerializer;
+import org.geppetto.model.GeppettoModel;
 import org.geppetto.model.GeppettoPackage;
-import org.geppetto.model.LibraryManager;
+import org.junit.Test;
 
 /**
  * @author matteocantarelli
  *
  */
-public class SharedLibraryManager
+public class GeppettoSerializerTest
 {
 
-	private static LibraryManager manager;
-
-	private static GeppettoLibrary commonLibrary;
-
-	private static LibraryManager getLibraryManager()
+	@Test
+	public void testSerializer() throws IOException, URISyntaxException
 	{
-		if(manager == null)
-		{
-			manager = GeppettoFactory.eINSTANCE.createLibraryManager();
-		}
-		return manager;
-	}
+		// Initialize the factory and the resource set
+		GeppettoPackage.eINSTANCE.eClass();
+		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+		Map<String, Object> m = reg.getExtensionToFactoryMap();
+		m.put("xmi", new XMIResourceFactoryImpl()); // sets the factory for the XMI type
+		m.put("json", new JsonResourceFactory()); // sets the factory for the JSON type
+		ResourceSet resSet = new ResourceSetImpl();
 
-	public static GeppettoLibrary getSharedCommonLibrary() throws GeppettoInitializationException
-	{
-		if(commonLibrary == null)
-		{
-			GeppettoPackage.eINSTANCE.eClass();
-			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-			Map<String, Object> m = reg.getExtensionToFactoryMap();
-			m.put("xmi", new XMIResourceFactoryImpl()); // sets the factory for the XMI type
-			ResourceSet resSet = new ResourceSetImpl();
-			Resource resource = resSet.createResource(URI.createURI("/GeppettoCommonLibrary.xmi"));
-			try
-			{
-				resource.load(SharedLibraryManager.class.getResourceAsStream("/GeppettoCommonLibrary.xmi"),null);
-			}
-			catch(IOException e)
-			{
-				throw new GeppettoInitializationException(e);
-			}
-			commonLibrary = (GeppettoLibrary) resource.getContents().get(0);
-			getLibraryManager().getLibraries().add(commonLibrary);
-		
-		}
-		return commonLibrary;
+		Resource resource = resSet.getResource(URI.createURI("./src/test/resources/GeppettoModelTest.xmi"), true);
+		GeppettoModel geppettoModel = (GeppettoModel) resource.getContents().get(0);
+		URL url = this.getClass().getResource("/test.json");
+		String jsonResource = new String(Files.readAllBytes(Paths.get(url.toURI()))); 
+		assertEquals(jsonResource, GeppettoSerializer.serializeToJSON(geppettoModel));
 	}
 
 }
