@@ -35,9 +35,21 @@ package org.geppetto.core.model;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.URIConverter.WriteableOutputStream;
-import org.emfjson.jackson.resource.JsonResource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.emfjson.jackson.JacksonOptions;
+import org.emfjson.jackson.databind.ser.TypeSerializer;
+import org.emfjson.jackson.module.EMFModule;
+import org.emfjson.jackson.resource.JsonResourceFactory;
+import org.geppetto.model.GeppettoPackage;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
 /**
  * @author matteocantarelli
@@ -45,18 +57,47 @@ import org.emfjson.jackson.resource.JsonResource;
  */
 public class GeppettoSerializer
 {
+	
+	private static GeppettoCustomTypeSerializer customTypeSerializer=new GeppettoCustomTypeSerializer();
 
 	public static String serializeToJSON(EObject toSerialize) throws IOException
 	{
 		StringWriter sw = new StringWriter();
 		WriteableOutputStream outputStream = new WriteableOutputStream(sw, "UTF-8");
 
-		JsonResource resource = new JsonResource();
+		ObjectMapper mapper = new ObjectMapper();
+
+		ResourceSetImpl resourceSet = new ResourceSetImpl();
+		resourceSet.getPackageRegistry().put(GeppettoPackage.eNS_URI, GeppettoPackage.eINSTANCE);
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new JsonResourceFactory());
+
+		EMFModule module = new EMFModule(resourceSet, new JacksonOptions.Builder().withTypeSerializer(customTypeSerializer).build());
+
+		mapper.registerModule(module);
+
+		Resource resource = resourceSet.createResource(URI.createURI("geppettoModel"));
 		resource.getContents().add(toSerialize);
-		resource.save(outputStream, null);
+
+		mapper.writeValue(outputStream, resource);
+		// resource.save(outputStream, null);
 		outputStream.flush();
 		sw.close();
 		return sw.toString();
 	}
-	
+
+	/**
+	 * @author matteocantarelli
+	 *
+	 */
+	private static class GeppettoCustomTypeSerializer implements TypeSerializer
+	{
+
+		@Override
+		public void serialize(EClass eClass, JsonGenerator jg, SerializerProvider provider) throws IOException
+		{
+			jg.writeStringField("eClass", eClass.getName());
+		}
+
+	}
+
 }
