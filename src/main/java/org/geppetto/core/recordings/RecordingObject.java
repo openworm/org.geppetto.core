@@ -1,6 +1,5 @@
 package org.geppetto.core.recordings;
 
-import org.geppetto.core.recordings.GeppettoRecordingCreator.MetaType;
 
 /**
  * Object class that holds together valus for a variable yet to be created inside an HDF5 file.
@@ -13,7 +12,7 @@ public class RecordingObject
 
 	private String _variable;
 	private String _unit;
-	private MetaType _metaType;
+	private String _metaType;
 	private Object _values;
 	private int _dataType;
 	private int _valuesLength;
@@ -39,12 +38,12 @@ public class RecordingObject
 		this._unit = _unit;
 	}
 
-	public MetaType getMetaType()
+	public String getMetaType()
 	{
 		return _metaType;
 	}
 
-	public void setMetaType(MetaType _metaType)
+	public void setMetaType(String _metaType)
 	{
 		this._metaType = _metaType;
 	}

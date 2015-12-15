@@ -6,7 +6,6 @@ import java.util.Map;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.externalprocesses.ExternalProcess;
 import org.geppetto.core.simulation.IExternalSimulatorCallbackListener;
-import org.geppetto.model.values.Pointer;
 
 /**
  * Abstract simulator class for external processes
@@ -16,9 +15,6 @@ import org.geppetto.model.values.Pointer;
  */
 public abstract class AExternalProcessSimulator extends ASimulator implements IExternalSimulatorCallbackListener
 {
-
-	// the instance path of the instance that is being simulated
-	protected Pointer pointer;
 
 	protected boolean started = false;
 

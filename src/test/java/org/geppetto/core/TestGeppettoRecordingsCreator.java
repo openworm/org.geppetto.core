@@ -45,7 +45,7 @@ import ncsa.hdf.object.h5.H5File;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.recordings.GeppettoRecordingCreator;
-import org.geppetto.core.recordings.GeppettoRecordingCreator.MetaType;
+import org.geppetto.model.types.TypesPackage;
 import org.junit.AfterClass;
 import org.junit.Test;
 
@@ -55,221 +55,196 @@ import org.junit.Test;
  * @author Jesus R Martinez (jesus@metacell.us)
  *
  */
-public class TestGeppettoRecordingsCreator {
+public class TestGeppettoRecordingsCreator
+{
 
 	private static Log _logger = LogFactory.getLog(TestGeppettoRecordingsCreator.class);
 
 	@Test
-	public void addInitialVariable(){
-		try {
-			GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
-			creator.addValues("P.J", 2.0f, "ms", MetaType.Variable_Node,false);
-			creator.addValues("P.J", 8.0f, "ms", MetaType.Variable_Node,false);
-			creator.addTimeStep(0.03f, "ms");
-			creator.create();
-			assertNotNull(creator.getRecordingsFile());
-			
-			H5File file = creator.getRecordingsFile();
-			file.open();
-			Dataset dataset = (Dataset) file.findObject(file, "/P/J");
-			float[] value =  (float[])dataset.read();
-			Assert.assertEquals(8.0f,value[0]);
-			_logger.info("Value "+ value[0] + " should read");
+	public void addInitialVariable() throws Exception
+	{
 
-			List metaData = dataset.getMetadata();
-			Attribute unit = (Attribute)metaData.get(1);
-			_logger.info("Attribute " + unit.getName()+ 
-					" : " + ((String[])unit.getValue())[0]);
-			Assert.assertEquals("ms",((String[])unit.getValue())[0]);
+		GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
+		creator.addValues("P.J", 2.0d, "ms", TypesPackage.Literals.STATE_VARIABLE_TYPE.getName(), false);
+		creator.addValues("P.J", 8.0d, "ms", TypesPackage.Literals.STATE_VARIABLE_TYPE.getName(), false);
+		creator.create();
+		assertNotNull(creator.getRecordingsFile());
 
-			Attribute type = (Attribute)metaData.get(0);
-			_logger.info("Attribute " + type.getName()+ 
-					" : " + ((String[])type.getValue())[0]);
-			Assert.assertEquals("VariableNode",((String[])type.getValue())[0]);
+		H5File file = creator.getRecordingsFile();
+		file.open();
+		Dataset dataset = (Dataset) file.findObject(file, "/P/J");
+		double[] value = (double[]) dataset.read();
+		Assert.assertEquals(8.0d, value[0]);
 
-			file.close();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		List metaData = dataset.getMetadata();
+		Attribute unit = (Attribute) metaData.get(1);
+		_logger.info("Attribute " + unit.getName() + " : " + ((String[]) unit.getValue())[0]);
+		Assert.assertEquals("ms", ((String[]) unit.getValue())[0]);
+
+		Attribute type = (Attribute) metaData.get(0);
+		_logger.info("Attribute " + type.getName() + " : " + ((String[]) type.getValue())[0]);
+		Assert.assertEquals(TypesPackage.Literals.STATE_VARIABLE_TYPE.getName(), ((String[]) type.getValue())[0]);
+
+		file.close();
+
 	}
-	
+
 	@Test
-	public void addSibling(){
-		try {
-			float[] values = {0.03f,0.055f,0.100f};
-			GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
-			creator.addValues("P.neuron",values, "ms",MetaType.Variable_Node,false);
-			creator.create();
-			assertNotNull(creator.getRecordingsFile());
-			
-			H5File file = creator.getRecordingsFile();
-			file.open();
-			Dataset dataset = (Dataset) file.findObject(file, "/P/neuron");
-			float[] value =  (float[])dataset.read();
-			Assert.assertEquals(0.1f,value[2]);
-			_logger.info("Value "+ value[2] + " read should be 4.0");
-			
-			List metaData = dataset.getMetadata();
-			Attribute unit = (Attribute)metaData.get(1);
-			_logger.info("Attribute " + unit.getName()+ 
-					" : " + ((String[])unit.getValue())[0]);
-			Assert.assertEquals("ms",((String[])unit.getValue())[0]);
+	public void addSibling() throws Exception
+	{
 
-			Attribute type = (Attribute)metaData.get(0);
-			_logger.info("Attribute " + type.getName()+ 
-					" : " + ((String[])type.getValue())[0]);
-			Assert.assertEquals("VariableNode",((String[])type.getValue())[0]);
+		Double[] values = { 0.03d, 0.055d, 0.100d };
+		GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
+		creator.addValues("P.neuron", values, "ms", TypesPackage.Literals.STATE_VARIABLE_TYPE.getName(), false);
+		creator.create();
+		assertNotNull(creator.getRecordingsFile());
 
-			file.close();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		H5File file = creator.getRecordingsFile();
+		file.open();
+		Dataset dataset = (Dataset) file.findObject(file, "/P/neuron");
+		double[] value = (double[]) dataset.read();
+		Assert.assertEquals(0.1d, value[2]);
+
+		List metaData = dataset.getMetadata();
+		Attribute unit = (Attribute) metaData.get(1);
+		_logger.info("Attribute " + unit.getName() + " : " + ((String[]) unit.getValue())[0]);
+		Assert.assertEquals("ms", ((String[]) unit.getValue())[0]);
+
+		Attribute type = (Attribute) metaData.get(0);
+		_logger.info("Attribute " + type.getName() + " : " + ((String[]) type.getValue())[0]);
+		Assert.assertEquals(TypesPackage.Literals.STATE_VARIABLE_TYPE.getName(), ((String[]) type.getValue())[0]);
+
+		file.close();
+
 	}
-	
+
 	@Test
-	public void addSiblingSameName(){
-		try {
+	public void addSiblingSameName()
+	{
+		try
+		{
 			GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
-			creator.addValues("P.j", 3.0f, "ms",MetaType.Variable_Node,false);
+			creator.addValues("P.j", 3.0d, "ms", TypesPackage.Literals.STATE_VARIABLE_TYPE.getName(), false);
 			creator.create();
 			assertNotNull(creator.getRecordingsFile());
-			
+
 			H5File file = creator.getRecordingsFile();
 			file.open();
 			Dataset dataset = (Dataset) file.findObject(file, "/P/j");
-			float[] value =  (float[])dataset.read();
-			Assert.assertEquals(3.0f,value[0]);
-			_logger.info("Value "+ value[0] + " read should be 3.0");
-			
-			List metaData = dataset.getMetadata();
-			Attribute unit = (Attribute)metaData.get(1);
-			_logger.info("Attribute " + unit.getName()+ 
-					" : " + ((String[])unit.getValue())[0]);
-			Assert.assertEquals("ms",((String[])unit.getValue())[0]);
+			double[] value = (double[]) dataset.read();
+			Assert.assertEquals(3.0d, value[0]);
 
-			Attribute type = (Attribute)metaData.get(0);
-			_logger.info("Attribute " + type.getName()+ 
-					" : " + ((String[])type.getValue())[0]);
-			Assert.assertEquals("VariableNode",((String[])type.getValue())[0]);
+			List metaData = dataset.getMetadata();
+			Attribute unit = (Attribute) metaData.get(1);
+			_logger.info("Attribute " + unit.getName() + " : " + ((String[]) unit.getValue())[0]);
+			Assert.assertEquals("ms", ((String[]) unit.getValue())[0]);
+
+			Attribute type = (Attribute) metaData.get(0);
+			_logger.info("Attribute " + type.getName() + " : " + ((String[]) type.getValue())[0]);
+			Assert.assertEquals(TypesPackage.Literals.STATE_VARIABLE_TYPE.getName(), ((String[]) type.getValue())[0]);
 
 			file.close();
-			
-		} catch (Exception e) {
+
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
-	public void addGrandChildren(){
-		try {
-			GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
-			creator.addValues("P.b.aa", 3.0f, "ms",MetaType.Variable_Node,false);
-			creator.create();
-			assertNotNull(creator.getRecordingsFile());
-			
-			H5File file = creator.getRecordingsFile();
-			file.open();
-			Dataset dataset = (Dataset) file.findObject(file, "/P/b/aa");
-			float[] value =  (float[])dataset.read();
-			Assert.assertEquals(3.0f,value[0]);
-			_logger.info("Value "+ value[0] + " read should be 3.0");
-			
-			List metaData = dataset.getMetadata();
-			Attribute unit = (Attribute)metaData.get(1);
-			_logger.info("Attribute " + unit.getName()+ 
-					" : " + ((String[])unit.getValue())[0]);
-			Assert.assertEquals("ms",((String[])unit.getValue())[0]);
+	public void addGrandChildren() throws Exception
+	{
 
-			Attribute type = (Attribute)metaData.get(0);
-			_logger.info("Attribute " + type.getName()+ 
-					" : " + ((String[])type.getValue())[0]);
-			Assert.assertEquals("VariableNode",((String[])type.getValue())[0]);
+		GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
+		creator.addValues("P.b.aa", 3.0d, "ms", TypesPackage.Literals.STATE_VARIABLE_TYPE.getName(), false);
+		creator.create();
+		assertNotNull(creator.getRecordingsFile());
 
-			file.close();
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		H5File file = creator.getRecordingsFile();
+		file.open();
+		Dataset dataset = (Dataset) file.findObject(file, "/P/b/aa");
+		double[] value = (double[]) dataset.read();
+		Assert.assertEquals(3.0d, value[0]);
+
+		List metaData = dataset.getMetadata();
+		Attribute unit = (Attribute) metaData.get(1);
+		_logger.info("Attribute " + unit.getName() + " : " + ((String[]) unit.getValue())[0]);
+		Assert.assertEquals("ms", ((String[]) unit.getValue())[0]);
+
+		Attribute type = (Attribute) metaData.get(0);
+		_logger.info("Attribute " + type.getName() + " : " + ((String[]) type.getValue())[0]);
+		Assert.assertEquals(TypesPackage.Literals.STATE_VARIABLE_TYPE.getName(), ((String[]) type.getValue())[0]);
+
+		file.close();
+
 	}
-	
+
 	@Test
-	public void addSingleInteger(){
-		try {
-			GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
-			creator.addValues("P.b.c", 3, "ms",MetaType.Parameter_Node,false);
-			creator.addValues("P.b.c", 33, "ms",MetaType.Parameter_Node,false);
+	public void addSingleInteger() throws Exception
+	{
 
-			creator.create();
-			assertNotNull(creator.getRecordingsFile());
-			
-			H5File file = creator.getRecordingsFile();
-			file.open();
-			Dataset dataset = (Dataset) file.findObject(file, "/P/b/c");
-			int[] value =  (int[])dataset.read();
-			Assert.assertEquals(33,value[0]);
-			_logger.info("Value "+ value[0] + " read should be 3");
-			List metaData = dataset.getMetadata();
-			Attribute unit = (Attribute)metaData.get(1);
-			_logger.info("Attribute " + unit.getName()+ 
-					" : " + ((String[])unit.getValue())[0]);
-			Assert.assertEquals("ms",((String[])unit.getValue())[0]);
+		GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
+		creator.addValues("P.b.c", 3, "ms", TypesPackage.Literals.PARAMETER_TYPE.getName(), false);
+		creator.addValues("P.b.c", 33, "ms", TypesPackage.Literals.PARAMETER_TYPE.getName(), false);
 
-			Attribute type = (Attribute)metaData.get(0);
-			_logger.info("Attribute " + type.getName()+ 
-					" : " + ((String[])type.getValue())[0]);
-			Assert.assertEquals("ParameterNode",((String[])type.getValue())[0]);
+		creator.create();
+		assertNotNull(creator.getRecordingsFile());
 
-			file.close();
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		H5File file = creator.getRecordingsFile();
+		file.open();
+		Dataset dataset = (Dataset) file.findObject(file, "/P/b/c");
+		int[] value = (int[]) dataset.read();
+		Assert.assertEquals(33, value[0]);
+		List metaData = dataset.getMetadata();
+		Attribute unit = (Attribute) metaData.get(1);
+		_logger.info("Attribute " + unit.getName() + " : " + ((String[]) unit.getValue())[0]);
+		Assert.assertEquals("ms", ((String[]) unit.getValue())[0]);
+
+		Attribute type = (Attribute) metaData.get(0);
+		_logger.info("Attribute " + type.getName() + " : " + ((String[]) type.getValue())[0]);
+		Assert.assertEquals(TypesPackage.Literals.PARAMETER_TYPE.getName(), ((String[]) type.getValue())[0]);
+
+		file.close();
+
 	}
-	
+
 	@Test
-	public void addSetInteger(){
-		try {
-			int[] values = {20,30,40};
-			GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
-			creator.addValues("P.b.a", values, "ms",MetaType.Parameter_Node,false);
-			creator.create();
-			assertNotNull(creator.getRecordingsFile());
-			
-			H5File file = creator.getRecordingsFile();
-			file.open();
-			Dataset dataset = (Dataset) file.findObject(file, "/P/b/a");
-			int[] value =  (int[])dataset.read();
-			Assert.assertEquals(30,value[1]);
-			_logger.info("Value "+ value[1] + " read should be 30");
-			List metaData = dataset.getMetadata();
-			Attribute unit = (Attribute)metaData.get(1);
-			_logger.info("Attribute " + unit.getName()+ 
-					" : " + ((String[])unit.getValue())[0]);
-			Assert.assertEquals("ms",((String[])unit.getValue())[0]);
+	public void addSetInteger() throws Exception
+	{
 
-			Attribute type = (Attribute)metaData.get(0);
-			_logger.info("Attribute " + type.getName()+ 
-					" : " + ((String[])type.getValue())[0]);
-			Assert.assertEquals("ParameterNode",((String[])type.getValue())[0]);
+		int[] values = { 20, 30, 40 };
+		GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
+		creator.addValues("P.b.a", values, "ms", TypesPackage.Literals.PARAMETER_TYPE.getName(), false);
+		creator.create();
+		assertNotNull(creator.getRecordingsFile());
 
-			file.close();
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		H5File file = creator.getRecordingsFile();
+		file.open();
+		Dataset dataset = (Dataset) file.findObject(file, "/P/b/a");
+		int[] value = (int[]) dataset.read();
+		Assert.assertEquals(30, value[1]);
+		List metaData = dataset.getMetadata();
+		Attribute unit = (Attribute) metaData.get(1);
+		_logger.info("Attribute " + unit.getName() + " : " + ((String[]) unit.getValue())[0]);
+		Assert.assertEquals("ms", ((String[]) unit.getValue())[0]);
+
+		Attribute type = (Attribute) metaData.get(0);
+		_logger.info("Attribute " + type.getName() + " : " + ((String[]) type.getValue())[0]);
+		Assert.assertEquals(TypesPackage.Literals.PARAMETER_TYPE.getName(), ((String[]) type.getValue())[0]);
+
+		file.close();
+
 	}
-	
+
 	@AfterClass
-    public static void teardown() throws Exception {
-		File sampleFile = new File(System.getProperty("user.dir")+"/sample.h5");
-		if(sampleFile.exists()){
+	public static void teardown() throws Exception
+	{
+		File sampleFile = new File(System.getProperty("user.dir") + "/sample.h5");
+		if(sampleFile.exists())
+		{
 			sampleFile.delete();
 			_logger.info("Deleting sample h5");
 		}
-    } 
+	}
 }

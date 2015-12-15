@@ -68,29 +68,6 @@ public class GeppettoRecordingCreator
 	private H5File recordingsH5File;
 	private HashMap<String, RecordingObject> map = new HashMap<String, RecordingObject>();
 
-	private String _timeStepUnit;
-	private float _timeStep = 0;
-	private float[] _timePoints;
-
-	public enum MetaType
-	{
-		// FIXME This is not recording specific, move me elsewhere
-		Variable_Node("VariableNode"), Parameter_Node("ParameterNode"), AspectSubtree_Node("AspectSubtreeNode"), Composite_Node("CompositeNode");
-
-		private String type;
-
-		private MetaType(String type)
-		{
-			this.type = type;
-		}
-
-		@Override
-		public String toString()
-		{
-			return type;
-		}
-	};
-
 	public GeppettoRecordingCreator(String name)
 	{
 		_fileName = name;
@@ -176,33 +153,6 @@ public class GeppettoRecordingCreator
 				}
 			}
 
-			float[] timeValues = new float[biggestLength];
-			if(_timePoints == null && _timeStep > 0)
-			{
-				float time = 0;
-				for(int i = 0; i < biggestLength; i++)
-				{
-					timeValues[i] = time;
-					time = time + this._timeStep;
-				}
-			}
-			else if(_timePoints == null && _timeStep <= 0)
-			{
-				for(int i = 0; i < biggestLength; i++)
-				{
-					timeValues[i] = i;
-				}
-			}
-			else
-			{
-				timeValues = _timePoints;
-			}
-
-			HObject time = FileFormat.findObject(recordingsH5File, "/time");
-			if(time == null)
-			{
-				createTime(biggestLength, timeValues);
-			}
 			recordingsH5File.close();
 		}
 		catch(IOException e)
@@ -211,23 +161,6 @@ public class GeppettoRecordingCreator
 		}
 	}
 
-	public void addTimeStep(float timeStep, String timeStepUnit)
-	{
-		this._timeStep = timeStep;
-		this._timeStepUnit = timeStepUnit;
-	}
-
-	public void addTimeStep(double timeStep, String timeStepUnit)
-	{
-		this._timeStep = (float) timeStep;
-		this._timeStepUnit = timeStepUnit;
-	}
-
-	public void addTimePoints(float[] timePoints, String timeStepUnit)
-	{
-		this._timePoints = timePoints;
-		this._timeStepUnit = timeStepUnit;
-	}
 
 	/**
 	 * Calls overloaded method to add values to file. Passes it parameter that it was passed, plus a Datatype that will tell global method what kind of data it will be storing
@@ -242,10 +175,10 @@ public class GeppettoRecordingCreator
 	 *            - Type of node, either variable or parameter node
 	 * @throws Exception
 	 */
-	public void addValues(String variable, double value, String unit, MetaType metaType, boolean update)
+	public void addValues(String variable, double value, String unit, String metaType, boolean update)
 	{
 		// Convert single number into array, to store as dataset
-		double[] values = new double[1];
+		Double[] values = new Double[1];
 		values[0] = value;
 		addValues(variable, values, unit, metaType, update);
 	}
@@ -263,7 +196,7 @@ public class GeppettoRecordingCreator
 	 *            - Type of node, either variable or parameter node
 	 * @throws Exception
 	 */
-	public void addValues(String variable, int value, String unit, MetaType metaType, boolean update)
+	public void addValues(String variable, int value, String unit, String metaType, boolean update)
 	{
 		// Convert single number into array, to store as dataset
 		int[] values = new int[1];
@@ -284,7 +217,7 @@ public class GeppettoRecordingCreator
 	 *            - Type of node, either variable or parameter node
 	 * @throws Exception
 	 */
-	public void addValues(String variable, float value, String unit, MetaType metaType, boolean update) throws Exception
+	public void addValues(String variable, float value, String unit, String metaType, boolean update) throws Exception
 	{
 		// Convert single number into array, to store as dataset
 		float[] values = new float[1];
@@ -306,7 +239,7 @@ public class GeppettoRecordingCreator
 	 * @throws Exception
 	 * 
 	 */
-	public void addValues(String variable, double[] values, String unit, MetaType metaType, boolean update)
+	public void addValues(String variable, Double[] values, String unit, String metaType, boolean update)
 	{
 		RecordingObject o = new RecordingObject();
 		o.setMetaType(metaType);
@@ -314,16 +247,13 @@ public class GeppettoRecordingCreator
 		o.setUnit(unit);
 		o.setValues(values);
 		o.setDataType(Datatype.CLASS_FLOAT);
-		o.setDataBytes(16);
+		o.setDataBytes(8);
 		o.setValuesLenght(values.length);
 		if(map.containsKey(variable) && update)
 		{
 			RecordingObject object = map.get(variable);
-			double[] oldValues = (double[]) object.getValues();
-			oldValues = ArrayUtils.addAll(oldValues, values);
-			object.setValues(oldValues);
-			object.setValuesLenght(oldValues.length);
-			// map.put(variable, object);
+			object.setValues(values);
+			object.setValuesLenght(values.length);
 		}
 		else
 		{
@@ -344,7 +274,7 @@ public class GeppettoRecordingCreator
 	 *            - Type of node, either variable or parameter node
 	 * @throws Exception
 	 */
-	public void addValues(String variable, int[] values, String unit, MetaType metaType, boolean update)
+	public void addValues(String variable, int[] values, String unit, String metaType, boolean update)
 	{
 		RecordingObject o = new RecordingObject();
 		o.setMetaType(metaType);
@@ -381,15 +311,16 @@ public class GeppettoRecordingCreator
 	 *            - Type of node, either variable or parameter node
 	 * @throws Exception
 	 */
-	public void addValues(String variable, float[] values, String unit, MetaType metaType, boolean update)
+	public void addValues(String variable, float[] values, String unit, String metaType, boolean update)
 	{
 		RecordingObject o = new RecordingObject();
 		o.setMetaType(metaType);
 		o.setVariable(variable);
 		o.setUnit(unit);
 		o.setValues(values);
+		//H5Datatype type = new H5Dataype(CLASS_FLOAT, 8, NATIVE, -1);
 		o.setDataType(Datatype.CLASS_FLOAT);
-		o.setDataBytes(16);
+		o.setDataBytes(4);
 		o.setValuesLenght(values.length);
 		if(map.containsKey(variable) && update)
 		{
@@ -463,60 +394,10 @@ public class GeppettoRecordingCreator
 
 			this.createDataSet(recordingObject, current, currentTag);
 		}
-		// else
-		// {
-		// if(!recordingObject.getVariable().equals("time"))
-		// {
-		// _logger.warn("File already contains variable " + recordingObject.getVariable());
-		// // retrieve the dataset "2D 32-bit integer 20x10"
-		// Dataset dataset = (Dataset) v;
-		// Object dataRead = dataset.read();
-		// // update dataset according to its type
-		// if(dataRead instanceof double[])
-		// {
-		// double[] existingValues = (double[]) dataRead;
-		// this.recordingsH5File.delete(dataset);
-		// this.updateDataSet(dataset.getName(), existingValues, recordingObject);
-		// }
-		// else if(dataRead instanceof int[])
-		// {
-		// int[] existingValues = (int[]) dataRead;
-		// this.recordingsH5File.delete(dataset);
-		// this.updateDataSet(dataset.getName(), existingValues, recordingObject);
-		// }
-		// else if(dataRead instanceof float[])
-		// {
-		// float[] existingValues = (float[]) dataRead;
-		// this.recordingsH5File.delete(dataset);
-		// this.updateDataSet(dataset.getName(), existingValues, recordingObject);
-		//
-		// }
-		// }
-		// }
+		//NOTE: There was some commented code to update a variable in case it alrady existed, you can find it here
+		//https://github.com/openworm/org.geppetto.core/blob/6c0a2fa2e584fc8a9984ec7b5c62ecb425d3f52c/src/main/java/org/geppetto/core/recordings/GeppettoRecordingCreator.java
 	}
 
-	/**
-	 * Creates time array
-	 * 
-	 * @param biggestLength
-	 *            - Amount of time steps to include in time array
-	 * @param timeValues
-	 *            - Values of time
-	 * @throws GeppettoExecutionException
-	 * @throws Exception
-	 */
-	private void createTime(int biggestLength, float[] timeValues) throws GeppettoExecutionException, Exception
-	{
-		// dimension of dataset, length of array and 1 column
-		long[] dims2D = { biggestLength, 1 };
-
-		// we will be storing integers as our data type
-		Datatype dataType = recordingsH5File.createDatatype(Datatype.CLASS_FLOAT, 16, Datatype.NATIVE, Datatype.NATIVE);
-		// create 1D 32-bit float dataset
-		Dataset dataset = recordingsH5File.createScalarDS("time", getRoot(), dataType, dims2D, null, null, 0, timeValues);
-		// add attributes for unit and metatype
-		createAttributes(null, this._timeStepUnit, dataset);
-	}
 
 	/**
 	 * Adds attributes to dataset.
@@ -541,7 +422,7 @@ public class GeppettoRecordingCreator
 			{
 				String[] classValue = { type };
 				Datatype attrType = new H5Datatype(Datatype.CLASS_STRING, classValue[0].length() + 1, -1, -1);
-				Attribute attr = new Attribute("MetaType", attrType, attrDims);
+				Attribute attr = new Attribute("metatype", attrType, attrDims);
 				attr.setValue(classValue);
 				recordingsH5File.writeAttribute(dataset, attr, false);
 			}
@@ -554,7 +435,7 @@ public class GeppettoRecordingCreator
 			{
 				String[] classValue2 = { unit };
 				Datatype attrType2 = new H5Datatype(Datatype.CLASS_STRING, classValue2[0].length() + 1, -1, -1);
-				Attribute attr2 = new Attribute("Unit", attrType2, attrDims);
+				Attribute attr2 = new Attribute("unit", attrType2, attrDims);
 				attr2.setValue(classValue2);
 				recordingsH5File.writeAttribute(dataset, attr2, false);
 			}
@@ -578,8 +459,8 @@ public class GeppettoRecordingCreator
 		// dimension of dataset, length of array and 1 column
 		long[] dims2D = { recordingObject.getValuesLength(), 1 };
 
-		// we will be storing integers as our data type
-		Datatype dataType = recordingsH5File.createDatatype(recordingObject.getDataType(), recordingObject.getDataBytes(), Datatype.NATIVE, Datatype.NATIVE);
+		// H5Datatype type = new H5Dataype(CLASS_FLOAT, 8, NATIVE, -1);
+		Datatype dataType = recordingsH5File.createDatatype(recordingObject.getDataType(), recordingObject.getDataBytes(), Datatype.NATIVE, -1);
 		// create 1D 32-bit float dataset
 		Dataset dataset = recordingsH5File.createScalarDS(name, parentObject, dataType, dims2D, null, null, 0, recordingObject.getValues());
 
@@ -619,121 +500,5 @@ public class GeppettoRecordingCreator
 		return parent;
 	}
 
-	/**
-	 * Updates existing dataset for a variable by extracting old values and combining them with new values before writing to file.
-	 * 
-	 * @param name
-	 *            - Name of dataset to create
-	 * @param existingValues
-	 *            -Values to store in dataset
-	 * @param recordingObject
-	 *            - Object holding parameter info for creation
-	 * @param path
-	 *            - The path of the object with "." replaced by "/"
-	 * @throws Exception
-	 */
-	private void updateDataSet(String name, double[] existingValues, RecordingObject recordingObject) throws Exception
-	{
-		int setLength = existingValues.length;
-		double[] newData = new double[existingValues.length + recordingObject.getValuesLength()];
-		for(int i = 0; i < existingValues.length; i++)
-		{
-			newData[i] = existingValues[i];
-		}
-
-		double[] newValues = (double[]) recordingObject.getValues();
-		for(int i = 0; i < newValues.length; i++)
-		{
-			newData[setLength] = newValues[i];
-			setLength++;
-		}
-		String path = "/" + recordingObject.getVariable().replace(".", "/");
-		String parent = path.replace("/" + name, "");
-		Group datasetParent = (Group) FileFormat.findObject(recordingsH5File, parent);
-		recordingObject.setDataBytes(16);
-		recordingObject.setDataType(Datatype.CLASS_FLOAT);
-		recordingObject.setVariable(name);
-		recordingObject.setValues(newData);
-		recordingObject.setValuesLenght(newData.length);
-		this.createDataSet(recordingObject, datasetParent, name);
-	}
-
-	/**
-	 * Updates existing dataset for a variable by extracting old values and combining them with new values before writing to file.
-	 * 
-	 * @param name
-	 *            - Name of dataset to create
-	 * @param existingValues
-	 *            -Values to store in dataset
-	 * @param recordingObject
-	 *            - Object holding parameter info for creation
-	 * @param path
-	 *            - The path of the object with "." replaced by "/"
-	 * @throws Exception
-	 */
-	private void updateDataSet(String name, int[] existingValues, RecordingObject recordingObject) throws Exception
-	{
-		int setLength = existingValues.length;
-		int[] newData = new int[existingValues.length + recordingObject.getValuesLength()];
-		for(int i = 0; i < existingValues.length; i++)
-		{
-			newData[i] = existingValues[i];
-		}
-
-		int[] newValues = (int[]) recordingObject.getValues();
-		for(int i = 0; i < newValues.length; i++)
-		{
-			newData[setLength] = newValues[i];
-			setLength++;
-		}
-		String path = "/" + recordingObject.getVariable().replace(".", "/");
-		String parent = path.replace("/" + name, "");
-		Group datasetParent = (Group) FileFormat.findObject(recordingsH5File, parent);
-		recordingObject.setDataBytes(4);
-		recordingObject.setDataType(Datatype.CLASS_INTEGER);
-		recordingObject.setVariable(name);
-		recordingObject.setValues(newData);
-		recordingObject.setValuesLenght(newData.length);
-		this.createDataSet(recordingObject, datasetParent, name);
-	}
-
-	/**
-	 * Updates existing dataset for a variable by extracting old values and combining them with new values before writing to file.
-	 * 
-	 * @param name
-	 *            - Name of dataset to create
-	 * @param existingValues
-	 *            -Values to store in dataset
-	 * @param recordingObject
-	 *            - Object holding parameter info for creation
-	 * @param path
-	 *            - The path of the object with "." replaced by "/"
-	 * @throws Exception
-	 */
-	private void updateDataSet(String name, float[] existingValues, RecordingObject recordingObject) throws Exception
-	{
-		int setLength = existingValues.length;
-		float[] newData = new float[existingValues.length + recordingObject.getValuesLength()];
-		for(int i = 0; i < existingValues.length; i++)
-		{
-			newData[i] = existingValues[i];
-		}
-
-		float[] newValues = (float[]) recordingObject.getValues();
-		for(int i = 0; i < newValues.length; i++)
-		{
-			newData[setLength] = newValues[i];
-			setLength++;
-		}
-		String path = "/" + recordingObject.getVariable().replace(".", "/");
-		int index = path.lastIndexOf("/");
-		String parent = path.substring(0, index);
-		Group datasetParent = (Group) FileFormat.findObject(recordingsH5File, parent);
-		recordingObject.setDataBytes(16);
-		recordingObject.setDataType(Datatype.CLASS_FLOAT);
-		recordingObject.setVariable(name);
-		recordingObject.setValues(newData);
-		recordingObject.setValuesLenght(newData.length);
-		this.createDataSet(recordingObject, datasetParent, name);
-	}
+	
 }

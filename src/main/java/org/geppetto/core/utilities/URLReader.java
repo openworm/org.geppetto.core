@@ -68,7 +68,7 @@ public class URLReader
 	public static URL getURL(String urlString) throws IOException
 	{
 		URL url = null;
-		if(urlString.startsWith("https://") || urlString.startsWith("http://") || urlString.startsWith("file://"))
+		if(urlString.startsWith("https://") || urlString.startsWith("http://") || urlString.startsWith("file:/"))
 		{
 			url = new URL(urlString);
 		}

@@ -1,5 +1,7 @@
 package org.geppetto.core.manager;
 
+import java.util.List;
+
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
@@ -34,7 +36,7 @@ public interface IExperimentManager
 	 * @return a map containing the value for each recorded variable identified by a pointer
 	 * @throws GeppettoExecutionException
 	 */
-	public abstract ExperimentState playExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException;
+	public abstract ExperimentState playExperiment(String requestId, IExperiment experiment, List<String> filter) throws GeppettoExecutionException;
 
 	/**
 	 * Create a new experiment inside a given project
@@ -60,7 +62,8 @@ public interface IExperimentManager
 	 * @param requestId
 	 * @param experiment
 	 * @param project
+	 * @throws GeppettoExecutionException 
 	 */
-	void cancelExperimentRun(String requestId, IExperiment experiment);
+	void cancelExperimentRun(String requestId, IExperiment experiment) throws GeppettoExecutionException;
 
 }

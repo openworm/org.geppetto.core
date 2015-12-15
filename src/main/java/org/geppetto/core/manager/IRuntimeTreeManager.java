@@ -22,10 +22,11 @@ public interface IRuntimeTreeManager
 
 	/**
 	 * Sets variables to be watched
+	 * @return 
 	 * 
 	 * @throws GeppettoExecutionException
 	 * @throws GeppettoInitializationException
 	 * */
-	void setWatchedVariables(List<String> watchedVariables, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
+	ExperimentState setWatchedVariables(List<String> watchedVariables, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException;
 
 }

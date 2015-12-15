@@ -135,13 +135,6 @@ public abstract class ASimulator extends AService implements ISimulator
 		runtime += timestep;
 	}
 
-	/**
-	 * @throws GeppettoExecutionException
-	 */
-	protected void notifySimulatorHasStepped(Pointer pointer) throws GeppettoExecutionException
-	{
-		getListener().stepped(pointer);
-	}
 
 	@Override
 	public double getTime()

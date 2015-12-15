@@ -62,5 +62,15 @@ public class DataManagerHelper
 		}
 		return dataManager;
 	}
+	
+	/**
+	 * TO BE USED BY TESTS ONLY
+	 * @param dataManager
+	 * @deprecated This method is to be used by tests only
+	 */
+	public static void setDataManager(IGeppettoDataManager dataManager)
+	{
+		DataManagerHelper.dataManager=dataManager;
+	}
 
 }

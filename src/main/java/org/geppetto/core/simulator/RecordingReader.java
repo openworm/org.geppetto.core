@@ -43,15 +43,12 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.model.Recording;
 import org.geppetto.core.utilities.StringSplitter;
 import org.geppetto.model.ExperimentState;
-import org.geppetto.model.GeppettoFactory;
 import org.geppetto.model.VariableValue;
-import org.geppetto.model.values.Pointer;
-import org.geppetto.model.values.Quantity;
+import org.geppetto.model.types.TypesPackage;
 import org.geppetto.model.values.SkeletonAnimation;
 import org.geppetto.model.values.SkeletonTransformation;
 import org.geppetto.model.values.TimeSeries;
@@ -91,22 +88,22 @@ public class RecordingReader
 	 * @param readAll
 	 * @throws GeppettoExecutionException
 	 */
-	public void readRecording(IInstancePath variable, ExperimentState modelState, boolean readAll) throws GeppettoExecutionException
+	public void readRecording(String recordedVariable, ExperimentState modelState, boolean readAll) throws GeppettoExecutionException
 	{
 		openRecording();
 
-		String recordingVariablePath = "/" + variable.getInstancePath();
+		String recordingVariablePath = "/" + recordedVariable;
 
 		recordingVariablePath = recordingVariablePath.replace(".", "/");
 
 		this.readVariable(recordingVariablePath, recording.getHDF5(), modelState, readAll);
 
-		this.readVariable("/time", recording.getHDF5(), modelState, readAll);
-
 		if(!readAll)
 		{
 			currentRecordingIndex++;
 		}
+		
+		closeRecording();
 	}
 
 	/**
@@ -130,8 +127,7 @@ public class RecordingReader
 		{
 			Dataset v = (Dataset) FileFormat.findObject(h5File, path);
 
-			VariableValue variableValue = GeppettoFactory.eINSTANCE.createVariableValue();
-			modelState.getRecordedVariables().add(variableValue);
+			VariableValue variableValue = findVariableValue(path, modelState);
 
 			Value value = null;
 
@@ -145,16 +141,15 @@ public class RecordingReader
 
 			for(Attribute a : attributes)
 			{
-				if(a.getName().toLowerCase().equals("unit"))
+				if(a.getName().equals("unit"))
 				{
 					unit.setUnit(((String[]) a.getValue())[0]);
 				}
-				else if(a.getName().toLowerCase().equals("meta_type") || a.getName().toLowerCase().equals("metatype"))
+				else if(a.getName().equals("metatype"))
 				{
-					// FIXME Why the two of them? Why hardcoded strings? Consolidate and remove one of the two
 					metaType = ((String[]) a.getValue())[0];
 				}
-				else if(a.getName().toLowerCase().equals("custom_metadata"))
+				else if(a.getName().equals("custom_metadata"))
 				{
 					String customStr = ((String[]) a.getValue())[0];
 					custom = StringSplitter.keyValueSplit(customStr, ";");
@@ -164,29 +159,24 @@ public class RecordingReader
 
 			Object readData = v.read();
 
-			if(metaType.contains("VariableNode") || metaType.contains("STATE_VARIABLE"))
+			if(metaType.equals(TypesPackage.Literals.STATE_VARIABLE_TYPE.getName()))
 			{
 
 				value = ValuesFactory.eINSTANCE.createTimeSeries();
 				((TimeSeries) value).setUnit(unit);
-				double[] dr = (double[]) readData;
 
 				if(readData instanceof double[])
 				{
-
+					double[] dr = (double[]) readData;
 					if(!readAll)
 					{
-						Quantity quantity = ValuesFactory.eINSTANCE.createQuantity();
-						quantity.setValue(dr[currentRecordingIndex]);
-						((TimeSeries) value).getQuantities().add(quantity);
+						((TimeSeries) value).getValue().add(dr[currentRecordingIndex]);
 					}
 					else
 					{
 						for(int i = 0; i < dr.length; i++)
 						{
-							Quantity quantity = ValuesFactory.eINSTANCE.createQuantity();
-							quantity.setValue(dr[i]);
-							((TimeSeries) value).getQuantities().add(quantity);
+							((TimeSeries) value).getValue().add(dr[i]);
 						}
 
 					}
@@ -265,7 +255,6 @@ public class RecordingReader
 				}
 			}
 			variableValue.setValue(value);
-			variableValue.setPointer(createPointer(path));
 
 		}
 		catch(Exception e)
@@ -275,11 +264,17 @@ public class RecordingReader
 
 	}
 
-	private Pointer createPointer(String path)
+	private VariableValue findVariableValue(String path, ExperimentState modelState)
 	{
-		Pointer pointer = ValuesFactory.eINSTANCE.createPointer();
-		// IT FIXME
-		return pointer;
+		String instancePath = path.substring(1).replace("/", ".");
+		for(VariableValue variableValue : modelState.getRecordedVariables())
+		{
+			if(variableValue.getPointer().getInstancePath().equals(instancePath))
+			{
+				return variableValue;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -297,8 +292,6 @@ public class RecordingReader
 	{
 		currentRecordingIndex = 0;
 	}
-
-
 
 	private void openRecording() throws GeppettoExecutionException
 	{
@@ -332,8 +325,6 @@ public class RecordingReader
 			this.recordingOpened = false;
 		}
 	}
-
-
 
 	public ResultsFormat getRecordingFormat()
 	{

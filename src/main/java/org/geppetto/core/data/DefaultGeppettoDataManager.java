@@ -237,8 +237,10 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IExperiment newExperiment(String name, String description, IGeppettoProject project)
 	{
-		return new LocalExperiment(0, new ArrayList<LocalAspectConfiguration>(), name, description, new Date(), new Date(), ExperimentStatus.DESIGN, new ArrayList<LocalSimulationResult>(),
-				new Date(), new Date(), project);
+		LocalExperiment experiment = new LocalExperiment(0, new ArrayList<LocalAspectConfiguration>(), name, description, new Date(), new Date(), ExperimentStatus.DESIGN,
+				new ArrayList<LocalSimulationResult>(), new Date(), new Date(), project);
+		((LocalGeppettoProject) project).getExperiments().add(experiment);
+		return experiment;
 	}
 
 	/*
@@ -398,8 +400,10 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IAspectConfiguration newAspectConfiguration(IExperiment experiment, IInstancePath instancePath, ISimulatorConfiguration simulatorConfiguration)
 	{
-		return new LocalAspectConfiguration(0l, (LocalInstancePath) instancePath, new ArrayList<LocalInstancePath>(), new ArrayList<LocalParameter>(),
+		LocalAspectConfiguration ac= new LocalAspectConfiguration(0l, (LocalInstancePath) instancePath, new ArrayList<LocalInstancePath>(), new ArrayList<LocalParameter>(),
 				(LocalSimulatorConfiguration) simulatorConfiguration);
+		((LocalExperiment) experiment).getAspectConfigurations().add(ac);
+		return ac;
 	}
 
 	@Override
