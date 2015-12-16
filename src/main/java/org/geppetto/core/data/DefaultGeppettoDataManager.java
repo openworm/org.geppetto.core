@@ -300,8 +300,11 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	{
 
 		URL projectFolder = DefaultGeppettoDataManager.class.getResource("/projects/");
-		FindLocalProjectsVisitor findProjectsVisitor = new FindLocalProjectsVisitor(projects);
-		Files.walkFileTree(Paths.get(projectFolder.toURI()), findProjectsVisitor);
+		if(projectFolder != null)
+		{
+			FindLocalProjectsVisitor findProjectsVisitor = new FindLocalProjectsVisitor(projects);
+			Files.walkFileTree(Paths.get(projectFolder.toURI()), findProjectsVisitor);
+		}
 
 	}
 
@@ -400,7 +403,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IAspectConfiguration newAspectConfiguration(IExperiment experiment, IInstancePath instancePath, ISimulatorConfiguration simulatorConfiguration)
 	{
-		LocalAspectConfiguration ac= new LocalAspectConfiguration(0l, (LocalInstancePath) instancePath, new ArrayList<LocalInstancePath>(), new ArrayList<LocalParameter>(),
+		LocalAspectConfiguration ac = new LocalAspectConfiguration(0l, (LocalInstancePath) instancePath, new ArrayList<LocalInstancePath>(), new ArrayList<LocalParameter>(),
 				(LocalSimulatorConfiguration) simulatorConfiguration);
 		((LocalExperiment) experiment).getAspectConfigurations().add(ac);
 		return ac;
