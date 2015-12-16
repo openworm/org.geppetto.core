@@ -300,7 +300,8 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	{
 
 		URL projectFolder = DefaultGeppettoDataManager.class.getResource("/projects/");
-		if(projectFolder != null)
+		//To retrieve a resource from a JAR file you really need to use getResourceAsStream which doesn't work with the file walker
+		if(!projectFolder.toURI().toString().startsWith("jar"))
 		{
 			FindLocalProjectsVisitor findProjectsVisitor = new FindLocalProjectsVisitor(projects);
 			Files.walkFileTree(Paths.get(projectFolder.toURI()), findProjectsVisitor);
