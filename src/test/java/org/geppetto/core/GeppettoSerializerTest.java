@@ -50,6 +50,7 @@ import org.emfjson.jackson.resource.JsonResourceFactory;
 import org.geppetto.core.model.GeppettoSerializer;
 import org.geppetto.model.GeppettoModel;
 import org.geppetto.model.GeppettoPackage;
+import org.geppetto.model.test.PointerUtilityTest;
 import org.junit.Test;
 
 /**
@@ -70,7 +71,10 @@ public class GeppettoSerializerTest
 		m.put("json", new JsonResourceFactory()); // sets the factory for the JSON type
 		ResourceSet resSet = new ResourceSetImpl();
 
-		Resource resource = resSet.getResource(URI.createURI("./src/test/resources/GeppettoModelTest.xmi"), true);
+
+		Resource resource = resSet.createResource(URI.createURI("/GeppettoModelTest.xmi"));
+		resource.load(PointerUtilityTest.class.getResourceAsStream("/GeppettoModelTest.xmi"),null);
+
 		GeppettoModel geppettoModel = (GeppettoModel) resource.getContents().get(0);
 		URL url = this.getClass().getResource("/test.json");
 		String jsonResource = new String(Files.readAllBytes(Paths.get(url.toURI()))); 
