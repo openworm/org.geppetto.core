@@ -73,7 +73,7 @@ public class GeppettoSerializerTest
 
 
 		Resource resource = resSet.createResource(URI.createURI("/GeppettoModelTest.xmi"));
-		resource.load(PointerUtilityTest.class.getResourceAsStream("/GeppettoModelTest.xmi"),null);
+		resource.load(GeppettoSerializerTest.class.getResourceAsStream("/GeppettoModelTest.xmi"),null);
 
 		GeppettoModel geppettoModel = (GeppettoModel) resource.getContents().get(0);
 		URL url = this.getClass().getResource("/test.json");
