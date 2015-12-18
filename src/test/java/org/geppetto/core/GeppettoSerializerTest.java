@@ -50,7 +50,6 @@ import org.emfjson.jackson.resource.JsonResourceFactory;
 import org.geppetto.core.model.GeppettoSerializer;
 import org.geppetto.model.GeppettoModel;
 import org.geppetto.model.GeppettoPackage;
-import org.geppetto.model.test.PointerUtilityTest;
 import org.junit.Test;
 
 /**
