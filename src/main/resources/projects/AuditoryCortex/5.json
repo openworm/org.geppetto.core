@@ -15,9 +15,7 @@
 		  		id:1,
 		  		aspect: {
 		            id: 1,
-		            entityInstancePath: "acnet2",
-		            aspect: "electrical",
-		            localInstancePath: ""
+		            instancePath: "acnet2"
 		        },
 		        simulatorConfiguration: {
 		          id: 1,
@@ -30,9 +28,7 @@
 		        watchedVariables:[
 			        {
 			            id: 1,
-			            entityInstancePath: "acnet2.baskets_12_0",
-			            aspect: "electrical.SimulationTree",
-			            localInstancePath: "bask[0].v"
+			            instancePath: "acnet2.baskets_12[0].v"
 			        }
 		        ]
 		  	}
@@ -43,9 +39,7 @@
 		  		format: "GEPPETTO_RECORDING",
 		  		aspect: {
 		            id: 1,
-		            entityInstancePath: "acnet2.baskets_12_0",
-		            aspect: "electrical",
-		            localInstancePath: ""
+		            instancePath: "acnet2.baskets_12[0]"
 		        },
 		        result: {
 		          id: 1,
@@ -58,9 +52,7 @@
 		  		format: "RAW",
 		  		aspect: {
 		            id: 1,
-		            entityInstancePath: "acnet2.baskets_12_0",
-		            aspect: "electrical",
-		            localInstancePath: ""
+					instancePath: "acnet2.baskets_12[0]"
 		        },
 		        result: {
 		          id: 2,
