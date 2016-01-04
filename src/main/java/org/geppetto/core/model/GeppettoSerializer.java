@@ -34,6 +34,8 @@ package org.geppetto.core.model;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -41,6 +43,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.URIConverter.WriteableOutputStream;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.emfjson.EMFJs;
 import org.emfjson.jackson.JacksonOptions;
 import org.emfjson.jackson.databind.ser.TypeSerializer;
 import org.emfjson.jackson.module.EMFModule;
@@ -71,8 +74,11 @@ public class GeppettoSerializer
 		resourceSet.getPackageRegistry().put(GeppettoPackage.eNS_URI, GeppettoPackage.eINSTANCE);
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new JsonResourceFactory());
 
-		EMFModule module = new EMFModule(resourceSet, new JacksonOptions.Builder().withTypeSerializer(customTypeSerializer).build());
-
+		Map<String, Object> options = new HashMap<>();
+		options.put(EMFJs.OPTION_SERIALIZE_DEFAULT_VALUE, true);
+		
+		EMFModule module = new EMFModule(resourceSet, new JacksonOptions.Builder().withTypeSerializer(customTypeSerializer).build(options));
+		
 		mapper.registerModule(module);
 
 		Resource resource = resourceSet.createResource(URI.createURI("geppettoModel"));
