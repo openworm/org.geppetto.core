@@ -4,7 +4,7 @@
   name: "Hodgkin-Huxley Neuron",
   geppettoModel: {
     id: 1,
-    url: "/projects/SingleComponentHH/GEPPETTO.xml",
+    url: "/projects/SingleComponentHH/GeppettoModel.xmi",
     type: "GEPPETTO_PROJECT"
   },
   experiments: [ 
