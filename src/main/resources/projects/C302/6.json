@@ -103,7 +103,7 @@
     ],
     "geppettoModel": {
         "id": 6,
-        "url": "/projects/C302/GEPPETTO.xml",
+        "url": "/projects/C302/GeppettoModel.xmi",
         "type": "GEPPETTO_PROJECT"
     }
 }
