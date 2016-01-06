@@ -89,7 +89,7 @@
     ],
     "geppettoModel": {
         "id": 4,
-        "url": "/projects/CElegansMuscleModel/GEPPETTO.xml",
+        "url": "/projects/CElegansMuscleModel/GeppettoModel.xmi",
         "type": "GEPPETTO_PROJECT"
     }
 }
