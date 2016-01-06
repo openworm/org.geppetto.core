@@ -28,31 +28,31 @@
                     "watchedVariables": [
                         {
                             "id": 1,
-                            "instancePath": "net1.neuron_0.v"
+                            "instancePath": "net1.neuron[0].v"
                         },
                         {
                             "id": 2,
-                            "instancePath": "net1.muscle_0.v"
+                            "instancePath": "net1.muscle[0].v"
                         },
                         {
                             "id": 3,
-                            "instancePath": "net1.muscle_0.caConc"
+                            "instancePath": "net1.muscle[0].caConc"
                         },
                         {
                             "id": 4,
-                            "instancePath": "net1.muscle_0.SingleCompMuscleCell[0].biophys.membraneProperties.Leak_all.iDensity"
+                            "instancePath": "net1.muscle[0].biophys.membraneProperties.Leak_all.iDensity"
                         },
                         {
                             "id": 5,
-							"instancePath": "net1.muscle_0.SingleCompMuscleCell[0].biophys.membraneProperties.k_slow_all.iDensity"
+							"instancePath": "net1.muscle[0].biophys.membraneProperties.k_slow_all.iDensity"
                         },
                         {
                             "id": 6,
-							"instancePath": "net1.muscle_0.SingleCompMuscleCell[0].biophys.membraneProperties.k_fast_all.iDensity"
+							"instancePath": "net1.muscle[0].biophys.membraneProperties.k_fast_all.iDensity"
                         },
                         {
                             "id": 7,
-							"instancePath": "net1.muscle_0.SingleCompMuscleCell[0].biophys.membraneProperties.ca_boyle_all.iDensity"
+							"instancePath": "net1.muscle[0].biophys.membraneProperties.ca_boyle_all.iDensity"
                         }
 
                     ]
