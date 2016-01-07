@@ -3,6 +3,7 @@ package org.geppetto.core.manager;
 import java.net.MalformedURLException;
 import java.util.List;
 
+import org.geppetto.core.common.GeppettoAccessException;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
@@ -24,8 +25,9 @@ public interface IProjectManager
 	 * @throws MalformedURLException
 	 * @throws GeppettoInitializationException
 	 * @throws GeppettoExecutionException
+	 * @throws GeppettoAccessException 
 	 */
-	void loadProject(String requestId, IGeppettoProject project) throws MalformedURLException, GeppettoInitializationException, GeppettoExecutionException;
+	void loadProject(String requestId, IGeppettoProject project) throws MalformedURLException, GeppettoInitializationException, GeppettoExecutionException, GeppettoAccessException;
 
 	/**
 	 * Closes a Geppetto project
@@ -40,8 +42,9 @@ public interface IProjectManager
 	 * @param requestId
 	 * @param project
 	 * @throws GeppettoExecutionException
+	 * @throws GeppettoAccessException 
 	 */
-	void deleteProject(String requestId, IGeppettoProject project) throws GeppettoExecutionException;
+	void deleteProject(String requestId, IGeppettoProject project) throws GeppettoExecutionException, GeppettoAccessException;
 
 	/**
 	 * Saves the current project in the database. Once a project is persisted it will always be updated until it gets deleted
@@ -50,8 +53,9 @@ public interface IProjectManager
 	 * @param user
 	 * @param project
 	 * @throws GeppettoExecutionException
+	 * @throws GeppettoAccessException 
 	 */
-	void persistProject(String requestId, IGeppettoProject project) throws GeppettoExecutionException;
+	void persistProject(String requestId, IGeppettoProject project) throws GeppettoExecutionException, GeppettoAccessException;
 
 	/**
 	 * @param requestId

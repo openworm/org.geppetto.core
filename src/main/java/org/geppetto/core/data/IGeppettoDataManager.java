@@ -47,8 +47,10 @@ import org.geppetto.core.data.model.IPersistedData;
 import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.data.model.IUser;
+import org.geppetto.core.data.model.IUserGroup;
 import org.geppetto.core.data.model.PersistedDataType;
 import org.geppetto.core.data.model.ResultsFormat;
+import org.geppetto.core.data.model.UserPrivileges;
 
 import com.google.gson.Gson;
 
@@ -93,7 +95,9 @@ public interface IGeppettoDataManager
 	
 	IExperiment newExperiment(String name, String description, IGeppettoProject project);
 
-	IUser newUser(String name, String password, boolean persistent);
+	IUser newUser(String name, String password, boolean persistent, IUserGroup group);
+	
+	IUserGroup newUserGroup(String name, List<UserPrivileges> privileges, long spaceAllowance, long timeAllowance);
 
 	IUser updateUser(IUser user, String password);
 

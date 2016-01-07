@@ -31,96 +31,31 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.data.model.local;
+package org.geppetto.core.common;
 
-import java.util.List;
-
-import org.geppetto.core.data.model.IUser;
-import org.geppetto.core.data.model.IUserGroup;
-
-public class LocalUser implements IUser
+/**
+ * @author giovanni idili
+ *
+ */
+public class GeppettoAccessException extends Exception
 {
-	private long id;
 
-	private String login;
+	private static final long serialVersionUID = -3179500281577232696L;
 
-	private String name;
-
-	private String password;
-
-	private String token;
-
-	private List<LocalGeppettoProject> geppettoProjects;
-	
-	private IUserGroup group;
-
-	private String dropboxToken;
-
-	public LocalUser(long id, String login, String password, String name, String token, List<LocalGeppettoProject> geppettoProjects, IUserGroup group)
+	public GeppettoAccessException(Throwable cause)
 	{
-		this.id = id;
-		this.login = login;
-		this.password = password;
-		this.name = name;
-		this.token = token;
-		this.geppettoProjects = geppettoProjects;
-		this.group = group;
+		super(cause);
 	}
 
-	@Override
-	public long getId()
+	public GeppettoAccessException(String string)
 	{
-		return id;
+		super(string);
 	}
 
-	@Override
-	public String getLogin()
+	public GeppettoAccessException(String string, Throwable e1)
 	{
-		return login;
-	}
-
-	@Override
-	public String getPassword()
-	{
-		return password;
-	}
-
-	@Override
-	public String getName()
-	{
-		return name;
-	}
-
-	public String getToken()
-	{
-		return token;
-	}
-
-	@Override
-	public List<LocalGeppettoProject> getGeppettoProjects()
-	{
-		return geppettoProjects;
-	}
-
-	@Override
-	public String getDropboxToken()
-	{
-		return this.dropboxToken;
-	}
-
-	@Override
-	public void setDropboxToken(String token)
-	{
-		this.dropboxToken = token;
-	}
-
-	@Override
-	public IUserGroup getUserGroup() {
-		return this.group;
-	}
-	
-	public void setUserGroup(IUserGroup group){
-		this.group = group;
+		super(string,e1);
 	}
 
 }
+

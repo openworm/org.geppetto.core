@@ -1,5 +1,6 @@
 package org.geppetto.core.manager;
 
+import org.geppetto.core.common.GeppettoAccessException;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
@@ -40,6 +41,7 @@ public interface IDropBoxManager
 	 * @param aspectID
 	 * @param format
 	 * @throws GeppettoExecutionException
+	 * @throws GeppettoAccessException 
 	 */
-	public abstract void uploadResultsToDropBox(String aspectID, IExperiment experiment, IGeppettoProject project, ResultsFormat format) throws GeppettoExecutionException;
+	public abstract void uploadResultsToDropBox(String aspectID, IExperiment experiment, IGeppettoProject project, ResultsFormat format) throws GeppettoExecutionException, GeppettoAccessException;
 }

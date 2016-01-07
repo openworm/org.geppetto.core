@@ -40,6 +40,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -58,8 +59,10 @@ import org.geppetto.core.data.model.IPersistedData;
 import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.data.model.IUser;
+import org.geppetto.core.data.model.IUserGroup;
 import org.geppetto.core.data.model.PersistedDataType;
 import org.geppetto.core.data.model.ResultsFormat;
+import org.geppetto.core.data.model.UserPrivileges;
 import org.geppetto.core.data.model.local.LocalAspectConfiguration;
 import org.geppetto.core.data.model.local.LocalExperiment;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
@@ -69,6 +72,7 @@ import org.geppetto.core.data.model.local.LocalPersistedData;
 import org.geppetto.core.data.model.local.LocalSimulationResult;
 import org.geppetto.core.data.model.local.LocalSimulatorConfiguration;
 import org.geppetto.core.data.model.local.LocalUser;
+import org.geppetto.core.data.model.local.LocalUserGroup;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
@@ -127,7 +131,10 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IUser getUserByLogin(String login)
 	{
-		IUser user = new LocalUser(1, login, login, login, login, new ArrayList<LocalGeppettoProject>(), 0, 0);
+		List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT, UserPrivileges.DOWNLOAD);
+		IUserGroup group = new LocalUserGroup("guest", privileges, 0, 0);
+		IUser user = new LocalUser(1, login, login, login, login, new ArrayList<LocalGeppettoProject>(), group);
+		
 		return user;
 	}
 
@@ -249,10 +256,16 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	 * @see org.geppetto.core.data.IGeppettoDataManager#newUser(java.lang.String)
 	 */
 	@Override
-	public IUser newUser(String name, String password, boolean persistent)
+	public IUser newUser(String name, String password, boolean persistent, IUserGroup group)
 	{
 		List<LocalGeppettoProject> list = new ArrayList<LocalGeppettoProject>(projects.values());
-		return new LocalUser(0, name, password, name, name, list, 0, 0);
+		
+		if(group == null) {
+			List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT, UserPrivileges.DOWNLOAD);
+			group = new LocalUserGroup("guest", privileges, 0, 0);
+		}
+		
+		return new LocalUser(0, name, password, name, name, list, group);
 	}
 
 	/*
@@ -424,9 +437,15 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	@Override
 	public IUser updateUser(IUser user, String password)
-	{
+	{		
 		// Just return a new user
-		return newUser(user.getName(), password, false);
+		return newUser(user.getName(), password, false, null);
+	}
+
+	@Override
+	public IUserGroup newUserGroup(String name, List<UserPrivileges> privileges, long spaceAllowance, long timeAllowance)
+	{
+		return new LocalUserGroup(name,privileges,spaceAllowance,timeAllowance); 
 	}
 
 }

@@ -31,30 +31,81 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.data.model;
+package org.geppetto.core.data.model.local;
 
+import java.io.Serializable;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.geppetto.core.data.model.IUserGroup;
+import org.geppetto.core.data.model.UserPrivileges;
 
-public interface IUser
-{
+public class LocalUserGroup implements Serializable, IUserGroup {
 
-	long getId();
+	private static final long serialVersionUID = 1L;
 
-	String getLogin();
-
-	@JsonIgnore
-	String getPassword();
-
-	String getName();
+	private long id;
 	
-	IUserGroup getUserGroup();
+	private String name;
+	
+	private List<UserPrivileges> privileges;
 
-	List<? extends IGeppettoProject> getGeppettoProjects();
+	private long spaceAllowance;
 
-	String getDropboxToken();
+	private long simulationTimeAllowance;
+	
+	public LocalUserGroup(String name, List<UserPrivileges> privileges, long spaceAllowance, long timeAllowance)
+	{
+		super();
+		this.name = name;
+		this.privileges = privileges;
+		this.spaceAllowance = spaceAllowance;
+		this.simulationTimeAllowance = timeAllowance;
+	}
+	
+	@Override
+	public long getId() {
+		return this.id;
+	}
+	
+	@Override
+	public String getName()
+	{
+		return name;
+	}
 
-	void setDropboxToken(String token);
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	
+	@Override
+	public long getSpaceAllowance()
+	{
+		return spaceAllowance;
+	}
 
+	public void setSpaceAllowance(long spaceAllowance)
+	{
+		this.spaceAllowance = spaceAllowance;
+	}
+
+	@Override
+	public long getSimulationTimeAllowance()
+	{
+		return simulationTimeAllowance;
+	}
+
+	public void setSimulationTimeAllowance(long simulationTimeAllowance)
+	{
+		this.simulationTimeAllowance = simulationTimeAllowance;
+	}
+
+	public List<UserPrivileges> getPrivileges() {
+		return this.privileges;
+	}
+	
+	public void setPrivileges(List<UserPrivileges> privileges) {
+		this.privileges = privileges;
+	}
 }
+
