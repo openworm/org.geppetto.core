@@ -84,6 +84,10 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	private List<IUser> users = new ArrayList<>();
 
+	private static IUserGroup userGroup = null;
+
+	private volatile static int guestId;
+
 	public DefaultGeppettoDataManager()
 	{
 		super();
@@ -134,7 +138,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT, UserPrivileges.DOWNLOAD);
 		IUserGroup group = new LocalUserGroup("guest", privileges, 0, 0);
 		IUser user = new LocalUser(1, login, login, login, login, new ArrayList<LocalGeppettoProject>(), group);
-		
+
 		return user;
 	}
 
@@ -259,12 +263,13 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	public IUser newUser(String name, String password, boolean persistent, IUserGroup group)
 	{
 		List<LocalGeppettoProject> list = new ArrayList<LocalGeppettoProject>(projects.values());
-		
-		if(group == null) {
+
+		if(group == null)
+		{
 			List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT, UserPrivileges.DOWNLOAD);
 			group = new LocalUserGroup("guest", privileges, 0, 0);
 		}
-		
+
 		return new LocalUser(0, name, password, name, name, list, group);
 	}
 
@@ -313,7 +318,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	{
 
 		URL projectFolder = DefaultGeppettoDataManager.class.getResource("/projects/");
-		//To retrieve a resource from a JAR file you really need to use getResourceAsStream which doesn't work with the file walker
+		// To retrieve a resource from a JAR file you really need to use getResourceAsStream which doesn't work with the file walker
 		if(!projectFolder.toURI().toString().startsWith("jar"))
 		{
 			FindLocalProjectsVisitor findProjectsVisitor = new FindLocalProjectsVisitor(projects);
@@ -437,7 +442,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	@Override
 	public IUser updateUser(IUser user, String password)
-	{		
+	{
 		// Just return a new user
 		return newUser(user.getName(), password, false, null);
 	}
@@ -445,7 +450,28 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IUserGroup newUserGroup(String name, List<UserPrivileges> privileges, long spaceAllowance, long timeAllowance)
 	{
-		return new LocalUserGroup(name,privileges,spaceAllowance,timeAllowance); 
+		return new LocalUserGroup(name, privileges, spaceAllowance, timeAllowance);
+	}
+
+	/**
+	 * @return
+	 */
+	public static IUser getGuestUser()
+	{
+		return DataManagerHelper.getDataManager().newUser("Guest " + guestId++, "", false, getUserGroup());
+	}
+
+	/**
+	 * @return
+	 */
+	private static IUserGroup getUserGroup()
+	{
+		if(userGroup == null)
+		{
+			userGroup = DataManagerHelper.getDataManager().newUserGroup("guest", Arrays.asList(UserPrivileges.READ_PROJECT, UserPrivileges.DOWNLOAD, UserPrivileges.DROPBOX_INTEGRATION),
+					1000l * 1000 * 1000, 1000l * 1000 * 1000 * 2);
+		}
+		return userGroup;
 	}
 
 }
