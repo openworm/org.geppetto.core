@@ -49,9 +49,8 @@ import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.model.GeppettoLibrary;
 import org.geppetto.model.ModelFormat;
 import org.geppetto.model.types.Type;
-import org.geppetto.model.types.TypesPackage;
+import org.geppetto.model.types.TypesFactory;
 import org.geppetto.model.types.VisualType;
-import org.geppetto.model.util.GeppettoVisitingException;
 import org.geppetto.model.values.OBJ;
 import org.geppetto.model.values.Pointer;
 import org.geppetto.model.values.ValuesFactory;
@@ -76,7 +75,7 @@ public class ObjModelInterpreterService extends AModelInterpreter
 
 		try
 		{
-			VisualType visualType = (VisualType) commonLibrary.getType(TypesPackage.Literals.VISUAL_TYPE);
+			VisualType visualType = TypesFactory.eINSTANCE.createVisualType();
 			Scanner scanner = new Scanner(url.openStream(), "UTF-8");
 			String objContent = scanner.useDelimiter("\\A").next();
 			scanner.close();
@@ -88,7 +87,7 @@ public class ObjModelInterpreterService extends AModelInterpreter
 			library.getTypes().add(visualType);
 			return visualType;
 		}
-		catch(IOException | GeppettoVisitingException e)
+		catch(IOException e)
 		{
 			throw new ModelInterpreterException(e);
 		}
