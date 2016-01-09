@@ -37,6 +37,8 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -61,10 +63,14 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 public class GeppettoSerializer
 {
 	
+	private static Log logger = LogFactory.getLog(GeppettoSerializer.class);
+	
 	private static GeppettoCustomTypeSerializer customTypeSerializer=new GeppettoCustomTypeSerializer();
 
 	public static String serializeToJSON(EObject toSerialize) throws IOException
 	{
+		long start=System.currentTimeMillis();
+		
 		StringWriter sw = new StringWriter();
 		WriteableOutputStream outputStream = new WriteableOutputStream(sw, "UTF-8");
 
@@ -88,7 +94,10 @@ public class GeppettoSerializer
 		// resource.save(outputStream, null);
 		outputStream.flush();
 		sw.close();
-		return sw.toString();
+		String serializedModel=sw.toString();
+		logger.info("Model serialized to JSON "+(System.currentTimeMillis()-start)+"ms");
+		
+		return serializedModel;
 	}
 
 	/**
