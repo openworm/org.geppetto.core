@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <neuroml xmlns="http://www.neuroml.org/schema/neuroml2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2  https://raw.githubusercontent.com/NeuroML/NeuroML2/development/Schemas/NeuroML2/NeuroML_v2beta4.xsd" id="CA1">
 
+    <include href="hd.channel.nml"/>
+
     <include href="hd__vhalflmin73.channel.nml"/>
+
+    <include href="hdmin73.channel.nml"/>
+
+    <include href="kad.channel.nml"/>
 
     <include href="kap.channel.nml"/>
 
@@ -11421,10 +11427,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 4-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="4"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="4"/>
+
                 <member segment="1838"/>
             
                 <member segment="1839"/>
@@ -11453,10 +11457,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 17-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="17"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="17"/>
+
                 <member segment="1"/>
             
                 <member segment="2"/>
@@ -11493,10 +11495,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 2-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="2"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="2"/>
+
                 <member segment="16"/>
             
                 <member segment="17"/>
@@ -11509,10 +11509,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 2-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="2"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="2"/>
+
                 <member segment="1700"/>
             
                 <member segment="1701"/>
@@ -11541,10 +11539,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 6-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="6"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="6"/>
+
                 <member segment="772"/>
             
                 <member segment="773"/>
@@ -11579,10 +11575,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 2-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="2"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="2"/>
+
                 <member segment="139"/>
             
                 <member segment="140"/>
@@ -11597,10 +11591,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 7-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="7"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="7"/>
+
                 <member segment="18"/>
             
                 <member segment="19"/>
@@ -11623,10 +11615,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 6-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="6"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="6"/>
+
                 <member segment="1785"/>
             
                 <member segment="1786"/>
@@ -11655,10 +11645,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 4-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="4"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="4"/>
+
                 <member segment="1658"/>
             
                 <member segment="1659"/>
@@ -11683,10 +11671,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 14-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="14"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="14"/>
+
                 <member segment="797"/>
             
                 <member segment="798"/>
@@ -11719,10 +11705,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 21-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="21"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="21"/>
+
                 <member segment="780"/>
             
                 <member segment="781"/>
@@ -11765,10 +11749,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 4-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="4"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="4"/>
+
                 <member segment="588"/>
             
                 <member segment="589"/>
@@ -11783,10 +11765,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 4-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="4"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="4"/>
+
                 <member segment="287"/>
             
                 <member segment="288"/>
@@ -11805,10 +11785,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 5-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="5"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="5"/>
+
                 <member segment="172"/>
             
                 <member segment="173"/>
@@ -11829,10 +11807,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 34-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="34"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="34"/>
+
                 <member segment="142"/>
             
                 <member segment="143"/>
@@ -11901,10 +11877,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 54-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="54"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="54"/>
+
                 <member segment="90"/>
             
                 <member segment="91"/>
@@ -12011,10 +11985,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 7-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="7"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="7"/>
+
                 <member segment="25"/>
             
                 <member segment="26"/>
@@ -12037,10 +12009,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 22-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="22"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="22"/>
+
                 <member segment="1822"/>
             
                 <member segment="1823"/>
@@ -12081,10 +12051,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 3-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="3"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="3"/>
+
                 <member segment="1790"/>
             
                 <member segment="1791"/>
@@ -12099,10 +12067,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 5-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="5"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="5"/>
+
                 <member segment="1749"/>
             
                 <member segment="1750"/>
@@ -12121,10 +12087,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 12-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="12"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="12"/>
+
                 <member segment="1706"/>
             
                 <member segment="1707"/>
@@ -12159,10 +12123,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 25-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="25"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="25"/>
+
                 <member segment="1686"/>
             
                 <member segment="1687"/>
@@ -12199,10 +12161,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 33-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="33"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="33"/>
+
                 <member segment="1662"/>
             
                 <member segment="1663"/>
@@ -12259,10 +12219,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 2-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="2"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="2"/>
+
                 <member segment="1610"/>
             
                 <member segment="1611"/>
@@ -12275,10 +12233,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 6-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="6"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="6"/>
+
                 <member segment="1847"/>
             
                 <member segment="1848"/>
@@ -12309,10 +12265,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 31-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="31"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="31"/>
+
                 <member segment="826"/>
             
                 <member segment="827"/>
@@ -12367,10 +12321,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 26-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="26"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="26"/>
+
                 <member segment="809"/>
             
                 <member segment="810"/>
@@ -12413,10 +12365,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 4-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="4"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="4"/>
+
                 <member segment="689"/>
             
                 <member segment="690"/>
@@ -12433,10 +12383,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 2-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="2"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="2"/>
+
                 <member segment="591"/>
             
                 <member segment="592"/>
@@ -12451,10 +12399,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 2-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="2"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="2"/>
+
                 <member segment="349"/>
             
                 <member segment="350"/>
@@ -12467,10 +12413,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 12-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="12"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="12"/>
+
                 <member segment="292"/>
             
                 <member segment="293"/>
@@ -12501,10 +12445,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 13-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="13"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="13"/>
+
                 <member segment="233"/>
             
                 <member segment="234"/>
@@ -12537,10 +12479,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 23-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="23"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="23"/>
+
                 <member segment="178"/>
             
                 <member segment="179"/>
@@ -12593,10 +12533,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 47-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="47"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="47"/>
+
                 <member segment="50"/>
             
                 <member segment="51"/>
@@ -12685,10 +12623,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 22-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="22"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="22"/>
+
                 <member segment="32"/>
             
                 <member segment="33"/>
@@ -12733,10 +12669,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 29-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="29"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="29"/>
+
                 <member segment="1803"/>
             
                 <member segment="1804"/>
@@ -12783,10 +12717,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 12-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="12"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="12"/>
+
                 <member segment="1793"/>
             
                 <member segment="1794"/>
@@ -12815,10 +12747,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 21-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="21"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="21"/>
+
                 <member segment="1773"/>
             
                 <member segment="1774"/>
@@ -12851,10 +12781,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 34-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="34"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="34"/>
+
                 <member segment="1754"/>
             
                 <member segment="1755"/>
@@ -12901,10 +12829,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 23-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="23"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="23"/>
+
                 <member segment="1736"/>
             
                 <member segment="1737"/>
@@ -12939,10 +12865,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 23-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="23"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="23"/>
+
                 <member segment="1719"/>
             
                 <member segment="1720"/>
@@ -12985,10 +12909,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 34-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="34"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="34"/>
+
                 <member segment="1634"/>
             
                 <member segment="1635"/>
@@ -13045,10 +12967,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 31-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="31"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="31"/>
+
                 <member segment="1612"/>
             
                 <member segment="1613"/>
@@ -13101,10 +13021,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 28-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="28"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="28"/>
+
                 <member segment="1582"/>
             
                 <member segment="1583"/>
@@ -13177,10 +13095,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 50-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="50"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="50"/>
+
                 <member segment="739"/>
             
                 <member segment="740"/>
@@ -13255,10 +13171,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 17-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="17"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="17"/>
+
                 <member segment="693"/>
             
                 <member segment="694"/>
@@ -13293,10 +13207,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 5-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="5"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="5"/>
+
                 <member segment="641"/>
             
                 <member segment="642"/>
@@ -13317,10 +13229,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 14-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="14"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="14"/>
+
                 <member segment="594"/>
             
                 <member segment="595"/>
@@ -13353,10 +13263,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 5-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="5"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="5"/>
+
                 <member segment="500"/>
             
                 <member segment="501"/>
@@ -13377,10 +13285,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 3-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="3"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="3"/>
+
                 <member segment="351"/>
             
                 <member segment="352"/>
@@ -13393,10 +13299,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 39-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="39"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="39"/>
+
                 <member segment="319"/>
             
                 <member segment="320"/>
@@ -13465,10 +13369,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 21-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="21"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="21"/>
+
                 <member segment="303"/>
             
                 <member segment="304"/>
@@ -13509,10 +13411,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 31-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="31"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="31"/>
+
                 <member segment="261"/>
             
                 <member segment="262"/>
@@ -13565,10 +13465,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 22-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="22"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="22"/>
+
                 <member segment="245"/>
             
                 <member segment="246"/>
@@ -13609,10 +13507,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 24-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="24"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="24"/>
+
                 <member segment="216"/>
             
                 <member segment="217"/>
@@ -13655,10 +13551,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 23-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="23"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="23"/>
+
                 <member segment="200"/>
             
                 <member segment="201"/>
@@ -13699,10 +13593,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 4-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="4"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="4"/>
+
                 <member segment="1516"/>
             
                 <member segment="1517"/>
@@ -13719,10 +13611,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 3-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="3"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="3"/>
+
                 <member segment="1859"/>
             
                 <member segment="1860"/>
@@ -13737,10 +13627,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 27-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="27"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="27"/>
+
                 <member segment="723"/>
             
                 <member segment="724"/>
@@ -13781,10 +13669,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 27-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="27"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="27"/>
+
                 <member segment="706"/>
             
                 <member segment="707"/>
@@ -13827,10 +13713,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 20-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="20"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="20"/>
+
                 <member segment="672"/>
             
                 <member segment="673"/>
@@ -13873,10 +13757,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 28-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="28"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="28"/>
+
                 <member segment="647"/>
             
                 <member segment="648"/>
@@ -13935,10 +13817,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 33-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="33"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="33"/>
+
                 <member segment="618"/>
             
                 <member segment="619"/>
@@ -13993,10 +13873,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 16-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="16"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="16"/>
+
                 <member segment="606"/>
             
                 <member segment="607"/>
@@ -14029,10 +13907,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 45-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="45"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="45"/>
+
                 <member segment="553"/>
             
                 <member segment="554"/>
@@ -14111,10 +13987,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 20-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="20"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="20"/>
+
                 <member segment="506"/>
             
                 <member segment="507"/>
@@ -14155,10 +14029,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 7-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="7"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="7"/>
+
                 <member segment="390"/>
             
                 <member segment="391"/>
@@ -14179,10 +14051,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 41-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="41"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="41"/>
+
                 <member segment="353"/>
             
                 <member segment="354"/>
@@ -14265,10 +14135,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 10-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="10"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="10"/>
+
                 <member segment="1545"/>
             
                 <member segment="1546"/>
@@ -14293,10 +14161,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 33-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="33"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="33"/>
+
                 <member segment="1520"/>
             
                 <member segment="1521"/>
@@ -14355,10 +14221,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 7-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="7"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="7"/>
+
                 <member segment="1490"/>
             
                 <member segment="1491"/>
@@ -14379,10 +14243,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 2-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="2"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="2"/>
+
                 <member segment="1862"/>
             
                 <member segment="1863"/>
@@ -14397,10 +14259,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 24-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="24"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="24"/>
+
                 <member segment="536"/>
             
                 <member segment="537"/>
@@ -14443,10 +14303,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 19-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="19"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="19"/>
+
                 <member segment="522"/>
             
                 <member segment="523"/>
@@ -14483,10 +14341,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 42-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="42"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="42"/>
+
                 <member segment="465"/>
             
                 <member segment="466"/>
@@ -14565,10 +14421,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 8-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="8"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="8"/>
+
                 <member segment="396"/>
             
                 <member segment="397"/>
@@ -14591,10 +14445,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 17-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="17"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="17"/>
+
                 <member segment="1568"/>
             
                 <member segment="1569"/>
@@ -14631,10 +14483,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 22-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="22"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="22"/>
+
                 <member segment="1553"/>
             
                 <member segment="1554"/>
@@ -14673,10 +14523,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 15-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="15"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="15"/>
+
                 <member segment="1508"/>
             
                 <member segment="1509"/>
@@ -14701,10 +14549,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 19-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="19"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="19"/>
+
                 <member segment="1496"/>
             
                 <member segment="1497"/>
@@ -14737,10 +14583,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 7-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="7"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="7"/>
+
                 <member segment="2014"/>
             
                 <member segment="2015"/>
@@ -14767,10 +14611,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 4-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="4"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="4"/>
+
                 <member segment="1865"/>
             
                 <member segment="1866"/>
@@ -14789,10 +14631,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 36-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="36"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="36"/>
+
                 <member segment="434"/>
             
                 <member segment="435"/>
@@ -14863,10 +14703,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 35-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="35"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="35"/>
+
                 <member segment="403"/>
             
                 <member segment="404"/>
@@ -14937,10 +14775,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 34-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="34"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="34"/>
+
                 <member segment="1465"/>
             
                 <member segment="1466"/>
@@ -14999,10 +14835,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 2-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="2"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="2"/>
+
                 <member segment="2023"/>
             
                 <member segment="2024"/>
@@ -15015,10 +14849,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 30-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="30"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="30"/>
+
                 <member segment="1074"/>
             
                 <member segment="1075"/>
@@ -15081,10 +14913,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 4-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="4"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="4"/>
+
                 <member segment="1870"/>
             
                 <member segment="1871"/>
@@ -15101,10 +14931,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 32-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="32"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="32"/>
+
                 <member segment="1445"/>
             
                 <member segment="1446"/>
@@ -15153,10 +14981,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 4-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="4"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="4"/>
+
                 <member segment="2025"/>
             
                 <member segment="2026"/>
@@ -15175,10 +15001,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 23-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="23"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="23"/>
+
                 <member segment="1059"/>
             
                 <member segment="1060"/>
@@ -15217,10 +15041,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 4-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="4"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="4"/>
+
                 <member segment="1874"/>
             
                 <member segment="1875"/>
@@ -15237,10 +15059,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 38-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="38"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="38"/>
+
                 <member segment="1420"/>
             
                 <member segment="1421"/>
@@ -15299,10 +15119,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 3-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="3"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="3"/>
+
                 <member segment="2030"/>
             
                 <member segment="2031"/>
@@ -15319,10 +15137,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 28-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="28"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="28"/>
+
                 <member segment="1038"/>
             
                 <member segment="1039"/>
@@ -15373,10 +15189,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 2-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="2"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="2"/>
+
                 <member segment="1878"/>
             
                 <member segment="1879"/>
@@ -15389,10 +15203,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 2-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="2"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="2"/>
+
                 <member segment="1371"/>
             
                 <member segment="1372"/>
@@ -15405,10 +15217,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 6-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="6"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="6"/>
+
                 <member segment="2034"/>
             
                 <member segment="2035"/>
@@ -15429,10 +15239,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 3-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="3"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="3"/>
+
                 <member segment="988"/>
             
                 <member segment="989"/>
@@ -15457,10 +15265,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 28-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="28"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="28"/>
+
                 <member segment="1401"/>
             
                 <member segment="1402"/>
@@ -15507,10 +15313,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 35-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="35"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="35"/>
+
                 <member segment="1373"/>
             
                 <member segment="1374"/>
@@ -15575,10 +15379,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 7-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="7"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="7"/>
+
                 <member segment="2040"/>
             
                 <member segment="2041"/>
@@ -15613,10 +15415,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 5-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="5"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="5"/>
+
                 <member segment="1007"/>
             
                 <member segment="1008"/>
@@ -15633,10 +15433,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 20-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="20"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="20"/>
+
                 <member segment="992"/>
             
                 <member segment="993"/>
@@ -15675,10 +15473,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 26-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="26"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="26"/>
+
                 <member segment="971"/>
             
                 <member segment="972"/>
@@ -15721,10 +15517,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 6-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="6"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="6"/>
+
                 <member segment="1881"/>
             
                 <member segment="1882"/>
@@ -15747,10 +15541,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 28-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="28"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="28"/>
+
                 <member segment="1355"/>
             
                 <member segment="1356"/>
@@ -15791,10 +15583,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 5-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="5"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="5"/>
+
                 <member segment="2049"/>
             
                 <member segment="2050"/>
@@ -15815,10 +15605,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 8-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="8"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="8"/>
+
                 <member segment="1152"/>
             
                 <member segment="1153"/>
@@ -15839,10 +15627,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 5-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="5"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="5"/>
+
                 <member segment="1102"/>
             
                 <member segment="1103"/>
@@ -15861,10 +15647,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 21-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="21"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="21"/>
+
                 <member segment="1023"/>
             
                 <member segment="1024"/>
@@ -15903,10 +15687,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 18-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="18"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="18"/>
+
                 <member segment="1011"/>
             
                 <member segment="1012"/>
@@ -15939,10 +15721,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 12-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="12"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="12"/>
+
                 <member segment="926"/>
             
                 <member segment="927"/>
@@ -15975,10 +15755,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 14-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="14"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="14"/>
+
                 <member segment="1888"/>
             
                 <member segment="1889"/>
@@ -16015,10 +15793,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 38-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="38"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="38"/>
+
                 <member segment="1332"/>
             
                 <member segment="1333"/>
@@ -16073,10 +15849,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 5-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="5"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="5"/>
+
                 <member segment="2055"/>
             
                 <member segment="2056"/>
@@ -16095,10 +15869,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 32-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="32"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="32"/>
+
                 <member segment="1187"/>
             
                 <member segment="1188"/>
@@ -16147,10 +15919,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 45-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="45"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="45"/>
+
                 <member segment="1158"/>
             
                 <member segment="1159"/>
@@ -16217,10 +15987,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 33-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="33"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="33"/>
+
                 <member segment="1130"/>
             
                 <member segment="1131"/>
@@ -16273,10 +16041,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 30-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="30"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="30"/>
+
                 <member segment="1107"/>
             
                 <member segment="1108"/>
@@ -16331,10 +16097,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 19-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="19"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="19"/>
+
                 <member segment="956"/>
             
                 <member segment="957"/>
@@ -16373,10 +16137,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 23-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="23"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="23"/>
+
                 <member segment="938"/>
             
                 <member segment="939"/>
@@ -16431,10 +16193,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 5-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="5"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="5"/>
+
                 <member segment="1902"/>
             
                 <member segment="1903"/>
@@ -16463,10 +16223,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 6-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="6"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="6"/>
+
                 <member segment="2060"/>
             
                 <member segment="2061"/>
@@ -16489,10 +16247,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 24-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="24"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="24"/>
+
                 <member segment="911"/>
             
                 <member segment="912"/>
@@ -16531,10 +16287,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 35-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="35"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="35"/>
+
                 <member segment="888"/>
             
                 <member segment="889"/>
@@ -16589,10 +16343,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 40-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="40"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="40"/>
+
                 <member segment="860"/>
             
                 <member segment="861"/>
@@ -16653,10 +16405,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 13-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="13"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="13"/>
+
                 <member segment="1907"/>
             
                 <member segment="1908"/>
@@ -16689,10 +16439,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 28-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="28"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="28"/>
+
                 <member segment="1312"/>
             
                 <member segment="1313"/>
@@ -16741,10 +16489,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 39-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="39"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="39"/>
+
                 <member segment="1287"/>
             
                 <member segment="1288"/>
@@ -16803,10 +16549,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 7-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="7"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="7"/>
+
                 <member segment="2156"/>
             
                 <member segment="2157"/>
@@ -16827,10 +16571,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 17-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="17"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="17"/>
+
                 <member segment="2067"/>
             
                 <member segment="2068"/>
@@ -16863,10 +16605,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 15-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="15"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="15"/>
+
                 <member segment="849"/>
             
                 <member segment="850"/>
@@ -16897,10 +16637,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 11-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="11"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="11"/>
+
                 <member segment="1919"/>
             
                 <member segment="1920"/>
@@ -16927,10 +16665,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 4-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="4"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="4"/>
+
                 <member segment="2162"/>
             
                 <member segment="2163"/>
@@ -16945,10 +16681,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 25-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="25"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="25"/>
+
                 <member segment="1235"/>
             
                 <member segment="1236"/>
@@ -16987,10 +16721,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 12-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="12"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="12"/>
+
                 <member segment="1228"/>
             
                 <member segment="1229"/>
@@ -17013,10 +16745,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 4-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="4"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="4"/>
+
                 <member segment="2079"/>
             
                 <member segment="2080"/>
@@ -17031,10 +16761,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 72-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="72"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="72"/>
+
                 <member segment="1979"/>
             
                 <member segment="1980"/>
@@ -17113,10 +16841,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 18-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="18"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="18"/>
+
                 <member segment="1928"/>
             
                 <member segment="1929"/>
@@ -17153,10 +16879,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 6-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="6"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="6"/>
+
                 <member segment="2165"/>
             
                 <member segment="2166"/>
@@ -17175,10 +16899,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 5-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="5"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="5"/>
+
                 <member segment="1250"/>
             
                 <member segment="1251"/>
@@ -17193,10 +16915,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 20-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="20"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="20"/>
+
                 <member segment="2082"/>
             
                 <member segment="2083"/>
@@ -17235,10 +16955,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 29-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="29"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="29"/>
+
                 <member segment="1207"/>
             
                 <member segment="1208"/>
@@ -17289,10 +17007,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 30-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="30"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="30"/>
+
                 <member segment="1965"/>
             
                 <member segment="1966"/>
@@ -17329,10 +17045,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 38-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="38"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="38"/>
+
                 <member segment="1942"/>
             
                 <member segment="1943"/>
@@ -17387,10 +17101,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 8-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="8"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="8"/>
+
                 <member segment="2170"/>
             
                 <member segment="2171"/>
@@ -17409,10 +17121,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 23-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="23"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="23"/>
+
                 <member segment="1268"/>
             
                 <member segment="1269"/>
@@ -17455,10 +17165,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 15-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="15"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="15"/>
+
                 <member segment="1259"/>
             
                 <member segment="1260"/>
@@ -17485,10 +17193,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 7-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="7"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="7"/>
+
                 <member segment="1253"/>
             
                 <member segment="1254"/>
@@ -17509,10 +17215,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 32-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="32"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="32"/>
+
                 <member segment="2142"/>
             
                 <member segment="2143"/>
@@ -17549,10 +17253,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 3-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="3"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="3"/>
+
                 <member segment="2097"/>
             
                 <member segment="2098"/>
@@ -17565,10 +17267,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 33-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="33"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="33"/>
+
                 <member segment="2224"/>
             
                 <member segment="2225"/>
@@ -17617,10 +17317,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 24-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="24"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="24"/>
+
                 <member segment="2175"/>
             
                 <member segment="2176"/>
@@ -17659,10 +17357,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 18-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="18"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="18"/>
+
                 <member segment="2132"/>
             
                 <member segment="2133"/>
@@ -17691,10 +17387,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 7-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="7"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="7"/>
+
                 <member segment="2099"/>
             
                 <member segment="2100"/>
@@ -17713,10 +17407,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 26-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="26"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="26"/>
+
                 <member segment="2212"/>
             
                 <member segment="2213"/>
@@ -17749,10 +17441,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 7-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="7"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="7"/>
+
                 <member segment="2190"/>
             
                 <member segment="2191"/>
@@ -17771,10 +17461,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 30-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="30"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="30"/>
+
                 <member segment="2113"/>
             
                 <member segment="2114"/>
@@ -17821,10 +17509,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 15-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="15"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="15"/>
+
                 <member segment="2104"/>
             
                 <member segment="2105"/>
@@ -17851,10 +17537,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 10-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="10"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="10"/>
+
                 <member segment="2206"/>
             
                 <member segment="2207"/>
@@ -17875,10 +17559,8 @@
 
                 <!--This 'Section' has number of internal divisions (nseg) = 15-->
 
-                <annotation>
-                    <property tag="numberInternalDivisions" value="15"/>
-                </annotation>
-            
+                <property tag="numberInternalDivisions" value="15"/>
+
                 <member segment="2195"/>
             
                 <member segment="2196"/>
@@ -19853,7 +19535,7 @@
                 </channelDensityNonUniform>
                 
 
-                <spikeThresh value="0 mV"/>
+                <spikeThresh value="0.0 mV"/>
 
                 <specificCapacitance value="1.0 uF_per_cm2"/>
 
