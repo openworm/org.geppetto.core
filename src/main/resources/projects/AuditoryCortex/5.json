@@ -28,7 +28,15 @@
 		        watchedVariables:[
 			        {
 			            id: 1,
-			            instancePath: "acnet2.baskets_12[0].v"
+			            instancePath: "acnet2.pyramidals_48[0].v"
+			        },
+			        			        {
+			            id: 2,
+			            instancePath: "acnet2.pyramidals_48[1].v"
+			        },
+			        {
+			            id: 3,
+			            instancePath: "acnet2.baskets_12[2].v"
 			        }
 		        ]
 		  	}
@@ -39,7 +47,7 @@
 		  		format: "GEPPETTO_RECORDING",
 		  		aspect: {
 		            id: 1,
-		            instancePath: "acnet2.baskets_12[0]"
+		            instancePath: "acnet2"
 		        },
 		        result: {
 		          id: 1,
@@ -52,7 +60,7 @@
 		  		format: "RAW",
 		  		aspect: {
 		            id: 1,
-					instancePath: "acnet2.baskets_12[0]"
+					instancePath: "acnet2"
 		        },
 		        result: {
 		          id: 2,

@@ -73,7 +73,7 @@
         },
         result: {
           id: 2,
-          url: "/projects/SingleComponentHH/hhcell.electrical-rawRecording.zip",
+          url: "/projects/SingleComponentHH/rawRecording.zip",
           type: "RECORDING"
         }
   	}]

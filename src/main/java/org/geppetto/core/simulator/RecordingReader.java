@@ -49,6 +49,7 @@ import org.geppetto.core.utilities.StringSplitter;
 import org.geppetto.model.ExperimentState;
 import org.geppetto.model.VariableValue;
 import org.geppetto.model.types.TypesPackage;
+import org.geppetto.model.util.PointerUtility;
 import org.geppetto.model.values.SkeletonAnimation;
 import org.geppetto.model.values.SkeletonTransformation;
 import org.geppetto.model.values.TimeSeries;
@@ -126,6 +127,10 @@ public class RecordingReader
 		try
 		{
 			Dataset v = (Dataset) FileFormat.findObject(h5File, path);
+			if(v==null)
+			{
+				v=(Dataset) FileFormat.findObject(h5File, PointerUtility.getPathWithoutTypes(path));
+			}
 
 			VariableValue variableValue = findVariableValue(path, modelState);
 

@@ -46,9 +46,11 @@ import ncsa.hdf.object.h5.H5File;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.common.GeppettoExecutionException;
+import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.model.ExperimentState;
 import org.geppetto.model.VariableValue;
 import org.geppetto.model.types.TypesPackage;
+import org.geppetto.model.util.PointerUtility;
 import org.geppetto.model.values.Unit;
 import org.geppetto.model.values.util.ValuesUtility;
 
@@ -66,13 +68,16 @@ public class ConvertDATToRecording
 	private HashMap<String, String[]> datFilePaths = new HashMap<String, String[]>();
 	private GeppettoRecordingCreator recordingCreator;
 
+	private GeppettoModelAccess geppettoModelAccess;
+
 	/**
 	 * @param recordingFile
 	 */
-	public ConvertDATToRecording(String recordingFile)
+	public ConvertDATToRecording(String recordingFile, GeppettoModelAccess modelAccess)
 	{
 		// call the class in charge of creating the hdf5
 		recordingCreator = new GeppettoRecordingCreator(recordingFile);
+		geppettoModelAccess = modelAccess;
 	}
 
 	/**
@@ -137,24 +142,51 @@ public class ConvertDATToRecording
 					dataValues.get(key).add(Double.valueOf(columns[i]));
 				}
 			}
-			
+
+			List<String> found = new ArrayList<String>();
 			for(VariableValue vv : experimentState.getRecordedVariables())
 			{
-				if(dataValues.containsKey(vv.getPointer().getInstancePath()))
+				String path = vv.getPointer().getInstancePath();
+				
+				for(String dataPath : dataValues.keySet())
 				{
-					Double[] currentVarValuesArray=dataValues.get(vv.getPointer().getInstancePath()).toArray(new Double[]{});
-					Unit unit = ValuesUtility.getUnit(vv.getValue());
-					String unitString="";
-					if(unit==null)
+					if(!found.contains(dataPath))
 					{
-						logger.debug("No unit found for "+vv.getPointer().getInstancePath());						
+						if(dataPath.equals(path))
+						{
+							found.add(dataPath);
+							break;
+						}
+						// Since we are allowing the user to use types or not at any point here we are finding out what the string with all the types would look like for each string since
+						// that's what is available in the recorded variables
+						String dataPathWithNoTypes = PointerUtility.getPathWithoutTypes(dataPath);
+						String dataPathWithAllTypes = geppettoModelAccess.getPointer(dataPathWithNoTypes).getInstancePath();
+						if(dataPathWithAllTypes.equals(path))
+						{
+							found.add(dataPath);
+							path = dataPath;
+							break;
+						}
+					}
+				}
+				if(found.contains(path))
+				{
+					Double[] currentVarValuesArray = dataValues.get(path).toArray(new Double[] {});
+					Unit unit = ValuesUtility.getUnit(vv.getValue());
+					String unitString = "";
+					if(unit == null)
+					{
+						logger.debug("No unit found for " + vv.getPointer().getInstancePath());
 					}
 					else
 					{
-						unitString=unit.getUnit();
+						unitString = unit.getUnit();
 					}
 					recordingCreator.addValues(vv.getPointer().getInstancePath(), currentVarValuesArray, unitString, TypesPackage.Literals.STATE_VARIABLE_TYPE.getName(), false);
+	
 				}
+
+
 			}
 
 		}
