@@ -37,7 +37,10 @@ import org.geppetto.model.GeppettoLibrary;
 import org.geppetto.model.GeppettoModel;
 import org.geppetto.model.Tag;
 import org.geppetto.model.types.Type;
+import org.geppetto.model.util.GeppettoModelException;
 import org.geppetto.model.util.GeppettoVisitingException;
+import org.geppetto.model.util.PointerUtility;
+import org.geppetto.model.values.Pointer;
 
 /**
  * @author matteocantarelli
@@ -92,5 +95,15 @@ public class GeppettoModelAccess
 			}
 		}
 		throw new GeppettoVisitingException("Type for eClass " + eclass + " not found in common library.");
+	}
+	
+	/**
+	 * @param instancePath
+	 * @return
+	 * @throws GeppettoModelException
+	 */
+	public Pointer getPointer(String instancePath) throws GeppettoModelException
+	{
+		return PointerUtility.getPointer(geppettoModel, instancePath);
 	}
 }
