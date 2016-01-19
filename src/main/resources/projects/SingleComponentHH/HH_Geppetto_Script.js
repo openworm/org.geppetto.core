@@ -1,5 +1,3 @@
-Project.getActiveExperiment().play({step:1});
-
 G.addWidget(Widgets.PLOT);
 Plot1.setName("Hodgkin-Huxley Spiking Neuron");
 options = {yaxis:{min:-.1,max:0.1},xaxis:{min:0,max:400,show:false}};
@@ -32,6 +30,8 @@ Popup1.setPosition(870, 90);
 Popup1.setSize(160,465)
 
 G.addBrightnessFunction(hhcell.hhpop[0], hhcell.hhpop[0].v, function(x){return (x+0.07)/0.1;});
+
+Project.getActiveExperiment().play({step:1});
 
 
 

@@ -64,7 +64,7 @@
 		        },
 		        result: {
 		          id: 2,
-		          url: "/projects/AuditoryCortex/acnet2.electrical-rawRecording.zip",
+		          url: "/projects/AuditoryCortex/rawRecording.zip",
 		          type: "RECORDING"
 		        }
 		  	}]
