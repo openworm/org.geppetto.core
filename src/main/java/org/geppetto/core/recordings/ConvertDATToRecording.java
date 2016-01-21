@@ -50,6 +50,7 @@ import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.model.ExperimentState;
 import org.geppetto.model.VariableValue;
 import org.geppetto.model.types.TypesPackage;
+import org.geppetto.model.util.GeppettoModelException;
 import org.geppetto.model.util.PointerUtility;
 import org.geppetto.model.values.Unit;
 import org.geppetto.model.values.util.ValuesUtility;
@@ -118,28 +119,40 @@ public class ConvertDATToRecording
 	 */
 	private void read(String fileName, String[] variables, ExperimentState experimentState) throws GeppettoExecutionException
 	{
-		BufferedReader input = null;
 		// will store values and variables found in DAT
 		HashMap<String, List<Double>> dataValues = new HashMap<String, List<Double>>();
 		try
 		{
-			// read DAT into a buffered reader
-			input = new BufferedReader(new FileReader(fileName));
-
 			for(int i = 0; i < variables.length; i++)
 			{
 				dataValues.put(variables[i], new ArrayList<Double>());
 			}
 
-			// read rest of DAT file and extract values
-			while(input.read() != -1)
+			BufferedReader br = null;
+
+			try
 			{
-				String line = input.readLine();
-				String[] columns = line.split("\\s+");
-				for(int i = 0; i < columns.length; i++)
+				br = new BufferedReader(new FileReader(fileName));
+				for(String line; (line = br.readLine()) != null;)
 				{
-					String key = variables[i];
-					dataValues.get(key).add(Double.valueOf(columns[i]));
+					String[] columns = line.split("\\s+");
+					for(int i = 0; i < columns.length; i++)
+					{
+						String key = variables[i];
+						dataValues.get(key).add(Double.valueOf(columns[i]));
+					}
+				}
+			}
+			finally
+			{
+				try
+				{
+					if(br != null) br.close();
+				}
+				catch(IOException e)
+				{
+					logger.error(e);
+					throw new GeppettoExecutionException(e);
 				}
 			}
 
@@ -147,7 +160,7 @@ public class ConvertDATToRecording
 			for(VariableValue vv : experimentState.getRecordedVariables())
 			{
 				String path = vv.getPointer().getInstancePath();
-				
+
 				for(String dataPath : dataValues.keySet())
 				{
 					if(!found.contains(dataPath))
@@ -183,30 +196,16 @@ public class ConvertDATToRecording
 						unitString = unit.getUnit();
 					}
 					recordingCreator.addValues(vv.getPointer().getInstancePath(), currentVarValuesArray, unitString, TypesPackage.Literals.STATE_VARIABLE_TYPE.getName(), false);
-	
+
 				}
 
-
 			}
 
 		}
-		catch(Exception e)
+		catch(IOException | GeppettoModelException e)
 		{
-			logger.error("An IOException was caught: " + e.getMessage());
+			logger.error(e);
 			throw new GeppettoExecutionException(e);
-		}
-		// handles End of file exception
-		finally
-		{
-			try
-			{
-				input.close();
-			}
-			catch(IOException ex)
-			{
-				logger.error("An IOException was caught: " + ex.getMessage());
-				throw new GeppettoExecutionException(ex);
-			}
 		}
 
 	}
