@@ -66,7 +66,7 @@ public class SharedLibraryManager
 		return manager;
 	}
 
-	public static GeppettoLibrary getSharedCommonLibrary() throws GeppettoInitializationException
+	public synchronized static GeppettoLibrary getSharedCommonLibrary() throws GeppettoInitializationException
 	{
 		if(commonLibrary == null)
 		{
