@@ -180,25 +180,25 @@ public class LocalExperiment implements IExperiment
 	@Override
 	public void setName(String name)
 	{
-		this.name=name;
+		this.name = name;
 	}
 
 	@Override
 	public void setDescription(String description)
 	{
-		this.description=description;
+		this.description = description;
 	}
 
 	@Override
 	public void setId(long id)
 	{
-		this.id=id;
+		this.id = id;
 	}
 
 	@Override
 	public void updateLastModified()
 	{
-		this.lastModified=new Date();
+		this.lastModified = new Date();
 	}
 
 	@Override
@@ -210,6 +210,6 @@ public class LocalExperiment implements IExperiment
 	@Override
 	public void setScript(String script)
 	{
-		this.script=script;
+		this.script = script;
 	}
 }

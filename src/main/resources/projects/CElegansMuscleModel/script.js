@@ -3,15 +3,15 @@ G.addWidget(GEPPETTO.Widgets.PLOT);
 Plot1.setName("Voltage response for neuron and muscle (mV)");
 Plot1.setSize(256,453);
 Plot1.setPosition(184,83);
-Plot1.plotData(net1.muscle_0.electrical.SimulationTree.SingleCompMuscleCell[0].v,options);
-Plot1.plotData(net1.neuron_0.electrical.SimulationTree.generic_iaf_cell.v,options);
+Plot1.plotData(net1.muscle[0].v,options);
+Plot1.plotData(net1.neuron[0].v,options);
 
 options = {yaxis:{min:-0.000005,max:0.000055},xaxis:{min:0,max:400,show:false}};
 G.addWidget(GEPPETTO.Widgets.PLOT);
 Plot2.setName("Ca concentration muscle (mM)");
 Plot2.setSize(246,450);
 Plot2.setPosition(187,348);
-Plot2.plotData(net1.muscle_0.electrical.SimulationTree.SingleCompMuscleCell[0].caConc,options);
+Plot2.plotData(net1.muscle[0].caConc,options);
 
 G.addWidget(Widgets.POPUP);
 Popup1.setName("Description");

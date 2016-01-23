@@ -15,9 +15,7 @@
               id:1,
               aspect: {
                     id: 1,
-                    entityInstancePath: "c302",
-                    aspect: "electrical",
-                    localInstancePath: ""
+                    instancePath: "c302"
                 },
                 simulatorConfiguration: {
                   id: 1,
@@ -30,39 +28,27 @@
                 watchedVariables:[
                   {
                       "id": 1,
-                      "entityInstancePath": "c302.ADAL_0",
-                      "aspect": "electrical.SimulationTree",
-                      "localInstancePath": "generic_iaf_cell.v"
+                      "instancePath": "c302.ADAL[0].v"
                   },
                   {
                       "id": 2,
-                      "entityInstancePath": "c302.ADAR_0",
-                      "aspect": "electrical.SimulationTree",
-                      "localInstancePath": "generic_iaf_cell.v"
+                      "instancePath": "c302.ADAR[0].v"
                   },
                   {
                       "id": 3,
-                      "entityInstancePath": "c302.BDUR_0",
-                      "aspect": "electrical.SimulationTree",
-                      "localInstancePath": "generic_iaf_cell.v"
-                  },
+						"instancePath": "c302.BDUR[0].v"                  
+				},
                   {
                       "id": 4,
-                      "entityInstancePath": "c302.I1R_0",
-                      "aspect": "electrical.SimulationTree",
-                      "localInstancePath": "generic_iaf_cell.v"
+						"instancePath": "c302.I1R[0].v"
                   },
                   {
                       "id": 5,
-                      "entityInstancePath": "c302.I2L_0",
-                      "aspect": "electrical.SimulationTree",
-                      "localInstancePath": "generic_iaf_cell.v"
+					"instancePath": "c302.I2L[0].v"
                   },
                   {
                       "id": 6,
-                      "entityInstancePath": "c302.PVDR_0",
-                      "aspect": "electrical.SimulationTree",
-                      "localInstancePath": "generic_iaf_cell.v"
+					"instancePath": "c302.PVDR[0].v"
                   }
                 ]
             }
@@ -74,9 +60,7 @@
 		  		format: "GEPPETTO_RECORDING",
 		  		aspect: {
 		            id: 1,
-		            entityInstancePath: "c302",
-		            aspect: "electrical",
-		            localInstancePath: ""
+		            instancePath: "c302"
 		        },
 		        result: {
 		          id: 1,
@@ -89,9 +73,7 @@
 		  		format: "RAW",
 		  		aspect: {
 		            id: 1,
-		            entityInstancePath: "c302",
-		            aspect: "electrical",
-		            localInstancePath: ""
+		            instancePath: "c302"
 		        },
 		        result: {
 		          id: 2,
@@ -103,7 +85,7 @@
     ],
     "geppettoModel": {
         "id": 6,
-        "url": "/projects/C302/GEPPETTO.xml",
+        "url": "/projects/C302/GeppettoModel.xmi",
         "type": "GEPPETTO_PROJECT"
     }
 }

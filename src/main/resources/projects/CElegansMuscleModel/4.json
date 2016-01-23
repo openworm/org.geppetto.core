@@ -15,9 +15,7 @@
                     "id": 1,
                     "aspect": {
                         "id": 1,
-                        "entityInstancePath": "net1",
-                        "aspect": "electrical",
-                        "localInstancePath": ""
+                        "instancePath": "net1"
                     },
                     "simulatorConfiguration": {
                       "id": 1,
@@ -30,45 +28,31 @@
                     "watchedVariables": [
                         {
                             "id": 1,
-                            "entityInstancePath": "net1.neuron_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "generic_iaf_cell.v"
+                            "instancePath": "net1.neuron[0].v"
                         },
                         {
                             "id": 2,
-                            "entityInstancePath": "net1.muscle_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "SingleCompMuscleCell[0].v"
+                            "instancePath": "net1.muscle[0].v"
                         },
                         {
                             "id": 3,
-                            "entityInstancePath": "net1.muscle_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "SingleCompMuscleCell[0].caConc"
+                            "instancePath": "net1.muscle[0].caConc"
                         },
                         {
                             "id": 4,
-                            "entityInstancePath": "net1.muscle_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "SingleCompMuscleCell[0].biophys.membraneProperties.Leak_all.iDensity"
+                            "instancePath": "net1.muscle[0].biophys.membraneProperties.Leak_all.iDensity"
                         },
                         {
                             "id": 5,
-                            "entityInstancePath": "net1.muscle_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "SingleCompMuscleCell[0].biophys.membraneProperties.k_slow_all.iDensity"
+							"instancePath": "net1.muscle[0].biophys.membraneProperties.k_slow_all.iDensity"
                         },
                         {
                             "id": 6,
-                            "entityInstancePath": "net1.muscle_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "SingleCompMuscleCell[0].biophys.membraneProperties.k_fast_all.iDensity"
+							"instancePath": "net1.muscle[0].biophys.membraneProperties.k_fast_all.iDensity"
                         },
                         {
                             "id": 7,
-                            "entityInstancePath": "net1.muscle_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "SingleCompMuscleCell[0].biophys.membraneProperties.ca_boyle_all.iDensity"
+							"instancePath": "net1.muscle[0].biophys.membraneProperties.ca_boyle_all.iDensity"
                         }
 
                     ]
@@ -80,9 +64,7 @@
 		  		format: "GEPPETTO_RECORDING",
 		  		aspect: {
 		            id: 1,
-		            entityInstancePath: "net1",
-		            aspect: "electrical",
-		            localInstancePath: ""
+		            instancePath: "net1"
 		        },
 		        result: {
 		          id: 1,
@@ -95,9 +77,7 @@
 		  		format: "RAW",
 		  		aspect: {
 		            id: 1,
-		            entityInstancePath: "net1",
-		            aspect: "electrical",
-		            localInstancePath: ""
+		            instancePath: "net1"
 		        },
 		        result: {
 		          id: 2,
@@ -109,7 +89,7 @@
     ],
     "geppettoModel": {
         "id": 4,
-        "url": "/projects/CElegansMuscleModel/GEPPETTO.xml",
+        "url": "/projects/CElegansMuscleModel/GeppettoModel.xmi",
         "type": "GEPPETTO_PROJECT"
     }
 }

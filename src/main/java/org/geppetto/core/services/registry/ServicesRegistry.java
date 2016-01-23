@@ -43,93 +43,108 @@ import java.util.Set;
 import org.geppetto.core.conversion.ConversionException;
 import org.geppetto.core.conversion.IConversion;
 import org.geppetto.core.data.model.ResultsFormat;
-import org.geppetto.core.model.IModel;
 import org.geppetto.core.model.IModelInterpreter;
-import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.simulator.ISimulator;
+import org.geppetto.model.DomainModel;
+import org.geppetto.model.GeppettoFactory;
+import org.geppetto.model.ModelFormat;
 import org.springframework.aop.TargetClassAware;
 
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  * 
  */
-public class ServicesRegistry {
+public class ServicesRegistry
+{
 
 	static Set<ModelFormat> registeredModelFormats = new HashSet<ModelFormat>();
-	
+
 	static Map<Class<? extends IModelInterpreter>, List<ModelFormat>> registeredModelInterpreterServices = new HashMap<Class<? extends IModelInterpreter>, List<ModelFormat>>();
 	static Map<ConversionServiceKey, List<IConversion>> registeredConversionServices = new HashMap<ConversionServiceKey, List<IConversion>>();
 	static Map<Class<? extends ISimulator>, List<ModelFormat>> registeredSimulatorServices = new HashMap<Class<? extends ISimulator>, List<ModelFormat>>();
-	
-	
-	public static ModelFormat registerModelFormat(String format){
-		ModelFormat modelFormat = new ModelFormat(format);
+
+	public static ModelFormat registerModelFormat(String format)
+	{
+		ModelFormat modelFormat = GeppettoFactory.eINSTANCE.createModelFormat();
+		modelFormat.setModelFormat(format);
 		registeredModelFormats.add(modelFormat);
 		return modelFormat;
 	}
-	
-	public static ModelFormat getModelFormat(String format){
-		for (ModelFormat modelFormat : registeredModelFormats){
-			if (modelFormat.getModelFormat().equals(format))
-				return modelFormat;
+
+	public static ModelFormat getModelFormat(String format)
+	{
+		for(ModelFormat modelFormat : registeredModelFormats)
+		{
+			if(modelFormat.getModelFormat().equals(format)) return modelFormat;
 		}
 		return null;
 	}
-	
-	public static ResultsFormat getResultsFormat(String format){
-		for (ResultsFormat resultsFormat : ResultsFormat.values()){
-			if (resultsFormat.toString().equals(format))
-				return resultsFormat;
+
+	public static ResultsFormat getResultsFormat(String format)
+	{
+		for(ResultsFormat resultsFormat : ResultsFormat.values())
+		{
+			if(resultsFormat.toString().equals(format)) return resultsFormat;
 		}
 		return null;
 	}
-	
+
 	public static void registerModelInterpreterService(IModelInterpreter interpreterService, List<ModelFormat> outputModelFormats)
 	{
 		registeredModelInterpreterServices.put(interpreterService.getClass(), outputModelFormats);
 	}
-	
+
 	@SuppressWarnings("rawtypes")
-	public static List<ModelFormat> getModelInterpreterServiceFormats(IModelInterpreter interpreterService){
+	public static List<ModelFormat> getModelInterpreterServiceFormats(IModelInterpreter interpreterService)
+	{
 		Class interpreterServiceClass;
-		if (interpreterService instanceof TargetClassAware){
-			interpreterServiceClass = ((TargetClassAware)interpreterService).getTargetClass();
+		if(interpreterService instanceof TargetClassAware)
+		{
+			interpreterServiceClass = ((TargetClassAware) interpreterService).getTargetClass();
 		}
-		else{
+		else
+		{
 			interpreterServiceClass = interpreterService.getClass();
 		}
 		return registeredModelInterpreterServices.get(interpreterServiceClass);
 	}
-	
+
 	public static void registerSimulatorService(ISimulator simulatorService, List<ModelFormat> inputModelFormats)
 	{
 		registeredSimulatorServices.put(simulatorService.getClass(), inputModelFormats);
 	}
-	
+
 	@SuppressWarnings("rawtypes")
-	public static List<ModelFormat> getSimulatorServiceFormats(ISimulator simulatorService){
+	public static List<ModelFormat> getSimulatorServiceFormats(ISimulator simulatorService)
+	{
 		Class simulatorServiceClass;
-		if (simulatorService instanceof TargetClassAware){
-			simulatorServiceClass = ((TargetClassAware)simulatorService).getTargetClass();
+		if(simulatorService instanceof TargetClassAware)
+		{
+			simulatorServiceClass = ((TargetClassAware) simulatorService).getTargetClass();
 		}
-		else{
+		else
+		{
 			simulatorServiceClass = simulatorService.getClass();
 		}
-		
+
 		return registeredSimulatorServices.get(simulatorServiceClass);
 	}
 
 	public static void registerConversionService(IConversion conversionService, List<ModelFormat> inputModelFormats, List<ModelFormat> outputModelFormats)
 	{
-		for (ModelFormat inputModelFormat : inputModelFormats){
-			for (ModelFormat outputModelFormat : outputModelFormats){
+		for(ModelFormat inputModelFormat : inputModelFormats)
+		{
+			for(ModelFormat outputModelFormat : outputModelFormats)
+			{
 				ServicesRegistry.ConversionServiceKey registeredConversionServiceKey = new ConversionServiceKey(inputModelFormat, outputModelFormat);
 				List<IConversion> conversionList = registeredConversionServices.get(registeredConversionServiceKey);
-				if (conversionList != null){
+				if(conversionList != null)
+				{
 					conversionList.add(conversionService);
 					registeredConversionServices.put(registeredConversionServiceKey, conversionList);
 				}
-				else{
+				else
+				{
 					conversionList = new ArrayList<IConversion>();
 					conversionList.add(conversionService);
 					registeredConversionServices.put(registeredConversionServiceKey, conversionList);
@@ -137,31 +152,39 @@ public class ServicesRegistry {
 			}
 		}
 	}
-	
-	public static Map<ModelFormat, List<IConversion>> getSupportedOutputs(IModel model, List<ModelFormat> inputFormats){
+
+	public static Map<ModelFormat, List<IConversion>> getSupportedOutputs(DomainModel model)
+	{
 		Map<ModelFormat, List<IConversion>> supportedOutputs = new HashMap<ModelFormat, List<IConversion>>();
 		List<IConversion> checkedConversions = new ArrayList<IConversion>();
-		for (Map.Entry<ConversionServiceKey, List<IConversion>> entry : registeredConversionServices.entrySet()) {
+		for(Map.Entry<ConversionServiceKey, List<IConversion>> entry : registeredConversionServices.entrySet())
+		{
 			ConversionServiceKey conversionServiceKey = entry.getKey();
-			if (inputFormats.contains(conversionServiceKey.getInputModelFormat())){
-				for (IConversion conversion : entry.getValue()){
+			if(model.getFormat().equals(conversionServiceKey.getInputModelFormat()))
+			{
+				for(IConversion conversion : entry.getValue())
+				{
 					try
 					{
-						if (!checkedConversions.contains(conversion)){
-							List<ModelFormat> outputs = conversion.getSupportedOutputs(model, conversionServiceKey.getInputModelFormat());
-							for (ModelFormat output : outputs){
+						if(!checkedConversions.contains(conversion))
+						{
+							List<ModelFormat> outputs = conversion.getSupportedOutputs(model);
+							for(ModelFormat output : outputs)
+							{
 								List<IConversion> supportedConversions = supportedOutputs.get(output);
-								if (supportedConversions != null){
+								if(supportedConversions != null)
+								{
 									supportedConversions.add(conversion);
 								}
-								else{
+								else
+								{
 									supportedConversions = new ArrayList<IConversion>();
 									supportedConversions.add(conversion);
 									supportedOutputs.put(output, supportedConversions);
 								}
 							}
 						}
-						
+
 						checkedConversions.add(conversion);
 					}
 					catch(ConversionException e)
@@ -171,71 +194,72 @@ public class ServicesRegistry {
 					}
 				}
 			}
-			
+
 		}
-		return supportedOutputs;		
+		return supportedOutputs;
 	}
-	
+
 	public static Map<ConversionServiceKey, List<IConversion>> getConversionService(List<ModelFormat> inputModelFormats, List<ModelFormat> outputModelFormats)
 	{
 		Map<ConversionServiceKey, List<IConversion>> conversionServices = new HashMap<ConversionServiceKey, List<IConversion>>();
-		for (ModelFormat inputModelFormat : inputModelFormats){
-			for (ModelFormat outputModelFormat : outputModelFormats){
+		for(ModelFormat inputModelFormat : inputModelFormats)
+		{
+			for(ModelFormat outputModelFormat : outputModelFormats)
+			{
 				ServicesRegistry.ConversionServiceKey registeredConversionServiceKey = new ConversionServiceKey(inputModelFormat, outputModelFormat);
-				if (registeredConversionServices.containsKey(registeredConversionServiceKey)){
+				if(registeredConversionServices.containsKey(registeredConversionServiceKey))
+				{
 					conversionServices.put(registeredConversionServiceKey, registeredConversionServices.get(registeredConversionServiceKey));
 				}
-				
+
 			}
 		}
-		
+
 		return conversionServices;
 	}
-	
+
 	public static List<IConversion> getConversionService(ModelFormat inputModelFormat, ModelFormat outputModelFormat)
 	{
 		return registeredConversionServices.get(new ConversionServiceKey(inputModelFormat, outputModelFormat));
 	}
-	
-	public static class ConversionServiceKey {
+
+	public static class ConversionServiceKey
+	{
 
 		ModelFormat inputModelFormat;
 		ModelFormat outputModelFormat;
 
-	    public ConversionServiceKey(ModelFormat inputModelFormat, ModelFormat outputModelFormat) {
+		public ConversionServiceKey(ModelFormat inputModelFormat, ModelFormat outputModelFormat)
+		{
 			super();
 			this.inputModelFormat = inputModelFormat;
 			this.outputModelFormat = outputModelFormat;
 		}
 
-	    public ModelFormat getInputModelFormat()
-	    {
-	    	return inputModelFormat;
-	    }
-	    
-	    public ModelFormat getOutputModelFormat()
-	    {
-	    	return outputModelFormat;
-	    }
+		public ModelFormat getInputModelFormat()
+		{
+			return inputModelFormat;
+		}
 
-	    @Override
-		public int hashCode() {
+		public ModelFormat getOutputModelFormat()
+		{
+			return outputModelFormat;
+		}
+
+		@Override
+		public int hashCode()
+		{
 			final int prime = 31;
 			int result = 1;
-			result = prime
-					* result
-					+ ((inputModelFormat.toString() == null) ? 0 : inputModelFormat.toString()
-							.hashCode());
-			result = prime
-					* result
-					+ ((outputModelFormat.toString() == null) ? 0 : outputModelFormat.toString()
-							.hashCode());
+			result = prime * result + ((inputModelFormat.toString() == null) ? 0 : inputModelFormat.toString().hashCode());
+			result = prime * result + ((outputModelFormat.toString() == null) ? 0 : outputModelFormat.toString().hashCode());
 			return result;
 		}
 
 		@Override
-		public boolean equals(Object o) {
-			if (o == null || !(o instanceof ConversionServiceKey)) return false;
+		public boolean equals(Object o)
+		{
+			if(o == null || !(o instanceof ConversionServiceKey)) return false;
 			ConversionServiceKey other = (ConversionServiceKey) o;
 			return inputModelFormat.toString().equals(other.inputModelFormat.toString()) && outputModelFormat.toString().equals(other.outputModelFormat.toString());
 		}

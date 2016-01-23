@@ -43,7 +43,7 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 {
 	private long id;
 
-	private LocalInstancePath aspect = new LocalInstancePath(id, null, null, null);
+	private LocalInstancePath aspect = new LocalInstancePath(id,null);
 
 	private List<LocalInstancePath> watchedVariables = new ArrayList<LocalInstancePath>();
 
@@ -93,8 +93,9 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 	@Override
 	public void addModelParameter(IParameter modelParameter)
 	{
-		if(modelParameters==null){
-			modelParameters =new ArrayList<LocalParameter>();
+		if(modelParameters == null)
+		{
+			modelParameters = new ArrayList<LocalParameter>();
 		}
 		if(modelParameter instanceof LocalParameter)
 		{
@@ -105,7 +106,7 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 	@Override
 	public void setId(long id)
 	{
-		id=id;
+		id = id;
 	}
 
 }

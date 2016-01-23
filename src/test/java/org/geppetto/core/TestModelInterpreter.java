@@ -40,11 +40,13 @@ import java.util.List;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.model.AModelInterpreter;
-import org.geppetto.core.model.IModel;
+import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.core.model.ModelInterpreterException;
-import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
+import org.geppetto.model.GeppettoLibrary;
+import org.geppetto.model.ModelFormat;
+import org.geppetto.model.types.Type;
+import org.geppetto.model.values.Pointer;
 
 /**
  * Dummy model interpreter used for testing purposes
@@ -55,26 +57,6 @@ import org.geppetto.core.services.registry.ServicesRegistry;
 public class TestModelInterpreter extends AModelInterpreter
 {
 
-	@Override
-	public IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean populateModelTree(AspectNode aspectNode) throws ModelInterpreterException
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean populateRuntimeTree(AspectNode aspectNode)
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public String getName()
@@ -90,15 +72,23 @@ public class TestModelInterpreter extends AModelInterpreter
 		ServicesRegistry.registerModelInterpreterService(this, modelFormats);
 	}
 
+
 	@Override
-	public File downloadModel(AspectNode aspectNode, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
+	public List<ModelFormat> getSupportedOutputs(Pointer pointer) throws ModelInterpreterException
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<ModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException
+	public Type importType(URL url, String typeName, GeppettoLibrary library, GeppettoModelAccess commonLibrary) throws ModelInterpreterException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public File downloadModel(Pointer pointer, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
 	{
 		// TODO Auto-generated method stub
 		return null;

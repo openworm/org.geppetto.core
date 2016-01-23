@@ -78,7 +78,7 @@ public class LocalPersistedData implements IPersistedData
 	@Override
 	public void setURL(String url)
 	{
-		this.url=url;
+		this.url = url;
 	}
 
 }

@@ -39,18 +39,13 @@ public class LocalInstancePath implements IInstancePath
 {
 	private long id;
 
-	private String entityInstancePath;
+	private String instancePath;
 
-	private String aspect;
 
-	private String localInstancePath;
-
-	public LocalInstancePath(long id, String entityInstancePath, String aspect, String localInstancePath)
+	public LocalInstancePath(long id, String instancePath)
 	{
 		this.id = id;
-		this.entityInstancePath = entityInstancePath;
-		this.aspect = aspect;
-		this.localInstancePath = localInstancePath;
+		this.instancePath = instancePath;
 	}
 
 	@Override
@@ -59,36 +54,11 @@ public class LocalInstancePath implements IInstancePath
 		return id;
 	}
 
-	@Override
-	public String getEntityInstancePath()
-	{
-		return entityInstancePath;
-	}
 
 	@Override
-	public String getAspect()
-	{
-		return aspect;
-	}
-
-	@Override
-	public String getLocalInstancePath()
-	{
-		return localInstancePath;
-	}
-
 	public String getInstancePath()
 	{
-		String path = entityInstancePath;
-		if(aspect != null && !aspect.isEmpty())
-		{
-			path += "." + aspect;
-		}
-		if(localInstancePath != null && !localInstancePath.isEmpty())
-		{
-			path += "." + localInstancePath;
-		}
-		return path;
+		return instancePath;
 	}
 
 	@Override

@@ -48,15 +48,13 @@ public interface IUser
 	String getPassword();
 
 	String getName();
+	
+	IUserGroup getUserGroup();
 
 	List<? extends IGeppettoProject> getGeppettoProjects();
 
-	long getSpaceAllowance();
-
-	long getSimulationTimeAllowance();
-
 	String getDropboxToken();
-	
+
 	void setDropboxToken(String token);
 
 }

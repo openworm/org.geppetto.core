@@ -52,7 +52,7 @@ public interface IGeppettoS3Manager
 	void saveTextToS3(String text, String path) throws IOException;
 
 	void deleteFromS3(String path);
-	
+
 	URL getURL(String path) throws MalformedURLException;
 
 }
