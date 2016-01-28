@@ -17,12 +17,12 @@ options = {yaxis:{min:-.1,max:0.1},xaxis:{min:0,max:400,show:false}};
 Plot1.setOptions(options);
 Plot1.setPosition(113, 90);
 Plot1.setSize(230,445);
-Plot1.plotData(acnet2.pyramidals_48[0].compartment_0.v);
-Plot1.plotData(acnet2.pyramidals_48[1].compartment_0.v);
-Plot1.plotData(acnet2.baskets_12[2].compartment_0.v);
+Plot1.plotData(acnet2.pyramidals_48[0].soma.v);
+Plot1.plotData(acnet2.pyramidals_48[1].soma.v);
+Plot1.plotData(acnet2.baskets_12[2].soma.v);
 
 Project.getActiveExperiment().play({playAll:true});
 
-G.addBrightnessFunction(acnet2.pyramidals_48[0].compartment_0, acnet2.pyramidals_48[0].compartment_0.v, function(x){return (x+0.07)/0.1;});
-G.addBrightnessFunction(acnet2.pyramidals_48[1].compartment_0, acnet2.pyramidals_48[1].compartment_0.v, function(x){return (x+0.07)/0.1;});
-G.addBrightnessFunction(acnet2.baskets_12[2].compartment_0, acnet2.baskets_12[2].compartment_0.v, function(x){return (x+0.07)/0.1;});
+G.addBrightnessFunction(acnet2.pyramidals_48[0].soma, acnet2.pyramidals_48[0].soma.v, function(x){return (x+0.07)/0.1;});
+G.addBrightnessFunction(acnet2.pyramidals_48[1].soma, acnet2.pyramidals_48[1].soma.v, function(x){return (x+0.07)/0.1;});
+G.addBrightnessFunction(acnet2.baskets_12[2].soma, acnet2.baskets_12[2].soma.v, function(x){return (x+0.07)/0.1;});

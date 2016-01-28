@@ -28,15 +28,15 @@
 		        watchedVariables:[
 			        {
 			            id: 1,
-			            instancePath: "acnet2.pyramidals_48[0].compartment_0.v"
+			            instancePath: "acnet2.pyramidals_48[0].soma.v"
 			        },
 			        			        {
 			            id: 2,
-			            instancePath: "acnet2.pyramidals_48[1].compartment_0.v"
+			            instancePath: "acnet2.pyramidals_48[1].soma.v"
 			        },
 			        {
 			            id: 3,
-			            instancePath: "acnet2.baskets_12[2].compartment_0.v"
+			            instancePath: "acnet2.baskets_12[2].soma.v"
 			        }
 		        ]
 		  	}
