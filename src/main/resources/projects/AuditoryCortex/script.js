@@ -1,3 +1,5 @@
+Project.getActiveExperiment().playAll();
+
 G.addWidget(6);
 Connectivity1.setName("Connectivity matrix");
 Connectivity1.setData(acnet2,{linkType:function(c){var id; var vars = c.getParent().getType().getChildren(); for(var i=0; i<vars.length; i++){ if(vars[i].getType().getSuperType() != undefined && vars[i].getType().getSuperType().getId() == 'synapse'){ id = vars[i].getId(); } }; return id; }});
@@ -12,8 +14,7 @@ Popup1.setSize(110.80000019073486,665.8000001907349)
 acnet2.baskets_12[0].select()
 
 G.addWidget(0);
-Plot1.setName("Primary Auditory Cortext Network - Basket Cell - Voltage");
-options = {yaxis:{min:-.1,max:0.1},xaxis:{min:0,max:400,show:false}};
+Plot1.setName("Primary Auditory Cortext Network - Some membrane potentials");
 Plot1.setOptions(options);
 Plot1.setPosition(113, 90);
 Plot1.setSize(230,445);
@@ -21,7 +22,6 @@ Plot1.plotData(acnet2.pyramidals_48[0].soma.v);
 Plot1.plotData(acnet2.pyramidals_48[1].soma.v);
 Plot1.plotData(acnet2.baskets_12[2].soma.v);
 
-Project.getActiveExperiment().play({playAll:true});
 
 G.addBrightnessFunction(acnet2.pyramidals_48[0].soma, acnet2.pyramidals_48[0].soma.v, function(x){return (x+0.07)/0.1;});
 G.addBrightnessFunction(acnet2.pyramidals_48[1].soma, acnet2.pyramidals_48[1].soma.v, function(x){return (x+0.07)/0.1;});
