@@ -28,15 +28,15 @@
                     "watchedVariables": [
                         {
                             "id": 1,
-                            "instancePath": "net1.neuron[0].v"
+                            "instancePath": "net1.neuron[0].soma_0.v"
                         },
                         {
                             "id": 2,
-                            "instancePath": "net1.muscle[0].v"
+                            "instancePath": "net1.muscle[0].soma_0.v"
                         },
                         {
                             "id": 3,
-                            "instancePath": "net1.muscle[0].caConc"
+                            "instancePath": "net1.muscle[0].soma_0.caConc"
                         },
                         {
                             "id": 4,
