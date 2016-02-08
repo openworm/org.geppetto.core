@@ -15,7 +15,6 @@ acnet2.baskets_12[0].select()
 
 G.addWidget(0);
 Plot1.setName("Primary Auditory Cortext Network - Some membrane potentials");
-Plot1.setOptions(options);
 Plot1.setPosition(113, 90);
 Plot1.setSize(230,445);
 Plot1.plotData(acnet2.pyramidals_48[0].soma_0.v);
