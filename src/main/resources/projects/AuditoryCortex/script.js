@@ -2,7 +2,8 @@ Project.getActiveExperiment().playAll();
 
 G.addWidget(6);
 Connectivity1.setName("Connectivity matrix");
-Connectivity1.setData(acnet2,{linkType:function(c){var id; var vars = c.getParent().getType().getChildren(); for(var i=0; i<vars.length; i++){ if(vars[i].getType().getSuperType() != undefined && vars[i].getType().getSuperType().getId() == 'synapse'){ id = vars[i].getId(); } }; return id; }});
+Connectivity1.setData(acnet2,{linkType:function(c){return GEPPETTO.ModelFactory.getAllVariablesOfType(c.getParent(),GEPPETTO.ModelFactory.geppettoModel.neuroml.synapse)[0].getId();}});
+
 G.addWidget(1);
 Popup1.setMessage(Project.getActiveExperiment().getDescription());
 Popup1.setName("Description");
