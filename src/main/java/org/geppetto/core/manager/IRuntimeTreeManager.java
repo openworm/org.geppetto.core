@@ -30,6 +30,6 @@ public interface IRuntimeTreeManager
 	 * @throws GeppettoAccessException 
 	 * @throws GeppettoInitializationException
 	 * */
-	ExperimentState setWatchedVariables(List<String> watchedVariables, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException, GeppettoAccessException;
+	ExperimentState setWatchedVariables(List<String> watchedVariables, IExperiment experiment, IGeppettoProject project, boolean watch) throws GeppettoExecutionException, GeppettoAccessException;
 
 }
