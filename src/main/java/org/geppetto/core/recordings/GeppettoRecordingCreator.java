@@ -389,7 +389,7 @@ public class GeppettoRecordingCreator
 			{
 				currentTag = splitByPeriod[s];
 				currentPath = currentPath.concat("/" + currentTag);
-				current = createGroup(current, currentTag, currentPath);
+				current = createGroup(current, currentTag, currentPath, root);
 			}
 			// last part of path will be dataset
 			// e.g. If variable given was P.J then P is group object, while
@@ -485,7 +485,7 @@ public class GeppettoRecordingCreator
 	 * @return
 	 * @throws Exception
 	 */
-	private Group createGroup(Group parent, String tag, String path) throws Exception
+	private Group createGroup(Group parent, String tag, String path, Group root) throws Exception
 	{
 		// try to find if group already exists
 		HObject findObject = FileFormat.findObject(recordingsH5File, path);
@@ -493,10 +493,11 @@ public class GeppettoRecordingCreator
 		{
 			Group newGroup = recordingsH5File.createGroup(tag, parent);
 			parent.addToMemberList(newGroup);
-			if(!reloaded.contains(parent.getPath()))
+			if(!reloaded.contains(parent.getName()))
 			{
-				recordingsH5File.reloadTree(parent);
-				reloaded.add(parent.getPath());
+				recordingsH5File.reloadTree(root);
+				
+				reloaded.add(parent.getName());
 			}
 
 			parent = newGroup;

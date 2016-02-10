@@ -170,7 +170,7 @@ public class ConvertDATToRecording
 			for(String dataPath : dataValues.keySet())
 			{
 				//Utility line for creating tests, don't delete
-				//System.out.println("addVariableValue(gm, experimentState, \""+dataPath+"\");");
+				System.out.println("addVariableValue(gm, experimentState, \""+dataPath+"\");");
 				//End Utility line
 				
 				Pointer pointer = geppettoModelAccess.getPointer(dataPath);
