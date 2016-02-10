@@ -1,0 +1,2 @@
+var tmp = Instances.getInstance(GEPPETTO.ModelFactory.getAllPotentialInstancesEndingWith('.v'));
+for (var index in tmp){G.addBrightnessFunctionBulkSimplified([tmp[index]], function(x){return (x+0.06)/0.01;});}

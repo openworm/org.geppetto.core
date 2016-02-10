@@ -12,10 +12,10 @@ Plot1.plotData(c302.I2L[0].v);
 Plot1.plotData(c302.PVDR[0].v);
 
 G.addBrightnessFunction(c302.ADAL[0], c302.ADAL[0].v, function(x){return (x+0.06)/0.01;});
-G.addBrightnessFunction(c302.ADAR[0].electrical, c302.ADAR[0].v, function(x){return (x+0.06)/0.01;});
-G.addBrightnessFunction(c302.BDUR[0].electrical, c302.BDUR[0].v, function(x){return (x+0.06)/0.01;});
-G.addBrightnessFunction(c302.I1R[0].electrical, c302.I1R[0].v, function(x){return (x+0.06)/0.01;});
-G.addBrightnessFunction(c302.I2L[0].electrical, c302.I2L[0].v, function(x){return (x+0.06)/0.01;});
-G.addBrightnessFunction(c302.PVDR[0].electrical, c302.PVDR[0].v, function(x){return (x+0.06)/0.01;});
+G.addBrightnessFunction(c302.ADAR[0], c302.ADAR[0].v, function(x){return (x+0.06)/0.01;});
+G.addBrightnessFunction(c302.BDUR[0], c302.BDUR[0].v, function(x){return (x+0.06)/0.01;});
+G.addBrightnessFunction(c302.I1R[0], c302.I1R[0].v, function(x){return (x+0.06)/0.01;});
+G.addBrightnessFunction(c302.I2L[0], c302.I2L[0].v, function(x){return (x+0.06)/0.01;});
+G.addBrightnessFunction(c302.PVDR[0], c302.PVDR[0].v, function(x){return (x+0.06)/0.01;});
 
 Project.getActiveExperiment().play({step:1});
