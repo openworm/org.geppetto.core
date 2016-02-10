@@ -139,7 +139,15 @@ public class ConvertDATToRecording
 					for(int i = 0; i < columns.length; i++)
 					{
 						String key = variables[i];
-						dataValues.get(key).add(Double.valueOf(columns[i]));
+						if(columns[i].equalsIgnoreCase("nan"))
+						{
+							dataValues.get(key).add(Double.NaN);
+						}
+						else
+						{
+							dataValues.get(key).add(Double.valueOf(columns[i]));
+						}
+
 					}
 				}
 			}
@@ -156,18 +164,17 @@ public class ConvertDATToRecording
 				}
 			}
 
-	        System.out.println("Variables read, took: " + (System.currentTimeMillis() - start));
-	        start=System.currentTimeMillis();
+			System.out.println("Variables read, took: " + (System.currentTimeMillis() - start));
+			start = System.currentTimeMillis();
 			List<String> found = new ArrayList<String>();
-			
-			
+
 			for(String dataPath : dataValues.keySet())
 			{
-				Pointer pointer=geppettoModelAccess.getPointer(dataPath);
-				//VariableValue vv=experimentState.getRecordedVariables()
+				Pointer pointer = geppettoModelAccess.getPointer(dataPath);
+				// VariableValue vv=experimentState.getRecordedVariables()
 				Double[] currentVarValuesArray = dataValues.get(dataPath).toArray(new Double[] {});
 				String unitString = "";
-				//Unit unit = ValuesUtility.getUnit(vv.getValue());
+				// Unit unit = ValuesUtility.getUnit(vv.getValue());
 				// if(unit == null)
 				// {
 				// // logger.debug("No unit found for " + vv.getPointer().getInstancePath());
@@ -182,7 +189,6 @@ public class ConvertDATToRecording
 				System.out.println("Values added, took: " + (System.currentTimeMillis() - start));
 
 			}
-			
 
 		}
 		catch(IOException | GeppettoModelException e)

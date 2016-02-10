@@ -71,16 +71,17 @@ public class RecordingReader
 
 	private boolean recordingOpened = false;
 
-	public RecordingReader(Recording recording)
+	public RecordingReader(Recording recording) throws GeppettoExecutionException
 	{
 		this(recording, ResultsFormat.GEPPETTO_RECORDING);
 	}
 
-	public RecordingReader(Recording recording, ResultsFormat format)
+	public RecordingReader(Recording recording, ResultsFormat format) throws GeppettoExecutionException
 	{
 		super();
 		this.recording = recording;
 		this.setRecordingFormat(format);
+		openRecording();
 	}
 
 	/**
@@ -91,7 +92,7 @@ public class RecordingReader
 	 */
 	public void readRecording(String recordedVariable, ExperimentState modelState, boolean readAll) throws GeppettoExecutionException
 	{
-		openRecording();
+		
 
 		String recordingVariablePath = "/" + recordedVariable;
 
@@ -104,7 +105,7 @@ public class RecordingReader
 			currentRecordingIndex++;
 		}
 		
-		closeRecording();
+		
 	}
 
 	/**
