@@ -166,12 +166,15 @@ public class ConvertDATToRecording
 
 			System.out.println("Variables read, took: " + (System.currentTimeMillis() - start));
 			start = System.currentTimeMillis();
-			List<String> found = new ArrayList<String>();
 
 			for(String dataPath : dataValues.keySet())
 			{
+				//Utility line for creating tests, don't delete
+				//System.out.println("addVariableValue(gm, experimentState, \""+dataPath+"\");");
+				//End Utility line
+				
 				Pointer pointer = geppettoModelAccess.getPointer(dataPath);
-				// VariableValue vv=experimentState.getRecordedVariables()
+				
 				Double[] currentVarValuesArray = dataValues.get(dataPath).toArray(new Double[] {});
 				String unitString = "";
 				// Unit unit = ValuesUtility.getUnit(vv.getValue());

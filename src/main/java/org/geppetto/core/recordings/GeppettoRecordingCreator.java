@@ -470,7 +470,6 @@ public class GeppettoRecordingCreator
 		// add attributes for unit and metatype
 		createAttributes(recordingObject.getMetaType().toString(), recordingObject.getUnit(), dataset);
 
-		// recordingsH5File.reloadTree(parentObject);
 		return dataset;
 	}
 
