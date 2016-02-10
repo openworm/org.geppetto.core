@@ -33,8 +33,10 @@
 package org.geppetto.core.recordings;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import ncsa.hdf.hdf5lib.exceptions.HDF5Exception;
@@ -67,7 +69,9 @@ public class GeppettoRecordingCreator
 	private String _fileName;
 	private H5File recordingsH5File;
 	private HashMap<String, RecordingObject> map = new HashMap<String, RecordingObject>();
-
+	private List<String> reloaded = new ArrayList<String>();
+	private static int i = 0; //counter for logging purposes 
+	
 	public GeppettoRecordingCreator(String name)
 	{
 		_fileName = name;
@@ -145,7 +149,7 @@ public class GeppettoRecordingCreator
 			{
 				RecordingObject o = map.get(iterator.next());
 				superAddValues(o);
-				recordingsH5File.reloadTree(this.getRoot());
+
 				// match biggest array length
 				if(biggestLength < o.getValuesLength())
 				{
@@ -160,7 +164,6 @@ public class GeppettoRecordingCreator
 			throw new GeppettoExecutionException(e);
 		}
 	}
-
 
 	/**
 	 * Calls overloaded method to add values to file. Passes it parameter that it was passed, plus a Datatype that will tell global method what kind of data it will be storing
@@ -318,7 +321,7 @@ public class GeppettoRecordingCreator
 		o.setVariable(variable);
 		o.setUnit(unit);
 		o.setValues(values);
-		//H5Datatype type = new H5Dataype(CLASS_FLOAT, 8, NATIVE, -1);
+		// H5Datatype type = new H5Dataype(CLASS_FLOAT, 8, NATIVE, -1);
 		o.setDataType(Datatype.CLASS_FLOAT);
 		o.setDataBytes(4);
 		o.setValuesLenght(values.length);
@@ -350,6 +353,7 @@ public class GeppettoRecordingCreator
 		return (Group) ((javax.swing.tree.DefaultMutableTreeNode) recordingsH5File.getRootNode()).getUserObject();
 	}
 
+
 	/**
 	 * General method for adding datasets to an HDF5 File. The parameter dataType it's what makes the data stored in the dataset different from others; it could be an array or single number of
 	 * integers, doubles or floats.
@@ -370,7 +374,7 @@ public class GeppettoRecordingCreator
 		if(v == null)
 		{
 
-			_logger.warn("Creating variable " + recordingObject.getVariable());
+			_logger.warn("Creating variable " + recordingObject.getVariable() + " " + i++);
 
 			String[] splitByPeriod = recordingObject.getVariable().split("\\.");
 
@@ -394,10 +398,9 @@ public class GeppettoRecordingCreator
 
 			this.createDataSet(recordingObject, current, currentTag);
 		}
-		//NOTE: There was some commented code to update a variable in case it alrady existed, you can find it here
-		//https://github.com/openworm/org.geppetto.core/blob/6c0a2fa2e584fc8a9984ec7b5c62ecb425d3f52c/src/main/java/org/geppetto/core/recordings/GeppettoRecordingCreator.java
+		// NOTE: There was some commented code to update a variable in case it alrady existed, you can find it here
+		// https://github.com/openworm/org.geppetto.core/blob/6c0a2fa2e584fc8a9984ec7b5c62ecb425d3f52c/src/main/java/org/geppetto/core/recordings/GeppettoRecordingCreator.java
 	}
-
 
 	/**
 	 * Adds attributes to dataset.
@@ -467,6 +470,7 @@ public class GeppettoRecordingCreator
 		// add attributes for unit and metatype
 		createAttributes(recordingObject.getMetaType().toString(), recordingObject.getUnit(), dataset);
 
+		// recordingsH5File.reloadTree(parentObject);
 		return dataset;
 	}
 
@@ -490,6 +494,12 @@ public class GeppettoRecordingCreator
 		{
 			Group newGroup = recordingsH5File.createGroup(tag, parent);
 			parent.addToMemberList(newGroup);
+			if(!reloaded.contains(parent.getPath()))
+			{
+				recordingsH5File.reloadTree(parent);
+				reloaded.add(parent.getPath());
+			}
+
 			parent = newGroup;
 		}
 		else
@@ -501,4 +511,5 @@ public class GeppettoRecordingCreator
 	}
 
 	
+
 }

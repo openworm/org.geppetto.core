@@ -48,12 +48,11 @@ import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.model.ExperimentState;
-import org.geppetto.model.VariableValue;
+import org.geppetto.model.GeppettoModel;
 import org.geppetto.model.types.TypesPackage;
 import org.geppetto.model.util.GeppettoModelException;
 import org.geppetto.model.util.PointerUtility;
-import org.geppetto.model.values.Unit;
-import org.geppetto.model.values.util.ValuesUtility;
+import org.geppetto.model.values.Pointer;
 
 /**
  * Converts a DAT file into a recording HDF5 file
@@ -119,6 +118,7 @@ public class ConvertDATToRecording
 	 */
 	private void read(String fileName, String[] variables, ExperimentState experimentState) throws GeppettoExecutionException
 	{
+		long start = System.currentTimeMillis();
 		// will store values and variables found in DAT
 		HashMap<String, List<Double>> dataValues = new HashMap<String, List<Double>>();
 		try
@@ -156,50 +156,33 @@ public class ConvertDATToRecording
 				}
 			}
 
+	        System.out.println("Variables read, took: " + (System.currentTimeMillis() - start));
+	        start=System.currentTimeMillis();
 			List<String> found = new ArrayList<String>();
-			for(VariableValue vv : experimentState.getRecordedVariables())
+			
+			
+			for(String dataPath : dataValues.keySet())
 			{
-				String path = vv.getPointer().getInstancePath();
-
-				for(String dataPath : dataValues.keySet())
-				{
-					if(!found.contains(dataPath))
-					{
-						if(dataPath.equals(path))
-						{
-							found.add(dataPath);
-							break;
-						}
-						// Since we are allowing the user to use types or not at any point here we are finding out what the string with all the types would look like for each string since
-						// that's what is available in the recorded variables
-						String dataPathWithNoTypes = PointerUtility.getPathWithoutTypes(dataPath);
-						String dataPathWithAllTypes = geppettoModelAccess.getPointer(dataPathWithNoTypes).getInstancePath();
-						if(dataPathWithAllTypes.equals(path))
-						{
-							found.add(dataPath);
-							path = dataPath;
-							break;
-						}
-					}
-				}
-				if(found.contains(path))
-				{
-					Double[] currentVarValuesArray = dataValues.get(path).toArray(new Double[] {});
-					Unit unit = ValuesUtility.getUnit(vv.getValue());
-					String unitString = "";
-					if(unit == null)
-					{
-						logger.debug("No unit found for " + vv.getPointer().getInstancePath());
-					}
-					else
-					{
-						unitString = unit.getUnit();
-					}
-					recordingCreator.addValues(vv.getPointer().getInstancePath(), currentVarValuesArray, unitString, TypesPackage.Literals.STATE_VARIABLE_TYPE.getName(), false);
-
-				}
+				Pointer pointer=geppettoModelAccess.getPointer(dataPath);
+				//VariableValue vv=experimentState.getRecordedVariables()
+				Double[] currentVarValuesArray = dataValues.get(dataPath).toArray(new Double[] {});
+				String unitString = "";
+				//Unit unit = ValuesUtility.getUnit(vv.getValue());
+				// if(unit == null)
+				// {
+				// // logger.debug("No unit found for " + vv.getPointer().getInstancePath());
+				// }
+				// else
+				// {
+				// unitString = unit.getUnit();
+				// }
+				// System.out.println("Pointer resolved: " + (System.currentTimeMillis() - start));
+				start = System.currentTimeMillis();
+				recordingCreator.addValues(pointer.getInstancePath(), currentVarValuesArray, unitString, TypesPackage.Literals.STATE_VARIABLE_TYPE.getName(), false);
+				System.out.println("Values added, took: " + (System.currentTimeMillis() - start));
 
 			}
+			
 
 		}
 		catch(IOException | GeppettoModelException e)
