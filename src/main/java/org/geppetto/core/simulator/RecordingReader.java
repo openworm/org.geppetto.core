@@ -314,7 +314,7 @@ public class RecordingReader
 		this.recordingOpened = true;
 	}
 
-	private void closeRecording() throws GeppettoExecutionException
+	public void closeRecording() throws GeppettoExecutionException
 	{
 		if(this.recordingOpened)
 		{
