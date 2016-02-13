@@ -53,7 +53,6 @@ import org.geppetto.core.data.model.ExperimentStatus;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.data.model.IParameter;
 import org.geppetto.core.data.model.IPersistedData;
 import org.geppetto.core.data.model.ISimulationResult;
@@ -66,7 +65,6 @@ import org.geppetto.core.data.model.UserPrivileges;
 import org.geppetto.core.data.model.local.LocalAspectConfiguration;
 import org.geppetto.core.data.model.local.LocalExperiment;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
-import org.geppetto.core.data.model.local.LocalInstancePath;
 import org.geppetto.core.data.model.local.LocalParameter;
 import org.geppetto.core.data.model.local.LocalPersistedData;
 import org.geppetto.core.data.model.local.LocalSimulationResult;
@@ -218,16 +216,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return project.getExperiments();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.data.IGeppettoDataManager#newInstancePath(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public IInstancePath newInstancePath(String instancePath)
-	{
-		return new LocalInstancePath(0, instancePath);
-	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -235,9 +224,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	 * @see org.geppetto.core.data.IGeppettoDataManager#createParameter(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public IParameter newParameter(IInstancePath parameterInstancePath, String value)
+	public IParameter newParameter(String parameterInstancePath, String value)
 	{
-		return new LocalParameter(0, (LocalInstancePath) parameterInstancePath, value);
+		return new LocalParameter(0, parameterInstancePath, value);
 	}
 
 	/*
@@ -396,9 +385,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	}
 
 	@Override
-	public ISimulationResult newSimulationResult(IInstancePath parameterPath, IPersistedData results, ResultsFormat format)
+	public ISimulationResult newSimulationResult(String parameterPath, IPersistedData results, ResultsFormat format)
 	{
-		return new LocalSimulationResult(0, (LocalInstancePath) parameterPath, (LocalPersistedData) results, format);
+		return new LocalSimulationResult(0, parameterPath, (LocalPersistedData) results, format);
 	}
 
 	@Override
@@ -420,9 +409,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	}
 
 	@Override
-	public IAspectConfiguration newAspectConfiguration(IExperiment experiment, IInstancePath instancePath, ISimulatorConfiguration simulatorConfiguration)
+	public IAspectConfiguration newAspectConfiguration(IExperiment experiment, String instancePath, ISimulatorConfiguration simulatorConfiguration)
 	{
-		LocalAspectConfiguration ac = new LocalAspectConfiguration(0l, (LocalInstancePath) instancePath, new ArrayList<LocalInstancePath>(), new ArrayList<LocalParameter>(),
+		LocalAspectConfiguration ac = new LocalAspectConfiguration(0l, instancePath, new ArrayList<String>(), new ArrayList<LocalParameter>(),
 				(LocalSimulatorConfiguration) simulatorConfiguration);
 		((LocalExperiment) experiment).getAspectConfigurations().add(ac);
 		return ac;
@@ -435,9 +424,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	}
 
 	@Override
-	public void addWatchedVariable(IAspectConfiguration aspectConfiguration, IInstancePath instancePath)
+	public void addWatchedVariable(IAspectConfiguration aspectConfiguration, String instancePath)
 	{
-		((LocalAspectConfiguration) aspectConfiguration).getWatchedVariables().add((LocalInstancePath) instancePath);
+		((LocalAspectConfiguration) aspectConfiguration).getWatchedVariables().add(instancePath);
 	}
 
 	@Override

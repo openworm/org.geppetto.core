@@ -48,10 +48,8 @@ import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.model.ExperimentState;
-import org.geppetto.model.GeppettoModel;
 import org.geppetto.model.types.TypesPackage;
 import org.geppetto.model.util.GeppettoModelException;
-import org.geppetto.model.util.PointerUtility;
 import org.geppetto.model.values.Pointer;
 
 /**
@@ -170,7 +168,7 @@ public class ConvertDATToRecording
 			for(String dataPath : dataValues.keySet())
 			{
 				//Utility line for creating tests, don't delete
-				System.out.println("addVariableValue(gm, experimentState, \""+dataPath+"\");");
+				//System.out.println("addVariableValue(gm, experimentState, \""+dataPath+"\");");
 				//End Utility line
 				
 				Pointer pointer = geppettoModelAccess.getPointer(dataPath);

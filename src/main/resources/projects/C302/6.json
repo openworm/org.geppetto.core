@@ -13,10 +13,7 @@
             aspectConfigurations: [
             {
               id:1,
-              aspect: {
-                    id: 1,
-                    instancePath: "c302"
-                },
+              instance:"c302",
                 simulatorConfiguration: {
                   id: 1,
                   simulatorId: "neuronSimulator",
@@ -26,30 +23,12 @@
                   parameters: {target: "c302_A"}
                 },
                 watchedVariables:[
-                  {
-                      "id": 1,
-                      "instancePath": "c302.ADAL[0].v"
-                  },
-                  {
-                      "id": 2,
-                      "instancePath": "c302.ADAR[0].v"
-                  },
-                  {
-                      "id": 3,
-						"instancePath": "c302.BDUR[0].v"                  
-				},
-                  {
-                      "id": 4,
-						"instancePath": "c302.I1R[0].v"
-                  },
-                  {
-                      "id": 5,
-					"instancePath": "c302.I2L[0].v"
-                  },
-                  {
-                      "id": 6,
-					"instancePath": "c302.PVDR[0].v"
-                  }
+                  "c302.ADAL[0].v",
+                  "c302.ADAR[0].v",
+                  "c302.BDUR[0].v",
+                  "c302.I1R[0].v",
+                  "c302.I2L[0].v",
+                  "c302.PVDR[0].v"
                 ]
             }
 
@@ -58,10 +37,7 @@
 		  	{
 		  		id:1,
 		  		format: "GEPPETTO_RECORDING",
-		  		aspect: {
-		            id: 1,
-		            instancePath: "c302"
-		        },
+				instance:"c302",
 		        result: {
 		          id: 1,
 		          url: "/projects/C302/results.h5",
@@ -71,10 +47,7 @@
 		  	  	{
 		  		id:2,
 		  		format: "RAW",
-		  		aspect: {
-		            id: 1,
-		            instancePath: "c302"
-		        },
+				instance:"c302",
 		        result: {
 		          id: 2,
 		          url: "/projects/C302/rawRecording.zip",
@@ -92,10 +65,7 @@
             aspectConfigurations: [
             {
               id:1,
-              aspect: {
-                    id: 1,
-                    instancePath: "c302"
-                },
+				instance:"c302",
                 simulatorConfiguration: {
                   id: 1,
                   simulatorId: "neuronSimulator",
@@ -105,9 +75,7 @@
                   parameters: {target: "c302_A"}
                 },
                 
-                watchedVariables:[
-                  {id: 1, instancePath: "c302.ADAL[0].v"},{id: 2, instancePath: "c302.ADAR[0].v"},{id: 3, instancePath: "c302.ADEL[0].v"},{id: 4, instancePath: "c302.ADER[0].v"},{id: 5, instancePath: "c302.ADFL[0].v"},{id: 6, instancePath: "c302.ADFR[0].v"},{id: 7, instancePath: "c302.ADLL[0].v"},{id: 8, instancePath: "c302.ADLR[0].v"},{id: 9, instancePath: "c302.AFDL[0].v"},{id: 10, instancePath: "c302.AFDR[0].v"},{id: 11, instancePath: "c302.AIAL[0].v"},{id: 12, instancePath: "c302.AIAR[0].v"},{id: 13, instancePath: "c302.AIBL[0].v"},{id: 14, instancePath: "c302.AIBR[0].v"},{id: 15, instancePath: "c302.AIML[0].v"},{id: 16, instancePath: "c302.AIMR[0].v"},{id: 17, instancePath: "c302.AINL[0].v"},{id: 18, instancePath: "c302.AINR[0].v"},{id: 19, instancePath: "c302.AIYL[0].v"},{id: 20, instancePath: "c302.AIYR[0].v"},{id: 21, instancePath: "c302.AIZL[0].v"},{id: 22, instancePath: "c302.AIZR[0].v"},{id: 23, instancePath: "c302.ALA[0].v"},{id: 24, instancePath: "c302.ALML[0].v"},{id: 25, instancePath: "c302.ALMR[0].v"},{id: 26, instancePath: "c302.ALNL[0].v"},{id: 27, instancePath: "c302.ALNR[0].v"},{id: 28, instancePath: "c302.AQR[0].v"},{id: 29, instancePath: "c302.AS1[0].v"},{id: 30, instancePath: "c302.AS10[0].v"},{id: 31, instancePath: "c302.AS11[0].v"},{id: 32, instancePath: "c302.AS2[0].v"},{id: 33, instancePath: "c302.AS3[0].v"},{id: 34, instancePath: "c302.AS4[0].v"},{id: 35, instancePath: "c302.AS5[0].v"},{id: 36, instancePath: "c302.AS6[0].v"},{id: 37, instancePath: "c302.AS7[0].v"},{id: 38, instancePath: "c302.AS8[0].v"},{id: 39, instancePath: "c302.AS9[0].v"},{id: 40, instancePath: "c302.ASEL[0].v"},{id: 41, instancePath: "c302.ASER[0].v"},{id: 42, instancePath: "c302.ASGL[0].v"},{id: 43, instancePath: "c302.ASGR[0].v"},{id: 44, instancePath: "c302.ASHL[0].v"},{id: 45, instancePath: "c302.ASHR[0].v"},{id: 46, instancePath: "c302.ASIL[0].v"},{id: 47, instancePath: "c302.ASIR[0].v"},{id: 48, instancePath: "c302.ASJL[0].v"},{id: 49, instancePath: "c302.ASJR[0].v"},{id: 50, instancePath: "c302.ASKL[0].v"},{id: 51, instancePath: "c302.ASKR[0].v"},{id: 52, instancePath: "c302.AUAL[0].v"},{id: 53, instancePath: "c302.AUAR[0].v"},{id: 54, instancePath: "c302.AVAL[0].v"},{id: 55, instancePath: "c302.AVAR[0].v"},{id: 56, instancePath: "c302.AVBL[0].v"},{id: 57, instancePath: "c302.AVBR[0].v"},{id: 58, instancePath: "c302.AVDL[0].v"},{id: 59, instancePath: "c302.AVDR[0].v"},{id: 60, instancePath: "c302.AVEL[0].v"},{id: 61, instancePath: "c302.AVER[0].v"},{id: 62, instancePath: "c302.AVFL[0].v"},{id: 63, instancePath: "c302.AVFR[0].v"},{id: 64, instancePath: "c302.AVG[0].v"},{id: 65, instancePath: "c302.AVHL[0].v"},{id: 66, instancePath: "c302.AVHR[0].v"},{id: 67, instancePath: "c302.AVJL[0].v"},{id: 68, instancePath: "c302.AVJR[0].v"},{id: 69, instancePath: "c302.AVKL[0].v"},{id: 70, instancePath: "c302.AVKR[0].v"},{id: 71, instancePath: "c302.AVL[0].v"},{id: 72, instancePath: "c302.AVM[0].v"},{id: 73, instancePath: "c302.AWAL[0].v"},{id: 74, instancePath: "c302.AWAR[0].v"},{id: 75, instancePath: "c302.AWBL[0].v"},{id: 76, instancePath: "c302.AWBR[0].v"},{id: 77, instancePath: "c302.AWCL[0].v"},{id: 78, instancePath: "c302.AWCR[0].v"},{id: 79, instancePath: "c302.BAGL[0].v"},{id: 80, instancePath: "c302.BAGR[0].v"},{id: 81, instancePath: "c302.BDUL[0].v"},{id: 82, instancePath: "c302.BDUR[0].v"},{id: 83, instancePath: "c302.CEPDL[0].v"},{id: 84, instancePath: "c302.CEPDR[0].v"},{id: 85, instancePath: "c302.CEPVL[0].v"},{id: 86, instancePath: "c302.CEPVR[0].v"},{id: 87, instancePath: "c302.DA1[0].v"},{id: 88, instancePath: "c302.DA2[0].v"},{id: 89, instancePath: "c302.DA3[0].v"},{id: 90, instancePath: "c302.DA4[0].v"},{id: 91, instancePath: "c302.DA5[0].v"},{id: 92, instancePath: "c302.DA6[0].v"},{id: 93, instancePath: "c302.DA7[0].v"},{id: 94, instancePath: "c302.DA8[0].v"},{id: 95, instancePath: "c302.DA9[0].v"},{id: 96, instancePath: "c302.DB1[0].v"},{id: 97, instancePath: "c302.DB2[0].v"},{id: 98, instancePath: "c302.DB3[0].v"},{id: 99, instancePath: "c302.DB4[0].v"},{id: 100, instancePath: "c302.DB5[0].v"},{id: 101, instancePath: "c302.DB6[0].v"},{id: 102, instancePath: "c302.DB7[0].v"},{id: 103, instancePath: "c302.DD1[0].v"},{id: 104, instancePath: "c302.DD2[0].v"},{id: 105, instancePath: "c302.DD3[0].v"},{id: 106, instancePath: "c302.DD4[0].v"},{id: 107, instancePath: "c302.DD5[0].v"},{id: 108, instancePath: "c302.DD6[0].v"},{id: 109, instancePath: "c302.DVA[0].v"},{id: 110, instancePath: "c302.DVB[0].v"},{id: 111, instancePath: "c302.DVC[0].v"},{id: 112, instancePath: "c302.FLPL[0].v"},{id: 113, instancePath: "c302.FLPR[0].v"},{id: 114, instancePath: "c302.HSNL[0].v"},{id: 115, instancePath: "c302.HSNR[0].v"},{id: 116, instancePath: "c302.I1L[0].v"},{id: 117, instancePath: "c302.I1R[0].v"},{id: 118, instancePath: "c302.I2L[0].v"},{id: 119, instancePath: "c302.I2R[0].v"},{id: 120, instancePath: "c302.I3[0].v"},{id: 121, instancePath: "c302.I4[0].v"},{id: 122, instancePath: "c302.I5[0].v"},{id: 123, instancePath: "c302.I6[0].v"},{id: 124, instancePath: "c302.IL1DL[0].v"},{id: 125, instancePath: "c302.IL1DR[0].v"},{id: 126, instancePath: "c302.IL1L[0].v"},{id: 127, instancePath: "c302.IL1R[0].v"},{id: 128, instancePath: "c302.IL1VL[0].v"},{id: 129, instancePath: "c302.IL1VR[0].v"},{id: 130, instancePath: "c302.IL2DL[0].v"},{id: 131, instancePath: "c302.IL2DR[0].v"},{id: 132, instancePath: "c302.IL2L[0].v"},{id: 133, instancePath: "c302.IL2R[0].v"},{id: 134, instancePath: "c302.IL2VL[0].v"},{id: 135, instancePath: "c302.IL2VR[0].v"},{id: 136, instancePath: "c302.LUAL[0].v"},{id: 137, instancePath: "c302.LUAR[0].v"},{id: 138, instancePath: "c302.M1[0].v"},{id: 139, instancePath: "c302.M2L[0].v"},{id: 140, instancePath: "c302.M2R[0].v"},{id: 141, instancePath: "c302.M3L[0].v"},{id: 142, instancePath: "c302.M3R[0].v"},{id: 143, instancePath: "c302.M4[0].v"},{id: 144, instancePath: "c302.M5[0].v"},{id: 145, instancePath: "c302.MCL[0].v"},{id: 146, instancePath: "c302.MCR[0].v"},{id: 147, instancePath: "c302.MI[0].v"},{id: 148, instancePath: "c302.NSML[0].v"},{id: 149, instancePath: "c302.NSMR[0].v"},{id: 150, instancePath: "c302.OLLL[0].v"},{id: 151, instancePath: "c302.OLLR[0].v"},{id: 152, instancePath: "c302.OLQDL[0].v"},{id: 153, instancePath: "c302.OLQDR[0].v"},{id: 154, instancePath: "c302.OLQVL[0].v"},{id: 155, instancePath: "c302.OLQVR[0].v"},{id: 156, instancePath: "c302.PDA[0].v"},{id: 157, instancePath: "c302.PDB[0].v"},{id: 158, instancePath: "c302.PDEL[0].v"},{id: 159, instancePath: "c302.PDER[0].v"},{id: 160, instancePath: "c302.PHAL[0].v"},{id: 161, instancePath: "c302.PHAR[0].v"},{id: 162, instancePath: "c302.PHBL[0].v"},{id: 163, instancePath: "c302.PHBR[0].v"},{id: 164, instancePath: "c302.PHCL[0].v"},{id: 165, instancePath: "c302.PHCR[0].v"},{id: 166, instancePath: "c302.PLML[0].v"},{id: 167, instancePath: "c302.PLMR[0].v"},{id: 168, instancePath: "c302.PLNL[0].v"},{id: 169, instancePath: "c302.PLNR[0].v"},{id: 170, instancePath: "c302.PQR[0].v"},{id: 171, instancePath: "c302.PVCL[0].v"},{id: 172, instancePath: "c302.PVCR[0].v"},{id: 173, instancePath: "c302.PVDL[0].v"},{id: 174, instancePath: "c302.PVDR[0].v"},{id: 175, instancePath: "c302.PVM[0].v"},{id: 176, instancePath: "c302.PVNL[0].v"},{id: 177, instancePath: "c302.PVNR[0].v"},{id: 178, instancePath: "c302.PVPL[0].v"},{id: 179, instancePath: "c302.PVPR[0].v"},{id: 180, instancePath: "c302.PVQL[0].v"},{id: 181, instancePath: "c302.PVQR[0].v"},{id: 182, instancePath: "c302.PVR[0].v"},{id: 183, instancePath: "c302.PVT[0].v"},{id: 184, instancePath: "c302.PVWL[0].v"},{id: 185, instancePath: "c302.PVWR[0].v"},{id: 186, instancePath: "c302.RIAL[0].v"},{id: 187, instancePath: "c302.RIAR[0].v"},{id: 188, instancePath: "c302.RIBL[0].v"},{id: 189, instancePath: "c302.RIBR[0].v"},{id: 190, instancePath: "c302.RICL[0].v"},{id: 191, instancePath: "c302.RICR[0].v"},{id: 192, instancePath: "c302.RID[0].v"},{id: 193, instancePath: "c302.RIFL[0].v"},{id: 194, instancePath: "c302.RIFR[0].v"},{id: 195, instancePath: "c302.RIGL[0].v"},{id: 196, instancePath: "c302.RIGR[0].v"},{id: 197, instancePath: "c302.RIH[0].v"},{id: 198, instancePath: "c302.RIML[0].v"},{id: 199, instancePath: "c302.RIMR[0].v"},{id: 200, instancePath: "c302.RIPL[0].v"},{id: 201, instancePath: "c302.RIPR[0].v"},{id: 202, instancePath: "c302.RIR[0].v"},{id: 203, instancePath: "c302.RIS[0].v"},{id: 204, instancePath: "c302.RIVL[0].v"},{id: 205, instancePath: "c302.RIVR[0].v"},{id: 206, instancePath: "c302.RMDDL[0].v"},{id: 207, instancePath: "c302.RMDDR[0].v"},{id: 208, instancePath: "c302.RMDL[0].v"},{id: 209, instancePath: "c302.RMDR[0].v"},{id: 210, instancePath: "c302.RMDVL[0].v"},{id: 211, instancePath: "c302.RMDVR[0].v"},{id: 212, instancePath: "c302.RMED[0].v"},{id: 213, instancePath: "c302.RMEL[0].v"},{id: 214, instancePath: "c302.RMER[0].v"},{id: 215, instancePath: "c302.RMEV[0].v"},{id: 216, instancePath: "c302.RMFL[0].v"},{id: 217, instancePath: "c302.RMFR[0].v"},{id: 218, instancePath: "c302.RMGL[0].v"},{id: 219, instancePath: "c302.RMGR[0].v"},{id: 220, instancePath: "c302.RMHL[0].v"},{id: 221, instancePath: "c302.RMHR[0].v"},{id: 222, instancePath: "c302.SAADL[0].v"},{id: 223, instancePath: "c302.SAADR[0].v"},{id: 224, instancePath: "c302.SAAVL[0].v"},{id: 225, instancePath: "c302.SAAVR[0].v"},{id: 226, instancePath: "c302.SABD[0].v"},{id: 227, instancePath: "c302.SABVL[0].v"},{id: 228, instancePath: "c302.SABVR[0].v"},{id: 229, instancePath: "c302.SDQL[0].v"},{id: 230, instancePath: "c302.SDQR[0].v"},{id: 231, instancePath: "c302.SIADL[0].v"},{id: 232, instancePath: "c302.SIADR[0].v"},{id: 233, instancePath: "c302.SIAVL[0].v"},{id: 234, instancePath: "c302.SIAVR[0].v"},{id: 235, instancePath: "c302.SIBDL[0].v"},{id: 236, instancePath: "c302.SIBDR[0].v"},{id: 237, instancePath: "c302.SIBVL[0].v"},{id: 238, instancePath: "c302.SIBVR[0].v"},{id: 239, instancePath: "c302.SMBDL[0].v"},{id: 240, instancePath: "c302.SMBDR[0].v"},{id: 241, instancePath: "c302.SMBVL[0].v"},{id: 242, instancePath: "c302.SMBVR[0].v"},{id: 243, instancePath: "c302.SMDDL[0].v"},{id: 244, instancePath: "c302.SMDDR[0].v"},{id: 245, instancePath: "c302.SMDVL[0].v"},{id: 246, instancePath: "c302.SMDVR[0].v"},{id: 247, instancePath: "c302.URADL[0].v"},{id: 248, instancePath: "c302.URADR[0].v"},{id: 249, instancePath: "c302.URAVL[0].v"},{id: 250, instancePath: "c302.URAVR[0].v"},{id: 251, instancePath: "c302.URBL[0].v"},{id: 252, instancePath: "c302.URBR[0].v"},{id: 253, instancePath: "c302.URXL[0].v"},{id: 254, instancePath: "c302.URXR[0].v"},{id: 255, instancePath: "c302.URYDL[0].v"},{id: 256, instancePath: "c302.URYDR[0].v"},{id: 257, instancePath: "c302.URYVL[0].v"},{id: 258, instancePath: "c302.URYVR[0].v"},{id: 259, instancePath: "c302.VA1[0].v"},{id: 260, instancePath: "c302.VA10[0].v"},{id: 261, instancePath: "c302.VA11[0].v"},{id: 262, instancePath: "c302.VA12[0].v"},{id: 263, instancePath: "c302.VA2[0].v"},{id: 264, instancePath: "c302.VA3[0].v"},{id: 265, instancePath: "c302.VA4[0].v"},{id: 266, instancePath: "c302.VA5[0].v"},{id: 267, instancePath: "c302.VA6[0].v"},{id: 268, instancePath: "c302.VA7[0].v"},{id: 269, instancePath: "c302.VA8[0].v"},{id: 270, instancePath: "c302.VA9[0].v"},{id: 271, instancePath: "c302.VB1[0].v"},{id: 272, instancePath: "c302.VB10[0].v"},{id: 273, instancePath: "c302.VB11[0].v"},{id: 274, instancePath: "c302.VB2[0].v"},{id: 275, instancePath: "c302.VB3[0].v"},{id: 276, instancePath: "c302.VB4[0].v"},{id: 277, instancePath: "c302.VB5[0].v"},{id: 278, instancePath: "c302.VB6[0].v"},{id: 279, instancePath: "c302.VB7[0].v"},{id: 280, instancePath: "c302.VB8[0].v"},{id: 281, instancePath: "c302.VB9[0].v"},{id: 282, instancePath: "c302.VC1[0].v"},{id: 283, instancePath: "c302.VC2[0].v"},{id: 284, instancePath: "c302.VC3[0].v"},{id: 285, instancePath: "c302.VC4[0].v"},{id: 286, instancePath: "c302.VC5[0].v"},{id: 287, instancePath: "c302.VD1[0].v"},{id: 288, instancePath: "c302.VD10[0].v"},{id: 289, instancePath: "c302.VD11[0].v"},{id: 290, instancePath: "c302.VD12[0].v"},{id: 291, instancePath: "c302.VD13[0].v"},{id: 292, instancePath: "c302.VD2[0].v"},{id: 293, instancePath: "c302.VD3[0].v"},{id: 294, instancePath: "c302.VD4[0].v"},{id: 295, instancePath: "c302.VD5[0].v"},{id: 296, instancePath: "c302.VD6[0].v"},{id: 297, instancePath: "c302.VD7[0].v"},{id: 298, instancePath: "c302.VD8[0].v"},{id: 299, instancePath: "c302.VD9[0].v"}
-                ]
+                watchedVariables:["c302.ADAL[0].v","c302.ADAR[0].v","c302.ADEL[0].v","c302.ADER[0].v","c302.ADFL[0].v","c302.ADFR[0].v","c302.ADLL[0].v","c302.ADLR[0].v","c302.AFDL[0].v","c302.AFDR[0].v","c302.AIAL[0].v","c302.AIAR[0].v","c302.AIBL[0].v","c302.AIBR[0].v","c302.AIML[0].v","c302.AIMR[0].v","c302.AINL[0].v","c302.AINR[0].v","c302.AIYL[0].v","c302.AIYR[0].v","c302.AIZL[0].v","c302.AIZR[0].v","c302.ALA[0].v","c302.ALML[0].v","c302.ALMR[0].v","c302.ALNL[0].v","c302.ALNR[0].v","c302.AQR[0].v","c302.AS1[0].v","c302.AS10[0].v","c302.AS11[0].v","c302.AS2[0].v","c302.AS3[0].v","c302.AS4[0].v","c302.AS5[0].v","c302.AS6[0].v","c302.AS7[0].v","c302.AS8[0].v","c302.AS9[0].v","c302.ASEL[0].v","c302.ASER[0].v","c302.ASGL[0].v","c302.ASGR[0].v","c302.ASHL[0].v","c302.ASHR[0].v","c302.ASIL[0].v","c302.ASIR[0].v","c302.ASJL[0].v","c302.ASJR[0].v","c302.ASKL[0].v","c302.ASKR[0].v","c302.AUAL[0].v","c302.AUAR[0].v","c302.AVAL[0].v","c302.AVAR[0].v","c302.AVBL[0].v","c302.AVBR[0].v","c302.AVDL[0].v","c302.AVDR[0].v","c302.AVEL[0].v","c302.AVER[0].v","c302.AVFL[0].v","c302.AVFR[0].v","c302.AVG[0].v","c302.AVHL[0].v","c302.AVHR[0].v","c302.AVJL[0].v","c302.AVJR[0].v","c302.AVKL[0].v","c302.AVKR[0].v","c302.AVL[0].v","c302.AVM[0].v","c302.AWAL[0].v","c302.AWAR[0].v","c302.AWBL[0].v","c302.AWBR[0].v","c302.AWCL[0].v","c302.AWCR[0].v","c302.BAGL[0].v","c302.BAGR[0].v","c302.BDUL[0].v","c302.BDUR[0].v","c302.CEPDL[0].v","c302.CEPDR[0].v","c302.CEPVL[0].v","c302.CEPVR[0].v","c302.DA1[0].v","c302.DA2[0].v","c302.DA3[0].v","c302.DA4[0].v","c302.DA5[0].v","c302.DA6[0].v","c302.DA7[0].v","c302.DA8[0].v","c302.DA9[0].v","c302.DB1[0].v","c302.DB2[0].v","c302.DB3[0].v","c302.DB4[0].v","c302.DB5[0].v","c302.DB6[0].v","c302.DB7[0].v","c302.DD1[0].v","c302.DD2[0].v","c302.DD3[0].v","c302.DD4[0].v","c302.DD5[0].v","c302.DD6[0].v","c302.DVA[0].v","c302.DVB[0].v","c302.DVC[0].v","c302.FLPL[0].v","c302.FLPR[0].v","c302.HSNL[0].v","c302.HSNR[0].v","c302.I1L[0].v","c302.I1R[0].v","c302.I2L[0].v","c302.I2R[0].v","c302.I3[0].v","c302.I4[0].v","c302.I5[0].v","c302.I6[0].v","c302.IL1DL[0].v","c302.IL1DR[0].v","c302.IL1L[0].v","c302.IL1R[0].v","c302.IL1VL[0].v","c302.IL1VR[0].v","c302.IL2DL[0].v","c302.IL2DR[0].v","c302.IL2L[0].v","c302.IL2R[0].v","c302.IL2VL[0].v","c302.IL2VR[0].v","c302.LUAL[0].v","c302.LUAR[0].v","c302.M1[0].v","c302.M2L[0].v","c302.M2R[0].v","c302.M3L[0].v","c302.M3R[0].v","c302.M4[0].v","c302.M5[0].v","c302.MCL[0].v","c302.MCR[0].v","c302.MI[0].v","c302.NSML[0].v","c302.NSMR[0].v","c302.OLLL[0].v","c302.OLLR[0].v","c302.OLQDL[0].v","c302.OLQDR[0].v","c302.OLQVL[0].v","c302.OLQVR[0].v","c302.PDA[0].v","c302.PDB[0].v","c302.PDEL[0].v","c302.PDER[0].v","c302.PHAL[0].v","c302.PHAR[0].v","c302.PHBL[0].v","c302.PHBR[0].v","c302.PHCL[0].v","c302.PHCR[0].v","c302.PLML[0].v","c302.PLMR[0].v","c302.PLNL[0].v","c302.PLNR[0].v","c302.PQR[0].v","c302.PVCL[0].v","c302.PVCR[0].v","c302.PVDL[0].v","c302.PVDR[0].v","c302.PVM[0].v","c302.PVNL[0].v","c302.PVNR[0].v","c302.PVPL[0].v","c302.PVPR[0].v","c302.PVQL[0].v","c302.PVQR[0].v","c302.PVR[0].v","c302.PVT[0].v","c302.PVWL[0].v","c302.PVWR[0].v","c302.RIAL[0].v","c302.RIAR[0].v","c302.RIBL[0].v","c302.RIBR[0].v","c302.RICL[0].v","c302.RICR[0].v","c302.RID[0].v","c302.RIFL[0].v","c302.RIFR[0].v","c302.RIGL[0].v","c302.RIGR[0].v","c302.RIH[0].v","c302.RIML[0].v","c302.RIMR[0].v","c302.RIPL[0].v","c302.RIPR[0].v","c302.RIR[0].v","c302.RIS[0].v","c302.RIVL[0].v","c302.RIVR[0].v","c302.RMDDL[0].v","c302.RMDDR[0].v","c302.RMDL[0].v","c302.RMDR[0].v","c302.RMDVL[0].v","c302.RMDVR[0].v","c302.RMED[0].v","c302.RMEL[0].v","c302.RMER[0].v","c302.RMEV[0].v","c302.RMFL[0].v","c302.RMFR[0].v","c302.RMGL[0].v","c302.RMGR[0].v","c302.RMHL[0].v","c302.RMHR[0].v","c302.SAADL[0].v","c302.SAADR[0].v","c302.SAAVL[0].v","c302.SAAVR[0].v","c302.SABD[0].v","c302.SABVL[0].v","c302.SABVR[0].v","c302.SDQL[0].v","c302.SDQR[0].v","c302.SIADL[0].v","c302.SIADR[0].v","c302.SIAVL[0].v","c302.SIAVR[0].v","c302.SIBDL[0].v","c302.SIBDR[0].v","c302.SIBVL[0].v","c302.SIBVR[0].v","c302.SMBDL[0].v","c302.SMBDR[0].v","c302.SMBVL[0].v","c302.SMBVR[0].v","c302.SMDDL[0].v","c302.SMDDR[0].v","c302.SMDVL[0].v","c302.SMDVR[0].v","c302.URADL[0].v","c302.URADR[0].v","c302.URAVL[0].v","c302.URAVR[0].v","c302.URBL[0].v","c302.URBR[0].v","c302.URXL[0].v","c302.URXR[0].v","c302.URYDL[0].v","c302.URYDR[0].v","c302.URYVL[0].v","c302.URYVR[0].v","c302.VA1[0].v","c302.VA10[0].v","c302.VA11[0].v","c302.VA12[0].v","c302.VA2[0].v","c302.VA3[0].v","c302.VA4[0].v","c302.VA5[0].v","c302.VA6[0].v","c302.VA7[0].v","c302.VA8[0].v","c302.VA9[0].v","c302.VB1[0].v","c302.VB10[0].v","c302.VB11[0].v","c302.VB2[0].v","c302.VB3[0].v","c302.VB4[0].v","c302.VB5[0].v","c302.VB6[0].v","c302.VB7[0].v","c302.VB8[0].v","c302.VB9[0].v","c302.VC1[0].v","c302.VC2[0].v","c302.VC3[0].v","c302.VC4[0].v","c302.VC5[0].v","c302.VD1[0].v","c302.VD10[0].v","c302.VD11[0].v","c302.VD12[0].v","c302.VD13[0].v","c302.VD2[0].v","c302.VD3[0].v","c302.VD4[0].v","c302.VD5[0].v","c302.VD6[0].v","c302.VD7[0].v","c302.VD8[0].v","c302.VD9[0].v"]
             }
 
             ],
@@ -115,10 +83,7 @@
 		  	{
 		  		id:1,
 		  		format: "GEPPETTO_RECORDING",
-		  		aspect: {
-		            id: 1,
-		            instancePath: "c302"
-		        },
+		  		instance:"c302",
 		        result: {
 		          id: 1,
 		          url: "/projects/C302/results2.h5",
@@ -128,10 +93,7 @@
 		  	  	{
 		  		id:2,
 		  		format: "RAW",
-		  		aspect: {
-		            id: 1,
-		            instancePath: "c302"
-		        },
+		  		instance:"c302",
 		        result: {
 		          id: 2,
 		          url: "/projects/C302/rawRecording.zip",

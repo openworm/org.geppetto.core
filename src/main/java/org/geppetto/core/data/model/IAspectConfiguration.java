@@ -37,9 +37,9 @@ import java.util.List;
 public interface IAspectConfiguration extends IDataEntity
 {
 
-	IInstancePath getAspect();
+	String getInstance();
 
-	List<? extends IInstancePath> getWatchedVariables();
+	List<String> getWatchedVariables();
 
 	List<? extends IParameter> getModelParameter();
 

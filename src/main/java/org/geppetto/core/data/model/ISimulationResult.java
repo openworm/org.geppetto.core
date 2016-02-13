@@ -39,6 +39,6 @@ public interface ISimulationResult extends IDataEntity
 
 	ResultsFormat getFormat();
 
-	IInstancePath getAspect();
+	String getSimulatedInstance();
 
 }

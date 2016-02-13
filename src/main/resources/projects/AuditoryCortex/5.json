@@ -13,10 +13,7 @@
 		  	aspectConfigurations: [
 		    {
 		  		id:1,
-		  		aspect: {
-		            id: 1,
-		            instancePath: "acnet2"
-		        },
+		  		instance: "acnet2",
 		        simulatorConfiguration: {
 		          id: 1,
 		          simulatorId: "neuronSimulator",
@@ -26,18 +23,9 @@
 		          parameters: {target: "network_ACnet2"}
 		        },
 		        watchedVariables:[
-			        {
-			            id: 1,
-			            instancePath: "acnet2.pyramidals_48[0].soma_0.v"
-			        },
-			        			        {
-			            id: 2,
-			            instancePath: "acnet2.pyramidals_48[1].soma_0.v"
-			        },
-			        {
-			            id: 3,
-			            instancePath: "acnet2.baskets_12[2].soma_0.v"
-			        }
+		        	"acnet2.pyramidals_48[0].soma_0.v", 
+		        	"acnet2.pyramidals_48[1].soma_0.v", 
+		        	"acnet2.baskets_12[2].soma_0.v"
 		        ]
 		  	}
 		  	],
@@ -45,10 +33,7 @@
 		  	{
 		  		id:1,
 		  		format: "GEPPETTO_RECORDING",
-		  		aspect: {
-		            id: 1,
-		            instancePath: "acnet2"
-		        },
+				instance: "acnet2",
 		        result: {
 		          id: 1,
 		          url: "/projects/AuditoryCortex/results.h5",
@@ -58,10 +43,7 @@
 		  	{
 		  		id:2,
 		  		format: "RAW",
-		  		aspect: {
-		            id: 1,
-					instancePath: "acnet2"
-		        },
+				instance: "acnet2",
 		        result: {
 		          id: 2,
 		          url: "/projects/AuditoryCortex/rawRecording.zip",
@@ -79,10 +61,7 @@
 		  	aspectConfigurations: [
 		    {
 		  		id:1,
-		  		aspect: {
-		            id: 1,
-		            instancePath: "acnet2"
-		        },
+instance: "acnet2",
 		        simulatorConfiguration: {
 		          id: 1,
 		          simulatorId: "neuronSimulator",
@@ -92,44 +71,15 @@
 		          parameters: {target: "network_ACnet2"}
 		        },
 		        watchedVariables:[
-			        {
-			            id: 1,
-			            instancePath: "acnet2.pyramidals_48[0].soma_0.v"
-			        },
-					{
-			            id: 2,
-			            instancePath: "acnet2.pyramidals_48[0].apical0_1.v"
-			        },
-			        {
-			            id: 3,
-			            instancePath: "acnet2.pyramidals_48[0].apical2_2.v"
-			        },
-			        {
-			            id: 4,
-			            instancePath: "acnet2.pyramidals_48[0].apical3_3.v"
-			        },
-			        {
-			            id: 5,
-			            instancePath: "acnet2.pyramidals_48[0].apical4_4.v"
-			        },
-			        {
-			            id: 6,
-			            instancePath: "acnet2.pyramidals_48[0].apical1_5.v"
-			        },
-			        {
-			            id: 7,
-			            instancePath: "acnet2.pyramidals_48[0].basal0_6.v"
-			        },
-			        {
-			            id: 8,
-			            instancePath: "acnet2.pyramidals_48[0].basal1_7.v"
-			        },
-			        {
-			            id: 9,
-			            instancePath: "acnet2.pyramidals_48[0].basal2_8.v"
-			        }
-			        
-			        
+			        "acnet2.pyramidals_48[0].soma_0.v",
+			        "acnet2.pyramidals_48[0].apical0_1.v",
+			        "acnet2.pyramidals_48[0].apical2_2.v",
+			        "acnet2.pyramidals_48[0].apical3_3.v",
+			        "acnet2.pyramidals_48[0].apical4_4.v",
+			        "acnet2.pyramidals_48[0].apical1_5.v",
+			        "acnet2.pyramidals_48[0].basal0_6.v",
+			        "acnet2.pyramidals_48[0].basal1_7.v",
+			        "acnet2.pyramidals_48[0].basal2_8.v"
 		        ]
 		  	}
 		  	],
@@ -137,10 +87,7 @@
 		  	{
 		  		id:1,
 		  		format: "GEPPETTO_RECORDING",
-		  		aspect: {
-		            id: 1,
-		            instancePath: "acnet2"
-		        },
+				instance: "acnet2",
 		        result: {
 		          id: 1,
 		          url: "/projects/AuditoryCortex/results_2.h5",
@@ -150,10 +97,7 @@
 		  	{
 		  		id:2,
 		  		format: "RAW",
-		  		aspect: {
-		            id: 1,
-					instancePath: "acnet2"
-		        },
+				instance: "acnet2",
 		        result: {
 		          id: 2,
 		          url: "/projects/AuditoryCortex/rawRecording.zip",

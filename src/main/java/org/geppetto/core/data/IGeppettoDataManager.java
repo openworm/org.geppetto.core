@@ -41,7 +41,6 @@ import java.util.List;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.data.model.IParameter;
 import org.geppetto.core.data.model.IPersistedData;
 import org.geppetto.core.data.model.ISimulationResult;
@@ -83,16 +82,14 @@ public interface IGeppettoDataManager
 
 	List<? extends IExperiment> getExperimentsForProject(long projectId);
 
-	ISimulationResult newSimulationResult(IInstancePath parameterPath, IPersistedData results, ResultsFormat format);
+	ISimulationResult newSimulationResult(String parameterPath, IPersistedData results, ResultsFormat format);
 
-	void addWatchedVariable(IAspectConfiguration found, IInstancePath instancePath);
+	void addWatchedVariable(IAspectConfiguration found, String instancePath);
 
 	IPersistedData newPersistedData(URL url, PersistedDataType type);
 
-	IParameter newParameter(IInstancePath parameterPath, String value);
+	IParameter newParameter(String parameterPath, String value);
 
-	IInstancePath newInstancePath(String instancePath);
-	
 	IExperiment newExperiment(String name, String description, IGeppettoProject project);
 
 	IUser newUser(String name, String password, boolean persistent, IUserGroup group);
@@ -101,7 +98,7 @@ public interface IGeppettoDataManager
 
 	IUser updateUser(IUser user, String password);
 
-	IAspectConfiguration newAspectConfiguration(IExperiment experiment, IInstancePath instancePath, ISimulatorConfiguration simulatorConfiguration);
+	IAspectConfiguration newAspectConfiguration(IExperiment experiment, String instancePath, ISimulatorConfiguration simulatorConfiguration);
 
 	ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, long timestep, long length);
 

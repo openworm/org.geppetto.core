@@ -40,16 +40,16 @@ public class LocalSimulationResult implements ISimulationResult
 {
 	private long id;
 
-	private LocalInstancePath aspect;
+	private String simulatedInstance;
 
 	private LocalPersistedData result;
 
 	private ResultsFormat format;
 
-	public LocalSimulationResult(long id, LocalInstancePath aspect, LocalPersistedData result, ResultsFormat format)
+	public LocalSimulationResult(long id, String simulatedInstance, LocalPersistedData result, ResultsFormat format)
 	{
 		this.id = id;
-		this.aspect = aspect;
+		this.simulatedInstance = simulatedInstance;
 		this.result = result;
 		this.format = format;
 	}
@@ -67,9 +67,9 @@ public class LocalSimulationResult implements ISimulationResult
 	}
 
 	@Override
-	public LocalInstancePath getAspect()
+	public String getSimulatedInstance()
 	{
-		return aspect;
+		return simulatedInstance;
 	}
 
 	@Override
