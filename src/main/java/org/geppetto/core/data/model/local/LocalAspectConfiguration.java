@@ -43,18 +43,18 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 {
 	private long id;
 
-	private LocalInstancePath aspect = new LocalInstancePath(id, null, null, null);
+	private String instance = null;
 
-	private List<LocalInstancePath> watchedVariables = new ArrayList<LocalInstancePath>();
+	private List<String> watchedVariables = new ArrayList<String>();
 
 	private List<LocalParameter> modelParameters = new ArrayList<LocalParameter>();
 
 	private LocalSimulatorConfiguration simulatorConfiguration = new LocalSimulatorConfiguration(id, null, null, id, id, null);
 
-	public LocalAspectConfiguration(long id, LocalInstancePath aspect, List<LocalInstancePath> watchedVariables, List<LocalParameter> modelParameter, LocalSimulatorConfiguration simulatorConfiguration)
+	public LocalAspectConfiguration(long id, String instance, List<String> watchedVariables, List<LocalParameter> modelParameter, LocalSimulatorConfiguration simulatorConfiguration)
 	{
 		this.id = id;
-		this.aspect = aspect;
+		this.instance = instance;
 		this.watchedVariables = watchedVariables;
 		this.modelParameters = modelParameter;
 		this.simulatorConfiguration = simulatorConfiguration;
@@ -67,13 +67,13 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 	}
 
 	@Override
-	public LocalInstancePath getAspect()
+	public String getInstance()
 	{
-		return aspect;
+		return instance;
 	}
 
 	@Override
-	public List<LocalInstancePath> getWatchedVariables()
+	public List<String> getWatchedVariables()
 	{
 		return watchedVariables;
 	}
@@ -93,8 +93,9 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 	@Override
 	public void addModelParameter(IParameter modelParameter)
 	{
-		if(modelParameters==null){
-			modelParameters =new ArrayList<LocalParameter>();
+		if(modelParameters == null)
+		{
+			modelParameters = new ArrayList<LocalParameter>();
 		}
 		if(modelParameter instanceof LocalParameter)
 		{
@@ -105,7 +106,7 @@ public class LocalAspectConfiguration implements IAspectConfiguration
 	@Override
 	public void setId(long id)
 	{
-		id=id;
+		id = id;
 	}
 
 }

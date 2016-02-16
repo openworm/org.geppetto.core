@@ -1,11 +1,10 @@
 package org.geppetto.core.features;
 
-import org.geppetto.core.model.runtime.AspectNode;
+import org.geppetto.model.values.Pointer;
+
 
 /**
- * This feature when implemented allows a simulator to dynamically change
- * the 3D scene during the simulation as result of the evolution of a given
- * model.
+ * This feature when implemented allows a simulator to dynamically change the 3D scene during the simulation as result of the evolution of a given model.
  * 
  * @author matteocantarelli
  * @author Jesus Martinez (jesus@metacell.us)
@@ -13,5 +12,5 @@ import org.geppetto.core.model.runtime.AspectNode;
  */
 public interface IDynamicVisualTreeFeature extends IFeature
 {
-	boolean updateVisualTree(AspectNode aspectNode);
+	boolean updateVisualTree(Pointer pointer);
 }

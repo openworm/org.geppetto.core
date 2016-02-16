@@ -41,7 +41,6 @@ import ncsa.hdf.utils.SetNatives;
 
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.HDF5Reader;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.util.Assert;
 

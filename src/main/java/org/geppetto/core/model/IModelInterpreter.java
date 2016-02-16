@@ -38,9 +38,11 @@ import java.net.URL;
 import java.util.List;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
-import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.services.IService;
-import org.geppetto.core.services.ModelFormat;
+import org.geppetto.model.GeppettoLibrary;
+import org.geppetto.model.ModelFormat;
+import org.geppetto.model.types.Type;
+import org.geppetto.model.values.Pointer;
 
 /**
  * @author matteocantarelli
@@ -49,16 +51,12 @@ import org.geppetto.core.services.ModelFormat;
  */
 public interface IModelInterpreter extends IService
 {
-	
-	IModel readModel(URL url, List<URL> recordings, String instancePath) throws ModelInterpreterException;
 
-	boolean populateModelTree(AspectNode aspectNode) throws ModelInterpreterException;
+	Type importType(URL url, String typeName, GeppettoLibrary library, GeppettoModelAccess commonLibraryAccess) throws ModelInterpreterException;
 
-	boolean populateRuntimeTree(AspectNode aspectNode) throws ModelInterpreterException;
+	File downloadModel(Pointer pointer, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException;
 
-	File downloadModel(AspectNode aspectNode, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException;
-	
-	List<ModelFormat> getSupportedOutputs(AspectNode aspectNode) throws ModelInterpreterException;
+	List<ModelFormat> getSupportedOutputs(Pointer pointer) throws ModelInterpreterException;
 
 	String getName();
 

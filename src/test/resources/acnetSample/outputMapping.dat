@@ -1,0 +1,92 @@
+results/results0.dat
+time(StateVariable) acnet2.pyramidals_48[0].soma_0.v acnet2.pyramidals_48[1].soma_0.v acnet2.pyramidals_48[2].soma_0.v acnet2.pyramidals_48[3].soma_0.v acnet2.pyramidals_48[4].soma_0.v acnet2.pyramidals_48[5].soma_0.v acnet2.pyramidals_48[6].soma_0.v acnet2.pyramidals_48[7].soma_0.v acnet2.pyramidals_48[8].soma_0.v acnet2.pyramidals_48[9].soma_0.v
+results/results1.dat
+time(StateVariable) acnet2.pyramidals_48[10].soma_0.v acnet2.pyramidals_48[11].soma_0.v acnet2.pyramidals_48[12].soma_0.v acnet2.pyramidals_48[13].soma_0.v acnet2.pyramidals_48[14].soma_0.v acnet2.pyramidals_48[15].soma_0.v acnet2.pyramidals_48[16].soma_0.v acnet2.pyramidals_48[17].soma_0.v acnet2.pyramidals_48[18].soma_0.v acnet2.pyramidals_48[19].soma_0.v
+results/results2.dat
+time(StateVariable) acnet2.pyramidals_48[20].soma_0.v acnet2.pyramidals_48[21].soma_0.v acnet2.pyramidals_48[22].soma_0.v acnet2.pyramidals_48[23].soma_0.v acnet2.pyramidals_48[24].soma_0.v acnet2.pyramidals_48[25].soma_0.v acnet2.pyramidals_48[26].soma_0.v acnet2.pyramidals_48[27].soma_0.v acnet2.pyramidals_48[28].soma_0.v acnet2.pyramidals_48[29].soma_0.v
+results/results3.dat
+time(StateVariable) acnet2.pyramidals_48[30].soma_0.v acnet2.pyramidals_48[31].soma_0.v acnet2.pyramidals_48[32].soma_0.v acnet2.pyramidals_48[33].soma_0.v acnet2.pyramidals_48[34].soma_0.v acnet2.pyramidals_48[35].soma_0.v acnet2.pyramidals_48[36].soma_0.v acnet2.pyramidals_48[37].soma_0.v acnet2.pyramidals_48[38].soma_0.v acnet2.pyramidals_48[39].soma_0.v
+results/results4.dat
+time(StateVariable) acnet2.pyramidals_48[40].soma_0.v acnet2.pyramidals_48[41].soma_0.v acnet2.pyramidals_48[42].soma_0.v acnet2.pyramidals_48[43].soma_0.v acnet2.pyramidals_48[44].soma_0.v acnet2.pyramidals_48[45].soma_0.v acnet2.pyramidals_48[46].soma_0.v acnet2.pyramidals_48[47].soma_0.v acnet2.pyramidals_48[0].apical0_1.v acnet2.pyramidals_48[1].apical0_1.v
+results/results5.dat
+time(StateVariable) acnet2.pyramidals_48[2].apical0_1.v acnet2.pyramidals_48[3].apical0_1.v acnet2.pyramidals_48[4].apical0_1.v acnet2.pyramidals_48[5].apical0_1.v acnet2.pyramidals_48[6].apical0_1.v acnet2.pyramidals_48[7].apical0_1.v acnet2.pyramidals_48[8].apical0_1.v acnet2.pyramidals_48[9].apical0_1.v acnet2.pyramidals_48[10].apical0_1.v acnet2.pyramidals_48[11].apical0_1.v
+results/results6.dat
+time(StateVariable) acnet2.pyramidals_48[12].apical0_1.v acnet2.pyramidals_48[13].apical0_1.v acnet2.pyramidals_48[14].apical0_1.v acnet2.pyramidals_48[15].apical0_1.v acnet2.pyramidals_48[16].apical0_1.v acnet2.pyramidals_48[17].apical0_1.v acnet2.pyramidals_48[18].apical0_1.v acnet2.pyramidals_48[19].apical0_1.v acnet2.pyramidals_48[20].apical0_1.v acnet2.pyramidals_48[21].apical0_1.v
+results/results7.dat
+time(StateVariable) acnet2.pyramidals_48[22].apical0_1.v acnet2.pyramidals_48[23].apical0_1.v acnet2.pyramidals_48[24].apical0_1.v acnet2.pyramidals_48[25].apical0_1.v acnet2.pyramidals_48[26].apical0_1.v acnet2.pyramidals_48[27].apical0_1.v acnet2.pyramidals_48[28].apical0_1.v acnet2.pyramidals_48[29].apical0_1.v acnet2.pyramidals_48[30].apical0_1.v acnet2.pyramidals_48[31].apical0_1.v
+results/results8.dat
+time(StateVariable) acnet2.pyramidals_48[32].apical0_1.v acnet2.pyramidals_48[33].apical0_1.v acnet2.pyramidals_48[34].apical0_1.v acnet2.pyramidals_48[35].apical0_1.v acnet2.pyramidals_48[36].apical0_1.v acnet2.pyramidals_48[37].apical0_1.v acnet2.pyramidals_48[38].apical0_1.v acnet2.pyramidals_48[39].apical0_1.v acnet2.pyramidals_48[40].apical0_1.v acnet2.pyramidals_48[41].apical0_1.v
+results/results9.dat
+time(StateVariable) acnet2.pyramidals_48[42].apical0_1.v acnet2.pyramidals_48[43].apical0_1.v acnet2.pyramidals_48[44].apical0_1.v acnet2.pyramidals_48[45].apical0_1.v acnet2.pyramidals_48[46].apical0_1.v acnet2.pyramidals_48[47].apical0_1.v acnet2.pyramidals_48[0].apical2_2.v acnet2.pyramidals_48[1].apical2_2.v acnet2.pyramidals_48[2].apical2_2.v acnet2.pyramidals_48[3].apical2_2.v
+results/results10.dat
+time(StateVariable) acnet2.pyramidals_48[4].apical2_2.v acnet2.pyramidals_48[5].apical2_2.v acnet2.pyramidals_48[6].apical2_2.v acnet2.pyramidals_48[7].apical2_2.v acnet2.pyramidals_48[8].apical2_2.v acnet2.pyramidals_48[9].apical2_2.v acnet2.pyramidals_48[10].apical2_2.v acnet2.pyramidals_48[11].apical2_2.v acnet2.pyramidals_48[12].apical2_2.v acnet2.pyramidals_48[13].apical2_2.v
+results/results11.dat
+time(StateVariable) acnet2.pyramidals_48[14].apical2_2.v acnet2.pyramidals_48[15].apical2_2.v acnet2.pyramidals_48[16].apical2_2.v acnet2.pyramidals_48[17].apical2_2.v acnet2.pyramidals_48[18].apical2_2.v acnet2.pyramidals_48[19].apical2_2.v acnet2.pyramidals_48[20].apical2_2.v acnet2.pyramidals_48[21].apical2_2.v acnet2.pyramidals_48[22].apical2_2.v acnet2.pyramidals_48[23].apical2_2.v
+results/results12.dat
+time(StateVariable) acnet2.pyramidals_48[24].apical2_2.v acnet2.pyramidals_48[25].apical2_2.v acnet2.pyramidals_48[26].apical2_2.v acnet2.pyramidals_48[27].apical2_2.v acnet2.pyramidals_48[28].apical2_2.v acnet2.pyramidals_48[29].apical2_2.v acnet2.pyramidals_48[30].apical2_2.v acnet2.pyramidals_48[31].apical2_2.v acnet2.pyramidals_48[32].apical2_2.v acnet2.pyramidals_48[33].apical2_2.v
+results/results13.dat
+time(StateVariable) acnet2.pyramidals_48[34].apical2_2.v acnet2.pyramidals_48[35].apical2_2.v acnet2.pyramidals_48[36].apical2_2.v acnet2.pyramidals_48[37].apical2_2.v acnet2.pyramidals_48[38].apical2_2.v acnet2.pyramidals_48[39].apical2_2.v acnet2.pyramidals_48[40].apical2_2.v acnet2.pyramidals_48[41].apical2_2.v acnet2.pyramidals_48[42].apical2_2.v acnet2.pyramidals_48[43].apical2_2.v
+results/results14.dat
+time(StateVariable) acnet2.pyramidals_48[44].apical2_2.v acnet2.pyramidals_48[45].apical2_2.v acnet2.pyramidals_48[46].apical2_2.v acnet2.pyramidals_48[47].apical2_2.v acnet2.pyramidals_48[0].apical3_3.v acnet2.pyramidals_48[1].apical3_3.v acnet2.pyramidals_48[2].apical3_3.v acnet2.pyramidals_48[3].apical3_3.v acnet2.pyramidals_48[4].apical3_3.v acnet2.pyramidals_48[5].apical3_3.v
+results/results15.dat
+time(StateVariable) acnet2.pyramidals_48[6].apical3_3.v acnet2.pyramidals_48[7].apical3_3.v acnet2.pyramidals_48[8].apical3_3.v acnet2.pyramidals_48[9].apical3_3.v acnet2.pyramidals_48[10].apical3_3.v acnet2.pyramidals_48[11].apical3_3.v acnet2.pyramidals_48[12].apical3_3.v acnet2.pyramidals_48[13].apical3_3.v acnet2.pyramidals_48[14].apical3_3.v acnet2.pyramidals_48[15].apical3_3.v
+results/results16.dat
+time(StateVariable) acnet2.pyramidals_48[16].apical3_3.v acnet2.pyramidals_48[17].apical3_3.v acnet2.pyramidals_48[18].apical3_3.v acnet2.pyramidals_48[19].apical3_3.v acnet2.pyramidals_48[20].apical3_3.v acnet2.pyramidals_48[21].apical3_3.v acnet2.pyramidals_48[22].apical3_3.v acnet2.pyramidals_48[23].apical3_3.v acnet2.pyramidals_48[24].apical3_3.v acnet2.pyramidals_48[25].apical3_3.v
+results/results17.dat
+time(StateVariable) acnet2.pyramidals_48[26].apical3_3.v acnet2.pyramidals_48[27].apical3_3.v acnet2.pyramidals_48[28].apical3_3.v acnet2.pyramidals_48[29].apical3_3.v acnet2.pyramidals_48[30].apical3_3.v acnet2.pyramidals_48[31].apical3_3.v acnet2.pyramidals_48[32].apical3_3.v acnet2.pyramidals_48[33].apical3_3.v acnet2.pyramidals_48[34].apical3_3.v acnet2.pyramidals_48[35].apical3_3.v
+results/results18.dat
+time(StateVariable) acnet2.pyramidals_48[36].apical3_3.v acnet2.pyramidals_48[37].apical3_3.v acnet2.pyramidals_48[38].apical3_3.v acnet2.pyramidals_48[39].apical3_3.v acnet2.pyramidals_48[40].apical3_3.v acnet2.pyramidals_48[41].apical3_3.v acnet2.pyramidals_48[42].apical3_3.v acnet2.pyramidals_48[43].apical3_3.v acnet2.pyramidals_48[44].apical3_3.v acnet2.pyramidals_48[45].apical3_3.v
+results/results19.dat
+time(StateVariable) acnet2.pyramidals_48[46].apical3_3.v acnet2.pyramidals_48[47].apical3_3.v acnet2.pyramidals_48[0].apical4_4.v acnet2.pyramidals_48[1].apical4_4.v acnet2.pyramidals_48[2].apical4_4.v acnet2.pyramidals_48[3].apical4_4.v acnet2.pyramidals_48[4].apical4_4.v acnet2.pyramidals_48[5].apical4_4.v acnet2.pyramidals_48[6].apical4_4.v acnet2.pyramidals_48[7].apical4_4.v
+results/results20.dat
+time(StateVariable) acnet2.pyramidals_48[8].apical4_4.v acnet2.pyramidals_48[9].apical4_4.v acnet2.pyramidals_48[10].apical4_4.v acnet2.pyramidals_48[11].apical4_4.v acnet2.pyramidals_48[12].apical4_4.v acnet2.pyramidals_48[13].apical4_4.v acnet2.pyramidals_48[14].apical4_4.v acnet2.pyramidals_48[15].apical4_4.v acnet2.pyramidals_48[16].apical4_4.v acnet2.pyramidals_48[17].apical4_4.v
+results/results21.dat
+time(StateVariable) acnet2.pyramidals_48[18].apical4_4.v acnet2.pyramidals_48[19].apical4_4.v acnet2.pyramidals_48[20].apical4_4.v acnet2.pyramidals_48[21].apical4_4.v acnet2.pyramidals_48[22].apical4_4.v acnet2.pyramidals_48[23].apical4_4.v acnet2.pyramidals_48[24].apical4_4.v acnet2.pyramidals_48[25].apical4_4.v acnet2.pyramidals_48[26].apical4_4.v acnet2.pyramidals_48[27].apical4_4.v
+results/results22.dat
+time(StateVariable) acnet2.pyramidals_48[28].apical4_4.v acnet2.pyramidals_48[29].apical4_4.v acnet2.pyramidals_48[30].apical4_4.v acnet2.pyramidals_48[31].apical4_4.v acnet2.pyramidals_48[32].apical4_4.v acnet2.pyramidals_48[33].apical4_4.v acnet2.pyramidals_48[34].apical4_4.v acnet2.pyramidals_48[35].apical4_4.v acnet2.pyramidals_48[36].apical4_4.v acnet2.pyramidals_48[37].apical4_4.v
+results/results23.dat
+time(StateVariable) acnet2.pyramidals_48[38].apical4_4.v acnet2.pyramidals_48[39].apical4_4.v acnet2.pyramidals_48[40].apical4_4.v acnet2.pyramidals_48[41].apical4_4.v acnet2.pyramidals_48[42].apical4_4.v acnet2.pyramidals_48[43].apical4_4.v acnet2.pyramidals_48[44].apical4_4.v acnet2.pyramidals_48[45].apical4_4.v acnet2.pyramidals_48[46].apical4_4.v acnet2.pyramidals_48[47].apical4_4.v
+results/results24.dat
+time(StateVariable) acnet2.pyramidals_48[0].apical1_5.v acnet2.pyramidals_48[1].apical1_5.v acnet2.pyramidals_48[2].apical1_5.v acnet2.pyramidals_48[3].apical1_5.v acnet2.pyramidals_48[4].apical1_5.v acnet2.pyramidals_48[5].apical1_5.v acnet2.pyramidals_48[6].apical1_5.v acnet2.pyramidals_48[7].apical1_5.v acnet2.pyramidals_48[8].apical1_5.v acnet2.pyramidals_48[9].apical1_5.v
+results/results25.dat
+time(StateVariable) acnet2.pyramidals_48[10].apical1_5.v acnet2.pyramidals_48[11].apical1_5.v acnet2.pyramidals_48[12].apical1_5.v acnet2.pyramidals_48[13].apical1_5.v acnet2.pyramidals_48[14].apical1_5.v acnet2.pyramidals_48[15].apical1_5.v acnet2.pyramidals_48[16].apical1_5.v acnet2.pyramidals_48[17].apical1_5.v acnet2.pyramidals_48[18].apical1_5.v acnet2.pyramidals_48[19].apical1_5.v
+results/results26.dat
+time(StateVariable) acnet2.pyramidals_48[20].apical1_5.v acnet2.pyramidals_48[21].apical1_5.v acnet2.pyramidals_48[22].apical1_5.v acnet2.pyramidals_48[23].apical1_5.v acnet2.pyramidals_48[24].apical1_5.v acnet2.pyramidals_48[25].apical1_5.v acnet2.pyramidals_48[26].apical1_5.v acnet2.pyramidals_48[27].apical1_5.v acnet2.pyramidals_48[28].apical1_5.v acnet2.pyramidals_48[29].apical1_5.v
+results/results27.dat
+time(StateVariable) acnet2.pyramidals_48[30].apical1_5.v acnet2.pyramidals_48[31].apical1_5.v acnet2.pyramidals_48[32].apical1_5.v acnet2.pyramidals_48[33].apical1_5.v acnet2.pyramidals_48[34].apical1_5.v acnet2.pyramidals_48[35].apical1_5.v acnet2.pyramidals_48[36].apical1_5.v acnet2.pyramidals_48[37].apical1_5.v acnet2.pyramidals_48[38].apical1_5.v acnet2.pyramidals_48[39].apical1_5.v
+results/results28.dat
+time(StateVariable) acnet2.pyramidals_48[40].apical1_5.v acnet2.pyramidals_48[41].apical1_5.v acnet2.pyramidals_48[42].apical1_5.v acnet2.pyramidals_48[43].apical1_5.v acnet2.pyramidals_48[44].apical1_5.v acnet2.pyramidals_48[45].apical1_5.v acnet2.pyramidals_48[46].apical1_5.v acnet2.pyramidals_48[47].apical1_5.v acnet2.pyramidals_48[0].basal0_6.v acnet2.pyramidals_48[1].basal0_6.v
+results/results29.dat
+time(StateVariable) acnet2.pyramidals_48[2].basal0_6.v acnet2.pyramidals_48[3].basal0_6.v acnet2.pyramidals_48[4].basal0_6.v acnet2.pyramidals_48[5].basal0_6.v acnet2.pyramidals_48[6].basal0_6.v acnet2.pyramidals_48[7].basal0_6.v acnet2.pyramidals_48[8].basal0_6.v acnet2.pyramidals_48[9].basal0_6.v acnet2.pyramidals_48[10].basal0_6.v acnet2.pyramidals_48[11].basal0_6.v
+results/results30.dat
+time(StateVariable) acnet2.pyramidals_48[12].basal0_6.v acnet2.pyramidals_48[13].basal0_6.v acnet2.pyramidals_48[14].basal0_6.v acnet2.pyramidals_48[15].basal0_6.v acnet2.pyramidals_48[16].basal0_6.v acnet2.pyramidals_48[17].basal0_6.v acnet2.pyramidals_48[18].basal0_6.v acnet2.pyramidals_48[19].basal0_6.v acnet2.pyramidals_48[20].basal0_6.v acnet2.pyramidals_48[21].basal0_6.v
+results/results31.dat
+time(StateVariable) acnet2.pyramidals_48[22].basal0_6.v acnet2.pyramidals_48[23].basal0_6.v acnet2.pyramidals_48[24].basal0_6.v acnet2.pyramidals_48[25].basal0_6.v acnet2.pyramidals_48[26].basal0_6.v acnet2.pyramidals_48[27].basal0_6.v acnet2.pyramidals_48[28].basal0_6.v acnet2.pyramidals_48[29].basal0_6.v acnet2.pyramidals_48[30].basal0_6.v acnet2.pyramidals_48[31].basal0_6.v
+results/results32.dat
+time(StateVariable) acnet2.pyramidals_48[32].basal0_6.v acnet2.pyramidals_48[33].basal0_6.v acnet2.pyramidals_48[34].basal0_6.v acnet2.pyramidals_48[35].basal0_6.v acnet2.pyramidals_48[36].basal0_6.v acnet2.pyramidals_48[37].basal0_6.v acnet2.pyramidals_48[38].basal0_6.v acnet2.pyramidals_48[39].basal0_6.v acnet2.pyramidals_48[40].basal0_6.v acnet2.pyramidals_48[41].basal0_6.v
+results/results33.dat
+time(StateVariable) acnet2.pyramidals_48[42].basal0_6.v acnet2.pyramidals_48[43].basal0_6.v acnet2.pyramidals_48[44].basal0_6.v acnet2.pyramidals_48[45].basal0_6.v acnet2.pyramidals_48[46].basal0_6.v acnet2.pyramidals_48[47].basal0_6.v acnet2.pyramidals_48[0].basal1_7.v acnet2.pyramidals_48[1].basal1_7.v acnet2.pyramidals_48[2].basal1_7.v acnet2.pyramidals_48[3].basal1_7.v
+results/results34.dat
+time(StateVariable) acnet2.pyramidals_48[4].basal1_7.v acnet2.pyramidals_48[5].basal1_7.v acnet2.pyramidals_48[6].basal1_7.v acnet2.pyramidals_48[7].basal1_7.v acnet2.pyramidals_48[8].basal1_7.v acnet2.pyramidals_48[9].basal1_7.v acnet2.pyramidals_48[10].basal1_7.v acnet2.pyramidals_48[11].basal1_7.v acnet2.pyramidals_48[12].basal1_7.v acnet2.pyramidals_48[13].basal1_7.v
+results/results35.dat
+time(StateVariable) acnet2.pyramidals_48[14].basal1_7.v acnet2.pyramidals_48[15].basal1_7.v acnet2.pyramidals_48[16].basal1_7.v acnet2.pyramidals_48[17].basal1_7.v acnet2.pyramidals_48[18].basal1_7.v acnet2.pyramidals_48[19].basal1_7.v acnet2.pyramidals_48[20].basal1_7.v acnet2.pyramidals_48[21].basal1_7.v acnet2.pyramidals_48[22].basal1_7.v acnet2.pyramidals_48[23].basal1_7.v
+results/results36.dat
+time(StateVariable) acnet2.pyramidals_48[24].basal1_7.v acnet2.pyramidals_48[25].basal1_7.v acnet2.pyramidals_48[26].basal1_7.v acnet2.pyramidals_48[27].basal1_7.v acnet2.pyramidals_48[28].basal1_7.v acnet2.pyramidals_48[29].basal1_7.v acnet2.pyramidals_48[30].basal1_7.v acnet2.pyramidals_48[31].basal1_7.v acnet2.pyramidals_48[32].basal1_7.v acnet2.pyramidals_48[33].basal1_7.v
+results/results37.dat
+time(StateVariable) acnet2.pyramidals_48[34].basal1_7.v acnet2.pyramidals_48[35].basal1_7.v acnet2.pyramidals_48[36].basal1_7.v acnet2.pyramidals_48[37].basal1_7.v acnet2.pyramidals_48[38].basal1_7.v acnet2.pyramidals_48[39].basal1_7.v acnet2.pyramidals_48[40].basal1_7.v acnet2.pyramidals_48[41].basal1_7.v acnet2.pyramidals_48[42].basal1_7.v acnet2.pyramidals_48[43].basal1_7.v
+results/results38.dat
+time(StateVariable) acnet2.pyramidals_48[44].basal1_7.v acnet2.pyramidals_48[45].basal1_7.v acnet2.pyramidals_48[46].basal1_7.v acnet2.pyramidals_48[47].basal1_7.v acnet2.pyramidals_48[0].basal2_8.v acnet2.pyramidals_48[1].basal2_8.v acnet2.pyramidals_48[2].basal2_8.v acnet2.pyramidals_48[3].basal2_8.v acnet2.pyramidals_48[4].basal2_8.v acnet2.pyramidals_48[5].basal2_8.v
+results/results39.dat
+time(StateVariable) acnet2.pyramidals_48[6].basal2_8.v acnet2.pyramidals_48[7].basal2_8.v acnet2.pyramidals_48[8].basal2_8.v acnet2.pyramidals_48[9].basal2_8.v acnet2.pyramidals_48[10].basal2_8.v acnet2.pyramidals_48[11].basal2_8.v acnet2.pyramidals_48[12].basal2_8.v acnet2.pyramidals_48[13].basal2_8.v acnet2.pyramidals_48[14].basal2_8.v acnet2.pyramidals_48[15].basal2_8.v
+results/results40.dat
+time(StateVariable) acnet2.pyramidals_48[16].basal2_8.v acnet2.pyramidals_48[17].basal2_8.v acnet2.pyramidals_48[18].basal2_8.v acnet2.pyramidals_48[19].basal2_8.v acnet2.pyramidals_48[20].basal2_8.v acnet2.pyramidals_48[21].basal2_8.v acnet2.pyramidals_48[22].basal2_8.v acnet2.pyramidals_48[23].basal2_8.v acnet2.pyramidals_48[24].basal2_8.v acnet2.pyramidals_48[25].basal2_8.v
+results/results41.dat
+time(StateVariable) acnet2.pyramidals_48[26].basal2_8.v acnet2.pyramidals_48[27].basal2_8.v acnet2.pyramidals_48[28].basal2_8.v acnet2.pyramidals_48[29].basal2_8.v acnet2.pyramidals_48[30].basal2_8.v acnet2.pyramidals_48[31].basal2_8.v acnet2.pyramidals_48[32].basal2_8.v acnet2.pyramidals_48[33].basal2_8.v acnet2.pyramidals_48[34].basal2_8.v acnet2.pyramidals_48[35].basal2_8.v
+results/results42.dat
+time(StateVariable) acnet2.pyramidals_48[36].basal2_8.v acnet2.pyramidals_48[37].basal2_8.v acnet2.pyramidals_48[38].basal2_8.v acnet2.pyramidals_48[39].basal2_8.v acnet2.pyramidals_48[40].basal2_8.v acnet2.pyramidals_48[41].basal2_8.v acnet2.pyramidals_48[42].basal2_8.v acnet2.pyramidals_48[43].basal2_8.v acnet2.pyramidals_48[44].basal2_8.v acnet2.pyramidals_48[45].basal2_8.v
+results/results43.dat
+time(StateVariable) acnet2.pyramidals_48[46].basal2_8.v acnet2.pyramidals_48[47].basal2_8.v acnet2.baskets_12[0].soma_0.v acnet2.baskets_12[1].soma_0.v acnet2.baskets_12[2].soma_0.v acnet2.baskets_12[3].soma_0.v acnet2.baskets_12[4].soma_0.v acnet2.baskets_12[5].soma_0.v acnet2.baskets_12[6].soma_0.v acnet2.baskets_12[7].soma_0.v
+results/results44.dat
+time(StateVariable) acnet2.baskets_12[8].soma_0.v acnet2.baskets_12[9].soma_0.v acnet2.baskets_12[10].soma_0.v acnet2.baskets_12[11].soma_0.v acnet2.baskets_12[0].dend_1.v acnet2.baskets_12[1].dend_1.v acnet2.baskets_12[2].dend_1.v acnet2.baskets_12[3].dend_1.v acnet2.baskets_12[4].dend_1.v acnet2.baskets_12[5].dend_1.v
+results/results45.dat
+time(StateVariable) acnet2.baskets_12[6].dend_1.v acnet2.baskets_12[7].dend_1.v acnet2.baskets_12[8].dend_1.v acnet2.baskets_12[9].dend_1.v acnet2.baskets_12[10].dend_1.v acnet2.baskets_12[11].dend_1.v

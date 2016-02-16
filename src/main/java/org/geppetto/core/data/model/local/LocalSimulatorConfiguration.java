@@ -46,7 +46,7 @@ public class LocalSimulatorConfiguration implements ISimulatorConfiguration
 	private String conversionServiceId;
 
 	private float timestep;
-	
+
 	private float length;
 
 	private Map<String, String> parameters;
@@ -100,37 +100,37 @@ public class LocalSimulatorConfiguration implements ISimulatorConfiguration
 	@Override
 	public void setLength(float length)
 	{
-		this.length=length;
+		this.length = length;
 	}
 
 	@Override
 	public void setTimestep(float timestep)
 	{
-		this.timestep=timestep;
+		this.timestep = timestep;
 	}
 
 	@Override
 	public void setSimulatorId(String simulatorId)
 	{
-		this.simulatorId=simulatorId;
+		this.simulatorId = simulatorId;
 	}
 
 	@Override
 	public void setConversionServiceId(String conversionServiceId)
 	{
-		this.conversionServiceId=conversionServiceId;
+		this.conversionServiceId = conversionServiceId;
 	}
 
 	@Override
 	public void setParameters(Map<String, String> parameters)
 	{
-		this.parameters=parameters;
+		this.parameters = parameters;
 	}
 
 	@Override
 	public void setId(long id)
 	{
-		this.id=id;
+		this.id = id;
 	}
 
 }

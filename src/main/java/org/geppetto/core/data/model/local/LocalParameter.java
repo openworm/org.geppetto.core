@@ -33,18 +33,17 @@
 
 package org.geppetto.core.data.model.local;
 
-import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.data.model.IParameter;
 
 public class LocalParameter implements IParameter
 {
 	private long id;
 
-	private LocalInstancePath variable;
+	private String variable;
 
 	private String value;
 
-	public LocalParameter(long id, LocalInstancePath variable, String value)
+	public LocalParameter(long id, String variable, String value)
 	{
 		this.id = id;
 		this.variable = variable;
@@ -64,7 +63,7 @@ public class LocalParameter implements IParameter
 	}
 
 	@Override
-	public IInstancePath getVariable()
+	public String getVariable()
 	{
 		return variable;
 	}
@@ -72,7 +71,7 @@ public class LocalParameter implements IParameter
 	@Override
 	public void setValue(String value)
 	{
-		this.value=value;
+		this.value = value;
 	}
 
 }

@@ -47,8 +47,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 public class ApplicationListenerBean implements ApplicationListener<ContextRefreshedEvent>
 {
 	private static Log _logger = LogFactory.getLog(ApplicationListenerBean.class);
-	
-	private static Map<String,ApplicationContext> applicationContexts=new HashMap<String, ApplicationContext>();
+
+	private static Map<String, ApplicationContext> applicationContexts = new HashMap<String, ApplicationContext>();
 
 	/**
 	 * @return
@@ -57,11 +57,11 @@ public class ApplicationListenerBean implements ApplicationListener<ContextRefre
 	{
 		return applicationContexts.get(service);
 	}
-	
+
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event)
 	{
-		ApplicationContext applicationContext=event.getApplicationContext();
+		ApplicationContext applicationContext = event.getApplicationContext();
 		Map<String, IModelInterpreter> modelBeans = applicationContext.getBeansOfType(IModelInterpreter.class, false, false);
 
 		for(Map.Entry<String, IModelInterpreter> modelBean : modelBeans.entrySet())

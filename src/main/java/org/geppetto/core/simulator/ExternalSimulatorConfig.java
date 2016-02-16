@@ -32,8 +32,9 @@
  *******************************************************************************/
 package org.geppetto.core.simulator;
 
-public class ExternalSimulatorConfig {
-	
+public class ExternalSimulatorConfig
+{
+
 	private String simulatorPath;
 
 	public String getSimulatorPath()
@@ -45,6 +46,5 @@ public class ExternalSimulatorConfig {
 	{
 		this.simulatorPath = simulatorPath;
 	}
-	
-	
+
 }

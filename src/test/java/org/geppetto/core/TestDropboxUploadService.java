@@ -32,13 +32,10 @@
  *******************************************************************************/
 package org.geppetto.core;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 
 import org.geppetto.core.services.DropboxUploadService;
 import org.junit.Test;
-import org.springframework.util.Assert;
 
 public class TestDropboxUploadService
 {

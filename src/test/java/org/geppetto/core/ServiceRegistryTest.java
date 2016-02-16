@@ -42,10 +42,11 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.geppetto.core.conversion.IConversion;
-import org.geppetto.core.model.ModelWrapper;
-import org.geppetto.core.services.ModelFormat;
 import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.core.services.registry.ServicesRegistry.ConversionServiceKey;
+import org.geppetto.model.DomainModel;
+import org.geppetto.model.GeppettoFactory;
+import org.geppetto.model.ModelFormat;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -155,12 +156,11 @@ public class ServiceRegistryTest
 	@Test
 	public void testSupportedOutputs(){
 		Map<ModelFormat, List<IConversion>> outputsMap = null;
-		List<ModelFormat> modelFormats = new ArrayList<ModelFormat>();
-		modelFormats.add(ServicesRegistry.getModelFormat("TEST"));
-		List<ModelFormat> modelFormats2 = new ArrayList<ModelFormat>();
-		modelFormats2.add(ServicesRegistry.getModelFormat("TEST2"));
 		
-		outputsMap = ServicesRegistry.getSupportedOutputs(new ModelWrapper(""), modelFormats);
+		DomainModel model=GeppettoFactory.eINSTANCE.createDomainModel();
+		model.setFormat(ServicesRegistry.getModelFormat("TEST"));
+		
+		outputsMap = ServicesRegistry.getSupportedOutputs(model);
 		assertNotNull(outputsMap);
 		Assert.assertEquals(outputsMap.size(), 1);
 		Assert.assertTrue(outputsMap.containsKey(ServicesRegistry.getModelFormat("TEST2")));

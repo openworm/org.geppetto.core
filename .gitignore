@@ -5,5 +5,6 @@
 /.externalToolBuilders/
 /.settings/
 .classpath
+.idea
 /core.iml
 /libjhdf5.jnilib

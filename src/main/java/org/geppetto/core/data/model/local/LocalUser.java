@@ -36,6 +36,7 @@ package org.geppetto.core.data.model.local;
 import java.util.List;
 
 import org.geppetto.core.data.model.IUser;
+import org.geppetto.core.data.model.IUserGroup;
 
 public class LocalUser implements IUser
 {
@@ -49,15 +50,13 @@ public class LocalUser implements IUser
 
 	private String token;
 
-	private long spaceAllowance;
-
-	private long simulationTimeAllowance;
-
 	private List<LocalGeppettoProject> geppettoProjects;
+	
+	private IUserGroup group;
 
 	private String dropboxToken;
 
-	public LocalUser(long id, String login, String password, String name, String token, List<LocalGeppettoProject> geppettoProjects, long spaceAllowance, long simulationTimeAllowance)
+	public LocalUser(long id, String login, String password, String name, String token, List<LocalGeppettoProject> geppettoProjects, IUserGroup group)
 	{
 		this.id = id;
 		this.login = login;
@@ -65,8 +64,7 @@ public class LocalUser implements IUser
 		this.name = name;
 		this.token = token;
 		this.geppettoProjects = geppettoProjects;
-		this.spaceAllowance = spaceAllowance;
-		this.simulationTimeAllowance = simulationTimeAllowance;
+		this.group = group;
 	}
 
 	@Override
@@ -105,18 +103,6 @@ public class LocalUser implements IUser
 	}
 
 	@Override
-	public long getSpaceAllowance()
-	{
-		return spaceAllowance;
-	}
-
-	@Override
-	public long getSimulationTimeAllowance()
-	{
-		return simulationTimeAllowance;
-	}
-
-	@Override
 	public String getDropboxToken()
 	{
 		return this.dropboxToken;
@@ -125,7 +111,16 @@ public class LocalUser implements IUser
 	@Override
 	public void setDropboxToken(String token)
 	{
-		this.dropboxToken=token;
+		this.dropboxToken = token;
+	}
+
+	@Override
+	public IUserGroup getUserGroup() {
+		return this.group;
+	}
+	
+	public void setUserGroup(IUserGroup group){
+		this.group = group;
 	}
 
 }

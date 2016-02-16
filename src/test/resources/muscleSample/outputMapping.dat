@@ -1,0 +1,2 @@
+results/results0.dat
+time(StateVariable) net1.neuron[0].v net1.muscle[0].v net1.muscle[0].caConc net1.muscle[0].biophys.membraneProperties.Leak_all.iDensity net1.muscle[0].biophys.membraneProperties.k_slow_all.iDensity net1.muscle[0].biophys.membraneProperties.k_fast_all.iDensity net1.muscle[0].biophys.membraneProperties.ca_boyle_all.iDensity

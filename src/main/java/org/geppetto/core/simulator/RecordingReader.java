@@ -33,11 +33,8 @@
 package org.geppetto.core.simulator;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import ncsa.hdf.object.Attribute;
 import ncsa.hdf.object.Dataset;
@@ -46,22 +43,19 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.data.model.ResultsFormat;
-import org.geppetto.core.model.RecordingModel;
-import org.geppetto.core.model.quantities.Quantity;
-import org.geppetto.core.model.quantities.Unit;
-import org.geppetto.core.model.runtime.ACompositeNode;
-import org.geppetto.core.model.runtime.ANode;
-import org.geppetto.core.model.runtime.AspectNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode;
-import org.geppetto.core.model.runtime.AspectSubTreeNode.AspectTreeType;
-import org.geppetto.core.model.runtime.CompositeNode;
-import org.geppetto.core.model.runtime.SkeletonAnimationNode;
-import org.geppetto.core.model.runtime.VariableNode;
-import org.geppetto.core.model.values.AValue;
-import org.geppetto.core.model.values.ValuesFactory;
+import org.geppetto.core.model.Recording;
 import org.geppetto.core.utilities.StringSplitter;
+import org.geppetto.model.ExperimentState;
+import org.geppetto.model.VariableValue;
+import org.geppetto.model.types.TypesPackage;
+import org.geppetto.model.util.PointerUtility;
+import org.geppetto.model.values.SkeletonAnimation;
+import org.geppetto.model.values.SkeletonTransformation;
+import org.geppetto.model.values.TimeSeries;
+import org.geppetto.model.values.Unit;
+import org.geppetto.model.values.Value;
+import org.geppetto.model.values.ValuesFactory;
 
 /**
  * @author matteocantarelli
@@ -71,22 +65,23 @@ public class RecordingReader
 {
 	private int currentRecordingIndex = 0;
 
-	private RecordingModel recording;
+	private Recording recording;
 
 	private ResultsFormat recordingFormat;
 
 	private boolean recordingOpened = false;
 
-	public RecordingReader(RecordingModel recording)
+	public RecordingReader(Recording recording) throws GeppettoExecutionException
 	{
 		this(recording, ResultsFormat.GEPPETTO_RECORDING);
 	}
 
-	public RecordingReader(RecordingModel recording, ResultsFormat format)
+	public RecordingReader(Recording recording, ResultsFormat format) throws GeppettoExecutionException
 	{
 		super();
 		this.recording = recording;
 		this.setRecordingFormat(format);
+		openRecording();
 	}
 
 	/**
@@ -95,22 +90,22 @@ public class RecordingReader
 	 * @param readAll
 	 * @throws GeppettoExecutionException
 	 */
-	public void readRecording(IInstancePath variable, AspectSubTreeNode tree, boolean readAll) throws GeppettoExecutionException
+	public void readRecording(String recordedVariable, ExperimentState modelState, boolean readAll) throws GeppettoExecutionException
 	{
-		openRecording();
+		
 
-		String recordingVariablePath = "/" + variable.getInstancePath();
+		String recordingVariablePath = "/" + recordedVariable;
 
 		recordingVariablePath = recordingVariablePath.replace(".", "/");
 
-		this.readVariable(recordingVariablePath, recording.getHDF5(), tree, readAll);
-
-		this.readVariable("/time", recording.getHDF5(), tree, readAll);
+		this.readVariable(recordingVariablePath, recording.getHDF5(), modelState, readAll);
 
 		if(!readAll)
 		{
 			currentRecordingIndex++;
 		}
+		
+		
 	}
 
 	/**
@@ -128,238 +123,115 @@ public class RecordingReader
 	 * @param readAll
 	 * @throws GeppettoExecutionException
 	 */
-	public void readVariable(String path, H5File h5File, ACompositeNode parent, boolean readAll) throws GeppettoExecutionException
+	public void readVariable(String path, H5File h5File, ExperimentState modelState, boolean readAll) throws GeppettoExecutionException
 	{
-		Dataset v = (Dataset) FileFormat.findObject(h5File, path);
-
-		String unit = "";
-		String metaType = "";
-		Map<String, String> custom = null;
-
 		try
 		{
+			Dataset v = (Dataset) FileFormat.findObject(h5File, path);
+			if(v==null)
+			{
+				v=(Dataset) FileFormat.findObject(h5File, PointerUtility.getPathWithoutTypes(path));
+			}
+
+			VariableValue variableValue = findVariableValue(path, modelState);
+
+			Value value = null;
+
+			Unit unit = ValuesFactory.eINSTANCE.createUnit();
+
+			String metaType = "";
+			Map<String, String> custom = null;
+
 			// get metadata from recording node
 			List<Attribute> attributes = v.getMetadata();
 
 			for(Attribute a : attributes)
 			{
-				if(a.getName().toLowerCase().equals("unit"))
+				if(a.getName().equals("unit"))
 				{
-					unit = ((String[]) a.getValue())[0];
+					unit.setUnit(((String[]) a.getValue())[0]);
 				}
-				else if(a.getName().toLowerCase().equals("meta_type") || a.getName().toLowerCase().equals("metatype"))
+				else if(a.getName().equals("metatype"))
 				{
-					// FIXME Why the two of them? Why hardcoded strings? Consolidate and remove one of the two
 					metaType = ((String[]) a.getValue())[0];
 				}
-				else if(a.getName().toLowerCase().equals("custom_metadata"))
+				else if(a.getName().equals("custom_metadata"))
 				{
 					String customStr = ((String[]) a.getValue())[0];
 					custom = StringSplitter.keyValueSplit(customStr, ";");
 				}
 
 			}
-		}
-		catch(Exception e1)
-		{
-			throw new GeppettoExecutionException("Error retrieving the variable " + path + " from the recording of the simulation", e1);
-		}
 
-		String test = "/" + AspectTreeType.SIMULATION_TREE.toString() + "/";
-		boolean found = false;
-		if(path.contains(test))
-		{
-			path = path.substring(path.indexOf(test) + test.length());
-			found = true;
-		}
-		if(!found)
-		{
-			test = "/" + AspectTreeType.VISUALIZATION_TREE.toString() + "/";
-			if(path.contains(test))
-			{
-				path = path.substring(path.indexOf(test) + test.length());
-				found=true;
-			}
-			if(!found)
-			{
-				test = "/" + AspectTreeType.MODEL_TREE.toString() + "/";
-				if(path.contains(test))
-				{
-					path = path.substring(path.indexOf(test) + test.length());
-				}
-			}
-		}
+			Object readData = v.read();
 
-		StringTokenizer tokenizer = new StringTokenizer(path, "/");
-		VariableNode newVariableNode = null;
-		SkeletonAnimationNode newSkeletonAnimationNode = null;
-		while(tokenizer.hasMoreElements())
-		{
-			String current = tokenizer.nextToken();
-			found = false;
-			for(ANode child : parent.getChildren())
+			if(metaType.equals(TypesPackage.Literals.STATE_VARIABLE_TYPE.getName()))
 			{
-				if(child.getId().equals(current))
+
+				value = ValuesFactory.eINSTANCE.createTimeSeries();
+				((TimeSeries) value).setUnit(unit);
+
+				if(readData instanceof double[])
 				{
-					if(child instanceof ACompositeNode)
+					double[] dr = (double[]) readData;
+					if(!readAll)
 					{
-						parent = (ACompositeNode) child;
+						((TimeSeries) value).getValue().add(dr[currentRecordingIndex]);
 					}
-					if(child instanceof VariableNode)
+					else
 					{
-						newVariableNode = (VariableNode) child;
+						for(int i = 0; i < dr.length; i++)
+						{
+							((TimeSeries) value).getValue().add(dr[i]);
+						}
+
 					}
-					if(child instanceof SkeletonAnimationNode)
-					{
-						newSkeletonAnimationNode = (SkeletonAnimationNode) child;
-					}
-					found = true;
-					break;
+
 				}
-			}
-			if(found)
-			{
-				continue;
-			}
-			else
-			{
-				if(tokenizer.hasMoreElements())
+				else if(readData instanceof float[])
 				{
-					// not a leaf, create a composite state node
-					ACompositeNode newNode = new CompositeNode(current);
-					parent.addChild(newNode);
-					parent = newNode;
+					throw new GeppettoExecutionException("Only double values supported");
+				}
+				else if(readData instanceof int[])
+				{
+					throw new GeppettoExecutionException("Only double values supported");
+				}
+
+			}
+			else if(metaType.contains("VISUAL_TRANSFORMATION"))
+			{
+				value = ValuesFactory.eINSTANCE.createSkeletonAnimation();
+				double[] dr = (double[]) readData;
+				if(!readAll)
+				{
+					double[] flatMatrices = null;
+					if(readData instanceof double[])
+					{
+
+						// get items of interest based on matrix dimension and items per step
+						int itemsPerStep = Integer.parseInt(custom.get("items_per_step"));
+						int startIndex = currentRecordingIndex * itemsPerStep;
+						int endIndex = startIndex + (itemsPerStep);
+
+						if(endIndex <= dr.length)
+						{
+							flatMatrices = Arrays.copyOfRange(dr, startIndex, endIndex);
+						}
+						else
+						{
+							throw new ArrayIndexOutOfBoundsException("ArrayIndexOutOfBounds");
+						}
+					}
+
+					// set matrices on skeleton animation node
+					SkeletonTransformation skeletonTransformation = ValuesFactory.eINSTANCE.createSkeletonTransformation();
+					skeletonTransformation.getSkeletonTransformation().addAll(Arrays.asList(ArrayUtils.toObject(flatMatrices)));
+					((SkeletonAnimation) value).getSkeletonTransformationSeries().add(skeletonTransformation);
 				}
 				else
 				{
-					// it's a leaf node
-					Object dataRead;
-					try
+					if(readData instanceof double[])
 					{
-						dataRead = v.read();
-
-						if(metaType.contains("VariableNode") || metaType.contains("STATE_VARIABLE"))
-						{
-							VariableNode newNode = new VariableNode(current);
-							newVariableNode = (VariableNode) newNode;
-							parent.addChild(newNode);
-
-							if(!readAll)
-							{
-								Quantity quantity = new Quantity();
-								AValue readValue = null;
-								if(dataRead instanceof double[])
-								{
-									double[] dr = (double[]) dataRead;
-									readValue = ValuesFactory.getDoubleValue(dr[currentRecordingIndex]);
-								}
-								else if(dataRead instanceof float[])
-								{
-									float[] fr = (float[]) dataRead;
-									readValue = ValuesFactory.getFloatValue(fr[currentRecordingIndex]);
-								}
-								else if(dataRead instanceof int[])
-								{
-									int[] ir = (int[]) dataRead;
-									readValue = ValuesFactory.getIntValue(ir[currentRecordingIndex]);
-								}
-
-								quantity.setValue(readValue);
-								newNode.addQuantity(quantity);
-								newNode.setUnit(new Unit(unit));
-							}
-						}
-						else if(metaType.contains("VISUAL_TRANSFORMATION"))
-						{
-							SkeletonAnimationNode newNode = new SkeletonAnimationNode(current);
-							newSkeletonAnimationNode = (SkeletonAnimationNode) newNode;
-							parent.addChild(newNode);
-
-							if(!readAll)
-							{
-								double[] flatMatrices = null;
-								if(dataRead instanceof double[])
-								{
-									double[] dr = (double[]) dataRead;
-
-									// get items of interest based on matrix dimension and items per step
-									int itemsPerStep = Integer.parseInt(custom.get("items_per_step"));
-									int startIndex = currentRecordingIndex * itemsPerStep;
-									int endIndex = startIndex + (itemsPerStep);
-
-									if(endIndex <= dr.length)
-									{
-										flatMatrices = Arrays.copyOfRange(dr, startIndex, endIndex);
-									}
-									else
-									{
-										throw new ArrayIndexOutOfBoundsException("ArrayIndexOutOfBounds");
-									}
-								}
-
-								// set matrices on skeleton animation node
-								newNode.addSkeletonTransformation(Arrays.asList(ArrayUtils.toObject(flatMatrices)));
-							}
-						}
-					}
-					catch(Exception | OutOfMemoryError e)
-					{
-						throw new GeppettoExecutionException(e);
-					}
-				}
-			}
-		}
-		if(readAll)
-		{
-			Object dataRead;
-			try
-			{
-				dataRead = v.read();
-
-				if(metaType.contains("VariableNode") || metaType.contains("STATE_VARIABLE"))
-				{
-					AValue readValue = null;
-
-					if(dataRead instanceof double[])
-					{
-						double[] dr = (double[]) dataRead;
-						for(int i = 0; i < dr.length; i++)
-						{
-							Quantity quantity = new Quantity();
-							readValue = ValuesFactory.getDoubleValue(dr[i]);
-							quantity.setValue(readValue);
-							newVariableNode.addQuantity(quantity);
-						}
-					}
-					else if(dataRead instanceof float[])
-					{
-						float[] fr = (float[]) dataRead;
-						for(int i = 0; i < fr.length; i++)
-						{
-							Quantity quantity = new Quantity();
-							readValue = ValuesFactory.getDoubleValue(fr[i]);
-							quantity.setValue(readValue);
-							newVariableNode.addQuantity(quantity);
-						}
-					}
-					else if(dataRead instanceof int[])
-					{
-						int[] ir = (int[]) dataRead;
-						for(int i = 0; i < ir.length; i++)
-						{
-							Quantity quantity = new Quantity();
-							readValue = ValuesFactory.getDoubleValue(ir[i]);
-							quantity.setValue(readValue);
-							newVariableNode.addQuantity(quantity);
-						}
-					}
-					newVariableNode.setUnit(new Unit(unit));
-				}
-				else if(metaType.contains("VISUAL_TRANSFORMATION"))
-				{
-					if(dataRead instanceof double[])
-					{
-						double[] dr = (double[]) dataRead;
 						// get items of interest based on matrix dimension and items per step
 						int itemsPerStep = Integer.parseInt(custom.get("items_per_step"));
 						int totalSteps = dr.length / itemsPerStep;
@@ -380,20 +252,35 @@ public class RecordingReader
 								throw new ArrayIndexOutOfBoundsException("ArrayIndexOutOfBounds");
 							}
 
-							newSkeletonAnimationNode.addSkeletonTransformation(Arrays.asList(ArrayUtils.toObject(flatMatrices)));
+							// set matrices on skeleton animation node
+							SkeletonTransformation skeletonTransformation = ValuesFactory.eINSTANCE.createSkeletonTransformation();
+							skeletonTransformation.getSkeletonTransformation().addAll(Arrays.asList(ArrayUtils.toObject(flatMatrices)));
+							((SkeletonAnimation) value).getSkeletonTransformationSeries().add(skeletonTransformation);
 						}
 					}
 				}
 			}
-			catch(ArrayIndexOutOfBoundsException e)
+			variableValue.setValue(value);
+
+		}
+		catch(Exception e)
+		{
+			throw new GeppettoExecutionException("Error reading a variable from the recording", e);
+		}
+
+	}
+
+	private VariableValue findVariableValue(String path, ExperimentState modelState)
+	{
+		String instancePath = path.substring(1).replace("/", ".");
+		for(VariableValue variableValue : modelState.getRecordedVariables())
+		{
+			if(variableValue.getPointer().getInstancePath().equals(instancePath))
 			{
-				throw new GeppettoExecutionException(e);
-			}
-			catch(Exception | OutOfMemoryError e)
-			{
-				throw new GeppettoExecutionException(e);
+				return variableValue;
 			}
 		}
+		return null;
 	}
 
 	/**
@@ -412,99 +299,6 @@ public class RecordingReader
 		currentRecordingIndex = 0;
 	}
 
-	/**
-	 * @param aspect
-	 * @throws GeppettoExecutionException
-	 */
-	public void advanceRecordings(AspectNode aspect) throws GeppettoExecutionException
-	{
-		if(recording == null)
-		{
-			// no recordings = nothing to advance
-			return;
-		}
-
-		// traverse scene root to get all simulation trees for all *CHILDREN* aspects
-		ANode parentEntity = aspect.getParent();
-
-		// find all children aspects
-		GetAspectsVisitor mappingVisitor = new GetAspectsVisitor();
-		parentEntity.apply(mappingVisitor);
-		HashMap<String, AspectNode> aspects = mappingVisitor.getAspects();
-
-		// iterate through children aspects
-		Iterator it = aspects.entrySet().iterator();
-		boolean updated = false;
-		boolean endOfStepsReached = false;
-		while(it.hasNext())
-		{
-			Map.Entry o = (Map.Entry) it.next();
-			AspectNode a = (AspectNode) o.getValue();
-
-			// get trees
-			AspectSubTreeNode simulationTree = (AspectSubTreeNode) a.getSubTree(AspectTreeType.SIMULATION_TREE);
-			AspectSubTreeNode visTree = (AspectSubTreeNode) a.getSubTree(AspectTreeType.VISUALIZATION_TREE);
-
-			// set modified
-			simulationTree.setModified(true);
-			visTree.setModified(true);
-			a.setModified(true);
-			a.getParentEntity().setModified(true);
-
-			if(!this.recordingOpened)
-			{
-				this.openRecording();
-			}
-
-			UpdateRecordingStateTreeVisitor updateStateTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, getRecordingIndex());
-			UpdateRecordingStateTreeVisitor updateVisTreeVisitor = new UpdateRecordingStateTreeVisitor(recording, getRecordingIndex());
-
-			// apply visitors
-			// TODO: improvement --> only visit is there's nodes populated in the tree otherwise we are traversing for nothing
-			simulationTree.apply(updateStateTreeVisitor);
-			visTree.apply(updateVisTreeVisitor);
-
-			if(updateStateTreeVisitor.getError() != null || updateVisTreeVisitor.getError() != null)
-			{
-				// something went wrong - notify recording is stopped and close recording files
-				// TODO Review this
-				// listener.endOfSteps(null,null);
-				closeRecording();
-
-				// bubble up exception with errors
-				String errorMsg = String.format("Simulation tree: %s | Visualization tree: %s", updateStateTreeVisitor.getError(), updateVisTreeVisitor.getError());
-				throw new GeppettoExecutionException(errorMsg);
-			}
-			else if(updateStateTreeVisitor.getRange() != null || updateVisTreeVisitor.getRange() != null)
-			{
-				// recording reached the end - notify listener
-				// TODO Review this
-				// listener.endOfSteps(null,null);
-
-				// set end of steps flag reached
-				// NOTE: cannot break the loop here because more than one aspect might be reading the last step
-				endOfStepsReached = true;
-			}
-			else
-			{
-				// if none of the above trees have been updated
-				updated = true;
-			}
-		}
-
-		// NOTE: we cannot increase counter inside the loop above otherwise it would increase per each aspect
-		// NOTE: recordings steps would be skipped if the same recording is applied from parent to children aspects
-		if(updated)
-		{
-			getAndIncrementCurrentIndex();
-		}
-
-		if(endOfStepsReached)
-		{
-			resetAndCloseRecordings();
-		}
-	}
-
 	private void openRecording() throws GeppettoExecutionException
 	{
 		try
@@ -520,7 +314,7 @@ public class RecordingReader
 		this.recordingOpened = true;
 	}
 
-	private void closeRecording() throws GeppettoExecutionException
+	public void closeRecording() throws GeppettoExecutionException
 	{
 		if(this.recordingOpened)
 		{
@@ -536,12 +330,6 @@ public class RecordingReader
 
 			this.recordingOpened = false;
 		}
-	}
-
-	private void resetAndCloseRecordings() throws GeppettoExecutionException
-	{
-		closeRecording();
-		currentRecordingIndex = 0;
 	}
 
 	public ResultsFormat getRecordingFormat()

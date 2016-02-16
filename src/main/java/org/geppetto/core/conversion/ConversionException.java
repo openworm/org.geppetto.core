@@ -33,7 +33,6 @@
 
 package org.geppetto.core.conversion;
 
-
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
  *
@@ -55,8 +54,5 @@ public class ConversionException extends Exception
 	 * 
 	 */
 	private static final long serialVersionUID = 8712503151350991595L;
-
-
-	
 
 }

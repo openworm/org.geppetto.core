@@ -4,7 +4,7 @@
   name: "Hodgkin-Huxley Neuron",
   geppettoModel: {
     id: 1,
-    url: "/projects/SingleComponentHH/GEPPETTO.xml",
+    url: "/projects/SingleComponentHH/GeppettoModel.xmi",
     type: "GEPPETTO_PROJECT"
   },
   experiments: [ 
@@ -17,13 +17,7 @@
   	script: "/projects/SingleComponentHH/HH_Geppetto_Script.js",
   	aspectConfigurations: [
     {
-  		id:1,
-  		aspect: {
-            id: 1,
-            entityInstancePath: "hhcell",
-            aspect: "electrical",
-            localInstancePath: ""
-        },
+		"instance": "hhcell",
         simulatorConfiguration: {
           id: 1,
           simulatorId: "neuronSimulator",
@@ -32,31 +26,10 @@
           length: 0.3,
           parameters: {target: "net1"}
         },
-        watchedVariables:[
-	        {
-	            id: 1,
-	            entityInstancePath: "hhcell",
-	            aspect: "electrical.SimulationTree",
-	            localInstancePath: "hhpop[0].v"
-	        },
-	       	{
-	            id: 2,
-	            entityInstancePath: "hhcell",
-	            aspect: "electrical.SimulationTree",
-	            localInstancePath: "hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q"
-	        },
-			{
-	            id: 3,
-	            entityInstancePath: "hhcell",
-	            aspect: "electrical.SimulationTree",
-	            localInstancePath: "hhpop[0].bioPhys1.membraneProperties.naChans.na.h.q"
-	        },
-	       	{
-	            id: 4,
-	            entityInstancePath: "hhcell",
-	            aspect: "electrical.SimulationTree",
-	            localInstancePath: "hhpop[0].bioPhys1.membraneProperties.kChans.k.n.q"
-	        }
+        watchedVariables:["hhcell.hhpop[0].v",
+        "hhcell.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q",
+        "hhcell.hhpop[0].bioPhys1.membraneProperties.naChans.na.h.q",
+        "hhcell.hhpop[0].bioPhys1.membraneProperties.kChans.k.n.q"
         ]
   	}
   	],
@@ -64,12 +37,7 @@
   	{
   		id:1,
   		format: "GEPPETTO_RECORDING",
-  		aspect: {
-            id: 1,
-            entityInstancePath: "hhcell",
-            aspect: "electrical",
-            localInstancePath: ""
-        },
+		"simulatedInstance": "hhcell",
         result: {
           id: 1,
           url: "/projects/SingleComponentHH/results.h5",
@@ -79,15 +47,10 @@
   	{
   		id:2,
   		format: "RAW",
-  		aspect: {
-            id: 1,
-            entityInstancePath: "hhcell",
-            aspect: "electrical",
-            localInstancePath: ""
-        },
+		"simulatedInstance": "hhcell",
         result: {
           id: 2,
-          url: "/projects/SingleComponentHH/hhcell.electrical-rawRecording.zip",
+          url: "/projects/SingleComponentHH/rawRecording.zip",
           type: "RECORDING"
         }
   	}]

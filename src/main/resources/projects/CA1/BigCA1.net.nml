@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<neuroml xmlns="http://www.neuroml.org/schema/neuroml2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2  https://raw.githubusercontent.com/NeuroML/NeuroML2/development/Schemas/NeuroML2/NeuroML_v2beta4.xsd" id="network_CA1PyramidalCell">
+
+    <notes>
+
+Network structure (NeuroML 2beta4) for project: CA1PyramidalCell saved with neuroConstruct v1.7.1 on: 17:55:45, 27-Mar-15
+
+Cell Group: CA1_CG contains 1 cells
+
+
+
+    </notes>
+
+
+    <include href="CA1.cell.nml"/>
+    <include href="hd.channel.nml"/>
+    <include href="hd__vhalflmin73.channel.nml"/>
+    <include href="hdmin73.channel.nml"/>
+    <include href="kad.channel.nml"/>
+    <include href="kap.channel.nml"/>
+    <include href="kdr.channel.nml"/>
+    <include href="na3.channel.nml"/>
+    <include href="na3__ar1.channel.nml"/>
+    <include href="nax.channel.nml"/>
+    <include href="pas.channel.nml"/>
+
+    <pulseGenerator id="Input_1" delay="0.002s" duration="0.005s" amplitude="1.8E-9A"/>
+
+    
+    <network id="network_CA1PyramidalCell" type="networkWithTemperature" temperature="35.0 degC">
+
+        
+
+        <population id="CA1_CG" component="CA1" type="populationList" size="1">
+           <annotation>
+                <property tag="color" value="0.8984375 0.8984375 0.8984375"/>
+            </annotation>
+            <instance id="0">
+                <location x="0.0" y="0.0" z="0.0"/>
+            </instance>
+        </population>
+
+
+
+            <!--There are no synaptic connections present in the network-->
+
+
+        <inputList id="Input_1" component="Input_1" population="CA1_CG">
+            <input id="0" target="../CA1_CG/0/CA1" destination="synapses"/>
+        </inputList>
+
+
+
+
+
+    </network>
+
+</neuroml>

@@ -4,7 +4,7 @@
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
 	<name>Geppetto Core Bundle</name>
-	<version>0.2.7</version>
+	<version>0.2.8</version>
 	<packaging>bundle</packaging>
 	<properties>
 		<github.global.server>github</github.global.server>
@@ -13,6 +13,11 @@
 	</properties>
 	<dependencies>
 		<!-- compile and runtime dependencies -->
+		<dependency>
+			<groupId>org.geppetto</groupId>
+			<artifactId>model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>com.springsource.org.apache.commons.logging</artifactId>
@@ -27,6 +32,11 @@
 			<groupId>org.apache.servicemix.bundles</groupId>
 			<artifactId>org.apache.servicemix.bundles.commons-httpclient</artifactId>
 			<version>3.1_7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.emfjson</groupId>
+			<artifactId>emfjson-jackson</artifactId>
+			<version>0.14.0</version>
 		</dependency>
 		<!-- test dependencies -->
 		<dependency>
@@ -78,21 +88,7 @@
 			<version>4.5.0</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>2.4.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>2.0.6</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.1.0</version>
-		</dependency>
+
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
@@ -117,11 +113,40 @@
 			<groupId>com.dropbox.core</groupId>
 			<artifactId>dropbox-core-sdk</artifactId>
 			<version>1.7.7</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jackson-core</artifactId>
+					<groupId>com.fasterxml.jackson.core</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-databind</artifactId>
+					<groupId>com.fasterxml.jackson.core</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-annotations</artifactId>
+					<groupId>com.fasterxml.jackson.core</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.servicemix.bundles</groupId>
 			<artifactId>org.apache.servicemix.bundles.aws-java-sdk</artifactId>
 			<version>1.8.3_2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.5.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.5.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.5.3</version>
 		</dependency>
 	</dependencies>
 	<repositories>
@@ -189,60 +214,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.jsonschema2pojo</groupId>
-				<artifactId>jsonschema2pojo-maven-plugin</artifactId>
-				<version>0.4.4</version>
-				<executions>
-					<execution>
-						<id>visualisation</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<sourceDirectory>${basedir}/src/main/resources/schema/visualisation</sourceDirectory>
-							<targetPackage>org.geppetto.core.visualisation.model</targetPackage>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.8.2</version>
-				<executions>
-					<execution>
-						<id>Simulation</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<bindingDirectory>src/main/resources/schema/geppettoModel/bindings/</bindingDirectory>
-							<bindingIncludes>
-								<include>geppettoModelSchema.xjb</include>
-							</bindingIncludes>
-							<!--<forceRegenerate>true</forceRegenerate> -->
-							<schemaDirectory>src/main/resources/schema/geppettoModel</schemaDirectory>
-							<generateDirectory>${project.build.directory}/generated-sources/geppettoModel</generateDirectory>
-							<schemaIncludes>
-								<include>geppettoModelSchema.xsd</include>
-							</schemaIncludes>
-							<args>
-								<arg>-Xvisitor</arg>
-								<arg>-Xvisitor-package:org.geppetto.core.model.geppettomodel.visitor</arg>
-							</args>
 
-							<plugins>
-								<plugin>
-									<groupId>com.massfords</groupId>
-									<artifactId>jaxb-visitor</artifactId>
-									<version>1.13</version>
-								</plugin>
-							</plugins>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -270,7 +242,7 @@
 						<Bundle-Version>${project.version}</Bundle-Version>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Include-Resource>
-							{maven-resources},META-INF/spring=src/main/java/META-INF/spring,src/main/resources/Geppetto.properties
+							{maven-resources},META-INF/spring=src/main/java/META-INF/spring,src/main/resources/Geppetto.properties,src/main/resources/GeppettoCommonLibrary.xmi
 						</Include-Resource>
 						<Import-Package>
 							org.springframework.context,org.aopalliance.aop,org.springframework.aop,,org.springframework.aop.scope,org.springframework.aop.framework,*

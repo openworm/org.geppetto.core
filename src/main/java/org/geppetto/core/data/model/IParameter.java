@@ -38,7 +38,7 @@ public interface IParameter
 
 	long getId();
 
-	IInstancePath getVariable();
+	String getVariable();
 
 	String getValue();
 

@@ -52,25 +52,25 @@ public interface IExperiment extends IDataEntity
 	Date getLastModified();
 
 	ExperimentStatus getStatus();
-	
+
 	void setName(String name);
-	
+
 	void setDescription(String description);
-	
+
 	void setStatus(ExperimentStatus status);
-	
+
 	void addSimulationResult(ISimulationResult result);
-	
+
 	String getScript();
-	
+
 	void setScript(String script);
-	
+
 	List<? extends ISimulationResult> getSimulationResults();
 
 	Date getStartDate();
 
 	Date getEndDate();
-	
+
 	@JsonIgnore
 	IGeppettoProject getParentProject();
 

@@ -35,7 +35,7 @@ package org.geppetto.core.conversion;
 
 import org.geppetto.core.beans.PathConfiguration;
 import org.geppetto.core.services.AService;
-import org.geppetto.core.services.ModelFormat;
+import org.geppetto.model.ModelFormat;
 
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
