@@ -21,6 +21,6 @@ Project.getActiveExperiment().playAll();
 
 G.addWidget(GEPPETTO.Widgets.TREEVISUALISERDAT);
 TreeVisualiserDAT1.setName("Neuron and muscle cell network");
-TreeVisualiserDAT1.setData(net1.getType());
+TreeVisualiserDAT1.setData(net1.getType(),{expandNodes:true});
 TreeVisualiserDAT1.setPosition(643,250);
 TreeVisualiserDAT1.setSize(343,447);
