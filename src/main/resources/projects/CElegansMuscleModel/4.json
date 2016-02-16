@@ -31,7 +31,7 @@
 		  	{
 		  		id:1,
 		  		format: "GEPPETTO_RECORDING",
-				"instance": "net1",
+				"simulatedInstance": "net1",
 		        result: {
 		          id: 1,
 		          url: "/projects/CElegansMuscleModel/results.h5",
@@ -41,7 +41,7 @@
 		  	  	{
 		  		id:2,
 		  		format: "RAW",
-				"instance": "net1",
+				"simulatedInstance": "net1",
 		        result: {
 		          id: 2,
 		          url: "/projects/CElegansMuscleModel/rawRecording.zip",
