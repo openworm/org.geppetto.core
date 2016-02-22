@@ -47,7 +47,7 @@ import org.geppetto.model.variables.Variable;
  * 	{
  * 		
  * 		obj:{service:"objModelInterpreterService",library:"objLibrary"},
- * 		swc:{service:"swcModelInterpreterService",library:"swcLibrary"},
+ * 		swc:{service:"swcModelInterpreterService",library:"swcLibrary"}
  * 	}
  */
 public interface IDataSourceService extends IService, IQueryProvider
@@ -55,7 +55,7 @@ public interface IDataSourceService extends IService, IQueryProvider
 	
 	void initialize(DataSource configuration);
 	
-	Variable fetchVariable(String variableId);
+	Variable fetchVariable(String variableId) throws GeppettoDataSourceException;
 	
 
 }

@@ -4,7 +4,7 @@
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
 	<name>Geppetto Core Bundle</name>
-	<version>0.2.8</version>
+	<version>0.2.8.1</version>
 	<packaging>bundle</packaging>
 	<properties>
 		<github.global.server>github</github.global.server>
@@ -32,6 +32,11 @@
 			<groupId>org.apache.servicemix.bundles</groupId>
 			<artifactId>org.apache.servicemix.bundles.commons-httpclient</artifactId>
 			<version>3.1_7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.emfjson</groupId>
