@@ -30,83 +30,48 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.datasources;
+package org.geppetto.core.common;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 
-import org.geppetto.core.services.AService;
-import org.geppetto.model.DataSource;
-import org.geppetto.model.Query;
-import org.geppetto.model.types.Type;
-import org.geppetto.model.util.ModelUtility;
-import org.geppetto.model.variables.Variable;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.geppetto.core.datasources.GeppettoDataSourceException;
 
 /**
  * @author matteocantarelli
  *
  */
-public abstract class ADataSourceService extends AService implements IDataSourceService
+public class GeppettoHTTPClient
 {
 
-	private DataSource configuration;
-
-	@Override
-	public void initialize(DataSource configuration)
+	public static String doJSONPost(String url, String postContent) throws GeppettoDataSourceException
 	{
-		this.configuration = configuration;
-
-	}
-
-	/**
-	 * @return the configuration for this DataSourceService
-	 */
-	protected DataSource getConfiguration()
-	{
-		return configuration;
-	}
-
-	/**
-	 * @param url
-	 * @param queryString
-	 * @return
-	 */
-	protected String getQueryURL(String url, String queryString)
-	{
-		String queryURL = null;
-		// TODO Do we need a template? Plain concatenation?
-		return queryURL;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.model.QueryProvider#getAvailableQueries(org.geppetto.model.variables.Variable)
-	 */
-	@Override
-	public List<Query> getAvailableQueries(Variable variable)
-	{
-		List<Query> availableQueries = new ArrayList<Query>();
-		List<Type> types = ModelUtility.getAllTypesOf(variable);
-		for(Query query : configuration.getQueries())
+		String queryResult = null;
+		try
 		{
-			if(QueryChecker.check(query, types))
-			{
-				availableQueries.add(query);
-			}
+			// execute query and handle any error responses.
+			HttpPost postRequest = new HttpPost(url);
+			StringEntity postEntity = new StringEntity(postContent);
+			postEntity.setContentType("application/json");
+			postRequest.setEntity(postEntity);
+			HttpClient httpClient = HttpClientBuilder.create().build();
+			HttpResponse response = httpClient.execute(postRequest);
+			InputStream inputStream = response.getEntity().getContent();
+			queryResult = GeppettoCommonUtils.readString(inputStream);
 		}
-		return availableQueries;
-	}
+		catch(IOException e)
+		{
+			throw new GeppettoDataSourceException(e);
+		}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.services.IService#registerGeppettoService()
-	 */
-	@Override
-	public void registerGeppettoService() throws Exception
-	{
-		// Nothing to do here
+		return queryResult;
 	}
-
 }

@@ -30,83 +30,26 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.datasources;
+package org.geppetto.core.common;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 
-import org.geppetto.core.services.AService;
-import org.geppetto.model.DataSource;
-import org.geppetto.model.Query;
-import org.geppetto.model.types.Type;
-import org.geppetto.model.util.ModelUtility;
-import org.geppetto.model.variables.Variable;
+import org.apache.commons.io.IOUtils;
 
 /**
  * @author matteocantarelli
  *
  */
-public abstract class ADataSourceService extends AService implements IDataSourceService
+public class GeppettoCommonUtils
 {
 
-	private DataSource configuration;
-
-	@Override
-	public void initialize(DataSource configuration)
+	public static String readString(InputStream input) throws IOException
 	{
-		this.configuration = configuration;
-
+		StringWriter writer = new StringWriter();
+		IOUtils.copy(input, writer, StandardCharsets.UTF_8.name());
+		return writer.toString();
 	}
-
-	/**
-	 * @return the configuration for this DataSourceService
-	 */
-	protected DataSource getConfiguration()
-	{
-		return configuration;
-	}
-
-	/**
-	 * @param url
-	 * @param queryString
-	 * @return
-	 */
-	protected String getQueryURL(String url, String queryString)
-	{
-		String queryURL = null;
-		// TODO Do we need a template? Plain concatenation?
-		return queryURL;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.model.QueryProvider#getAvailableQueries(org.geppetto.model.variables.Variable)
-	 */
-	@Override
-	public List<Query> getAvailableQueries(Variable variable)
-	{
-		List<Query> availableQueries = new ArrayList<Query>();
-		List<Type> types = ModelUtility.getAllTypesOf(variable);
-		for(Query query : configuration.getQueries())
-		{
-			if(QueryChecker.check(query, types))
-			{
-				availableQueries.add(query);
-			}
-		}
-		return availableQueries;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.geppetto.core.services.IService#registerGeppettoService()
-	 */
-	@Override
-	public void registerGeppettoService() throws Exception
-	{
-		// Nothing to do here
-	}
-
 }

@@ -35,8 +35,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
+			<artifactId>httpclient-osgi</artifactId>
 			<version>4.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore-osgi</artifactId>
+			<version>4.4.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.emfjson</groupId>
