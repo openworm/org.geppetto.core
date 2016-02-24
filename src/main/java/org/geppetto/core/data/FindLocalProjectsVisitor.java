@@ -33,11 +33,11 @@
 package org.geppetto.core.data;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -69,7 +69,7 @@ public class FindLocalProjectsVisitor extends SimpleFileVisitor<Path>
 	}
 
 	@Override
-	public FileVisitResult visitFile(Path file, BasicFileAttributes attr)
+	public FileVisitResult visitFile(Path file, BasicFileAttributes attr) throws IOException
 	{
 		if(file.toString().endsWith(".json"))
 		{
@@ -83,21 +83,14 @@ public class FindLocalProjectsVisitor extends SimpleFileVisitor<Path>
 				}
 			});
 			Gson gson = builder.create();
-			String projectPath = File.separator + "projects" + File.separator;
-			String localString = file.toString().substring(file.toString().indexOf(projectPath));
+			BufferedReader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8);
 
-			InputStream stream = DefaultGeppettoDataManager.class.getClassLoader().getResourceAsStream(localString);
-			if(stream != null)
+			LocalGeppettoProject project = gson.fromJson(reader, LocalGeppettoProject.class);
+			for(IExperiment e : project.getExperiments())
 			{
-				BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-
-				LocalGeppettoProject project = gson.fromJson(reader, LocalGeppettoProject.class);
-				for(IExperiment e : project.getExperiments())
-				{
-					e.setParentProject(project);
-				}
-				projects.put(project.getId(), project);
+				e.setParentProject(project);
 			}
+			projects.put(project.getId(), project);
 		}
 		return FileVisitResult.CONTINUE;
 	}
