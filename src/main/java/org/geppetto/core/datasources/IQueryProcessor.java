@@ -30,45 +30,30 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.common;
+package org.geppetto.core.datasources;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.geppetto.core.datasources.GeppettoDataSourceException;
+import org.geppetto.model.ProcessQuery;
+import org.geppetto.model.QueryResults;
+import org.geppetto.model.variables.Variable;
 
 /**
  * @author matteocantarelli
  *
  */
-public class GeppettoHTTPClient
+public interface IQueryProcessor
 {
+	
+	/**
+	 * This is an asynchronous method that will initiate processing of a query
+	 * This method has the extra parameter "results" in case this query will need to output of a previously executed query in order to have all the necessary input data
+	 * 
+	 * @param query
+	 * @param variable
+	 * @param listener
+	 *            the listener that will be notified as results become available
+	 * @return a container for the results. The container has an id, there's no constraints for all the results to be inside IQueryResults as the DataSource might keep pushing results to it as the
+	 *         query is execute
+	 */
+	QueryResults process(ProcessQuery query, Variable variable, QueryResults results) throws GeppettoDataSourceException;
 
-	public static String doJSONPost(String url, String postContent) throws GeppettoDataSourceException
-	{
-		String queryResult = null;
-		try
-		{
-			// execute query and handle any error responses.
-			HttpPost postRequest = new HttpPost(url);
-			StringEntity postEntity = new StringEntity(postContent);
-			postEntity.setContentType("application/json");
-			postRequest.setEntity(postEntity);
-			HttpClient httpClient = HttpClientBuilder.create().build();
-			HttpResponse response = httpClient.execute(postRequest);
-			InputStream inputStream = response.getEntity().getContent();
-			queryResult = GeppettoCommonUtils.readString(inputStream);
-		}
-		catch(IOException e)
-		{
-			throw new GeppettoDataSourceException(e);
-		}
-
-		return queryResult;
-	}
 }

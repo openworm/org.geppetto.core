@@ -32,10 +32,11 @@
  *******************************************************************************/
 package org.geppetto.core.common;
 
-import java.util.HashMap;
+import java.lang.reflect.Type;
 import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * @author matteocantarelli
@@ -44,8 +45,11 @@ import com.google.gson.Gson;
 public class JSONUtility
 {
 
-	public static Map<String, String> getAsMap(String json)
+	public static Map<String, Object> getAsMap(String json)
 	{
-		return new Gson().fromJson(json, HashMap.class);
+		Gson gson = new Gson();
+		Type stringStringMap = new TypeToken<Map<String, Object>>(){}.getType();
+		Map<String,Object> map = gson.fromJson(json, stringStringMap);
+		return map;
 	}
 }
