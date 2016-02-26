@@ -32,6 +32,8 @@
  *******************************************************************************/
 package org.geppetto.core.datasources;
 
+import org.geppetto.core.model.GeppettoModelAccess;
+import org.geppetto.core.services.IService;
 import org.geppetto.model.ProcessQuery;
 import org.geppetto.model.QueryResults;
 import org.geppetto.model.variables.Variable;
@@ -40,7 +42,7 @@ import org.geppetto.model.variables.Variable;
  * @author matteocantarelli
  *
  */
-public interface IQueryProcessor
+public interface IQueryProcessor extends IService
 {
 	
 	/**
@@ -54,6 +56,6 @@ public interface IQueryProcessor
 	 * @return a container for the results. The container has an id, there's no constraints for all the results to be inside IQueryResults as the DataSource might keep pushing results to it as the
 	 *         query is execute
 	 */
-	QueryResults process(ProcessQuery query, Variable variable, QueryResults results) throws GeppettoDataSourceException;
+	QueryResults process(ProcessQuery query, Variable variable, QueryResults results, GeppettoModelAccess geppettoModelAccess) throws GeppettoDataSourceException;
 
 }

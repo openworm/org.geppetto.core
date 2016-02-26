@@ -43,6 +43,7 @@ import java.util.Set;
 import org.geppetto.core.conversion.ConversionException;
 import org.geppetto.core.conversion.IConversion;
 import org.geppetto.core.data.model.ResultsFormat;
+import org.geppetto.core.datasources.IQueryProcessor;
 import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.simulator.ISimulator;
 import org.geppetto.model.DomainModel;
@@ -62,6 +63,7 @@ public class ServicesRegistry
 	static Map<Class<? extends IModelInterpreter>, List<ModelFormat>> registeredModelInterpreterServices = new HashMap<Class<? extends IModelInterpreter>, List<ModelFormat>>();
 	static Map<ConversionServiceKey, List<IConversion>> registeredConversionServices = new HashMap<ConversionServiceKey, List<IConversion>>();
 	static Map<Class<? extends ISimulator>, List<ModelFormat>> registeredSimulatorServices = new HashMap<Class<? extends ISimulator>, List<ModelFormat>>();
+	static List<Class<? extends IQueryProcessor>> registeredQueryProcessorServices = new ArrayList<Class<? extends IQueryProcessor>>();
 
 	public static ModelFormat registerModelFormat(String format)
 	{
@@ -92,6 +94,12 @@ public class ServicesRegistry
 	public static void registerModelInterpreterService(IModelInterpreter interpreterService, List<ModelFormat> outputModelFormats)
 	{
 		registeredModelInterpreterServices.put(interpreterService.getClass(), outputModelFormats);
+	}
+
+	public static void registerQueryProcessorService(IQueryProcessor queryProcessor)
+	{
+		registeredQueryProcessorServices.add(queryProcessor.getClass());
+
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -265,4 +273,5 @@ public class ServicesRegistry
 		}
 
 	}
+
 }

@@ -10,29 +10,35 @@ public class QueryChecker
 {
 
 	/**
-	 * @param query the query to check
-	 * @param types the types to be checked against
+	 * @param query
+	 *            the query to check
+	 * @param types
+	 *            the types to be checked against
 	 * @return true if any of the query criteria match against the types
 	 */
 	public static boolean check(Query query, List<Type> types)
 	{
-		for(QueryMatchingCriteria criteria : query.getMatchingCriteria())
+		if(!query.getMatchingCriteria().isEmpty())
 		{
-			boolean matchCriteria = true;
-			for(Type typeToMatch : criteria.getType())
+			for(QueryMatchingCriteria criteria : query.getMatchingCriteria())
 			{
-				if(!types.contains(typeToMatch))
+				boolean matchCriteria = true;
+				for(Type typeToMatch : criteria.getType())
 				{
-					matchCriteria = false;
-					break;
+					if(!types.contains(typeToMatch))
+					{
+						matchCriteria = false;
+						break;
+					}
+				}
+				if(matchCriteria)
+				{
+					return true;
 				}
 			}
-			if(matchCriteria)
-			{
-				return true;
-			}
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 }

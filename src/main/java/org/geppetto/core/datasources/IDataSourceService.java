@@ -33,6 +33,7 @@
 
 package org.geppetto.core.datasources;
 
+import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.core.services.IService;
 import org.geppetto.model.DataSource;
 import org.geppetto.model.variables.Variable;
@@ -42,20 +43,12 @@ import org.geppetto.model.variables.Variable;
  * @author Rob Court
  * @author Giovanni Idili
  * 
- * Configuration:
- * 	Per each format needs to know which ModelInterpreter and Library to use
- * 	{
- * 		
- * 		obj:{service:"objModelInterpreterService",library:"objLibrary"},
- * 		swc:{service:"swcModelInterpreterService",library:"swcLibrary"}
- * 	}
  */
 public interface IDataSourceService extends IService, IQueryProvider
 {
-	
-	void initialize(DataSource configuration);
-	
+
 	Variable fetchVariable(String variableId) throws GeppettoDataSourceException;
-	
+
+	void initialize(DataSource configuration, GeppettoModelAccess geppettoModelAccess);
 
 }

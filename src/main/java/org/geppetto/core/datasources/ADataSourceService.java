@@ -35,6 +35,7 @@ package org.geppetto.core.datasources;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.core.services.AService;
 import org.geppetto.model.DataSource;
 import org.geppetto.model.Query;
@@ -51,11 +52,31 @@ public abstract class ADataSourceService extends AService implements IDataSource
 
 	private DataSource configuration;
 
+	private String dataSourceTemplate;
+
+	private GeppettoModelAccess geppettoModelAccess;
+
+	public ADataSourceService(String dataSourceTemplate)
+	{
+		this.dataSourceTemplate = dataSourceTemplate;
+	}
+
 	@Override
-	public void initialize(DataSource configuration)
+	public void initialize(DataSource configuration, GeppettoModelAccess geppettoModelAccess)
 	{
 		this.configuration = configuration;
+		this.geppettoModelAccess = geppettoModelAccess;
 
+	}
+	
+	protected GeppettoModelAccess getGeppettoModelAccess()
+	{
+		return geppettoModelAccess;
+	}
+
+	protected String getTemplate()
+	{
+		return dataSourceTemplate;
 	}
 
 	/**
