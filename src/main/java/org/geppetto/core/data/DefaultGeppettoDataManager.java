@@ -139,6 +139,16 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 		return user;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.geppetto.core.data.IGeppettoDataManager#getUserGroupById(long)
+	 */
+	@Override
+	public IUserGroup getUserGroupById(long id){
+		return getUserGroup();	
+	}
 
 	/*
 	 * (non-Javadoc)
