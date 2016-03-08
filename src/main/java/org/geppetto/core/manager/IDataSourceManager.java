@@ -31,7 +31,12 @@
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
 
-package org.geppetto.core.datasources;
+package org.geppetto.core.manager;
+
+import org.geppetto.core.data.model.IExperiment;
+import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.datasources.GeppettoDataSourceException;
+import org.geppetto.model.variables.Variable;
 
 
 /**
@@ -40,10 +45,10 @@ package org.geppetto.core.datasources;
  * @author Giovanni Idili
  * 
  */
-public interface IDataSourceManager extends IQueryProvider
+public interface IDataSourceManager
 {
 	
 
-	
+	Variable fetchVariable(String dataSourceId, String variableId, IExperiment experiment, IGeppettoProject project) throws GeppettoDataSourceException;
 	
 }

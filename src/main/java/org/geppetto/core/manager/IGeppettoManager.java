@@ -39,7 +39,7 @@ import org.geppetto.core.data.model.IUser;
  * @author matteocantarelli
  *
  */
-public interface IGeppettoManager extends IProjectManager, IExperimentManager, IDropBoxManager, IRuntimeTreeManager, IDownloadManager
+public interface IGeppettoManager extends IProjectManager, IExperimentManager, IDropBoxManager, IRuntimeTreeManager, IDownloadManager, IDataSourceManager
 {
 
 	/**
