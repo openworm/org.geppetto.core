@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="ASCII"?>
+<gep:GeppettoModel
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gep="https://raw.githubusercontent.com/openworm/org.geppetto.model/ontology/src/main/resources/geppettoModel.ecore"
+    xmlns:gep_1="https://raw.githubusercontent.com/openworm/org.geppetto.model/ontology/src/main/resources/geppettoModel.ecore#//types">
+  <libraries
+      id="SWCLibrary"
+      name="SWC"/>
+  <libraries
+      id="OBJLibrary"
+      name="OBJ"/>
+  <libraries
+      id="OWLLibrary"
+      name="OWL"/>
+  <libraries
+      id="ontology"
+      name="Ontology">
+    <types xsi:type="gep_1:SimpleType"
+        id="individual"
+        name="Individual"/>
+    <types xsi:type="gep_1:SimpleType"
+        id="class"
+        name="Class"/>
+    <types xsi:type="gep_1:SimpleType"
+        id="neuron"
+        name="Neuron"/>
+    <types xsi:type="gep_1:SimpleType"
+        id="tract"
+        name="Tract"/>
+    <types xsi:type="gep_1:SimpleType"
+        id="clone"
+        name="Clone"/>
+    <types xsi:type="gep_1:SimpleType"
+        id="neuropil"
+        name="Neuropil"/>
+  </libraries>
+  <libraries
+      id="vfbLibrary"
+      name="VFB"/>
+  <dataSources
+      id="neo4JDataSourceService"
+      name="neo4JDataSourceService"
+      dataSourceService=""
+      url="http://vfbdev.inf.ed.ac.uk/neo4jdb/data/transaction"
+      dependenciesLibrary="//@libraries.3"
+      targetLibrary="//@libraries.4">
+    <libraryConfigurations
+        library="//@libraries.0"
+        modelInterpreterId="swcModelInterpreterService"
+        format="swc"/>
+    <libraryConfigurations
+        library="//@libraries.1"
+        modelInterpreterId="objModelInterpreterService"
+        format="obj"/>
+    <libraryConfigurations
+        library="//@libraries.2"
+        modelInterpreterId="owlModelInterpreterService"
+        format="owl"/>
+    <queries
+        xsi:type="gep:SimpleQuery"
+        label="What makes up this?"
+        description="Returns a list of all the subparts of this item."
+        query="MATCH (n:Class)&lt;-[:SUBCLASSOF*]-(:Class)&lt;-[:INSTANCEOF]-(i) WHERE n.short_form = 'FBbt_00100219' RETURN n.label, n.description, n.synonyms, n.iri, i.label, i.iri limit 5;"
+        countQuery="MATCH (n:Class)&lt;-[:SUBCLASSOF*]-(:Class)&lt;-[:INSTANCEOF]-(i) WHERE n.short_form = 'FBbt_00100219' RETURN count(*);">
+      <matchingCriteria
+          type="//@libraries.3/@types.2 //@libraries.3/@types.0"/>
+      <matchingCriteria
+          type="//@libraries.3/@types.2 //@libraries.3/@types.1"/>
+    </queries>
+    <fetchVariableQuery
+        xsi:type="gep:CompoundQuery"
+        label="The compound query for augmenting a type"
+        description="">
+      <queryChain
+          xsi:type="gep:SimpleQuery"
+          label="Get id/name/superTypes"
+          query="MATCH (n:VFB:Class { short_form: '$ID' } ) RETURN n.label, n.short_form, n.description, n.`annotation-comment`  LIMIT 1;"/>
+      <queryChain
+          xsi:type="gep:ProcessQuery"
+          label="This processing step will populate a Variable with the superType resulting from the previous query"
+          description=""
+          queryProcessorId="vfbTypeQueryProcessor"/>
+      <queryChain
+          xsi:type="gep:SimpleQuery"
+          label="Fetch data if it's a class"
+          query="">
+        <matchingCriteria
+            type="//@libraries.3/@types.1"/>
+      </queryChain>
+      <queryChain
+          xsi:type="gep:SimpleQuery"
+          label="Fetch data if it's an individual"
+          description=""
+          query="">
+        <matchingCriteria
+            type="//@libraries.3/@types.0"/>
+      </queryChain>
+      <queryChain
+          xsi:type="gep:ProcessQuery"
+          label="This processing step will populate the Variable with the different import type"
+          description=""
+          queryProcessorId="vfbImportTypesQueryProcessor"/>
+    </fetchVariableQuery>
+  </dataSources>
+</gep:GeppettoModel>
