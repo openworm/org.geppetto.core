@@ -36,7 +36,6 @@ package org.geppetto.core.datasources;
 import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.core.services.IService;
 import org.geppetto.model.DataSource;
-import org.geppetto.model.variables.Variable;
 
 /**
  * @author matteocantarelli
@@ -47,7 +46,7 @@ import org.geppetto.model.variables.Variable;
 public interface IDataSourceService extends IService, IQueryProvider
 {
 
-	Variable fetchVariable(String variableId) throws GeppettoDataSourceException;
+	void fetchVariable(String variableId) throws GeppettoDataSourceException;
 
 	void initialize(DataSource configuration, GeppettoModelAccess geppettoModelAccess);
 

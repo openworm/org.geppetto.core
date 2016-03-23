@@ -33,10 +33,12 @@
 
 package org.geppetto.core.manager;
 
+import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.datasources.GeppettoDataSourceException;
-import org.geppetto.model.variables.Variable;
+import org.geppetto.model.GeppettoModel;
+import org.geppetto.model.util.GeppettoModelException;
 
 
 /**
@@ -49,6 +51,6 @@ public interface IDataSourceManager
 {
 	
 
-	Variable fetchVariable(String dataSourceId, String variableId, IExperiment experiment, IGeppettoProject project) throws GeppettoDataSourceException;
+	GeppettoModel fetchVariable(String dataSourceId, String variableId, IExperiment experiment, IGeppettoProject project) throws GeppettoDataSourceException, GeppettoModelException, GeppettoExecutionException;
 	
 }

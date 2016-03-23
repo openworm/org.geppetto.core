@@ -1,5 +1,6 @@
 package org.geppetto.core.manager;
 
+
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.model.ExperimentState;
+import org.geppetto.model.GeppettoModel;
 
 public interface IRuntimeTreeManager
 {
@@ -31,5 +33,13 @@ public interface IRuntimeTreeManager
 	 * @throws GeppettoInitializationException
 	 * */
 	ExperimentState setWatchedVariables(List<String> watchedVariables, IExperiment experiment, IGeppettoProject project, boolean watch) throws GeppettoExecutionException, GeppettoAccessException;
+	
+	/**
+	 * @param typePath
+	 * @param experiment
+	 * @param geppettoProject
+	 * @return
+	 */
+	GeppettoModel resolveImportType(String typePath, IExperiment experiment, IGeppettoProject geppettoProject);
 
 }

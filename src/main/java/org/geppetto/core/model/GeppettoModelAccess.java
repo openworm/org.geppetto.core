@@ -32,15 +32,22 @@
  *******************************************************************************/
 package org.geppetto.core.model;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.geppetto.model.GeppettoLibrary;
 import org.geppetto.model.GeppettoModel;
+import org.geppetto.model.GeppettoPackage;
 import org.geppetto.model.Tag;
 import org.geppetto.model.types.Type;
 import org.geppetto.model.util.GeppettoModelException;
 import org.geppetto.model.util.GeppettoVisitingException;
 import org.geppetto.model.util.PointerUtility;
 import org.geppetto.model.values.Pointer;
+import org.geppetto.model.variables.Variable;
 
 /**
  * @author matteocantarelli
@@ -50,13 +57,16 @@ public class GeppettoModelAccess
 {
 
 	private GeppettoModel geppettoModel;
-	
+
 	private GeppettoLibrary commonlibrary;
+
+	private EditingDomain editingDomain;
 
 	public GeppettoModelAccess(GeppettoModel geppettoModel) throws GeppettoVisitingException
 	{
 		super();
-		this.geppettoModel=geppettoModel;
+		this.geppettoModel = geppettoModel;
+		editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(geppettoModel);
 		for(GeppettoLibrary library : geppettoModel.getLibraries())
 		{
 			if(library.getId().equals("common"))
@@ -69,14 +79,6 @@ public class GeppettoModelAccess
 		{
 			throw new GeppettoVisitingException("Common library not found");
 		}
-	}
-	
-	/**
-	 * @param tag
-	 */
-	public void addTag(Tag tag)
-	{
-		geppettoModel.getTags().add(tag);
 	}
 
 	/**
@@ -96,7 +98,7 @@ public class GeppettoModelAccess
 		}
 		throw new GeppettoVisitingException("Type for eClass " + eclass + " not found in common library.");
 	}
-	
+
 	/**
 	 * @param instancePath
 	 * @return
@@ -105,5 +107,34 @@ public class GeppettoModelAccess
 	public Pointer getPointer(String instancePath) throws GeppettoModelException
 	{
 		return PointerUtility.getPointer(geppettoModel, instancePath);
+	}
+
+	/**
+	 * @param variable
+	 */
+	public void addVariable(final Variable variable)
+	{
+		Command command = AddCommand.create(editingDomain, geppettoModel, GeppettoPackage.Literals.GEPPETTO_MODEL__VARIABLES, variable);
+		editingDomain.getCommandStack().execute(command);
+	}
+
+	/**
+	 * @param tag
+	 */
+	public void addTag(final Tag tag)
+	{
+		Command command = AddCommand.create(editingDomain, geppettoModel, GeppettoPackage.Literals.GEPPETTO_MODEL__TAGS, tag);
+		editingDomain.getCommandStack().execute(command);
+	}
+
+	/**
+	 * @param tag
+	 */
+	public void addTypeToLibrary(final Type type, final GeppettoLibrary targetLibrary)
+	{
+		Command command = AddCommand.create(editingDomain, targetLibrary, GeppettoPackage.Literals.GEPPETTO_LIBRARY__TYPES, type);
+		Command setCommand = SetCommand.create(editingDomain, targetLibrary, GeppettoPackage.Literals.ISYNCHABLE__SYNCHED, false);
+		editingDomain.getCommandStack().execute(command);
+		editingDomain.getCommandStack().execute(setCommand);
 	}
 }

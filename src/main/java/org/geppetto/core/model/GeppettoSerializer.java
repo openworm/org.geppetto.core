@@ -51,6 +51,7 @@ import org.emfjson.jackson.databind.ser.TypeSerializer;
 import org.emfjson.jackson.module.EMFModule;
 import org.emfjson.jackson.resource.JsonResourceFactory;
 import org.geppetto.model.GeppettoPackage;
+import org.geppetto.model.ISynchable;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,15 +63,21 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  */
 public class GeppettoSerializer
 {
-	
-	private static Log logger = LogFactory.getLog(GeppettoSerializer.class);
-	
-	private static GeppettoCustomTypeSerializer customTypeSerializer=new GeppettoCustomTypeSerializer();
 
-	public static String serializeToJSON(EObject toSerialize) throws IOException
+	private static Log logger = LogFactory.getLog(GeppettoSerializer.class);
+
+	private static GeppettoCustomTypeSerializer customTypeSerializer = new GeppettoCustomTypeSerializer();
+
+	/**
+	 * @param geppettoModel
+	 * @param onlySerialiseDelta
+	 *            if true it only serialised the delta between what was serialised previously and what changed
+	 * @return
+	 */
+	public static String serializeToJSON(EObject toSerialize, boolean onlySerialiseDelta) throws IOException
 	{
-		long start=System.currentTimeMillis();
-		
+		long start = System.currentTimeMillis();
+
 		StringWriter sw = new StringWriter();
 		WriteableOutputStream outputStream = new WriteableOutputStream(sw, "UTF-8");
 
@@ -82,9 +89,16 @@ public class GeppettoSerializer
 
 		Map<String, Object> options = new HashMap<>();
 		options.put(EMFJs.OPTION_SERIALIZE_DEFAULT_VALUE, true);
-		
-		EMFModule module = new EMFModule(resourceSet, new JacksonOptions.Builder().withTypeSerializer(customTypeSerializer).build(options));
-		
+
+		JacksonOptions jacksonOptions = new JacksonOptions.Builder().withTypeSerializer(customTypeSerializer).build(options);
+		EMFModule module = new EMFModule(resourceSet, jacksonOptions);
+		if(onlySerialiseDelta)
+		{
+			// this module, by using the ISynchable interface, serialises only those objects
+			// for which synched==false and as soon an object is serialised synched is set to true
+			module.addSerializer(ISynchable.class, new SynchableSerializer(jacksonOptions));
+		}
+		module.addSerializer(Map.Entry.class, new EMapGeppettoSerializer(jacksonOptions));
 		mapper.registerModule(module);
 
 		Resource resource = resourceSet.createResource(URI.createURI("geppettoModel"));
@@ -94,10 +108,20 @@ public class GeppettoSerializer
 		// resource.save(outputStream, null);
 		outputStream.flush();
 		sw.close();
-		String serializedModel=sw.toString();
-		logger.info("Model serialized to JSON "+(System.currentTimeMillis()-start)+"ms");
-		
+		String serializedModel = sw.toString();
+		logger.info("Model serialized to JSON " + (System.currentTimeMillis() - start) + "ms");
+
 		return serializedModel;
+	}
+
+	/**
+	 * @param toSerialize
+	 * @return
+	 * @throws IOException
+	 */
+	public static String serializeToJSON(EObject toSerialize) throws IOException
+	{
+		return serializeToJSON(toSerialize, false);
 	}
 
 	/**
@@ -110,6 +134,7 @@ public class GeppettoSerializer
 		@Override
 		public void serialize(EClass eClass, JsonGenerator jg, SerializerProvider provider) throws IOException
 		{
+
 			jg.writeStringField("eClass", eClass.getName());
 		}
 
