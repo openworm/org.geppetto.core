@@ -38,6 +38,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.conversion.IConversion;
+import org.geppetto.core.datasources.IDataSourceService;
 import org.geppetto.core.datasources.IQueryProcessor;
 import org.geppetto.core.model.IModelInterpreter;
 import org.geppetto.core.simulator.ISimulator;
@@ -109,10 +110,25 @@ public class ApplicationListenerBean implements ApplicationListener<ContextRefre
 			}
 		}
 		
+		Map<String, IDataSourceService> dataSourceServiceBeans = applicationContext.getBeansOfType(IDataSourceService.class, false, false);
+		for(Map.Entry<String, IDataSourceService> dataSourceServiceBean : dataSourceServiceBeans.entrySet())
+		{
+			_logger.info("Registering Data Source Services: " + dataSourceServiceBean.getKey());
+			try
+			{
+				applicationContexts.put(dataSourceServiceBean.getKey(), applicationContext);
+				dataSourceServiceBean.getValue().registerGeppettoService();
+			}
+			catch(Exception e)
+			{
+				_logger.error("Error registering data source service: " + dataSourceServiceBean.getKey() + " Error:" + e.getMessage());
+			}
+		}
+		
 		Map<String, IQueryProcessor> queryProcessorBeans = applicationContext.getBeansOfType(IQueryProcessor.class, false, false);
 		for(Map.Entry<String, IQueryProcessor> queryProcessorBean : queryProcessorBeans.entrySet())
 		{
-			_logger.info("Registering Simulator Services: " + queryProcessorBean.getKey());
+			_logger.info("Registering Query Processor Services: " + queryProcessorBean.getKey());
 			try
 			{
 				applicationContexts.put(queryProcessorBean.getKey(), applicationContext);
