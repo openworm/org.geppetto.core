@@ -32,6 +32,8 @@
  *******************************************************************************/
 package org.geppetto.core.model;
 
+import java.util.List;
+
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -44,7 +46,9 @@ import org.geppetto.model.GeppettoModel;
 import org.geppetto.model.GeppettoPackage;
 import org.geppetto.model.ISynchable;
 import org.geppetto.model.Tag;
+import org.geppetto.model.types.SimpleType;
 import org.geppetto.model.types.Type;
+import org.geppetto.model.types.TypesFactory;
 import org.geppetto.model.util.GeppettoModelException;
 import org.geppetto.model.util.GeppettoVisitingException;
 import org.geppetto.model.util.PointerUtility;
@@ -162,6 +166,28 @@ public class GeppettoModelAccess
 	{
 		Command synchCommand = SetCommand.create(editingDomain, object, GeppettoPackage.Literals.ISYNCHABLE__SYNCHED, false);
 		editingDomain.getCommandStack().execute(synchCommand);
+	}
+
+	/**
+	 * @param typeToRetrieve
+	 * @param libraries
+	 * @return
+	 */
+	public Type getOrCreateSimpleType(String typeToRetrieve, List<GeppettoLibrary> libraries)
+	{
+		for(GeppettoLibrary dependencyLibrary:libraries){
+			for(Type candidateSuperType:dependencyLibrary.getTypes()){
+				if(candidateSuperType.getId().equals(typeToRetrieve)){
+					return candidateSuperType;
+				}
+			}
+		}
+		SimpleType supertypeType = TypesFactory.eINSTANCE.createSimpleType();
+		supertypeType.setId(typeToRetrieve);
+		supertypeType.setName(typeToRetrieve);
+		addTypeToLibrary(supertypeType, libraries.get(0));
+		return supertypeType;
+		
 	}
 
 }

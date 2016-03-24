@@ -84,6 +84,9 @@ public class SynchableSerializer extends EObjectSerializer
 
 		if(synchable.isSynched())
 		{
+			jg.writeStartObject();
+			//writeId(object, jg, provider);
+			jg.writeEndObject();
 			return;
 		}
 		else
