@@ -34,6 +34,7 @@ package org.geppetto.core.model;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -41,6 +42,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.geppetto.model.GeppettoLibrary;
 import org.geppetto.model.GeppettoModel;
 import org.geppetto.model.GeppettoPackage;
+import org.geppetto.model.ISynchable;
 import org.geppetto.model.Tag;
 import org.geppetto.model.types.Type;
 import org.geppetto.model.util.GeppettoModelException;
@@ -133,8 +135,33 @@ public class GeppettoModelAccess
 	public void addTypeToLibrary(final Type type, final GeppettoLibrary targetLibrary)
 	{
 		Command command = AddCommand.create(editingDomain, targetLibrary, GeppettoPackage.Literals.GEPPETTO_LIBRARY__TYPES, type);
-		Command setCommand = SetCommand.create(editingDomain, targetLibrary, GeppettoPackage.Literals.ISYNCHABLE__SYNCHED, false);
 		editingDomain.getCommandStack().execute(command);
-		editingDomain.getCommandStack().execute(setCommand);
+		markAsUnsynched(targetLibrary);
 	}
+
+	/**
+	 * This method will change an attribute of an object
+	 * @param object the object target of the operation
+	 * @param field the field to set, needs to come from the Literals enumeration inside the package, e.g. GeppettoPackage.Literals.NODE__NAME to change the name
+	 * @param value the new value
+	 */
+	public void setObjectAttribute(final EObject object, Object field, Object value)
+	{
+		Command setCommand = SetCommand.create(editingDomain, object, field, value);
+		editingDomain.getCommandStack().execute(setCommand);
+		markAsUnsynched((ISynchable) object);
+
+	}
+
+	/**
+	 * This method will set the synched attribute for the object to false indicating
+	 * that whatever version of the object exists client side it is now out of synch
+	 * @param object
+	 */
+	private void markAsUnsynched(ISynchable object)
+	{
+		Command synchCommand = SetCommand.create(editingDomain, object, GeppettoPackage.Literals.ISYNCHABLE__SYNCHED, false);
+		editingDomain.getCommandStack().execute(synchCommand);
+	}
+
 }
