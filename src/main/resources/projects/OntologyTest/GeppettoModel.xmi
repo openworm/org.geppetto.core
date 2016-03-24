@@ -40,9 +40,9 @@
       id="vfbLibrary"
       name="VFB"/>
   <dataSources
-      id="vfbNeo4j"
-      name="vfbNeo4j"
-      dataSourceService="neo4JDataSourceService"
+      id="neo4JDataSourceService"
+      name="neo4JDataSourceService"
+      dataSourceService="neo4jDataSource"
       url="http://vfbdev.inf.ed.ac.uk/neo4jdb/data/transaction"
       dependenciesLibrary="//@libraries.3"
       targetLibrary="//@libraries.4">
@@ -76,7 +76,7 @@
       <queryChain
           xsi:type="gep:SimpleQuery"
           label="Get id/name/superTypes"
-          query="MATCH (n:VFB:Class { short_form: '$ID' } ) RETURN n.label, n.short_form, n.description, n.`annotation-comment`  LIMIT 1;"/>
+          query="MATCH (n { short_form: '$ID' } ) RETURN n.label as name, n.short_form as id, n.description as description, n.`annotation-comment` as comment, labels(n) as supertypes LIMIT 1"/>
       <queryChain
           xsi:type="gep:ProcessQuery"
           label="This processing step will populate a Variable with the superType resulting from the previous query"
