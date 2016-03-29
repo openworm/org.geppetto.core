@@ -43,6 +43,7 @@ import org.emfjson.common.EObjects;
 import org.emfjson.jackson.JacksonOptions;
 import org.emfjson.jackson.common.Cache;
 import org.emfjson.jackson.databind.ser.EObjectSerializer;
+import org.geppetto.model.GeppettoPackage;
 import org.geppetto.model.ISynchable;
 
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -85,7 +86,7 @@ public class SynchableSerializer extends EObjectSerializer
 		if(synchable.isSynched())
 		{
 			jg.writeStartObject();
-			//writeId(object, jg, provider);
+			jg.writeStringField(GeppettoPackage.Literals.ISYNCHABLE__SYNCHED.getName(), Boolean.toString(synchable.isSynched()));
 			jg.writeEndObject();
 			return;
 		}

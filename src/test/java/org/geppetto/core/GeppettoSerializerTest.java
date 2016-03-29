@@ -80,7 +80,7 @@ public class GeppettoSerializerTest
 		assertEquals(jsonResource, GeppettoSerializer.serializeToJSON(geppettoModel, true));
 		assertEquals(jsonResource, GeppettoSerializer.serializeToJSON(geppettoModel));
 		assertTrue(geppettoModel.getVariables().get(0).isSynched());
-		assertEquals("{\"eClass\":\"GeppettoModel\",\"id\":\"\",\"name\":\"\",\"variables\":[{}],\"libraries\":[{}]}", GeppettoSerializer.serializeToJSON(geppettoModel, true));
+		assertEquals("{\"eClass\":\"GeppettoModel\",\"id\":\"\",\"name\":\"\",\"variables\":[{\"synched\":\"true\"}],\"libraries\":[{\"synched\":\"true\"}]}", GeppettoSerializer.serializeToJSON(geppettoModel, true));
 	}
 
 }
