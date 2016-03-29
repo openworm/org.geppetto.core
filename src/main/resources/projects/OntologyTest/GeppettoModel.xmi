@@ -81,7 +81,7 @@
           xsi:type="gep:ProcessQuery"
           label="This processing step will populate a Variable with the superType resulting from the previous query"
           description=""
-          queryProcessorId="vfbTypeQueryProcessor"/>
+          queryProcessorId="vfbAddTypesQueryProcessor"/>
       <queryChain
           xsi:type="gep:SimpleQuery"
           label="Fetch data if it's a class"
@@ -101,7 +101,7 @@
           xsi:type="gep:ProcessQuery"
           label="This processing step will populate the Variable with the different import type"
           description=""
-          queryProcessorId="vfbImportTypesQueryProcessor"/>
+          queryProcessorId="vfbAddImportTypesQueryProcessor"/>
     </fetchVariableQuery>
   </dataSources>
 </gep:GeppettoModel>
