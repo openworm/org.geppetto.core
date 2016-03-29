@@ -86,7 +86,7 @@ public class SynchableSerializer extends EObjectSerializer
 		if(synchable.isSynched())
 		{
 			jg.writeStartObject();
-			jg.writeStringField(GeppettoPackage.Literals.ISYNCHABLE__SYNCHED.getName(), Boolean.toString(synchable.isSynched()));
+			jg.writeBooleanField(GeppettoPackage.Literals.ISYNCHABLE__SYNCHED.getName(), synchable.isSynched());
 			jg.writeEndObject();
 			return;
 		}
