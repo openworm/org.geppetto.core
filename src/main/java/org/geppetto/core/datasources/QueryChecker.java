@@ -1,6 +1,5 @@
 package org.geppetto.core.datasources;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.geppetto.model.Query;
@@ -8,7 +7,6 @@ import org.geppetto.model.QueryMatchingCriteria;
 import org.geppetto.model.types.Type;
 import org.geppetto.model.util.ModelUtility;
 import org.geppetto.model.variables.Variable;
-import org.hamcrest.core.IsSame;
 
 public class QueryChecker
 {
