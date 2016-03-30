@@ -18,23 +18,26 @@
       id="ontology"
       name="Ontology">
     <types xsi:type="gep_1:SimpleType"
-        id="individual"
+        id="Individual"
         name="Individual"/>
     <types xsi:type="gep_1:SimpleType"
-        id="class"
+        id="Class"
         name="Class"/>
     <types xsi:type="gep_1:SimpleType"
-        id="neuron"
+        id="Neuron"
         name="Neuron"/>
     <types xsi:type="gep_1:SimpleType"
-        id="tract"
+        id="Tract"
         name="Tract"/>
     <types xsi:type="gep_1:SimpleType"
-        id="clone"
+        id="Clone"
         name="Clone"/>
     <types xsi:type="gep_1:SimpleType"
         id="neuropil"
         name="Neuropil"/>
+    <types xsi:type="gep_1:SimpleType"
+        id="VFB"
+        name="Virtual Fly Brain"/>
   </libraries>
   <libraries
       id="vfbLibrary"
@@ -75,8 +78,10 @@
         description="">
       <queryChain
           xsi:type="gep:SimpleQuery"
-          label="Get id/name/superTypes"
-          query="MATCH (n { short_form: '$ID' } ) RETURN n.label as name, n.short_form as id, n.description as description, n.`annotation-comment` as comment, labels(n) as supertypes LIMIT 1"/>
+          label="Get id/name/superTypes/description/comment/synonyms"
+          description="Fetches essential details."
+          query="MATCH (n { short_form: '$ID' } ) RETURN n.label as name, n.short_form as id, n.description as description, n.`annotation-comment` as comment, labels(n) as supertypes, n.synonym as synonyms LIMIT 1"
+          countQuery="MATCH (n { short_form: '$ID' } ) RETURN count(n) as count"/>
       <queryChain
           xsi:type="gep:ProcessQuery"
           label="This processing step will populate a Variable with the superType resulting from the previous query"
@@ -84,18 +89,26 @@
           queryProcessorId="vfbAddTypesQueryProcessor"/>
       <queryChain
           xsi:type="gep:SimpleQuery"
-          label="Fetch data if it's a class"
-          query="">
+          label="Fetch relationships and references"
+          description="Pull all relationships and references"
+          query="MATCH (n:VFB { short_form: '$ID' } )-[r:SUBCLASSOF|Related|has_reference]->(sc) RETURN r as relationship, sc.label as relName, sc.short_form as relId, sc.miniref as relRef, sc.FlyBase as relFBrf, sc.PMID as relPMID, sc.DOI as relDOI"
+          countQuery="MATCH (n:VFB { short_form: '$ID' } )-[r:SUBCLASSOF|Related|has_reference]->(sc) RETURN count(*) as count">
         <matchingCriteria
-            type="//@libraries.3/@types.1"/>
+            type="//@libraries.3/@types.6"/>
       </queryChain>
       <queryChain
+          xsi:type="gep:ProcessQuery"
+          label="This processing step will populate a Variable with the synonyms and references resulting from the previous query"
+          description="This processing step will populate a Variable with the synonyms and references resulting from the previous query"
+          queryProcessorId="vfbAddImportTypesSynonymQueryProcessor"/>
+      <queryChain
           xsi:type="gep:SimpleQuery"
-          label="Fetch data if it's an individual"
-          description=""
-          query="">
+          label="Fetch 6 example individuals for classes"
+          description="Fetch 6 example individuals"
+          query="MATCH (n:VFB:Class { short_form: '$ID' } )&lt;-[:SUBCLASSOF*]-()&lt;-[:INSTANCEOF]-(i) RETURN i.short_form as exId, i.label as exName LIMIT 6"
+          countQuery="MATCH (n:VFB:Class { short_form: '$ID' } )&lt;-[:SUBCLASSOF*]-()&lt;-[:INSTANCEOF]-(i) RETURN count(n) as count">
         <matchingCriteria
-            type="//@libraries.3/@types.0"/>
+            type="//@libraries.3/@types.1 //@libraries.3/@types.6"/>
       </queryChain>
       <queryChain
           xsi:type="gep:ProcessQuery"
