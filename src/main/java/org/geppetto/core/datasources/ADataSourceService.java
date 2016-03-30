@@ -108,10 +108,9 @@ public abstract class ADataSourceService extends AService implements IDataSource
 	public List<Query> getAvailableQueries(Variable variable)
 	{
 		List<Query> availableQueries = new ArrayList<Query>();
-		List<Type> types = ModelUtility.getAllTypesOf(variable);
 		for(Query query : configuration.getQueries())
 		{
-			if(QueryChecker.check(query, types))
+			if(QueryChecker.check(query, variable))
 			{
 				availableQueries.add(query);
 			}

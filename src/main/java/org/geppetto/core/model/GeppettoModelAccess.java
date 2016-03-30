@@ -46,9 +46,11 @@ import org.geppetto.model.GeppettoModel;
 import org.geppetto.model.GeppettoPackage;
 import org.geppetto.model.ISynchable;
 import org.geppetto.model.Tag;
+import org.geppetto.model.types.CompositeType;
 import org.geppetto.model.types.SimpleType;
 import org.geppetto.model.types.Type;
 import org.geppetto.model.types.TypesFactory;
+import org.geppetto.model.types.TypesPackage;
 import org.geppetto.model.util.GeppettoModelException;
 import org.geppetto.model.util.GeppettoVisitingException;
 import org.geppetto.model.util.PointerUtility;
@@ -188,6 +190,17 @@ public class GeppettoModelAccess
 		addTypeToLibrary(supertypeType, libraries.get(0));
 		return supertypeType;
 		
+	}
+
+	/**
+	 * @param newVar
+	 * @param targetType
+	 */
+	public void addVariableToType(Variable newVar, CompositeType targetType)
+	{
+		Command command = AddCommand.create(editingDomain, targetType, TypesPackage.Literals.COMPOSITE_TYPE__VARIABLES, newVar);
+		editingDomain.getCommandStack().execute(command);
+		markAsUnsynched(targetType);
 	}
 
 }
