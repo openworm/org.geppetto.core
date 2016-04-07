@@ -37,4 +37,7 @@
   <types xsi:type="gep_1:PointerType"
       id="Pointer"
       name="Pointer"/>
+  <types xsi:type="gep_1:ImageType"
+      id="Image"
+      name="Image"/>
 </gep:GeppettoLibrary>
