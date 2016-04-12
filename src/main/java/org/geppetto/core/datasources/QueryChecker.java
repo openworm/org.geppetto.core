@@ -37,6 +37,7 @@ public class QueryChecker
 							if(type.extendsType(typeToMatch))
 							{
 								isSuperType = true;
+								break;
 							}
 						}
 						if(!isSuperType)

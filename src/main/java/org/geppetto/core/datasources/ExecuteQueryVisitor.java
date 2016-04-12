@@ -103,18 +103,21 @@ public class ExecuteQueryVisitor extends GeppettoSwitch<Object>
 	@Override
 	public Object caseProcessQuery(ProcessQuery query)
 	{
-		try
+		if(QueryChecker.check(query, getVariable()))
 		{
-			IQueryProcessor queryProcessor = (IQueryProcessor) ServiceCreator.getNewServiceInstance(query.getQueryProcessorId());
-			this.results = queryProcessor.process(query, dataSource, getVariable(), getResults(), geppettoModelAccess);
-		}
-		catch(GeppettoInitializationException e)
-		{
-			return new GeppettoVisitingException(e);
-		}
-		catch(GeppettoDataSourceException e)
-		{
-			return new GeppettoVisitingException(e);
+			try
+			{
+				IQueryProcessor queryProcessor = (IQueryProcessor) ServiceCreator.getNewServiceInstance(query.getQueryProcessorId());
+				this.results = queryProcessor.process(query, dataSource, getVariable(), getResults(), geppettoModelAccess);
+			}
+			catch(GeppettoInitializationException e)
+			{
+				return new GeppettoVisitingException(e);
+			}
+			catch(GeppettoDataSourceException e)
+			{
+				return new GeppettoVisitingException(e);
+			}
 		}
 		return super.caseProcessQuery(query);
 	}
@@ -165,7 +168,7 @@ public class ExecuteQueryVisitor extends GeppettoSwitch<Object>
 		}
 		else
 		{
-			//TODO This is neo4j specific, factor it out
+			// TODO This is neo4j specific, factor it out
 
 			Map<String, Object> responseMap = JSONUtility.getAsMap(response);
 
