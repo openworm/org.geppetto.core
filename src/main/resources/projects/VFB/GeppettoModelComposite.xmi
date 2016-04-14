@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<gep:GeppettoModel
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gep="https://raw.githubusercontent.com/openworm/org.geppetto.model/master/src/main/resources/geppettoModel.ecore"
+    xmlns:gep_1="https://raw.githubusercontent.com/openworm/org.geppetto.model/master/src/main/resources/geppettoModel.ecore#//types">
+  <variables
+      id="flybrain"
+      name="flybrain"
+      types="//@libraries.0/@types.1 //@libraries.0/@types.2"/>
+  <libraries
+      id="vfb"
+      name="VFB">
+    <types xsi:type="gep_1:ImportType"
+        id="BU_L"
+        name="BU_L"
+        superType="//@libraries.0/@types.3"
+        url="/projects/VFB/20062_multi.obj"
+        modelInterpreterId="objModelInterpreterService"/>
+    <types xsi:type="gep_1:ImportType"
+        id="BU_R"
+        name="BU_R"
+        superType="//@libraries.0/@types.3"
+        url="/projects/VFB/20062_multi.obj"
+        modelInterpreterId="objModelInterpreterService"/>
+    <types xsi:type="gep_1:CompositeType"
+        id="flybrain"
+        name="flybrain">
+      <variables
+          id="BU_R"
+          name="BU_R"
+          types="//@libraries.0/@types.1"/>
+      <variables
+          id="BU_L"
+          name="BU_L"
+          types="//@libraries.0/@types.0"/>
+    </types>
+    <types xsi:type="gep_1:CompositeType"
+        id="neuropil"
+        name="neuropil"/>
+  </libraries>
+</gep:GeppettoModel>

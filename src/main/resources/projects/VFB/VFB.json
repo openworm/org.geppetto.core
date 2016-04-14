@@ -1,0 +1,21 @@
+{
+    "id": 102,
+    "name": "VFB Sample",
+    "activeExperimentId": 1,
+    "experiments": [
+        {
+            "id": 1,
+            "name": "Only morphology, no simulation",
+            "status": "COMPLETED",
+            description : "VFB Sample",
+            "lastModified":"1436102517799",
+            "script": "/projects/VFB/script.js",
+            "aspectConfigurations": []
+        }
+    ],
+    "geppettoModel": {
+        "id": 9,
+        "url": "/projects/VFB/GeppettoModel.xmi",
+        "type": "GEPPETTO_PROJECT"
+    }
+}
