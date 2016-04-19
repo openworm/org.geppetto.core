@@ -86,7 +86,7 @@
           xsi:type="gep:ProcessQuery"
           label="This processing step will populate a Variable with the superType resulting from the previous query"
           description=""
-          queryProcessorId="vfbAddTypesQueryProcessor"/>
+          queryProcessorId="vfbTypesQueryProcessor"/>
       <queryChain
           xsi:type="gep:SimpleQuery"
           label="Fetch relationships and references"
@@ -100,7 +100,10 @@
           xsi:type="gep:ProcessQuery"
           label="This processing step will populate a Variable with the synonyms and references resulting from the previous query"
           description="This processing step will populate a Variable with the synonyms and references resulting from the previous query"
-          queryProcessorId="vfbAddImportTypesSynonymQueryProcessor"/>
+          queryProcessorId="vfbImportTypesSynonymQueryProcessor">
+        <matchingCriteria
+            type="//@libraries.3/@types.6"/>
+      </queryChain>
       <queryChain
           xsi:type="gep:SimpleQuery"
           label="Fetch 6 example individuals for classes"
@@ -114,7 +117,18 @@
           xsi:type="gep:ProcessQuery"
           label="This processing step will populate the Variable with the different import type"
           description=""
-          queryProcessorId="vfbAddImportTypesQueryProcessor"/>
+          queryProcessorId="vfbImportTypesQueryProcessor">
+        <matchingCriteria
+            type="//@libraries.3/@types.1 //@libraries.3/@types.6"/>
+      </queryChain>
+      <queryChain
+          xsi:type="gep:ProcessQuery"
+          label="Add Thumbnail for VFB Individuals"
+          description="Add Thumbnail for VFB Individuals"
+          queryProcessorId="vfbImportTypesThumbnailQueryProcessor">
+        <matchingCriteria
+            type="//@libraries.3/@types.0 //@libraries.3/@types.6"/>
+      </queryChain>
     </fetchVariableQuery>
   </dataSources>
 </gep:GeppettoModel>
