@@ -5,6 +5,7 @@
     "experiments": [
         {
             "id": 1,
+            script: "/projects/NWBSample/script.js",
             "name": "NWB Visualization sample",
             "description" : "This is a sample experiment to visualize an <a href='https://crcns.org/NWB/Overview'>NWB</a> file. The Neurodata without Borders – Neurophysiology initiative is a one-year project to produce a unified data format for cellular-based, neurophysiology data based on representative use cases initially from four laboratories – the Buzsaki group at NYU, the Svoboda group at Janelia Farm, the Meister group at Caltech, and the Allen Institute for Brain Science in Seattle.",
             "status": "COMPLETED",
