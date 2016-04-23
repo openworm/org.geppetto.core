@@ -7,18 +7,13 @@
 		  	id:1,      
 		  	name: "Auditory Cortex NEURON simulation",
 		  	status: "COMPLETED",
-		  	description:"Network model of primary auditory cortex in rodents. David Beeman, University of Colorado, Boulder. Model developed in NeuroML. Simulation executed in NEURON. For more information see http://opensourcebrain.org/projects/acnet2.",
+		  	description:"Network model of primary auditory cortex in rodents. David Beeman, University of Colorado, Boulder. Model developed in NeuroML. Simulation executed in <a href=\"http://opensourcebrain.org/projects/acnet2\">NEURON</a>.",
             "lastModified":"1436102517799",
 		  	script: "/projects/AuditoryCortex/script.js",
 		  	aspectConfigurations: [
 		    {
 		  		id:1,
-		  		aspect: {
-		            id: 1,
-		            entityInstancePath: "acnet2",
-		            aspect: "electrical",
-		            localInstancePath: ""
-		        },
+		  		instance: "acnet2",
 		        simulatorConfiguration: {
 		          id: 1,
 		          simulatorId: "neuronSimulator",
@@ -28,12 +23,9 @@
 		          parameters: {target: "network_ACnet2"}
 		        },
 		        watchedVariables:[
-			        {
-			            id: 1,
-			            entityInstancePath: "acnet2.baskets_12_0",
-			            aspect: "electrical.SimulationTree",
-			            localInstancePath: "bask[0].v"
-			        }
+		        	"acnet2.pyramidals_48[0].soma_0.v", 
+		        	"acnet2.pyramidals_48[1].soma_0.v", 
+		        	"acnet2.baskets_12[2].soma_0.v"
 		        ]
 		  	}
 		  	],
@@ -41,12 +33,7 @@
 		  	{
 		  		id:1,
 		  		format: "GEPPETTO_RECORDING",
-		  		aspect: {
-		            id: 1,
-		            entityInstancePath: "acnet2.baskets_12_0",
-		            aspect: "electrical",
-		            localInstancePath: ""
-		        },
+				simulatedInstance: "acnet2",
 		        result: {
 		          id: 1,
 		          url: "/projects/AuditoryCortex/results.h5",
@@ -56,15 +43,64 @@
 		  	{
 		  		id:2,
 		  		format: "RAW",
-		  		aspect: {
-		            id: 1,
-		            entityInstancePath: "acnet2.baskets_12_0",
-		            aspect: "electrical",
-		            localInstancePath: ""
-		        },
+				simulatedInstance: "acnet2",
 		        result: {
 		          id: 2,
-		          url: "/projects/AuditoryCortex/acnet2.electrical-rawRecording.zip",
+		          url: "/projects/AuditoryCortex/rawRecording.zip",
+		          type: "RECORDING"
+		        }
+		  	}]
+	},
+	{
+		  	id:2,      
+		  	name: "Auditory Cortex NEURON simulation - Whole pyramidal cell recorded",
+		  	status: "COMPLETED",
+		  	description:"Network model of primary auditory cortex in rodents. David Beeman, University of Colorado, Boulder. Model developed in NeuroML. Simulation executed in NEURON. For more information see http://opensourcebrain.org/projects/acnet2.",
+            "lastModified":"1436102517799",
+		  	script: "/projects/AuditoryCortex/script2.js",
+		  	aspectConfigurations: [
+		    {
+		  		id:1,
+instance: "acnet2",
+		        simulatorConfiguration: {
+		          id: 1,
+		          simulatorId: "neuronSimulator",
+		          conversionServiceId: "lemsConversion",
+		          timestep: 0.00001,
+		          length: 0.3,
+		          parameters: {target: "network_ACnet2"}
+		        },
+		        watchedVariables:[
+			        "acnet2.pyramidals_48[0].soma_0.v",
+			        "acnet2.pyramidals_48[0].apical0_1.v",
+			        "acnet2.pyramidals_48[0].apical2_2.v",
+			        "acnet2.pyramidals_48[0].apical3_3.v",
+			        "acnet2.pyramidals_48[0].apical4_4.v",
+			        "acnet2.pyramidals_48[0].apical1_5.v",
+			        "acnet2.pyramidals_48[0].basal0_6.v",
+			        "acnet2.pyramidals_48[0].basal1_7.v",
+			        "acnet2.pyramidals_48[0].basal2_8.v"
+		        ]
+		  	}
+		  	],
+		  	simulationResults: [
+		  	{
+		  		id:1,
+		  		format: "GEPPETTO_RECORDING",
+				simulatedInstance: "acnet2",
+		        result: {
+		          id: 1,
+		          url: "/projects/AuditoryCortex/results_2.h5",
+		          type: "RECORDING"
+		        }
+		  	},
+		  	{
+		  		id:2,
+		  		format: "RAW",
+				simulatedInstance: "acnet2",
+		        result: {
+		          id: 2,
+		          url: "/projects/AuditoryCortex/rawRecording.zip",
 		          type: "RECORDING"
 		        }
 		  	}]
@@ -72,7 +108,7 @@
     ],
     "geppettoModel": {
         "id": 9,
-        "url": "/projects/AuditoryCortex/GEPPETTO.xml",
+        "url": "/projects/AuditoryCortex/GeppettoModel.xmi",
         "type": "GEPPETTO_PROJECT"
     }
 }

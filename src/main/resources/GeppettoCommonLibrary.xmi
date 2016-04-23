@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ASCII"?>
+<gep:GeppettoLibrary
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gep="https://raw.githubusercontent.com/openworm/org.geppetto.model/development/src/main/resources/geppettoModel.ecore"
+    xmlns:gep_1="https://raw.githubusercontent.com/openworm/org.geppetto.model/development/src/main/resources/geppettoModel.ecore#//types"
+    xsi:schemaLocation="https://raw.githubusercontent.com/openworm/org.geppetto.model/development/src/main/resources/geppettoModel.ecore#//types https://raw.githubusercontent.com/openworm/org.geppetto.model/development/src/main/resources/geppettoModel.ecore#//types"
+    id="common"
+    name="Geppetto Common Library">
+  <types xsi:type="gep_1:ParameterType"
+      id="Parameter"
+      name="Parameter"/>
+  <types xsi:type="gep_1:DynamicsType"
+      id="Dynamics"
+      name="Dynamics"/>
+  <types xsi:type="gep_1:StateVariableType"
+      id="StateVariable"
+      name="State Variable"/>
+  <types xsi:type="gep_1:HTMLType"
+      id="HTML"
+      name="HTML"/>
+  <types xsi:type="gep_1:URLType"
+      id="URL"
+      name="URL"/>
+  <types xsi:type="gep_1:TextType"
+      id="Text"
+      name="Text"/>
+  <types xsi:type="gep_1:PointType"
+      id="Point"
+      name="Point"/>
+  <types xsi:type="gep_1:ExpressionType"
+      id="Expression"
+      name="Expression"/>
+  <types xsi:type="gep_1:VisualType"
+      id="Visual"
+      name="Visual"/>
+  <types xsi:type="gep_1:PointerType"
+      id="Pointer"
+      name="Pointer"/>
+</gep:GeppettoLibrary>

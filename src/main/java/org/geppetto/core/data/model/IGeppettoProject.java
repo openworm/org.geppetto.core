@@ -52,5 +52,5 @@ public interface IGeppettoProject extends IDataEntity
 	boolean isVolatile();
 
 	void setVolatile(boolean volatileProject);
-	
+
 }

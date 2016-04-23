@@ -9,16 +9,10 @@
             "status": "COMPLETED",
             "lastModified":"1436102517799",
             script: "/projects/CElegansMuscleModel/script.js",
-            "description" :  "This project is based on the OpenWorm muscle model, found online at http://github.com/openworm/muscle_model.  This simulates the electrial properties of a single C. elegans body wall muscle cell.  The simulation was executed using NEURON. The original version is based on a paper by Boyle & Cohen in 2008.",
+            "description" :  "This project is based on the <a href=\"http://github.com/openworm/muscle_model\">OpenWorm muscle model</a>.  This simulates the electrical properties of a single C. elegans body wall muscle cell.  The simulation was executed using NEURON. The original version is based on a paper by Boyle & Cohen in 2008.",
             "aspectConfigurations": [
                 {
-                    "id": 1,
-                    "aspect": {
-                        "id": 1,
-                        "entityInstancePath": "net1",
-                        "aspect": "electrical",
-                        "localInstancePath": ""
-                    },
+                    "instance": "net1",
                     "simulatorConfiguration": {
                       "id": 1,
                       "simulatorId": "neuronSimulator",
@@ -27,50 +21,13 @@
                       "length": 0.5,
                       "parameters": {"target": "net1"}
                     },
-                    "watchedVariables": [
-                        {
-                            "id": 1,
-                            "entityInstancePath": "net1.neuron_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "generic_iaf_cell.v"
-                        },
-                        {
-                            "id": 2,
-                            "entityInstancePath": "net1.muscle_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "SingleCompMuscleCell[0].v"
-                        },
-                        {
-                            "id": 3,
-                            "entityInstancePath": "net1.muscle_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "SingleCompMuscleCell[0].caConc"
-                        },
-                        {
-                            "id": 4,
-                            "entityInstancePath": "net1.muscle_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "SingleCompMuscleCell[0].biophys.membraneProperties.Leak_all.iDensity"
-                        },
-                        {
-                            "id": 5,
-                            "entityInstancePath": "net1.muscle_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "SingleCompMuscleCell[0].biophys.membraneProperties.k_slow_all.iDensity"
-                        },
-                        {
-                            "id": 6,
-                            "entityInstancePath": "net1.muscle_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "SingleCompMuscleCell[0].biophys.membraneProperties.k_fast_all.iDensity"
-                        },
-                        {
-                            "id": 7,
-                            "entityInstancePath": "net1.muscle_0",
-                            "aspect": "electrical.SimulationTree",
-                            "localInstancePath": "SingleCompMuscleCell[0].biophys.membraneProperties.ca_boyle_all.iDensity"
-                        }
-
+                    "watchedVariables": ["net1.neuron[0].v"
+                        ,"net1.muscle[0].v"
+                        ,"net1.muscle[0].caConc"
+                        ,"net1.muscle[0].biophys.membraneProperties.Leak_all.iDensity"
+                        ,"net1.muscle[0].biophys.membraneProperties.k_slow_all.iDensity"
+                        ,"net1.muscle[0].biophys.membraneProperties.k_fast_all.iDensity"
+                        ,"net1.muscle[0].biophys.membraneProperties.ca_boyle_all.iDensity"
                     ]
                 }
             ],
@@ -78,27 +35,17 @@
 		  	{
 		  		id:1,
 		  		format: "GEPPETTO_RECORDING",
-		  		aspect: {
-		            id: 1,
-		            entityInstancePath: "net1",
-		            aspect: "electrical",
-		            localInstancePath: ""
-		        },
+				"simulatedInstance": "net1",
 		        result: {
 		          id: 1,
-		          url: "/projects/CElegansMuscleModel/results-2015.07.08.13.36.39.h5",
+		          url: "/projects/CElegansMuscleModel/results.h5",
 		          type: "RECORDING"
 		        }
 		  	},
 		  	  	{
 		  		id:2,
 		  		format: "RAW",
-		  		aspect: {
-		            id: 1,
-		            entityInstancePath: "net1",
-		            aspect: "electrical",
-		            localInstancePath: ""
-		        },
+				"simulatedInstance": "net1",
 		        result: {
 		          id: 2,
 		          url: "/projects/CElegansMuscleModel/rawRecording.zip",
@@ -109,7 +56,7 @@
     ],
     "geppettoModel": {
         "id": 4,
-        "url": "/projects/CElegansMuscleModel/GEPPETTO.xml",
+        "url": "/projects/CElegansMuscleModel/GeppettoModel.xmi",
         "type": "GEPPETTO_PROJECT"
     }
 }

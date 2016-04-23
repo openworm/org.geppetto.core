@@ -8,8 +8,8 @@ package org.geppetto.core.manager;
  */
 public enum Scope
 {
-	//RUN Scope to be used when running a simulation
-	RUN, 
-	//CONNECTION Scope to be used when serving a user connection
+	// RUN Scope to be used when running a simulation
+	RUN,
+	// CONNECTION Scope to be used when serving a user connection
 	CONNECTION
 }

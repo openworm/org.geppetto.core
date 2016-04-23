@@ -33,9 +33,6 @@
 
 package org.geppetto.core;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
 
 /**
  * JUnit test for the example type.

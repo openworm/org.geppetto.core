@@ -39,9 +39,10 @@ import java.util.List;
 import org.geppetto.core.conversion.AConversion;
 import org.geppetto.core.conversion.ConversionException;
 import org.geppetto.core.data.model.IAspectConfiguration;
-import org.geppetto.core.model.IModel;
-import org.geppetto.core.services.ModelFormat;
+import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.core.services.registry.ServicesRegistry;
+import org.geppetto.model.DomainModel;
+import org.geppetto.model.ModelFormat;
 
 /**
  * @author Adrian Quintana (adrian.perez@ucl.ac.uk)
@@ -63,7 +64,7 @@ public class TestConversion extends AConversion
 	}
 
 	@Override
-	public List<ModelFormat> getSupportedOutputs(IModel model, ModelFormat input) throws ConversionException
+	public List<ModelFormat> getSupportedOutputs(DomainModel model) throws ConversionException
 	{
 		return new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.getModelFormat("TEST2")));
 	}
@@ -81,7 +82,7 @@ public class TestConversion extends AConversion
 	}
 
 	@Override
-	public IModel convert(IModel model, ModelFormat input, ModelFormat output, IAspectConfiguration aspectConfig) throws ConversionException
+	public DomainModel convert(DomainModel model, ModelFormat output, IAspectConfiguration aspectConfig, GeppettoModelAccess modelAccess) throws ConversionException
 	{
 		// TODO Auto-generated method stub
 		return null;

@@ -4,9 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.externalprocesses.ExternalProcess;
-import org.geppetto.core.model.runtime.AspectNode;
 import org.geppetto.core.simulation.IExternalSimulatorCallbackListener;
 
 /**
@@ -17,9 +15,6 @@ import org.geppetto.core.simulation.IExternalSimulatorCallbackListener;
  */
 public abstract class AExternalProcessSimulator extends ASimulator implements IExternalSimulatorCallbackListener
 {
-
-	// the instance path of the aspect that is being simulated
-	protected AspectNode aspectNode;
 
 	protected boolean started = false;
 
@@ -49,16 +44,10 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 
 	public abstract String getSimulatorPath();
 
-	@Override
-	public void processDone(String[] processCommand) throws GeppettoExecutionException
-	{
-
-	}
 
 	@Override
-	public void simulate(AspectNode aspect) throws GeppettoExecutionException
+	public void simulate() throws GeppettoExecutionException
 	{
-		this.aspectNode = aspect;
 		// send command, directory where execution is happening, and path to original file script to execute
 		if(!started)
 		{
@@ -71,11 +60,5 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 		}
 	}
 
-	public AspectNode getAspectNode()
-	{
-		return this.aspectNode;
-	}
-	
-	
 
 }

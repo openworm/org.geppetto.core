@@ -3,7 +3,6 @@ package org.geppetto.core.services;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.geppetto.core.beans.PathConfiguration;
 import org.geppetto.core.features.IFeature;
 import org.geppetto.core.manager.Scope;
 
@@ -18,10 +17,9 @@ public abstract class AService implements IService
 {
 
 	protected long projectId = -1;
-	
+
 	protected Scope scope = Scope.CONNECTION;
-	
-	
+
 	public void setProjectId(long projectId)
 	{
 		this.projectId = projectId;
@@ -31,7 +29,7 @@ public abstract class AService implements IService
 	{
 		return projectId;
 	}
-	
+
 	public void setScope(Scope scope)
 	{
 		this.scope = scope;
@@ -41,11 +39,12 @@ public abstract class AService implements IService
 	{
 		return scope;
 	}
-	
 
 	protected Map<GeppettoFeature, IFeature> features = new HashMap<GeppettoFeature, IFeature>();
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.services.IService#isSupported(org.geppetto.core.services.GeppettoFeature)
 	 */
 	@Override
@@ -54,7 +53,9 @@ public abstract class AService implements IService
 		return features.containsKey(feature);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.services.IService#getFeature(org.geppetto.core.services.GeppettoFeature)
 	 */
 	@Override
@@ -63,7 +64,9 @@ public abstract class AService implements IService
 		return features.get(feature);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.services.IService#addFeature(org.geppetto.core.features.IFeature)
 	 */
 	@Override
@@ -71,6 +74,5 @@ public abstract class AService implements IService
 	{
 		features.put(feature.getType(), feature);
 	}
-	
 
 }

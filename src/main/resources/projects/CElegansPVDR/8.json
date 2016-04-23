@@ -6,7 +6,7 @@
         {
             "id": 1,
             "name": "Only morphology, no simulation",
-            "description" : "The morphology of one of the C. elegans neuron reconstructed in NeuroML from the original Blender model developed in the Virtual Worm project. http://caltech.wormbase.org/virtualworm/.",
+            "description" : "The morphology of one of the C. elegans neuron reconstructed in NeuroML from the original Blender model developed in the <a href=\"http://caltech.wormbase.org/virtualworm/\">Virtual Worm project</a>.",
             "status": "COMPLETED",
             "aspectConfigurations": [],
             "lastModified":"1436102517799"
@@ -14,7 +14,7 @@
     ],
     "geppettoModel": {
         "id": 9,
-        "url": "/projects/CElegansPVDR/GEPPETTO.xml",
+        "url": "/projects/CElegansPVDR/GeppettoModel.xmi",
         "type": "GEPPETTO_PROJECT"
     }
 }

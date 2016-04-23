@@ -41,15 +41,15 @@ import java.util.List;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.data.model.IInstancePath;
 import org.geppetto.core.data.model.IParameter;
 import org.geppetto.core.data.model.IPersistedData;
 import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.data.model.IUser;
+import org.geppetto.core.data.model.IUserGroup;
 import org.geppetto.core.data.model.PersistedDataType;
 import org.geppetto.core.data.model.ResultsFormat;
-import org.geppetto.core.model.runtime.ANode;
+import org.geppetto.core.data.model.UserPrivileges;
 
 import com.google.gson.Gson;
 
@@ -68,6 +68,8 @@ public interface IGeppettoDataManager
 
 	IUser getUserByLogin(String login);
 	
+	IUserGroup getUserGroupById(long id);
+
 	IGeppettoProject getGeppettoProjectById(long id);
 
 	List<? extends IUser> getAllUsers();
@@ -75,51 +77,45 @@ public interface IGeppettoDataManager
 	Collection<? extends IGeppettoProject> getAllGeppettoProjects();
 
 	Collection<? extends IGeppettoProject> getGeppettoProjectsForUser(String login);
-	
+
 	IGeppettoProject getProjectFromJson(Gson gson, String json);
 
 	IGeppettoProject getProjectFromJson(Gson gson, Reader json);
 
 	List<? extends IExperiment> getExperimentsForProject(long projectId);
 
-	
-	ISimulationResult newSimulationResult(IInstancePath parameterPath, IPersistedData results, ResultsFormat format);
-	
-	void addWatchedVariable(IAspectConfiguration found, IInstancePath instancePath);
-	
-	IInstancePath newInstancePath(ANode aspectNode);
+	ISimulationResult newSimulationResult(String parameterPath, IPersistedData results, ResultsFormat format);
+
+	void addWatchedVariable(IAspectConfiguration found, String instancePath);
 
 	IPersistedData newPersistedData(URL url, PersistedDataType type);
 
-	IParameter newParameter(IInstancePath parameterPath, String value);
-	
-	IInstancePath newInstancePath(String entityPath, String aspectPath, String localPath);
+	IParameter newParameter(String parameterPath, String value);
 
 	IExperiment newExperiment(String name, String description, IGeppettoProject project);
+
+	IUser newUser(String name, String password, boolean persistent, IUserGroup group);
 	
-	IUser newUser(String name, String password, boolean persistent);
-	
+	IUserGroup newUserGroup(String name, List<UserPrivileges> privileges, long spaceAllowance, long timeAllowance);
+
 	IUser updateUser(IUser user, String password);
-	
-	IAspectConfiguration newAspectConfiguration(IExperiment experiment, IInstancePath instancePath, ISimulatorConfiguration simulatorConfiguration);
+
+	IAspectConfiguration newAspectConfiguration(IExperiment experiment, String instancePath, ISimulatorConfiguration simulatorConfiguration);
 
 	ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, long timestep, long length);
-	
+
 	void addGeppettoProject(IGeppettoProject project, IUser user);
-	
+
 	Object deleteGeppettoProject(long id, IUser user);
 
 	Object deleteExperiment(IExperiment experiment);
 
 	void clearWatchedVariables(IAspectConfiguration aspectConfig);
-	
 
 	void saveEntity(Object entity);
 
 	void saveEntity(IExperiment entity);
 
 	void saveEntity(IGeppettoProject entity);
-
-
 
 }
