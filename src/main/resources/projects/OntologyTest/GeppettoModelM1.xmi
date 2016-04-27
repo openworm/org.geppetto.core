@@ -51,7 +51,7 @@
       targetLibrary="//@libraries.4">
     <libraryConfigurations
         library="//@libraries.0"
-        modelInterpreterId="swcModelInterpreterService"
+        modelInterpreterId="swcModelInterpreter"
         format="swc"/>
     <libraryConfigurations
         library="//@libraries.1"
