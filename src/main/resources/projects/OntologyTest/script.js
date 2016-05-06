@@ -1,3 +1,5 @@
+GEPPETTO.ControlPanel.setColumns(['name', 'type', 'controls', 'image'], [ { "columnName": "path", "order": 1, "locked": false, "visible": true, "displayName": "Path", "source": "$entity$.getPath()" }, { "columnName": "name", "order": 2, "locked": false, "visible": true, "displayName": "Name", "source": "$entity$.getName()" }, { "columnName": "type", "order": 3, "locked": false, "visible": true, "customComponent": GEPPETTO.ArrayComponent, "displayName": "Type(s)", "source": "$entity$.getTypes().map(function (t) {return t.getPath()})" }, { "columnName": "controls", "order": 4, "locked": false, "visible": true, "customComponent": GEPPETTO.ControlsComponent, "displayName": "Controls", "source": "" }, { "columnName": "image", "order": 5, "locked": false, "visible": true, "customComponent": GEPPETTO.ImageComponent, "displayName": "Image", cssClassName: "img-column", "source": "$entity$.$entity$_meta.image.data" } ]);
+
 Model.getDatasources()[0].fetchVariable('VFB_00000001')
 Model.getDatasources()[0].fetchVariable('FBbt_00100219')
 
