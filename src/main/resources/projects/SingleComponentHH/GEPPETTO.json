@@ -37,7 +37,7 @@
   	{
   		id:1,
   		format: "GEPPETTO_RECORDING",
-		"instance": "hhcell",
+		"simulatedInstance": "hhcell",
         result: {
           id: 1,
           url: "/projects/SingleComponentHH/results.h5",
@@ -47,7 +47,7 @@
   	{
   		id:2,
   		format: "RAW",
-		"instance": "hhcell",
+		"simulatedInstance": "hhcell",
         result: {
           id: 2,
           url: "/projects/SingleComponentHH/rawRecording.zip",

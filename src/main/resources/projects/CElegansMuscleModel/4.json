@@ -9,7 +9,7 @@
             "status": "COMPLETED",
             "lastModified":"1436102517799",
             script: "/projects/CElegansMuscleModel/script.js",
-            "description" :  "This project is based on the OpenWorm muscle model, found online at http://github.com/openworm/muscle_model.  This simulates the electrial properties of a single C. elegans body wall muscle cell.  The simulation was executed using NEURON. The original version is based on a paper by Boyle & Cohen in 2008.",
+            "description" :  "This project is based on the <a href=\"http://github.com/openworm/muscle_model\">OpenWorm muscle model</a>.  This simulates the electrical properties of a single C. elegans body wall muscle cell.  The simulation was executed using NEURON. The original version is based on a paper by Boyle & Cohen in 2008.",
             "aspectConfigurations": [
                 {
                     "instance": "net1",
@@ -21,8 +21,12 @@
                       "length": 0.5,
                       "parameters": {"target": "net1"}
                     },
-                    "watchedVariables": ["net1.neuron[0].v","net1.muscle[0].v","net1.muscle[0].caConc","net1.muscle[0].biophys.membraneProperties.Leak_all.iDensity"
-                        ,"net1.muscle[0].biophys.membraneProperties.k_slow_all.iDensity","net1.muscle[0].biophys.membraneProperties.k_fast_all.iDensity"
+                    "watchedVariables": ["net1.neuron[0].v"
+                        ,"net1.muscle[0].v"
+                        ,"net1.muscle[0].caConc"
+                        ,"net1.muscle[0].biophys.membraneProperties.Leak_all.iDensity"
+                        ,"net1.muscle[0].biophys.membraneProperties.k_slow_all.iDensity"
+                        ,"net1.muscle[0].biophys.membraneProperties.k_fast_all.iDensity"
                         ,"net1.muscle[0].biophys.membraneProperties.ca_boyle_all.iDensity"
                     ]
                 }
@@ -31,7 +35,7 @@
 		  	{
 		  		id:1,
 		  		format: "GEPPETTO_RECORDING",
-				"instance": "net1",
+				"simulatedInstance": "net1",
 		        result: {
 		          id: 1,
 		          url: "/projects/CElegansMuscleModel/results.h5",
@@ -41,7 +45,7 @@
 		  	  	{
 		  		id:2,
 		  		format: "RAW",
-				"instance": "net1",
+				"simulatedInstance": "net1",
 		        result: {
 		          id: 2,
 		          url: "/projects/CElegansMuscleModel/rawRecording.zip",

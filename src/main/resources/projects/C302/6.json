@@ -37,7 +37,7 @@
 		  	{
 		  		id:1,
 		  		format: "GEPPETTO_RECORDING",
-				instance:"c302",
+				simulatedInstance:"c302",
 		        result: {
 		          id: 1,
 		          url: "/projects/C302/results.h5",
@@ -47,7 +47,7 @@
 		  	  	{
 		  		id:2,
 		  		format: "RAW",
-				instance:"c302",
+				simulatedInstance:"c302",
 		        result: {
 		          id: 2,
 		          url: "/projects/C302/rawRecording.zip",
@@ -57,7 +57,7 @@
         },
         {
             "id": 2,
-            "name": "c302 NEURON Simulation",
+            "name": "c302 NEURON Simulation - All neurons recorded",
             "description" : "This network was generated using c302, an experimental framework for generating network models in NeuroML 2 based on C. elegans connectivity data. The network was simulated using NEURON.",
             "status": "COMPLETED",
             "lastModified":"1436102517799",
@@ -83,7 +83,7 @@
 		  	{
 		  		id:1,
 		  		format: "GEPPETTO_RECORDING",
-		  		instance:"c302",
+		  		simulatedInstance:"c302",
 		        result: {
 		          id: 1,
 		          url: "/projects/C302/results2.h5",
@@ -93,7 +93,7 @@
 		  	  	{
 		  		id:2,
 		  		format: "RAW",
-		  		instance:"c302",
+		  		simulatedInstance:"c302",
 		        result: {
 		          id: 2,
 		          url: "/projects/C302/rawRecording.zip",
