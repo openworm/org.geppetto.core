@@ -34,6 +34,7 @@ package org.geppetto.core.model;
 
 import java.util.List;
 
+import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -41,6 +42,7 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.geppetto.model.GeppettoLibrary;
 import org.geppetto.model.GeppettoModel;
 import org.geppetto.model.GeppettoPackage;
@@ -75,6 +77,9 @@ public class GeppettoModelAccess
 		super();
 		this.geppettoModel = geppettoModel;
 		editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(geppettoModel);
+		if(editingDomain==null){
+			editingDomain = new AdapterFactoryEditingDomain(new ComposedAdapterFactory(), new BasicCommandStack());
+		}
 		for(GeppettoLibrary library : geppettoModel.getLibraries())
 		{
 			if(library.getId().equals("common"))
