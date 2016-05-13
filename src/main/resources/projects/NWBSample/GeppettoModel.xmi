@@ -14,7 +14,7 @@
       name="NWB Library">
     <types xsi:type="gep_1:ImportType"
         name="NWB Sample"
-        url="/projects/NWBSample/354190011.nwb"
+        url="/projects/NWBSample/313862020.nwb"
         modelInterpreterId="nwbModelInterpreter"/>
   </libraries>
 </gep:GeppettoModel>
