@@ -4,14 +4,14 @@ GEPPETTO.ControlPanel.setColumns(['name', 'type', 'controls', 'image']);
 Model.getDatasources()[0].fetchVariable('VFB_00000001')
 Model.getDatasources()[0].fetchVariable('FBbt_00100219')
 
-Instances.getInstance("VFB_00000001.VFB_00000001_meta")
 Instances.getInstance("FBbt_00100219.FBbt_00100219_meta")
 
-var resolve3D = function(path){ var i = Instances.getInstance(path+"."+path+"_obj"); i.getType().resolve();}
-var customHandler=function(node, path){ var n;try {n = eval(path);} catch (ex) {node = undefined;}var meta=path+"."+path+"_meta"; if(n!=undefined){var metanode= Instances.getInstance(meta);G.addWidget(1).setData(metanode).setName(n.getName()).addCustomNodeHandler(customHandler,'click');}else{Model.getDatasources()[0].fetchVariable(path,function(){Instances.getInstance(meta);G.addWidget(1).setData(eval(meta)).setName(eval(path).getName()).addCustomNodeHandler(customHandler,'click'); resolve3D(path);});}};
 
-G.addWidget(1).setData(FBbt_00100219.FBbt_00100219_meta).setName(FBbt_00100219.getName()).setPosition(92,110).addCustomNodeHandler(customHandler,'click');
-G.addWidget(1).setData(VFB_00000001.VFB_00000001_meta).setName(VFB_00000001.getName()).setPosition(587,110).addCustomNodeHandler(customHandler,'click');
+var resolve3D = function(path){ var i = Instances.getInstance(path+"."+path+"_obj"); i.getType().resolve();}
+//.addCustomNodeHandler(customHandler,'click')
+var customHandler=function(node, path, widget){ var n;try {n = eval(path);} catch (ex) {node = undefined;}var meta=path+"."+path+"_meta";var target=widget; if(GEPPETTO.isKeyPressed("meta")){target=G.addWidget(1).addCustomNodeHandler(customHandler,'click');}if(n!=undefined){var metanode= Instances.getInstance(meta);target.setData(metanode).setName(n.getName());}else{Model.getDatasources()[0].fetchVariable(path,function(){Instances.getInstance(meta);target.setData(eval(meta)).setName(eval(path).getName()); resolve3D(path);});}};
+G.addWidget(1).setPosition(687,80).setSize(551.8,681.8).setData(FBbt_00100219.FBbt_00100219_meta).setName(FBbt_00100219.getName()).addCustomNodeHandler(customHandler,'click');
+
 
 window.Model.getLibraries()[1].getTypes()[0].resolve()
 
