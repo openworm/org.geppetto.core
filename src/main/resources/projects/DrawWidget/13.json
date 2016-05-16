@@ -1,0 +1,21 @@
+{
+  	"id": 13,
+  	"name": "Draw vector widget prototype",
+    "activeExperimentId": 1,
+    "experiments": [
+        {
+            "id": 1,
+            "name": "Prototype",
+            "description" : "A showcase of the drawing vector widget ported from NEURON.",
+            "status": "COMPLETED",
+            "aspectConfigurations": [],
+            "lastModified":"1436102517799",
+            "script": "/projects/DrawWidget/script.js"
+        }
+    ],
+    "geppettoModel": {
+        "id": 9,
+        "url": "/projects/DrawWidget/GeppettoModel.xmi",
+        "type": "GEPPETTO_PROJECT"
+    }
+}

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ASCII"?>
+<gep:GeppettoModel
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gep="https://raw.githubusercontent.com/openworm/org.geppetto.model/hackathon/src/main/resources/geppettoModel.ecore"
+    xmlns:gep_1="https://raw.githubusercontent.com/openworm/org.geppetto.model/hackathon/src/main/resources/geppettoModel.ecore#//types"
+    xmlns:gep_2="https://raw.githubusercontent.com/openworm/org.geppetto.model/hackathon/src/main/resources/geppettoModel.ecore#//values">
+  <libraries>
+    <types xsi:type="gep_1:CompositeType"
+        name="oscillator">
+      <variables
+          name="x"
+          types="//@libraries.1/@types.2"/>
+      <variables
+          name="v"
+          types="//@libraries.1/@types.2"/>
+      <variables
+          name="omega0squared"
+          types="//@libraries.1/@types.0"/>
+      <variables
+          name="v_dynamics"
+          types="//@libraries.1/@types.1">
+        <initialValues>
+          <value
+              xsi:type="gep_2:Dynamics">
+            <initialCondition/>
+            <dynamics>
+              <arguments/>
+              <expression
+                  xsi:type="gep_2:UnaryMinus">
+                <expression
+                    xsi:type="gep_2:Mult">
+                  <left
+                      xsi:type="gep_2:Pointer">
+                    <elements
+                        variable="//@libraries.0/@types.0/@variables.2"
+                        type="//@libraries.1/@types.0"/>
+                  </left>
+                  <right
+                      xsi:type="gep_2:Pointer">
+                    <elements
+                        variable="//@libraries.0/@types.0/@variables.0"
+                        type="//@libraries.1/@types.2"/>
+                  </right>
+                </expression>
+              </expression>
+            </dynamics>
+          </value>
+        </initialValues>
+      </variables>
+    </types>
+  </libraries>
+  <libraries
+      id="common"
+      name="Geppetto Common Library">
+    <types xsi:type="gep_1:ParameterType"
+        id="Parameter"
+        name="Parameter"/>
+    <types xsi:type="gep_1:DynamicsType"
+        id="Dynamics"
+        name="Dynamics"/>
+    <types xsi:type="gep_1:StateVariableType"
+        id="StateVariable"
+        name="State Variable"/>
+    <types xsi:type="gep_1:HTMLType"
+        id="HTML"
+        name="HTML"/>
+    <types xsi:type="gep_1:URLType"
+        id="URL"
+        name="URL"/>
+    <types xsi:type="gep_1:TextType"
+        id="Text"
+        name="Text"/>
+    <types xsi:type="gep_1:PointType"
+        id="Point"
+        name="Point"/>
+    <types xsi:type="gep_1:ExpressionType"
+        id="Expression"
+        name="Expression"/>
+    <types xsi:type="gep_1:VisualType"
+        id="Visual"
+        name="Visual"/>
+    <types xsi:type="gep_1:PointerType"
+        id="Pointer"
+        name="Pointer"/>
+  </libraries>
+</gep:GeppettoModel>
