@@ -125,13 +125,19 @@ public class Zipper
 	 */
 	public void addToZip(URL file) throws FileNotFoundException, IOException
 	{
-		InputStream fis = file.openStream();
-
-		String zipFilePath = URLReader.getFileName(file);
+		String zipFilePath = "";
+		File fileObject = new File(file.getFile());
+		if (fileObject.isDirectory()){
+			zipFilePath = fileObject.getName() + "/";
+		}
+		else{
+			zipFilePath = URLReader.getFileName(file);
+		}
+		
 		logger.info("Writing '" + zipFilePath + "' to zip file");
-		ZipEntry zipEntry = new ZipEntry(this.innerFolderName + zipFilePath);
-		zos.putNextEntry(zipEntry);
+		zos.putNextEntry(new ZipEntry(this.innerFolderName + zipFilePath));
 
+		InputStream  fis = file.openStream();
 		byte[] bytes = new byte[1024];
 		int length;
 		while((length = fis.read(bytes)) >= 0)
