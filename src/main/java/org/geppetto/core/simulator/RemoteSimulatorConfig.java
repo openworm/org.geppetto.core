@@ -39,7 +39,6 @@ public class RemoteSimulatorConfig extends ExternalSimulatorConfig
 
 	private String username;
 	private String password;
-	private String url;
 	private Map<String ,String> simulatorParameters;
 	
 	
@@ -58,14 +57,6 @@ public class RemoteSimulatorConfig extends ExternalSimulatorConfig
 	public void setPassword(String password)
 	{
 		this.password = password;
-	}
-	public String getUrl()
-	{
-		return url;
-	}
-	public void setUrl(String url)
-	{
-		this.url = url;
 	}
 	public Map<String, String> getSimulatorParameters()
 	{
