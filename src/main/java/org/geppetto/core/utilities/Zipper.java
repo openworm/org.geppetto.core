@@ -29,6 +29,7 @@ public class Zipper
 	private FileOutputStream fos;
 	private ZipOutputStream zos;
 	private String fullPathToZipToCreate;
+	private String innerFolderName = "";
 
 	public Zipper(String fullPathToZipToCreate) throws FileNotFoundException
 	{
@@ -36,6 +37,13 @@ public class Zipper
 		fos = new FileOutputStream(fullPathToZipToCreate);
 		zos = new ZipOutputStream(fos);
 		this.fullPathToZipToCreate = fullPathToZipToCreate;
+	}
+	
+	public Zipper(String fullPathToZipToCreate, String innerFolderName) throws IOException
+	{
+		this(fullPathToZipToCreate);
+		this.innerFolderName = innerFolderName + "/";
+		zos.putNextEntry(new ZipEntry(this.innerFolderName));
 	}
 
 	/**
@@ -117,13 +125,19 @@ public class Zipper
 	 */
 	public void addToZip(URL file) throws FileNotFoundException, IOException
 	{
-		InputStream fis = file.openStream();
-
-		String zipFilePath = URLReader.getFileName(file);
+		String zipFilePath = "";
+		File fileObject = new File(file.getFile());
+		if (fileObject.isDirectory()){
+			zipFilePath = fileObject.getName() + "/";
+		}
+		else{
+			zipFilePath = URLReader.getFileName(file);
+		}
+		
 		logger.info("Writing '" + zipFilePath + "' to zip file");
-		ZipEntry zipEntry = new ZipEntry(zipFilePath);
-		zos.putNextEntry(zipEntry);
+		zos.putNextEntry(new ZipEntry(this.innerFolderName + zipFilePath));
 
+		InputStream  fis = file.openStream();
 		byte[] bytes = new byte[1024];
 		int length;
 		while((length = fis.read(bytes)) >= 0)
