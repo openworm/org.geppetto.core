@@ -7,7 +7,7 @@
             "id": 1,
             script: "/projects/NWBSample/script.js",
             "name": "NWB Visualization sample",
-            "description" : "This is a sample project to visualize neurophysiology data from a <a href='http://www.nwb.org/' target='_blank'>Neurodata Without Border (NWB)</a> file. The Neurodata without Borders – Neurophysiology initiative is a one-year project to produce a unified data format for cellular-based, neurophysiology data. This sample comes from the <a href='http://alleninstitute.org/' target='_blank'>Allen Institute of Brain Science</a>. One sweep and the metadata have been extracted from a sample experiment.",
+            "description" : "This is a sample project to visualize neurophysiology data from a <a href='http://www.nwb.org/' target='_blank'>Neurodata Without Borders (NWB)</a> file. The Neurodata without Borders – Neurophysiology initiative is a one-year project to produce a unified data format for cellular-based, neurophysiology data. This sample comes from the <a href='http://alleninstitute.org/' target='_blank'>Allen Institute of Brain Science</a>. One sweep and the metadata have been extracted from a sample experiment.",
             "status": "COMPLETED",
             "aspectConfigurations": [],
             "lastModified":"1436102517799"
