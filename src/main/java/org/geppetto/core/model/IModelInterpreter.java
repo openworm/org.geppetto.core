@@ -53,6 +53,8 @@ public interface IModelInterpreter extends IService
 {
 
 	Type importType(URL url, String typeName, GeppettoLibrary library, GeppettoModelAccess commonLibraryAccess) throws ModelInterpreterException;
+	
+	Value importValue(String instancePath) throws ModelInterpreterException;
 
 	File downloadModel(Pointer pointer, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException;
 

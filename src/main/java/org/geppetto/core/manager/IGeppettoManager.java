@@ -38,6 +38,7 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IUser;
+import org.geppetto.model.GeppettoModel;
 
 /**
  * @author matteocantarelli
@@ -65,6 +66,7 @@ public interface IGeppettoManager extends IProjectManager, IExperimentManager, I
 	 * @return whether this geppetto manager has a connection or a run scope
 	 */
 	Scope getScope();
+
 
 
 }
