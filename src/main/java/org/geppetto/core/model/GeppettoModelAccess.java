@@ -32,15 +32,32 @@
  *******************************************************************************/
 package org.geppetto.core.model;
 
+import java.util.List;
+
+import org.eclipse.emf.common.command.BasicCommandStack;
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.geppetto.model.GeppettoLibrary;
 import org.geppetto.model.GeppettoModel;
+import org.geppetto.model.GeppettoPackage;
+import org.geppetto.model.ISynchable;
 import org.geppetto.model.Tag;
+import org.geppetto.model.types.CompositeType;
+import org.geppetto.model.types.SimpleType;
 import org.geppetto.model.types.Type;
+import org.geppetto.model.types.TypesFactory;
+import org.geppetto.model.types.TypesPackage;
 import org.geppetto.model.util.GeppettoModelException;
 import org.geppetto.model.util.GeppettoVisitingException;
 import org.geppetto.model.util.PointerUtility;
 import org.geppetto.model.values.Pointer;
+import org.geppetto.model.variables.Variable;
 
 /**
  * @author matteocantarelli
@@ -50,13 +67,19 @@ public class GeppettoModelAccess
 {
 
 	private GeppettoModel geppettoModel;
-	
+
 	private GeppettoLibrary commonlibrary;
+
+	private EditingDomain editingDomain;
 
 	public GeppettoModelAccess(GeppettoModel geppettoModel) throws GeppettoVisitingException
 	{
 		super();
-		this.geppettoModel=geppettoModel;
+		this.geppettoModel = geppettoModel;
+		editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(geppettoModel);
+		if(editingDomain==null){
+			editingDomain = new AdapterFactoryEditingDomain(new ComposedAdapterFactory(), new BasicCommandStack());
+		}
 		for(GeppettoLibrary library : geppettoModel.getLibraries())
 		{
 			if(library.getId().equals("common"))
@@ -69,14 +92,6 @@ public class GeppettoModelAccess
 		{
 			throw new GeppettoVisitingException("Common library not found");
 		}
-	}
-	
-	/**
-	 * @param tag
-	 */
-	public void addTag(Tag tag)
-	{
-		geppettoModel.getTags().add(tag);
 	}
 
 	/**
@@ -96,7 +111,7 @@ public class GeppettoModelAccess
 		}
 		throw new GeppettoVisitingException("Type for eClass " + eclass + " not found in common library.");
 	}
-	
+
 	/**
 	 * @param instancePath
 	 * @return
@@ -106,4 +121,91 @@ public class GeppettoModelAccess
 	{
 		return PointerUtility.getPointer(geppettoModel, instancePath);
 	}
+
+	/**
+	 * @param variable
+	 */
+	public void addVariable(final Variable variable)
+	{
+		Command command = AddCommand.create(editingDomain, geppettoModel, GeppettoPackage.Literals.GEPPETTO_MODEL__VARIABLES, variable);
+		editingDomain.getCommandStack().execute(command);
+	}
+
+	/**
+	 * @param tag
+	 */
+	public void addTag(final Tag tag)
+	{
+		Command command = AddCommand.create(editingDomain, geppettoModel, GeppettoPackage.Literals.GEPPETTO_MODEL__TAGS, tag);
+		editingDomain.getCommandStack().execute(command);
+	}
+
+	/**
+	 * @param tag
+	 */
+	public void addTypeToLibrary(final Type type, final GeppettoLibrary targetLibrary)
+	{
+		Command command = AddCommand.create(editingDomain, targetLibrary, GeppettoPackage.Literals.GEPPETTO_LIBRARY__TYPES, type);
+		editingDomain.getCommandStack().execute(command);
+		markAsUnsynched(targetLibrary);
+	}
+
+	/**
+	 * This method will change an attribute of an object
+	 * @param object the object target of the operation
+	 * @param field the field to set, needs to come from the Literals enumeration inside the package, e.g. GeppettoPackage.Literals.NODE__NAME to change the name
+	 * @param value the new value
+	 */
+	public void setObjectAttribute(final EObject object, Object field, Object value)
+	{
+		Command setCommand = SetCommand.create(editingDomain, object, field, value);
+		editingDomain.getCommandStack().execute(setCommand);
+		markAsUnsynched((ISynchable) object);
+
+	}
+
+	/**
+	 * This method will set the synched attribute for the object to false indicating
+	 * that whatever version of the object exists client side it is now out of synch
+	 * @param object
+	 */
+	private void markAsUnsynched(ISynchable object)
+	{
+		Command synchCommand = SetCommand.create(editingDomain, object, GeppettoPackage.Literals.ISYNCHABLE__SYNCHED, false);
+		editingDomain.getCommandStack().execute(synchCommand);
+	}
+
+	/**
+	 * @param typeToRetrieve
+	 * @param libraries
+	 * @return
+	 */
+	public Type getOrCreateSimpleType(String typeToRetrieve, List<GeppettoLibrary> libraries)
+	{
+		for(GeppettoLibrary dependencyLibrary:libraries){
+			for(Type candidateSuperType:dependencyLibrary.getTypes()){
+				if(candidateSuperType.getId().equals(typeToRetrieve)){
+					return candidateSuperType;
+				}
+			}
+		}
+		SimpleType supertypeType = TypesFactory.eINSTANCE.createSimpleType();
+		supertypeType.setId(typeToRetrieve);
+		supertypeType.setName(typeToRetrieve);
+		addTypeToLibrary(supertypeType, libraries.get(0));
+		return supertypeType;
+		
+	}
+
+	/**
+	 * @param newVar
+	 * @param targetType
+	 */
+	public void addVariableToType(Variable newVar, CompositeType targetType)
+	{
+		Command command = AddCommand.create(editingDomain, targetType, TypesPackage.Literals.COMPOSITE_TYPE__VARIABLES, newVar);
+		editingDomain.getCommandStack().execute(command);
+		markAsUnsynched(targetType);
+	}
+
 }

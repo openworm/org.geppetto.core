@@ -32,7 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -70,14 +70,17 @@ public class GeppettoSerializerTest
 		m.put("json", new JsonResourceFactory()); // sets the factory for the JSON type
 		ResourceSet resSet = new ResourceSetImpl();
 
-
 		Resource resource = resSet.createResource(URI.createURI("/GeppettoModelTest.xmi"));
-		resource.load(GeppettoSerializerTest.class.getResourceAsStream("/GeppettoModelTest.xmi"),null);
+		resource.load(GeppettoSerializerTest.class.getResourceAsStream("/GeppettoModelTest.xmi"), null);
 
 		GeppettoModel geppettoModel = (GeppettoModel) resource.getContents().get(0);
 		URL url = this.getClass().getResource("/test.json");
-		String jsonResource = new String(Files.readAllBytes(Paths.get(url.toURI()))); 
+		String jsonResource = new String(Files.readAllBytes(Paths.get(url.toURI())));
 		assertEquals(jsonResource, GeppettoSerializer.serializeToJSON(geppettoModel));
+		assertEquals(jsonResource, GeppettoSerializer.serializeToJSON(geppettoModel, true));
+		assertEquals(jsonResource, GeppettoSerializer.serializeToJSON(geppettoModel));
+		assertTrue(geppettoModel.getVariables().get(0).isSynched());
+		assertEquals("{\"eClass\":\"GeppettoModel\",\"id\":\"\",\"name\":\"\",\"variables\":[{\"synched\":true}],\"libraries\":[{\"synched\":true}]}", GeppettoSerializer.serializeToJSON(geppettoModel, true));
 	}
 
 }

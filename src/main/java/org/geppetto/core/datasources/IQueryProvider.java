@@ -30,41 +30,48 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.manager;
+package org.geppetto.core.datasources;
 
-import java.lang.reflect.Type;
+import java.util.List;
 
-import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.data.model.IExperiment;
-import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.data.model.IUser;
+import org.geppetto.model.Query;
+import org.geppetto.model.QueryResults;
+import org.geppetto.model.variables.Variable;
 
 /**
  * @author matteocantarelli
  *
  */
-public interface IGeppettoManager extends IProjectManager, IExperimentManager, IDropBoxManager, IRuntimeTreeManager, IDownloadManager, IDataSourceManager
+public interface IQueryProvider
 {
 
+	List<Query> getAvailableQueries(Variable variable) throws GeppettoDataSourceException;
+
+	int getNumberOfResults(Query query, Variable variable) throws GeppettoDataSourceException;
+
+	int getNumberOfResults(Query query, Variable variable, QueryResults results) throws GeppettoDataSourceException;
+
 	/**
-	 * FIXME: Move to IAuthService?
+	 * This is an asynchronous method that will initiate the execution of a query
 	 * 
+	 * @param query
+	 * @param variable
+	 * @param listener
+	 *            the listener that will be notified as results become available
+	 * @return a container for the results. The container has an id, there's no constraints for all the results to be inside IQueryResults as the DataSource might keep pushing results to it as the
+	 *         query is execute
+	 */
+	QueryResults execute(Query query, Variable variable, IQueryListener listener) throws GeppettoDataSourceException;
+
+	/**
+	 * This method has the extra parameter "results" in case this query will need to output of a previously executed query in order to have all the necessary input data
+	 * 
+	 * @param query
+	 * @param variable
+	 * @param results
+	 * @param listener
 	 * @return
 	 */
-	IUser getUser();
-
-	/**
-	 * FIXME: Move to IAuthService?
-	 * 
-	 * @param user
-	 * @throws GeppettoExecutionException
-	 */
-	void setUser(IUser user) throws GeppettoExecutionException;
-
-	/**
-	 * @return whether this geppetto manager has a connection or a run scope
-	 */
-	Scope getScope();
-
+	QueryResults execute(Query query, Variable variable, QueryResults results, IQueryListener listener) throws GeppettoDataSourceException;
 
 }

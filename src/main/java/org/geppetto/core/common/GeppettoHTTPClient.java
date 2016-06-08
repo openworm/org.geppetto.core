@@ -30,41 +30,45 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.manager;
+package org.geppetto.core.common;
 
-import java.lang.reflect.Type;
+import java.io.IOException;
+import java.io.InputStream;
 
-import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.data.model.IExperiment;
-import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.data.model.IUser;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.geppetto.core.datasources.GeppettoDataSourceException;
 
 /**
  * @author matteocantarelli
  *
  */
-public interface IGeppettoManager extends IProjectManager, IExperimentManager, IDropBoxManager, IRuntimeTreeManager, IDownloadManager, IDataSourceManager
+public class GeppettoHTTPClient
 {
 
-	/**
-	 * FIXME: Move to IAuthService?
-	 * 
-	 * @return
-	 */
-	IUser getUser();
+	public static String doJSONPost(String url, String postContent) throws GeppettoDataSourceException
+	{
+		String queryResult = null;
+		try
+		{
+			// execute query and handle any error responses.
+			HttpPost postRequest = new HttpPost(url);
+			StringEntity postEntity = new StringEntity(postContent);
+			postEntity.setContentType("application/json");
+			postRequest.setEntity(postEntity);
+			HttpClient httpClient = HttpClientBuilder.create().build();
+			HttpResponse response = httpClient.execute(postRequest);
+			InputStream inputStream = response.getEntity().getContent();
+			queryResult = GeppettoCommonUtils.readString(inputStream);
+		}
+		catch(IOException e)
+		{
+			throw new GeppettoDataSourceException(e);
+		}
 
-	/**
-	 * FIXME: Move to IAuthService?
-	 * 
-	 * @param user
-	 * @throws GeppettoExecutionException
-	 */
-	void setUser(IUser user) throws GeppettoExecutionException;
-
-	/**
-	 * @return whether this geppetto manager has a connection or a run scope
-	 */
-	Scope getScope();
-
-
+		return queryResult;
+	}
 }

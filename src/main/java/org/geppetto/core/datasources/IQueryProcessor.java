@@ -30,41 +30,34 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.manager;
+package org.geppetto.core.datasources;
 
-import java.lang.reflect.Type;
-
-import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.data.model.IExperiment;
-import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.data.model.IUser;
+import org.geppetto.core.model.GeppettoModelAccess;
+import org.geppetto.core.services.IService;
+import org.geppetto.model.DataSource;
+import org.geppetto.model.ProcessQuery;
+import org.geppetto.model.QueryResults;
+import org.geppetto.model.variables.Variable;
 
 /**
  * @author matteocantarelli
  *
  */
-public interface IGeppettoManager extends IProjectManager, IExperimentManager, IDropBoxManager, IRuntimeTreeManager, IDownloadManager, IDataSourceManager
+public interface IQueryProcessor extends IService
 {
-
+	
 	/**
-	 * FIXME: Move to IAuthService?
+	 * This is an asynchronous method that will initiate processing of a query
+	 * This method has the extra parameter "results" in case this query will need to output of a previously executed query in order to have all the necessary input data
 	 * 
-	 * @return
+	 * @param query
+	 * @param variable
+	 * @param listener
+	 *            the listener that will be notified as results become available
+	 * @return a container for the results. The container has an id, there's no constraints for all the results to be inside IQueryResults as the DataSource might keep pushing results to it as the
+	 *         query is execute
 	 */
-	IUser getUser();
-
-	/**
-	 * FIXME: Move to IAuthService?
-	 * 
-	 * @param user
-	 * @throws GeppettoExecutionException
-	 */
-	void setUser(IUser user) throws GeppettoExecutionException;
-
-	/**
-	 * @return whether this geppetto manager has a connection or a run scope
-	 */
-	Scope getScope();
+	QueryResults process(ProcessQuery query, DataSource dataSource, Variable variable, QueryResults results, GeppettoModelAccess geppettoModelAccess) throws GeppettoDataSourceException;
 
 
 }

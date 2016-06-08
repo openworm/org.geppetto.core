@@ -5,7 +5,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:gep="https://raw.githubusercontent.com/openworm/org.geppetto.model/master/src/main/resources/geppettoModel.ecore"
     xmlns:gep_1="https://raw.githubusercontent.com/openworm/org.geppetto.model/master/src/main/resources/geppettoModel.ecore#//types"
-    xsi:schemaLocation="https://raw.githubusercontent.com/openworm/org.geppetto.model/master/src/main/resources/geppettoModel.ecore#//types https://raw.githubusercontent.com/openworm/org.geppetto.model/master/src/main/resources/geppettoModel.ecore#//types"
     id="common"
     name="Geppetto Common Library">
   <types xsi:type="gep_1:ParameterType"
@@ -38,4 +37,7 @@
   <types xsi:type="gep_1:PointerType"
       id="Pointer"
       name="Pointer"/>
+  <types xsi:type="gep_1:ImageType"
+      id="Image"
+      name="Image"/>
 </gep:GeppettoLibrary>

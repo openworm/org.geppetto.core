@@ -30,41 +30,33 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.manager;
-
-import java.lang.reflect.Type;
-
-import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.data.model.IExperiment;
-import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.data.model.IUser;
+package org.geppetto.core.datasources;
 
 /**
  * @author matteocantarelli
  *
  */
-public interface IGeppettoManager extends IProjectManager, IExperimentManager, IDropBoxManager, IRuntimeTreeManager, IDownloadManager, IDataSourceManager
+public class GeppettoDataSourceException extends Exception
 {
 
 	/**
-	 * FIXME: Move to IAuthService?
 	 * 
-	 * @return
 	 */
-	IUser getUser();
+	private static final long serialVersionUID = 1L;
 
-	/**
-	 * FIXME: Move to IAuthService?
-	 * 
-	 * @param user
-	 * @throws GeppettoExecutionException
-	 */
-	void setUser(IUser user) throws GeppettoExecutionException;
+	public GeppettoDataSourceException(String message, Throwable cause)
+	{
+		super(message, cause);
+	}
 
-	/**
-	 * @return whether this geppetto manager has a connection or a run scope
-	 */
-	Scope getScope();
+	public GeppettoDataSourceException(String message)
+	{
+		super(message);
+	}
 
+	public GeppettoDataSourceException(Throwable cause)
+	{
+		super(cause);
+	}
 
 }

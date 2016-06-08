@@ -30,41 +30,26 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
-package org.geppetto.core.manager;
+package org.geppetto.core.common;
 
 import java.lang.reflect.Type;
+import java.util.Map;
 
-import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.data.model.IExperiment;
-import org.geppetto.core.data.model.IGeppettoProject;
-import org.geppetto.core.data.model.IUser;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * @author matteocantarelli
  *
  */
-public interface IGeppettoManager extends IProjectManager, IExperimentManager, IDropBoxManager, IRuntimeTreeManager, IDownloadManager, IDataSourceManager
+public class JSONUtility
 {
 
-	/**
-	 * FIXME: Move to IAuthService?
-	 * 
-	 * @return
-	 */
-	IUser getUser();
-
-	/**
-	 * FIXME: Move to IAuthService?
-	 * 
-	 * @param user
-	 * @throws GeppettoExecutionException
-	 */
-	void setUser(IUser user) throws GeppettoExecutionException;
-
-	/**
-	 * @return whether this geppetto manager has a connection or a run scope
-	 */
-	Scope getScope();
-
-
+	public static Map<String, Object> getAsMap(String json)
+	{
+		Gson gson = new Gson();
+		Type stringStringMap = new TypeToken<Map<String, Object>>(){}.getType();
+		Map<String,Object> map = gson.fromJson(json, stringStringMap);
+		return map;
+	}
 }

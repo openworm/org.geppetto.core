@@ -30,38 +30,42 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
  * USE OR OTHER DEALINGS IN THE SOFTWARE.
  *******************************************************************************/
+package org.geppetto.core.simulator;
 
-package org.geppetto.core.s3;
+import java.util.Map;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.amazonaws.services.s3.model.S3ObjectSummary;
-
-public class S3ManagerTest
+public class RemoteSimulatorConfig extends ExternalSimulatorConfig
 {
 
-	private static final String PATH = "test";
-
-	public S3ManagerTest()
+	private String username;
+	private String password;
+	private Map<String ,String> simulatorParameters;
+	
+	
+	public String getUsername()
 	{
+		return username;
 	}
-
-	@Test
-	public void testS3Operations() throws IOException
+	public void setUsername(String username)
 	{
-		List<S3ObjectSummary> paths = S3Manager.getInstance().retrievePathsFromS3(PATH);
-		int count = paths.size();
-		S3Manager.getInstance().saveTextToS3("S3ManagerTest test", PATH + "/" + PATH + new Date().getTime() + ".txt");
-		List<S3ObjectSummary> objects = S3Manager.getInstance().retrievePathsFromS3(PATH);
-		Assert.assertEquals(count + 1, objects.size());
-		S3Manager.getInstance().deleteFromS3(objects.get(objects.size() - 1).getKey());
-		objects = S3Manager.getInstance().retrievePathsFromS3(PATH);
-		Assert.assertEquals(count, objects.size());
+		this.username = username;
 	}
+	public String getPassword()
+	{
+		return password;
+	}
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
+	public Map<String, String> getSimulatorParameters()
+	{
+		return simulatorParameters;
+	}
+	public void setSimulatorParameters(Map<String, String> simulatorParameters)
+	{
+		this.simulatorParameters = simulatorParameters;
+	}
+	
 
 }
