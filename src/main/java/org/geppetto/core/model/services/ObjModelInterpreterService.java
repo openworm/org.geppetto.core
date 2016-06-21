@@ -51,8 +51,10 @@ import org.geppetto.model.ModelFormat;
 import org.geppetto.model.types.Type;
 import org.geppetto.model.types.TypesFactory;
 import org.geppetto.model.types.VisualType;
+import org.geppetto.model.values.ImportValue;
 import org.geppetto.model.values.OBJ;
 import org.geppetto.model.values.Pointer;
+import org.geppetto.model.values.Value;
 import org.geppetto.model.values.ValuesFactory;
 import org.springframework.stereotype.Service;
 
@@ -126,6 +128,14 @@ public class ObjModelInterpreterService extends AModelInterpreter
 	{
 		List<ModelFormat> modelFormats = new ArrayList<ModelFormat>(Arrays.asList(ServicesRegistry.registerModelFormat("OBJ")));
 		ServicesRegistry.registerModelInterpreterService(this, modelFormats);
+	}
+
+
+	@Override
+	public Value importValue(ImportValue importValue)
+			throws ModelInterpreterException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

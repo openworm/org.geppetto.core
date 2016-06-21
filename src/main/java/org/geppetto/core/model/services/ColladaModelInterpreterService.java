@@ -53,7 +53,9 @@ import org.geppetto.model.types.TypesPackage;
 import org.geppetto.model.types.VisualType;
 import org.geppetto.model.util.GeppettoVisitingException;
 import org.geppetto.model.values.Collada;
+import org.geppetto.model.values.ImportValue;
 import org.geppetto.model.values.Pointer;
+import org.geppetto.model.values.Value;
 import org.geppetto.model.values.ValuesFactory;
 import org.springframework.stereotype.Service;
 
@@ -105,6 +107,14 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 	public File downloadModel(Pointer pointer, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
 	{
 		throw new ModelInterpreterException("Download model not implemented for Collada model interpreter");
+	}
+
+
+	@Override
+	public Value importValue(ImportValue importValue)
+			throws ModelInterpreterException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
