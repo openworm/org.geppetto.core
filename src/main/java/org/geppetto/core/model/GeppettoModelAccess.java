@@ -32,6 +32,7 @@
  *******************************************************************************/
 package org.geppetto.core.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.command.BasicCommandStack;
@@ -39,6 +40,8 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.DeleteCommand;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -49,6 +52,7 @@ import org.geppetto.model.GeppettoPackage;
 import org.geppetto.model.ISynchable;
 import org.geppetto.model.Tag;
 import org.geppetto.model.types.CompositeType;
+import org.geppetto.model.types.ImportType;
 import org.geppetto.model.types.SimpleType;
 import org.geppetto.model.types.Type;
 import org.geppetto.model.types.TypesFactory;
@@ -58,6 +62,7 @@ import org.geppetto.model.util.GeppettoVisitingException;
 import org.geppetto.model.util.PointerUtility;
 import org.geppetto.model.values.Pointer;
 import org.geppetto.model.variables.Variable;
+import org.geppetto.model.variables.VariablesPackage;
 
 /**
  * @author matteocantarelli
@@ -77,7 +82,8 @@ public class GeppettoModelAccess
 		super();
 		this.geppettoModel = geppettoModel;
 		editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(geppettoModel);
-		if(editingDomain==null){
+		if(editingDomain == null)
+		{
 			editingDomain = new AdapterFactoryEditingDomain(new ComposedAdapterFactory(), new BasicCommandStack());
 		}
 		for(GeppettoLibrary library : geppettoModel.getLibraries())
@@ -152,9 +158,13 @@ public class GeppettoModelAccess
 
 	/**
 	 * This method will change an attribute of an object
-	 * @param object the object target of the operation
-	 * @param field the field to set, needs to come from the Literals enumeration inside the package, e.g. GeppettoPackage.Literals.NODE__NAME to change the name
-	 * @param value the new value
+	 * 
+	 * @param object
+	 *            the object target of the operation
+	 * @param field
+	 *            the field to set, needs to come from the Literals enumeration inside the package, e.g. GeppettoPackage.Literals.NODE__NAME to change the name
+	 * @param value
+	 *            the new value
 	 */
 	public void setObjectAttribute(final EObject object, Object field, Object value)
 	{
@@ -165,8 +175,8 @@ public class GeppettoModelAccess
 	}
 
 	/**
-	 * This method will set the synched attribute for the object to false indicating
-	 * that whatever version of the object exists client side it is now out of synch
+	 * This method will set the synched attribute for the object to false indicating that whatever version of the object exists client side it is now out of synch
+	 * 
 	 * @param object
 	 */
 	private void markAsUnsynched(ISynchable object)
@@ -182,9 +192,12 @@ public class GeppettoModelAccess
 	 */
 	public Type getOrCreateSimpleType(String typeToRetrieve, List<GeppettoLibrary> libraries)
 	{
-		for(GeppettoLibrary dependencyLibrary:libraries){
-			for(Type candidateSuperType:dependencyLibrary.getTypes()){
-				if(candidateSuperType.getId().equals(typeToRetrieve)){
+		for(GeppettoLibrary dependencyLibrary : libraries)
+		{
+			for(Type candidateSuperType : dependencyLibrary.getTypes())
+			{
+				if(candidateSuperType.getId().equals(typeToRetrieve))
+				{
 					return candidateSuperType;
 				}
 			}
@@ -194,7 +207,7 @@ public class GeppettoModelAccess
 		supertypeType.setName(typeToRetrieve);
 		addTypeToLibrary(supertypeType, libraries.get(0));
 		return supertypeType;
-		
+
 	}
 
 	/**
@@ -206,6 +219,37 @@ public class GeppettoModelAccess
 		Command command = AddCommand.create(editingDomain, targetType, TypesPackage.Literals.COMPOSITE_TYPE__VARIABLES, newVar);
 		editingDomain.getCommandStack().execute(command);
 		markAsUnsynched(targetType);
+	}
+
+	/**
+	 * Note this command won't remove the typeToBeReplaced from its container in case it's being iterated over
+	 * 
+	 * @param typeToBeReplaced
+	 * @param newType
+	 * @param library
+	 */
+	public void swapType(ImportType typeToBeReplaced, Type newType, GeppettoLibrary library)
+	{
+
+		List<Variable> referencedVars = new ArrayList<Variable>(typeToBeReplaced.getReferencedVariables());
+		for(Variable v : referencedVars)
+		{
+			Command removeCommand = RemoveCommand.create(editingDomain, v, VariablesPackage.Literals.VARIABLE__TYPES, typeToBeReplaced);
+			Command addCommand = AddCommand.create(editingDomain, v, VariablesPackage.Literals.VARIABLE__TYPES, newType);
+			editingDomain.getCommandStack().execute(removeCommand);
+			editingDomain.getCommandStack().execute(addCommand);
+			markAsUnsynched(v);
+		}
+		addTypeToLibrary(newType, library);
+	}
+
+	/**
+	 * @param object
+	 */
+	public void delete(EObject object)
+	{
+		Command deleteCommand = DeleteCommand.create(editingDomain, object);
+		editingDomain.getCommandStack().execute(deleteCommand);
 	}
 
 }
