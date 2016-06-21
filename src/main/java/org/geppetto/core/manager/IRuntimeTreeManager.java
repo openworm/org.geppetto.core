@@ -49,6 +49,6 @@ public interface IRuntimeTreeManager
 	 * @param geppettoProject
 	 * @return
 	 */
-	GeppettoModel resolveImportValue(String path, IExperiment experiment, IGeppettoProject geppettoProject);
+	GeppettoModel resolveImportValue(String path, IExperiment experiment, IGeppettoProject geppettoProject) throws GeppettoExecutionException;
 
 }
