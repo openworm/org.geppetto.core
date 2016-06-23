@@ -33,6 +33,7 @@
 package org.geppetto.core.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.command.BasicCommandStack;
@@ -40,8 +41,8 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
+import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -230,26 +231,29 @@ public class GeppettoModelAccess
 	 */
 	public void swapType(ImportType typeToBeReplaced, Type newType, GeppettoLibrary library)
 	{
-
+		Command replaceCommand = ReplaceCommand.create(editingDomain, typeToBeReplaced.eContainer(), GeppettoPackage.Literals.GEPPETTO_LIBRARY__TYPES, typeToBeReplaced, Collections.singleton(newType));
+		editingDomain.getCommandStack().execute(replaceCommand);
+		markAsUnsynched((ISynchable) typeToBeReplaced.eContainer());
+		
 		List<Variable> referencedVars = new ArrayList<Variable>(typeToBeReplaced.getReferencedVariables());
 		for(Variable v : referencedVars)
 		{
-			Command removeCommand = RemoveCommand.create(editingDomain, v, VariablesPackage.Literals.VARIABLE__TYPES, typeToBeReplaced);
-			Command addCommand = AddCommand.create(editingDomain, v, VariablesPackage.Literals.VARIABLE__TYPES, newType);
-			editingDomain.getCommandStack().execute(removeCommand);
-			editingDomain.getCommandStack().execute(addCommand);
+			Command replaceInVarCommand = ReplaceCommand.create(editingDomain, v, VariablesPackage.Literals.VARIABLE__TYPES, typeToBeReplaced, Collections.singleton(newType));
+			editingDomain.getCommandStack().execute(replaceInVarCommand);
 			markAsUnsynched(v);
 		}
-		addTypeToLibrary(newType, library);
+
+
 	}
 
 	/**
 	 * @param object
 	 */
-	public void delete(EObject object)
+	public void removeType(EObject object)
 	{
-		Command deleteCommand = DeleteCommand.create(editingDomain, object);
-		editingDomain.getCommandStack().execute(deleteCommand);
+		Command removeCommand = RemoveCommand.create(editingDomain, object.eContainer(), GeppettoPackage.Literals.GEPPETTO_LIBRARY__TYPES, object);
+		editingDomain.getCommandStack().execute(removeCommand);
+
 	}
 
 }
