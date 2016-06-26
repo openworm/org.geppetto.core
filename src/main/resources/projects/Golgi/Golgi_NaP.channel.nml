@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<neuroml xmlns="http://www.neuroml.org/schema/neuroml2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2 https://raw.github.com/NeuroML/NeuroML2/development/Schemas/NeuroML2/NeuroML_v2beta4.xsd" id="Golgi_NaP">
+
+    <notes>ChannelML file containing a single Channel description from Solinas et al 2007</notes>
+
+    <ionChannel id="Golgi_NaP" conductance="10pS" type="ionChannelHH" species="na">
+
+        <notes>Persistent Na+ channel</notes>
+                
+        <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+                <rdf:Description rdf:about="Golgi_NaP">
+                    
+                    <bqmodel:isDescribedBy xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+                        <rdf:Bag>
+                            <rdf:li>Solinas S, Forti L, Cesana E, Mapelli J, De Schutter E, D'Angelo E. (2007) Computational reconstruction of pacemaking and intrinsic electroresponsiveness in cerebellar Golgi cells.  Front Cell Neurosci. 2007;1:2.</rdf:li>
+                            <rdf:li rdf:resource="http://www.ncbi.nlm.nih.gov/pubmed/18946520"/>
+                        </rdf:Bag>
+                    </bqmodel:isDescribedBy>
+
+                
+                    <bqbiol:isVersionOf xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+                        <rdf:Bag>
+                            <rdf:li>Na channels</rdf:li>
+                            <rdf:li rdf:resource="http://senselab.med.yale.edu/senselab/NeuronDB/channelGene2.htm#table2"/>
+                        </rdf:Bag>
+                    </bqbiol:isVersionOf>
+
+                </rdf:Description>
+            </rdf:RDF>
+        </annotation>
+
+        <gate id="m" type="gateHHratesInf" instances="1">
+            <q10Settings type="q10ExpTemp" q10Factor="3" experimentalTemp="30 degC"/>
+            <forwardRate type="HHExpLinearRate" rate="0.91per_ms" scale="5mV" midpoint="-40mV"/>
+            <reverseRate type="HHExpLinearRate" rate="0.62per_ms" scale="-5mV" midpoint="-40mV"/>
+            <steadyState type="Golgi_NaP_m_inf_inf"/>
+        </gate>
+                            
+    </ionChannel>
+
+    <ComponentType name="Golgi_NaP_m_inf_inf" extends="baseVoltageDepVariable">
+        <Constant name="TIME_SCALE" dimension="time" value="1 ms"/>
+        <Constant name="VOLT_SCALE" dimension="voltage" value="1 mV"/>
+
+        <Dynamics>
+            <DerivedVariable name="V" dimension="none" value="v / VOLT_SCALE"/>
+            <DerivedVariable name="x" exposure="x" dimension="none" value="1/(1+(exp (-(V+43)/5)))"/>
+        </Dynamics>
+
+    </ComponentType>
+
+</neuroml>

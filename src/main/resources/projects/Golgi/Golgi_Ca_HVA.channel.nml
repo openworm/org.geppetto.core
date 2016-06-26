@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<neuroml xmlns="http://www.neuroml.org/schema/neuroml2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2 https://raw.github.com/NeuroML/NeuroML2/development/Schemas/NeuroML2/NeuroML_v2beta4.xsd" id="Golgi_Ca_HVA">
+
+    <notes>ChannelML file containing a single Channel description from Solinas et al 2007</notes>
+
+    <ionChannel id="Golgi_Ca_HVA" conductance="10pS" type="ionChannelHH" species="ca">
+
+        <notes>High voltage Activated Ca2+ channel, based on mod file supplied with Solinas et al 2007 (ModelDB 112685)</notes>
+                
+        <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+                <rdf:Description rdf:about="Golgi_Ca_HVA">
+                    
+                    <bqmodel:isDescribedBy xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+                        <rdf:Bag>
+                            <rdf:li>Solinas S, Forti L, Cesana E, Mapelli J, De Schutter E, D'Angelo E. (2007) Computational reconstruction of pacemaking and intrinsic electroresponsiveness in cerebellar Golgi cells.  Front Cell Neurosci. 2007;1:2.</rdf:li>
+                            <rdf:li rdf:resource="http://www.ncbi.nlm.nih.gov/pubmed/18946520"/>
+                        </rdf:Bag>
+                    </bqmodel:isDescribedBy>
+
+                
+                    <bqbiol:isVersionOf xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+                        <rdf:Bag>
+                            <rdf:li>Ca channels</rdf:li>
+                            <rdf:li rdf:resource="http://senselab.med.yale.edu/NeuronDB/ChannelGene2.htm#table1"/>
+                        </rdf:Bag>
+                    </bqbiol:isVersionOf>
+
+                </rdf:Description>
+            </rdf:RDF>
+        </annotation>
+
+        <gate id="s" type="gateHHrates" instances="2">
+            <q10Settings type="q10ExpTemp" q10Factor="3" experimentalTemp="20 degC"/>
+            <forwardRate type="HHExpRate" rate="0.04944per_ms" scale="15.87301587302mV" midpoint="-29.06mV"/>
+            <reverseRate type="HHExpRate" rate="0.08298per_ms" scale="-25.641mV" midpoint="-18.66mV"/>
+        </gate>
+
+        <gate id="u" type="gateHHrates" instances="1">
+            <q10Settings type="q10ExpTemp" q10Factor="3" experimentalTemp="20 degC"/>
+            <forwardRate type="HHExpRate" rate="0.0013per_ms" scale="-18.183mV" midpoint="-48mV"/>
+            <reverseRate type="HHExpRate" rate="0.0013 per_ms" scale="83.33mV" midpoint="-48mV"/>
+        </gate>
+                            
+    </ionChannel>
+
+</neuroml>

@@ -14,7 +14,7 @@
   	status: "COMPLETED",
   	description : "The Hodgkin-Huxley model (or conductance-based model) is a mathematical model that describes how action potentials in neurons are initiated and propagated. It is a set of nonlinear differential equations that approximates the electrical characteristics of excitable cells such as neurons.",
     "lastModified":"1436102517799",
-  	script: "/projects/SingleComponentHH/HH_Geppetto_Script.js",
+  	script: "/projects/SingleComponentHH/script.js",
   	aspectConfigurations: [
     {
 		"instance": "hhcell",
