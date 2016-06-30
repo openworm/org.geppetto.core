@@ -256,6 +256,21 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.geppetto.core.data.IGeppettoDataManager#newExperiment(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public IExperiment cloneExperiment(String name, String description, IGeppettoProject project, IExperiment e)
+	{
+		LocalExperiment experiment = new LocalExperiment(1, new ArrayList<LocalAspectConfiguration>(), name, description, new Date(), new Date(), ExperimentStatus.DESIGN,
+				new ArrayList<LocalSimulationResult>(), new Date(), new Date(), project);
+		experiment.getAspectConfigurations().addAll((Collection<? extends LocalAspectConfiguration>) e.getAspectConfigurations());
+		((LocalGeppettoProject) project).getExperiments().add(experiment);
+		return experiment;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#newUser(java.lang.String)
 	 */
 	@Override

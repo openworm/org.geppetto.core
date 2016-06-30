@@ -118,4 +118,7 @@ public interface IGeppettoDataManager
 
 	void saveEntity(IGeppettoProject entity);
 
+	IExperiment cloneExperiment(String name, String description,
+			IGeppettoProject project, IExperiment originalExperiment);
+
 }
