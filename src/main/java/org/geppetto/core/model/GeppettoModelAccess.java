@@ -233,7 +233,7 @@ public class GeppettoModelAccess
 	{
 		Command replaceCommand = ReplaceCommand.create(editingDomain, typeToBeReplaced.eContainer(), GeppettoPackage.Literals.GEPPETTO_LIBRARY__TYPES, typeToBeReplaced, Collections.singleton(newType));
 		editingDomain.getCommandStack().execute(replaceCommand);
-		markAsUnsynched((ISynchable) typeToBeReplaced.eContainer());
+		markAsUnsynched((ISynchable) newType.eContainer());
 		
 		List<Variable> referencedVars = new ArrayList<Variable>(typeToBeReplaced.getReferencedVariables());
 		for(Variable v : referencedVars)
