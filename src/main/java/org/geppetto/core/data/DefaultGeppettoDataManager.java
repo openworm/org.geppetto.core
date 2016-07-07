@@ -256,7 +256,8 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.geppetto.core.data.IGeppettoDataManager#newExperiment(java.lang.String, java.lang.String)
+	 * @see org.geppetto.core.data.IGeppettoDataManager#cloneExperiment(java.lang.String, java.lang.String,
+	 * 		org.geppetto.core.data.model.IGeppettoProject,org.geppetto.core.data.model.IExperiment)
 	 */
 	@Override
 	public IExperiment cloneExperiment(String name, String description, IGeppettoProject project, IExperiment e)
