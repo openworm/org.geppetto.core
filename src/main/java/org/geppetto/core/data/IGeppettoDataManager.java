@@ -102,7 +102,7 @@ public interface IGeppettoDataManager
 
 	IAspectConfiguration newAspectConfiguration(IExperiment experiment, String instancePath, ISimulatorConfiguration simulatorConfiguration);
 
-	ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, long timestep, long length);
+	ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, float timestep, float length);
 
 	void addGeppettoProject(IGeppettoProject project, IUser user);
 
@@ -120,5 +120,4 @@ public interface IGeppettoDataManager
 
 	IExperiment cloneExperiment(String name, String description,
 			IGeppettoProject project, IExperiment originalExperiment);
-
 }
