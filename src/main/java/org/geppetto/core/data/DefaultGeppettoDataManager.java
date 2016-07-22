@@ -443,9 +443,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	}
 
 	@Override
-	public ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, float timestep, float length)
+	public ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, float timestep, float length,Map<String, String> parameters)
 	{
-		return new LocalSimulatorConfiguration(0l, simulator, conversionService, timestep, length, new HashMap<String, String>());
+		return new LocalSimulatorConfiguration(0l, simulator, conversionService, timestep, length,parameters);
 	}
 
 	@Override
