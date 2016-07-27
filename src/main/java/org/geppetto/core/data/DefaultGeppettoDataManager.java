@@ -256,6 +256,22 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.geppetto.core.data.IGeppettoDataManager#cloneExperiment(java.lang.String, java.lang.String,
+	 * 		org.geppetto.core.data.model.IGeppettoProject,org.geppetto.core.data.model.IExperiment)
+	 */
+	@Override
+	public IExperiment cloneExperiment(String name, String description, IGeppettoProject project, IExperiment e)
+	{
+		LocalExperiment experiment = new LocalExperiment(1, new ArrayList<LocalAspectConfiguration>(), name, description, new Date(), new Date(), ExperimentStatus.DESIGN,
+				new ArrayList<LocalSimulationResult>(), new Date(), new Date(), project);
+		experiment.getAspectConfigurations().addAll((Collection<? extends LocalAspectConfiguration>) e.getAspectConfigurations());
+		((LocalGeppettoProject) project).getExperiments().add(experiment);
+		return experiment;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#newUser(java.lang.String)
 	 */
 	@Override
@@ -427,9 +443,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	}
 
 	@Override
-	public ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, long timestep, long length)
+	public ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, float timestep, float length,Map<String, String> parameters)
 	{
-		return new LocalSimulatorConfiguration(0l, simulator, conversionService, timestep, length, new HashMap<String, String>());
+		return new LocalSimulatorConfiguration(0l, simulator, conversionService, timestep, length,parameters);
 	}
 
 	@Override

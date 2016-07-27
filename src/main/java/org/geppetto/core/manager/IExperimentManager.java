@@ -72,4 +72,15 @@ public interface IExperimentManager
 	 */
 	void cancelExperimentRun(String requestId, IExperiment experiment) throws GeppettoExecutionException;
 
+	/**
+	 * Clones a experiment inside a given project
+	 * 
+	 * @param requestId
+	 * @param project
+	 * @return
+	 * @throws GeppettoExecutionException
+	 * @throws GeppettoAccessException 
+	 */
+	public abstract IExperiment cloneExperiment(String requestId, IGeppettoProject project,IExperiment originalExperiment) throws GeppettoExecutionException,GeppettoAccessException;
+
 }

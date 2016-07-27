@@ -64,7 +64,7 @@ public class ApplicationListenerBean implements ApplicationListener<ContextRefre
 	public void onApplicationEvent(ContextRefreshedEvent event)
 	{
 		ApplicationContext applicationContext = event.getApplicationContext();
-		Map<String, IModelInterpreter> modelBeans = applicationContext.getBeansOfType(IModelInterpreter.class, false, false);
+		Map<String, IModelInterpreter> modelBeans = applicationContext.getBeansOfType(IModelInterpreter.class, true, false);
 
 		for(Map.Entry<String, IModelInterpreter> modelBean : modelBeans.entrySet())
 		{
@@ -80,7 +80,7 @@ public class ApplicationListenerBean implements ApplicationListener<ContextRefre
 			}
 		}
 
-		Map<String, IConversion> conversionBeans = applicationContext.getBeansOfType(IConversion.class, false, false);
+		Map<String, IConversion> conversionBeans = applicationContext.getBeansOfType(IConversion.class, true, false);
 		for(Map.Entry<String, IConversion> conversionBean : conversionBeans.entrySet())
 		{
 			_logger.info("Registering Conversion Services: " + conversionBean.getKey());
@@ -95,7 +95,7 @@ public class ApplicationListenerBean implements ApplicationListener<ContextRefre
 			}
 		}
 
-		Map<String, ISimulator> simulatorBeans = applicationContext.getBeansOfType(ISimulator.class, false, false);
+		Map<String, ISimulator> simulatorBeans = applicationContext.getBeansOfType(ISimulator.class, true, false);
 		for(Map.Entry<String, ISimulator> simulatorBean : simulatorBeans.entrySet())
 		{
 			_logger.info("Registering Simulator Services: " + simulatorBean.getKey());
@@ -110,7 +110,7 @@ public class ApplicationListenerBean implements ApplicationListener<ContextRefre
 			}
 		}
 		
-		Map<String, IDataSourceService> dataSourceServiceBeans = applicationContext.getBeansOfType(IDataSourceService.class, false, false);
+		Map<String, IDataSourceService> dataSourceServiceBeans = applicationContext.getBeansOfType(IDataSourceService.class, true, false);
 		for(Map.Entry<String, IDataSourceService> dataSourceServiceBean : dataSourceServiceBeans.entrySet())
 		{
 			_logger.info("Registering Data Source Services: " + dataSourceServiceBean.getKey());
@@ -125,7 +125,7 @@ public class ApplicationListenerBean implements ApplicationListener<ContextRefre
 			}
 		}
 		
-		Map<String, IQueryProcessor> queryProcessorBeans = applicationContext.getBeansOfType(IQueryProcessor.class, false, false);
+		Map<String, IQueryProcessor> queryProcessorBeans = applicationContext.getBeansOfType(IQueryProcessor.class, true, false);
 		for(Map.Entry<String, IQueryProcessor> queryProcessorBean : queryProcessorBeans.entrySet())
 		{
 			_logger.info("Registering Query Processor Services: " + queryProcessorBean.getKey());
