@@ -51,6 +51,6 @@ public interface IDataSourceManager
 {
 	
 
-	GeppettoModel fetchVariable(String dataSourceId, String variableId, IExperiment experiment, IGeppettoProject project) throws GeppettoDataSourceException, GeppettoModelException, GeppettoExecutionException;
+	GeppettoModel fetchVariable(String dataSourceId, String variableId, IGeppettoProject project) throws GeppettoDataSourceException, GeppettoModelException, GeppettoExecutionException;
 	
 }
