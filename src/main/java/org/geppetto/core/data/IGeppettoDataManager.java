@@ -37,6 +37,7 @@ import java.io.Reader;
 import java.net.URL;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.data.model.IExperiment;
@@ -102,7 +103,7 @@ public interface IGeppettoDataManager
 
 	IAspectConfiguration newAspectConfiguration(IExperiment experiment, String instancePath, ISimulatorConfiguration simulatorConfiguration);
 
-	ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, long timestep, long length);
+	ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, float timestep, float length,Map<String, String> parameters);
 
 	void addGeppettoProject(IGeppettoProject project, IUser user);
 
@@ -118,4 +119,6 @@ public interface IGeppettoDataManager
 
 	void saveEntity(IGeppettoProject entity);
 
+	IExperiment cloneExperiment(String name, String description,
+			IGeppettoProject project, IExperiment originalExperiment);
 }
