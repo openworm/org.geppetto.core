@@ -83,4 +83,5 @@ public interface IExperimentManager
 	 */
 	public abstract IExperiment cloneExperiment(String requestId, IGeppettoProject project,IExperiment originalExperiment) throws GeppettoExecutionException,GeppettoAccessException;
 
+	void experimentError(Exception exception, String errorMessage, IExperiment experiment);
 }

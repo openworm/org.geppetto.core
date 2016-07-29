@@ -38,6 +38,7 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.data.model.IUser;
+import org.geppetto.core.simulation.IGeppettoManagerCallbackListener;
 
 /**
  * @author matteocantarelli
@@ -66,5 +67,5 @@ public interface IGeppettoManager extends IProjectManager, IExperimentManager, I
 	 */
 	Scope getScope();
 
-
+	void setISimulationListener(IGeppettoManagerCallbackListener listener);
 }
