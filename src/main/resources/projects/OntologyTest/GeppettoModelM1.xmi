@@ -67,6 +67,42 @@
       <matchingCriteria
           type="//@libraries.3/@types.0 //@libraries.3/@types.3"/>
     </queries>
+    <queries
+        xsi:type="gep:SimpleQuery"
+        label="Neurons with some part here"
+        description="Neurons with some part here"
+        query="MATCH (n { short_form: '$ID' } ) RETURN n.label as name, n.short_form as id, n.description as description, n.`annotation-comment` as comment, labels(n) as supertypes, n.synonym as synonyms LIMIT 1"
+        countQuery="MATCH (n { short_form: '$ID' } ) RETURN count(n) as count">
+      <matchingCriteria
+          type="//@libraries.3/@types.1"/>
+    </queries>
+    <queries
+        xsi:type="gep:SimpleQuery"
+        label="Neurons with pre-synaptic terminal here"
+        description="Neurons with pre-synaptic terminal here"
+        query="MATCH (n { short_form: '$ID' } ) RETURN n.label as name, n.short_form as id, n.description as description, n.`annotation-comment` as comment, labels(n) as supertypes, n.synonym as synonyms LIMIT 1"
+        countQuery="MATCH (n { short_form: '$ID' } ) RETURN count(n) as count">
+      <matchingCriteria
+          type="//@libraries.3/@types.1"/>
+    </queries>
+    <queries
+        xsi:type="gep:SimpleQuery"
+        label="Neurons with synaptic terminal here"
+        description="Neurons with synaptic terminal here"
+        query="MATCH (n { short_form: '$ID' } ) RETURN n.label as name, n.short_form as id, n.description as description, n.`annotation-comment` as comment, labels(n) as supertypes, n.synonym as synonyms LIMIT 1"
+        countQuery="MATCH (n { short_form: '$ID' } ) RETURN count(n) as count">
+      <matchingCriteria
+          type="//@libraries.3/@types.0"/>
+    </queries>
+    <queries
+        xsi:type="gep:SimpleQuery"
+        label="Images of neurons with some part here (clustered by shape)"
+        description="Images of neurons with some part here (clustered by shape)"
+        query="MATCH (n { short_form: '$ID' } ) RETURN n.label as name, n.short_form as id, n.description as description, n.`annotation-comment` as comment, labels(n) as supertypes, n.synonym as synonyms LIMIT 1"
+        countQuery="MATCH (n { short_form: '$ID' } ) RETURN count(n) as count">
+      <matchingCriteria
+          type="//@libraries.3/@types.0"/>
+    </queries>
     <fetchVariableQuery
         xsi:type="gep:CompoundQuery"
         label="The compound query for augmenting a type"
