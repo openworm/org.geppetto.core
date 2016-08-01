@@ -55,4 +55,5 @@ public interface ISimulatorCallbackListener
 	 */
 	void endOfSteps(IAspectConfiguration aspectConfiguration, Map<File, ResultsFormat> results) throws GeppettoExecutionException;
 
+	void externalProcessFailed(String message, Exception e);
 }

@@ -52,7 +52,9 @@ public class ExternalProcess extends Thread
 			}
 			catch(GeppettoExecutionException e)
 			{
-				_logger.error("Geppetto Execution Exception error : " + e.getMessage());
+				String errorMessage = "Geppetto Execution Exception error : " + e.getMessage();
+				_logger.error(errorMessage);
+				_callback.processFailed("Geppetto Execution error ", e);
 				throw new RuntimeException(e);
 			}
 		}
@@ -90,6 +92,7 @@ public class ExternalProcess extends Thread
 		catch(IOException | InterruptedException e)
 		{
 			_logger.error("Unable to execute command: " + _commands);
+			_callback.processFailed("Geppetto Execution Error for ", e);
 			throw new GeppettoExecutionException(e);
 		}
 		return true;
