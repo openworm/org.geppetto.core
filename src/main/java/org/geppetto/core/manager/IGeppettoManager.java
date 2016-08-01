@@ -67,5 +67,5 @@ public interface IGeppettoManager extends IProjectManager, IExperimentManager, I
 	 */
 	Scope getScope();
 
-	void setISimulationListener(IGeppettoManagerCallbackListener listener);
+	void setSimulationListener(IGeppettoManagerCallbackListener listener);
 }
