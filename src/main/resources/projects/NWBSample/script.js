@@ -11,9 +11,9 @@ GEPPETTO.Init.flipCameraY();
 GEPPETTO.Init.flipCameraZ();
 GEPPETTO.SceneController.setWireframe(true);
 
-GEPPETTO.ControlPanel.setColumnMeta([{  "columnName": "sweep",  "order": 1,  "locked": false,  "displayName": "Sweep No.",  "source": "$entity$.getName()" }, {  "columnName": "name",  "order": 2,  "locked": false,  "displayName": "Name",  "source": "$entity$.getVariables()[1].getType().getVariables()[0].getValue().getWrappedObj()['value']['text']" }, {  "columnName": "amplitude",  "order": 2,  "locked": false,  "displayName": "Amplitude",  "source": "$entity$.getVariables()[1].getType().getVariables()[1].getValue().getWrappedObj()['value']['text']" }]);
-GEPPETTO.ControlPanel.setColumns(['sweep', 'name', 'amplitude']);
+GEPPETTO.ControlPanel.setColumnMeta([{"columnName": "path","order": 1,"locked": false,"displayName": "Path","source": "$entity$.getPath()"},{"columnName": "sweep", "order": 2, "locked": false, "displayName": "Sweep No.", "source": "$entity$.getName()" }, { "columnName": "name", "order": 3, "locked": false, "displayName": "Name", "source": "$entity$.getVariables()[1].getType().getVariables()[0].getValue().getWrappedObj()['value']['text']" }, { "columnName": "amplitude", "order": 4, "locked": false, "displayName": "Amplitude", "source": "$entity$.getVariables()[1].getType().getVariables()[1].getValue().getWrappedObj()['value']['text']" }, { "columnName": "controls", "order": 4, "locked": false, "customComponent": GEPPETTO.ControlsComponent, "displayName": "Controls", "source": "", "action": "GEPPETTO.FE.refresh();" }]);
+GEPPETTO.ControlPanel.setColumns(['sweep', 'name', 'amplitude', 'controls']);
 GEPPETTO.ControlPanel.setDataFilter(function(entities) { var compositeInstances = GEPPETTO.ModelFactory.getAllTypesOfMetaType(GEPPETTO.Resources.COMPOSITE_TYPE_NODE, entities); var sweepInstances = []; for (index in compositeInstances) { allVariables = compositeInstances[index].getVariables(); for(v in allVariables){ if(allVariables[v].getId().startsWith('Sweep_')){ s_r = allVariables[v].getType().getVariables(); sweepInstances.push(s_r[0].getType()); sweepInstances.push(s_r[1].getType()); } } } return sweepInstances; }); 
-
-GEPPETTO.ControlPanel.setData(Instances);
+GEPPETTO.ControlPanel.setControlsConfig({ "VisualCapability": {}, "Common": { "info": { "id": "info", "action": ["$instance$.delete()"], "icon": "fa-info-circle", "label": "Info", "tooltip": "Info" }, "delete": { "id": "delete", "actions": ["$instance$.delete()"], "icon": "fa-trash-o", "label": "Delete", "tooltip": "Delete" } } }); 
+GEPPETTO.ControlPanel.setControls({ "VisualCapability": [], "Common": ['info', 'delete'] });
 $("#controlpanel").show();
