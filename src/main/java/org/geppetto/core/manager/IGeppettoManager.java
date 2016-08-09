@@ -68,4 +68,8 @@ public interface IGeppettoManager extends IProjectManager, IExperimentManager, I
 	Scope getScope();
 
 	void setSimulationListener(IGeppettoManagerCallbackListener listener);
+
+	void setLogin(boolean b);
+	
+	boolean isLogin();
 }
