@@ -33,11 +33,14 @@
         id="Clone"
         name="Clone"/>
     <types xsi:type="gep_1:SimpleType"
-        id="neuropil"
-        name="Neuropil"/>
+        id="Synaptic_neuropil"
+        name="Synaptic Neuropil"/>
     <types xsi:type="gep_1:SimpleType"
         id="VFB"
         name="Virtual Fly Brain"/>
+    <types xsi:type="gep_1:SimpleType"		
+        id="Orphan"		
+        name="No Meta Data"/>
   </libraries>
   <libraries
       id="vfbLibrary"
@@ -83,7 +86,7 @@
           query="MATCH (n:VFB:Class { short_form: '$ID' } )-[r:SUBCLASSOF|Related|has_reference]->(sc) RETURN r as relationship, sc.label as relName, sc.short_form as relId, sc.miniref as relRef, sc.FlyBase as relFBrf, sc.PMID as relPMID, sc.DOI as relDOI"
           countQuery="MATCH (n:VFB:Class { short_form: '$ID' } )-[r:SUBCLASSOF|Related|has_reference]->(sc) RETURN count(*) as count">
         <matchingCriteria
-            type="//@libraries.3/@types.1"/>
+            type="//@libraries.3/@types.6 //@libraries.3/@types.1"/>
       </queryChain>
       <queryChain
           xsi:type="gep:ProcessQuery"
@@ -97,10 +100,10 @@
           xsi:type="gep:SimpleQuery"
           label="Fetch related and references for individuals"
           description="Fetch related and references for individuals"
-          query="MATCH (n:VFB:Individual { short_form: '$ID' } )-[r:INSTANCEOF|Related|has_reference]->(sc) RETURN r as relationship, sc.label as relName, sc.short_form as relId, sc.FlyBase as relFBrf"
+          query="MATCH (n:VFB:Individual { short_form: '$ID' } )-[r:INSTANCEOF|Related|has_reference]->(sc) RETURN r as relationship, sc.label as relName, sc.short_form as relId, sc.miniref as relRef, sc.FlyBase as relFBrf, sc.PMID as relPMID, sc.DOI as relDOI"
           countQuery="MATCH (n:VFB:Individual { short_form: '$ID' } )-[r:INSTANCEOF|Related|has_reference]->(sc) RETURN count(n) as count">
         <matchingCriteria
-            type="//@libraries.3/@types.0"/>
+            type="//@libraries.3/@types.0 //@libraries.3/@types.6"/>
       </queryChain>
       <queryChain
           xsi:type="gep:ProcessQuery"
@@ -108,7 +111,7 @@
           description="This processing step will populate a Variable with the related and references resulting from the previous query"
           queryProcessorId="vfbImportTypesRelatedQueryProcessor">
         <matchingCriteria
-            type="//@libraries.3/@types.0"/>
+            type="//@libraries.3/@types.0 //@libraries.3/@types.6"/>
       </queryChain>
       <queryChain
           xsi:type="gep:SimpleQuery"
@@ -117,7 +120,7 @@
           query="MATCH (n:VFB:Class { short_form: '$ID' } )&lt;-[:SUBCLASSOF*]-()&lt;-[:INSTANCEOF]-(i) RETURN i.short_form as exId, i.label as exName LIMIT 6"
           countQuery="MATCH (n:VFB:Class { short_form: '$ID' } )&lt;-[:SUBCLASSOF*]-()&lt;-[:INSTANCEOF]-(i) RETURN count(n) as count">
         <matchingCriteria
-            type="//@libraries.3/@types.1"/>
+            type="//@libraries.3/@types.1 //@libraries.3/@types.6"/>
       </queryChain>
       <queryChain
           xsi:type="gep:ProcessQuery"
@@ -125,7 +128,7 @@
           description=""
           queryProcessorId="vfbImportTypesQueryProcessor">
         <matchingCriteria
-            type="//@libraries.3/@types.1"/>
+            type="//@libraries.3/@types.1 //@libraries.3/@types.6"/>
       </queryChain>
       <queryChain
           xsi:type="gep:ProcessQuery"
@@ -133,7 +136,7 @@
           description="Add Thumbnail for VFB Individuals"
           queryProcessorId="vfbImportTypesThumbnailQueryProcessor">
         <matchingCriteria
-            type="//@libraries.3/@types.0"/>
+            type="//@libraries.3/@types.0 //@libraries.3/@types.6"/>
       </queryChain>
     </fetchVariableQuery>
   </dataSources>
