@@ -131,11 +131,4 @@ public class ObjModelInterpreterService extends AModelInterpreter
 	}
 
 
-	@Override
-	public Value importValue(ImportValue importValue)
-			throws ModelInterpreterException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

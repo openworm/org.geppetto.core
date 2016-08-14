@@ -35,13 +35,13 @@ public interface IRuntimeTreeManager
 	ExperimentState setWatchedVariables(List<String> watchedVariables, IExperiment experiment, IGeppettoProject project, boolean watch) throws GeppettoExecutionException, GeppettoAccessException;
 	
 	/**
-	 * @param typePath
+	 * @param typePaths
 	 * @param experiment
 	 * @param geppettoProject
 	 * @return
 	 * @throws GeppettoExecutionException 
 	 */
-	GeppettoModel resolveImportType(String typePath, IExperiment experiment, IGeppettoProject geppettoProject) throws GeppettoExecutionException;
+	GeppettoModel resolveImportType(List<String> typePaths, IGeppettoProject geppettoProject) throws GeppettoExecutionException;
 	
 	/**
 	 * @param path

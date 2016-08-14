@@ -15,6 +15,7 @@
     <types xsi:type="gep_1:ImportType"
         id="network_ACnet2"
         url="/projects/AuditoryCortex/MediumNet.net.nml"
+        referenceURL="acnet2"
         modelInterpreterId="neuroMLModelInterpreter"/>
   </libraries>
 </gep:GeppettoModel>
