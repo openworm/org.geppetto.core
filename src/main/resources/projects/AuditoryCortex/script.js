@@ -1,3 +1,5 @@
+Model.neuroml.resolveAllImportTypes();
+
 Project.getActiveExperiment().playAll();
 
 G.addWidget(6);
