@@ -14,8 +14,8 @@
       name="NeuroML">
     <types xsi:type="gep_1:ImportType"
         id="c302_A"
-        url="/projects/C302/LEMS_c302_A.xml"
+        url="/projects/C302/c302_A.nml"
         referenceURL=""
-        modelInterpreterId="lemsModelInterpreter"/>
+        modelInterpreterId="neuroMLModelInterpreter"/>
   </libraries>
 </gep:GeppettoModel>
