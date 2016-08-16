@@ -37,6 +37,7 @@ import java.io.InputStream;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -51,7 +52,7 @@ public class GeppettoHTTPClient
 
 	public static String doJSONPost(String url, String postContent) throws GeppettoDataSourceException
 	{
-		String queryResult = null;
+		String postResult = null;
 		try
 		{
 			// execute query and handle any error responses.
@@ -62,13 +63,38 @@ public class GeppettoHTTPClient
 			HttpClient httpClient = HttpClientBuilder.create().build();
 			HttpResponse response = httpClient.execute(postRequest);
 			InputStream inputStream = response.getEntity().getContent();
-			queryResult = GeppettoCommonUtils.readString(inputStream);
+			postResult = GeppettoCommonUtils.readString(inputStream);
 		}
 		catch(IOException e)
 		{
 			throw new GeppettoDataSourceException(e);
 		}
 
-		return queryResult;
+		return postResult;
+	}
+
+	public static String doGET(String url, String getParameters) throws GeppettoDataSourceException
+	{
+		String getResult = null;
+		try
+		{
+			// execute query and handle any error responses.
+			String parameters = "";
+			if(getParameters != null && !getParameters.isEmpty())
+			{
+				parameters = "?" + getParameters;
+			}
+			HttpGet getRequest = new HttpGet(url + parameters);
+			HttpClient httpClient = HttpClientBuilder.create().build();
+			HttpResponse response = httpClient.execute(getRequest);
+			InputStream inputStream = response.getEntity().getContent();
+			getResult = GeppettoCommonUtils.readString(inputStream);
+		}
+		catch(IOException e)
+		{
+			throw new GeppettoDataSourceException(e);
+		}
+
+		return getResult;
 	}
 }

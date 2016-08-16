@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.geppetto.core.common.GeppettoHTTPClient;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.common.JSONUtility;
+import org.geppetto.core.datasources.ADataSourceService.ConnectionType;
 import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.core.services.ServiceCreator;
 import org.geppetto.model.DataSource;
@@ -72,19 +73,22 @@ public class ExecuteQueryVisitor extends GeppettoSwitch<Object>
 
 	private GeppettoModelAccess geppettoModelAccess;
 
+	private ConnectionType connectionType;
+
 	/**
 	 * 
 	 */
-	public ExecuteQueryVisitor(DataSource dataSource, String dataSourceTemplate, Variable variable, GeppettoModelAccess geppettoModelAccess)
+	public ExecuteQueryVisitor(DataSource dataSource, String dataSourceTemplate, Variable variable, GeppettoModelAccess geppettoModelAccess, ConnectionType connectionType)
 	{
-		this(dataSource, dataSourceTemplate, variable, geppettoModelAccess, false);
+		this(dataSource, dataSourceTemplate, variable, geppettoModelAccess, false, connectionType);
 	}
 
 	/**
 	 * @param variable
 	 * @param count
+	 * @param connectionType
 	 */
-	public ExecuteQueryVisitor(DataSource dataSource, String dataSourceTemplate, Variable variable, GeppettoModelAccess geppettoModelAccess, boolean count)
+	public ExecuteQueryVisitor(DataSource dataSource, String dataSourceTemplate, Variable variable, GeppettoModelAccess geppettoModelAccess, boolean count, ConnectionType connectionType)
 	{
 		super();
 		this.dataSource = dataSource;
@@ -92,6 +96,7 @@ public class ExecuteQueryVisitor extends GeppettoSwitch<Object>
 		this.dataSourceTemplate = dataSourceTemplate;
 		this.variable = variable;
 		this.count = count;
+		this.connectionType = connectionType;
 		results = GeppettoFactory.eINSTANCE.createQueryResults();
 	}
 
@@ -144,8 +149,17 @@ public class ExecuteQueryVisitor extends GeppettoSwitch<Object>
 
 				String processedQueryString = VelocityUtils.processTemplate(dataSourceTemplate, properties);
 
-				String response = GeppettoHTTPClient.doJSONPost(url, processedQueryString);
-				System.out.println(response);
+				String response = null;
+				switch(connectionType)
+				{
+					case GET:
+						response = GeppettoHTTPClient.doGET(url, processedQueryString);
+						break;
+					case POST:
+						response = GeppettoHTTPClient.doJSONPost(url, processedQueryString);
+						break;
+				}
+
 				processResponse(response);
 			}
 		}

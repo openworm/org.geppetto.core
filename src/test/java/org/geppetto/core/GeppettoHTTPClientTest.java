@@ -21,4 +21,11 @@ public class GeppettoHTTPClientTest
 		String response = GeppettoHTTPClient.doJSONPost("http://httpbin.org/post", "{name:'Test'}");
 		Assert.assertEquals("{name:'Test'}", JSONUtility.getAsMap(response).get("data"));
 	}
+	
+	@Test
+	public void testDoGET() throws GeppettoDataSourceException
+	{
+		String response = GeppettoHTTPClient.doGET("http://httpbin.org/response-headers", "key=val");
+		Assert.assertEquals("85", JSONUtility.getAsMap(response).get("Content-Length"));
+	}
 }

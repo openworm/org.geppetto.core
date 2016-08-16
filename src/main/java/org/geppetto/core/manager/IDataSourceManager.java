@@ -33,13 +33,15 @@
 
 package org.geppetto.core.manager;
 
+import java.util.List;
+
 import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.datasources.GeppettoDataSourceException;
 import org.geppetto.model.GeppettoModel;
+import org.geppetto.model.QueryResults;
+import org.geppetto.model.RunnableQuery;
 import org.geppetto.model.util.GeppettoModelException;
-
 
 /**
  * @author matteocantarelli
@@ -49,8 +51,11 @@ import org.geppetto.model.util.GeppettoModelException;
  */
 public interface IDataSourceManager
 {
-	
 
 	GeppettoModel fetchVariable(String dataSourceId, String variableId, IGeppettoProject project) throws GeppettoDataSourceException, GeppettoModelException, GeppettoExecutionException;
-	
+
+	QueryResults runQuery(List<RunnableQuery> queries, IGeppettoProject project) throws GeppettoDataSourceException, GeppettoModelException, GeppettoExecutionException;
+
+	int runQueryCount(List<RunnableQuery> queries, IGeppettoProject project) throws GeppettoDataSourceException, GeppettoModelException, GeppettoExecutionException;
+
 }
