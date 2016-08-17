@@ -39,8 +39,6 @@ import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.core.services.AService;
 import org.geppetto.model.DataSource;
 import org.geppetto.model.Query;
-import org.geppetto.model.types.Type;
-import org.geppetto.model.util.ModelUtility;
 import org.geppetto.model.variables.Variable;
 
 /**
@@ -49,6 +47,11 @@ import org.geppetto.model.variables.Variable;
  */
 public abstract class ADataSourceService extends AService implements IDataSourceService
 {
+
+	public enum ConnectionType
+	{
+		GET, POST
+	}
 
 	private DataSource configuration;
 
@@ -66,9 +69,8 @@ public abstract class ADataSourceService extends AService implements IDataSource
 	{
 		this.configuration = configuration;
 		this.geppettoModelAccess = geppettoModelAccess;
-
 	}
-	
+
 	protected GeppettoModelAccess getGeppettoModelAccess()
 	{
 		return geppettoModelAccess;
