@@ -102,7 +102,7 @@
           xsi:type="gep:SimpleQuery"
           name="Get id/name/superTypes/description/comment/synonyms"
           description="Fetches essential details."
-          query="MATCH (n { short_form: '$ID' } ) RETURN n.name as name, n.short_form as id, n.description as description, n.`annotation-comment` as comment, names(n) as supertypes, n.synonym as synonyms LIMIT 1"
+          query="MATCH (n { short_form: '$ID' } ) RETURN n.name as name, n.short_form as id, n.description as description, n.`annotation-comment` as comment, labels(n) as supertypes, n.synonym as synonyms LIMIT 1"
           countQuery="MATCH (n { short_form: '$ID' } ) RETURN count(n) as count"/>
       <queryChain
           xsi:type="gep:ProcessQuery"
