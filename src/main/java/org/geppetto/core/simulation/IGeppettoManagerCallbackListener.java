@@ -33,9 +33,6 @@
 
 package org.geppetto.core.simulation;
 
-import org.geppetto.core.common.GeppettoExecutionException;
-import org.geppetto.core.data.model.IExperiment;
-
 /**
  * @author matteocantarelli
  * 
@@ -46,5 +43,9 @@ public interface IGeppettoManagerCallbackListener
 	/**
 	 */
 	void simulationError(String errorMessage, Exception exception);
+	
+	/**
+	 */
+	void externalProcessError(String titleMessage, String logMessage, Exception exception);
 
 }

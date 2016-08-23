@@ -25,6 +25,7 @@ public class ExternalProcess extends Thread
 	private IExternalSimulatorCallbackListener _callback;
 	private String _fileToExecute;
 	private String outputFolder;
+	private ExternalProcessWatcher procOutputMain,procOutputError;
 
 	public ExternalProcess(String[] commands, String directoryToExecuteFrom, String fileToExecute, IExternalSimulatorCallbackListener callback, String outputFolder)
 	{
@@ -54,7 +55,7 @@ public class ExternalProcess extends Thread
 			{
 				String errorMessage = "Geppetto Execution Exception error : " + e.getMessage();
 				_logger.error(errorMessage);
-				_callback.processFailed("Geppetto Execution error ", e);
+				_callback.processFailed(procOutputError.logMessage(), e);
 				throw new RuntimeException(e);
 			}
 		}
@@ -74,10 +75,10 @@ public class ExternalProcess extends Thread
 			for(String command : _commands)
 			{
 				Process currentProcess = runtime.exec(command, null, new File(_directoryToExecuteFrom));
-				ExternalProcessWatcher procOutputMain = new ExternalProcessWatcher(currentProcess.getInputStream(), "Success : ");
+				procOutputMain = new ExternalProcessWatcher(currentProcess.getInputStream(), "Success : ");
 				procOutputMain.start();
 
-				ExternalProcessWatcher procOutputError = new ExternalProcessWatcher(currentProcess.getErrorStream(), "Error   : ");
+				procOutputError = new ExternalProcessWatcher(currentProcess.getErrorStream(), "Error   : ");
 				procOutputError.start();
 
 				_logger.info("Successfully executed command: " + command);
@@ -92,7 +93,7 @@ public class ExternalProcess extends Thread
 		catch(IOException | InterruptedException e)
 		{
 			_logger.error("Unable to execute command: " + _commands);
-			_callback.processFailed("Geppetto Execution Error for ", e);
+			_callback.processFailed(procOutputError.logMessage(), e);
 			throw new GeppettoExecutionException(e);
 		}
 		return true;
@@ -111,5 +112,9 @@ public class ExternalProcess extends Thread
 	public String getFileToExecute()
 	{
 		return this._fileToExecute;
+	}
+	
+	public String getLogErrorMessage(){
+		return this.procOutputError.logMessage();
 	}
 }
