@@ -38,46 +38,46 @@
     <types xsi:type="gep_1:SimpleType"
         id="VFB"
         name="Virtual Fly Brain"/>
-    <types xsi:type="gep_1:SimpleType"		
-        id="Orphan"		
+    <types xsi:type="gep_1:SimpleType"
+        id="Orphan"
         name="No Meta Data"/>
-    <types xsi:type="gep_1:SimpleType"		
-        id="Obsolete"		
+    <types xsi:type="gep_1:SimpleType"
+        id="Obsolete"
         name="Obsolete"/>
-    <types xsi:type="gep_1:SimpleType"		
-        id="Synaptic_neuropil_domain"		
+    <types xsi:type="gep_1:SimpleType"
+        id="Synaptic_neuropil_domain"
         name="Synaptic Neuropil Domain"/>
-    <types xsi:type="gep_1:SimpleType"		
-        id="Synaptic_neuropil_subdomain"		
+    <types xsi:type="gep_1:SimpleType"
+        id="Synaptic_neuropil_subdomain"
         name="Synaptic Neuropil Subdomain"/>
-    <types xsi:type="gep_1:SimpleType"		
-        id="Synaptic_neuropil_block"		
+    <types xsi:type="gep_1:SimpleType"
+        id="Synaptic_neuropil_block"
         name="Synaptic Neuropil Block"/>
-    <types xsi:type="gep_1:SimpleType"		
-        id="FBDV"		
+    <types xsi:type="gep_1:SimpleType"
+        id="FBDV"
         name="FlyBase Development CV"/>
-    <types xsi:type="gep_1:SimpleType"		
-        id="FBCV"		
+    <types xsi:type="gep_1:SimpleType"
+        id="FBCV"
         name="FlyBase Controlled Vocabulary"/>
-    <types xsi:type="gep_1:SimpleType"		
-        id="FBBI"		
+    <types xsi:type="gep_1:SimpleType"
+        id="FBBI"
         name="FlyBase Biological Imaging Methods"/>
-    <types xsi:type="gep_1:SimpleType"		
-        id="Root"		
+    <types xsi:type="gep_1:SimpleType"
+        id="Root"
         name="Top Object"/>
-    <types xsi:type="gep_1:SimpleType"		
-        id="pub"		
+    <types xsi:type="gep_1:SimpleType"
+        id="pub"
         name="Publication"/>
-    <types xsi:type="gep_1:SimpleType"		
-        id="Resource"		
+    <types xsi:type="gep_1:SimpleType"
+        id="Resource"
         name="Resource"/>
   </libraries>
   <libraries
       id="vfbLibrary"
       name="VFB"/>
   <dataSources
-      id="neo4JDataSourceService"
-      name="neo4JDataSourceService"
+      id="neo4jDataSource"
+      name="neo4j Data Source"
       dataSourceService="neo4jDataSource"
       url="http://vfbdev.inf.ed.ac.uk/neo4jdb/data/transaction"
       dependenciesLibrary="//@libraries.3"
@@ -171,56 +171,113 @@
     </fetchVariableQuery>
   </dataSources>
   <dataSources
-      id="aberOWLDataSourceService"
-      name="aberOWLDataSourceService"
+      id="aberOWLDataSource"
+      name="Aber OWL Data Source"
       dataSourceService="aberOWLDataSource"
       url="http://aber-owl.net/service/api/runQuery.groovy"
       dependenciesLibrary="//@libraries.3"
       targetLibrary="//@libraries.4">
     <queries
-        xsi:type="gep:SimpleQuery"
+        xsi:type="gep:CompoundQuery"
+        id="partof"
         name="Part of"
-        description="Part of"
-        query="type=subeq&amp;query=%3Chttp://purl.obolibrary.org/obo/BFO_0000050%3E%20some%20%3Chttp://purl.obolibrary.org/obo/$ID%3E&amp;ontology=VFB_Ind"
-        countQuery="">
+        description="Part of">
       <matchingCriteria
           type="//@libraries.3/@types.1"/>
+      <queryChain
+          xsi:type="gep:SimpleQuery"
+          name="Part of"
+          description="Part of"
+          query="type=subeq&amp;query=%3Chttp://purl.obolibrary.org/obo/BFO_0000050%3E%20some%20%3Chttp://purl.obolibrary.org/obo/$ID%3E&amp;ontology=VFB_Ind"
+          countQuery=""/>
+      <queryChain
+          xsi:type="gep:ProcessQuery"
+          name="Retains id, name and definition"
+          queryProcessorId="vfbAberOWLQueryProcessor"/>
     </queries>
     <queries
-        xsi:type="gep:SimpleQuery"
-        name="Neurons"
-        description="Neurons with some part here"
-        query="type=subeq&amp;query=%3Chttp://purl.obolibrary.org/obo/FBbt_00005106%3E%20that%20%3Chttp://purl.obolibrary.org/obo/RO_0002131%3E%20some%20%3Chttp://purl.obolibrary.org/obo/$ID%3E&amp;ontology=VFB_Ind"
-        countQuery="">
+        xsi:type="gep:CompoundQuery"
+        id="neuronsparthere"
+        name="Neurons with some part here"
+        description="Neurons with some part here">
       <matchingCriteria
-          type="//@libraries.3/@types.1 //@libraries.3/@types.5"/>
+          type="//@libraries.3/@types.1"/>
+      <queryChain
+          xsi:type="gep:SimpleQuery"
+          name="Neurons"
+          description="Neurons with some part here"
+          query="type=subeq&amp;query=%3Chttp://purl.obolibrary.org/obo/FBbt_00005106%3E%20that%20%3Chttp://purl.obolibrary.org/obo/RO_0002131%3E%20some%20%3Chttp://purl.obolibrary.org/obo/$ID%3E&amp;ontology=VFB_Ind"
+          countQuery="">
+        <matchingCriteria
+            type="//@libraries.3/@types.1 //@libraries.3/@types.5"/>
+      </queryChain>
+      <queryChain
+          xsi:type="gep:ProcessQuery"
+          name="Retains id, name and definition"
+          queryProcessorId="vfbAberOWLQueryProcessor"/>
     </queries>
     <queries
-        xsi:type="gep:SimpleQuery"
+        xsi:type="gep:CompoundQuery"
+        id="neuronssynaptic"
         name="Neurons Synaptic"
-        description="Neurons with synaptic terminals here"
-        query="type=subeq&amp;query=%3Chttp://purl.obolibrary.org/obo/FBbt_00005106%3E%20that%20%3Chttp://purl.obolibrary.org/obo/RO_0002130%3E%20some%20%3Chttp://purl.obolibrary.org/obo/$ID%3E&amp;ontology=VFB_Ind"
-        countQuery="">
+        description="Neurons with synaptic terminals here">
       <matchingCriteria
-          type="//@libraries.3/@types.1 //@libraries.3/@types.5"/>
+          type="//@libraries.3/@types.1"/>
+      <queryChain
+          xsi:type="gep:SimpleQuery"
+          name="Neurons Synaptic"
+          description="Neurons with synaptic terminals here"
+          query="type=subeq&amp;query=%3Chttp://purl.obolibrary.org/obo/FBbt_00005106%3E%20that%20%3Chttp://purl.obolibrary.org/obo/RO_0002130%3E%20some%20%3Chttp://purl.obolibrary.org/obo/$ID%3E&amp;ontology=VFB_Ind"
+          countQuery="">
+        <matchingCriteria
+            type="//@libraries.3/@types.1 //@libraries.3/@types.5"/>
+      </queryChain>
+      <queryChain
+          xsi:type="gep:ProcessQuery"
+          name="Retains id, name and definition"
+          queryProcessorId="vfbAberOWLQueryProcessor"/>
     </queries>
     <queries
-        xsi:type="gep:SimpleQuery"
+        xsi:type="gep:CompoundQuery"
+        id="neuronspresynaptic"
         name="Neurons Presynaptic"
-        description="Neurons with presynaptic terminals here"
-        query="type=subeq&amp;query=%3Chttp://purl.obolibrary.org/obo/FBbt_00005106%3E%20that%20%3Chttp://purl.obolibrary.org/obo/RO_0002113%3E%20some%20%3Chttp://purl.obolibrary.org/obo/$ID%3E&amp;ontology=VFB_Ind"
-        countQuery="">
+        description="Neurons with presynaptic terminals here">
       <matchingCriteria
-          type="//@libraries.3/@types.1 //@libraries.3/@types.5"/>
+          type="//@libraries.3/@types.1"/>
+      <queryChain
+          xsi:type="gep:SimpleQuery"
+          name="Neurons Presynaptic"
+          description="Neurons with presynaptic terminals here"
+          query="type=subeq&amp;query=%3Chttp://purl.obolibrary.org/obo/FBbt_00005106%3E%20that%20%3Chttp://purl.obolibrary.org/obo/RO_0002113%3E%20some%20%3Chttp://purl.obolibrary.org/obo/$ID%3E&amp;ontology=VFB_Ind"
+          countQuery="">
+        <matchingCriteria
+            type="//@libraries.3/@types.1 //@libraries.3/@types.5"/>
+      </queryChain>
+      <queryChain
+          xsi:type="gep:ProcessQuery"
+          name="Retains id, name and definition"
+          queryProcessorId="vfbAberOWLQueryProcessor"/>
     </queries>
     <queries
-        xsi:type="gep:SimpleQuery"
+        xsi:type="gep:CompoundQuery"
+        id="neuronspostsynaptic"
         name="Neurons Postsynaptic"
-        description="Neurons with postsynaptic terminals here"
-        query="type=subeq&amp;query=%3Chttp://purl.obolibrary.org/obo/FBbt_00005106%3E%20that%20%3Chttp://purl.obolibrary.org/obo/RO_0002110%3E%20some%20%3Chttp://purl.obolibrary.org/obo/$ID%3E&amp;ontology=VFB_Ind"
-        countQuery="">
+        description="Neurons with postsynaptic terminals here">
       <matchingCriteria
-          type="//@libraries.3/@types.1 //@libraries.3/@types.5"/>
+          type="//@libraries.3/@types.1"/>
+      <queryChain
+          xsi:type="gep:SimpleQuery"
+          name="Neurons Postsynaptic"
+          description="Neurons with postsynaptic terminals here"
+          query="type=subeq&amp;query=%3Chttp://purl.obolibrary.org/obo/FBbt_00005106%3E%20that%20%3Chttp://purl.obolibrary.org/obo/RO_0002110%3E%20some%20%3Chttp://purl.obolibrary.org/obo/$ID%3E&amp;ontology=VFB_Ind"
+          countQuery="">
+        <matchingCriteria
+            type="//@libraries.3/@types.1 //@libraries.3/@types.5"/>
+      </queryChain>
+      <queryChain
+          xsi:type="gep:ProcessQuery"
+          name="Retains id, name and definition"
+          queryProcessorId="vfbAberOWLQueryProcessor"/>
     </queries>
   </dataSources>
 </gep:GeppettoModel>

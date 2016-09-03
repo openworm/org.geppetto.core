@@ -231,10 +231,11 @@ public class GeppettoModelAccess
 	 */
 	public void swapType(ImportType typeToBeReplaced, Type newType, GeppettoLibrary library)
 	{
-		Command replaceCommand = ReplaceCommand.create(editingDomain, typeToBeReplaced.eContainer(), GeppettoPackage.Literals.GEPPETTO_LIBRARY__TYPES, typeToBeReplaced, Collections.singleton(newType));
+		Command replaceCommand = ReplaceCommand
+				.create(editingDomain, typeToBeReplaced.eContainer(), GeppettoPackage.Literals.GEPPETTO_LIBRARY__TYPES, typeToBeReplaced, Collections.singleton(newType));
 		editingDomain.getCommandStack().execute(replaceCommand);
 		markAsUnsynched((ISynchable) newType.eContainer());
-		
+
 		List<Variable> referencedVars = new ArrayList<Variable>(typeToBeReplaced.getReferencedVariables());
 		for(Variable v : referencedVars)
 		{
@@ -242,7 +243,6 @@ public class GeppettoModelAccess
 			editingDomain.getCommandStack().execute(replaceInVarCommand);
 			markAsUnsynched(v);
 		}
-
 
 	}
 
@@ -255,5 +255,7 @@ public class GeppettoModelAccess
 		editingDomain.getCommandStack().execute(removeCommand);
 
 	}
+
+	
 
 }
