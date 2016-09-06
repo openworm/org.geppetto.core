@@ -55,7 +55,11 @@ public class ExternalProcess extends Thread
 			{
 				String errorMessage = "Geppetto Execution Exception error : " + e.getMessage();
 				_logger.error(errorMessage);
-				_callback.processFailed(procOutputError.logMessage(), e);
+				String logMessage = "";
+				if(procOutputError !=null){
+					logMessage = procOutputError.logMessage();
+				}
+				_callback.processFailed(logMessage, e);
 				throw new RuntimeException(e);
 			}
 		}
@@ -90,10 +94,14 @@ public class ExternalProcess extends Thread
 
 			_callback.processDone(this._commands);
 		}
-		catch(IOException | InterruptedException e)
+		catch(Exception e)
 		{
 			_logger.error("Unable to execute command: " + _commands);
-			_callback.processFailed(procOutputError.logMessage(), e);
+			String logMessage = "";
+			if(procOutputError !=null){
+				logMessage = procOutputError.logMessage();
+			}
+			_callback.processFailed(logMessage, e);
 			throw new GeppettoExecutionException(e);
 		}
 		return true;
