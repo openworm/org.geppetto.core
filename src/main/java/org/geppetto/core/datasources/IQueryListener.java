@@ -32,7 +32,9 @@
  *******************************************************************************/
 package org.geppetto.core.datasources;
 
-import org.geppetto.model.QueryResults;
+import org.geppetto.model.datasources.QueryResults;
+
+
 
 /**
  * @author matteocantarelli

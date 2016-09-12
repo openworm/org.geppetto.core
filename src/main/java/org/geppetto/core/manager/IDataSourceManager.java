@@ -39,8 +39,8 @@ import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IGeppettoProject;
 import org.geppetto.core.datasources.GeppettoDataSourceException;
 import org.geppetto.model.GeppettoModel;
-import org.geppetto.model.QueryResults;
-import org.geppetto.model.RunnableQuery;
+import org.geppetto.model.datasources.QueryResults;
+import org.geppetto.model.datasources.RunnableQuery;
 import org.geppetto.model.util.GeppettoModelException;
 
 /**

@@ -34,8 +34,8 @@ package org.geppetto.core.datasources;
 
 import java.util.List;
 
-import org.geppetto.model.Query;
-import org.geppetto.model.QueryResults;
+import org.geppetto.model.datasources.Query;
+import org.geppetto.model.datasources.QueryResults;
 import org.geppetto.model.variables.Variable;
 
 /**

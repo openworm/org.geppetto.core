@@ -35,7 +35,8 @@ package org.geppetto.core.datasources;
 
 import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.core.services.IService;
-import org.geppetto.model.DataSource;
+import org.geppetto.model.datasources.DataSource;
+
 
 /**
  * @author matteocantarelli
