@@ -82,5 +82,4 @@ public interface IExperimentManager
 	 * @throws GeppettoAccessException 
 	 */
 	public abstract IExperiment cloneExperiment(String requestId, IGeppettoProject project,IExperiment originalExperiment) throws GeppettoExecutionException,GeppettoAccessException;
-
 }
