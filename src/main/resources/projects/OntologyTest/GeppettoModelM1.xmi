@@ -96,10 +96,19 @@
         modelInterpreterId="owlModelInterpreterService"
         format="owl"/>
     <queries
-        xsi:type="gep_2:SimpleQuery"
-        name="Get images from Neo4j"
-        description=""
-        query="MATCH (n:VFB:Class) WHERE n.short_form IN $ARRAY_ID_RESULTS WITH n OPTIONAL MATCH (n)&lt;-[:SUBCLASSOF|INSTANCEOF*..]-(i:Individual)-[:Related { label : 'depicts' } ]-(j:Individual)-[:Related { label : 'has_signal_channel' } ]-(k:Individual)-[:Related { label: 'has_background_channel' } ]-(m:Individual) RETURN n.short_form as class_Id, COLLECT (DISTINCT { image_name: i.label, image_id: i.short_form, image_thumb: 'http://www.virtualflybrain.org/data/'+substring(k.short_form,0,3)+'/'+substring(k.short_form,3,1)+'/'+substring(k.short_form,5,4)+'/'+substring(k.short_form,9,4)+'/thumbnail.png', template_id: m.short_form}) AS inds"/>
+        xsi:type="gep_2:CompoundQuery"
+        name="Get and process images from Neo4j"
+        description="">
+      <queryChain
+          xsi:type="gep_2:SimpleQuery"
+          name="Get images from Neo4j"
+          description=""
+          query="MATCH (n:VFB:Class) WHERE n.short_form IN $ARRAY_ID_RESULTS WITH n OPTIONAL MATCH (n)&lt;-[:SUBCLASSOF|INSTANCEOF*..]-(i:Individual)-[:Related { label : 'depicts' } ]-(j:Individual)-[:Related { label : 'has_signal_channel' } ]-(k:Individual)-[:Related { label: 'has_background_channel' } ]-(m:Individual) RETURN n.short_form as class_Id, COLLECT (DISTINCT { image_name: i.label, image_id: i.short_form, image_thumb: 'http://www.virtualflybrain.org/data/'+substring(k.short_form,0,3)+'/'+substring(k.short_form,3,1)+'/'+substring(k.short_form,5,4)+'/'+substring(k.short_form,9,4)+'/thumbnail.png', template_id: m.short_form}) AS inds"/>
+      <queryChain
+          xsi:type="gep_2:ProcessQuery"
+          name="Process images"
+          queryProcessorId="vfbCreateImagesForQueryResultsQueryProcessor"/>
+    </queries>
     <fetchVariableQuery
         xsi:type="gep_2:CompoundQuery"
         name="The compound query for augmenting a type"
@@ -245,7 +254,7 @@
       id="neuronssynaptic"
       name="Neurons Synaptic"
       description="Neurons with synaptic terminals here"
-      queryChain="//@queries.1 //@dataSources.1/@queries.0 //@dataSources.0/@queries.0">
+      queryChain="//@dataSources.1/@queries.3 //@dataSources.1/@queries.0 //@dataSources.0/@queries.0">
     <matchingCriteria
         type="//@libraries.3/@types.1"/>
   </queries>
@@ -253,7 +262,7 @@
       id="neuronspresynaptic"
       name="Neurons Presynaptic"
       description="Neurons with presynaptic terminals here"
-      queryChain="//@queries.2 //@dataSources.1/@queries.0 //@dataSources.0/@queries.0">
+      queryChain="//@dataSources.1/@queries.4 //@dataSources.1/@queries.0 //@dataSources.0/@queries.0">
     <matchingCriteria
         type="//@libraries.3/@types.1"/>
   </queries>
@@ -261,7 +270,7 @@
       id="neuronspostsynaptic"
       name="Neurons Postsynaptic"
       description="Neurons with postsynaptic terminals here"
-      queryChain="//@queries.3 //@dataSources.1/@queries.0 //@dataSources.0/@queries.0">
+      queryChain="//@dataSources.1/@queries.5 //@dataSources.1/@queries.0 //@dataSources.0/@queries.0">
     <matchingCriteria
         type="//@libraries.3/@types.1"/>
   </queries>
