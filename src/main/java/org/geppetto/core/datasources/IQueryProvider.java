@@ -45,11 +45,21 @@ import org.geppetto.model.variables.Variable;
 public interface IQueryProvider
 {
 
+	/**
+	 * @param variable
+	 * @return
+	 * @throws GeppettoDataSourceException
+	 */
 	List<Query> getAvailableQueries(Variable variable) throws GeppettoDataSourceException;
 
+	/**
+	 * @param query
+	 * @param variable
+	 * @return
+	 * @throws GeppettoDataSourceException
+	 */
 	int getNumberOfResults(Query query, Variable variable) throws GeppettoDataSourceException;
 
-	int getNumberOfResults(Query query, Variable variable, QueryResults results) throws GeppettoDataSourceException;
 
 	/**
 	 * This is an asynchronous method that will initiate the execution of a query
@@ -61,17 +71,8 @@ public interface IQueryProvider
 	 * @return a container for the results. The container has an id, there's no constraints for all the results to be inside IQueryResults as the DataSource might keep pushing results to it as the
 	 *         query is execute
 	 */
-	QueryResults execute(Query query, Variable variable, IQueryListener listener) throws GeppettoDataSourceException;
+	QueryResults execute(Query query, Variable variable) throws GeppettoDataSourceException;
 
-	/**
-	 * This method has the extra parameter "results" in case this query will need to output of a previously executed query in order to have all the necessary input data
-	 * 
-	 * @param query
-	 * @param variable
-	 * @param results
-	 * @param listener
-	 * @return
-	 */
-	QueryResults execute(Query query, Variable variable, QueryResults results, IQueryListener listener) throws GeppettoDataSourceException;
+
 
 }
