@@ -6,4 +6,6 @@ public interface IExternalSimulatorCallbackListener
 {
 
 	void processDone(String[] processCommand) throws GeppettoExecutionException;
+	
+	void processFailed(String message, Exception e);
 }
