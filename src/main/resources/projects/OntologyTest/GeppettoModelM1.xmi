@@ -189,7 +189,7 @@
       id="aberOWLDataSource"
       name="Aber OWL Data Source"
       dataSourceService="aberOWLDataSource"
-      url="http://aber-owl.net/service/api/runQuery.groovy"
+      url="http://vfbdev.inf.ed.ac.uk/aberowl/api/runQuery.groovy"
       dependenciesLibrary="//@libraries.3"
       targetLibrary="//@libraries.4">
     <queries
