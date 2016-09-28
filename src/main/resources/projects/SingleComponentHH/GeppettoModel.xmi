@@ -15,7 +15,7 @@
     <types xsi:type="gep_1:ImportType"
         id="net1"
         url="/projects/SingleComponentHH/LEMS_NML2_Ex5_DetCell.xml"
-        referenceURL=""
+        referenceURL="hhcell"
         modelInterpreterId="lemsModelInterpreter"/>
   </libraries>
 </gep:GeppettoModel>

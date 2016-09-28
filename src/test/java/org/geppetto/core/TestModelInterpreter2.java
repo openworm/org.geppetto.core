@@ -46,7 +46,9 @@ import org.geppetto.core.services.registry.ServicesRegistry;
 import org.geppetto.model.GeppettoLibrary;
 import org.geppetto.model.ModelFormat;
 import org.geppetto.model.types.Type;
+import org.geppetto.model.values.ImportValue;
 import org.geppetto.model.values.Pointer;
+import org.geppetto.model.values.Value;
 
 /**
  * Dummy model interpreter used for testing purposes
@@ -85,6 +87,14 @@ public class TestModelInterpreter2 extends AModelInterpreter
 	@Override
 	public File downloadModel(Pointer pointer, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException
 	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Value importValue(ImportValue importValue)
+			throws ModelInterpreterException {
 		// TODO Auto-generated method stub
 		return null;
 	}

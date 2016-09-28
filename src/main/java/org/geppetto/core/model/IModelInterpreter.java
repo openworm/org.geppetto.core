@@ -42,7 +42,9 @@ import org.geppetto.core.services.IService;
 import org.geppetto.model.GeppettoLibrary;
 import org.geppetto.model.ModelFormat;
 import org.geppetto.model.types.Type;
+import org.geppetto.model.values.ImportValue;
 import org.geppetto.model.values.Pointer;
+import org.geppetto.model.values.Value;
 
 /**
  * @author matteocantarelli
@@ -53,6 +55,8 @@ public interface IModelInterpreter extends IService
 {
 
 	Type importType(URL url, String typeName, GeppettoLibrary library, GeppettoModelAccess commonLibraryAccess) throws ModelInterpreterException;
+	
+	Value importValue(ImportValue importValue) throws ModelInterpreterException;
 
 	File downloadModel(Pointer pointer, ModelFormat format, IAspectConfiguration aspectConfiguration) throws ModelInterpreterException;
 

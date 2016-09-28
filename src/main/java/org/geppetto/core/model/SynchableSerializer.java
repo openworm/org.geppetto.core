@@ -33,15 +33,10 @@
 package org.geppetto.core.model;
 
 import java.io.IOException;
-import java.util.List;
 
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.emfjson.common.EObjects;
 import org.emfjson.jackson.JacksonOptions;
-import org.emfjson.jackson.common.Cache;
 import org.emfjson.jackson.databind.ser.EObjectSerializer;
 import org.geppetto.model.GeppettoPackage;
 import org.geppetto.model.ISynchable;
