@@ -37,7 +37,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 
-import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.services.IService;
 import org.geppetto.model.GeppettoLibrary;
