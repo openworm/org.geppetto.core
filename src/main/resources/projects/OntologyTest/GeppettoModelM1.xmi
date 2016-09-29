@@ -104,7 +104,8 @@
     <queries
         xsi:type="gep_2:CompoundQuery"
         name="Get and process images from Neo4j"
-        description="">
+        description=""
+        runForCount="false">
       <queryChain
           xsi:type="gep_2:SimpleQuery"
           name="Get images from Neo4j"
@@ -141,14 +142,6 @@
             type="//@libraries.3/@types.1"/>
       </queryChain>
       <queryChain
-          xsi:type="gep_2:ProcessQuery"
-          name="This processing step will populate a Variable with the synonyms and references resulting from the previous query"
-          description="This processing step will populate a Variable with the synonyms and references resulting from the previous query"
-          queryProcessorId="vfbImportTypesSynonymQueryProcessor">
-        <matchingCriteria
-            type="//@libraries.3/@types.1"/>
-      </queryChain>
-      <queryChain
           xsi:type="gep_2:SimpleQuery"
           name="Fetch related and references for individuals"
           description="Fetch related and references for individuals"
@@ -164,6 +157,8 @@
           queryProcessorId="vfbImportTypesSynonymQueryProcessor">
         <matchingCriteria
             type="//@libraries.3/@types.0"/>
+        <matchingCriteria
+            type="//@libraries.3/@types.1"/>
       </queryChain>
       <queryChain
           xsi:type="gep_2:SimpleQuery"
@@ -295,9 +290,9 @@
     </queries>
   </dataSources>
   <queries xsi:type="gep_2:CompoundRefQuery"
-      id="neuronsparthere"
-      name="Part of"
-      description="Neurons with some part here"
+      id="partsof"
+      name="Parts of"
+      description="Parts of this"
       queryChain="//@dataSources.1/@queries.1 //@dataSources.1/@queries.0 //@dataSources.0/@queries.0">
     <matchingCriteria
         type="//@libraries.3/@types.1"/>
@@ -307,6 +302,14 @@
       name="Neurons Synaptic"
       description="Neurons with synaptic terminals here"
       queryChain="//@dataSources.1/@queries.3 //@dataSources.1/@queries.0 //@dataSources.0/@queries.0">
+    <matchingCriteria
+        type="//@libraries.3/@types.1"/>
+  </queries>
+  <queries xsi:type="gep_2:CompoundRefQuery"
+      id="neuronsparthere"
+      name="Neurons with any part here"
+      description="Neurons with any part here (overlapping)"
+      queryChain="//@dataSources.1/@queries.2 //@dataSources.1/@queries.0 //@dataSources.0/@queries.0">
     <matchingCriteria
         type="//@libraries.3/@types.1"/>
   </queries>

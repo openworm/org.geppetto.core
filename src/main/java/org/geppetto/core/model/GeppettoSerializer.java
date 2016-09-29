@@ -109,7 +109,7 @@ public class GeppettoSerializer
 		outputStream.flush();
 		sw.close();
 		String serializedModel = sw.toString();
-		logger.info("Model serialized to JSON " + (System.currentTimeMillis() - start) + "ms");
+		//logger.info("Model serialized to JSON " + (System.currentTimeMillis() - start) + "ms");
 
 		return serializedModel;
 	}
