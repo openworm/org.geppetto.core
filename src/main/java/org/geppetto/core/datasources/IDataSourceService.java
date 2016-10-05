@@ -50,5 +50,6 @@ public interface IDataSourceService extends IService, IQueryProvider
 	void fetchVariable(String variableId) throws GeppettoDataSourceException;
 
 	void initialize(DataSource configuration, GeppettoModelAccess geppettoModelAccess);
+	
 
 }

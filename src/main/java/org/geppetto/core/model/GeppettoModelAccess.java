@@ -52,6 +52,7 @@ import org.geppetto.model.GeppettoModel;
 import org.geppetto.model.GeppettoPackage;
 import org.geppetto.model.ISynchable;
 import org.geppetto.model.Tag;
+import org.geppetto.model.datasources.Query;
 import org.geppetto.model.types.CompositeType;
 import org.geppetto.model.types.ImportType;
 import org.geppetto.model.types.SimpleType;
@@ -60,6 +61,7 @@ import org.geppetto.model.types.TypesFactory;
 import org.geppetto.model.types.TypesPackage;
 import org.geppetto.model.util.GeppettoModelException;
 import org.geppetto.model.util.GeppettoVisitingException;
+import org.geppetto.model.util.ModelUtility;
 import org.geppetto.model.util.PointerUtility;
 import org.geppetto.model.values.Pointer;
 import org.geppetto.model.variables.Variable;
@@ -256,6 +258,13 @@ public class GeppettoModelAccess
 
 	}
 
-	
+	/**
+	 * @param queryPath
+	 * @return
+	 */
+	public Query getQuery(String queryPath)
+	{
+		return ModelUtility.getQuery(queryPath, geppettoModel);
+	}
 
 }

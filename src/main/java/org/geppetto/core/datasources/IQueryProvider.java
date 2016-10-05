@@ -36,6 +36,7 @@ import java.util.List;
 
 import org.geppetto.model.datasources.Query;
 import org.geppetto.model.datasources.QueryResults;
+import org.geppetto.model.datasources.RunnableQuery;
 import org.geppetto.model.variables.Variable;
 
 /**
@@ -51,16 +52,14 @@ public interface IQueryProvider
 	 * @throws GeppettoDataSourceException
 	 */
 	List<Query> getAvailableQueries(Variable variable) throws GeppettoDataSourceException;
-
+	
 	/**
-	 * @param query
-	 * @param variable
+	 * @param queries
 	 * @return
-	 * @throws GeppettoDataSourceException
+	 * @throws GeppettoDataSourceException 
 	 */
-	int getNumberOfResults(Query query, Variable variable) throws GeppettoDataSourceException;
-
-
+	int getNumberOfResults(List<RunnableQuery> queries) throws GeppettoDataSourceException;
+	
 	/**
 	 * This is an asynchronous method that will initiate the execution of a query
 	 * 
@@ -71,7 +70,8 @@ public interface IQueryProvider
 	 * @return a container for the results. The container has an id, there's no constraints for all the results to be inside IQueryResults as the DataSource might keep pushing results to it as the
 	 *         query is execute
 	 */
-	QueryResults execute(Query query, Variable variable) throws GeppettoDataSourceException;
+	QueryResults execute(List<RunnableQuery> queries) throws GeppettoDataSourceException;
+	
 
 
 
