@@ -1,5 +1,3 @@
-window.initVFB();
-
 Model.getDatasources()[0].fetchVariable('VFB_00000001');
 Model.getDatasources()[0].fetchVariable('FBbt_00100219');
 
