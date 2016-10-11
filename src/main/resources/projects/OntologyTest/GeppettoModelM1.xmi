@@ -230,6 +230,16 @@
         <matchingCriteria
             type="//@libraries.3/@types.1"/>
       </queryChain>
+      <queryChain
+          xsi:type="gep_2:ProcessQuery"
+          name="Queries Links"
+          description="Add queries links to metadata"
+          queryProcessorId="vfbAddQueriesToMetadataQueryProcessor">
+        <matchingCriteria
+            type="//@libraries.3/@types.0"/>
+        <matchingCriteria
+            type="//@libraries.3/@types.1"/>
+      </queryChain>
     </fetchVariableQuery>
   </dataSources>
   <dataSources
