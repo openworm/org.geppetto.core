@@ -267,4 +267,12 @@ public class GeppettoModelAccess
 		return ModelUtility.getQuery(queryPath, geppettoModel);
 	}
 
+	/**
+	 * @return
+	 */
+	public List<Query> getQueries()
+	{
+		return geppettoModel.getQueries();
+	}
+
 }
