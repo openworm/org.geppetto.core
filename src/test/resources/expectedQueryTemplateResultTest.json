@@ -1,0 +1,12 @@
+{  
+  "statements":[  
+    {  
+      "statement":"MATCH (n:Class)<-[:SUBCLASSOF*]-(:Class)<-[:INSTANCEOF]-(i) WHERE n.short_form='FBbt_00100219' RETURN n AS columnName limit 5;",
+      "resultDataContents":[  
+        "row",
+        "graph"
+      ],
+      "includeStats":true
+    }
+  ]
+}

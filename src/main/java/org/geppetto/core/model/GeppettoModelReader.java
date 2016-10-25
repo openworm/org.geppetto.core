@@ -61,7 +61,16 @@ public class GeppettoModelReader
 		m.put("xmi", new XMIResourceFactoryImpl()); // sets the factory for the XMI type
 		m.put("xml", new XMIResourceFactoryImpl()); // sets the factory for the XMI type
 		m.put("json", new JsonResourceFactory()); // sets the factory for the JSON type
+
 		GeppettoPackage.Registry.INSTANCE.put(GeppettoPackage.eNS_URI, GeppettoPackage.eINSTANCE);
+
+		// We add all supported versions of the schema
+		String[] versions = new String[] { "master", "development" };
+		for(String version : versions)
+		{
+			GeppettoPackage.Registry.INSTANCE.put(GeppettoPackage.eNS_URI_TEMPLATE.replace("$VERSION$", version), GeppettoPackage.eINSTANCE);
+		}
+
 	}
 
 	/**
