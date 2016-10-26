@@ -10,5 +10,8 @@ window.connectionsLoaded=false;
 window.cLoaded=function(){$("#buttonOne").remove();window.connectionsLoaded=true;}
 window.showConnectivity=function(){if(window.connectionsLoaded){G.addWidget(6).setData(celegans).setName("c. elegans Connectome").configViaGUI();}else{Model.neuroml.resolveAllImportTypes(function(){G.addWidget(6).setData(celegans).configViaGUI(); window.cLoaded();});};}
 
+$(".simulation-controls").children().attr('disabled', 'disabled')
+$("#genericHelpBtn").removeAttr('disabled')
+
 G.addWidget(Widgets.BUTTONBAR).renderBar("c. elegans",JSON.parse('{"Sample ButtonBar": {"buttonOne": {"actions": ["Model.neuroml.resolveAllImportTypes(function(){celegans.RIPL[0].select(); window.cLoaded();})"],"icon": "gpt-worm","label": "Load connectome","tooltip": "Load connectome"},"buttonTwo": {"actions": ["window.showConnectivity();"],"icon": "gpt-make-group","label": "Connectivity analysis","tooltip": "Connectivity analysis"}}}')).setPosition(128,18);
 	      
