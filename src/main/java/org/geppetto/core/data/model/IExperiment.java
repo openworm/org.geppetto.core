@@ -44,6 +44,8 @@ public interface IExperiment extends IDataEntity
 	List<? extends IAspectConfiguration> getAspectConfigurations();
 
 	String getName();
+	
+	String getDetails();
 
 	String getDescription();
 
@@ -58,6 +60,8 @@ public interface IExperiment extends IDataEntity
 	void setDescription(String description);
 
 	void setStatus(ExperimentStatus status);
+	
+	void setDetails(String details);
 
 	void addSimulationResult(ISimulationResult result);
 

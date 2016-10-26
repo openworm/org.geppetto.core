@@ -96,11 +96,6 @@ public class ExternalProcess extends Thread
 		catch(Exception e)
 		{
 			_logger.error("Unable to execute command: " + _commands);
-			String logMessage = "";
-			if(procOutputError !=null){
-				logMessage = procOutputError.logMessage();
-			}
-			_callback.processFailed(logMessage, e);
 			throw new GeppettoExecutionException(e);
 		}
 		return true;
