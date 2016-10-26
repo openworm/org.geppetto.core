@@ -1,6 +1,9 @@
 Instances.getInstance("nwbSample.metadata");
 Instances.getInstance("nwbSample.time");
 
+$(".simulation-controls").children().attr('disabled', 'disabled')
+$("#genericHelpBtn").removeAttr('disabled')
+
 G.addWidget(1).setData(nwbSample.metadata).setName('Metadata').setPosition(713,228).setSize(525.8,580.8);
 G.addWidget(1).setMessage(Project.getActiveExperiment().getDescription()).setSize(150,581.8).setPosition(713,68.5).setName("Description");
 
