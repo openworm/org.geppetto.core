@@ -5,7 +5,10 @@ G.addWidget(Widgets.POPUP);
 Popup1.setMessage(Project.getActiveExperiment().getDescription());
 Popup1.setName("Description");
 Popup1.setPosition(600,18);
-Popup1.setSize(160,465)
+Popup1.setSize(160,465);
+window.connectionsLoaded=false;
+window.cLoaded=function(){$("#buttonOne").remove();window.connectionsLoaded=true;}
+window.showConnectivity=function(){if(window.connectionsLoaded){G.addWidget(6).setData(celegans).setName("c. elegans Connectome").configViaGUI();}else{Model.neuroml.resolveAllImportTypes(function(){G.addWidget(6).setData(celegans).configViaGUI(); window.cLoaded();});};}
 
-G.addWidget(Widgets.BUTTONBAR).renderBar("c. elegans",JSON.parse('{"Sample ButtonBar": {"buttonOne": {"actions": ["Model.neuroml.resolveAllImportTypes()"],"icon": "gpt-worm","label": "Load connectome","tooltip": "Load connectome"},"buttonTwo": {"actions": ["Model.neuroml.resolveAllImportTypes()","G.addWidget(6).setData(celegans).configViaGUI()"],"icon": "gpt-make-group","label": "Connectivity analysis","tooltip": "Connectivity analysis"}}}')).setPosition(128,18);
+G.addWidget(Widgets.BUTTONBAR).renderBar("c. elegans",JSON.parse('{"Sample ButtonBar": {"buttonOne": {"actions": ["Model.neuroml.resolveAllImportTypes(function(){celegans.RIPL[0].select(); window.cLoaded();})"],"icon": "gpt-worm","label": "Load connectome","tooltip": "Load connectome"},"buttonTwo": {"actions": ["window.showConnectivity();"],"icon": "gpt-make-group","label": "Connectivity analysis","tooltip": "Connectivity analysis"}}}')).setPosition(128,18);
 	      
