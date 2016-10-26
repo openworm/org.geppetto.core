@@ -1,3 +1,4 @@
+celegans.setColor('0x00fffc');
 G.setCameraPosition(-64.313,-345.746,54.455)
 G.setCameraRotation(1.285,-0.827,-0.233,379.635)
 
