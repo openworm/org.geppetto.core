@@ -32,11 +32,13 @@
  *******************************************************************************/
 package org.geppetto.core.datasources;
 
+import java.util.Map;
+
 import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.core.services.IService;
-import org.geppetto.model.DataSource;
-import org.geppetto.model.ProcessQuery;
-import org.geppetto.model.QueryResults;
+import org.geppetto.model.datasources.DataSource;
+import org.geppetto.model.datasources.ProcessQuery;
+import org.geppetto.model.datasources.QueryResults;
 import org.geppetto.model.variables.Variable;
 
 /**
@@ -60,4 +62,8 @@ public interface IQueryProcessor extends IService
 	QueryResults process(ProcessQuery query, DataSource dataSource, Variable variable, QueryResults results, GeppettoModelAccess geppettoModelAccess) throws GeppettoDataSourceException;
 
 
+	/**
+	 * @return
+	 */
+	Map<String, Object> getProcessingOutputMap();
 }

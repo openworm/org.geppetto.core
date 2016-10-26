@@ -107,4 +107,5 @@ public class ColladaModelInterpreterService extends AModelInterpreter
 		throw new ModelInterpreterException("Download model not implemented for Collada model interpreter");
 	}
 
+
 }

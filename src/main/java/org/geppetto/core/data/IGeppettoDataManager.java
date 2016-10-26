@@ -39,6 +39,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
@@ -105,7 +106,7 @@ public interface IGeppettoDataManager
 
 	ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, float timestep, float length,Map<String, String> parameters);
 
-	void addGeppettoProject(IGeppettoProject project, IUser user);
+	void addGeppettoProject(IGeppettoProject project, IUser user) throws GeppettoExecutionException;
 
 	Object deleteGeppettoProject(long id, IUser user);
 
