@@ -7,7 +7,7 @@
             "id": 1,
             "name": "c. elegans connectome",
             "script": "/projects/cElegansConnectome/script.js",
-            "description" : "This network was generated using <a target='_blank' href='https://github.com/openworm/CElegansNeuroML/tree/master/CElegans/pythonScripts/c302'>c302</a>, an experimental framework from the <a target='_blank' href='http://openworm.org'>OpenWorm</a> project for generating network models in NeuroML 2 based on C. elegans connectivity data.",
+            "description" : "Caenorhabditis elegans is a free-living (not parasitic), transparent nematode (roundworm), about 1 mm in length, that lives in temperate soil environments. This network model of its nervous system was generated using <a target='_blank' href='https://github.com/openworm/CElegansNeuroML/tree/master/CElegans/pythonScripts/c302'>c302</a>, an experimental framework from the <a target='_blank' href='http://openworm.org'>OpenWorm</a> project for generating network models in NeuroML 2 based on C. elegans connectivity data.",
             "status": "COMPLETED",
             "lastModified":"1436102517799",
             aspectConfigurations: [
