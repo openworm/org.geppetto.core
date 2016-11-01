@@ -40,14 +40,9 @@ import org.geppetto.core.data.model.IExperiment;
  * 
  */
 public interface IGeppettoManagerCallbackListener
-{
-
+{	
 	/**
 	 */
-	void simulationError(String errorMessage, Exception exception, IExperiment experiment);
-	
-	/**
-	 */
-	void externalProcessError(String titleMessage, String logMessage, Exception exception, IExperiment experiment);
+	void experimentError(String titleMessage, String logMessage, Exception exception, IExperiment experiment);
 
 }
