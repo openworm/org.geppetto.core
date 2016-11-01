@@ -44,7 +44,7 @@ public interface IGeppettoManagerCallbackListener
 
 	/**
 	 */
-	void simulationError(String errorMessage, Exception exception);
+	void simulationError(String errorMessage, Exception exception, IExperiment experiment);
 	
 	/**
 	 */
