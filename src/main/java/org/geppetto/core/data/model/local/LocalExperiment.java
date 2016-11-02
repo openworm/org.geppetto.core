@@ -213,12 +213,18 @@ public class LocalExperiment implements IExperiment
 		this.script = script;
 	}
 
+	/**
+	 * Operation not supported on local experiment
+	 */
 	@Override
 	public String getDetails() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * Operation not supported on local experiment
+	 */
 	@Override
 	public void setDetails(String details) {
 		// TODO Auto-generated method stub
