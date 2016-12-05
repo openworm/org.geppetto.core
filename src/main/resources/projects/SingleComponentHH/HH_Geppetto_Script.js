@@ -21,11 +21,11 @@ Plot2.setLegend(hhcell.hhpop[0].bioPhys1.membraneProperties.naChans.na.h.q,"Sodi
 Plot2.setLegend(hhcell.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q,"Sodium m.q");
 Plot2.setLegend(hhcell.hhpop[0].bioPhys1.membraneProperties.kChans.k.n.q,"Potassium n.q");
 
-G.addWidget(Widgets.POPUP);
-Popup1.setMessage(Project.getActiveExperiment().getDescription());
-Popup1.setName("Description");
-Popup1.setPosition(870, 90);
-Popup1.setSize(160,465)
+var newPopup = G.addWidget(Widgets.POPUP);
+newPopup.setMessage(Project.getActiveExperiment().getDescription());
+newPopup.setName("Description");
+newPopup.setPosition(870, 90);
+newPopup.setSize(160,465)
 
 G.addBrightnessFunction(hhcell.hhpop[0], hhcell.hhpop[0].v, function(x){return (x+0.07)/0.1;});
 
