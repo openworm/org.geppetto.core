@@ -40,7 +40,7 @@ public interface IExperimentManager
 	 * @throws GeppettoExecutionException
 	 * @throws GeppettoAccessException 
 	 */
-	public abstract ExperimentState playExperiment(String requestId, IExperiment experiment, List<String> filter) throws GeppettoExecutionException, GeppettoAccessException;
+	public abstract ExperimentState getExperimentState(String requestId, IExperiment experiment, List<String> filter) throws GeppettoExecutionException, GeppettoAccessException;
 
 	/**
 	 * Create a new experiment inside a given project
