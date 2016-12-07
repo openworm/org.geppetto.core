@@ -1,4 +1,5 @@
 G.addWidget(GEPPETTO.Widgets.PLOT);
+Plot1.setOptions({yaxis:{min:-.08,max:-.04},xaxis:{min:0,max:400,show:false}});
 
 Plot1.setPosition(146,72);
 Plot1.setSize(331.80000019073486,620.8000001907349);
