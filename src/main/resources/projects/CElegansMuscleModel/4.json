@@ -1,62 +1,49 @@
-{
-    "id": 4,
-    "name": "OpenWorm C.elegans muscle model",
-    "activeExperimentId": 1,
-    "experiments": [
-        {
-            "id": 1,
-            "name": "Muscle cell NEURON simulation",
-            "status": "COMPLETED",
-            "lastModified":"1436102517799",
-            script: "/projects/CElegansMuscleModel/script.js",
-            "description" :  "This project is based on the <a href=\"http://github.com/openworm/muscle_model\">OpenWorm muscle model</a>.  This simulates the electrical properties of a single C. elegans body wall muscle cell.  The simulation was executed using NEURON. The original version is based on a paper by Boyle & Cohen in 2008.",
-            "aspectConfigurations": [
-                {
-                    "instance": "net1",
-                    "simulatorConfiguration": {
-                      "id": 1,
-                      "simulatorId": "neuronSimulator",
-                      "conversionServiceId": "lemsConversion",
-                      "timestep": 0.00005,
-                      "length": 0.5,
-                      "parameters": {"target": "net1"}
-                    },
-                    "watchedVariables": ["net1.neuron[0].v"
-                        ,"net1.muscle[0].v"
-                        ,"net1.muscle[0].caConc"
-                        ,"net1.muscle[0].biophys.membraneProperties.Leak_all.iDensity"
-                        ,"net1.muscle[0].biophys.membraneProperties.k_slow_all.iDensity"
-                        ,"net1.muscle[0].biophys.membraneProperties.k_fast_all.iDensity"
-                        ,"net1.muscle[0].biophys.membraneProperties.ca_boyle_all.iDensity"
-                    ]
-                }
-            ],
-		  	simulationResults: [
-		  	{
-		  		id:1,
-		  		format: "GEPPETTO_RECORDING",
-				"simulatedInstance": "net1",
-		        result: {
-		          id: 1,
-		          url: "/projects/CElegansMuscleModel/results.h5",
-		          type: "RECORDING"
-		        }
-		  	},
-		  	  	{
-		  		id:2,
-		  		format: "RAW",
-				"simulatedInstance": "net1",
-		        result: {
-		          id: 2,
-		          url: "/projects/CElegansMuscleModel/rawRecording.zip",
-		          type: "RECORDING"
-		        }
-		  	}]
-        }
-    ],
-    "geppettoModel": {
-        "id": 4,
-        "url": "/projects/CElegansMuscleModel/GeppettoModel.xmi",
-        "type": "GEPPETTO_PROJECT"
-    }
+{ "activeExperimentId" : 1,
+  "experiments" : [ { "aspectConfigurations" : [ { "instance" : "net1",
+              "simulatorConfiguration" : { "conversionServiceId" : "lemsConversion",
+                  "id" : 1,
+                  "length" : 0.5,
+                  "parameters" : { "target" : "net1" },
+                  "simulatorId" : "neuronSimulator",
+                  "timestep" : 5.0e-05
+                },
+              "watchedVariables" : [ "net1.neuron[0].v",
+                  "net1.muscle[0].v",
+                  "net1.muscle[0].caConc",
+                  "net1.muscle[0].biophys.membraneProperties.Leak_all.iDensity",
+                  "net1.muscle[0].biophys.membraneProperties.k_slow_all.iDensity",
+                  "net1.muscle[0].biophys.membraneProperties.k_fast_all.iDensity",
+                  "net1.muscle[0].biophys.membraneProperties.ca_boyle_all.iDensity"
+                ]
+            } ],
+        "description" : "This project is based on the <a href=\"http://github.com/openworm/muscle_model\">OpenWorm muscle model</a>.  This simulates the electrical properties of a single C. elegans body wall muscle cell.  The simulation was executed using NEURON. The original version is based on a paper by Boyle & Cohen in 2008.",
+        "id" : 1,
+        "lastModified" : "1436102517799",
+        "name" : "Muscle cell NEURON simulation",
+        "script" : "/projects/CElegansMuscleModel/script.js",
+        "simulationResults" : [ { "format" : "GEPPETTO_RECORDING",
+              "id" : 1,
+              "result" : { "id" : 1,
+                  "type" : "RECORDING",
+                  "url" : "/projects/CElegansMuscleModel/results.h5"
+                },
+              "simulatedInstance" : "net1"
+            },
+            { "format" : "RAW",
+              "id" : 2,
+              "result" : { "id" : 2,
+                  "type" : "RECORDING",
+                  "url" : "/projects/CElegansMuscleModel/rawRecording.zip"
+                },
+              "simulatedInstance" : "net1"
+            }
+          ],
+        "status" : "COMPLETED"
+      } ],
+  "geppettoModel" : { "id" : 4,
+      "type" : "GEPPETTO_PROJECT",
+      "url" : "/projects/CElegansMuscleModel/GeppettoModel.xmi"
+    },
+  "id" : 4,
+  "name" : "OpenWorm C.elegans muscle model"
 }

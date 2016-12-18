@@ -1,114 +1,91 @@
-{
-    "id": 5,
-    "name": "Primary Auditory Cortex Network",
-    "activeExperimentId": 1,
-    "experiments": [
-	    {
-		  	id:1,      
-		  	name: "Auditory Cortex NEURON simulation",
-		  	status: "COMPLETED",
-		  	description:"Network model of primary auditory cortex in rodents. David Beeman, University of Colorado, Boulder. Model developed in NeuroML. Simulation executed in <a href=\"http://opensourcebrain.org/projects/acnet2\">NEURON</a>.",
-            "lastModified":"1436102517799",
-		  	script: "/projects/AuditoryCortex/script.js",
-		  	aspectConfigurations: [
-		    {
-		  		id:1,
-		  		instance: "acnet2",
-		        simulatorConfiguration: {
-		          id: 1,
-		          simulatorId: "neuronSimulator",
-		          conversionServiceId: "lemsConversion",
-		          timestep: 0.00001,
-		          length: 0.3,
-		          parameters: {target: "network_ACnet2"}
-		        },
-		        watchedVariables:[
-		        	"acnet2.pyramidals_48[0].soma_0.v", 
-		        	"acnet2.pyramidals_48[1].soma_0.v", 
-		        	"acnet2.baskets_12[2].soma_0.v"
-		        ]
-		  	}
-		  	],
-		  	simulationResults: [
-		  	{
-		  		id:1,
-		  		format: "GEPPETTO_RECORDING",
-				simulatedInstance: "acnet2",
-		        result: {
-		          id: 1,
-		          url: "/projects/AuditoryCortex/results.h5",
-		          type: "RECORDING"
-		        }
-		  	},
-		  	{
-		  		id:2,
-		  		format: "RAW",
-				simulatedInstance: "acnet2",
-		        result: {
-		          id: 2,
-		          url: "/projects/AuditoryCortex/rawRecording.zip",
-		          type: "RECORDING"
-		        }
-		  	}]
-	},
-	{
-		  	id:2,      
-		  	name: "Auditory Cortex NEURON simulation - Whole pyramidal cell recorded",
-		  	status: "COMPLETED",
-		  	description:"Network model of primary auditory cortex in rodents. David Beeman, University of Colorado, Boulder. Model developed in NeuroML. Simulation executed in NEURON. For more information see http://opensourcebrain.org/projects/acnet2.",
-            "lastModified":"1436102517799",
-		  	script: "/projects/AuditoryCortex/script2.js",
-		  	aspectConfigurations: [
-		    {
-		  		id:1,
-instance: "acnet2",
-		        simulatorConfiguration: {
-		          id: 1,
-		          simulatorId: "neuronSimulator",
-		          conversionServiceId: "lemsConversion",
-		          timestep: 0.00001,
-		          length: 0.3,
-		          parameters: {target: "network_ACnet2"}
-		        },
-		        watchedVariables:[
-			        "acnet2.pyramidals_48[0].soma_0.v",
-			        "acnet2.pyramidals_48[0].apical0_1.v",
-			        "acnet2.pyramidals_48[0].apical2_2.v",
-			        "acnet2.pyramidals_48[0].apical3_3.v",
-			        "acnet2.pyramidals_48[0].apical4_4.v",
-			        "acnet2.pyramidals_48[0].apical1_5.v",
-			        "acnet2.pyramidals_48[0].basal0_6.v",
-			        "acnet2.pyramidals_48[0].basal1_7.v",
-			        "acnet2.pyramidals_48[0].basal2_8.v"
-		        ]
-		  	}
-		  	],
-		  	simulationResults: [
-		  	{
-		  		id:1,
-		  		format: "GEPPETTO_RECORDING",
-				simulatedInstance: "acnet2",
-		        result: {
-		          id: 1,
-		          url: "/projects/AuditoryCortex/results_2.h5",
-		          type: "RECORDING"
-		        }
-		  	},
-		  	{
-		  		id:2,
-		  		format: "RAW",
-				simulatedInstance: "acnet2",
-		        result: {
-		          id: 2,
-		          url: "/projects/AuditoryCortex/rawRecording.zip",
-		          type: "RECORDING"
-		        }
-		  	}]
-	}
+{ "activeExperimentId" : 1,
+  "experiments" : [ { "aspectConfigurations" : [ { "id" : 1,
+              "instance" : "acnet2",
+              "simulatorConfiguration" : { "conversionServiceId" : "lemsConversion",
+                  "id" : 1,
+                  "length" : 0.3,
+                  "parameters" : { "target" : "network_ACnet2" },
+                  "simulatorId" : "neuronSimulator",
+                  "timestep" : 1.0e-05
+                },
+              "watchedVariables" : [ "acnet2.pyramidals_48[0].soma_0.v",
+                  "acnet2.pyramidals_48[1].soma_0.v",
+                  "acnet2.baskets_12[2].soma_0.v"
+                ]
+            } ],
+        "description" : "Network model of primary auditory cortex in rodents. David Beeman, University of Colorado, Boulder. Model developed in NeuroML. Simulation executed in <a href=\"http://opensourcebrain.org/projects/acnet2\">NEURON</a>.",
+        "id" : 1,
+        "lastModified" : "1436102517799",
+        "name" : "Auditory Cortex NEURON simulation",
+        "script" : "/projects/AuditoryCortex/script.js",
+        "simulationResults" : [ { "format" : "GEPPETTO_RECORDING",
+              "id" : 1,
+              "result" : { "id" : 1,
+                  "type" : "RECORDING",
+                  "url" : "/projects/AuditoryCortex/results.h5"
+                },
+              "simulatedInstance" : "acnet2"
+            },
+            { "format" : "RAW",
+              "id" : 2,
+              "result" : { "id" : 2,
+                  "type" : "RECORDING",
+                  "url" : "/projects/AuditoryCortex/rawRecording.zip"
+                },
+              "simulatedInstance" : "acnet2"
+            }
+          ],
+        "status" : "COMPLETED"
+      },
+      { "aspectConfigurations" : [ { "id" : 1,
+              "instance" : "acnet2",
+              "simulatorConfiguration" : { "conversionServiceId" : "lemsConversion",
+                  "id" : 1,
+                  "length" : 0.3,
+                  "parameters" : { "target" : "network_ACnet2" },
+                  "simulatorId" : "neuronSimulator",
+                  "timestep" : 1.0e-05
+                },
+              "watchedVariables" : [ "acnet2.pyramidals_48[0].soma_0.v",
+                  "acnet2.pyramidals_48[0].apical0_1.v",
+                  "acnet2.pyramidals_48[0].apical2_2.v",
+                  "acnet2.pyramidals_48[0].apical3_3.v",
+                  "acnet2.pyramidals_48[0].apical4_4.v",
+                  "acnet2.pyramidals_48[0].apical1_5.v",
+                  "acnet2.pyramidals_48[0].basal0_6.v",
+                  "acnet2.pyramidals_48[0].basal1_7.v",
+                  "acnet2.pyramidals_48[0].basal2_8.v"
+                ]
+            } ],
+        "description" : "Network model of primary auditory cortex in rodents. David Beeman, University of Colorado, Boulder. Model developed in NeuroML. Simulation executed in NEURON. For more information see http://opensourcebrain.org/projects/acnet2.",
+        "id" : 2,
+        "lastModified" : "1436102517799",
+        "name" : "Auditory Cortex NEURON simulation - Whole pyramidal cell recorded",
+        "script" : "/projects/AuditoryCortex/script2.js",
+        "simulationResults" : [ { "format" : "GEPPETTO_RECORDING",
+              "id" : 1,
+              "result" : { "id" : 1,
+                  "type" : "RECORDING",
+                  "url" : "/projects/AuditoryCortex/results_2.h5"
+                },
+              "simulatedInstance" : "acnet2"
+            },
+            { "format" : "RAW",
+              "id" : 2,
+              "result" : { "id" : 2,
+                  "type" : "RECORDING",
+                  "url" : "/projects/AuditoryCortex/rawRecording.zip"
+                },
+              "simulatedInstance" : "acnet2"
+            }
+          ],
+        "status" : "COMPLETED"
+      }
     ],
-    "geppettoModel": {
-        "id": 9,
-        "url": "/projects/AuditoryCortex/GeppettoModel.xmi",
-        "type": "GEPPETTO_PROJECT"
-    }
+  "geppettoModel" : { "id" : 9,
+      "type" : "GEPPETTO_PROJECT",
+      "url" : "/projects/AuditoryCortex/GeppettoModel.xmi"
+    },
+  "id" : 5,
+  "name" : "Primary Auditory Cortex Network"
 }
