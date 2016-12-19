@@ -4,7 +4,8 @@ TreeVisualiserDAT1.setSize(448,452);
 TreeVisualiserDAT1.setName("Hippocampus CA1 pyramidal cell model");
 
 Model.neuroml.morphology_CA1.kad_dendrite_group.show(true)
-G.addWidget(1).setMessage(Project.getActiveExperiment().getDescription());
-Popup1.setPosition(950,98);
-Popup1.setSize(138,500);
-Popup1.setName("Description");
+var newPopup = G.addWidget(1);
+newPopup.setMessage(Project.getActiveExperiment().getDescription());
+newPopup.setPosition(950,98);
+newPopup.setSize(138,500);
+newPopup.setName("Description");
