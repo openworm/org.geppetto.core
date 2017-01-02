@@ -43,6 +43,10 @@ public interface IUser
 	long getId();
 
 	String getLogin();
+	
+	String getLastLogin();
+	
+	void setLastLoginDate(String date);
 
 	@JsonIgnore
 	String getPassword();
