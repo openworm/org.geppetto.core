@@ -6,14 +6,14 @@ G.addWidget(6);
 Connectivity1.setName("Connectivity matrix");
 Connectivity1.setData(acnet2,{linkType:function(c){return GEPPETTO.ModelFactory.getAllVariablesOfType(c.getParent(),GEPPETTO.ModelFactory.geppettoModel.neuroml.synapse)[0].getId();}});
 
-G.addWidget(1);
-Popup1.setMessage(Project.getActiveExperiment().getDescription());
-Popup1.setName("Description");
+var newPopup = G.addWidget(1);
+newPopup.setMessage(Project.getActiveExperiment().getDescription());
+newPopup.setName("Description");
 Connectivity1.setPosition(780,182)
 G.incrementCameraPan(-0.1, 0)
 Connectivity1.setPosition(645,210)
-Popup1.setPosition(641,78)
-Popup1.setSize(110.80000019073486,665.8000001907349)
+newPopup.setPosition(641,78)
+newPopup.setSize(110.80000019073486,665.8000001907349)
 acnet2.baskets_12[0].select()
 
 G.addWidget(0);

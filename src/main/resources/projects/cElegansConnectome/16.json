@@ -1,38 +1,26 @@
-{
-    "id": 16,
-    "name": "C. elegans multi-compartment connectome",
-    "activeExperimentId": 1,
-    "experiments": [
-        {
-            "id": 1,
-            "name": "C. elegans connectome",
-            "script": "/projects/cElegansConnectome/script.js",
-            "description" : "Caenorhabditis elegans is a free-living (not parasitic), transparent nematode (roundworm), about 1 mm in length, that lives in temperate soil environments. This network model of its nervous system was generated using <a target='_blank' href='https://github.com/openworm/CElegansNeuroML/tree/master/CElegans/pythonScripts/c302'>c302</a>, an experimental framework from the <a target='_blank' href='http://openworm.org'>OpenWorm</a> project for generating network models in NeuroML 2 based on C. elegans connectivity data.",
-            "status": "COMPLETED",
-            "lastModified":"1436102517799",
-            aspectConfigurations: [
-            {
-              id:1,
-              instance:"c302",
-                simulatorConfiguration: {
-                  id: 1,
-                  simulatorId: "neuronSimulator",
-                  conversionServiceId: "lemsConversion",
-                  timestep: 0.0001,
-                  length: 0,
-                  parameters: {target: "network_CElegans"}
+{ "activeExperimentId" : 1,
+  "experiments" : [ { "aspectConfigurations" : [ { "id" : 1,
+              "instance" : "c302",
+              "simulatorConfiguration" : { "conversionServiceId" : "lemsConversion",
+                  "id" : 1,
+                  "length" : 0,
+                  "parameters" : { "target" : "network_CElegans" },
+                  "simulatorId" : "neuronSimulator",
+                  "timestep" : 0.0001
                 },
-                watchedVariables:[
-
-                ]
-            }
-
-            ]
-        }
-    ],
-    "geppettoModel": {
-        "id": 6,
-        "url": "/projects/cElegansConnectome/GeppettoModel.xmi",
-        "type": "GEPPETTO_PROJECT"
-    }
+              "watchedVariables" : [  ]
+            } ],
+        "description" : "Caenorhabditis elegans is a free-living (not parasitic), transparent nematode (roundworm), about 1 mm in length, that lives in temperate soil environments. This network model of its nervous system was generated using <a target='_blank' href='https://github.com/openworm/CElegansNeuroML/tree/master/CElegans/pythonScripts/c302'>c302</a>, an experimental framework from the <a target='_blank' href='http://openworm.org'>OpenWorm</a> project for generating network models in NeuroML 2 based on C. elegans connectivity data.",
+        "id" : 1,
+        "lastModified" : "1436102517799",
+        "name" : "C. elegans connectome",
+        "script" : "/projects/cElegansConnectome/script.js",
+        "status" : "COMPLETED"
+      } ],
+  "geppettoModel" : { "id" : 6,
+      "type" : "GEPPETTO_PROJECT",
+      "url" : "/projects/cElegansConnectome/GeppettoModel.xmi"
+    },
+  "id" : 16,
+  "name" : "C. elegans multi-compartment connectome"
 }
