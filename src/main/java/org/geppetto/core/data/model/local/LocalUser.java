@@ -45,6 +45,8 @@ public class LocalUser implements IUser
 	private long id;
 
 	private String login;
+	
+	private int loginCount;
 
 	private String name;
 
@@ -133,6 +135,17 @@ public class LocalUser implements IUser
 	@Override
 	public void setLastLoginDate(String date) {	
 		this.lastLoginDate = date;
+	}
+
+	@Override
+	public int loginCount() {
+		return 0;
+	}
+
+	@Override
+	public void upLoginCount() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
