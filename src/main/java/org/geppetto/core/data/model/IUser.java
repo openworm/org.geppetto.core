@@ -46,6 +46,10 @@ public interface IUser
 	
 	String getLastLogin();
 	
+	int loginCount();
+	
+	void upLoginCount();
+	
 	void setLastLoginDate(String date);
 
 	@JsonIgnore
