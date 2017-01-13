@@ -39,7 +39,7 @@ public enum UserPrivileges {
 	RUN_EXPERIMENT("RUN_EXPERIMENT"),
 	DROPBOX_INTEGRATION("DROPBOX_INTEGRATION"),
 	DOWNLOAD("DOWNLOAD"),
-	ADMIN("Admin");
+	ADMIN("ADMIN");
 	
 	private final String text;
 

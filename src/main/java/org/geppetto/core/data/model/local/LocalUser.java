@@ -127,7 +127,7 @@ public class LocalUser implements IUser
 
 	@Override
 	public String getLastLogin() {
-		return this.lastLoginDate.toString();
+		return this.lastLoginDate;
 	}
 
 	@Override
