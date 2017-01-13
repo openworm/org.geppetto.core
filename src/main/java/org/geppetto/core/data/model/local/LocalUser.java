@@ -40,6 +40,8 @@ import org.geppetto.core.data.model.IUserGroup;
 
 public class LocalUser implements IUser
 {
+	private String lastLoginDate = null;
+
 	private long id;
 
 	private String login;
@@ -121,6 +123,16 @@ public class LocalUser implements IUser
 	
 	public void setUserGroup(IUserGroup group){
 		this.group = group;
+	}
+
+	@Override
+	public String getLastLogin() {
+		return this.lastLoginDate.toString();
+	}
+
+	@Override
+	public void setLastLoginDate(String date) {	
+		this.lastLoginDate = date;
 	}
 
 }

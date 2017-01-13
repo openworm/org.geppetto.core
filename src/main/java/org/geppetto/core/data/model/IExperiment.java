@@ -52,6 +52,8 @@ public interface IExperiment extends IDataEntity
 	Date getCreationDate();
 
 	Date getLastModified();
+	
+	Date getLastRan();
 
 	ExperimentStatus getStatus();
 
@@ -82,5 +84,7 @@ public interface IExperiment extends IDataEntity
 	void setParentProject(IGeppettoProject project);
 
 	void updateLastModified();
+
+	void updateLastRan();
 
 }
