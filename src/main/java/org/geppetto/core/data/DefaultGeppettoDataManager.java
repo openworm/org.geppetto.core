@@ -48,6 +48,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.ExperimentStatus;
 import org.geppetto.core.data.model.IAspectConfiguration;
 import org.geppetto.core.data.model.IExperiment;
@@ -485,5 +486,12 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 					1000l * 1000 * 1000, 1000l * 1000 * 1000 * 2);
 		}
 		return userGroup;
+	}
+
+	@Override
+	public void makeGeppettoProjectPublic(long projectId, boolean isPublic)
+			throws GeppettoExecutionException {
+		// TODO Auto-generated method stub
+		
 	}
 }

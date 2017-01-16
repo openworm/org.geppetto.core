@@ -108,6 +108,8 @@ public interface IGeppettoDataManager
 
 	void addGeppettoProject(IGeppettoProject project, IUser user) throws GeppettoExecutionException;
 
+	void makeGeppettoProjectPublic(long projectId, boolean isPublic) throws GeppettoExecutionException;
+
 	Object deleteGeppettoProject(long id, IUser user);
 
 	Object deleteExperiment(IExperiment experiment);

@@ -63,5 +63,7 @@ public interface IProjectManager
 	 * @return
 	 */
 	List<? extends IExperiment> checkExperimentsStatus(String requestId, IGeppettoProject project);
+	
+	void makeProjectPublic(String requestId, IGeppettoProject project,boolean isPublic) throws GeppettoExecutionException,GeppettoAccessException;
 
 }
