@@ -203,7 +203,7 @@ public class ConvertDATToRecording
 				
 				EMap<Type, Value> initialValues = null;
 				if(element!=null){
-					initialValues = element.getVariable().getInitialValues();
+					initialValues = PointerUtility.getVariable(variableValue.getPointer()).getInitialValues();
 				}
 				
 				Unit unit = null;
