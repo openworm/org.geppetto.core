@@ -33,6 +33,7 @@
 
 package org.geppetto.core.data.model;
 
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -44,13 +45,9 @@ public interface IUser
 
 	String getLogin();
 	
-	String getLastLogin();
+	List<Date> getLoginTimeStamps();
 	
-	int loginCount();
-	
-	void upLoginCount();
-	
-	void setLastLoginDate(String date);
+	void addLoginTimeStamp(Date date);
 
 	@JsonIgnore
 	String getPassword();

@@ -135,4 +135,10 @@ public class LocalGeppettoProject implements IGeppettoProject
 		this.activeExperimentId = experimentId;
 	}
 
+	@Override
+	public boolean isPublic() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

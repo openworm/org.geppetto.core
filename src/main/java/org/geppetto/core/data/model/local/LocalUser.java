@@ -33,6 +33,7 @@
 
 package org.geppetto.core.data.model.local;
 
+import java.util.Date;
 import java.util.List;
 
 import org.geppetto.core.data.model.IUser;
@@ -128,22 +129,13 @@ public class LocalUser implements IUser
 	}
 
 	@Override
-	public String getLastLogin() {
-		return this.lastLoginDate;
+	public List<Date> getLoginTimeStamps() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public void setLastLoginDate(String date) {	
-		this.lastLoginDate = date;
-	}
-
-	@Override
-	public int loginCount() {
-		return 0;
-	}
-
-	@Override
-	public void upLoginCount() {
+	public void addLoginTimeStamp(Date date) {
 		// TODO Auto-generated method stub
 		
 	}

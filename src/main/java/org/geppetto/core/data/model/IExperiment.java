@@ -53,8 +53,6 @@ public interface IExperiment extends IDataEntity
 
 	Date getLastModified();
 	
-	Date getLastRan();
-
 	ExperimentStatus getStatus();
 
 	void setName(String name);
@@ -84,7 +82,10 @@ public interface IExperiment extends IDataEntity
 	void setParentProject(IGeppettoProject project);
 
 	void updateLastModified();
-
-	void updateLastRan();
-
+	
+	void updateStartDate();
+	
+	void updateEndDate();
+	
+	boolean isPublic();
 }

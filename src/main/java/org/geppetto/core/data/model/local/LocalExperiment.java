@@ -234,14 +234,19 @@ public class LocalExperiment implements IExperiment
 	}
 
 	@Override
-	public Date getLastRan() {
+	public void updateStartDate() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
-	
+
 	@Override
-	public void updateLastRan()
-	{
-		lastRan = new Date();
+	public void updateEndDate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isPublic() {
+		return false;
 	}
 }
