@@ -486,5 +486,4 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		}
 		return userGroup;
 	}
-
 }
