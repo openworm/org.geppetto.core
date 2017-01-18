@@ -139,15 +139,4 @@ public class LocalGeppettoProject implements IGeppettoProject
 	public boolean isPublic() {
 		return false;
 	}
-
-	@Override
-	public boolean isReadOnly() {
-		return false;
-	}
-
-	@Override
-	public void setReadOnly(boolean flag) {
-		
-	}
-
 }
