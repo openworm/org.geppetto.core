@@ -137,8 +137,17 @@ public class LocalGeppettoProject implements IGeppettoProject
 
 	@Override
 	public boolean isPublic() {
-		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public boolean isReadOnly() {
+		return false;
+	}
+
+	@Override
+	public void setReadOnly(boolean flag) {
+		
 	}
 
 }

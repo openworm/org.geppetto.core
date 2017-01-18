@@ -54,4 +54,8 @@ public interface IGeppettoProject extends IDataEntity
 	void setVolatile(boolean volatileProject);
 	
 	boolean isPublic();
+	
+	boolean isReadOnly();
+	
+	void setReadOnly(boolean flag);
 }
