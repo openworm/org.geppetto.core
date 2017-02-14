@@ -103,6 +103,21 @@ public class S3Manager implements IGeppettoS3Manager
 		AmazonS3 s3 = getS3Connection();
 		s3.putObject(PathConfiguration.s3BucketName, path, file);
 	}
+	
+	public synchronized long getFileStorage(String path)
+	{
+		AmazonS3 s3 = getS3Connection();
+		List<S3ObjectSummary> s3ObjectSummaries;
+		s3ObjectSummaries = s3.listObjects(PathConfiguration.s3BucketName,path).getObjectSummaries();
+		long totalSize = 0;
+
+		for (int i = 0; i < s3ObjectSummaries.size(); i++) {
+		    S3ObjectSummary s3ObjectSummary = s3ObjectSummaries.get(i);
+		    totalSize+=s3ObjectSummary.getSize();
+		}
+
+		return totalSize;
+	}
 
 	/**
 	 * Save a text to S3.

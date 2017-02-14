@@ -108,6 +108,8 @@ public interface IGeppettoDataManager
 
 	void addGeppettoProject(IGeppettoProject project, IUser user) throws GeppettoExecutionException;
 
+	void makeGeppettoProjectPublic(long projectId, boolean isPublic) throws GeppettoExecutionException;
+
 	Object deleteGeppettoProject(long id, IUser user);
 
 	Object deleteExperiment(IExperiment experiment);
@@ -121,5 +123,5 @@ public interface IGeppettoDataManager
 	void saveEntity(IGeppettoProject entity);
 
 	IExperiment cloneExperiment(String name, String description,
-			IGeppettoProject project, IExperiment originalExperiment);
+			IGeppettoProject project, IExperiment originalExperiment);	
 }

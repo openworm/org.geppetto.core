@@ -72,6 +72,8 @@ public class LocalExperiment implements IExperiment
 
 	private String script;
 
+	private Date lastRan;
+
 	public LocalExperiment(long id, List<LocalAspectConfiguration> aspectConfigurations, String name, String description, Date creationDate, Date lastModified, ExperimentStatus status,
 			List<LocalSimulationResult> simulationResults, Date startDate, Date endDate, IGeppettoProject project)
 	{
@@ -229,5 +231,22 @@ public class LocalExperiment implements IExperiment
 	public void setDetails(String details) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void updateStartDate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEndDate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isPublic() {
+		return false;
 	}
 }

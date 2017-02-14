@@ -56,6 +56,8 @@ public class LocalGeppettoProject implements IGeppettoProject
 
 	private List<String> modelReferences;
 
+	private boolean isPublic = false;
+
 	public LocalGeppettoProject(long id, String name, List<LocalExperiment> experiments, LocalPersistedData geppettoModel)
 	{
 		this.id = id;
@@ -135,4 +137,12 @@ public class LocalGeppettoProject implements IGeppettoProject
 		this.activeExperimentId = experimentId;
 	}
 
+	@Override
+	public boolean isPublic() {
+		return this.isPublic ;
+	}
+
+	public void setPublic(boolean b) {
+		this.isPublic = b;
+	}
 }
