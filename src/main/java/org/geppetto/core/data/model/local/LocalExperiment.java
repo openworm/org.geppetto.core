@@ -73,6 +73,8 @@ public class LocalExperiment implements IExperiment
 	private String script;
 
 	private Date lastRan;
+	
+	private LocalView view;
 
 	public LocalExperiment(long id, List<LocalAspectConfiguration> aspectConfigurations, String name, String description, Date creationDate, Date lastModified, ExperimentStatus status,
 			List<LocalSimulationResult> simulationResults, Date startDate, Date endDate, IGeppettoProject project)
@@ -248,5 +250,24 @@ public class LocalExperiment implements IExperiment
 	@Override
 	public boolean isPublic() {
 		return false;
+	}
+
+	/**
+	 * Operation not supported on local experiment
+	 */
+	@Override
+	public void setView(String view) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public String getView() {
+		String view = "";
+		
+		if (this.view != null) {
+			view = this.view.getView();
+		}
+
+		return view;
 	}
 }

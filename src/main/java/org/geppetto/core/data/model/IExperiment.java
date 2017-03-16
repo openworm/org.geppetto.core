@@ -88,4 +88,8 @@ public interface IExperiment extends IDataEntity
 	void updateEndDate();
 	
 	boolean isPublic();
+	
+	void setView(String view);
+	
+	String getView();
 }

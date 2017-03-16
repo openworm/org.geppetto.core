@@ -57,6 +57,8 @@ public class LocalGeppettoProject implements IGeppettoProject
 	private List<String> modelReferences;
 
 	private boolean isPublic = false;
+	
+	private LocalView view;
 
 	public LocalGeppettoProject(long id, String name, List<LocalExperiment> experiments, LocalPersistedData geppettoModel)
 	{
@@ -144,5 +146,24 @@ public class LocalGeppettoProject implements IGeppettoProject
 
 	public void setPublic(boolean b) {
 		this.isPublic = b;
+	}
+	
+	/**
+	 * Operation not supported on local experiment
+	 */
+	@Override
+	public void setView(String view) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public String getView() {
+		String view = "";
+		
+		if (this.view != null) {
+			view = this.view.getView();
+		}
+
+		return view;
 	}
 }
