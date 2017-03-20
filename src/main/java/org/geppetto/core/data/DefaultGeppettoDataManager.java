@@ -59,6 +59,7 @@ import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.data.model.IUserGroup;
+import org.geppetto.core.data.model.IView;
 import org.geppetto.core.data.model.PersistedDataType;
 import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.data.model.UserPrivileges;
@@ -71,6 +72,7 @@ import org.geppetto.core.data.model.local.LocalSimulationResult;
 import org.geppetto.core.data.model.local.LocalSimulatorConfiguration;
 import org.geppetto.core.data.model.local.LocalUser;
 import org.geppetto.core.data.model.local.LocalUserGroup;
+import org.geppetto.core.data.model.local.LocalView;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
@@ -399,8 +401,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public void clearWatchedVariables(IAspectConfiguration aspectConfig)
 	{
-		// TODO Auto-generated method stub
-
+		// Cannot do watch without db, cannot clear watched
 	}
 
 	@Override
@@ -493,5 +494,11 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 			throws GeppettoExecutionException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public IView newView(String view) {
+		IView v = new LocalView(1, view);
+		return v;
 	}
 }

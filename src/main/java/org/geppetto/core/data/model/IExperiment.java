@@ -89,7 +89,7 @@ public interface IExperiment extends IDataEntity
 	
 	boolean isPublic();
 	
-	void setView(String view);
+	void setView(IView view);
 	
 	String getView();
 }

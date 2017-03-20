@@ -49,6 +49,7 @@ import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.data.model.IUserGroup;
+import org.geppetto.core.data.model.IView;
 import org.geppetto.core.data.model.PersistedDataType;
 import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.data.model.UserPrivileges;
@@ -95,6 +96,8 @@ public interface IGeppettoDataManager
 	IParameter newParameter(String parameterPath, String value);
 
 	IExperiment newExperiment(String name, String description, IGeppettoProject project);
+	
+	IView newView(String view);
 
 	IUser newUser(String name, String password, boolean persistent, IUserGroup group);
 	
@@ -123,5 +126,7 @@ public interface IGeppettoDataManager
 	void saveEntity(IGeppettoProject entity);
 
 	IExperiment cloneExperiment(String name, String description,
-			IGeppettoProject project, IExperiment originalExperiment);	
+			IGeppettoProject project, IExperiment originalExperiment);
+
+		
 }
