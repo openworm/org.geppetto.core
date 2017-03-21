@@ -91,5 +91,5 @@ public interface IExperiment extends IDataEntity
 	
 	void setView(IView view);
 	
-	String getView();
+	IView getView();
 }

@@ -232,19 +232,12 @@ public class LocalExperiment implements IExperiment {
 	}
 
 	@Override
-	public String getView() {
-		String view = "";
-
-		if (this.view != null) {
-			view = this.view.getView();
-		}
-
-		return view;
+	public IView getView() {
+		return this.view;
 	}
 
 	@Override
 	public void setView(IView view) {
 		this.view = (LocalView) view;
-
 	}
 }
