@@ -55,7 +55,7 @@ public interface IGeppettoProject extends IDataEntity
 	
 	boolean isPublic();
 	
-	void setView(String view);
+	void setView(IView view);
 	
-	String getView();
+	IView getView();
 }

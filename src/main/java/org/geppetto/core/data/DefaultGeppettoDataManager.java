@@ -497,8 +497,16 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	}
 
 	@Override
-	public IView newView(String view) {
+	public IView newView(String view, IExperiment experiment) {
 		IView v = new LocalView(1, view);
+		experiment.setView(v);
+		return v;
+	}
+
+	@Override
+	public IView newView(String view, IGeppettoProject project) {
+		IView v = new LocalView(1, view);
+		project.setView(v);
 		return v;
 	}
 }

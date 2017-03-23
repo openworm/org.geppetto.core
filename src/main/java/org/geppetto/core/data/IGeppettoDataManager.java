@@ -97,7 +97,9 @@ public interface IGeppettoDataManager
 
 	IExperiment newExperiment(String name, String description, IGeppettoProject project);
 	
-	IView newView(String view);
+	IView newView(String view, IGeppettoProject project);
+	
+	IView newView(String view, IExperiment experiment);
 
 	IUser newUser(String name, String password, boolean persistent, IUserGroup group);
 	

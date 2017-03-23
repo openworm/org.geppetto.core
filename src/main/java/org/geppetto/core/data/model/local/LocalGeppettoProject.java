@@ -36,6 +36,7 @@ package org.geppetto.core.data.model.local;
 import java.util.List;
 
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.data.model.IView;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -152,18 +153,12 @@ public class LocalGeppettoProject implements IGeppettoProject
 	 * Operation not supported on local experiment
 	 */
 	@Override
-	public void setView(String view) {
+	public void setView(IView view) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public String getView() {
-		String view = "";
-		
-		if (this.view != null) {
-			view = this.view.getView();
-		}
-
-		return view;
+	public IView getView() {
+		return this.view;
 	}
 }
