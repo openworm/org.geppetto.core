@@ -42,4 +42,12 @@ public interface IDownloadManager
 	 */
 	public abstract URL downloadResults(String aspectPath, ResultsFormat resultsFormat, IExperiment experiment, IGeppettoProject project) throws GeppettoExecutionException, GeppettoAccessException;
 
+	/**
+	 * Download Project 
+	 * @param project
+	 * @return
+	 * @throws GeppettoExecutionException
+	 * @throws GeppettoAccessException
+	 */
+	public abstract URL downloadProject(IGeppettoProject project) throws GeppettoExecutionException, GeppettoAccessException;
 }
