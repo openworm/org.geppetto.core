@@ -141,15 +141,16 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 		return user;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#getUserGroupById(long)
 	 */
 	@Override
-	public IUserGroup getUserGroupById(long id){
-		return getUserGroup();	
+	public IUserGroup getUserGroupById(long id)
+	{
+		return getUserGroup();
 	}
 
 	/*
@@ -228,8 +229,6 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return project.getExperiments();
 	}
 
-
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -258,8 +257,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.geppetto.core.data.IGeppettoDataManager#cloneExperiment(java.lang.String, java.lang.String,
-	 * 		org.geppetto.core.data.model.IGeppettoProject,org.geppetto.core.data.model.IExperiment)
+	 * @see org.geppetto.core.data.IGeppettoDataManager#cloneExperiment(java.lang.String, java.lang.String, org.geppetto.core.data.model.IGeppettoProject,org.geppetto.core.data.model.IExperiment)
 	 */
 	@Override
 	public IExperiment cloneExperiment(String name, String description, IGeppettoProject project, IExperiment e)
@@ -270,7 +268,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		((LocalGeppettoProject) project).getExperiments().add(experiment);
 		return experiment;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -382,6 +380,10 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		LocalGeppettoProject project = gson.fromJson(json, LocalGeppettoProject.class);
 		project.setId(getRandomId());
 		project.setVolatile(true);
+		if(project.getView() == null)
+		{
+			project.setView(new LocalView(0, IView.EMPTY));
+		}
 
 		// set project as parent for experiments
 		for(IExperiment e : project.getExperiments())
@@ -437,16 +439,15 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IAspectConfiguration newAspectConfiguration(IExperiment experiment, String instancePath, ISimulatorConfiguration simulatorConfiguration)
 	{
-		LocalAspectConfiguration ac = new LocalAspectConfiguration(0l, instancePath, new ArrayList<String>(), new ArrayList<LocalParameter>(),
-				(LocalSimulatorConfiguration) simulatorConfiguration);
+		LocalAspectConfiguration ac = new LocalAspectConfiguration(0l, instancePath, new ArrayList<String>(), new ArrayList<LocalParameter>(), (LocalSimulatorConfiguration) simulatorConfiguration);
 		((LocalExperiment) experiment).getAspectConfigurations().add(ac);
 		return ac;
 	}
 
 	@Override
-	public ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, float timestep, float length,Map<String, String> parameters)
+	public ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, float timestep, float length, Map<String, String> parameters)
 	{
-		return new LocalSimulatorConfiguration(0l, simulator, conversionService, timestep, length,parameters);
+		return new LocalSimulatorConfiguration(0l, simulator, conversionService, timestep, length, parameters);
 	}
 
 	@Override
@@ -490,21 +491,23 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	}
 
 	@Override
-	public void makeGeppettoProjectPublic(long projectId, boolean isPublic)
-			throws GeppettoExecutionException {
+	public void makeGeppettoProjectPublic(long projectId, boolean isPublic) throws GeppettoExecutionException
+	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public IView newView(String view, IExperiment experiment) {
+	public IView newView(String view, IExperiment experiment)
+	{
 		IView v = new LocalView(1, view);
 		experiment.setView(v);
 		return v;
 	}
 
 	@Override
-	public IView newView(String view, IGeppettoProject project) {
+	public IView newView(String view, IGeppettoProject project)
+	{
 		IView v = new LocalView(1, view);
 		project.setView(v);
 		return v;
