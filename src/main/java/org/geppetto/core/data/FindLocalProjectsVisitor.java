@@ -46,6 +46,8 @@ import java.util.Map;
 
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.data.model.IView;
+import org.geppetto.core.data.model.local.LocalView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -89,6 +91,10 @@ public class FindLocalProjectsVisitor<T extends IGeppettoProject> extends Simple
 
 			BufferedReader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8);
 			T project = gson.fromJson(reader, type);
+			if(project.getView() == null)
+			{
+				project.setView(new LocalView(0, IView.EMPTY));
+			}
 			for(IExperiment e : project.getExperiments())
 			{
 				e.setParentProject(project);
