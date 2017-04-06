@@ -2,6 +2,7 @@ package org.geppetto.core.manager;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.List;
 
 import org.geppetto.core.common.GeppettoAccessException;
@@ -49,5 +50,5 @@ public interface IDownloadManager
 	 * @throws GeppettoExecutionException
 	 * @throws GeppettoAccessException
 	 */
-	public abstract URL downloadProject(IGeppettoProject project) throws GeppettoExecutionException, GeppettoAccessException;
+	public abstract Path downloadProject(IGeppettoProject project) throws GeppettoExecutionException, GeppettoAccessException;
 }
