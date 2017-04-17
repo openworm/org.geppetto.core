@@ -25,6 +25,6 @@ Plot1.plotData(acnet2.pyramidals_48[1].soma_0.v);
 Plot1.plotData(acnet2.baskets_12[2].soma_0.v);
 
 
-G.addBrightnessFunction(acnet2.pyramidals_48[0].soma_0, acnet2.pyramidals_48[0].soma_0.v, function(x){return (x+0.07)/0.1;});
-G.addBrightnessFunction(acnet2.pyramidals_48[1].soma_0, acnet2.pyramidals_48[1].soma_0.v, function(x){return (x+0.07)/0.1;});
-G.addBrightnessFunction(acnet2.baskets_12[2].soma_0, acnet2.baskets_12[2].soma_0.v, function(x){return (x+0.07)/0.1;});
+G.addBrightnessFunction(acnet2.pyramidals_48[0].soma_0, acnet2.pyramidals_48[0].soma_0.v, window.voltage_color);
+G.addBrightnessFunction(acnet2.pyramidals_48[1].soma_0, acnet2.pyramidals_48[1].soma_0.v, window.voltage_color);
+G.addBrightnessFunction(acnet2.baskets_12[2].soma_0, acnet2.baskets_12[2].soma_0.v, window.voltage_color);
