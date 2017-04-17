@@ -27,7 +27,7 @@ public interface IProjectManager
 	 * @throws GeppettoExecutionException
 	 * @throws GeppettoAccessException 
 	 */
-	void loadProject(String requestId, IGeppettoProject project) throws MalformedURLException, GeppettoInitializationException, GeppettoExecutionException, GeppettoAccessException;
+	void loadProject(String requestId, IGeppettoProject project, String urlBase) throws MalformedURLException, GeppettoInitializationException, GeppettoExecutionException, GeppettoAccessException;
 
 	/**
 	 * Closes a Geppetto project
