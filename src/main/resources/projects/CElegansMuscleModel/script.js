@@ -5,12 +5,6 @@ Plot1.setPosition(184,83);
 Plot1.plotData(net1.muscle[0].v);
 Plot1.plotData(net1.neuron[0].v);
 
-G.addWidget(GEPPETTO.Widgets.PLOT);
-Plot2.setName("Ca concentration muscle");
-Plot2.setSize(246,450);
-Plot2.setPosition(187,348);
-Plot2.plotData(net1.muscle[0].caConc);
-
 G.addWidget(Widgets.POPUP);
 Popup1.setName("Description");
 Popup1.setMessage(Project.getActiveExperiment().getDescription());
