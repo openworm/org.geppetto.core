@@ -1,0 +1,31 @@
+{
+    "id": 10,
+    "name": "Golgi.net - net",
+    "activeExperimentId": 1,
+    "experiments": [{
+        "id": 1,
+        "name": "Golgi - net",
+        "status": "DESIGN",
+        "creationDate": "1466726550143",
+        "lastModified": "1466726550143",
+        "script": "/projects/Golgi/script.js",
+        "aspectConfigurations": [{
+            "id": 1,
+            "instance": "Golgi",
+            "simulatorConfiguration": {
+                "id": 1,
+                "simulatorId": "neuronSimulator",
+                "timestep": 1.0e-05,
+                "length": 0.3,
+                "parameters": {
+                    "target": "network_Soma"
+                }
+            }
+        }]
+    }],
+    "geppettoModel": {
+        "id": 1,
+        "url": "/projects/Golgi/GeppettoModel.xmi",
+        "type": "GEPPETTO_PROJECT"
+    }
+}

@@ -1,0 +1,169 @@
+<Lems xmlns="http://www.neuroml.org/lems/0.7.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.neuroml.org/lems/0.7.2  https://raw.github.com/LEMS/LEMS/development/Schemas/LEMS/LEMS_v0.7.2.xsd">
+
+    <Target component="sim1" reportFile="simulator.props" timesFile="time.dat"/>
+
+        <!--Include standard NeuroML 2 ComponentType definitions-->
+
+    <Include file="Cells.xml"/>
+    <Include file="Networks.xml"/>
+    <Include file="Simulation.xml"/>
+
+
+        <!--   Channel/synapse files-->
+    <Include file="Golgi_NaT.channel.nml"/>
+    <Include file="Golgi_NaR.channel.nml"/>
+    <Include file="Golgi_NaP.channel.nml"/>
+    
+    <Include file="Golgi_KA.channel.nml"/>
+    <Include file="Golgi_KAHP.channel.nml"/>
+    <Include file="Golgi_Kslow.channel.nml"/>
+    <Include file="Golgi_KV.channel.nml"/>
+    <Include file="Golgi_KC.channel.nml"/>
+    
+    <Include file="Golgi_Ca_HVA.channel.nml"/>
+    <Include file="Golgi_Ca_LVA.channel.nml"/>
+    
+    <Include file="Golgi_hcn1f.channel.nml"/>
+    <Include file="Golgi_hcn1s.channel.nml"/>
+    <Include file="Golgi_hcn2f.channel.nml"/>
+    <Include file="Golgi_hcn2s.channel.nml"/>
+
+    <Include file="LeakCond.channel.nml"/>
+    
+    <Include file="Golgi_CALC.nml"/>
+    <Include file="Golgi_CALC_ca2.nml"/>
+
+        <!--   Cell files-->
+    <Include file="Golgi.cell.nml"/>
+        <!--   Network file-->
+    <Include file="Golgi.net.nml"/>
+    
+
+        <!--Note: this could be: Simulation id="sim1" ... , but Component type="Simulation" ... 
+        is used to allow validation of this file according to the LEMS schema specified above...-->
+    <Component type="Simulation" id="sim1" length="4000.0ms" step="0.0025ms" target="network_Soma">
+        
+        <Display id="CG_v" title="Soma VOLTAGE" xmin="-100.0" xmax="1600.0" ymin="-75" ymax="50" timeScale="1ms">
+            <Line id="VOLTAGE" timeScale="1ms" quantity="CG_Golgi/0/Golgi/v" scale="1 mV" color="#000000"/>
+        </Display>
+        
+        <Display id="Rates" title="Rate variables" xmin="-100.0" xmax="1600.0" ymin="-0.1" ymax="1.1" timeScale="1ms">
+           <!-- <Line id="KA a" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/KA_all/Golgi_KA/a/q" scale="1" color="#000000"/>
+            <Line id="KA b" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/KA_all/Golgi_KA/b/q" scale="1" color="#FF0000"/>-->
+            <!--<Line id="NaP m" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/NaP_all/Golgi_NaP/m/q" scale="1" color="#FF0000"/>-->
+             <!--<Line id="NaR s" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/NaR_all/Golgi_NaR/s/q" scale="1" color="#000000"/>
+             <Line id="NaR f" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/NaR_all/Golgi_NaR/f/q" scale="1" color="#FF0000"/>-->
+            <!-- <Line id="Na m" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/Na_all/Golgi_Na/m/q" scale="1" color="#000000"/>
+             <Line id="Na h" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/Na_all/Golgi_Na/h/q" scale="1" color="#FF0000"/>-->
+           <!-- <Line id="KM n" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/Kslow_all/Golgi_KM/n/q" scale="1" color="#FF0000"/>-->
+           <!--<Line id="KV n" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/KV_all/Golgi_KV/n/q" scale="1" color="#FF0000"/>-->
+           <!--<Line id="hcn1 fast" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/hcn1f_all/Golgi_hcn1f/f/q" scale="1" color="#FF0000"/>
+            <Line id="hcn1 slow" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/hcn1s_all/Golgi_hcn1s/s/q" scale="1" color="#FF0000"/>-->
+         <!-- <Line id="hcn2 fast" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/hcn2f_all/Golgi_hcn2f/f/q" scale="1" color="#FF0000"/>
+            <Line id="hcn2 slow" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/hcn2s_all/Golgi_hcn2s/s/q" scale="1" color="#FF0000"/>-->
+      <Line id="HVA s" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/CaHVA_all/Golgi_Ca_HVA/s/q" scale="1" color="#000000"/>
+          <Line id="HVA u" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/CaHVA_all/Golgi_Ca_HVA/u/q" scale="1" color="#FF0000"/>
+         <!--<Line id="LVA m" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties_twoCa/CaLVA_all/Golgi_Ca_LVA/m/q" scale="1" color="#000000"/>
+         <Line id="LVA h" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties_twoCa/CaLVA_all/Golgi_Ca_LVA/h/q" scale="1" color="#FF0000"/>-->
+       <!-- <Line id="BK c" timeScale="1ms" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/BK_all/Golgi_BK/c/q" scale="1" color="#FF0000"/>-->
+        </Display>
+        
+       <Display id="CG_conc" title="Soma [Ca2+]" xmin="-100.0" xmax="1600.0" ymin="-0.0006" ymax="0.006" timeScale="1ms">
+            <Line id="[Ca2+]ca" timeScale="1ms" quantity="CG_Golgi/0/Golgi/caConc" scale="1 mM" color="#000000"/>
+            <Line id="[Ca2+]ca2" timeScale="1ms" quantity="CG_Golgi/0/Golgi/caConc2" scale="1 mM" color="#00ff00"/>
+        </Display>
+        
+        <OutputFile id="v" fileName="Soma.v.dat">
+            <OutputColumn id="v" quantity="CG_Golgi/0/Golgi/v"/>
+        </OutputFile>
+        
+        <!--<OutputFile id="rates" fileName="KA.dat">
+            <OutputColumn id="a" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/KA_all/Golgi_KA/a/q"/>
+            <OutputColumn id="b" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/KA_all/Golgi_KA/b/q"/>
+        </OutputFile>-->
+
+       <!-- <OutputFile id="rates" fileName="NaP.dat">
+          <OutputColumn id="m" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/NaP_all/Golgi_NaP/m/q" />
+
+            </OutputFile>-->
+
+      <!--  <OutputFile id="rates" fileName="NaR.dat">
+            <OutputColumn id="s" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/NaR_all/Golgi_NaR/s/q"/>
+            <OutputColumn id="f" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/NaR_all/Golgi_NaR/f/q"/>
+        </OutputFile>-->
+
+      <!-- <OutputFile id="rates" fileName="Na.dat">
+            <OutputColumn id="s" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/Na_all/Golgi_Na/m/q"/>
+            <OutputColumn id="f" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/Na_all/Golgi_Na/h/q"/>
+        </OutputFile>-->
+
+        <!--<OutputFile id="rates" fileName="KM.dat">
+            <OutputColumn id="s" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/Kslow_all/Golgi_KM/n/q"/>
+        </OutputFile>-->
+
+        
+        <!--<OutputFile id="rates" fileName="KV.dat">
+            <OutputColumn id="s" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/KV_all/Golgi_KV/n/q"/>
+        </OutputFile>-->
+
+       <!--<OutputFile id="rates" fileName="hcn1f.dat">
+            <OutputColumn id="f" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/hcn1f_all/Golgi_hcn1f/f/q"/>
+        </OutputFile>
+       <OutputFile id="rates" fileName="hcn1s.dat">
+            <OutputColumn id="s" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/hcn1s_all/Golgi_hcn1s/s/q"/>
+        </OutputFile>-->
+
+       <!-- <OutputFile id="rates" fileName="hcn2f.dat">
+            <OutputColumn id="f" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/hcn2f_all/Golgi_hcn2f/f/q"/>
+        </OutputFile>
+       <OutputFile id="rates" fileName="hcn2s.dat">
+            <OutputColumn id="s" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/hcn2s_all/Golgi_hcn2s/s/q"/>
+        </OutputFile>-->
+      
+ <!-- <OutputFile id="rates_s" fileName="CaHVA_s.dat">
+            <OutputColumn id="s" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties_twoCa/CaHVA_all/Golgi_Ca_HVA/s/q"/>
+        </OutputFile>
+       <OutputFile id="rates_u" fileName="CaHVA_u.dat">
+            <OutputColumn id="u" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties_twoCa/CaHVA_all/Golgi_Ca_HVA/u/q"/>
+        </OutputFile>
+     
+        <OutputFile id="rates_m" fileName="CaLVA_m.dat">
+            <OutputColumn id="s" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties_twoCa/CaLVA_all/Golgi_Ca_LVA/m/q"/>
+        </OutputFile>
+        
+       <OutputFile id="rates_h" fileName="CaLVA_h.dat">
+            <OutputColumn id="u" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties_twoCa/CaLVA_all/Golgi_Ca_LVA/h/q"/>
+        </OutputFile>-->
+
+        <OutputFile id="Ca" fileName="Ca.dat">
+            <OutputColumn id="ca" quantity="CG_Golgi/0/Golgi/caConc"/>
+        </OutputFile>
+
+        <!--
+       <OutputFile id="iCa" fileName="iCa.dat">
+            <OutputColumn id="ica" quantity="CG_Golgi/0/Golgi/iCa"/>
+        </OutputFile>
+      <OutputFile id="Ca2" fileName="Ca2.dat">
+            <OutputColumn id="ca2" quantity="CG_Golgi/0/Golgi/caConc2"/>
+        </OutputFile>
+
+       <OutputFile id="iCa2" fileName="iCa2.dat">
+            <OutputColumn id="ica2" quantity="CG_Golgi/0/Golgi/iCa2"/>
+        </OutputFile>-->
+
+       
+    
+        <!--<OutputFile id="rates" fileName="BK.dat">
+            <OutputColumn id="c" quantity="CG_Golgi/0/Golgi/biophys/membraneProperties/BK_all/Golgi_BK/c/q"/>
+        </OutputFile>-->
+
+       
+
+
+        
+        
+        
+    </Component>
+
+
+</Lems>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<neuroml xmlns="http://www.neuroml.org/schema/neuroml2" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2 https://raw.github.com/NeuroML/NeuroML2/development/Schemas/NeuroML2/NeuroML_v2beta4.xsd" 
+         id="CaClamp">
+
+    <caClamp id="CaClamp" conc0="5e-11mol_per_cm3" conc1="5e-9mol_per_cm3"  delay="200.0ms" duration="200.0ms" ion="ca"/>
+
+    
+    <ComponentType name="caClamp" extends="concentrationModel" description="Model of ca conc which can be held at different values for a specific duration">
+
+        <Parameter name="conc0" dimension="concentration"/>
+        <Parameter name="conc1" dimension="concentration"/>
+        
+        <Parameter name="delay" dimension="time" description="Delay before change in conc. Concentration is _conc1 until this and afterwards"/>
+        <Parameter name="duration" dimension="time" description="Duration for holding conc at new value, _conc1"/>
+        
+       
+
+        <Text name="ion"/> 
+
+        <Dynamics>
+
+            <StateVariable name="concentration" exposure="concentration" dimension="concentration"/>
+            <StateVariable name="extConcentration" exposure="extConcentration" dimension="concentration"/>
+
+           
+            <OnStart>
+                <StateAssignment variable="concentration" value="initialConcentration"/>
+                <StateAssignment variable="extConcentration" value="initialExtConcentration"/>
+            </OnStart>
+
+            <OnCondition test="t .lt. delay">
+                <StateAssignment variable="concentration" value="conc0"/>
+            </OnCondition>
+
+            <OnCondition test="t .geq. delay .and. t .lt. duration + delay">
+                <StateAssignment variable="concentration" value="conc1"/>
+            </OnCondition>
+
+            <OnCondition test="t .geq. duration + delay">
+                <StateAssignment variable="concentration" value="conc0"/>
+            </OnCondition>
+        </Dynamics>
+
+    </ComponentType>
+</neuroml>

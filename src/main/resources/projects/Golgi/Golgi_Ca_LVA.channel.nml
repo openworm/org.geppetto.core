@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<neuroml xmlns="http://www.neuroml.org/schema/neuroml2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.neuroml.org/schema/neuroml2 https://raw.github.com/NeuroML/NeuroML2/development/Schemas/NeuroML2/NeuroML_v2beta4.xsd" id="Golgi_Ca_LVA">
+
+    <notes>ChannelML file containing a single Channel description from Solinas et al 2007</notes>
+
+    <ionChannel id="Golgi_Ca_LVA" conductance="10pS" type="ionChannelHH" species="ca2">
+
+        <notes>Low voltage Activated Ca2+ channel. Uses name ca2 for calcium ion</notes>
+                
+        <annotation>
+            <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+                <rdf:Description rdf:about="Golgi_Ca_LVA">
+                    
+                    <bqmodel:isDescribedBy xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+                        <rdf:Bag>
+                            <rdf:li>Solinas S, Forti L, Cesana E, Mapelli J, De Schutter E, D'Angelo E. (2007) Computational reconstruction of pacemaking and intrinsic electroresponsiveness in cerebellar Golgi cells.  Front Cell Neurosci. 2007;1:2.</rdf:li>
+                            <rdf:li rdf:resource="http://www.ncbi.nlm.nih.gov/pubmed/18946520"/>
+                        </rdf:Bag>
+                    </bqmodel:isDescribedBy>
+
+                
+                    <bqbiol:isVersionOf xmlns:bqbiol="http://biomodels.net/biology-qualifiers/">
+                        <rdf:Bag>
+                            <rdf:li>Ca channels</rdf:li>
+                            <rdf:li rdf:resource="http://senselab.med.yale.edu/NeuronDB/ChannelGene2.htm#table1"/>
+                        </rdf:Bag>
+                    </bqbiol:isVersionOf>
+
+                </rdf:Description>
+            </rdf:RDF>
+        </annotation>
+
+        <gate id="m" type="gateHHtauInf" instances="2">
+            <q10Settings type="q10ExpTemp" q10Factor="5" experimentalTemp="24 degC"/>
+            <timeCourse type="Golgi_Ca_LVA_m_tau_tau"/>
+            <steadyState type="HHSigmoidVariable" rate="1" scale="7.4mV" midpoint="-52mV"/>
+        </gate>
+
+        <gate id="h" type="gateHHtauInf" instances="1">
+            <q10Settings type="q10ExpTemp" q10Factor="3" experimentalTemp="24 degC"/>
+            <timeCourse type="Golgi_Ca_LVA_h_tau_tau"/>
+            <steadyState type="HHSigmoidVariable" rate="1" scale="-5mV" midpoint="-80mV"/>
+        </gate>
+                            
+    </ionChannel>
+
+    <ComponentType name="Golgi_Ca_LVA_m_tau_tau" extends="baseVoltageDepTime">
+        <Constant name="TIME_SCALE" dimension="time" value="1 ms"/>
+        <Constant name="VOLT_SCALE" dimension="voltage" value="1 mV"/>
+
+        <Dynamics>
+            <DerivedVariable name="V" dimension="none" value="v / VOLT_SCALE"/>
+            <DerivedVariable name="t" exposure="t" dimension="time" value="(( 3 + 1 / ( (exp ((V+27)/ 10)) + (exp ((V+102)/(-15))) ) ) ) * TIME_SCALE"/>
+        </Dynamics>
+
+    </ComponentType>
+
+    <ComponentType name="Golgi_Ca_LVA_h_tau_tau" extends="baseVoltageDepTime">
+        <Constant name="TIME_SCALE" dimension="time" value="1 ms"/>
+        <Constant name="VOLT_SCALE" dimension="voltage" value="1 mV"/>
+
+        <Dynamics>
+            <DerivedVariable name="V" dimension="none" value="v / VOLT_SCALE"/>
+            <DerivedVariable name="t" exposure="t" dimension="time" value="(( 85+ 1/ ( (exp ((V+48)/4)) + (exp ((V+407)/(-50))) ) ) ) * TIME_SCALE"/>
+        </Dynamics>
+
+    </ComponentType>
+
+</neuroml>

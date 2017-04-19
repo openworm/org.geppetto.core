@@ -13,6 +13,7 @@
 	</properties>
 	<dependencies>
 		<!-- compile and runtime dependencies -->
+
 		<dependency>
 			<groupId>org.geppetto</groupId>
 			<artifactId>model</artifactId>
