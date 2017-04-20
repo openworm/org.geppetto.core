@@ -1,5 +1,7 @@
 package org.geppetto.core.data.model.local;
 
+import java.io.Serializable;
+
 import org.geppetto.core.data.model.IView;
 
 import com.google.gson.JsonObject;
@@ -12,8 +14,9 @@ import com.google.gson.JsonParser;
  * @author giovanniidili
  *
  */
-public class LocalView implements IView {
+public class LocalView implements Serializable, IView {
 
+	private static final long serialVersionUID = 1L;
 	private long id;
 	
 	private JsonObject viewString;
@@ -26,6 +29,7 @@ public class LocalView implements IView {
 			JsonObject o = parser.parse(view).getAsJsonObject();
 			this.viewString = o;
 		}
+		this.viewString = null;
 	}
 	
 	@Override
