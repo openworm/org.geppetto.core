@@ -19,7 +19,7 @@ public class LocalView implements Serializable, IView {
 	private static final long serialVersionUID = 1L;
 	private long id;
 	
-	private JsonObject viewStates = new JsonObject();
+	private JsonObject viewStates;
 	
 	public LocalView(long id, String view)
 	{
@@ -29,6 +29,7 @@ public class LocalView implements Serializable, IView {
 			JsonObject o = parser.parse(view).getAsJsonObject();
 			this.viewStates = o;
 		}
+		this.viewStates = null;
 	}
 	
 	@Override
