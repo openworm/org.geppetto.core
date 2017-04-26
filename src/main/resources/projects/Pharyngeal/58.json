@@ -1,0 +1,107 @@
+{
+	"id": 58,
+	"name": "PharyngealNetwork.net - net",
+	"experiments": [
+		{
+			"id": 1,
+			"aspectConfigurations": [
+				{
+					"id": 1,
+					"instance": "PharyngealNetwork",
+					"simulatorConfiguration": {
+						"id": 1,
+						"simulatorId": "neuronSimulator",
+						"timestep": 2.5E-5,
+						"length": 0.3,
+						"parameters": {
+							"target": "network_CElegans"
+						}
+					}
+				}
+			],
+			"name": "PharyngealNetwork - net",
+			"creationDate": 1493210247,
+			"lastModified": 1493210247,
+			"status": "DESIGN",
+			"script": "/projects/Pharyngeal/PharyngealNetwork1b41c00683041e802f6282ac0dbca77c.js",
+			"view": {
+				"id": 1,
+				"view": {
+					"members": {
+						"views": {
+							"ButtonBar1": {
+								"widgetType": 7,
+								"showTitleBar": false,
+								"transparentBackground": true,
+								"name": "OSB Control Panel",
+								"size": {
+									"height": 0,
+									"width": 0
+								},
+								"position": {
+									"left": 90,
+									"top": 5
+								},
+								"componentSpecific": {
+									"barName": "OSB Control Panel",
+									"barBody": {
+										"Network Info": {
+											"Connectivity": {
+												"actions": [
+													"if (GEPPETTO.ModelFactory.geppettoModel.neuroml.network){showConnectivityMatrix(PharyngealNetwork)}"
+												],
+												"icon": "gpt-make-group",
+												"label": "Connectivity",
+												"tooltip": "Loads the connectivity matrix widget"
+											},
+											"Model Description": {
+												"actions": [
+													"showModelDescription(getMainType(PharyngealNetwork))"
+												],
+												"icon": "gpt-pyramidal-cell",
+												"label": "Model Description",
+												"tooltip": "Information on the model"
+											}
+										}
+									}
+								}
+							},
+							"Plot1": {
+								"widgetType": 0,
+								"transparentBackground": false,
+								"name": "hhcell.hhpop[0].v",
+								"size": {
+									"height": 300,
+									"width": 350
+								},
+								"position": {
+									"left": "50%",
+									"top": "50%"
+								},
+								"dataType": "object",
+								"xyData": [
+									{
+										"dataY": "hhcell.hhpop[0].v",
+										"dataX": "time(StateVariable)",
+										"projectId": 1,
+										"experimentId": 1
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		}
+	],
+	"geppettoModel": {
+		"id": 1,
+		"url": "/projects/Pharyngeal/PharyngealNetwork_MODEL1b41c00683041e802f6282ac0dbca77c.xmi",
+		"type": "GEPPETTO_PROJECT"
+	},
+	"activeExperimentId": 1,
+	"isPublic": false,
+	"view": {
+		"id": 0
+	}
+}
