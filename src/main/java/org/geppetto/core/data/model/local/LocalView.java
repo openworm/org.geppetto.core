@@ -40,8 +40,12 @@ public class LocalView implements Serializable, IView {
 	@Override
 	public void setView(String view) {
 		JsonParser parser = new JsonParser();
+		if(view!=null){
 		JsonObject o = parser.parse(view).getAsJsonObject();
 		this.viewStates = o;
+		}else{
+			this.viewStates = null;
+		}
 	}
 
 	@Override

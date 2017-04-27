@@ -20,13 +20,13 @@
 				}
 			],
 			"name": "PharyngealNetwork - net",
-			"creationDate": 1493210247,
-			"lastModified": 1493210247,
+			"creationDate": 1493263681,
+			"lastModified": 1493263681,
 			"status": "DESIGN",
-			"script": "/projects/Pharyngeal/PharyngealNetwork1b41c00683041e802f6282ac0dbca77c.js",
+			"script": "/projects/Pharyngeal/PharyngealNetwork964ec1f3db6e21b33cb97b23c7fae598.js",
 			"view": {
 				"id": 1,
-				"view": {
+				"viewStates": {
 					"members": {
 						"views": {
 							"ButtonBar1": {
@@ -69,14 +69,36 @@
 							"Plot1": {
 								"widgetType": 0,
 								"transparentBackground": false,
+								"name": "hhcell.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q",
+								"size": {
+									"height": 300,
+									"width": 350
+								},
+								"position": {
+									"left": 337,
+									"top": 152
+								},
+								"dataType": "object",
+								"xyData": [
+									{
+										"dataY": "hhcell.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q",
+										"dataX": "time(StateVariable)",
+										"projectId": 1,
+										"experimentId": 1
+									}
+								]
+							},
+							"Plot2": {
+								"widgetType": 0,
+								"transparentBackground": false,
 								"name": "hhcell.hhpop[0].v",
 								"size": {
 									"height": 300,
 									"width": 350
 								},
 								"position": {
-									"left": "50%",
-									"top": "50%"
+									"left": 1466,
+									"top": 335
 								},
 								"dataType": "object",
 								"xyData": [
@@ -96,7 +118,7 @@
 	],
 	"geppettoModel": {
 		"id": 1,
-		"url": "/projects/Pharyngeal/PharyngealNetwork_MODEL1b41c00683041e802f6282ac0dbca77c.xmi",
+		"url": "/projects/Pharyngeal/PharyngealNetwork_MODEL964ec1f3db6e21b33cb97b23c7fae598.xmi",
 		"type": "GEPPETTO_PROJECT"
 	},
 	"activeExperimentId": 1,

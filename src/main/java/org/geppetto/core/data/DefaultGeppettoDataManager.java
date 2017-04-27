@@ -192,6 +192,14 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		{
 			if(!project.isVolatile())
 			{
+				if(project.getView()!=null){
+					project.getView().setView(null);
+				}
+				for(LocalExperiment e : project.getExperiments()){
+					if(e.getView()!=null){
+						e.setView(null);
+					}
+				}
 				allProjects.add(project);
 			}
 		}
@@ -211,6 +219,14 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		{
 			if(!project.isVolatile())
 			{
+				if(project.getView()!=null){
+					project.getView().setView(null);
+				}
+				for(LocalExperiment e : project.getExperiments()){
+					if(e.getView()!=null){
+						e.setView(null);
+					}
+				}
 				allProjects.add(project);
 			}
 		}
