@@ -4,11 +4,11 @@ import com.google.gson.JsonObject;
 
 public interface IView {
 	
-	final static String EMPTY = "{}";
+	final static String EMPTY = "";
 	
 	long getId();
 	
-	JsonObject getView();
+	String getView();
 
 	void setView(String string);
 	

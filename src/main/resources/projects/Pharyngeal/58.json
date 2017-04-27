@@ -20,96 +20,33 @@
 				}
 			],
 			"name": "PharyngealNetwork - net",
-			"creationDate": 1493263681,
-			"lastModified": 1493263681,
 			"status": "DESIGN",
-			"script": "/projects/Pharyngeal/PharyngealNetwork964ec1f3db6e21b33cb97b23c7fae598.js",
+			"script": "/projects/Pharyngeal/PharyngealNetworkcadb5b76a8857af6815e279d2f2ea674.js",
 			"view": {
 				"id": 1,
 				"viewStates": {
-					"members": {
-						"views": {
-							"ButtonBar1": {
-								"widgetType": 7,
-								"showTitleBar": false,
-								"transparentBackground": true,
-								"name": "OSB Control Panel",
-								"size": {
-									"height": 0,
-									"width": 0
-								},
-								"position": {
-									"left": 90,
-									"top": 5
-								},
-								"componentSpecific": {
-									"barName": "OSB Control Panel",
-									"barBody": {
-										"Network Info": {
-											"Connectivity": {
-												"actions": [
-													"if (GEPPETTO.ModelFactory.geppettoModel.neuroml.network){showConnectivityMatrix(PharyngealNetwork)}"
-												],
-												"icon": "gpt-make-group",
-												"label": "Connectivity",
-												"tooltip": "Loads the connectivity matrix widget"
-											},
-											"Model Description": {
-												"actions": [
-													"showModelDescription(getMainType(PharyngealNetwork))"
-												],
-												"icon": "gpt-pyramidal-cell",
-												"label": "Model Description",
-												"tooltip": "Information on the model"
-											}
-										}
-									}
+					"views": {
+						"Plot1": {
+							"widgetType": 0,
+							"transparentBackground": false,
+							"name": "hhcell.hhpop[0].v",
+							"size": {
+								"height": 300,
+								"width": 350
+							},
+							"position": {
+								"left": 1015,
+								"top": 390
+							},
+							"dataType": "object",
+							"xyData": [
+								{
+									"dataY": "hhcell.hhpop[0].v",
+									"dataX": "time(StateVariable)",
+									"projectId": 1,
+									"experimentId": 1
 								}
-							},
-							"Plot1": {
-								"widgetType": 0,
-								"transparentBackground": false,
-								"name": "hhcell.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q",
-								"size": {
-									"height": 300,
-									"width": 350
-								},
-								"position": {
-									"left": 337,
-									"top": 152
-								},
-								"dataType": "object",
-								"xyData": [
-									{
-										"dataY": "hhcell.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q",
-										"dataX": "time(StateVariable)",
-										"projectId": 1,
-										"experimentId": 1
-									}
-								]
-							},
-							"Plot2": {
-								"widgetType": 0,
-								"transparentBackground": false,
-								"name": "hhcell.hhpop[0].v",
-								"size": {
-									"height": 300,
-									"width": 350
-								},
-								"position": {
-									"left": 1466,
-									"top": 335
-								},
-								"dataType": "object",
-								"xyData": [
-									{
-										"dataY": "hhcell.hhpop[0].v",
-										"dataX": "time(StateVariable)",
-										"projectId": 1,
-										"experimentId": 1
-									}
-								]
-							}
+							]
 						}
 					}
 				}
@@ -118,12 +55,13 @@
 	],
 	"geppettoModel": {
 		"id": 1,
-		"url": "/projects/Pharyngeal/PharyngealNetwork_MODEL964ec1f3db6e21b33cb97b23c7fae598.xmi",
+		"url": "/projects/Pharyngeal/PharyngealNetwork_MODELcadb5b76a8857af6815e279d2f2ea674.xmi",
 		"type": "GEPPETTO_PROJECT"
 	},
 	"activeExperimentId": 1,
 	"isPublic": false,
 	"view": {
-		"id": 0
+		"id": 0,
+		"viewStates": "{\"views\":{}}"
 	}
 }

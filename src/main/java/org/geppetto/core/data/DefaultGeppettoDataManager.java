@@ -73,9 +73,11 @@ import org.geppetto.core.data.model.local.LocalSimulatorConfiguration;
 import org.geppetto.core.data.model.local.LocalUser;
 import org.geppetto.core.data.model.local.LocalUserGroup;
 import org.geppetto.core.data.model.local.LocalView;
+import org.geppetto.core.utilities.LocalViewSerializer;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
@@ -192,14 +194,6 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		{
 			if(!project.isVolatile())
 			{
-				if(project.getView()!=null){
-					project.getView().setView(null);
-				}
-				for(LocalExperiment e : project.getExperiments()){
-					if(e.getView()!=null){
-						e.setView(null);
-					}
-				}
 				allProjects.add(project);
 			}
 		}
@@ -219,14 +213,6 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		{
 			if(!project.isVolatile())
 			{
-				if(project.getView()!=null){
-					project.getView().setView(null);
-				}
-				for(LocalExperiment e : project.getExperiments()){
-					if(e.getView()!=null){
-						e.setView(null);
-					}
-				}
 				allProjects.add(project);
 			}
 		}
@@ -393,7 +379,10 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IGeppettoProject getProjectFromJson(Gson gson, Reader json)
 	{
-		LocalGeppettoProject project = gson.fromJson(json, LocalGeppettoProject.class);
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(LocalGeppettoProject.class, new LocalViewSerializer());
+
+		LocalGeppettoProject project = gsonBuilder.create().fromJson(json, LocalGeppettoProject.class);
 		project.setId(getRandomId());
 		project.setVolatile(true);
 		if(project.getView() == null)
