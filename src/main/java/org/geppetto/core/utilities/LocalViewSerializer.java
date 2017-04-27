@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.geppetto.core.data.model.IView;
 import org.geppetto.core.data.model.local.LocalGeppettoProject;
 
@@ -28,6 +30,8 @@ import com.google.gson.JsonSerializer;
  */
 public class LocalViewSerializer implements JsonDeserializer<LocalGeppettoProject>,JsonSerializer<IView>
 {
+	private static Log logger = LogFactory.getLog(LocalViewSerializer.class);
+	
 	@Override
 	public LocalGeppettoProject deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
 			throws JsonParseException {
@@ -37,12 +41,12 @@ public class LocalViewSerializer implements JsonDeserializer<LocalGeppettoProjec
 			public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 				SimpleDateFormat format = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy",
 						Locale.ENGLISH);
-				String timeStamp = json.toString();
+				String timeStamp = json.toString().replaceAll("^\"|\"$", "");
 				Date date = null;
 				try {
 					date =format.parse(timeStamp);
 				} catch (ParseException e) {
-					e.printStackTrace();
+					logger.error(e.getMessage());
 				}
 				return date; 
 			} 
