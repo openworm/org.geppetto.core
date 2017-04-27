@@ -351,7 +351,10 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IGeppettoProject getProjectFromJson(Gson gson, String json)
 	{
-		LocalGeppettoProject project = gson.fromJson(json, LocalGeppettoProject.class);
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(LocalGeppettoProject.class, new LocalViewSerializer());
+
+		LocalGeppettoProject project = gsonBuilder.create().fromJson(json, LocalGeppettoProject.class);
 		project.setId(getRandomId());
 		project.setVolatile(true);
 
