@@ -357,7 +357,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		LocalGeppettoProject project = gsonBuilder.create().fromJson(json, LocalGeppettoProject.class);
 		project.setId(getRandomId());
 		project.setVolatile(true);
-
+		if(project.getView()==null){
+			DataManagerHelper.getDataManager().newView(null, project);
+		}
 		// set project as parent for experiments
 		for(IExperiment e : project.getExperiments())
 		{
@@ -388,11 +390,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		LocalGeppettoProject project = gsonBuilder.create().fromJson(json, LocalGeppettoProject.class);
 		project.setId(getRandomId());
 		project.setVolatile(true);
-		if(project.getView() == null)
-		{
-			project.setView(new LocalView(0, IView.EMPTY));
+		if(project.getView()==null){
+			DataManagerHelper.getDataManager().newView(null, project);
 		}
-
 		// set project as parent for experiments
 		for(IExperiment e : project.getExperiments())
 		{
