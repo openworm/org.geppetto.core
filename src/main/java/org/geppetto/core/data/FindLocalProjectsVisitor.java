@@ -95,7 +95,7 @@ public class FindLocalProjectsVisitor<T extends IGeppettoProject> extends Simple
 			T project = builder.create().fromJson(reader, type);
 			if(project.getView() == null)
 			{
-				project.setView(new LocalView(0, IView.EMPTY));
+				project.setView(new LocalView(0, null));
 			}
 			for(IExperiment e : project.getExperiments())
 			{
