@@ -70,8 +70,8 @@ public class GeppettoRecordingCreator
 	private H5File recordingsH5File;
 	private HashMap<String, RecordingObject> map = new HashMap<String, RecordingObject>();
 	private List<String> reloaded = new ArrayList<String>();
-	private static int i = 0; //counter for logging purposes 
-	
+	private static int i = 0; // counter for logging purposes
+
 	public GeppettoRecordingCreator(String name)
 	{
 		_fileName = name;
@@ -353,7 +353,6 @@ public class GeppettoRecordingCreator
 		return (Group) ((javax.swing.tree.DefaultMutableTreeNode) recordingsH5File.getRootNode()).getUserObject();
 	}
 
-
 	/**
 	 * General method for adding datasets to an HDF5 File. The parameter dataType it's what makes the data stored in the dataset different from others; it could be an array or single number of
 	 * integers, doubles or floats.
@@ -491,16 +490,25 @@ public class GeppettoRecordingCreator
 		HObject findObject = FileFormat.findObject(recordingsH5File, path);
 		if(findObject == null)
 		{
-			Group newGroup = recordingsH5File.createGroup(tag, parent);
-			parent.addToMemberList(newGroup);
-			if(!reloaded.contains(parent.getName()))
+			//Double check needed to also look inside groups that might have been created but not saved
+			findObject = checkParent(tag, parent);
+			if(findObject == null)
 			{
-				recordingsH5File.reloadTree(root);
-				
-				reloaded.add(parent.getName());
-			}
+				Group newGroup = recordingsH5File.createGroup(tag, parent);
+				parent.addToMemberList(newGroup);
+				if(!reloaded.contains(parent.getName()))
+				{
+					recordingsH5File.reloadTree(root);
 
-			parent = newGroup;
+					reloaded.add(parent.getName());
+				}
+
+				parent = newGroup;
+			}
+			else
+			{
+				parent = (Group) findObject;
+			}
 		}
 		else
 		{
@@ -510,6 +518,22 @@ public class GeppettoRecordingCreator
 		return parent;
 	}
 
-	
+	/**
+	 * Checks if the parent has already the group we intend to create inside itself
+	 * @param groupName
+	 * @param parentGroup
+	 * @return
+	 */
+	private HObject checkParent(String groupName, Group parentGroup)
+	{
+		for(HObject h : parentGroup.getMemberList())
+		{
+			if(h.getName().equals(groupName))
+			{
+				return h;
+			}
+		}
+		return null;
+	}
 
 }
