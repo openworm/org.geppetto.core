@@ -136,9 +136,9 @@ public class URLReader
 	 * @return
 	 * @throws IOException
 	 */
-	public static URL createLocalCopy(Scope scope, long projectId, URL url) throws IOException
+	public static URL createLocalCopy(Scope scope, long projectId, URL url, boolean time) throws IOException
 	{
-		File outputFile = new File(PathConfiguration.createProjectTmpFolder(scope, projectId, PathConfiguration.getName(getFileName(url), true)));
+		File outputFile = new File(PathConfiguration.createProjectTmpFolder(scope, projectId, PathConfiguration.getName(getFileName(url), time)));
 		URLConnection uc = url.openConnection();
 		uc.connect();
 		InputStream in = uc.getInputStream();

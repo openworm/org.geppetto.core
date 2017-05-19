@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ASCII"?>
+<gep:GeppettoModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gep="https://raw.githubusercontent.com/openworm/org.geppetto.model/master/src/main/resources/geppettoModel.ecore" xmlns:gep_1="https://raw.githubusercontent.com/openworm/org.geppetto.model/master/src/main/resources/geppettoModel.ecore#//types" xmlns:gep_2="https://raw.githubusercontent.com/openworm/org.geppetto.model/master/src/main/resources/geppettoModel.ecore#//values">  
+<variables
+      id="PharyngealNetwork"
+      name=""
+      types="//@libraries.0/@types.0"/>
+  <libraries
+      id="neuroml"
+      name="NeuroML">
+    <types xsi:type="gep_1:ImportType"
+    	id="network_CElegans"
+        url="https://raw.githubusercontent.com/openworm/CElegansNeuroML/master/CElegans/generatedNeuroML2/PharyngealNetwork.net.nml"
+        modelInterpreterId="neuroMLModelInterpreter"
+        referenceURL="celegans"/>
+  </libraries>
+</gep:GeppettoModel>

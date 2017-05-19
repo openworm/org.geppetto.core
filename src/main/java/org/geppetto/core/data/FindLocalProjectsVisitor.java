@@ -46,6 +46,10 @@ import java.util.Map;
 
 import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.data.model.IGeppettoProject;
+import org.geppetto.core.data.model.IView;
+import org.geppetto.core.data.model.local.LocalGeppettoProject;
+import org.geppetto.core.data.model.local.LocalView;
+import org.geppetto.core.utilities.LocalViewSerializer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -85,10 +89,14 @@ public class FindLocalProjectsVisitor<T extends IGeppettoProject> extends Simple
 				}
 
 			});
-			Gson gson = builder.create();
-
 			BufferedReader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8);
-			T project = gson.fromJson(reader, type);
+			
+			builder.registerTypeAdapter(LocalGeppettoProject.class, new LocalViewSerializer());
+			T project = builder.create().fromJson(reader, type);
+			if(project.getView() == null)
+			{
+				project.setView(new LocalView(0, null));
+			}
 			for(IExperiment e : project.getExperiments())
 			{
 				e.setParentProject(project);

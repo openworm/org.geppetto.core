@@ -148,5 +148,37 @@ public class Zipper
 		zos.closeEntry();
 		fis.close();
 	}
+	
+	/**
+	 * @param file
+	 * @param zos
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public void addToZip(URL file, String innerFolder) throws FileNotFoundException, IOException
+	{
+		String zipFilePath = "";
+		File fileObject = new File(file.getFile());
+		if (fileObject.isDirectory()){
+			zipFilePath = fileObject.getName() + "/";
+		}
+		else{
+			zipFilePath = URLReader.getFileName(file);
+		}
+		
+		logger.info("Writing '" + zipFilePath + "' to zip file");
+		zos.putNextEntry(new ZipEntry(this.innerFolderName + innerFolder + zipFilePath));
+
+		InputStream  fis = file.openStream();
+		byte[] bytes = new byte[1024];
+		int length;
+		while((length = fis.read(bytes)) >= 0)
+		{
+			zos.write(bytes, 0, length);
+		}
+
+		zos.closeEntry();
+		fis.close();
+	}
 
 }

@@ -59,6 +59,7 @@ import org.geppetto.core.data.model.ISimulationResult;
 import org.geppetto.core.data.model.ISimulatorConfiguration;
 import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.data.model.IUserGroup;
+import org.geppetto.core.data.model.IView;
 import org.geppetto.core.data.model.PersistedDataType;
 import org.geppetto.core.data.model.ResultsFormat;
 import org.geppetto.core.data.model.UserPrivileges;
@@ -71,9 +72,12 @@ import org.geppetto.core.data.model.local.LocalSimulationResult;
 import org.geppetto.core.data.model.local.LocalSimulatorConfiguration;
 import org.geppetto.core.data.model.local.LocalUser;
 import org.geppetto.core.data.model.local.LocalUserGroup;
+import org.geppetto.core.data.model.local.LocalView;
+import org.geppetto.core.utilities.LocalViewSerializer;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class DefaultGeppettoDataManager implements IGeppettoDataManager
 {
@@ -139,15 +143,16 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 		return user;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.geppetto.core.data.IGeppettoDataManager#getUserGroupById(long)
 	 */
 	@Override
-	public IUserGroup getUserGroupById(long id){
-		return getUserGroup();	
+	public IUserGroup getUserGroupById(long id)
+	{
+		return getUserGroup();
 	}
 
 	/*
@@ -226,8 +231,6 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		return project.getExperiments();
 	}
 
-
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -256,8 +259,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.geppetto.core.data.IGeppettoDataManager#cloneExperiment(java.lang.String, java.lang.String,
-	 * 		org.geppetto.core.data.model.IGeppettoProject,org.geppetto.core.data.model.IExperiment)
+	 * @see org.geppetto.core.data.IGeppettoDataManager#cloneExperiment(java.lang.String, java.lang.String, org.geppetto.core.data.model.IGeppettoProject,org.geppetto.core.data.model.IExperiment)
 	 */
 	@Override
 	public IExperiment cloneExperiment(String name, String description, IGeppettoProject project, IExperiment e)
@@ -268,7 +270,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 		((LocalGeppettoProject) project).getExperiments().add(experiment);
 		return experiment;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -349,10 +351,15 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IGeppettoProject getProjectFromJson(Gson gson, String json)
 	{
-		LocalGeppettoProject project = gson.fromJson(json, LocalGeppettoProject.class);
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(LocalGeppettoProject.class, new LocalViewSerializer());
+
+		LocalGeppettoProject project = gsonBuilder.create().fromJson(json, LocalGeppettoProject.class);
 		project.setId(getRandomId());
 		project.setVolatile(true);
-
+		if(project.getView()==null){
+			DataManagerHelper.getDataManager().newView(null, project);
+		}
 		// set project as parent for experiments
 		for(IExperiment e : project.getExperiments())
 		{
@@ -377,10 +384,15 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IGeppettoProject getProjectFromJson(Gson gson, Reader json)
 	{
-		LocalGeppettoProject project = gson.fromJson(json, LocalGeppettoProject.class);
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(LocalGeppettoProject.class, new LocalViewSerializer());
+
+		LocalGeppettoProject project = gsonBuilder.create().fromJson(json, LocalGeppettoProject.class);
 		project.setId(getRandomId());
 		project.setVolatile(true);
-
+		if(project.getView()==null){
+			DataManagerHelper.getDataManager().newView(null, project);
+		}
 		// set project as parent for experiments
 		for(IExperiment e : project.getExperiments())
 		{
@@ -399,8 +411,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public void clearWatchedVariables(IAspectConfiguration aspectConfig)
 	{
-		// TODO Auto-generated method stub
-
+		// Cannot do watch without db, cannot clear watched
 	}
 
 	@Override
@@ -436,16 +447,15 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IAspectConfiguration newAspectConfiguration(IExperiment experiment, String instancePath, ISimulatorConfiguration simulatorConfiguration)
 	{
-		LocalAspectConfiguration ac = new LocalAspectConfiguration(0l, instancePath, new ArrayList<String>(), new ArrayList<LocalParameter>(),
-				(LocalSimulatorConfiguration) simulatorConfiguration);
+		LocalAspectConfiguration ac = new LocalAspectConfiguration(0l, instancePath, new ArrayList<String>(), new ArrayList<LocalParameter>(), (LocalSimulatorConfiguration) simulatorConfiguration);
 		((LocalExperiment) experiment).getAspectConfigurations().add(ac);
 		return ac;
 	}
 
 	@Override
-	public ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, float timestep, float length,Map<String, String> parameters)
+	public ISimulatorConfiguration newSimulatorConfiguration(String simulator, String conversionService, float timestep, float length, Map<String, String> parameters)
 	{
-		return new LocalSimulatorConfiguration(0l, simulator, conversionService, timestep, length,parameters);
+		return new LocalSimulatorConfiguration(0l, simulator, conversionService, timestep, length, parameters);
 	}
 
 	@Override
@@ -489,9 +499,25 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	}
 
 	@Override
-	public void makeGeppettoProjectPublic(long projectId, boolean isPublic)
-			throws GeppettoExecutionException {
+	public void makeGeppettoProjectPublic(long projectId, boolean isPublic) throws GeppettoExecutionException
+	{
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public IView newView(String view, IExperiment experiment)
+	{
+		IView v = new LocalView(1, view);
+		experiment.setView(v);
+		return v;
+	}
+
+	@Override
+	public IView newView(String view, IGeppettoProject project)
+	{
+		IView v = new LocalView(1, view);
+		project.setView(v);
+		return v;
 	}
 }

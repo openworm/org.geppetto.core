@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.emfjson.jackson.resource.JsonResourceFactory;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.model.GeppettoFactory;
 import org.geppetto.model.GeppettoLibrary;
@@ -53,6 +54,7 @@ import org.geppetto.model.LibraryManager;
 public class SharedLibraryManager
 {
 
+	
 	private static LibraryManager manager;
 
 	private static GeppettoLibrary commonLibrary;
@@ -74,6 +76,15 @@ public class SharedLibraryManager
 			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 			Map<String, Object> m = reg.getExtensionToFactoryMap();
 			m.put("xmi", new XMIResourceFactoryImpl()); // sets the factory for the XMI type
+			GeppettoPackage.Registry.INSTANCE.put(GeppettoPackage.eNS_URI, GeppettoPackage.eINSTANCE);
+
+			// We add all supported versions of the schema
+			String[] versions = new String[] { "master", "development" };
+			for(String version : versions)
+			{
+				GeppettoPackage.Registry.INSTANCE.put(GeppettoPackage.eNS_URI_TEMPLATE.replace("$VERSION$", version), GeppettoPackage.eINSTANCE);
+			}
+			
 			ResourceSet resSet = new ResourceSetImpl();
 			Resource resource = resSet.createResource(URI.createURI("/GeppettoCommonLibrary.xmi"));
 			try

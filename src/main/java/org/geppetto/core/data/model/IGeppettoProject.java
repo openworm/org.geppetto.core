@@ -54,4 +54,8 @@ public interface IGeppettoProject extends IDataEntity
 	void setVolatile(boolean volatileProject);
 	
 	boolean isPublic();
+	
+	void setView(IView view);
+	
+	IView getView();
 }
