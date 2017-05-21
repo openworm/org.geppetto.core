@@ -148,6 +148,15 @@ public class GeppettoModelAccess
 		Command command = AddCommand.create(editingDomain, geppettoModel, GeppettoPackage.Literals.GEPPETTO_MODEL__TAGS, tag);
 		editingDomain.getCommandStack().execute(command);
 	}
+	
+	/**
+	 * @param tag
+	 */
+	public void addLibrary(final GeppettoLibrary library)
+	{
+		Command command = AddCommand.create(editingDomain, geppettoModel, GeppettoPackage.Literals.GEPPETTO_MODEL__LIBRARIES, library);
+		editingDomain.getCommandStack().execute(command);
+	}
 
 	/**
 	 * @param tag
