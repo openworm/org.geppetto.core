@@ -66,6 +66,8 @@ public abstract class ASimulator extends AService implements ISimulator
 	protected ExperimentState experimentState;
 
 	protected GeppettoModelAccess geppettoModelAccess;
+	
+	private boolean isNeuronSimulator = false;
 
 	public ASimulator()
 	{
@@ -150,5 +152,14 @@ public abstract class ASimulator extends AService implements ISimulator
 	public String getTimeStepUnit()
 	{
 		return timeStepUnit;
+	}
+	
+	public boolean isNeuronSimulator(){
+		return this.isNeuronSimulator;
+	}
+	
+	public void setNeuronSimulator(boolean mode)
+	{
+		this.isNeuronSimulator = mode;
 	}
 }
