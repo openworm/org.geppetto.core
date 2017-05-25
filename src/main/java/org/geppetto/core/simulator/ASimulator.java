@@ -67,7 +67,7 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	protected GeppettoModelAccess geppettoModelAccess;
 	
-	private boolean supportConcurrentRuns = false;
+	private boolean supportConcurrentRuns = true;
 
 	public ASimulator()
 	{
