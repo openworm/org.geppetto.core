@@ -67,7 +67,7 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	protected GeppettoModelAccess geppettoModelAccess;
 	
-	private boolean isNeuronSimulator = false;
+	private boolean supportConcurrentRuns = false;
 
 	public ASimulator()
 	{
@@ -154,12 +154,12 @@ public abstract class ASimulator extends AService implements ISimulator
 		return timeStepUnit;
 	}
 	
-	public boolean isNeuronSimulator(){
-		return this.isNeuronSimulator;
+	public boolean supportConcurrentRuns(){
+		return this.supportConcurrentRuns;
 	}
 	
-	public void setNeuronSimulator(boolean mode)
+	public void supportConcurrentRuns(boolean mode)
 	{
-		this.isNeuronSimulator = mode;
+		this.supportConcurrentRuns = mode;
 	}
 }
