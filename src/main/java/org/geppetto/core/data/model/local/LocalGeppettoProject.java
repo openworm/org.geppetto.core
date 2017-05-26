@@ -61,6 +61,9 @@ public class LocalGeppettoProject implements IGeppettoProject
 
 	private LocalView view;
 
+	@JsonIgnore
+	private transient String baseURL;
+
 	public LocalGeppettoProject(long id, String name, List<LocalExperiment> experiments, LocalPersistedData geppettoModel)
 	{
 		this.id = id;
@@ -164,5 +167,15 @@ public class LocalGeppettoProject implements IGeppettoProject
 	public IView getView()
 	{
 		return this.view;
+	}
+
+	public void setBaseURL(String baseURL)
+	{
+		this.baseURL=baseURL;
+	}
+	
+	public String getBaseURL()
+	{
+		return this.baseURL;
 	}
 }
