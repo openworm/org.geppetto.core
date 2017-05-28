@@ -44,7 +44,6 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 
 	public abstract String getSimulatorPath();
 
-
 	@Override
 	public void simulate() throws GeppettoExecutionException
 	{
