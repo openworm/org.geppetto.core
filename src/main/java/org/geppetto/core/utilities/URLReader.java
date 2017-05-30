@@ -62,12 +62,32 @@ public class URLReader
 
 	/**
 	 * @param urlString
+	 * @param baseURL
+	 * @return
+	 * @throws IOException
+	 */
+	public static URL getURL(String urlString, String baseURL) throws IOException
+	{
+		String url = urlString;
+		if(baseURL != null)
+		{
+			if(!urlString.startsWith("http://") && !urlString.startsWith("https://") && !urlString.startsWith("file:") && !urlString.startsWith(SERVER_ROOT_TOKEN))
+			{
+				url = baseURL + urlString;
+			}
+		}
+		return getURL(url);
+	}
+
+	/**
+	 * @param urlString
 	 * @return
 	 * @throws IOException
 	 */
 	public static URL getURL(String urlString) throws IOException
 	{
 		URL url = null;
+
 		if(urlString.startsWith("https://") || urlString.startsWith("http://") || urlString.startsWith("file:/"))
 		{
 			url = new URL(urlString);

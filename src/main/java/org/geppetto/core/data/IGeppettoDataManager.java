@@ -83,7 +83,7 @@ public interface IGeppettoDataManager
 
 	IGeppettoProject getProjectFromJson(Gson gson, String json);
 
-	IGeppettoProject getProjectFromJson(Gson gson, Reader json);
+	IGeppettoProject getProjectFromJson(Gson gson, Reader json, String baseURL);
 
 	List<? extends IExperiment> getExperimentsForProject(long projectId);
 

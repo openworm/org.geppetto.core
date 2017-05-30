@@ -58,4 +58,8 @@ public interface IGeppettoProject extends IDataEntity
 	void setView(IView view);
 	
 	IView getView();
+
+	String getBaseURL();
+	
+	void setBaseURL(String baseURL);
 }

@@ -226,6 +226,20 @@ public class PathConfiguration
 		return folder;
 	}
 
+	/**
+	 * @param scope
+	 * @param projectId
+	 * @param folderName
+	 * @return
+	 */
+	public static File createFolderInExperimentTmpFolder(Scope scope, long projectId, long experimentId, String instancePath, String folderName)
+	{
+		File folder = new File(createExperimentTmpPath(scope, projectId, experimentId, instancePath, folderName) + File.separator);
+		// createProjectTmpFolder creates only up to the project level, the following mkdir will create also folderName
+		folder.mkdir();
+		return folder;
+	}
+	
 	public static URL getModelSchemaURL()
 	{
 		return PathConfiguration.class.getResource("/schema/geppettoModel/geppettoModelSchema.xsd");
