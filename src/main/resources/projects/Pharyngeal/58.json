@@ -1,0 +1,67 @@
+{
+	"id": 58,
+	"name": "PharyngealNetwork.net - net",
+	"experiments": [
+		{
+			"id": 1,
+			"aspectConfigurations": [
+				{
+					"id": 1,
+					"instance": "PharyngealNetwork",
+					"simulatorConfiguration": {
+						"id": 1,
+						"simulatorId": "neuronSimulator",
+						"timestep": 2.5E-5,
+						"length": 0.3,
+						"parameters": {
+							"target": "network_CElegans"
+						}
+					}
+				}
+			],
+			"name": "PharyngealNetwork - net",
+			"status": "DESIGN",
+			"script": "/projects/Pharyngeal/PharyngealNetworkcadb5b76a8857af6815e279d2f2ea674.js",
+			"view": {
+				"id": 1,
+				"viewStates": {
+					"views": {
+						"Plot1": {
+							"widgetType": 0,
+							"transparentBackground": false,
+							"name": "hhcell.hhpop[0].v",
+							"size": {
+								"height": 300,
+								"width": 350
+							},
+							"position": {
+								"left": 1015,
+								"top": 390
+							},
+							"dataType": "object",
+							"xyData": [
+								{
+									"dataY": "hhcell.hhpop[0].v",
+									"dataX": "time(StateVariable)",
+									"projectId": 1,
+									"experimentId": 1
+								}
+							]
+						}
+					}
+				}
+			}
+		}
+	],
+	"geppettoModel": {
+		"id": 1,
+		"url": "/projects/Pharyngeal/PharyngealNetwork_MODELcadb5b76a8857af6815e279d2f2ea674.xmi",
+		"type": "GEPPETTO_PROJECT"
+	},
+	"activeExperimentId": 1,
+	"isPublic": false,
+	"view": {
+		"id": 0,
+		"viewStates": "{\"views\":{}}"
+	}
+}

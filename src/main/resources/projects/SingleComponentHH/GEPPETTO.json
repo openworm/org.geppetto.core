@@ -1,46 +1,133 @@
-{ "activeExperimentId" : 1,
-  "experiments" : [ { "aspectConfigurations" : [ { "instance" : "hhcell",
-              "simulatorConfiguration" : { "conversionServiceId" : "lemsConversion",
-                  "id" : 1,
-                  "length" : 0.3,
-                  "parameters" : { "target" : "net1" },
-                  "simulatorId" : "neuronSimulator",
-                  "timestep" : 5.0e-05
-                },
-              "watchedVariables" : [ "hhcell.hhpop[0].v",
-                  "hhcell.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q",
-                  "hhcell.hhpop[0].bioPhys1.membraneProperties.naChans.na.h.q",
-                  "hhcell.hhpop[0].bioPhys1.membraneProperties.kChans.k.n.q"
-                ]
-            } ],
-        "description" : "The Hodgkin-Huxley model (or conductance-based model) is a mathematical model that describes how action potentials in neurons are initiated and propagated. It is a set of nonlinear differential equations that approximates the electrical characteristics of excitable cells such as neurons.",
-        "id" : 1,
-        "lastModified" : "1436102517799",
-        "name" : "Hodgkin-Huxley NEURON simulation",
-        "script" : "/projects/SingleComponentHH/HH_Geppetto_Script.js",
-        "simulationResults" : [ { "format" : "GEPPETTO_RECORDING",
-              "id" : 1,
-              "result" : { "id" : 1,
-                  "type" : "RECORDING",
-                  "url" : "/projects/SingleComponentHH/results.h5"
-                },
-              "simulatedInstance" : "hhcell"
+{
+  "activeExperimentId": 1,
+  "experiments": [
+    {
+      "aspectConfigurations": [
+        {
+          "instance": "hhcell",
+          "simulatorConfiguration": {
+            "conversionServiceId": "lemsConversion",
+            "id": 1,
+            "length": 0.3,
+            "parameters": {
+              "target": "net1"
             },
-            { "format" : "RAW",
-              "id" : 2,
-              "result" : { "id" : 2,
-                  "type" : "RECORDING",
-                  "url" : "/projects/SingleComponentHH/rawRecording.zip"
+            "simulatorId": "neuronSimulator",
+            "timestep": 5.0e-05
+          },
+          "watchedVariables": [
+            "hhcell.hhpop[0].v",
+            "hhcell.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q",
+            "hhcell.hhpop[0].bioPhys1.membraneProperties.naChans.na.h.q",
+            "hhcell.hhpop[0].bioPhys1.membraneProperties.kChans.k.n.q"
+          ]
+        }
+      ],
+      "view": {
+        "id": 1,
+        "viewStates": {
+          "views": {
+            "Plot1": {
+              "widgetType": 0,
+              "isWidget": true,
+              "transparentBackground": false,
+              "name": "hhcell.hhpop[0].v",
+              "size": {
+                "height": 315,
+                "width": 515
+              },
+              "position": {
+                "left": 125,
+                "top": 70
+              },
+              "dataType": "object",
+              "data": [
+                "hhcell.hhpop[0].v"
+              ]
+            },
+            "Plot2": {
+              "widgetType": 0,
+              "isWidget": true,
+              "transparentBackground": false,
+              "name": "Activation variables",
+              "size": {
+                "height": 315,
+                "width": 515
+              },
+              "position": {
+                "left": 125,
+                "top": 390
+              },
+              "dataType": "object",
+              "data": [
+                "hhcell.hhpop[0].bioPhys1.membraneProperties.naChans.na.m.q",
+                "hhcell.hhpop[0].bioPhys1.membraneProperties.naChans.na.h.q",
+                "hhcell.hhpop[0].bioPhys1.membraneProperties.kChans.k.n.q"
+              ]
+            },
+            "Canvas1": {
+              "widgetType": "CANVAS",
+              "isWidget": false,
+              "dataType": "instances",
+              "data": [
+                "hhcell"
+              ],
+              "componentSpecific": {
+                "cameraPosition": {
+                  "x": -13.548,
+                  "y": -0.875,
+                  "z": 25.228
                 },
-              "simulatedInstance" : "hhcell"
+                "cameraRotation": {
+                  "rx": 0,
+                  "ry": -0.149,
+                  "rz": 0,
+                  "radius": 26.96
+                },
+                "colorMap": {},
+                "opacityMap": {},
+                "geometryTypeMap": {},
+                "backgroundColor": 1052688
+              }
             }
-          ],
-        "status" : "COMPLETED"
-      } ],
-  "geppettoModel" : { "id" : 1,
-      "type" : "GEPPETTO_PROJECT",
-      "url" : "/projects/SingleComponentHH/GeppettoModel.xmi"
-    },
-  "id" : 1,
-  "name" : "Hodgkin-Huxley Neuron"
+          }
+        }
+      },
+      "description": "The Hodgkin-Huxley model (or conductance-based model) is a mathematical model that describes how action potentials in neurons are initiated and propagated. It is a set of nonlinear differential equations that approximates the electrical characteristics of excitable cells such as neurons.",
+      "id": 1,
+      "lastModified": "1436102517799",
+      "name": "Hodgkin-Huxley NEURON simulation",
+      "script": "/projects/SingleComponentHH/HH_Geppetto_Script.js",
+      "simulationResults": [
+        {
+          "format": "GEPPETTO_RECORDING",
+          "id": 1,
+          "result": {
+            "id": 1,
+            "type": "RECORDING",
+            "url": "/projects/SingleComponentHH/results.h5"
+          },
+          "simulatedInstance": "hhcell"
+        },
+        {
+          "format": "RAW",
+          "id": 2,
+          "result": {
+            "id": 2,
+            "type": "RECORDING",
+            "url": "/projects/SingleComponentHH/rawRecording.zip"
+          },
+          "simulatedInstance": "hhcell"
+        }
+      ],
+      "status": "COMPLETED"
+    }
+  ],
+  "geppettoModel": {
+    "id": 1,
+    "type": "GEPPETTO_PROJECT",
+    "url": "/projects/SingleComponentHH/GeppettoModel.xmi"
+  },
+  "id": 1,
+  "name": "Hodgkin-Huxley Neuron"
 }

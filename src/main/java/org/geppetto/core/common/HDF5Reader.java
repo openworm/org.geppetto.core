@@ -68,7 +68,7 @@ public class HDF5Reader
 				// https://github.com/jrmartin/hdf5-java-bindings/blob/master/src/main/java/ncsa/hdf/hdf5lib/H5.java#L2566
 
 				// The scope is CONNECTION since if we are reading a recording the simulation has already happened
-				url = URLReader.createLocalCopy(Scope.CONNECTION, projectId, url);
+				url = URLReader.createLocalCopy(Scope.CONNECTION, projectId, url, true);
 			}
 			H5File testFile = (H5File) fileFormat.createInstance(url.getPath(), FileFormat.READ);
 

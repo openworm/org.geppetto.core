@@ -36,6 +36,7 @@ package org.geppetto.core.simulator;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.common.GeppettoInitializationException;
 import org.geppetto.core.data.model.IAspectConfiguration;
+import org.geppetto.core.data.model.IExperiment;
 import org.geppetto.core.manager.Scope;
 import org.geppetto.core.model.GeppettoModelAccess;
 import org.geppetto.core.services.AService;
@@ -67,6 +68,9 @@ public abstract class ASimulator extends AService implements ISimulator
 
 	protected GeppettoModelAccess geppettoModelAccess;
 
+	private IExperiment experiment;
+
+
 	public ASimulator()
 	{
 		scope = Scope.RUN;
@@ -78,8 +82,8 @@ public abstract class ASimulator extends AService implements ISimulator
 	 * @see org.geppetto.core.simulator.ISimulator#initialize(org.geppetto.core.model.IModel, org.geppetto.core.simulation.ISimulatorCallbackListener)
 	 */
 	@Override
-	public void initialize(DomainModel model, IAspectConfiguration aspectConfiguration, ExperimentState experimentState, ISimulatorCallbackListener listener, GeppettoModelAccess modelAccess) throws GeppettoInitializationException,
-			GeppettoExecutionException
+	public void initialize(DomainModel model, IAspectConfiguration aspectConfiguration, ExperimentState experimentState, ISimulatorCallbackListener listener, GeppettoModelAccess modelAccess)
+			throws GeppettoInitializationException, GeppettoExecutionException
 	{
 		setListener(listener);
 		this.model = model;
@@ -87,7 +91,7 @@ public abstract class ASimulator extends AService implements ISimulator
 		this.runtime = 0;
 		this.initialized = true;
 		this.experimentState = experimentState;
-		this.geppettoModelAccess=modelAccess;
+		this.geppettoModelAccess = modelAccess;
 	}
 
 	/**
@@ -139,7 +143,6 @@ public abstract class ASimulator extends AService implements ISimulator
 		runtime += timestep;
 	}
 
-
 	@Override
 	public double getTime()
 	{
@@ -150,5 +153,23 @@ public abstract class ASimulator extends AService implements ISimulator
 	public String getTimeStepUnit()
 	{
 		return timeStepUnit;
+	}
+
+
+
+	/**
+	 * @param experiment
+	 */
+	public void setExperiment(IExperiment experiment)
+	{
+		this.experiment = experiment;
+	}
+
+	/**
+	 * @return
+	 */
+	public IExperiment getExperiment()
+	{
+		return this.experiment;
 	}
 }

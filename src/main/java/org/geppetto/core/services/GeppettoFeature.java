@@ -10,5 +10,6 @@ package org.geppetto.core.services;
  */
 public enum GeppettoFeature
 {
-	DYNAMIC_VISUALTREE_FEATURE, SET_PARAMETERS_FEATURE
+	SET_PARAMETERS_FEATURE,
+	DEFAULT_VIEW_CUSTOMISER_FEATURE
 }

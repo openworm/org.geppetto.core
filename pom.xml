@@ -4,7 +4,7 @@
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
 	<name>Geppetto Core Bundle</name>
-	<version>0.3.5</version>
+	<version>0.3.6</version>
 	<packaging>bundle</packaging>
 	<properties>
 		<github.global.server>github</github.global.server>
@@ -162,6 +162,11 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.5.3</version>
+		</dependency>
+		<dependency>
+			<groupId>uk.com.robust-it</groupId>
+			<artifactId>cloning</artifactId>
+			<version>1.9.3</version>
 		</dependency>
 	</dependencies>
 	<repositories>
