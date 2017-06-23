@@ -72,12 +72,23 @@ public class ServicesRegistry
 		registeredModelFormats.add(modelFormat);
 		return modelFormat;
 	}
+    
+    public static List<String> getRegisteredModelFormats()
+    {
+        ArrayList<String> modelFormats = new ArrayList<>();
+        for(ModelFormat modelFormat : registeredModelFormats)
+		{
+			modelFormats.add(modelFormat.getModelFormat());
+		}
+		return modelFormats;
+        
+    }
 
 	public static ModelFormat getModelFormat(String format)
 	{
 		for(ModelFormat modelFormat : registeredModelFormats)
 		{
-			if(modelFormat.getModelFormat().equals(format)) return modelFormat;
+			if(modelFormat.getModelFormat().equalsIgnoreCase(format)) return modelFormat;
 		}
 		return null;
 	}
