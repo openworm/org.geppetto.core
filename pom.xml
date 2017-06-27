@@ -298,6 +298,7 @@
 				<version>2.15</version>
 				<configuration>
 					<junitArtifactName>org.junit:com.springsource.org.junit</junitArtifactName>
+					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 					<excludes>
 						<exclude>**/S3ManagerTest.java</exclude>
 					</excludes>
