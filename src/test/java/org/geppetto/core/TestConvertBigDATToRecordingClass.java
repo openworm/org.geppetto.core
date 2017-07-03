@@ -93,7 +93,7 @@ public class TestConvertBigDATToRecordingClass {
         gm.getLibraries().add(SharedLibraryManager.getSharedCommonLibrary());
         createModel(experimentState, gm);
 
-        System.out.println("Model created, took:" + (System.currentTimeMillis() - start));
+        _logger.info("Model created, took:" + (System.currentTimeMillis() - start));
         start=System.currentTimeMillis();
         GeppettoModelAccess geppettoModelAccess = new GeppettoModelAccess(gm);
 
@@ -138,10 +138,10 @@ public class TestConvertBigDATToRecordingClass {
             }
         }
         input.close();
-        System.out.println("DAT processed, ready to convert, took" + (System.currentTimeMillis() - start));
+        _logger.info("DAT processed, ready to convert, took" + (System.currentTimeMillis() - start));
         start=System.currentTimeMillis();
         datConverter.convert(experimentState);
-        System.out.println("Conversion done, took" + (System.currentTimeMillis() - start));
+        _logger.info("Conversion done, took" + (System.currentTimeMillis() - start));
         assertNotNull(datConverter.getRecordingsFile());
 
         H5File file = datConverter.getRecordingsFile();
