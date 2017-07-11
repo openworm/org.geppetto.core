@@ -72,12 +72,23 @@ public class ServicesRegistry
 		registeredModelFormats.add(modelFormat);
 		return modelFormat;
 	}
+    
+    public static List<String> getRegisteredModelFormats()
+    {
+        ArrayList<String> modelFormats = new ArrayList<>();
+        for(ModelFormat modelFormat : registeredModelFormats)
+		{
+			modelFormats.add(modelFormat.getModelFormat());
+		}
+		return modelFormats;
+        
+    }
 
 	public static ModelFormat getModelFormat(String format)
 	{
 		for(ModelFormat modelFormat : registeredModelFormats)
 		{
-			if(modelFormat.getModelFormat().equals(format)) return modelFormat;
+			if(modelFormat.getModelFormat().equalsIgnoreCase(format)) return modelFormat;
 		}
 		return null;
 	}
@@ -253,14 +264,20 @@ public class ServicesRegistry
 		{
 			return outputModelFormat;
 		}
+        
+        @Override
+        public String toString()
+        {
+            return "ConversionServiceKey ["+inputModelFormat.getModelFormat()+"->"+outputModelFormat.getModelFormat()+"; "+hashCode()+"]";
+        }
 
 		@Override
 		public int hashCode()
 		{
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((inputModelFormat.toString() == null) ? 0 : inputModelFormat.toString().hashCode());
-			result = prime * result + ((outputModelFormat.toString() == null) ? 0 : outputModelFormat.toString().hashCode());
+			result = prime * result + ((inputModelFormat.toString() == null) ? 0 : inputModelFormat.getModelFormat().toUpperCase().hashCode());
+			result = prime * result + ((outputModelFormat.toString() == null) ? 0 : outputModelFormat.getModelFormat().toUpperCase().hashCode());
 			return result;
 		}
 
@@ -269,7 +286,7 @@ public class ServicesRegistry
 		{
 			if(o == null || !(o instanceof ConversionServiceKey)) return false;
 			ConversionServiceKey other = (ConversionServiceKey) o;
-			return inputModelFormat.toString().equals(other.inputModelFormat.toString()) && outputModelFormat.toString().equals(other.outputModelFormat.toString());
+			return o.hashCode()==other.hashCode();
 		}
 
 	}

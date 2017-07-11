@@ -1,6 +1,8 @@
 language: java
 install:
-- git clone https://github.com/openworm/org.geppetto.model.git -b $TRAVIS_BRANCH
+- export main_repo_branch=$TRAVIS_BRANCH
+- if [[ ${main_repo_branch} != "master" && ${main_repo_branch} != "development" ]]; then main_repo_branch=development ; fi
+- git clone https://github.com/openworm/org.geppetto.model.git -b $main_repo_branch
 - cd org.geppetto.model
 - mvn install
 - cd ..
