@@ -1,35 +1,4 @@
-/*******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2011, 2013 OpenWorm.
- * http://openworm.org
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the MIT License
- * which accompanies this distribution, and is available at
- * http://opensource.org/licenses/MIT
- *
- * Contributors:
- *     	OpenWorm - http://openworm.org/people.html
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
- * USE OR OTHER DEALINGS IN THE SOFTWARE.
- *******************************************************************************/
+
 
 package org.geppetto.core.services.registry;
 
@@ -72,12 +41,23 @@ public class ServicesRegistry
 		registeredModelFormats.add(modelFormat);
 		return modelFormat;
 	}
+    
+    public static List<String> getRegisteredModelFormats()
+    {
+        ArrayList<String> modelFormats = new ArrayList<>();
+        for(ModelFormat modelFormat : registeredModelFormats)
+		{
+			modelFormats.add(modelFormat.getModelFormat());
+		}
+		return modelFormats;
+        
+    }
 
 	public static ModelFormat getModelFormat(String format)
 	{
 		for(ModelFormat modelFormat : registeredModelFormats)
 		{
-			if(modelFormat.getModelFormat().equals(format)) return modelFormat;
+			if(modelFormat.getModelFormat().equalsIgnoreCase(format)) return modelFormat;
 		}
 		return null;
 	}
@@ -253,14 +233,20 @@ public class ServicesRegistry
 		{
 			return outputModelFormat;
 		}
+        
+        @Override
+        public String toString()
+        {
+            return "ConversionServiceKey ["+inputModelFormat.getModelFormat()+"->"+outputModelFormat.getModelFormat()+"; "+hashCode()+"]";
+        }
 
 		@Override
 		public int hashCode()
 		{
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((inputModelFormat.toString() == null) ? 0 : inputModelFormat.toString().hashCode());
-			result = prime * result + ((outputModelFormat.toString() == null) ? 0 : outputModelFormat.toString().hashCode());
+			result = prime * result + ((inputModelFormat.toString() == null) ? 0 : inputModelFormat.getModelFormat().toUpperCase().hashCode());
+			result = prime * result + ((outputModelFormat.toString() == null) ? 0 : outputModelFormat.getModelFormat().toUpperCase().hashCode());
 			return result;
 		}
 
@@ -269,7 +255,7 @@ public class ServicesRegistry
 		{
 			if(o == null || !(o instanceof ConversionServiceKey)) return false;
 			ConversionServiceKey other = (ConversionServiceKey) o;
-			return inputModelFormat.toString().equals(other.inputModelFormat.toString()) && outputModelFormat.toString().equals(other.outputModelFormat.toString());
+			return o.hashCode()==other.hashCode();
 		}
 
 	}

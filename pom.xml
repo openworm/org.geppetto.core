@@ -4,7 +4,7 @@
 	<groupId>org.geppetto</groupId>
 	<artifactId>core</artifactId>
 	<name>Geppetto Core Bundle</name>
-	<version>0.3.6</version>
+	<version>0.3.7</version>
 	<packaging>bundle</packaging>
 	<properties>
 		<github.global.server>github</github.global.server>
@@ -298,6 +298,7 @@
 				<version>2.15</version>
 				<configuration>
 					<junitArtifactName>org.junit:com.springsource.org.junit</junitArtifactName>
+					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 					<excludes>
 						<exclude>**/S3ManagerTest.java</exclude>
 					</excludes>

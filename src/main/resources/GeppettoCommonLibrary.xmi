@@ -40,4 +40,7 @@
   <types xsi:type="gep_1:ImageType"
       id="Image"
       name="Image"/>
+  <types xsi:type="gep_1:ConnectionType"
+      id="connection"
+      name="Connection"/>
 </gep:GeppettoLibrary>
