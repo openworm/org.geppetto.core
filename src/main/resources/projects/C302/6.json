@@ -20,6 +20,36 @@
         "id" : 1,
         "lastModified" : "1436102517799",
         "name" : "c302 NEURON Simulation",
+        "view": {
+        "id": 1,
+        "viewStates": {
+          "views": {
+            "Plot1": {
+              "widgetType": 0,
+              "isWidget": true,
+              "transparentBackground": false,
+              "name": "Recorded Variables",
+              "size": {
+                "height": 273,
+                "width": 535
+              },
+              "position": {
+                "left": 123,
+                "top": 10
+              },
+              "dataType": "object",
+              "data": [
+				   "c302.ADAL[0].v",
+                  "c302.ADAR[0].v",
+                  "c302.BDUR[0].v",
+                  "c302.I1R[0].v",
+                  "c302.I2L[0].v",
+                  "c302.PVDR[0].v"
+              ]
+            }
+          }
+        }
+        },
         "simulationResults" : [ { "format" : "GEPPETTO_RECORDING",
               "id" : 1,
               "result" : { "id" : 1,
