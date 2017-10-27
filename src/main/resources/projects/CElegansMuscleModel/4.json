@@ -15,11 +15,33 @@
                   "net1.muscle[0].biophys.membraneProperties.ca_boyle_all.iDensity"
                 ]
             } ],
+            "view": {
+	        "id": 1,
+	        "viewStates": {
+	          "views": {
+	            "Popup1": {
+	              "widgetType": 1,
+	              "isWidget": true,
+	              "transparentBackground": false,
+	              "name": "Description",
+	              "size": {
+	                "height": 160,
+	                "width": 446
+	              },
+	              "position": {
+	                "left": 147,
+	                "top": 90
+	              },
+	              "dataType": "stringCommand",
+	              "data": "Project.getActiveExperiment().getDescription()"
+	            }
+	          }
+	        }
+	      },
         "description" : "This project is based on the <a href=\"http://github.com/openworm/muscle_model\">OpenWorm muscle model</a>.  This simulates the electrical properties of a single C. elegans body wall muscle cell.  The simulation was executed using NEURON. The original version is based on a paper by Boyle & Cohen in 2008.",
         "id" : 1,
         "lastModified" : "1436102517799",
         "name" : "Muscle cell NEURON simulation",
-        "script" : "/projects/CElegansMuscleModel/script.js",
         "simulationResults" : [ { "format" : "GEPPETTO_RECORDING",
               "id" : 1,
               "result" : { "id" : 1,
