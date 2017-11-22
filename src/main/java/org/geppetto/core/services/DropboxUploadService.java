@@ -10,12 +10,13 @@ import org.geppetto.core.common.GeppettoExecutionException;
 
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxAuthFinish;
-import com.dropbox.core.DbxClient;
-import com.dropbox.core.DbxEntry;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.WriteMode;
+import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.DbxWebAuthNoRedirect;
-import com.dropbox.core.DbxWriteMode;
+
 
 /**
  * Class for uploading files to a drop box account.
@@ -31,7 +32,7 @@ public class DropboxUploadService implements IExternalUploadService
 	private String authorizeURL = null;
 	private DbxWebAuthNoRedirect webAuth = null;
 	private DbxRequestConfig config = null;
-	private DbxClient client = null;
+        private DbxClientV2 client = null;
 
 	private static Log logger = LogFactory.getLog(DropboxUploadService.class);
 
@@ -71,8 +72,9 @@ public class DropboxUploadService implements IExternalUploadService
 			try
 			{
 				inputStream = new FileInputStream(inputFile);
-
-				DbxEntry.File uploadedFile = client.uploadFile("/" + inputFile.getName(), DbxWriteMode.add(), inputFile.length(), inputStream);
+				FileMetadata uploadedFile = client.files().uploadBuilder("/" + inputFile.getName())
+				    .withMode(WriteMode.ADD)
+				    .uploadAndFinish(inputStream);
 				logger.info("Uploaded: " + uploadedFile.toString());
 			}
 			catch(Exception e)
@@ -97,11 +99,11 @@ public class DropboxUploadService implements IExternalUploadService
 		{
 			DbxAuthFinish authFinish = webAuth.finish(code);
 
-			String accessToken = authFinish.accessToken;
+			String accessToken = authFinish.getAccessToken();
 
-			client = new DbxClient(config, accessToken);
+			client = new DbxClientV2(config, accessToken);
 
-			logger.info("Linked account: " + client.getAccountInfo().displayName);
+			logger.info("Linked account: " + client.users().getCurrentAccount().getName());
 
 			return accessToken;
 		}
@@ -121,7 +123,7 @@ public class DropboxUploadService implements IExternalUploadService
 	{
 		if(client == null)
 		{
-			client = new DbxClient(config, dropboxToken);
+			client = new DbxClientV2(config, dropboxToken);
 		}
 	}
 
