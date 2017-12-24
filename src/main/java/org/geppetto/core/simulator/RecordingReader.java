@@ -15,6 +15,8 @@ import org.geppetto.model.VariableValue;
 import org.geppetto.model.types.TypesPackage;
 import org.geppetto.model.util.PointerUtility;
 import org.geppetto.model.values.MDTimeSeries;
+import org.geppetto.model.values.Particles;
+import org.geppetto.model.values.Point;
 import org.geppetto.model.values.SkeletonAnimation;
 import org.geppetto.model.values.SkeletonTransformation;
 import org.geppetto.model.values.TimeSeries;
@@ -67,11 +69,70 @@ public class RecordingReader
 
 		recordingVariablePath = recordingVariablePath.replace(".", "/");
 
-		this.readVariable(recordingVariablePath, recording.getHDF5(), modelState, readAll);
+		if(recordingVariablePath.endsWith("(particles)"))
+		{
+			this.readParticlesVariable(recordingVariablePath, recording.getHDF5(), modelState, readAll);
+		}
+		else
+		{
+			this.readVariable(recordingVariablePath, recording.getHDF5(), modelState, readAll);
+		}
 
 		if(!readAll)
 		{
 			currentRecordingIndex++;
+		}
+
+	}
+
+	/**
+	 * @param path
+	 * @param h5File
+	 * @param modelState
+	 * @param readAll
+	 * @throws GeppettoExecutionException
+	 */
+	private void readParticlesVariable(String path, H5File h5File, ExperimentState modelState, boolean readAll) throws GeppettoExecutionException
+	{
+		try
+		{
+			Dataset x = (Dataset) FileFormat.findObject(h5File, path + "/x");
+			Dataset y = (Dataset) FileFormat.findObject(h5File, path + "/y");
+			Dataset z = (Dataset) FileFormat.findObject(h5File, path + "/z");
+
+			VariableValue variableValue = findVariableValue(path, modelState);
+
+			Object readXData = x.read();
+			Object readYData = y.read();
+			Object readZData = z.read();
+			double[] dx = (double[]) readXData;
+			double[] dy = (double[]) readYData;
+			double[] dz = (double[]) readZData;
+			
+
+			Value value = ValuesFactory.eINSTANCE.createMDTimeSeries();
+
+			for(int i = 0; i < x.getDims()[0]; i++)
+			{
+				Value particles = ValuesFactory.eINSTANCE.createParticles();
+				((MDTimeSeries) value).getValue().add(particles);
+
+				for(int j = 0; j < x.getDims()[1]; j++)
+				{
+					Point p=ValuesFactory.eINSTANCE.createPoint();
+					p.setX(dx[i * ((int) x.getDims()[1]) + j]);
+					p.setY(dy[i * ((int) x.getDims()[1]) + j]);
+					p.setZ(dz[i * ((int) x.getDims()[1]) + j]);
+					((Particles) particles).getParticles().add(p);
+				}
+			}
+
+			variableValue.setValue(value);
+
+		}
+		catch(Exception e)
+		{
+			throw new GeppettoExecutionException("Error reading a variable from the recording", e);
 		}
 
 	}
@@ -154,7 +215,7 @@ public class RecordingReader
 					}
 					else
 					{
-						if(v.getDims().length == 1)
+						if(v.getDims().length == 1 || (v.getDims().length == 2 && v.getDims()[1]==1))
 						{
 							value = ValuesFactory.eINSTANCE.createTimeSeries();
 							((TimeSeries) value).setUnit(unit);
@@ -172,7 +233,7 @@ public class RecordingReader
 								TimeSeries ts = ValuesFactory.eINSTANCE.createTimeSeries();
 								((TimeSeries) ts).setUnit(unit);
 								((MDTimeSeries) value).getValue().add(ts);
-								
+
 								for(int j = 0; j < v.getDims()[1]; j++)
 								{
 									((TimeSeries) ts).getValue().add(dr[i * ((int) v.getDims()[1]) + j]);

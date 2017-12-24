@@ -43,4 +43,7 @@
   <types xsi:type="gep_1:ConnectionType"
       id="connection"
       name="Connection"/>
+  <types xsi:type="gep_1:VisualType"
+      id="particles"
+      name="Particles"/>
 </gep:GeppettoLibrary>
