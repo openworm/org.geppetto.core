@@ -89,6 +89,25 @@ public class GeppettoModelAccess
 		}
 		throw new GeppettoVisitingException("Type for eClass " + eclass + " not found in common library.");
 	}
+	
+	/**
+	 * Usage commonLibraryAccess.getType(TypesPackage.Literals.VISUAL_TYPE, "particles");
+	 * @param eclass
+	 * @param id
+	 * @return
+	 * @throws GeppettoVisitingException
+	 */
+	public Type getType(EClass eclass, String id) throws GeppettoVisitingException
+	{
+		for(Type type : commonlibrary.getTypes())
+		{
+			if(type.eClass().equals(eclass) && type.getId().equals(id))
+			{
+				return type;
+			}
+		}
+		throw new GeppettoVisitingException("Type for eClass " + eclass + " not found in common library.");
+	}
 
 	/**
 	 * @param instancePath
