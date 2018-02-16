@@ -59,9 +59,5 @@
 		"type": "GEPPETTO_PROJECT"
 	},
 	"activeExperimentId": 1,
-	"isPublic": false,
-	"view": {
-		"id": 0,
-		"viewStates": "{\"views\":{}}"
-	}
+	"isPublic": false
 }
