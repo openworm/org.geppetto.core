@@ -51,6 +51,17 @@ public class LocalViewSerializer implements JsonDeserializer<LocalGeppettoProjec
 				return date; 
 			} 
 		});
+		if(obj.has("view")){
+			JsonObject view =  obj.getAsJsonObject("view");
+			if(view.has("viewStates")){
+				JsonObject jsonViewStates  = view.getAsJsonObject("viewStates");
+				view.addProperty("viewStates",jsonViewStates.toString());
+			}
+			if(view.has("id")){
+				JsonPrimitive id  = view.getAsJsonPrimitive("id");
+				view.addProperty("id",id.getAsNumber());
+			}
+		}
 		JsonArray experiments = (JsonArray) obj.get("experiments");
 		for(int i =0; i<experiments.size();i++){
 			JsonObject experiment = (JsonObject) experiments.get(i);
