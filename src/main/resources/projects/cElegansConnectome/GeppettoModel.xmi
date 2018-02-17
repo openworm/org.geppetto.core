@@ -13,8 +13,8 @@
       id="neuroml"
       name="NeuroML">
     <types xsi:type="gep_1:ImportType"
-        id="network_CElegans"
-        url="/projects/cElegansConnectome/CElegans.net.nml"
+        id="c302_D1_Full"
+        url="/projects/cElegansConnectome/c302_D1_Full.net.nml"
         referenceURL=""
         modelInterpreterId="neuroMLModelInterpreter"/>
   </libraries>

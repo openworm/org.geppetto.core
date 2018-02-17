@@ -104,11 +104,6 @@ public class TestHDFBindings {
 
         org.junit.Assert.assertNotNull(testFile);
 
-        if (testFile == null) {
-           _logger.error("Failed to open file: " + fname);
-            return;
-        }
-
         org.junit.Assert.assertEquals(testFile.exists(), true);
 
         // open the file and retrieve the file structure

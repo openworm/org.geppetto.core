@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ASCII"?>
+<gep:GeppettoModel
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gep="https://raw.githubusercontent.com/openworm/org.geppetto.model/development/src/main/resources/geppettoModel.ecore"
+    xmlns:gep_1="https://raw.githubusercontent.com/openworm/org.geppetto.model/development/src/main/resources/geppettoModel.ecore#//types">
+  <variables
+      id="medialThalamus"
+      name="Medial Thalamus"
+      types="//@libraries.0/@types.0"/>
+  <variables
+      id="claustrum"
+      name="Claustrum"
+      types="//@libraries.0/@types.1"/>
+  <variables
+      id="rightCerebralCortex"
+      name="Right Cerebral Cortex"
+      types="//@libraries.0/@types.2"/>
+  <variables
+      id="leftCerebralCortex"
+      name="Left Cerebral Cortex"
+      types="//@libraries.0/@types.3"/>
+  <libraries
+      id="hm"
+      name="HM">
+    <types xsi:type="gep_1:ImportType"
+        id="medialThalamusSurface"
+        name="Medial Thalamus"
+        url="../samples/obj/wholethalamus.remeshed.obj"
+        referenceURL=""
+        modelInterpreterId="objModelInterpreterService"/>
+    <types xsi:type="gep_1:ImportType"
+        id="claustrumSurface"
+        name="Claustrum"
+        url="../samples/obj/claustrum.remeshed.obj"
+        referenceURL=""
+        modelInterpreterId="objModelInterpreterService"/>
+    <types xsi:type="gep_1:ImportType"
+        id="rightCerebralCortexSurface"
+        name="Right Cerebral Cortex"
+        url="../samples/obj/Human_brain_surface_sideB.obj"
+        referenceURL=""
+        modelInterpreterId="objModelInterpreterService"/>
+    <types xsi:type="gep_1:ImportType"
+        id="leftCerebralCortexSurface"
+        name="Left Cerebral Cortex"
+        url="../samnples/obj/Human_brain_surface_sideA.obj"
+        referenceURL=""
+        modelInterpreterId="objModelInterpreterService"/>
+  </libraries>
+</gep:GeppettoModel>

@@ -1,0 +1,15 @@
+{ "activeExperimentId" : 1,
+  "experiments" : [ { "aspectConfigurations" : [  ],
+        "description" : "Patient H.M.",
+        "id" : 1,
+        "lastModified" : "1436102517799",
+        "name" : "Only morphology, no simulation",
+        "status" : "COMPLETED"
+      } ],
+  "geppettoModel" : { "id" : 9,
+      "type" : "GEPPETTO_PROJECT",
+      "url" : "/projects/hm/PatientHM.xmi"
+    },
+  "id" : 885,
+  "name" : "Patient H.M."
+}
