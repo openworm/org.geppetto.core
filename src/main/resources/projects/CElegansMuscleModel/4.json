@@ -1,70 +1,160 @@
-{ "activeExperimentId" : 1,
-  "experiments" : [ { "aspectConfigurations" : [ { "instance" : "net1",
-              "simulatorConfiguration" : { "conversionServiceId" : "lemsConversion",
-                  "id" : 1,
-                  "length" : 0.5,
-                  "parameters" : { "target" : "net1" },
-                  "simulatorId" : "neuronSimulator",
-                  "timestep" : 5.0e-05
-                },
-              "watchedVariables" : [ "net1.neuron[0].v",
-                  "net1.muscle[0].v",
-                  "net1.muscle[0].biophys.membraneProperties.Leak_all.iDensity",
-                  "net1.muscle[0].biophys.membraneProperties.k_slow_all.iDensity",
-                  "net1.muscle[0].biophys.membraneProperties.k_fast_all.iDensity",
-                  "net1.muscle[0].biophys.membraneProperties.ca_boyle_all.iDensity"
-                ]
-            } ],
+{
+    "activeExperimentId": 1,
+    "experiments": [
+        {
+            "aspectConfigurations": [
+                {
+                    "instance": "net1",
+                    "simulatorConfiguration": {
+                        "conversionServiceId": "lemsConversion",
+                        "id": 1,
+                        "length": 0.5,
+                        "parameters": {
+                            "target": "net1"
+                        },
+                        "simulatorId": "neuronSimulator",
+                        "timestep": 5.0e-05
+                    },
+                    "watchedVariables": [
+                        "net1.neuron[0].v",
+                        "net1.muscle[0].v",
+                        "net1.muscle[0].biophys.membraneProperties.Leak_all.iDensity",
+                        "net1.muscle[0].biophys.membraneProperties.k_slow_all.iDensity",
+                        "net1.muscle[0].biophys.membraneProperties.k_fast_all.iDensity",
+                        "net1.muscle[0].biophys.membraneProperties.ca_boyle_all.iDensity"
+                    ]
+                }
+            ],
             "view": {
-	        "id": 1,
-	        "viewStates": {
-	          "views": {
-	            "Popup1": {
-	              "widgetType": 1,
-	              "isWidget": true,
-	              "transparentBackground": false,
-	              "name": "Description",
-	              "size": {
-	                "height": 160,
-	                "width": 446
-	              },
-	              "position": {
-	                "left": 147,
-	                "top": 90
-	              },
-	              "dataType": "stringCommand",
-	              "data": "Project.getActiveExperiment().getDescription()"
-	            }
-	          }
-	        }
-	      },
-        "description" : "This project is based on the <a href=\"http://github.com/openworm/muscle_model\">OpenWorm muscle model</a>.  This simulates the electrical properties of a single C. elegans body wall muscle cell.  The simulation was executed using NEURON. The original version is based on a paper by Boyle & Cohen in 2008.",
-        "id" : 1,
-        "lastModified" : "1436102517799",
-        "name" : "Muscle cell NEURON simulation",
-        "simulationResults" : [ { "format" : "GEPPETTO_RECORDING",
-              "id" : 1,
-              "result" : { "id" : 1,
-                  "type" : "RECORDING",
-                  "url" : "/projects/CElegansMuscleModel/results.h5"
-                },
-              "simulatedInstance" : "net1"
+                "id": 1,
+                "viewStates": {
+                    "views": {
+                        "Plot1": {
+                            "widgetType": 0,
+                            "isWidget": true,
+                            "transparentBackground": false,
+                            "name": "net1.neuron[0].v",
+                            "size": {
+                                "height": 332.8,
+                                "width": 424.8
+                            },
+                            "position": {
+                                "left": 152.5,
+                                "top": 301.5
+                            },
+                            "dataType": "object",
+                            "data": [
+                                "net1.neuron[0].v",
+                                "net1.muscle[0].v"
+                            ]
+                        },
+                        "Plot2": {
+                            "widgetType": 0,
+                            "isWidget": true,
+                            "transparentBackground": false,
+                            "name": "net1.muscle[0].biophys.membraneProperties.Leak_all.iDensity",
+                            "size": {
+                                "height": 389.8,
+                                "width": 528.8
+                            },
+                            "position": {
+                                "left": 784.5,
+                                "top": 245.5
+                            },
+                            "dataType": "object",
+                            "data": [
+                                "net1.muscle[0].biophys.membraneProperties.Leak_all.iDensity",
+                                "net1.muscle[0].biophys.membraneProperties.k_slow_all.iDensity",
+                                "net1.muscle[0].biophys.membraneProperties.k_fast_all.iDensity",
+                                "net1.muscle[0].biophys.membraneProperties.ca_boyle_all.iDensity"
+                            ]
+                        },
+                        "Popup1": {
+                            "widgetType": 1,
+                            "isWidget": true,
+                            "transparentBackground": false,
+                            "name": "Description",
+                            "size": {
+                                "height": 160,
+                                "width": 446
+                            },
+                            "position": {
+                                "left": 147,
+                                "top": 90
+                            },
+                            "dataType": "string",
+                            "data": "This project is based on the <a href=\"http://github.com/openworm/muscle_model\">OpenWorm muscle model</a>.  This simulates the electrical properties of a single C. elegans body wall muscle cell.  The simulation was executed using NEURON. The original version is based on a paper by Boyle & Cohen in 2008.",
+                            "componentSpecific": {
+                                "customHandlers": [],
+                                "buttonBarControls": null,
+                                "buttonBarConfig": null
+                            }
+                        },
+                        "Console1": {
+                            "widgetType": "CONSOLE",
+                            "isWidget": false
+                        },
+                        "Canvas1": {
+                            "widgetType": "CANVAS",
+                            "isWidget": false,
+                            "dataType": "instances",
+                            "data": [
+                                "net1"
+                            ],
+                            "componentSpecific": {
+                                "cameraPosition": {
+                                    "x": 15.791,
+                                    "y": 117.29,
+                                    "z": -75.573
+                                },
+                                "cameraRotation": {
+                                    "rx": -2.356,
+                                    "ry": -0.019,
+                                    "rz": -2.34,
+                                    "radius": 238.478
+                                },
+                                "colorMap": {},
+                                "opacityMap": {},
+                                "geometryTypeMap": {},
+                                "backgroundColor": "0x101010"
+                            }
+                        }
+                    }
+                }
             },
-            { "format" : "RAW",
-              "id" : 2,
-              "result" : { "id" : 2,
-                  "type" : "RECORDING",
-                  "url" : "/projects/CElegansMuscleModel/rawRecording.zip"
+            "description": "This project is based on the <a href=\"http://github.com/openworm/muscle_model\">OpenWorm muscle model</a>.  This simulates the electrical properties of a single C. elegans body wall muscle cell.  The simulation was executed using NEURON. The original version is based on a paper by Boyle & Cohen in 2008.",
+            "id": 1,
+            "lastModified": "1436102517799",
+            "name": "Muscle cell NEURON simulation",
+            "simulationResults": [
+                {
+                    "format": "GEPPETTO_RECORDING",
+                    "id": 1,
+                    "result": {
+                        "id": 1,
+                        "type": "RECORDING",
+                        "url": "/projects/CElegansMuscleModel/results.h5"
+                    },
+                    "simulatedInstance": "net1"
                 },
-              "simulatedInstance" : "net1"
-            }
-          ],
-        "status" : "COMPLETED"
-      } ],
-  "geppettoModel" : { "id" : 4,
-      "type" : "GEPPETTO_PROJECT",
-      "url" : "/projects/CElegansMuscleModel/GeppettoModel.xmi"
-    },
-  "id" : 4,
-  "name" : "OpenWorm C.elegans muscle model"
-}
+                {
+                    "format": "RAW",
+                    "id": 2,
+                    "result": {
+                        "id": 2,
+                        "type": "RECORDING",
+                        "url": "/projects/CElegansMuscleModel/rawRecording.zip"
+                    },
+                    "simulatedInstance": "net1"
+                }
+            ],
+            "status": "COMPLETED"}
+        ],
+        "geppettoModel": {
+            "id": 4,
+            "type": "GEPPETTO_PROJECT",
+            "url": "/projects/CElegansMuscleModel/GeppettoModel.xmi"
+        },
+        "id": 4,
+        "name": "OpenWorm C.elegans muscle model"
+    }
