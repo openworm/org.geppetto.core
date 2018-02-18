@@ -26,27 +26,127 @@
 				"id": 1,
 				"viewStates": {
 					"views": {
-						"Plot1": {
-							"widgetType": 0,
+						"Connectivity1": {
+							"widgetType": 6,
+							"isWidget": true,
 							"transparentBackground": false,
-							"name": "hhcell.hhpop[0].v",
+							"name": "C. elegans Pharynx connections - Force Layout",
 							"size": {
-								"height": 300,
-								"width": 350
+								"height": 589.8,
+								"width": 691.8
 							},
 							"position": {
-								"left": 1015,
-								"top": 390
+								"left": 684.5,
+								"top": 107.5
+							},
+							"options": {
+								"layout": {
+									"value": "force",
+									"type": "primitive"
+								}
 							},
 							"dataType": "object",
-							"xyData": [
-								{
-									"dataY": "hhcell.hhpop[0].v",
-									"dataX": "time(StateVariable)",
-									"projectId": 1,
-									"experimentId": 1
-								}
-							]
+							"data": "PharyngealNetwork",
+							"nodeColormap": {
+								"domain": [
+									"NSMR",
+									"NSML",
+									"M3R",
+									"M3L",
+									"M2R",
+									"M2L",
+									"I2R",
+									"I2L",
+									"I1R",
+									"I1L",
+									"MCR",
+									"MCL",
+									"MI",
+									"M5",
+									"M4",
+									"M1",
+									"I6",
+									"I5",
+									"I4",
+									"I3"
+								],
+								"range": [
+									"#ac5eba",
+									"#08e758",
+									"#f62dbc",
+									"#ae72fc",
+									"#181ffc",
+									"#bb4aa7",
+									"#5cd9a2",
+									"#b9d809",
+									"#10837d",
+									"#0f86e2",
+									"#08d29c",
+									"#89a982",
+									"#76b220",
+									"#abf44e",
+									"#4e75c8",
+									"#77c8b4",
+									"#48c912",
+									"#5d9bcb",
+									"#405451",
+									"#73475a"
+								]
+							}
+						},
+						"Console1": {
+							"widgetType": "CONSOLE",
+							"isWidget": false
+						},
+						"Canvas1": {
+							"widgetType": "CANVAS",
+							"isWidget": false,
+							"dataType": "instances",
+							"data": [
+								"PharyngealNetwork"
+							],
+							"componentSpecific": {
+								"cameraPosition": {
+									"x": -28.302,
+									"y": -324.923,
+									"z": 99.167
+								},
+								"cameraRotation": {
+									"rx": 0.259,
+									"ry": -0.566,
+									"rz": -0.744,
+									"radius": 55.873
+								},
+								"colorMap": {
+									"PharyngealNetwork.MCR": "#08d29c",
+									"PharyngealNetwork.I2L": "#b9d809",
+									"PharyngealNetwork.I1L": "#0f86e2",
+									"PharyngealNetwork.I3": "#73475a",
+									"PharyngealNetwork.I4": "#405451",
+									"PharyngealNetwork.NSML": "#08e758",
+									"PharyngealNetwork.M3L": "#ae72fc",
+									"PharyngealNetwork.I5": "#5d9bcb",
+									"PharyngealNetwork.I6": "#48c912",
+									"PharyngealNetwork.NSMR": "#ac5eba",
+									"PharyngealNetwork.M3R": "#f62dbc",
+									"PharyngealNetwork.M2R": "#181ffc",
+									"PharyngealNetwork.M1": "#77c8b4",
+									"PharyngealNetwork.M2L": "#bb4aa7",
+									"PharyngealNetwork.I2R": "#5cd9a2",
+									"PharyngealNetwork.M4": "#4e75c8",
+									"PharyngealNetwork.I1R": "#10837d",
+									"PharyngealNetwork.M5": "#abf44e",
+									"PharyngealNetwork.MCL": "#89a982",
+									"PharyngealNetwork.MI": "#76b220"
+								},
+								"opacityMap": {
+									
+								},
+								"geometryTypeMap": {
+									
+								},
+								"backgroundColor": "0x101010"
+							}
 						}
 					}
 				}
