@@ -8,6 +8,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.geppetto.core.common.GeppettoExecutionException;
+
 import ncsa.hdf.hdf5lib.exceptions.HDF5Exception;
 import ncsa.hdf.object.Attribute;
 import ncsa.hdf.object.Dataset;
@@ -18,11 +23,6 @@ import ncsa.hdf.object.HObject;
 import ncsa.hdf.object.h5.H5Datatype;
 import ncsa.hdf.object.h5.H5File;
 import ncsa.hdf.utils.SetNatives;
-
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.geppetto.core.common.GeppettoExecutionException;
 
 /**
  * Creates HDF5 Recordings file. API can take different array datasets and single values for integers, doubles and floats.
@@ -120,9 +120,9 @@ public class GeppettoRecordingCreator
 				superAddValues(o);
 
 				// match biggest array length
-				if(biggestLength < o.getValuesLength())
+				if(biggestLength < o.getYValuesLength())
 				{
-					biggestLength = o.getValuesLength();
+					biggestLength = o.getYValuesLength();
 				}
 			}
 
@@ -150,8 +150,8 @@ public class GeppettoRecordingCreator
 	public void addValues(String variable, double value, String unit, String metaType, boolean update)
 	{
 		// Convert single number into array, to store as dataset
-		Double[] values = new Double[1];
-		values[0] = value;
+		Double[][] values = new Double[1][1];
+		values[0][0] = value;
 		addValues(variable, values, unit, metaType, update);
 	}
 
@@ -197,6 +197,7 @@ public class GeppettoRecordingCreator
 		addValues(variable, values, unit, metaType, update);
 	}
 
+	
 	/**
 	 * Stores information in a Recording Object, which is then placed inside a map. Then variable will be created later when create() method is called.
 	 * 
@@ -213,22 +214,66 @@ public class GeppettoRecordingCreator
 	 */
 	public void addValues(String variable, Double[] values, String unit, String metaType, boolean update)
 	{
-		RecordingObject o = new RecordingObject();
-		o.setMetaType(metaType);
-		o.setVariable(variable);
-		o.setUnit(unit);
-		o.setValues(values);
-		o.setDataType(Datatype.CLASS_FLOAT);
-		o.setDataBytes(8);
-		o.setValuesLenght(values.length);
 		if(map.containsKey(variable) && update)
 		{
 			RecordingObject object = map.get(variable);
 			object.setValues(values);
-			object.setValuesLenght(values.length);
+			object.setYValuesLenght(values.length);
 		}
 		else
 		{
+			RecordingObject o = new RecordingObject();
+			o.setMetaType(metaType);
+			o.setVariable(variable);
+			o.setUnit(unit);
+			o.setValues(values);
+			o.setDataType(Datatype.CLASS_FLOAT);
+			o.setDataBytes(8);
+			o.setYValuesLenght(values.length);
+			map.put(variable, o);
+		}
+	}
+	
+	/**
+	 * Stores information in a Recording Object, which is then placed inside a map. Then variable will be created later when create() method is called.
+	 * 
+	 * @param variable
+	 *            - Name of Variable to create
+	 * @param values
+	 *            - Values of data set to store
+	 * @param unit
+	 *            - Unit of measurement for data
+	 * @param metaType
+	 *            - Type of node, either variable or parameter node
+	 * @throws Exception
+	 * 
+	 */
+	public void addValues(String variable, Double[][] values, String unit, String metaType, boolean update)
+	{
+		if(map.containsKey(variable) && update)
+		{
+			RecordingObject object = map.get(variable);
+			object.setValues(values);
+			object.setYValuesLenght(values.length);
+			if(values[0].length > 1)
+			{
+				object.setXValuesLenght(values[0].length);
+			}
+		}
+		else
+		{
+			RecordingObject o = new RecordingObject();
+			o.setMetaType(metaType);
+			o.setVariable(variable);
+			o.setUnit(unit);
+			o.setValues(values);
+			o.setDataType(Datatype.CLASS_FLOAT);
+			o.setDataBytes(8);
+			o.setYValuesLenght(values.length);
+			if(values[0].length > 1)
+			{
+				o.setXValuesLenght(values[0].length);
+			}
 			map.put(variable, o);
 		}
 	}
@@ -255,14 +300,14 @@ public class GeppettoRecordingCreator
 		o.setValues(values);
 		o.setDataType(Datatype.CLASS_INTEGER);
 		o.setDataBytes(4);
-		o.setValuesLenght(values.length);
+		o.setYValuesLenght(values.length);
 		if(map.containsKey(variable) && update)
 		{
 			RecordingObject object = map.get(variable);
 			int[] oldValues = (int[]) object.getValues();
 			oldValues = ArrayUtils.addAll(oldValues, values);
 			object.setValues(oldValues);
-			object.setValuesLenght(oldValues.length);
+			object.setYValuesLenght(oldValues.length);
 		}
 		else
 		{
@@ -293,14 +338,14 @@ public class GeppettoRecordingCreator
 		// H5Datatype type = new H5Dataype(CLASS_FLOAT, 8, NATIVE, -1);
 		o.setDataType(Datatype.CLASS_FLOAT);
 		o.setDataBytes(4);
-		o.setValuesLenght(values.length);
+		o.setYValuesLenght(values.length);
 		if(map.containsKey(variable) && update)
 		{
 			RecordingObject object = map.get(variable);
 			float[] oldValues = (float[]) object.getValues();
 			oldValues = ArrayUtils.addAll(oldValues, values);
 			object.setValues(oldValues);
-			object.setValuesLenght(oldValues.length);
+			object.setYValuesLenght(oldValues.length);
 		}
 		else
 		{
@@ -428,7 +473,7 @@ public class GeppettoRecordingCreator
 	private Dataset createDataSet(RecordingObject recordingObject, Group parentObject, String name) throws Exception
 	{
 		// dimension of dataset, length of array and 1 column
-		long[] dims2D = { recordingObject.getValuesLength(), 1 };
+		long[] dims2D = { recordingObject.getYValuesLength(), recordingObject.getXValuesLength() };
 
 		// H5Datatype type = new H5Dataype(CLASS_FLOAT, 8, NATIVE, -1);
 		Datatype dataType = recordingsH5File.createDatatype(recordingObject.getDataType(), recordingObject.getDataBytes(), Datatype.NATIVE, -1);
@@ -459,7 +504,7 @@ public class GeppettoRecordingCreator
 		HObject findObject = FileFormat.findObject(recordingsH5File, path);
 		if(findObject == null)
 		{
-			//Double check needed to also look inside groups that might have been created but not saved
+			// Double check needed to also look inside groups that might have been created but not saved
 			findObject = checkParent(tag, parent);
 			if(findObject == null)
 			{
@@ -489,6 +534,7 @@ public class GeppettoRecordingCreator
 
 	/**
 	 * Checks if the parent has already the group we intend to create inside itself
+	 * 
 	 * @param groupName
 	 * @param parentGroup
 	 * @return

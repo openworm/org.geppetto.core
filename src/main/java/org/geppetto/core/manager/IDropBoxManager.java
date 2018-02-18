@@ -11,6 +11,7 @@ import com.dropbox.core.DbxException;
 
 public interface IDropBoxManager
 {
+    public abstract String getDropboxToken() throws Exception;
 
 	/**
 	 * Link the user dropbox account with the geppetto account

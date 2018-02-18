@@ -1,6 +1,5 @@
 package org.geppetto.core.recordings;
 
-
 /**
  * Object class that holds together valus for a variable yet to be created inside an HDF5 file.
  * 
@@ -15,8 +14,9 @@ public class RecordingObject
 	private String _metaType;
 	private Object _values;
 	private int _dataType;
-	private int _valuesLength;
+	private int _YValuesLength;
 	private int _dataBytes;
+	private int _XValuesLength = 1;
 
 	public String getVariable()
 	{
@@ -68,14 +68,24 @@ public class RecordingObject
 		return this._dataType;
 	}
 
-	public int getValuesLength()
+	public int getYValuesLength()
 	{
-		return this._valuesLength;
+		return this._YValuesLength;
 	}
 
-	public void setValuesLenght(int valuesLength)
+	public void setYValuesLenght(int valuesLength)
 	{
-		this._valuesLength = valuesLength;
+		this._YValuesLength = valuesLength;
+	}
+
+	public int getXValuesLength()
+	{
+		return this._XValuesLength;
+	}
+
+	public void setXValuesLenght(int valuesLength)
+	{
+		this._XValuesLength = valuesLength;
 	}
 
 	public void setDataBytes(int dataBytes)

@@ -62,7 +62,7 @@ public class TestGeppettoRecordingsCreator
 	public void addSibling() throws Exception
 	{
 
-		Double[] values = { 0.03d, 0.055d, 0.100d };
+		Double[][] values = {{ 0.03d, 0.055d, 0.100d }};
 		GeppettoRecordingCreator creator = new GeppettoRecordingCreator("sample.h5");
 		creator.addValues("P.neuron", values, "ms", TypesPackage.Literals.STATE_VARIABLE_TYPE.getName(), false);
 		creator.create();
