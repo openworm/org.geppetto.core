@@ -42,6 +42,8 @@ public interface IRuntimeTreeManager
 	 * @throws GeppettoExecutionException 
 	 */
 	GeppettoModel resolveImportType(List<String> typePaths, IGeppettoProject geppettoProject) throws GeppettoExecutionException;
+
+        GeppettoModel resolveImportType(String typePath, IGeppettoProject geppettoProject) throws GeppettoExecutionException;
 	
 	/**
 	 * @param path
