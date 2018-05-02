@@ -1,16 +1,21 @@
-{ "activeExperimentId" : 1,
-  "experiments" : [ { "aspectConfigurations" : [  ],
-        "description" : "This is a sample project to visualize neurophysiology data from a <a href='http://www.nwb.org/' target='_blank'>Neurodata Without Borders (NWB)</a> file. The Neurodata without Borders – Neurophysiology initiative is a one-year project to produce a unified data format for cellular-based, neurophysiology data. This sample comes from the <a href='http://alleninstitute.org/' target='_blank'>Allen Institute of Brain Science</a>. One sweep and the metadata have been extracted from a sample experiment.",
-        "id" : 1,
-        "lastModified" : "1436102517799",
-        "name" : "NWB Visualization sample",
-        "script" : "/projects/NWBSample/script.js",
-        "status" : "COMPLETED"
-      } ],
-  "geppettoModel" : { "id" : 9,
-      "type" : "GEPPETTO_PROJECT",
-      "url" : "/projects/NWBSample/GeppettoModel.xmi"
-    },
-  "id" : 18,
-  "name" : "Allen Cell Type Sample"
+{
+  "activeExperimentId": 1,
+  "experiments": [
+    {
+      "aspectConfigurations": [],
+      "description": "This is a sample project to visualize neurophysiology data from a <a href='http://www.nwb.org/' target='_blank'>Neurodata Without Borders (NWB)</a> file. The Neurodata without Borders – Neurophysiology initiative is a one-year project to produce a unified data format for cellular-based, neurophysiology data. This sample comes from the <a href='http://alleninstitute.org/' target='_blank'>Allen Institute of Brain Science</a>. One sweep and the metadata have been extracted from a sample experiment.",
+      "id": 1,
+      "lastModified": "1525263582",
+      "name": "NWB Visualization sample",
+      "script": "/projects/NWBSample/script.js",
+      "status": "COMPLETED"
+    }
+  ],
+  "geppettoModel": {
+    "id": 9,
+    "type": "GEPPETTO_PROJECT",
+    "url": "/projects/NWBSample/GeppettoModel.xmi"
+  },
+  "id": 18,
+  "name": "Allen Cell Type Sample"
 }

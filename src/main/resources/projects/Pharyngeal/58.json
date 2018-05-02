@@ -139,12 +139,8 @@
 									"PharyngealNetwork.MCL": "#89a982",
 									"PharyngealNetwork.MI": "#76b220"
 								},
-								"opacityMap": {
-									
-								},
-								"geometryTypeMap": {
-									
-								},
+								"opacityMap": {},
+								"geometryTypeMap": {},
 								"backgroundColor": "0x101010"
 							}
 						}
