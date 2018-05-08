@@ -28,7 +28,7 @@
 			],
 			"description": "This network was generated using c302, an experimental framework for generating network models in NeuroML 2 based on C. elegans connectivity data. The network was simulated using NEURON.",
 			"id": 1,
-			"lastModified": "1436102517799",
+			"lastModified": "1525263582",
 			"name": "c302 NEURON Simulation",
 			"view": {
 				"id": 1,
@@ -427,15 +427,9 @@
 									"rz": -2.659,
 									"radius": 376.497
 								},
-								"colorMap": {
-									
-								},
-								"opacityMap": {
-									
-								},
-								"geometryTypeMap": {
-									
-								},
+								"colorMap": {},
+								"opacityMap": {},
+								"geometryTypeMap": {},
 								"backgroundColor": "0x101010"
 							}
 						}
@@ -786,7 +780,7 @@
 			],
 			"description": "This network was generated using c302, an experimental framework for generating network models in NeuroML 2 based on C. elegans connectivity data. The network was simulated using NEURON.",
 			"id": 2,
-			"lastModified": "1436102517799",
+			"lastModified": "1525263582",
 			"name": "c302 NEURON Simulation - All neurons recorded",
 			"simulationResults": [
 				{

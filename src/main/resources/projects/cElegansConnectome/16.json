@@ -35,7 +35,7 @@
 	      },
         "description" : "Caenorhabditis elegans is a free-living (not parasitic), transparent nematode (roundworm), about 1 mm in length, that lives in temperate soil environments. This network model of its nervous system was generated using <a target='_blank' href='https://github.com/openworm/CElegansNeuroML/tree/master/CElegans/pythonScripts/c302'>c302</a>, an experimental framework from the <a target='_blank' href='http://openworm.org'>OpenWorm</a> project for generating network models in NeuroML 2 based on C. elegans connectivity data.",
         "id" : 1,
-        "lastModified" : "1436102517799",
+        "lastModified" : "1525263582",
         "name" : "C. elegans connectome",
         "status" : "COMPLETED"
       } ],
