@@ -4,14 +4,11 @@ package org.geppetto.core.manager;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.IUser;
 import org.geppetto.core.simulation.IGeppettoManagerCallbackListener;
-import org.springframework.web.context.annotation.RequestScope;
-import org.springframework.web.context.annotation.SessionScope;
 
 /**
  * @author matteocantarelli
  *
  */
-@RequestScope
 public interface IGeppettoManager extends IProjectManager, IExperimentManager, IDropBoxManager, IRuntimeTreeManager, IDownloadManager, IDataSourceManager
 {
 
