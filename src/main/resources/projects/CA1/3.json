@@ -133,7 +133,7 @@
 			},
 			"description": "Hippocampus CA1 pyramidal cell from M. Migliore, M. Ferrante, GA Ascoli (2005). The model shows how the back- and forward propagation of action potentials in the oblique dendrites of CA1 neurons could be modulated by local properties such as morphology or active conductances. The model was converted to NeuroML (Source: <a target='_blank' href='http://opensourcebrain.org/projects/ca1pyramidalcell'>Open Source Brain</a>)",
 			"id": 1,
-			"lastModified": "1436102517799",
+			"lastModified": "1525263582",
 			"name": "CA1 Experiment",
 			"script": "/projects/CA1/script.js",
 			"status": "COMPLETED"

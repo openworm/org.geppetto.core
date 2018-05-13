@@ -25,7 +25,7 @@
       ],
       "description": "Network model of primary auditory cortex in rodents. David Beeman, University of Colorado, Boulder. Model developed in NeuroML. Simulation executed in <a href=\"http://opensourcebrain.org/projects/acnet2\">NEURON</a>.",
       "id": 1,
-      "lastModified": "1436102517799",
+      "lastModified": "1525263582",
       "name": "Auditory Cortex NEURON simulation",
       "script": "/projects/AuditoryCortex/script.js",
       "view": {
@@ -154,7 +154,7 @@
       ],
       "description": "Network model of primary auditory cortex in rodents. David Beeman, University of Colorado, Boulder. Model developed in NeuroML. Simulation executed in NEURON. For more information see http://opensourcebrain.org/projects/acnet2.",
       "id": 2,
-      "lastModified": "1436102517799",
+      "lastModified": "1525263582",
       "name": "Auditory Cortex NEURON simulation - Whole pyramidal cell recorded",
       "script": "/projects/AuditoryCortex/script2.js",
       "simulationResults": [
