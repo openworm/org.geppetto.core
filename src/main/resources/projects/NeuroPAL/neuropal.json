@@ -60,6 +60,7 @@
 								"Celegans"
 							],
 							"componentSpecific": {
+								"backgroundColor":"#000000",
 								"cameraPosition": {
 									"x": -351.128,
 									"y": 23.869,
