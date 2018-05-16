@@ -386,7 +386,7 @@
 	"geppettoModel": {
 		"id": 1,
 		"type": "GEPPETTO_PROJECT",
-		"url": "/projects/neuroPAL/GeppettoModel.xmi"
+		"url": "/projects/NeuroPAL/GeppettoModel.xmi"
 	},
 	"id": 38,
 	"name": "NeuroPAL"
