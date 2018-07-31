@@ -94,12 +94,15 @@ public class LocalExperiment implements IExperiment {
 
 	public void addSimulationResult(ISimulationResult result) {
 		if (result instanceof LocalSimulationResult) {
-			simulationResults.add((LocalSimulationResult) result);
+			getSimulationResults().add((LocalSimulationResult) result);
 		}
 	}
 
 	@Override
 	public List<LocalSimulationResult> getSimulationResults() {
+		if (simulationResults == null) {
+			simulationResults= new ArrayList<LocalSimulationResult>();
+		}
 		return simulationResults;
 	}
 
