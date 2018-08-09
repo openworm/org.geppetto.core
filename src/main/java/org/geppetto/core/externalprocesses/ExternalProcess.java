@@ -25,6 +25,7 @@ public class ExternalProcess extends Thread
 	private String _fileToExecute;
 	private String outputFolder;
 	private ExternalProcessWatcher procOutputMain,procOutputError;
+	private String processToken = "";
 
 	public ExternalProcess(String[] commands, String directoryToExecuteFrom, String fileToExecute, IExternalSimulatorCallbackListener callback, String outputFolder)
 	{
@@ -38,6 +39,10 @@ public class ExternalProcess extends Thread
 	public String getOutputFolder()
 	{
 		return outputFolder;
+	}
+	
+	public void setProcessToken(String token) {
+		this.processToken = token;
 	}
 
 	@Override
@@ -91,7 +96,7 @@ public class ExternalProcess extends Thread
 
 			_logger.info("Proccess done for command " + _commands + " done");
 
-			_callback.processDone(this._commands);
+			_callback.processDone(this.processToken,this._commands);
 		}
 		catch(Exception e)
 		{
