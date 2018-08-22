@@ -24,7 +24,7 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 
 	protected String originalFileName;
 
-	protected Map<String[], ExternalProcess> externalProcesses = new HashMap<String[], ExternalProcess>();
+	Map<String[], ExternalProcess> externalProcesses = new HashMap<String[], ExternalProcess>();
 
 	protected String outputFolder;
 
@@ -58,4 +58,6 @@ public abstract class AExternalProcessSimulator extends ASimulator implements IE
 			throw new GeppettoExecutionException("Simulate has been called again");
 		}
 	}
+
+
 }

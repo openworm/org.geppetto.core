@@ -39,7 +39,7 @@ public class ExternalProcess extends Thread
 	{
 		return outputFolder;
 	}
-	
+
 	@Override
 	public void run()
 	{
