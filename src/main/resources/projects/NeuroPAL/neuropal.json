@@ -1,7 +1,7 @@
 {
 	"activeExperimentId": 1,
 	"experiments": [
-		{
+		{	"aspectConfigurations" : [  ],
 			"description": "<b>NeuroPAL</b> (Neuronal Polychromatic Atlas of Landmarks) is a landmarked strain for whole-brain neural identification developed by Ev Yemini at Columbia University. Each neuron is assigned an invariant fluorophore barcode such that color and position specify unambiguous neural identity via the unique 3-tuple (color, position, ganglion). <b></br></br>Hover on a C. elegans neuron to see its name and NeuroPAL color.</b></br>Click on a neuron to select it (hold 'c' while clicking on a neuron to center the camera rotation around it).</br>Press Ctrl+Click on an empty spot to deselect every neuron.",
 			"id": 1,
 			"lastModified": "1525263582",
