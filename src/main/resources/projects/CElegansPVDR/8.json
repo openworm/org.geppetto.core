@@ -2,7 +2,7 @@
   "experiments" : [ { "aspectConfigurations" : [  ],
         "description" : "The morphology of one of the C. elegans neuron reconstructed in NeuroML from the original Blender model developed in the <a href=\"http://caltech.wormbase.org/virtualworm/\">Virtual Worm project</a>.",
         "id" : 1,
-        "lastModified" : "1436102517799",
+        "lastModified" : "1525263582",
         "name" : "Only morphology, no simulation",
         "status" : "COMPLETED"
       } ],
