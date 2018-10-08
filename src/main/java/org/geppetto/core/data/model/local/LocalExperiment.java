@@ -2,6 +2,7 @@
 
 package org.geppetto.core.data.model.local;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class LocalExperiment implements IExperiment {
 
 	private ExperimentStatus status;
 
-	private List<LocalSimulationResult> simulationResults;
+	private List<LocalSimulationResult> simulationResults = new ArrayList<LocalSimulationResult>();
 
 	private Date startDate;
 
@@ -93,12 +94,15 @@ public class LocalExperiment implements IExperiment {
 
 	public void addSimulationResult(ISimulationResult result) {
 		if (result instanceof LocalSimulationResult) {
-			simulationResults.add((LocalSimulationResult) result);
+			getSimulationResults().add((LocalSimulationResult) result);
 		}
 	}
 
 	@Override
 	public List<LocalSimulationResult> getSimulationResults() {
+		if (simulationResults == null) {
+			simulationResults= new ArrayList<LocalSimulationResult>();
+		}
 		return simulationResults;
 	}
 

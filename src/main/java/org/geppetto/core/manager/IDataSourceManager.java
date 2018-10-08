@@ -21,7 +21,7 @@ import org.geppetto.model.util.GeppettoModelException;
 public interface IDataSourceManager
 {
 
-	GeppettoModel fetchVariable(String dataSourceId, String variableId, IGeppettoProject project) throws GeppettoDataSourceException, GeppettoModelException, GeppettoExecutionException;
+	GeppettoModel fetchVariable(String dataSourceId, String[] variableId, IGeppettoProject project) throws GeppettoDataSourceException, GeppettoModelException, GeppettoExecutionException;
 
 	QueryResults runQuery(List<RunnableQuery> queries, IGeppettoProject project) throws GeppettoDataSourceException, GeppettoModelException, GeppettoExecutionException;
 
