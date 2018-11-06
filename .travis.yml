@@ -3,6 +3,9 @@ install:
 - export main_repo_branch=$TRAVIS_BRANCH
 - git clone https://github.com/openworm/org.geppetto.model.git
 - cd org.geppetto.model
+- git branch -a
+- egrep "remotes/origin/${TRAVIS_BRANCH}"
+- echo $TRAVIS_BRANCH
 - if [ `git branch -a | egrep "remotes/origin/${TRAVIS_BRANCH}"` ]; then git checkout $TRAVIS_BRANCH ; else echo "Branch $TRAVIS_BRANCH does not exist for the dependent bundle, checking out development ..." && git checkout development; fi
 - git status
 - git branch
