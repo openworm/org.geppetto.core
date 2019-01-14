@@ -106,7 +106,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IUser getUserByLogin(String login)
 	{
-		List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT, UserPrivileges.DOWNLOAD);
+		List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT, UserPrivileges.DOWNLOAD, UserPrivileges.RUN_EXPERIMENT);
 		IUserGroup group = new LocalUserGroup("guest", privileges, 0, 0);
 		IUser user = new LocalUser(1, login, login, login, login, new ArrayList<LocalGeppettoProject>(), group);
 
