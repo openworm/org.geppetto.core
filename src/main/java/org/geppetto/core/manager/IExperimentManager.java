@@ -31,7 +31,7 @@ public interface IExperimentManager
 	 * @throws GeppettoExecutionException
 	 * @throws GeppettoAccessException 
 	 */
-	public abstract void runExperiment(String requestId, IExperiment experiment) throws GeppettoExecutionException, GeppettoAccessException;
+	public abstract void runExperiment(String requestId,IGeppettoProject project, IExperiment experiment) throws GeppettoExecutionException, GeppettoAccessException;
 
 	/**
 	 * @param requestId
