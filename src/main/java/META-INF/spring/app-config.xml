@@ -32,6 +32,7 @@
             <list>
                 <value>READ_PROJECT</value>
                 <value>DOWNLOAD</value>
+                <value>RUN_EXPERIMENT</value>
             </list>
       </property>
 	</bean> 
