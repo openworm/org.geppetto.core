@@ -18,7 +18,6 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.geppetto.core.beans.LocalUserConfig;
-import org.geppetto.core.beans.SimulatorConfig;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.ExperimentStatus;
 import org.geppetto.core.data.model.IAspectConfiguration;
@@ -62,8 +61,8 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 	private volatile static int guestId;
 	
-    @Autowired
-    private LocalUserConfig localUserConfig;
+	@Autowired
+	private LocalUserConfig localUserConfig;
 
 	public DefaultGeppettoDataManager()
 	{
