@@ -261,7 +261,11 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 		if(group == null)
 		{
-			List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT, UserPrivileges.DOWNLOAD);
+			List<String> permissions = this.localUserConfig.getGuestUserPermissions();
+			List<UserPrivileges> privileges = new ArrayList<UserPrivileges>();
+			for(int i=0; i< permissions.size(); i++){
+				privileges.add(UserPrivileges.valueOf(permissions.get(i)));
+			}
 			group = new LocalUserGroup("guest", privileges, 0, 0);
 		}
 
