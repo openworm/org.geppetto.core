@@ -111,12 +111,8 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IUser getUserByLogin(String login)
 	{
-		List<String> permissions = this.localUserConfig.getGuestUserPermissions();
-		List<UserPrivileges> privileges = new ArrayList<UserPrivileges>();
-		for(int i=0; i< permissions.size(); i++){
-			privileges.add(UserPrivileges.valueOf(permissions.get(i)));
-		}
-		IUserGroup group = new LocalUserGroup("guest", privileges, 0, 0);
+		
+		IUserGroup group = new LocalUserGroup("guest", getUserPrivileges(), 0, 0);
 		IUser user = new LocalUser(1, login, login, login, login, new ArrayList<LocalGeppettoProject>(), group);
 
 		return user;
@@ -261,12 +257,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 		if(group == null)
 		{
-			List<String> permissions = this.localUserConfig.getGuestUserPermissions();
-			List<UserPrivileges> privileges = new ArrayList<UserPrivileges>();
-			for(int i=0; i< permissions.size(); i++){
-				privileges.add(UserPrivileges.valueOf(permissions.get(i)));
-			}
-			group = new LocalUserGroup("guest", privileges, 0, 0);
+			group = new LocalUserGroup("guest", getUserPrivileges(), 0, 0);
 		}
 
 		return new LocalUser(0, name, password, name, name, list, group);
@@ -479,6 +470,17 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 					1000l * 1000 * 1000, 1000l * 1000 * 1000 * 2);
 		}
 		return userGroup;
+	}
+	
+	private List<UserPrivileges> getUserPrivileges()
+	{
+		List<String> permissions = this.localUserConfig.getGuestUserPermissions();
+		List<UserPrivileges> privileges = new ArrayList<UserPrivileges>();
+		for(int i=0; i< permissions.size(); i++){
+			privileges.add(UserPrivileges.valueOf(permissions.get(i)));
+		}
+		
+		return privileges;
 	}
 
 	@Override
