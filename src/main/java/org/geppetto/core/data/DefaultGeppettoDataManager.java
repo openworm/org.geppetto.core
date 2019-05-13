@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.geppetto.core.beans.LocalUserConfig;
 import org.geppetto.core.common.GeppettoExecutionException;
 import org.geppetto.core.data.model.ExperimentStatus;
 import org.geppetto.core.data.model.IAspectConfiguration;
@@ -43,6 +44,7 @@ import org.geppetto.core.data.model.local.LocalUser;
 import org.geppetto.core.data.model.local.LocalUserGroup;
 import org.geppetto.core.data.model.local.LocalView;
 import org.geppetto.core.utilities.LocalViewSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
@@ -58,6 +60,9 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	private static IUserGroup userGroup = null;
 
 	private volatile static int guestId;
+	
+	@Autowired
+	private LocalUserConfig localUserConfig;
 
 	public DefaultGeppettoDataManager()
 	{
@@ -106,8 +111,8 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 	@Override
 	public IUser getUserByLogin(String login)
 	{
-		List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT, UserPrivileges.DOWNLOAD);
-		IUserGroup group = new LocalUserGroup("guest", privileges, 0, 0);
+		
+		IUserGroup group = new LocalUserGroup("guest", getUserPrivileges(), 0, 0);
 		IUser user = new LocalUser(1, login, login, login, login, new ArrayList<LocalGeppettoProject>(), group);
 
 		return user;
@@ -252,8 +257,7 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 
 		if(group == null)
 		{
-			List<UserPrivileges> privileges = Arrays.asList(UserPrivileges.READ_PROJECT, UserPrivileges.DOWNLOAD);
-			group = new LocalUserGroup("guest", privileges, 0, 0);
+			group = new LocalUserGroup("guest", getUserPrivileges(), 0, 0);
 		}
 
 		return new LocalUser(0, name, password, name, name, list, group);
@@ -466,6 +470,17 @@ public class DefaultGeppettoDataManager implements IGeppettoDataManager
 					1000l * 1000 * 1000, 1000l * 1000 * 1000 * 2);
 		}
 		return userGroup;
+	}
+	
+	private List<UserPrivileges> getUserPrivileges()
+	{
+		List<String> permissions = this.localUserConfig.getGuestUserPermissions();
+		List<UserPrivileges> privileges = new ArrayList<UserPrivileges>();
+		for(int i=0; i< permissions.size(); i++){
+			privileges.add(UserPrivileges.valueOf(permissions.get(i)));
+		}
+		
+		return privileges;
 	}
 
 	@Override

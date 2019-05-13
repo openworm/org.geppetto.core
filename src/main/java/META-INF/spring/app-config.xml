@@ -27,4 +27,12 @@
 		<property name="simulatorName" value="Collada Simulator" />
 		<property name="simulatorID" value="colladaSimulator" />
 	</bean>
+	<bean id="localUserConfig" class="org.geppetto.core.beans.LocalUserConfig"> 
+		<property name="guestUserPermissions">
+            <list>
+                <value>READ_PROJECT</value>
+                <value>DOWNLOAD</value>
+            </list>
+      </property>
+	</bean> 
 </beans>
