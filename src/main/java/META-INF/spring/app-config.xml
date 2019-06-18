@@ -6,33 +6,34 @@
 							http://www.springframework.org/schema/context
 							http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!--  <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>--> 
+	<!--  <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>-->
 	<!-- Instructs Spring to scan for internal service components to instantiate and configure -->
-	<context:annotation-config/>	
+	<context:annotation-config/>
 	<context:component-scan base-package="org.geppetto.core" />
-		
- 
-	<bean id="objModelInterpreterConfig" class="org.geppetto.core.beans.ModelInterpreterConfig"> 
+
+
+	<bean id="objModelInterpreterConfig" class="org.geppetto.core.beans.ModelInterpreterConfig">
 		<property name="modelInterpreterName" value="OBJ Model Interpreter" />
 	</bean>
-	<bean id="colladaModelInterpreterConfig" class="org.geppetto.core.beans.ModelInterpreterConfig"> 
+	<bean id="colladaModelInterpreterConfig" class="org.geppetto.core.beans.ModelInterpreterConfig">
 		<property name="modelInterpreterName" value="Collada Model Interpreter" />
 	</bean>
-	
-	<bean id="objSimulatorConfig" class="org.geppetto.core.beans.SimulatorConfig"> 
+
+	<bean id="objSimulatorConfig" class="org.geppetto.core.beans.SimulatorConfig">
 		<property name="simulatorName" value="OBJ Simulator" />
 		<property name="simulatorID" value="objSimulator" />
-	</bean> 
-	<bean id="colladaSimulatorConfig" class="org.geppetto.core.beans.SimulatorConfig"> 
+	</bean>
+	<bean id="colladaSimulatorConfig" class="org.geppetto.core.beans.SimulatorConfig">
 		<property name="simulatorName" value="Collada Simulator" />
 		<property name="simulatorID" value="colladaSimulator" />
 	</bean>
-	<bean id="localUserConfig" class="org.geppetto.core.beans.LocalUserConfig"> 
+	<bean id="localUserConfig" class="org.geppetto.core.beans.LocalUserConfig">
 		<property name="guestUserPermissions">
             <list>
                 <value>READ_PROJECT</value>
                 <value>DOWNLOAD</value>
+                <value>RUN_EXPERIMENT</value>
             </list>
       </property>
-	</bean> 
+	</bean>
 </beans>
