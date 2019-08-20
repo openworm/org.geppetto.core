@@ -46,4 +46,13 @@
   <types xsi:type="gep_1:VisualType"
       id="particles"
       name="Particles"/>
+  <types xsi:type="gep_1:JSONType"
+      id="JSON"
+      name="JSON"/>
+  <types xsi:type="gep_1:SimpleArrayType"
+      id="simplearray"
+      name="Simple Array"/>
+  <types xsi:type="gep_1:MetadataType"
+      id="metadata"
+      name="Metadata"/>
 </gep:GeppettoLibrary>
