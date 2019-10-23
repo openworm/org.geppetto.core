@@ -23,7 +23,6 @@ import org.geppetto.model.LibraryManager;
 public class SharedLibraryManager
 {
 
-	
 	private static LibraryManager manager;
 
 	private static GeppettoLibrary commonLibrary;
@@ -48,17 +47,18 @@ public class SharedLibraryManager
 			GeppettoPackage.Registry.INSTANCE.put(GeppettoPackage.eNS_URI, GeppettoPackage.eINSTANCE);
 
 			// We add all supported versions of the schema
-			String[] versions = new String[] { "master", "development", "feature/30" };
+
+			String[] versions = new String[] { "feature/30" };
 			for(String version : versions)
 			{
 				GeppettoPackage.Registry.INSTANCE.put(GeppettoPackage.eNS_URI_TEMPLATE.replace("$VERSION$", version), GeppettoPackage.eINSTANCE);
 			}
-			
+
 			ResourceSet resSet = new ResourceSetImpl();
 			Resource resource = resSet.createResource(URI.createURI("/GeppettoCommonLibrary.xmi"));
 			try
 			{
-				resource.load(SharedLibraryManager.class.getResourceAsStream("/GeppettoCommonLibrary.xmi"),null);
+				resource.load(SharedLibraryManager.class.getResourceAsStream("/GeppettoCommonLibrary.xmi"), null);
 			}
 			catch(IOException e)
 			{
@@ -66,7 +66,7 @@ public class SharedLibraryManager
 			}
 			commonLibrary = (GeppettoLibrary) resource.getContents().get(0);
 			getLibraryManager().getLibraries().add(commonLibrary);
-		
+
 		}
 		return commonLibrary;
 	}
