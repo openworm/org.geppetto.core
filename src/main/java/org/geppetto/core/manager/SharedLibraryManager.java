@@ -48,7 +48,7 @@ public class SharedLibraryManager
 			GeppettoPackage.Registry.INSTANCE.put(GeppettoPackage.eNS_URI, GeppettoPackage.eINSTANCE);
 
 			// We add all supported versions of the schema
-			String[] versions = new String[] { "master", "development", "feature/28" };
+			String[] versions = new String[] { "master", "development"};
 			for(String version : versions)
 			{
 				GeppettoPackage.Registry.INSTANCE.put(GeppettoPackage.eNS_URI_TEMPLATE.replace("$VERSION$", version), GeppettoPackage.eINSTANCE);
