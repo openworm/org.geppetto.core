@@ -23,7 +23,6 @@ import org.geppetto.model.LibraryManager;
 public class SharedLibraryManager
 {
 
-	
 	private static LibraryManager manager;
 
 	private static GeppettoLibrary commonLibrary;
@@ -48,6 +47,7 @@ public class SharedLibraryManager
 			GeppettoPackage.Registry.INSTANCE.put(GeppettoPackage.eNS_URI, GeppettoPackage.eINSTANCE);
 
 			// We add all supported versions of the schema
+
 			String[] versions = new String[] { "feature/30" };
 			for(String version : versions)
 			{
