@@ -2,20 +2,16 @@
 package org.geppetto.core.model;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
+import org.emfjson.common.EObjects;
+import org.emfjson.jackson.JacksonOptions;
 import org.emfjson.jackson.databind.ser.EObjectSerializer;
-import org.emfjson.jackson.utils.EObjects;
 import org.geppetto.model.GeppettoPackage;
 import org.geppetto.model.ISynchable;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-
-import org.emfjson.jackson.databind.property.EObjectPropertyMap.Builder;
 
 /**
  * This serializer makes it so that only objects for which synched==false are serialized. Once an object is serialized then the attribute synched is set to true.
@@ -26,10 +22,14 @@ import org.emfjson.jackson.databind.property.EObjectPropertyMap.Builder;
  * @author matteocantarelli
  *
  */
-public class SynchableSerializer extends StdSerializer<EObject>
+public class SynchableSerializer extends EObjectSerializer
 {
-	protected SynchableSerializer(Class<EObject> t) {
-		super(t);
+	JacksonOptions options;
+
+	public SynchableSerializer(JacksonOptions options)
+	{
+		super(options);
+		this.options = options;
 	}
 
 	/*
@@ -41,9 +41,9 @@ public class SynchableSerializer extends StdSerializer<EObject>
 	public void serialize(EObject object, JsonGenerator jg, SerializerProvider provider) throws IOException
 	{
 		ISynchable synchable = (ISynchable) object;
-		if(object.eContainer() != null && EObjects.isContainmentProxy(provider, object.eContainer(), object))
+		if(object.eContainer() != null && EObjects.isContainmentProxy(object.eContainer(), object))
 		{
-		    this.serialize(object.eContainer(), jg, provider);
+			this.options.referenceSerializer.serialize(object.eContainer(), object, jg, provider);
 			return;
 		}
 
@@ -56,7 +56,7 @@ public class SynchableSerializer extends StdSerializer<EObject>
 		}
 		else
 		{
-			super.serializeWithType(object, jg, provider, null);
+			super.serialize(object, jg, provider);
 			synchable.setSynched(true);
 		}
 
