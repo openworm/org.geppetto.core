@@ -26,6 +26,7 @@ jobs:
           cd ./org.geppetto.model
           # Checkout current branch that activated the git actions workflow, if fails checkout development
           git checkout ${{ steps.git_branch.outputs.branch }} || git checkout development
+          mvn -e clean install
           cd ..
         
       - name : Build org.geppetto.core
