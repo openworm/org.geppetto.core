@@ -38,6 +38,13 @@ public class QueryChecker
 							{
 								isSuperType = true;
 								break;
+							} else {
+								for ( Type anonymousType : type.getSuperType() ) {
+									if ( anonymousType.getId().equals(typeToMatch.getId()) ) {
+										isSuperType = true;
+										break;
+									}
+								}
 							}
 						}
 						if(!isSuperType)
