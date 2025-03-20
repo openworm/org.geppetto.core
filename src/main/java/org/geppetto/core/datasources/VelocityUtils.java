@@ -34,25 +34,36 @@ public class VelocityUtils
 			ve.setProperty("runtime.log.logsystem.log4j.logger","velocity");
 			ve.init();
 
+			// Print info about ARRAY_ID_RESULTS if it exists
+			if (properties.containsKey("ARRAY_ID_RESULTS")) {
+				Object value = properties.get("ARRAY_ID_RESULTS");
+				String valueStr = value.toString();
+				System.out.println("ARRAY_ID_RESULTS found in properties, length: " + valueStr.length());
+			}
+
 			 // Get the raw template content to perform pre-processing for large arrays
 			String templateContent = null;
 			try {
 				StringWriter rawWriter = new StringWriter();
 				ve.getTemplate(templatePath).merge(new VelocityContext(), rawWriter);
 				templateContent = rawWriter.toString();
+				System.out.println("Template loaded, length: " + templateContent.length());
+				if(templateContent.contains("$ARRAY_ID_RESULTS")) {
+					System.out.println("Template contains $ARRAY_ID_RESULTS placeholder");
+				}
 			} catch (Exception e) {
 				System.out.println("Couldn't pre-read template: " + e.getMessage());
 			}
 			
-			// Handle large ARRAY_ID_RESULTS separately
+			// Handle large ARRAY_ID_RESULTS - but don't remove from properties
 			String largeArrayResults = null;
 			if (properties.containsKey("ARRAY_ID_RESULTS")) {
 				Object value = properties.get("ARRAY_ID_RESULTS");
 				String valueStr = value.toString();
 				if (valueStr.length() > 10000) {
 					largeArrayResults = valueStr;
-					properties.remove("ARRAY_ID_RESULTS");
-					System.out.println("Large ARRAY_ID_RESULTS detected (" + valueStr.length() + " chars), will process separately");
+					// Keep it in the properties map as requested
+					System.out.println("Large ARRAY_ID_RESULTS detected (" + valueStr.length() + " chars), will handle specially");
 					
 					// Pre-process the template if we were able to read it
 					if (templateContent != null && templateContent.contains("$ARRAY_ID_RESULTS")) {
@@ -62,48 +73,75 @@ public class VelocityUtils
 				}
 			}
 
-			// Get the template and set up context
-			Template t = (templateContent != null) 
-				? ve.getTemplate(templatePath) 
-				: ve.getTemplate(templatePath);
-				
+			 // Create velocity context with all properties
 			VelocityContext context = new VelocityContext();
-
 			if(properties != null)
 			{
 				for(Map.Entry<String, Object> property : properties.entrySet())
 				{
 					Object value = property.getValue() == null ? "" : property.getValue();
 					context.put(property.getKey(), value);
+					if (property.getKey().equals("ARRAY_ID_RESULTS")) {
+						System.out.println("Added ARRAY_ID_RESULTS to context, value length: " + value.toString().length());
+					}
 				}
 			}
 
-			// If we pre-processed the template, use that instead
+			// Process the template
 			StringWriter writer = new StringWriter();
+			String result;
+			
+			// If we have a pre-processed template with large array results, use that
 			if (templateContent != null && largeArrayResults != null) {
+				System.out.println("Using pre-processed template with direct replacement");
 				ve.evaluate(context, writer, "preprocessedTemplate", templateContent);
+				writer.flush();
+				result = writer.toString();
 			} else {
+				// Otherwise use standard template processing
+				Template t = ve.getTemplate(templatePath);
 				t.merge(context, writer);
+				writer.flush();
+				result = writer.toString();
 			}
-			writer.flush();
-			String result = writer.toString();
 
-			// Fallback manual replacement if needed
-			if (largeArrayResults != null && result.contains("$ARRAY_ID_RESULTS")) {
-				result = result.replace("$ARRAY_ID_RESULTS", largeArrayResults);
-				System.out.println("Manually replaced $ARRAY_ID_RESULTS");
+			// Check if substitution was successful
+			if (result.contains("$ARRAY_ID_RESULTS")) {
+				System.out.println("WARNING: $ARRAY_ID_RESULTS still present in result after initial processing");
+				
+				// Try direct replacement as fallback
+				if (largeArrayResults != null) {
+					result = result.replace("$ARRAY_ID_RESULTS", largeArrayResults);
+					System.out.println("Manually replaced $ARRAY_ID_RESULTS");
+				}
 			}
 
 			String previousResult = "";
 			// In this loop we keep using velocity until all the replacements are done
-			while(result.contains("$") && !result.equals(previousResult))
+			int iterations = 0;
+			while(result.contains("$") && !result.equals(previousResult) && iterations < 5)
 			{
+				iterations++;
 				previousResult = result;
 				writer = new StringWriter();
 				ve.evaluate(context, writer, "doItAgain", result);
 				writer.flush();
 				result = writer.toString();
 				writer.close();
+				
+				// Check if ARRAY_ID_RESULTS still needs replacement
+				if (result.contains("$ARRAY_ID_RESULTS") && largeArrayResults != null) {
+					System.out.println("$ARRAY_ID_RESULTS still present after iteration " + iterations);
+					result = result.replace("$ARRAY_ID_RESULTS", largeArrayResults);
+					System.out.println("Manually replaced $ARRAY_ID_RESULTS in iteration " + iterations);
+				}
+			}
+
+			// Final check
+			if (result.contains("$ARRAY_ID_RESULTS")) {
+				System.out.println("WARNING: $ARRAY_ID_RESULTS still present in final result after " + iterations + " iterations");
+			} else {
+				System.out.println("Successfully processed template, no $ARRAY_ID_RESULTS placeholders remain");
 			}
 
 			return result;
