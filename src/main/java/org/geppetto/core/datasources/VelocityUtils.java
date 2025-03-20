@@ -1,4 +1,3 @@
-
 package org.geppetto.core.datasources;
 
 import java.io.IOException;
@@ -35,6 +34,19 @@ public class VelocityUtils
 			ve.setProperty("runtime.log.logsystem.log4j.logger","velocity");
 			ve.init();
 
+			// Handle large ARRAY_ID_RESULTS separately
+			String largeArrayResults = null;
+			if (properties.containsKey("ARRAY_ID_RESULTS")) {
+				Object value = properties.get("ARRAY_ID_RESULTS");
+				String valueStr = value.toString();
+				if (valueStr.length() > 10000) {
+					largeArrayResults = valueStr;
+					properties.remove("ARRAY_ID_RESULTS");
+					System.out.println("Large ARRAY_ID_RESULTS detected (" + valueStr.length() + " chars), will process separately");
+				}
+			}
+
+			// Continue with normal template processing
 			Template t = ve.getTemplate(templatePath);
 			VelocityContext context = new VelocityContext();
 
@@ -51,6 +63,13 @@ public class VelocityUtils
 			t.merge(context, writer);
 			writer.flush();
 			String result = writer.toString();
+
+			// Manually handle the large array replacement if needed
+			if (largeArrayResults != null) {
+				result = result.replace("$ARRAY_ID_RESULTS", largeArrayResults);
+				System.out.println("Manually replaced $ARRAY_ID_RESULTS");
+			}
+
 			String previousResult = "";
 			// In this loop we keep using velocity until all the replacements are done
 			while(result.contains("$") && !result.equals(previousResult))
