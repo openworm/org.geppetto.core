@@ -34,6 +34,16 @@ public class VelocityUtils
 			ve.setProperty("runtime.log.logsystem.log4j.logger","velocity");
 			ve.init();
 
+			 // Get the raw template content to perform pre-processing for large arrays
+			String templateContent = null;
+			try {
+				StringWriter rawWriter = new StringWriter();
+				ve.getTemplate(templatePath).merge(new VelocityContext(), rawWriter);
+				templateContent = rawWriter.toString();
+			} catch (Exception e) {
+				System.out.println("Couldn't pre-read template: " + e.getMessage());
+			}
+			
 			// Handle large ARRAY_ID_RESULTS separately
 			String largeArrayResults = null;
 			if (properties.containsKey("ARRAY_ID_RESULTS")) {
@@ -43,11 +53,20 @@ public class VelocityUtils
 					largeArrayResults = valueStr;
 					properties.remove("ARRAY_ID_RESULTS");
 					System.out.println("Large ARRAY_ID_RESULTS detected (" + valueStr.length() + " chars), will process separately");
+					
+					// Pre-process the template if we were able to read it
+					if (templateContent != null && templateContent.contains("$ARRAY_ID_RESULTS")) {
+						templateContent = templateContent.replace("$ARRAY_ID_RESULTS", largeArrayResults);
+						System.out.println("Pre-replaced $ARRAY_ID_RESULTS in template");
+					}
 				}
 			}
 
-			// Continue with normal template processing
-			Template t = ve.getTemplate(templatePath);
+			// Get the template and set up context
+			Template t = (templateContent != null) 
+				? ve.getTemplate(templatePath) 
+				: ve.getTemplate(templatePath);
+				
 			VelocityContext context = new VelocityContext();
 
 			if(properties != null)
@@ -59,13 +78,18 @@ public class VelocityUtils
 				}
 			}
 
+			// If we pre-processed the template, use that instead
 			StringWriter writer = new StringWriter();
-			t.merge(context, writer);
+			if (templateContent != null && largeArrayResults != null) {
+				ve.evaluate(context, writer, "preprocessedTemplate", templateContent);
+			} else {
+				t.merge(context, writer);
+			}
 			writer.flush();
 			String result = writer.toString();
 
-			// Manually handle the large array replacement if needed
-			if (largeArrayResults != null) {
+			// Fallback manual replacement if needed
+			if (largeArrayResults != null && result.contains("$ARRAY_ID_RESULTS")) {
 				result = result.replace("$ARRAY_ID_RESULTS", largeArrayResults);
 				System.out.println("Manually replaced $ARRAY_ID_RESULTS");
 			}
