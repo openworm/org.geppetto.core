@@ -98,7 +98,7 @@ public class VelocityUtils
 				return result;
 			}
 		}
-		catch(IOException e)
+		catch(Exception e)  // Changed from IOException to Exception
 		{
 			throw new GeppettoDataSourceException(e);
 		}
