@@ -56,7 +56,7 @@ public class VelocityUtils
 			int iterations = 0;
 			
 			// In this loop we keep using velocity until all the replacements are done
-			while(result.contains("$") && iterations < 5)
+			while(result.contains("$") && !result.equals(previousResult))
 			{
 				iterations++;
 				previousResult = result;
@@ -78,7 +78,6 @@ public class VelocityUtils
 						// Find next $ after current position
 						index = result.indexOf("$", index + 1);
 					}
-					System.out.println("Available context keys: " + context.getKeys());
 				}
 				
 				writer.close();
