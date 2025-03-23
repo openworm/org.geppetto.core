@@ -52,21 +52,15 @@ public class VelocityUtils
 			writer.flush();
 			String result = writer.toString();
 			String previousResult = "";
-			int iterations = 0;
 			// In this loop we keep using velocity until all the replacements are done
 			while(result.contains("$") && !result.equals(previousResult))
 			{
-				iterations++;
 				previousResult = result;
 				writer = new StringWriter();
 				ve.evaluate(context, writer, "doItAgain", result);
 				writer.flush();
 				result = writer.toString();
 				writer.close();
-			}
-
-			if (result.contains("$")) {
-				System.out.println("WARNING: $ still present in '" + result + "' after " + iterations + " iterations");
 			}
 
 			return result;
