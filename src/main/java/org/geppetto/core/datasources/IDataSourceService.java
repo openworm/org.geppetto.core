@@ -1,5 +1,3 @@
-
-
 package org.geppetto.core.datasources;
 
 import org.geppetto.core.model.GeppettoModelAccess;
@@ -16,9 +14,21 @@ import org.geppetto.model.datasources.DataSource;
 public interface IDataSourceService extends IService, IQueryProvider
 {
 
-	void fetchVariable(String variableId) throws GeppettoDataSourceException;
+    void fetchVariable(String variableId) throws GeppettoDataSourceException;
 
-	void initialize(DataSource configuration, GeppettoModelAccess geppettoModelAccess);
-	
-
+    void initialize(DataSource configuration, GeppettoModelAccess geppettoModelAccess);
+    
+    /**
+     * Enable pagination with the specified count per page
+     * 
+     * @param count - number of results per page
+     */
+    void enablePagination(int count);
+    
+    /**
+     * Set the current page number for pagination
+     * 
+     * @param page - the page number to set
+     */
+    void setPage(int page);
 }
