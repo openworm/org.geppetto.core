@@ -4,7 +4,9 @@ package org.geppetto.core.model.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +47,78 @@ public class ObjModelInterpreterService extends AModelInterpreter
 	private static final int MAX_ATTEMPTS = 3;
 	private static final long RETRY_BASE_DELAY_MS = 1000;
 
+	// Meshes above this size cannot be delivered to the browser. The resolved model is
+	// JSON escaped twice before it is sent, so an OBJ much over 500 MB exceeds V8's
+	// maximum string length and the client cannot hold it whatever the send timeout.
+	// Long before that the blocking send times out mid-write, and Tomcat's endpoint is
+	// then stuck in *_FULL_WRITING for the life of the connection, which breaks every
+	// later message on that session - not just this mesh. Refusing here keeps the
+	// session usable. The client falls back to the SWC skeleton. See VFB2 #455.
+	private static final long DEFAULT_MAX_OBJ_BYTES = 157286400;
+	private static final int HEAD_TIMEOUT_MS = 10000;
+
+	private static long maxObjBytes()
+	{
+		String configured = System.getenv("VFB_MAX_OBJ_BYTES");
+		if(configured != null && !configured.trim().isEmpty())
+		{
+			try
+			{
+				return Long.parseLong(configured.trim());
+			}
+			catch(NumberFormatException e)
+			{
+				logger.warn("Ignoring unparseable VFB_MAX_OBJ_BYTES [" + configured + "], using " + DEFAULT_MAX_OBJ_BYTES);
+			}
+		}
+		return DEFAULT_MAX_OBJ_BYTES;
+	}
+
+	// Content length of the remote mesh, or -1 when it cannot be determined. Callers
+	// treat -1 as "allow": an unmeasurable mesh keeps the previous behaviour rather
+	// than being refused on a guess.
+	private static long remoteSize(URL url)
+	{
+		HttpURLConnection connection = null;
+		try
+		{
+			URLConnection candidate = url.openConnection();
+			if(!(candidate instanceof HttpURLConnection))
+			{
+				return -1;
+			}
+			connection = (HttpURLConnection) candidate;
+			connection.setRequestMethod("HEAD");
+			connection.setConnectTimeout(HEAD_TIMEOUT_MS);
+			connection.setReadTimeout(HEAD_TIMEOUT_MS);
+			return connection.getContentLengthLong();
+		}
+		catch(IOException e)
+		{
+			logger.warn("Could not measure OBJ mesh at [" + url + "]: " + e.getMessage());
+			return -1;
+		}
+		finally
+		{
+			if(connection != null)
+			{
+				connection.disconnect();
+			}
+		}
+	}
+
+	private Type emptyVisualType(String typeName, GeppettoLibrary library)
+	{
+		VisualType visualType = TypesFactory.eINSTANCE.createVisualType();
+		OBJ obj = ValuesFactory.eINSTANCE.createOBJ();
+		obj.setObj("");
+		visualType.setId(typeName);
+		visualType.setName(typeName);
+		visualType.setDefaultValue(obj);
+		library.getTypes().add(visualType);
+		return visualType;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -53,6 +127,15 @@ public class ObjModelInterpreterService extends AModelInterpreter
 	@Override
 	public Type importType(URL url, String typeName, GeppettoLibrary library, GeppettoModelAccess commonLibrary) throws ModelInterpreterException
 	{
+
+		long limit = maxObjBytes();
+		long size = remoteSize(url);
+		if(size > limit)
+		{
+			logger.error("Refusing OBJ mesh [" + typeName + "] from [" + url + "]: " + size
+					+ " bytes exceeds the " + limit + " byte limit - continuing without geometry for this type");
+			return emptyVisualType(typeName, library);
+		}
 
 		IOException lastError = null;
 
@@ -99,14 +182,7 @@ public class ObjModelInterpreterService extends AModelInterpreter
 				+ " attempts - continuing without geometry for this type. Last error: "
 				+ (lastError != null ? lastError.getMessage() : "unknown"));
 
-		VisualType visualType = TypesFactory.eINSTANCE.createVisualType();
-		OBJ obj = ValuesFactory.eINSTANCE.createOBJ();
-		obj.setObj("");
-		visualType.setId(typeName);
-		visualType.setName(typeName);
-		visualType.setDefaultValue(obj);
-		library.getTypes().add(visualType);
-		return visualType;
+		return emptyVisualType(typeName, library);
 	}
 
 	/*
